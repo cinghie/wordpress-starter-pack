@@ -220,7 +220,13 @@ class WC_Order_Export_Order_Fields {
 			$row[$field] =  ! method_exists( $this->order,
 				"get_date_created" ) ? $this->order->order_date : ( $this->order->get_date_created() ? gmdate( 'Y-m-d H:i:s',
 				$this->order->get_date_created()->getOffsetTimestamp() ) : '' );
-		} elseif ( $field == 'modified_date' ) {
+        } elseif ( $field == 'orig_order_date' ) {
+            $parent_id = $this->order->get_parent_id();
+            if( $parent_id ) {
+                $parent_order = wc_get_order($parent_id);
+                $row[$field] = $parent_order->get_date_created()->format("Y-m-d H:i");
+            }
+        } elseif ( $field == 'modified_date' ) {
 			$row[$field] = ! method_exists( $this->order,
 				"get_date_modified" ) ? $this->order->modified_date : ( $this->order->get_date_modified() ? gmdate( 'Y-m-d H:i:s',
 				$this->order->get_date_modified()->getOffsetTimestamp() ) : '' );
@@ -362,7 +368,15 @@ class WC_Order_Export_Order_Fields {
 				$row[$field] = $count;
 			}
 		} elseif ( $field == 'count_unique_products' ) { // speed! replace with own counter ?
-			$row[$field] = count( $this->data['products'] );
+            $row[$field] = count( $this->data['products'] );
+        } elseif ( $field == 'total_volume' ) {
+            $value = 0;
+            foreach ( $this->order->get_items() as $item ) {
+                $product   = $item->get_product();
+                if ( !$product )  continue;
+                $value +=  $item->get_quantity() * $product->get_width() * $product->get_height() * $product->get_length();
+            }
+            $row[$field] = $value;
 		} elseif ( $field == 'customer_note' ) {
 			$notes = array( $this->post->post_excerpt );
 			if ( $this->options['export_refund_notes'] ) {
@@ -413,7 +427,7 @@ class WC_Order_Export_Order_Fields {
 		} elseif ( $field == 'order_currency' ) {
 			$row[$field] = $this->order->get_currency();
 		} elseif( method_exists( $this->order, 'get_' . $field ) ) {  // order_date...		
-				if ( $this->post->post_type == 'shop_order_refund' )
+				if ( $this->post->post_type == 'shop_order_refund' AND $this->parent_order )
 					$row[$field] = $this->parent_order->{'get_' . $field}(); //use main order details for refund
 				else
 					$row[$field] = $this->order->{'get_' . $field}();			

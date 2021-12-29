@@ -34,9 +34,11 @@ if (!in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	$locale = apply_filters( 'woocommerce_countries_base_country', $default['country'] );
 }
 
-if($license_information['notice'] == "true"){
-        $notifications_box['message_type'] = $license_information['message_type'];
-        $notifications_box['message'] = $license_information['message'];
+if (!empty($license_information)){
+	if($license_information['notice'] == "true"){
+        	$notifications_box['message_type'] = $license_information['message_type'];
+        	$notifications_box['message'] = $license_information['message'];
+	}
 }
 
 if ($versions['PHP'] < 5.6){

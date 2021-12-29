@@ -12,12 +12,12 @@
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 $show_in                 = $block->get_rule( 'show_in' );
-$show_show_in_products   = 'categories' !== $show_in && 'all' !== $show_in;
+$show_show_in_products   = 'categories' !== $show_in && 'all' !== $show_in && '' !== $show_in;
 $show_show_in_categories = 'categories' === $show_in;
 
-$show_exclude_products            = 'all' === $show_in || 'categories' === $show_in;
-$show_exclude_products_products   = $block->get_rule( 'exclude_products' ) === 'yes' && ( 'all' === $show_in || 'categories' === $show_in );
-$show_exclude_products_categories = $block->get_rule( 'exclude_products' ) === 'yes' && 'all' === $show_in;
+$show_exclude_products            = 'all' === $show_in || 'products' === $show_in || 'categories' === $show_in;
+$show_exclude_products_products   = $block->get_rule( 'exclude_products' ) === 'yes';
+$show_exclude_products_categories = $block->get_rule( 'exclude_products' ) === 'yes';
 
 ?>
 

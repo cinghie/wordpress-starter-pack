@@ -5,9 +5,9 @@ Author URI: https://www.storeapps.org/
 Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: stock manager, woocommerce, stock management, inventory, products
 Requires at least: 5.0.0
-Tested up to: 5.8.1
+Tested up to: 5.8.2
 Requires PHP: 5.6
-Stable tag: 2.8.2.1
+Stable tag: 2.8.3
 License: GPLv3
 
 == Description ==
@@ -152,6 +152,9 @@ Be sure, that you have active stock manager.
 
 == Changelog ==
 
+= 2.8.3 (18.11.2021) =
+* New: WooCommerce 5.9.0 compatible
+
 = 2.8.2.1 (25.10.2021) =
 * Fix: Check if current page is of Stock Manager
 * Update: POT file
@@ -280,6 +283,9 @@ Be sure, that you have active stock manager.
 For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/woocommerce-stock-manager/trunk/changelog.txt) file.
 
 == Upgrade Notice ==
+
+= 2.8.3 =
+WooCommerce 5.9.0 compatible
 
 = 2.8.2.1 =
 Check if current page is of Stock Manager, POT file

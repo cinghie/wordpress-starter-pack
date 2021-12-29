@@ -22,6 +22,11 @@ $attribute_dropdown = $attributes_obj->get_product_attributes();
 /**
  * Update or get project configuration 
  */
+$nonce = wp_create_nonce( 'woosea_ajax_nonce' );
+
+/**
+ * Update or get project configuration 
+ */
 if (array_key_exists('project_hash', $_GET)){
         $project = WooSEA_Update_Project::get_project_data(sanitize_text_field($_GET['project_hash']));
         $channel_data = WooSEA_Update_Project::get_channel_data(sanitize_text_field($_GET['channel_hash']));
@@ -81,26 +86,6 @@ require plugin_dir_path(__FILE__) . '../../classes/channels/class-'.$channel_dat
 $obj = "WooSEA_".$channel_data['fields'];
 $fields_obj = new $obj;
 $attributes = $fields_obj->get_channel_attributes();	
-
-/**
- * Add the Item Group ID attribute for product variations
- **/
-//if(isset($_POST['product_variations'])){
-//
-//	$channels_with_item_id = array('google_shopping','facebook_drm');
-//
-//	if (in_array($project['fields'],$channels_with_item_id,TRUE)){
-//
-//		$attributes["Detailed product description"]["Item group ID"]["format"] = "required";
-//		$attributes["Detailed product description"]["Item group ID"]["woo_suggest"] = "item_group_id";
-//
-//		if (in_array($project['fields'],$channels_with_item_id,TRUE)){
-//			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "g:item_group_id";
-//		} else {
-//			$attributes["Detailed product description"]["Item group ID"]["feed_name"] = "item_group_id";
-//		}
-//	}
-//}
 ?>
 	<div id="dialog" title="Basic dialog">
   		<p>
@@ -117,6 +102,7 @@ $attributes = $fields_obj->get_channel_attributes();
                 	</div>
 
 			<form action="" id="fieldmapping" method="post">
+			<input name="nonce_field_mapping" id="nonce_field_mapping" class="nonce_field_mapping" value="<?php print "$nonce";?>" type="hidden">
 			<table class="woo-product-feed-pro-table" id="woosea-fieldmapping-table" border="1">
 				<thead>
             				<tr>

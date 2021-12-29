@@ -77,12 +77,22 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			// CSS.
-			wp_enqueue_style( 'yith_wapo_front', YITH_WAPO_URL . 'assets/css/_new_yith-wapo-front.css', false, wp_rand( 10000, 99999 ) );
+			wp_enqueue_style( 'yith_wapo_front', YITH_WAPO_URL . 'assets/css/front.css', false, wp_rand( 10000, 99999 ) );
 			wp_enqueue_style( 'yith_wapo_jquery-ui', YITH_WAPO_URL . 'assets/css/_new_jquery-ui-1.12.1.css', false, wp_rand( 10000, 99999 ) );
 			wp_enqueue_style( 'yith_wapo_jquery-ui-timepicker', YITH_WAPO_URL . 'assets/css/_new_jquery-ui-timepicker-addon.css', false, wp_rand( 10000, 99999 ) );
 
 			// JS.
-			wp_register_script( 'yith_wapo_front', YITH_WAPO_URL . 'assets/js/_new_yith-wapo-front.js', array( 'jquery', 'jquery-ui-datepicker', 'wc-add-to-cart-variation' ), wp_rand( 10000, 99999 ), true );
+			wp_register_script( 'yith_wapo_front', YITH_WAPO_URL . 'assets/js/front' . $suffix . '.js', array( 'jquery', 'jquery-ui-datepicker', 'wc-add-to-cart-variation' ), wp_rand( 10000, 99999 ), true );
+
+			$front_localize = array(
+				'dom' => array(
+					'single_add_to_cart_button' => '.single_add_to_cart_button',
+				),
+			);
+
+			$front_localize = apply_filters( 'yith_wapo_frontend_localize_args', $front_localize );
+
+			wp_localize_script( 'yith_wapo_front', 'yith_wapo', $front_localize );
 			wp_enqueue_script( 'yith_wapo_front' );
 			wp_register_script( 'yith_wapo_jquery-ui-timepicker', YITH_WAPO_URL . 'assets/js/_new_jquery-ui-timepicker-addon.js', array( 'jquery', 'jquery-ui-datepicker', 'wc-add-to-cart-variation' ), wp_rand( 10000, 99999 ), true );
 			wp_enqueue_script( 'yith_wapo_jquery-ui-timepicker' );
@@ -169,6 +179,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 			}
 
 			$product = wc_get_product( $product_id );
+
 			$this->print_blocks();
 			wp_die();
 		}
@@ -180,7 +191,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 			global $product;
 
 			do_action( 'yith_wapo_before_main_container' ); ?>
-			<div id="yith-wapo-container">
+			<div id="yith-wapo-container" data-product-price="<?php echo esc_attr( $product->get_price() ); ?>">
 				<script type="text/javascript">
 					var ajaxurl = '<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>';
 					var wapo_upload_allowed_file_types = '<?php echo esc_html( get_option( 'yith_wapo_upload_allowed_file_types' ) ); ?>';
@@ -189,7 +200,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 				<?php $this->print_blocks(); ?>
 			</div><!-- #yith-wapo-container -->
 			<?php
-			do_action( 'yith_wapo_before_main_container' );
+			do_action( 'yith_wapo_after_main_container' );
 
 		}
 
@@ -210,6 +221,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 
 			echo '<input type="hidden" id="yith_wapo_product_id" name="yith_wapo_product_id" value="' . esc_attr( $product->get_id() ) . '">';
 			echo '<input type="hidden" id="yith_wapo_product_img" name="yith_wapo_product_img" value="">';
+			echo '<input type="hidden" id="yith_wapo_is_single" name="yith_wapo_is_single" value="1">';
 
 			$color_array_default      = array( 'color' => '' );
 			$dimensions_array_default = array(
@@ -251,39 +263,67 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 
 				if ( '1' === $block->visibility ) {
 
+					$product_id = $product->get_id();
+
 					$show_in                   = $block->get_rule( 'show_in' );
-					$included_product_check    = in_array( (string) $product->get_id(), (array) $block->get_rule( 'show_in_products' ), true );
+					$included_product_check    = in_array( (string) $product_id, (array) $block->get_rule( 'show_in_products' ), true );
 					$included_category_check   = count( array_intersect( (array) $block->get_rule( 'show_in_categories' ), $product_categories ) ) > 0;
 					$exclude_in                = $block->get_rule( 'exclude_products' );
-					$excluded_product_check    = ( 'all' === $show_in || 'categories' === $show_in ) && in_array( absint( $product->get_id() ), array_map( 'absint', (array) $block->get_rule( 'exclude_products_products' ) ), true );
+					$excluded_product_check    = in_array( (string) $product_id, (array) $block->get_rule( 'exclude_products_products' ), true );
 					$excluded_categories_check = 'all' === $show_in && count( array_intersect( (array) $block->get_rule( 'exclude_products_categories' ), $product_categories ) ) > 0;
 
 					$show_to            = $block->get_rule( 'show_to' );
 					$show_to_user_roles = $block->get_rule( 'show_to_user_roles' );
 					$show_to_membership = $block->get_rule( 'show_to_membership' );
 
-					// Include.
-					if ( ( 'all' === $show_in && ! $exclude_global ) || ( 'products' === $show_in && ( $included_product_check || $included_category_check ) ) ) {
-						// Exclude.
-						if ( 'yes' !== $exclude_in || ( ! $excluded_product_check && ! $excluded_categories_check ) ) {
-							// Show to.
-							if (
-								'' === $show_to
-								|| 'all' === $show_to
-								|| ( 'guest_users' === $show_to && ! is_user_logged_in() )
-								|| ( 'logged_users' === $show_to && is_user_logged_in() )
-								|| ( 'user_roles' === $show_to && count( array_intersect( (array) $show_to_user_roles, (array) wp_get_current_user()->roles ) ) > 0 )
-								|| ( 'membership' === $show_to && yith_wcmbs_user_has_membership( get_current_user_id(), $show_to_membership ) )
-							) {
-								$addons       = yith_wapo_get_addons_by_block_id( $block->id );
-								$total_addons = count( $addons );
-								if ( $total_addons > 0 ) {
-									if ( ! $show_addons_hook ) {
-										$show_addons_hook = true;
-										do_action( 'yith_wapo_before_addons' );
+					$vendor_check = true;
+					if ( $block->vendor_id > 0 && function_exists( 'yith_get_vendor' ) ) {
+						$vendor = yith_get_vendor( $product_id, 'product' );
+						if ( $vendor->is_valid() ) {
+							$vendor_check = (string) $block->vendor_id === (string) $vendor->id;
+						} else {
+							$vendor_check = false;
+						}
+					}
+
+					// Vendor.
+					if ( $vendor_check ) {
+						// Include.
+						if ( ( 'all' === $show_in && ! $exclude_global ) || ( 'products' === $show_in && ( $included_product_check || $included_category_check ) ) ) {
+							// Exclude.
+							if ( 'yes' !== $exclude_in || ( ! $excluded_product_check && ! $excluded_categories_check ) ) {
+								// Show to.
+								if (
+									'' === $show_to
+									|| 'all' === $show_to
+									|| ( 'guest_users' === $show_to && ! is_user_logged_in() )
+									|| ( 'logged_users' === $show_to && is_user_logged_in() )
+									|| ( 'user_roles' === $show_to && count( array_intersect( (array) $show_to_user_roles, (array) wp_get_current_user()->roles ) ) > 0 )
+									|| ( 'membership' === $show_to && yith_wcmbs_user_has_membership( get_current_user_id(), $show_to_membership ) )
+								) {
+									$addons       = yith_wapo_get_addons_by_block_id( $block->id );
+									$total_addons = count( $addons );
+									if ( $total_addons > 0 ) {
+										if ( ! $show_addons_hook ) {
+											$show_addons_hook = true;
+											do_action( 'yith_wapo_before_addons' );
+										}
+										$show_total_price_box = true;
+
+										wc_get_template(
+											'block.php',
+											array(
+												'block'  => $block,
+												'addons' => $addons,
+												'style_addon_titles' => $style_addon_titles,
+												'style_addon_background' => $style_addon_background,
+												'style_addon_padding' => $style_addon_padding,
+												'currency_rate' => $currency_rate,
+											),
+											'',
+											YITH_WAPO_DIR . '/templates/front/'
+										);
 									}
-									$show_total_price_box = true;
-									include YITH_WAPO_DIR . '/templates/front/block.php';
 								}
 							}
 						}
@@ -296,6 +336,28 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 
 			$total_price_box = get_option( 'yith_wapo_total_price_box' );
 			if ( 'hide_all' !== $total_price_box && $show_total_price_box ) :
+				$suffix               = '';
+				$suffix_callback      = '';
+				$price_display_suffix = get_option( 'woocommerce_price_display_suffix' );
+				if ( $price_display_suffix ) {
+					if ( strpos( $price_display_suffix, '{price_including_tax}' ) !== false ) {
+						$suffix          = '{price_including_tax}';
+						$suffix_callback = 'wc_get_price_including_tax';
+					} elseif ( strpos( $price_display_suffix, '{price_excluding_tax}' ) !== false ) {
+						$suffix          = '{price_excluding_tax}';
+						$suffix_callback = 'wc_get_price_excluding_tax';
+					}
+					if ( $suffix_callback ) {
+						$price_callback       = $suffix_callback( $product );
+						$price_callback       = wc_price( $price_callback );
+						$price_display_suffix = str_replace(
+							$suffix,
+							$price_callback,
+							$price_display_suffix
+						);
+					}
+				}
+				$price_suffix = ' <small>' . $price_display_suffix . '</small>';
 				?>
 
 				<div id="wapo-total-price-table">
@@ -303,7 +365,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 						<?php if ( $blocks_product_price > 0 ) : ?>
 							<tr style="<?php echo esc_attr( 'only_final' === $total_price_box ? 'display: none;' : '' ); ?>">
 								<th><?php echo esc_html__( 'Product price', 'yith-woocommerce-product-add-ons' ); ?>:</th>
-								<td id="wapo-total-product-price"><?php echo wp_kses_post( wc_price( $blocks_product_price ) ); ?></td>
+								<td id="wapo-total-product-price"><?php echo wp_kses_post( wc_price( $blocks_product_price ) ); ?><?php echo wp_kses_post( $price_suffix ); ?></td>
 							</tr>
 						<?php endif; ?>
 						<tr style="<?php echo esc_attr( 'all' !== $total_price_box ? 'display: none;' : '' ); ?>">
@@ -316,93 +378,120 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 						</tr>
 					</table>
 					<script type="text/javascript">
+						jQuery(function($) {
+							jQuery('form.cart *').change(function () {
+								yith_wapo_calculate_total_price();
+							});
+							jQuery(function () {
+								yith_wapo_calculate_total_price();
+							});
 
-						jQuery('form.cart *').change(function () {
-							yith_wapo_calculate_total_price();
-						});
-						jQuery(function () {
-							yith_wapo_calculate_total_price();
-						});
+							function yith_wapo_calculate_total_price() {
+								jQuery('#wapo-total-price-table').css('opacity', '0.5');
+								setTimeout(function () {
+									var addonID = 0;
+									var totalPrice = 0;
+									var firstFreeOptions = 0;
+									jQuery('form.cart .yith-wapo-addon:not(.hidden) input, form.cart .yith-wapo-addon:not(.hidden) select, form.cart .yith-wapo-addon:not(.hidden) textarea').each(function () {
+										if (jQuery(this).data('addon-id')) {
 
-						function yith_wapo_calculate_total_price() {
-							jQuery('#wapo-total-price-table').css('opacity', '0.5');
-							setTimeout(function () {
-								var addonID = 0;
-								var totalPrice = 0;
-								var firstFreeOptions = 0;
-								jQuery('form.cart input, form.cart select').each(function () {
-									if (jQuery(this).data('addon-id')) {
-										if (jQuery(this).is(':checked') || jQuery(this).find(':selected').is('option')
-											|| (jQuery(this).is('input:not([type=checkbox])') && jQuery(this).is('input:not([type=radio])') && jQuery(this).val() != '')) {
-
-											var option = false;
-											if (jQuery(this).is('select')) {
-												option = jQuery(this).find(':selected');
-											} else {
-												option = jQuery(this);
-											}
-
-											if (addonID != option.data('addon-id')) {
-												addonID = option.data('addon-id');
-												firstFreeOptions = option.data('first-free-options');
-											}
-
-											if (option.data('first-free-enabled') == 'yes' && firstFreeOptions > 0) {
-												firstFreeOptions--;
-											} else {
-												if (typeof option.data('price-sale') != 'undefined' && option.data('price-sale') > 0) {
-													price = parseFloat(option.data('price-sale'));
-													totalPrice += price;
-												} else if (typeof option.data('price') != 'undefined' && option.data('price') != '') {
-													price = parseFloat(option.data('price'));
-													totalPrice += price;
+											if (jQuery(this).is(':checked') || jQuery(this).find(':selected').is('option')
+												|| (jQuery(this).is('input:not([type=checkbox])') && jQuery(this).is('input:not([type=radio])') && jQuery(this).val() != '')
+												|| (jQuery(this).is('textarea') && jQuery(this).val() != '')) {
+												var option = false;
+												if (jQuery(this).is('select')) {
+													option = jQuery(this).find(':selected');
+												} else {
+													option = jQuery(this);
 												}
+
+												if (addonID != option.data('addon-id')) {
+													addonID = option.data('addon-id');
+													firstFreeOptions = option.data('first-free-options');
+												}
+
+												if (option.data('first-free-enabled') == 'yes' && firstFreeOptions > 0) {
+													firstFreeOptions--;
+												} else {
+													if (typeof option.data('price-sale') != 'undefined' && option.data('price-sale') > 0) {
+														price = parseFloat(option.data('price-sale'));
+														totalPrice += price;
+													} else if (typeof option.data('price') != 'undefined' && option.data('price') != '') {
+														price = parseFloat(option.data('price'));
+														totalPrice += price;
+													}
+												}
+
 											}
-
 										}
+									});
+
+									if (totalPrice > 0) {
+										jQuery('.hide_options tr').fadeIn();
 									}
-								});
 
-								if (totalPrice > 0) {
-									jQuery('.hide_options tr').fadeIn();
-								}
+									var totalCurrency = '<?php echo esc_attr( get_woocommerce_currency_symbol() ); ?>';
+									var totalCurrencyPos = '<?php echo esc_attr( get_option( 'woocommerce_currency_pos' ) ); ?>';
+									var totalThousandSep = '<?php echo esc_attr( get_option( 'woocommerce_price_thousand_sep' ) ); ?>';
+									var totalDecimalSep = '<?php echo esc_attr( get_option( 'woocommerce_price_decimal_sep' ) ); ?>';
+									var totalPriceNumDec = '<?php echo esc_attr( get_option( 'woocommerce_price_num_decimals', 0 ) ); ?>';
 
-								var totalCurrency = '<?php echo esc_attr( get_woocommerce_currency_symbol() ); ?>';
-								var totalCurrencyPos = '<?php echo esc_attr( get_option( 'woocommerce_currency_pos' ) ); ?>';
-								var totalThousandSep = '<?php echo esc_attr( get_option( 'woocommerce_price_thousand_sep' ) ); ?>';
-								var totalDecimalSep = '<?php echo esc_attr( get_option( 'woocommerce_price_decimal_sep' ) ); ?>';
-								var totalPriceNumDec = '<?php echo esc_attr( get_option( 'woocommerce_price_num_decimals', 0 ) ); ?>';
+									var totalProductPrice = <?php echo esc_attr( $blocks_product_price ); ?>;
+									var totalOptionsPrice = parseFloat(totalPrice);
+									var totalOrderPrice = parseFloat( totalPrice + <?php echo esc_attr( $blocks_product_price ); ?> );
 
-								var totalOptionsPrice = parseFloat(totalPrice).toFixed(totalPriceNumDec).replace('.', totalDecimalSep).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + totalThousandSep);
-								var totalOrderPrice = parseFloat(totalPrice + <?php echo esc_attr( $blocks_product_price ); ?> ).toFixed(totalPriceNumDec).replace('.', totalDecimalSep).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + totalThousandSep);
+									// Qty multiplication
+									var qty = jQuery('form .quantity input.qty').val();
+									if ( ! qty > 0 ) { qty = 1; }
+									totalProductPrice = parseFloat( totalProductPrice ) * parseFloat( qty );
+									totalOptionsPrice = parseFloat( totalOptionsPrice ) * parseFloat( qty );
+									totalOrderPrice = parseFloat( totalOrderPrice ) * parseFloat( qty );
 
-								if (totalCurrencyPos == 'right') {
-									totalOptionsPrice = totalOptionsPrice + totalCurrency;
-									totalOrderPrice = totalOrderPrice + totalCurrency;
-								} else if (totalCurrencyPos == 'right_space') {
-									totalOptionsPrice = totalOptionsPrice + ' ' + totalCurrency;
-									totalOrderPrice = totalOrderPrice + ' ' + totalCurrency;
-								} else if (totalCurrencyPos == 'left_space') {
-									totalOptionsPrice = totalCurrency + ' ' + totalOptionsPrice;
-									totalOrderPrice = totalCurrency + ' ' + totalOrderPrice;
-								} else {
-									totalOptionsPrice = totalCurrency + totalOptionsPrice;
-									totalOrderPrice = totalCurrency + totalOrderPrice;
-								}
+									// Price without formatting.
+									var total_ProductPrice = totalProductPrice;
+									var total_OptionsPrice = totalOptionsPrice;
 
-								jQuery('#wapo-total-options-price').html(totalOptionsPrice);
-								jQuery('#wapo-total-order-price').html(totalOrderPrice);
-								<?php if ( get_option( 'yith_wapo_replace_product_price' ) === 'yes' ) : ?>
-								jQuery('.product p.price').html('<span class="woocommerce-Price-amount amount"><bdi>' + totalOrderPrice + '</bdi></span>');
-								var productPrice = jQuery('<?php echo esc_attr( apply_filters( 'yith_wapo_replace_product_price_class', '.single-product .price .amount' ) ); ?>').html();
-								productPrice = productPrice.replace(/[^0-9]/g, '');
-								if (productPrice === '000') {
-									jQuery('<?php echo esc_attr( apply_filters( 'yith_wapo_replace_product_price_class', '.single-product .price .amount' ) ); ?> bdi').remove();
-								}
-								<?php endif; ?>
-								jQuery('#wapo-total-price-table').css('opacity', '1');
-							}, 500);
-						}
+									// Price formatting
+									totalProductPrice = totalProductPrice.toFixed(totalPriceNumDec).replace('.', totalDecimalSep).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + totalThousandSep);
+									totalOptionsPrice = totalOptionsPrice.toFixed(totalPriceNumDec).replace('.', totalDecimalSep).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + totalThousandSep);
+									totalOrderPrice = totalOrderPrice.toFixed(totalPriceNumDec).replace('.', totalDecimalSep).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + totalThousandSep);
+
+									if (totalCurrencyPos == 'right') {
+										totalProductPrice = totalProductPrice + totalCurrency;
+										totalOptionsPrice = totalOptionsPrice + totalCurrency;
+										totalOrderPrice = totalOrderPrice + totalCurrency;
+									} else if (totalCurrencyPos == 'right_space') {
+										totalProductPrice = totalProductPrice + ' ' + totalCurrency;
+										totalOptionsPrice = totalOptionsPrice + ' ' + totalCurrency;
+										totalOrderPrice = totalOrderPrice + ' ' + totalCurrency;
+									} else if (totalCurrencyPos == 'left_space') {
+										totalProductPrice = totalCurrency + ' ' + totalProductPrice;
+										totalOptionsPrice = totalCurrency + ' ' + totalOptionsPrice;
+										totalOrderPrice = totalCurrency + ' ' + totalOrderPrice;
+									} else {
+										totalProductPrice = totalCurrency + totalProductPrice;
+										totalOptionsPrice = totalCurrency + totalOptionsPrice;
+										totalOrderPrice = totalCurrency + totalOrderPrice;
+									}
+
+									jQuery('#wapo-total-product-price').html(totalProductPrice + '<?php echo wp_kses_post( $price_suffix ); ?>');
+									jQuery('#wapo-total-options-price').html( totalOptionsPrice );
+									jQuery('#wapo-total-order-price').html( totalOrderPrice );
+									<?php if ( get_option( 'yith_wapo_replace_product_price' ) === 'yes' ) : ?>
+									jQuery('.product .entry-summary p.price').html('<span class="woocommerce-Price-amount amount"><bdi>' + totalOrderPrice + '</bdi></span><?php echo wp_kses_post( $price_suffix ); ?>');
+									var productPrice = jQuery('<?php echo esc_attr( apply_filters( 'yith_wapo_replace_product_price_class', '.single-product .price .amount' ) ); ?>').html();
+									productPrice = productPrice.replace(/[^0-9]/g, '');
+									if (productPrice === '000') {
+										jQuery('<?php echo esc_attr( apply_filters( 'yith_wapo_replace_product_price_class', '.single-product .price .amount' ) ); ?> bdi').remove();
+									}
+									<?php endif; ?>
+									jQuery('#wapo-total-price-table').css('opacity', '1');
+
+									$(document).trigger( 'yith_wapo_product_price_updated', [ total_ProductPrice + total_OptionsPrice ] );
+									
+								}, 1000);
+							}
+						});
 					</script>
 				</div>
 			<?php endif; ?>
@@ -444,7 +533,6 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 					border: 1px solid <?php echo esc_attr( $style_borders_color ); ?>;
 				}
 
-				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option label:hover,
 				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option.selected label {
 					border: 1px solid <?php echo esc_attr( $style_accent_color ); ?>;
 				}
@@ -568,6 +656,14 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 					background-color: <?php echo esc_attr( $style_accent_color ); ?>;
 				}
 
+				/* MEDIA QUERIES */
+				@media screen and (min-width: 1024px) {
+					/* LABEL */
+					.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option label:hover{
+						border: 1px solid <?php echo esc_attr( $style_accent_color ); ?>;
+					}
+				}
+
 				<?php endif; ?>
 
 				/* COLOR SWATCHES */
@@ -588,19 +684,38 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 				}
 
 				/* LABEL / IMAGES */
-
+				<?php
+				$tooltip_option = get_option( 'yith_wapo_tooltip_color' );
+				if ( ! $tooltip_option ) {
+					$tooltip_option['text']       = '#ffffff';
+					$tooltip_option['background'] = '#03bfac';
+				}
+				?>
 				/* TOOLTIP */
 				.yith-wapo-block .yith-wapo-addon .yith-wapo-option .tooltip span {
-					background-color: <?php echo esc_attr( get_option( 'yith_wapo_tooltip_color' )['background'] ); ?>;
-					color: <?php echo esc_attr( get_option( 'yith_wapo_tooltip_color' )['text'] ); ?>;
+					background-color: <?php echo esc_attr( $tooltip_option['background'] ); ?>;
+					color: <?php echo esc_attr( $tooltip_option['text'] ); ?>;
 				}
 
 				.yith-wapo-block .yith-wapo-addon .yith-wapo-option .tooltip span:after {
-					border-top-color: <?php echo esc_attr( get_option( 'yith_wapo_tooltip_color' )['background'] ); ?>;
+					border-top-color: <?php echo esc_attr( $tooltip_option['background'] ); ?>;
 				}
 
 				.yith-wapo-block .yith-wapo-addon .yith-wapo-option .tooltip.position-bottom span:after {
-					border-bottom-color: <?php echo esc_attr( get_option( 'yith_wapo_tooltip_color' )['background'] ); ?>;
+					border-bottom-color: <?php echo esc_attr( $tooltip_option['background'] ); ?>;
+				}
+				/* TOOLTIP */
+				.yith-wapo-block .yith-wapo-addon .yith-wapo-option .tooltip span {
+					background-color: <?php echo esc_attr( $tooltip_option['background'] ); ?>;
+					color: <?php echo esc_attr( $tooltip_option['text'] ); ?>;
+				}
+
+				.yith-wapo-block .yith-wapo-addon .yith-wapo-option .tooltip span:after {
+					border-top-color: <?php echo esc_attr( $tooltip_option['background'] ); ?>;
+				}
+
+				.yith-wapo-block .yith-wapo-addon .yith-wapo-option .tooltip.position-bottom span:after {
+					border-bottom-color: <?php echo esc_attr( $tooltip_option['background'] ); ?>;
 				}
 			</style>
 			<script type="text/javascript">

@@ -76,6 +76,12 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 		 */
 		private function __construct() {
 
+			$this->version = YITH_WAPO_VERSION;
+
+			global $sitepress;
+			self::$is_wpml_installed   = ! empty( $sitepress );
+			self::$is_vendor_installed = function_exists( 'YITH_Vendors' );
+
 			// Load Plugin Framework.
 			add_action( 'plugins_loaded', array( $this, 'plugin_fw_loader' ), 15 );
 			if ( defined( 'YITH_WAPO_PREMIUM' ) && YITH_WAPO_PREMIUM ) {
@@ -123,8 +129,8 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 			}
 
 			// WCCL settings.
-			$wccl_enable_in_loop = apply_filters( 'yith_wapo_wccl_enable_in_loop', 'no' );
-			update_option( 'yith-wccl-enable-in-loop', $wccl_enable_in_loop );
+			add_action( 'init', array( $this, 'wccl_settings' ) );
+
 		}
 
 		/**
@@ -283,19 +289,20 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 					'rules'    => $rules,
 				);
 
-				// YITH Multi Vendor integration.
-				$vendor_id = 0;
-				if ( isset( $request['vendor_id'] ) ) {
-					$vendor_id = sanitize_text_field( $request['vendor_id'] );
-				}
-
 				$data = array(
-					'user_id'    => isset( $request['user_id'] ) ? $request['user_id'] : get_current_user_id(),
-					'vendor_id'  => $vendor_id,
 					'settings'   => serialize( $settings ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
 					'priority'   => isset( $request['block_priority'] ) ? $request['block_priority'] : 0,
 					'visibility' => 1,
 				);
+
+				if ( isset( $request['block_user_id'] ) && $request['block_user_id'] > 0 ) {
+					$data['user_id'] = sanitize_text_field( $request['block_user_id'] );
+				}
+
+				// YITH Multi Vendor integration.
+				if ( isset( $request['block_vendor_id'] ) ) {
+					$data['vendor_id'] = sanitize_text_field( $request['block_vendor_id'] );
+				}
 
 				$table = $wpdb->prefix . 'yith_wapo_blocks';
 
@@ -424,6 +431,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 
 					// Display options.
 					'title'                        => isset( $request['addon_title'] ) ? str_replace( '"', '&quot;', $request['addon_title'] ) : '',
+					'description'                  => $request['addon_description'] ?? '',
 					'show_image'                   => $request['addon_show_image'] ?? '',
 					'image'                        => $request['addon_image'] ?? '',
 					'image_replacement'            => $request['addon_image_replacement'] ?? '',
@@ -502,6 +510,10 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 				} elseif ( $request['addon_id'] > 0 ) {
 					$addon_id = $request['addon_id'];
 					$wpdb->update( $table, $data, array( 'id' => $addon_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+				}
+
+				if ( self::$is_wpml_installed ) {
+					YITH_WAPO_WPML::register_option_type( $settings['title'], $settings['description'], $data['options'], $settings['text_content'], $settings['heading_text'] );
 				}
 
 				if ( isset( $request['wapo_action'] ) && 'save-addon' === $request['wapo_action'] ) {
@@ -638,6 +650,14 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 			return get_option( 'yith_wpv_vendors_option_advanced_product_options_management' ) === 'yes';
 		}
 
+		/**
+		 * Set the color and label configuration
+		 */
+		public function wccl_settings() {
+			// Disable color and labels on loop when switching from v1.
+			$wccl_enable_in_loop = apply_filters( 'yith_wapo_wccl_enable_in_loop', 'no' );
+			update_option( 'yith-wccl-enable-in-loop', $wccl_enable_in_loop );
+		}
 	}
 }
 

@@ -120,6 +120,8 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 			set_transient( $this->tempfile_prefix . 'download_filename', $filename, 60 );
 			$this->stop_prevent_object_cache();
 
+			$this->set_filename($filename);
+			$this->set_tmp_filename($file);
 			$this->ajax_export_download();
 		} else {
 			_e( 'Nothing to export. Please, adjust your filters', 'woo-order-export-lite' );
@@ -134,7 +136,7 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax_Export {
 		$filename = $this->get_temp_file_name();
 		delete_transient( $this->tempfile_prefix . $_GET['file_id'] );
 
-		$download_name = get_transient( $this->tempfile_prefix . 'download_filename' );
+		$download_name = $this->filename ? $this->filename : get_transient( $this->tempfile_prefix . 'download_filename' );
 		$this->send_headers( $format, $download_name );
 		$this->send_contents_delete_file( $filename );
 		$this->stop_prevent_object_cache();

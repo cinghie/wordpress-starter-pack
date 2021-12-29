@@ -1,11 +1,11 @@
 === Ivory Search - WordPress Search Plugin ===
 Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
-Tags: search, woocommerce search, image search, ajax search, search shortcode, live search,  exclude from search, search widget, search menu, search plugin, custom search, search by post type, search by category, relevant search, search forms
+Tags: search, woocommerce search, image search, ajax search, search shortcode, live search, inverted index-based search, exclude from search, search widget, search menu, search plugin, custom search, search by sku, search by post type, search by category, relevance search, search forms
 Requires at least: 3.9
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.2.4
-Stable tag: 4.7
+Stable tag: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,11 +35,14 @@ Feel free to ask it using [Contact Form](https://ivorysearch.com/contact/).
 ###Key Features
 
 <ul>
+<li> Perform faster search with inverted index-based search engine.</li> 
+<li> Index and search  shortcode contents.</li>
 <li> Search WooCommerce products.</li>
 <li> Search images, files and attachments.</li>
 <li> Customize search form using customizer.</li>
 <li> Search using AJAX search.</li>
 <li> Track searches in search analytics.</li>
+<li> Index and search TablePress shortcode contents.</li>
 <li> Create unlimited number of search forms.</li>
 <li> Configure each search forms separately.</li>
 <li> Configure search form to search specific content.</li>
@@ -194,33 +197,29 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
-= 4.7 =
-* Fixed - IvoryAjaxVars is not defined error when JS file loading is disabled.
-* Fixed - Security issue.
+= 5.3 =
+* Fixed - Compatibility issue with MySQL 5.7
+* Fixed - MySQL > 8 REGEXP compatibility issue.
+* Fixed - PHP compatibility issues with static var.
+* Fixed - PHP < 5.3 compatibility issue.
 
-= 4.6.6 =
-* Fixed - JavaScript error "Invalid value used as weak map key" in the AJAX search.
+= 5.2 =
+* Fixed - For some plugins -1 appearing instead of search.
 
-= 4.6.5 =
-* Improved - Implemented simple scroll bar for AJAX search results.
+= 5.1 =
+* Fixed - Media library search in admin area was not working.
 
-= 4.6.4 =
-* Fixed - AJAX was not working since last plugin version.
+= 5.0 =
+* Added - Faster search with inverted index-based search engine.
+* Added - Index and search  shortcode contents.
+* Added - Index and search TablePress shortcode contents.
 
-= 4.6.3 =
-* Fixed - Notice displayed on creating new search form and in the plugin settings.
-* Fixed - Full width menu search opening and closing issue.
+= 4.8.2 =
+* Fixed - Plugin template file is-ajax-results.php was not overriding.
 
-= 4.6.2 =
-* Fixed - Undefined tab index notice in admin area.
+= 4.8.1 =
+* Fixed - Autocomplete off was not working.
 
-= 4.6.1 =
-* Fixed - Broken AJAX search results scrollbar.
-* Fixed – Security issue in plugin settings (Thanks to Jinson Varghese Behanan from Astra Security).
-* Improved - Do not search special character stopwords.
-
-= 4.6 =
-* Fixed - AJAX search results was not scrolling on search form scroll.
-* Fixed - Stopwords was not excluding from search.
-* Fixed - Menu search icon accessibility issue.
-* Updated - Freemius SDK to 2.4.2
+= 4.8 =
+* Fixed - Error occurred due to inclusion of non-existent file.
+* Fixed - Plugin admin options not working.

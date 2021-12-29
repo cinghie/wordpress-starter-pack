@@ -4,14 +4,14 @@ Tags: Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel Events, Face
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 5.8
-Stable tag: 8.2.8
+Stable tag: 8.2.15
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Facebook Pixel & Conversion API (CAPI), Google Analytics Universal or GA4, plus ANY other script. WooCommerce and EDD with Facebook Dynamic Product Ads and Google Enhanced Ecommerce. Track any action with events. Pinterest Tag support via a free add-on. Dedicated paid Bing Tag add-on.
+Facebook Pixel & Conversion API (CAPI), Google Analytics Universal or GA4, plus ANY other script. WooCommerce and EDD with Facebook Dynamic Product Ads and Google Enhanced Ecommerce. Track any action with events. Pinterest Tag support via a dedicated paid add-on. Dedicated paid Bing Tag add-on.
 
 == Description ==
-**Manage your Facebook Pixel, implement Facebook Conversion API, add your Google Analytics Universal or GA4 with a single plugin. Add ANY other script (Head & Footer feature). The Pinterest Tag can be implemented via [free add-on](https://www.pixelyoursite.com/pinterest-tag).**
+**Manage your Facebook Pixel, implement Facebook Conversion API, add your Google Analytics Universal or GA4 with a single plugin. Add ANY other script (Head & Footer feature). The Pinterest Tag can be implemented via [paid add-on](https://www.pixelyoursite.com/pinterest-tag).**
 
 PixelYourSite's Signal event will automatically track important actions and send them to all your configured pixels (searches, form submit, comments, downloads).
 
@@ -41,11 +41,15 @@ TRACK EVERYTHING WITH A SINGLE PLUGIN:
 
 * ANY script: add any other script with our flexible Head & Footer option
 
-* The Pinterest Tag: via [free add-on](https://www.pixelyoursite.com/pinterest-tag)
+* The Pinterest Tag: via [paid add-on](https://www.pixelyoursite.com/pinterest-tag)
 
 * Google Ads (formerly AdWords) [pro feature](https://www.pixelyoursite.com/google-ads-tag)
 
 * Microsoft (BING) UET tag [paid add-on](https://www.pixelyoursite.com/bing-tag)
+
+* Learn how to track both UA and GA4 properties at the same time (paid feature): [watch video](https://www.youtube.com/watch?v=JUuss5sewxg)
+
+* Learn how to fire multiple Facebook Pixels with CAPI support (paid feature): [watch video](https://www.youtube.com/watch?v=HM98mGZshvc)
 
 
 
@@ -64,6 +68,7 @@ FANTASTIC WOOCOMMERCE INTEGRATION:
 * Head & Footer scripts: you can insert scripts on the WooCommerce “order-received” page.
 
 * Pinterest e-commerce events.
+
 
 
 
@@ -98,12 +103,7 @@ You can fire standard or custom events using triggers like:
 
 PixelYourSite is fully integrated with [ConsentMagic.com](https://www.consentmagic.com)
 
-And it works with some of the most popular “cookie consent” plugins:
-
-* Cookiebot
-* GDPR Cookie Consent
-* Cookie Notice Plugin
-* Real Cookie Banner
+And it works with some of the most popular “cookie consent” plugins.
 
 
 Additionally we offer filters that developers can use to create their own custom integrations. These filters can control the way each pixel works.
@@ -132,9 +132,6 @@ OTHER USEFUL FEATURES:
 
 * Google Analytics Anonymize IPs.
 
-* Pinterest Enhanced Matching.
-
-
 
 **EVEN MORE FEATURES WITH THE PRO VERSION:**
 
@@ -143,6 +140,9 @@ OTHER USEFUL FEATURES:
 
 
 Full PixelYourSite Professional and **CartFlows** integration: [watch video for details](https://www.pixelyoursite.com/cartflows-and-pixelyoursite)
+
+
+TikTok Tag support with [PixelYourSite Professional](https://www.pixelyoursite.com/tiktok-tag-pixelyoursite).
 
 
 
@@ -458,6 +458,59 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 8.2.15 =
+
+* Fix for a possible critical error related to older versions of the Pinterest add-on.
+
+* WooCommerce 6.0 compatibility check.
+
+
+
+= PixelYourSite 8.2.14 =
+
+* Code refactoring to ensure compatibility with our extra add-ons.
+
+* Code changes to ensure full compatibility with ConsentMagic.com.
+
+
+
+= PixelYourSite 8.2.13 =
+
+* Small UI changes to reflect TikTok Tag support with PixelYourSite Professional.
+
+* Video links updates.
+
+
+
+= PixelYourSite 8.2.12 =
+
+* Fixing a potential problem with Signal events fired for forms buttons. 
+
+* Fixing a bug related to Dynamic Ads for Blog Setup.
+
+* WooCommerce 5.9 update.
+
+
+= PixelYourSite 8.2.11 =
+
+* Fixing some small bugs, please update.
+
+
+= PixelYourSite 8.2.10 =
+
+* fixing a small issue with the previous update
+
+
+= PixelYourSite 8.2.9 =
+
+* Google Analytics property format auto detection: the plugin will automatically detect the old UA and the new GA4 properties, sending events in the correct format. The paid version will allow to run both type at the same time.
+
+* Facebook API update.
+
+* Various bug fixes and code improvements.
+
 
 
 = PixelYourSite 8.2.8 =

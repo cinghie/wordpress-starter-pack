@@ -130,9 +130,9 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 		$limit_result = (int) $limit > 0 ? "LIMIT " . (int) $limit : "";
 
 		$query = "
-                SELECT      post.ID as id,post.post_title as text,att.ID as photo_id,att.guid as photo_url
+                SELECT      post.ID as id,post.post_title as text,att.meta_value as photo_id, '' as photo_url
                 FROM        " . $wpdb->posts . " as post
-                LEFT JOIN  " . $wpdb->posts . " AS att ON post.ID=att.post_parent AND att.post_type='attachment'
+                LEFT JOIN  " . $wpdb->postmeta . " AS att ON post.ID=att.post_id AND att.meta_key='_thumbnail_id'
                 WHERE       post.post_title LIKE %s
                 AND         post.post_type = 'product'
 				AND         post.post_status NOT IN ('trash')
@@ -620,6 +620,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 1,
 				'format'  => 'date',
 			),
+            'orig_order_date'   => array(
+                'label'   => __( 'Date of original order', 'woo-order-export-lite' ),
+                'checked' => 0,
+                'format'  => 'date',
+            ),
 			'modified_date'     => array(
 				'label'   => __( 'Modification Date', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -1119,6 +1124,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'number',
 			),
+            'total_volume' => array(
+                'label'   => __( 'Total volume', 'woo-order-export-lite' ),
+                'checked' => 0,
+                'format'  => 'number',
+            ),
 		);
 	}
 
@@ -1344,7 +1354,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	 * @see WC_Order_Export_Data_Extractor_UI::get_order_segments
 	 */
 	public static function get_unselected_fields_segments() {
-		return array(
+		return apply_filters('woe_get_order_segments', array(
 			'common'         => __( 'Common', 'woo-order-export-lite' ),
 			'user'           => __( 'Customer', 'woo-order-export-lite' ),
 			'billing'        => __( 'Billing Address', 'woo-order-export-lite' ),
@@ -1358,7 +1368,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 			'ship_calc'      => __( 'Shipping', 'woo-order-export-lite' ),
 			'totals'         => __( 'Totals', 'woo-order-export-lite' ),
 			'misc'           => __( 'Others', 'woo-order-export-lite' ),
-		);
+		));
 	}
 
 	public static function get_segment_hints() {

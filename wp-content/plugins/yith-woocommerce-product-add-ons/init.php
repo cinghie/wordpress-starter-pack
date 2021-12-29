@@ -3,7 +3,7 @@
  * Plugin Name: YITH WooCommerce Product Add-ons & Extra Options
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-product-add-ons/
  * Description: <code><strong>YITH WooCommerce Product Add-ons & Extra Options</strong></code> is the plugin that allows you to create new options for WooCommerce products. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
- * Version: 2.2.6
+ * Version: 2.4.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-product-add-ons
@@ -11,9 +11,9 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Domain Path: /languages/
  * Requires at least: 4.5
- * Tested up to: 5.8
- * WC requires at least: 3.0
- * WC tested up to: 5.8
+ * Tested up to: 5.9
+ * WC requires at least: 5.8
+ * WC tested up to: 6.0
  *
  * @author  YITH
  * @package YITH WooCommerce Product Add-ons & Extra Options
@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 ! defined( 'YITH_WAPO_TEMPLATE_ADMIN_PATH' ) && define( 'YITH_WAPO_TEMPLATE_ADMIN_PATH', YITH_WAPO_TEMPLATE_PATH . '/admin/' );
 ! defined( 'YITH_WAPO_TEMPLATE_FRONTEND_PATH' ) && define( 'YITH_WAPO_TEMPLATE_FRONTEND_PATH', YITH_WAPO_TEMPLATE_PATH . '/frontend/' );
 ! defined( 'YITH_WAPO_ASSETS_URL' ) && define( 'YITH_WAPO_ASSETS_URL', YITH_WAPO_URL . 'assets' );
-! defined( 'YITH_WAPO_VERSION' ) && define( 'YITH_WAPO_VERSION', '2.2.6' );
+! defined( 'YITH_WAPO_VERSION' ) && define( 'YITH_WAPO_VERSION', '2.4.0' );
 ! defined( 'YITH_WAPO_DB_VERSION' ) && define( 'YITH_WAPO_DB_VERSION', '2.0.0' );
 ! defined( 'YITH_WAPO_FILE' ) && define( 'YITH_WAPO_FILE', __FILE__ );
 ! defined( 'YITH_WAPO_SLUG' ) && define( 'YITH_WAPO_SLUG', 'yith-woocommerce-advanced-product-options' );
@@ -95,6 +95,7 @@ if ( get_option( 'yith_wapo_v2' ) === '1' ) {
 			require_once 'includes/class-yith-wapo-cart.php';
 			require_once 'includes/class-yith-wapo-front.php';
 			require_once 'includes/class-yith-wapo-install.php';
+			require_once 'includes/class-yith-wapo-wpml.php';
 			require_once 'includes/class-yith-wapo.php';
 			if ( get_option( 'yith_wapo_settings_disable_wccl', false ) !== 'yes' && ! function_exists( 'YITH_WCCL' ) ) {
 				require_once YITH_WAPO_DIR . 'v1/includes/functions/yith-wccl.php';

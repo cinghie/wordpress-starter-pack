@@ -57,22 +57,26 @@ class IS_List_Table extends WP_List_Table {
 			'offset'		 => ( $this->get_pagenum() - 1 ) * $per_page,
 		);
 
-		if ( ! empty( $_REQUEST['s'] ) ) {
-			$args['s'] = $_REQUEST['s'];
+		$is_search_val = ( ! empty( $_REQUEST['s'] ) ) ? sanitize_text_field( $_REQUEST['s'] ) : false;
+		$is_orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? sanitize_text_field( $_REQUEST['orderby'] ) : false;
+		$is_order = ( ! empty( $_REQUEST['order'] ) ) ? sanitize_text_field( $_REQUEST['order'] ) : false;
+
+		if ( $is_search_val ) {
+			$args['s'] = $is_search_val;
 		}
 
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
-			if ( 'title' == $_REQUEST['orderby'] ) {
+		if ( $is_orderby ) {
+			if ( 'title' == $is_orderby ) {
 				$args['orderby'] = 'title';
-			} elseif ( 'date' == $_REQUEST['orderby'] ) {
+			} elseif ( 'date' == $is_orderby ) {
 				$args['orderby'] = 'date';
 			}
 		}
 
-		if ( ! empty( $_REQUEST['order'] ) ) {
-			if ( 'asc' == strtolower( $_REQUEST['order'] ) ) {
+		if ( $is_order ) {
+			if ( 'asc' == strtolower( $is_order ) ) {
 				$args['order'] = 'ASC';
-			} elseif ( 'desc' == strtolower( $_REQUEST['order'] ) ) {
+			} elseif ( 'desc' == strtolower( $is_order ) ) {
 				$args['order'] = 'DESC';
 			}
 		}
@@ -84,7 +88,7 @@ class IS_List_Table extends WP_List_Table {
 
                 if ( 1 == $total_items && ! isset( $_GET['s'] )  ) {
                     if ( isset( $this->items[0] ) && $this->items[0]->id() ) {
-                        $redirect_to = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post='.$this->items[0]->id().'&action=edit';
+                        $redirect_to = menu_page_url( 'ivory-search', false ) . '&post='.absint( $this->items[0]->id() ).'&action=edit';
 			wp_safe_redirect( $redirect_to );
 			exit();
                     }

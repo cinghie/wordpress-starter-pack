@@ -12,6 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 if( 1 == $page ) { ?>
 	<div class="is-ajax-search-items <?php echo esc_attr( $posts_class ); ?>">
 <?php } 
+	if( $is_index_search && $index_empty ): ?>
+		<div class="is-ajax-search-no-result">
+			<?php esc_html_e( 'The index should be created for the search engine to work.', 'add-search-to-menu' ); ?>
+		</div>		
+		<?php 
+		return;
+	endif;
+
 	if ( isset( $is_includes['post_type'] ) && in_array( 'product', $is_includes['post_type']  ) ) {
 		$strict = isset( $is_settings['fuzzy_match'] ) && 1 == $is_settings['fuzzy_match'] ? true : false;
 	// Show matching tags.
@@ -133,8 +141,8 @@ if( 1 == $page ) { ?>
 	    $next_page = $page + 1; 
 	    $show_more_class = ( isset( $field['show_more_func'] ) && $field['show_more_func'] ) ? 'redirect-tosr' : '';
 	    ?>
-	    	<div class="is-show-more-results <?php echo $show_more_class;?>" data-page="<?php echo $next_page; ?>">
-	    		<div class="is-show-more-results-text"><?php echo $field['more_result_text'].' <span>('. ( $posts->found_posts - ( $posts_per_page * $page ) ) .')</span>'; ?></div>
+	    	<div class="is-show-more-results <?php esc_attr_e( $show_more_class );?>" data-page="<?php echo $next_page; ?>">
+	    		<div class="is-show-more-results-text"><?php echo wp_kses_post( $field['more_result_text'] .' <span>('. ( $posts->found_posts - ( $posts_per_page * $page ) ) .')</span>'); ?></div>
 		    	<?php
 		    	if ( '' === $show_more_class ){
 		    	// AAJX Loader.
@@ -148,7 +156,7 @@ if( 1 == $page ) { ?>
 	    	</div>
 	    <?php } ?>		
 <?php if( isset( $field['show_details_box'] ) && $field['show_details_box'] ) { ?>
-    <div id="is-ajax-search-details-<?php echo $search_post_id; ?>" class="is-ajax-search-details">
+    <div id="is-ajax-search-details-<?php esc_attr_e( $search_post_id ); ?>" class="is-ajax-search-details">
                 <div class="is-ajax-search-items">
 	    <?php
                     if ( 1 == $page ) {

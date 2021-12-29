@@ -183,6 +183,12 @@
                     });
             });
 
+            $('form.is-ajax-search.is-disable-submit').on('submit', function( event ) {
+                event.stopPropagation();
+                event.preventDefault();
+                return false;
+            });
+
 		function is_ajax_process_request( self, page ) {
 
 			if( ! page ) {

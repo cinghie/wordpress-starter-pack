@@ -1,8 +1,6 @@
 jQuery(document).ready(function($) {
-
         jQuery("#shipping_zone").on('click', function(){
 		var variations = ( $( "#shipping_zone" ).is(':checked')) ? 1 : 0;
-
 		if(variations == "1"){
                	 	jQuery.ajax({
                         	method: "POST",
@@ -180,5 +178,4 @@ jQuery(document).ready(function($) {
 	if (project_update == "yes"){
 		$('#goforit').attr('disabled',false);
 	}
-
 });

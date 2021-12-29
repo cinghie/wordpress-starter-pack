@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     10.8.1
+ * Version:     11.0.7
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 5.8
+ * WC tested up to: 6.0
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '10.8.1' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.0.7' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -102,17 +102,8 @@ function woosea_scripts($hook) {
 
 	// Only register and enqueue JS scripts from within the plugin itself
 	if (preg_match("/product-feed-pro/i",$hook)){
-
-	        // JS files for ChartJS
-        	wp_register_script( 'woosea_chart-bundle-js', plugin_dir_url( __FILE__ ) . 'js/Chart.bundle.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-        	wp_enqueue_script( 'woosea_chart-bundle-js' );
-
-        	// Minimized JS files for ChartJS
-        	wp_register_script( 'woosea_chart-bundle-min-js', plugin_dir_url( __FILE__ ) . 'js/Chart.bundle.min.js', WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-        	wp_enqueue_script( 'woosea_chart-bundle-min-js' );	
-
 		// Bootstrap typeahead
-		wp_register_script( 'typeahead-js', plugin_dir_url( __FILE__ ) . 'js/typeahead.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
+		wp_register_script( 'typeahead-js', plugin_dir_url( __FILE__ ) . 'js/woosea_typeahead.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'typeahead-js' );
 
 		// JS for adding input field validation
@@ -150,104 +141,10 @@ function woosea_scripts($hook) {
 add_action( 'admin_enqueue_scripts' , 'woosea_scripts' );
 
 /**
- * Enqueue front end scripts
- */
-function woosea_fe_scripts($hook) {
-	// JS for managing addToCart event
-   	wp_enqueue_script( 'ajax-script', get_template_directory_uri() . 'js/my-ajax-script.js', array('jquery') );
-	wp_register_script( 'woosea_addcart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-	wp_enqueue_script( 'woosea_addcart-js' );
-}
-//add_action('wp_enqueue_scripts', 'woosea_fe_scripts');
-
-/**
- * Get product variation ID based on dropdown selects product page
- */
-function woosea_storedattributes_details(){ 
-  	//checking the nonce. will die if it is no good.
-   	check_ajax_referer('woosea_ajax_nonce', 'nonce');
-	if(isset($_POST['data_to_pass'])){
-        	$productId = sanitize_text_field($_POST['data_to_pass']);
-
-		// Remove previous drop-down selection
-		delete_option( 'selected_values' );
-
-		// Good idea to make sure things are set before using them
-		$selected_values = isset( $_POST['storedAttributes'] ) ? (array) $_POST['storedAttributes'] : array();
-
-		// Any of the WordPress data sanitization functions can be used here
-		$selected_values = array_map( 'esc_attr', $selected_values );
-      	
-		// Save drop-down selection
-		update_option( 'selected_values', $selected_values);
-	}
-}
-add_action( 'wp_ajax_nopriv_woosea_storedattributes_details', 'woosea_storedattributes_details' );
-add_action( 'wp_ajax_woosea_storedattributes_details', 'woosea_storedattributes_details' );
-
-/**
- * Get details to load in the Facebook AddToCart event (pixel)
- */
-function woosea_addtocart_details(){ 
-  	//checking the nonce. will die if it is no good.
-   	check_ajax_referer('woosea_ajax_nonce', 'nonce');
-        $productId = sanitize_text_field($_POST['data_to_pass']);
-	$variationId = 0;
-
-	if(!empty ($productId) ){
-		$product = wc_get_product( $productId );
-		$selected_values = get_option('selected_values');
-		unset($selected_values['productId']);
-		$_GET = $selected_values;
-                $variation_id = woosea_find_matching_product_variation( $product, $_GET );
-		if($variation_id > 0){
-			$productId = $variation_id;
-		}       
-		$nr_get = count($_GET);
-		$product_name = $product->get_name();
-		$product_type = $product->get_type();
-		$product_price = $product->get_price();
-		$product_regular_price = $product->get_regular_price();
-		$product_sale_price = $product->get_sale_price();
-		$product_sku = $product->get_sku();
-	        $currency = get_woocommerce_currency();
-
-             	$cats = "";
-              	$all_cats = get_the_terms( $productId, 'product_cat' );
-		if(!empty($all_cats)){
-	             	foreach ($all_cats as $key => $category) {
-        	        	$cats .= $category->name.",";
-              		}
-                }
-     
-               	// strip last comma
-              	$cats = rtrim($cats, ",");
-             	$cats = str_replace("&amp;","&", $cats);
-
-        	$data = array (
- 			'product_id'		=> $productId,
-	               	'product_name' 		=> $product_name,
-                	'product_type' 		=> $product_type,
-			'product_price'		=> $product_price,
-			'product_regular_price'	=> $product_regular_price,
-			'product_sale_price'	=> $product_sale_price,
-			'product_sku'		=> $product_sku,
-			'product_currency'	=> $currency,
-			'product_cats'		=> $cats
-        	);
-
-        	echo json_encode($data);
-        	wp_die();
-	}
-}
-add_action( 'wp_ajax_nopriv_woosea_addtocart_details', 'woosea_addtocart_details' );
-add_action( 'wp_ajax_woosea_addtocart_details', 'woosea_addtocart_details' );
-
-/**
  * Internationalisation of plugin
  */
 function woosea_load_plugin_textdomain() {
-	load_plugin_textdomain( 'woosea', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'woo-product-feed-pro', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 add_action( 'plugins_loaded', 'woosea_load_plugin_textdomain' );
 
@@ -333,7 +230,7 @@ function woosea_get_term_parents( $id, $taxonomy, $project_taxonomy, $link = fal
  * Add Facebook pixel 
  */
 function woosea_add_facebook_pixel( $product = null ){
-        if ( ! is_object( $product ) ) {
+	if ( ! is_object( $product ) ) {
                 global $product;
         }
 	$fb_pagetype = WooSEA_Google_Remarketing::woosea_google_remarketing_pagetype();
@@ -394,7 +291,7 @@ function woosea_add_facebook_pixel( $product = null ){
 							// We should first check if there are any _GET parameters available
 							// When there are not we are on a variable product page but not on a specific variable one
 							// In that case we need to put in the AggregateOffer structured data
-							$variation_id = woosea_find_matching_product_variation( $product, $_GET );
+							$variation_id = woosea_find_matching_product_variation( $product, sanitize_text_field($_GET) );
 
 							$nr_get = count($_GET);
 
@@ -700,25 +597,20 @@ function woosea_add_facebook_pixel( $product = null ){
 			$fields['upload_tag'] = $fb_capi_data["event_name"] . '-' . time(); // You should set a tag here (feel free to adjust)
 			$fields['data'] = $data_json;
 			$url = 'https://graph.facebook.com/v11.0/' . FACEBOOK_PIXEL_OFFLINE_EVENT_SET_ID . '/events';
-			$curl = curl_init($url);
 
-			curl_setopt_array($curl, array(
-    				// Replace with your offline_event_set_id
-    				CURLOPT_URL => 'https://graph.facebook.com/v11.0/' . FACEBOOK_PIXEL_OFFLINE_EVENT_SET_ID . '/events',
-    				CURLOPT_RETURNTRANSFER => true,
-    				CURLOPT_ENCODING => "",
-    				CURLOPT_MAXREDIRS => 10,
-    				CURLOPT_TIMEOUT => 30,
-   				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    				CURLOPT_CUSTOMREQUEST => "POST",
-    				CURLOPT_POSTFIELDS =>  http_build_query($fields),
-    				CURLOPT_HTTPHEADER => array(
+			$args = array(
+				'timeout'     => 30,
+				'redirection' => 10,
+				'httpversion' => '1.0',
+				'blocking'    => true,
+				'headers'     => array(
         				"cache-control: no-cache",
-        				//"content-type: multipart/form-data",
-        				"Accept: application/json"  ),
-				));
-				$response = curl_exec($curl);
-				curl_close($curl);
+            				"Accept: application/json"  
+				),
+				'body'        => $fields,
+				'cookies'     => array()
+			);
+			$response = wp_remote_post( $url, $args );
 			}
 		}
 	}
@@ -768,7 +660,7 @@ function woosea_add_remarketing_tags( $product = null ){
 						// We should first check if there are any _GET parameters available
 						// When there are not we are on a variable product page but not on a specific variable one
 						// In that case we need to put in the AggregateOffer structured data
-						$variation_id = woosea_find_matching_product_variation( $product, $_GET );
+						$variation_id = woosea_find_matching_product_variation( $product, sanitize_text_field($_GET) );
 						$nr_get = count($_GET);
 
 						if($nr_get > 0){
@@ -816,18 +708,20 @@ function woosea_add_remarketing_tags( $product = null ){
         					$ecomm_price = wc_format_decimal( $product->get_price(), wc_get_price_decimals() );
       					}
 				}
-				?>
-				<script>
-  					gtag('event', 'view_item', {
-    						'send_to'	: '<?php echo 'AW-'.htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>',
-    						'value'		: <?php print "$ecomm_price";?>,
-    						'items'		: [{
-      									'id': <?php print "$ecomm_prodid";?>,
-      									'google_business_vertical': 'retail'
-    								}]
-  					});
-				</script>
-			<?php
+				if( isset($ecomm_price) ){
+					?>
+					<script>
+  						gtag('event', 'view_item', {
+    							'send_to'	: '<?php echo 'AW-'.htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>',
+    							'value'		: <?php print "$ecomm_price";?>,
+    							'items'		: [{
+      										'id': <?php print "$ecomm_prodid";?>,
+      										'google_business_vertical': 'retail'
+    									}]
+  						});
+					</script>
+				<?php
+				}
 			}
 		} elseif ($ecomm_pagetype == "cart"){
                                 // This is on the order thank you page
@@ -873,7 +767,7 @@ function woosea_add_remarketing_tags( $product = null ){
     						break;
 					}
 
-					if($ecomm_prodid > 0){
+					if( isset($ecomm_prodid) ){
                                         	$currency = get_woocommerce_currency();
                                         	$cart_items = WC()->cart->get_cart();
                                         	$cart_quantity = count($cart_items);
@@ -1052,22 +946,29 @@ function woosea_menu_addition(){
  * Gets all attributes, product, image and attributes
  */
 function woosea_ajax() {
-	$rowCount = sanitize_text_field($_POST['rowCount']);
+	check_ajax_referer('woosea_ajax_nonce', 'security');	
+	
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
 
-	$attributes_dropdown = get_option('attributes_dropdown');
-	if (!is_array($attributes_dropdown)){
-		$attributes_obj = new WooSEA_Attributes;
-		$attributes_dropdown = $attributes_obj->get_product_attributes_dropdown();
-        	update_option( 'attributes_dropdown', $attributes_dropdown, 'yes');
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {	
+		$rowCount = sanitize_text_field($_POST['rowCount']);
+
+		$attributes_dropdown = get_option('attributes_dropdown');
+		if (!is_array($attributes_dropdown)){
+			$attributes_obj = new WooSEA_Attributes;
+			$attributes_dropdown = $attributes_obj->get_product_attributes_dropdown();
+        		update_option( 'attributes_dropdown', $attributes_dropdown, 'yes');
+		}
+
+		$data = array (
+			'rowCount' => $rowCount,
+			'dropdown' => $attributes_dropdown
+		);
+
+		echo json_encode($data);
+		wp_die();
 	}
-
-	$data = array (
-		'rowCount' => $rowCount,
-		'dropdown' => $attributes_dropdown
-	);
-
-	echo json_encode($data);
-	wp_die();
 }
 add_action( 'wp_ajax_woosea_ajax', 'woosea_ajax' );
 
@@ -1112,12 +1013,34 @@ function woosea_sanitize_xss($value) {
 }
 
 /**
+ * Recursive sanitation for an array
+ */
+function woosea_recursive_sanitize_text_field($array) {
+    foreach ( $array as $key => &$value ) {
+        if ( is_array( $value ) ) {
+            $value = woosea_recursive_sanitize_text_field( $value );
+        }
+        else {
+            $value = sanitize_text_field( $value );
+        }
+    }
+    return $array;
+}
+
+/**
  * Save Google Dynamic Remarketing Conversion Tracking ID
  */
 function woosea_save_adwords_conversion_id() {
-	$adwords_conversion_id = sanitize_text_field($_POST['adwords_conversion_id']);
-	$adwords_conversion_id = woosea_sanitize_xss($adwords_conversion_id);
-	update_option("woosea_adwords_conversion_id", $adwords_conversion_id);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$adwords_conversion_id = sanitize_text_field($_POST['adwords_conversion_id']);
+		$adwords_conversion_id = woosea_sanitize_xss($adwords_conversion_id);
+		update_option("woosea_adwords_conversion_id", $adwords_conversion_id);
+	}
 }
 add_action( 'wp_ajax_woosea_save_adwords_conversion_id', 'woosea_save_adwords_conversion_id' );
 
@@ -1125,8 +1048,15 @@ add_action( 'wp_ajax_woosea_save_adwords_conversion_id', 'woosea_save_adwords_co
  * Save batch size 
  */
 function woosea_save_batch_size() {
-	$batch_size = sanitize_text_field($_POST['batch_size']);
-	update_option("woosea_batch_size", $batch_size);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$batch_size = sanitize_text_field($_POST['batch_size']);
+		update_option("woosea_batch_size", $batch_size);
+	}	
 }
 add_action( 'wp_ajax_woosea_save_batch_size', 'woosea_save_batch_size' );
 
@@ -1134,9 +1064,16 @@ add_action( 'wp_ajax_woosea_save_batch_size', 'woosea_save_batch_size' );
  * Save Facebook Pixel ID
  */
 function woosea_save_facebook_pixel_id() {
-	$facebook_pixel_id = sanitize_text_field($_POST['facebook_pixel_id']);
-	$facebook_pixel_id = woosea_sanitize_xss($facebook_pixel_id);
-	update_option("woosea_facebook_pixel_id", $facebook_pixel_id);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$facebook_pixel_id = sanitize_text_field($_POST['facebook_pixel_id']);
+		$facebook_pixel_id = woosea_sanitize_xss($facebook_pixel_id);
+		update_option("woosea_facebook_pixel_id", $facebook_pixel_id);
+	}
 }
 add_action( 'wp_ajax_woosea_save_facebook_pixel_id', 'woosea_save_facebook_pixel_id' );
 
@@ -1144,9 +1081,16 @@ add_action( 'wp_ajax_woosea_save_facebook_pixel_id', 'woosea_save_facebook_pixel
  * Save Facebook Conversion API Token
  */
 function woosea_save_facebook_capi_token() {
-	$facebook_capi_token = sanitize_text_field($_POST['facebook_capi_token']);
-	$facebook_capi_token = woosea_sanitize_xss($facebook_capi_token);
-	update_option("woosea_facebook_capi_token", $facebook_capi_token);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
+
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$facebook_capi_token = sanitize_text_field($_POST['facebook_capi_token']);
+		$facebook_capi_token = woosea_sanitize_xss($facebook_capi_token);
+		update_option("woosea_facebook_capi_token", $facebook_capi_token);
+	}	
 }
 add_action( 'wp_ajax_woosea_save_facebook_capi_token', 'woosea_save_facebook_capi_token' );
 
@@ -1154,52 +1098,56 @@ add_action( 'wp_ajax_woosea_save_facebook_capi_token', 'woosea_save_facebook_cap
  * Mass map categories to the correct Google Shopping category taxonomy
  */
 function woosea_add_mass_cat_mapping(){
-	$project_hash = sanitize_text_field($_POST['project_hash']);
-	$catMappings = $_POST['catMappings'];
-	
-	// I need to sanitize the catMappings Array
-	$mappings = array();
-	foreach ($catMappings as $mKey => $mVal){
-		$mKey = sanitize_text_field($mKey);
-		$mVal = sanitize_text_field($mVal);
-		$piecesVal = explode("||", $mVal);
-		$mappings[$piecesVal[1]] = array(
-			"rowCount"		=> $piecesVal[1],
-			"categoryId"		=> $piecesVal[1],
-			"criteria"		=> $piecesVal[0],
-			"map_to_category"	=> $piecesVal[2],
+	check_ajax_referer('woosea_ajax_nonce', 'security');
 
-		);
-	}
-	
-	$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));
-	// This happens during configuration of a new feed
-        if(empty($project)){
-		$project_temp = get_option( 'channel_project' );
-       		if(array_key_exists('mappings', $project_temp)){
-			$project_temp['mappings'] = $mappings + $project_temp['mappings'];
-		} else {
- 			$project_temp['mappings'] = $mappings;
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$project_hash = sanitize_text_field($_POST['project_hash']);
+		$catMappings = woosea_recursive_sanitize_text_field($_POST['catMappings']);
+
+		// I need to sanitize the catMappings Array
+		$mappings = array();
+		foreach ($catMappings as $mKey => $mVal){
+			$mKey = sanitize_text_field($mKey);
+			$mVal = sanitize_text_field($mVal);
+			$piecesVal = explode("||", $mVal);
+			$mappings[$piecesVal[1]] = array(
+				"rowCount"		=> $piecesVal[1],
+				"categoryId"		=> $piecesVal[1],
+				"criteria"		=> $piecesVal[0],
+				"map_to_category"	=> $piecesVal[2],
+			);
 		}
-                update_option( 'channel_project',$project_temp,'yes');
-	} else {
-		// Only update the ones that changed
-		foreach ($mappings as $categoryId => $catArray){
-			if (array_key_exists($categoryId, $project['mappings'])){
-				$project['mappings'][$categoryId] = $catArray;
+	
+		$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));
+		// This happens during configuration of a new feed
+        	if(empty($project)){
+			$project_temp = get_option( 'channel_project' );
+       			if(array_key_exists('mappings', $project_temp)){
+				$project_temp['mappings'] = $mappings + $project_temp['mappings'];
 			} else {
-				$project['mappings'][$categoryId] = $catArray;
+ 				$project_temp['mappings'] = $mappings;
 			}
+                	update_option( 'channel_project',$project_temp,'yes');
+		} else {
+			// Only update the ones that changed
+			foreach ($mappings as $categoryId => $catArray){
+				if (array_key_exists($categoryId, $project['mappings'])){
+					$project['mappings'][$categoryId] = $catArray;
+				} else {
+					$project['mappings'][$categoryId] = $catArray;
+				}
+			}
+			$project_updated = WooSEA_Update_Project::update_project_data($project);
 		}
-		$project_updated = WooSEA_Update_Project::update_project_data($project);
+		$data = array (
+			'status_mapping' 	=> "true",
+		);
+		echo json_encode($data);
+		wp_die();
 	}
-	$data = array (
-		'status_mapping' 	=> "true",
-	);
-
-	echo json_encode($data);
-	wp_die();
-
 }
 add_action( 'wp_ajax_woosea_add_mass_cat_mapping', 'woosea_add_mass_cat_mapping' );
 
@@ -1211,9 +1159,9 @@ function woosea_add_cat_mapping() {
 	$className = sanitize_text_field($_POST['className']);
 	$map_to_category = sanitize_text_field($_POST['map_to_category']);
 	$project_hash = sanitize_text_field($_POST['project_hash']);
-	//$criteria = sanitize_text_field($_POST['criteria']);
+	$criteria = sanitize_text_field($_POST['criteria']);
 
-	$criteria = $_POST['criteria'];
+	//$criteria = $_POST['criteria'];
 	$status_mapping = "false";
 	$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));	
 
@@ -1255,22 +1203,24 @@ add_action( 'wp_ajax_woosea_add_cat_mapping', 'woosea_add_cat_mapping' );
  * Retrieve variation product id based on it attributes
  **/
 function woosea_find_matching_product_variation( $product, $attributes ) {
- 
-    foreach( $attributes as $key => $value ) {
-        if( strpos( $key, 'attribute_' ) === 0 ) {
-            continue;
-        }
-        unset( $attributes[ $key ] );
-        $attributes[ sprintf( 'attribute_%s', $key ) ] = $value;
-    }
 
-    if( class_exists('WC_Data_Store') ) {
-        $data_store = WC_Data_Store::load( 'product' );
-     	return $data_store->find_matching_product_variation( $product, $attributes );
-    } else {
-        return $product->get_matching_variation( $attributes );
-    }
-}
+	if(is_array( $attributes )) {
+    		foreach( $attributes as $key => $value ) {
+        		if( strpos( $key, 'attribute_' ) === 0 ) {
+            			continue;
+        		}
+        		unset( $attributes[ $key ] );
+        		$attributes[ sprintf( 'attribute_%s', $key ) ] = $value;
+    		}
+
+    		if( class_exists('WC_Data_Store') ) {
+        		$data_store = WC_Data_Store::load( 'product' );
+     			return $data_store->find_matching_product_variation( $product, $attributes );
+    		} else {
+        		return $product->get_matching_variation( $attributes );
+    		}
+	}
+}	
 
 /**
  * Remove the price from the JSON-LD on variant product pages
@@ -1278,7 +1228,6 @@ function woosea_find_matching_product_variation( $product, $attributes ) {
  * to disapproved in Google's Merchant center because of it
  */
 function woosea_product_delete_meta_price( $product = null ) {
-
 	$markup_offer = array();
 	$structured_data_fix = get_option ('structured_data_fix');
 
@@ -1338,14 +1287,13 @@ function woosea_product_delete_meta_price( $product = null ) {
 				$nr_get = count($_GET);
 
 				if($nr_get > 0){
-					//$variation_id = woosea_find_matching_product_variation( $product, $_GET );
 					$mother_id = wc_get_product()->get_id();
 					$children_ids = $product->get_children();
 
 					foreach ($children_ids as &$child_val) {
                              	   		$product_variations = new WC_Product_Variation( $child_val );
                                 		$variations = array_filter($product_variations->get_variation_attributes());
-						$from_url = str_replace("\\","",$_GET,$i);
+						$from_url = str_replace("\\","",sanitize_text_field($_GET),$i);
 						$intersect = array_intersect($from_url, $variations);
 						if($variations == $intersect){
 							$variation_id = $child_val;
@@ -1683,8 +1631,8 @@ function woosea_product_fix_structured_data( $product = null ) {
             			foreach ($children_ids as &$child_val) {
                 			$product_variations = new WC_Product_Variation( $child_val );
                      			$variations = array_filter($product_variations->get_variation_attributes());
-                     			$from_url = str_replace("\\","",$_GET,$i);
-                      			$intersect = array_intersect($from_url, $variations);
+                     			$from_url = str_replace("\\","",sanitize_text_field($_GET),$i);
+					$intersect = @array_intersect($from_url, $variations);
                      			if($variations == $intersect){
                         			$variation_id = $child_val;
                        			}
@@ -1714,7 +1662,7 @@ function woosea_product_fix_structured_data( $product = null ) {
                                 $brand = get_post_meta( $variation_id, '_woosea_brand', true );
                 		if ( $brand ) {
                         		$markup['brand'] = array (
-						'@type'		=> 'Thing',
+						'@type'		=> 'Brand',
 						'name'		=> $brand,
 					);
                 		}
@@ -1817,7 +1765,7 @@ function woosea_product_fix_structured_data( $product = null ) {
 
                		if ( $brand ) {
                        		$markup['brand'] = array (
-					'@type'		=> 'Thing',
+					'@type'		=> 'Brand',
 					'name'		=> $brand,
 				);
                 	}
@@ -2266,36 +2214,43 @@ add_action( 'wp_ajax_woosea_project_refresh', 'woosea_project_refresh' );
  * Add or remove custom attributes to the feed configuration drop-downs
  */
 function woosea_add_attributes() {
-	$attribute_name = sanitize_text_field($_POST['attribute_name']);
-	$attribute_value = sanitize_text_field($_POST['attribute_value']);
-	$active = sanitize_text_field($_POST['active']);
+	check_ajax_referer( 'woosea_ajax_nonce', 'security' );
 
-       	if(!get_option( 'woosea_extra_attributes' )){
-		if($active == "true"){
-			$extra_attributes = array(
-				$attribute_value => $attribute_name
-			);
-			update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
-		}
-        } else {
-		$extra_attributes = get_option( 'woosea_extra_attributes' );
-		if(!in_array($attribute_name, $extra_attributes,TRUE)){
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$attribute_name = sanitize_text_field($_POST['attribute_name']);
+		$attribute_value = sanitize_text_field($_POST['attribute_value']);
+		$active = sanitize_text_field($_POST['active']);
+
+	       	if(!get_option( 'woosea_extra_attributes' )){
 			if($active == "true"){
-				$add_attribute = array (
+				$extra_attributes = array(
 					$attribute_value => $attribute_name
 				);
-				$extra_attributes = array_merge ($extra_attributes, $add_attribute);	
 				update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
 			}
-		} else {
-			if($active == "false"){
-				// remove from extra attributes array	
-				$extra_attributes = array_diff($extra_attributes, array($attribute_value => $attribute_name));	
-				update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+	        } else {
+			$extra_attributes = get_option( 'woosea_extra_attributes' );
+			if(!in_array($attribute_name, $extra_attributes,TRUE)){
+				if($active == "true"){
+					$add_attribute = array (
+						$attribute_value => $attribute_name
+					);
+					$extra_attributes = array_merge ($extra_attributes, $add_attribute);	
+					update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+				}
+			} else {
+				if($active == "false"){
+					// remove from extra attributes array	
+					$extra_attributes = array_diff($extra_attributes, array($attribute_value => $attribute_name));	
+					update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+				}
 			}
-		}
+		}	
+		$extra_attributes = get_option( 'woosea_extra_attributes' );
 	}	
-	$extra_attributes = get_option( 'woosea_extra_attributes' );
 }
 add_action( 'wp_ajax_woosea_add_attributes', 'woosea_add_attributes' );
 
@@ -2530,11 +2485,13 @@ add_action( 'wp_ajax_woosea_add_woosea_cdata', 'woosea_add_woosea_cdata' );
  */
 function woosea_add_facebook_pixel_setting (){
 	check_ajax_referer('woosea_ajax_nonce', 'security');
-	$status = sanitize_text_field($_POST['status']);
 
-	// Only admin users are allowed to make changes that impact the front-end
 	$user = wp_get_current_user();
-	if ( in_array( 'administrator', (array) $user->roles ) ) {
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
 		if ($status == "off"){
 			update_option( 'add_facebook_pixel', 'no', 'yes');
 		} else {
@@ -2550,11 +2507,13 @@ add_action( 'wp_ajax_woosea_add_facebook_pixel_setting', 'woosea_add_facebook_pi
  */
 function woosea_add_facebook_capi_setting (){
 	check_ajax_referer('woosea_ajax_nonce', 'security');
-	$status = sanitize_text_field($_POST['status']);
 
-	// Only admin users are allowed to make changes that impact the front-end
 	$user = wp_get_current_user();
-	if ( in_array( 'administrator', (array) $user->roles ) ) {
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
 		if ($status == "off"){
 			update_option( 'add_facebook_capi', 'no', 'yes');
 		} else {
@@ -2568,13 +2527,18 @@ add_action( 'wp_ajax_woosea_add_facebook_capi_setting', 'woosea_add_facebook_cap
  * This function saves the value that needs to be used in the Facebook pixel content_ids parameter 
  */
 function woosea_facebook_content_ids (){
-        $content_ids = sanitize_text_field($_POST['content_ids']);
+ 	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
 
-	if ($content_ids == "variable"){
-		update_option( 'add_facebook_pixel_content_ids', 'variable', 'yes');
-	} else {
-		update_option( 'add_facebook_pixel_content_ids', 'variation', 'yes');
-	}
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$content_ids = sanitize_text_field($_POST['content_ids']);
+
+		if ($content_ids == "variable"){
+			update_option( 'add_facebook_pixel_content_ids', 'variable', 'yes');
+		} else {
+			update_option( 'add_facebook_pixel_content_ids', 'variation', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_facebook_content_ids', 'woosea_facebook_content_ids' );
 
@@ -2584,11 +2548,13 @@ add_action( 'wp_ajax_woosea_facebook_content_ids', 'woosea_facebook_content_ids'
  */
 function woosea_add_remarketing (){
 	check_ajax_referer('woosea_ajax_nonce', 'security');
-	$status = sanitize_text_field($_POST['status']);
-
-	// Only admin users are allowed to make changes that impact the front-end
+	
 	$user = wp_get_current_user();
-	if ( in_array( 'administrator', (array) $user->roles ) ) {
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
 		if ($status == "off"){
 			update_option( 'add_remarketing', 'no', 'yes');
 		} else {
@@ -2603,11 +2569,12 @@ add_action( 'wp_ajax_woosea_add_remarketing', 'woosea_add_remarketing' );
  * a new batch size 
  */
 function woosea_add_batch (){
-        $status = sanitize_text_field($_POST['status']);
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
 
-        // Only admin users are allowed to make changes that impact the performance
-        $user = wp_get_current_user();
-        if ( in_array( 'administrator', (array) $user->roles ) ) {
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+		
 		if ($status == "off"){
 			update_option( 'add_batch', 'no', 'yes');
 		} else {
@@ -2651,10 +2618,10 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                  	  		'id'          => '_woosea_brand',
-             	        	   	'label'       => __( 'Brand', 'woosea' ),
+             	        	   	'label'       => __( 'Brand', 'woo-product-feed-pro' ),
                	        		'desc_tip'    => 'true',
                         		'value'           =>  get_post_meta( $post->ID, '_woosea_brand', true ),
-                        		'description' => __( 'Enter the product Brand here.', 'woosea' )
+                        		'description' => __( 'Enter the product Brand here.', 'woo-product-feed-pro' )
                 		)
         		);
 		}
@@ -2667,9 +2634,9 @@ function woosea_custom_general_fields() {
 	        	woocommerce_wp_text_input(
         	        	array(
                 	        	'id'          => '_woosea_gtin',
-                        		'label'       => __( 'GTIN', 'woosea' ),
+                        		'label'       => __( 'GTIN', 'woo-product-feed-pro' ),
                       		  	'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the product Global Trade Item Number (GTIN) here.', 'woosea' ),
+                        		'description' => __( 'Enter the product Global Trade Item Number (GTIN) here.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2679,9 +2646,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                        	 		'id'          => '_woosea_mpn',
-                        		'label'       => __( 'MPN', 'woosea' ),
+                        		'label'       => __( 'MPN', 'woo-product-feed-pro' ),
                         		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the manufacturer product number', 'woosea' ),
+                        		'description' => __( 'Enter the manufacturer product number', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2691,9 +2658,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_upc',
-                        		'label'       => __( 'UPC', 'woosea' ),
+                        		'label'       => __( 'UPC', 'woo-product-feed-pro' ),
                         		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the Universal Product Code (UPC) here.', 'woosea' ),
+                        		'description' => __( 'Enter the Universal Product Code (UPC) here.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2703,9 +2670,9 @@ function woosea_custom_general_fields() {
 	       		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_ean',
-                        		'label'       => __( 'EAN', 'woosea' ),
+                        		'label'       => __( 'EAN', 'woo-product-feed-pro' ),
                         		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the International Article Number (EAN) here.', 'woosea' ),
+                        		'description' => __( 'Enter the International Article Number (EAN) here.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2715,9 +2682,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_optimized_title',
-                        		'label'       => __( 'Optimized title', 'woosea' ),
+                        		'label'       => __( 'Optimized title', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter a optimized product title.', 'woosea' ),
+                        		'description' => __( 'Enter a optimized product title.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2727,15 +2694,15 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_condition',
-					'label'		=> __( 'Product condition', 'woosea' ),
+					'label'		=> __( 'Product condition', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the product condition.', 'woosea' ),
+					'description'	=> __( 'Select the product condition.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'new'		=> __( 'new', 'woosea' ),
-						'refurbished'	=> __( 'refurbished', 'woosea' ),
-						'used'		=> __( 'used', 'woosea' ),
-						'damaged'	=> __( 'damaged', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'new'		=> __( 'new', 'woo-product-feed-pro' ),
+						'refurbished'	=> __( 'refurbished', 'woo-product-feed-pro' ),
+						'used'		=> __( 'used', 'woo-product-feed-pro' ),
+						'damaged'	=> __( 'damaged', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2746,9 +2713,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_color',
-                        		'label'       => __( 'Color', 'woosea' ),
+                        		'label'       => __( 'Color', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Insert a color.', 'woosea' ),
+                        		'description' => __( 'Insert a color.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2758,9 +2725,9 @@ function woosea_custom_general_fields() {
         		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_size',
-                        		'label'       => __( 'Size', 'woosea' ),
+                        		'label'       => __( 'Size', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Insert a size.', 'woosea' ),
+                        		'description' => __( 'Insert a size.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2770,14 +2737,14 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_gender',
-					'label'		=> __( 'Gender', 'woosea' ),
+					'label'		=> __( 'Gender', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select gender.', 'woosea' ),
+					'description'	=> __( 'Select gender.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'female'	=> __( 'female', 'woosea' ),
-						'male'		=> __( 'male', 'woosea' ),
-						'unisex'	=> __( 'unisex', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'female'	=> __( 'female', 'woo-product-feed-pro' ),
+						'male'		=> __( 'male', 'woo-product-feed-pro' ),
+						'unisex'	=> __( 'unisex', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2788,9 +2755,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_material',
-                        		'label'       => __( 'Material', 'woosea' ),
+                        		'label'       => __( 'Material', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter a material.', 'woosea' ),
+                        		'description' => __( 'Enter a material.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2800,9 +2767,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_pattern',
-                        		'label'       => __( 'Pattern', 'woosea' ),
+                        		'label'       => __( 'Pattern', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter a pattern.', 'woosea' ),
+                        		'description' => __( 'Enter a pattern.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2812,16 +2779,16 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_age_group',
-					'label'		=> __( 'Age group', 'woosea' ),
+					'label'		=> __( 'Age group', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the product age group.', 'woosea' ),
+					'description'	=> __( 'Select the product age group.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'newborn'	=> __( 'newborn', 'woosea' ),
-						'infant'	=> __( 'infant', 'woosea' ),
-						'toddler'	=> __( 'toddler', 'woosea' ),
-						'kids'		=> __( 'kids', 'woosea' ),
-						'adult'		=> __( 'adult', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'newborn'	=> __( 'newborn', 'woo-product-feed-pro' ),
+						'infant'	=> __( 'infant', 'woo-product-feed-pro' ),
+						'toddler'	=> __( 'toddler', 'woo-product-feed-pro' ),
+						'kids'		=> __( 'kids', 'woo-product-feed-pro' ),
+						'adult'		=> __( 'adult', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2832,9 +2799,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                        	 		'id'          => '_woosea_unit_pricing_measure',
-                        		'label'       => __( 'Unit pricing measure', 'woosea' ),
+                        		'label'       => __( 'Unit pricing measure', 'woo-product-feed-pro' ),
                        		 	'desc_tip'    => 'true',
-                        		'description' => __( 'Enter an unit pricing measure.', 'woosea' ),
+                        		'description' => __( 'Enter an unit pricing measure.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2844,9 +2811,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_unit_pricing_base_measure',
-                    		    	'label'       => __( 'Unit pricing base measure', 'woosea' ),
+                    		    	'label'       => __( 'Unit pricing base measure', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter an unit pricing base measure.', 'woosea' ),
+                        		'description' => __( 'Enter an unit pricing base measure.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2856,9 +2823,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                       		  	'id'          => '_woosea_installment_months',
-                        		'label'       => __( 'Installment months', 'woosea' ),
+                        		'label'       => __( 'Installment months', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the number of monthly installments the buyer has to pay.', 'woosea' ),
+                        		'description' => __( 'Enter the number of monthly installments the buyer has to pay.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2868,9 +2835,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_installment_amount',
-                        		'label'       => __( 'Installment amount', 'woosea' ),
+                        		'label'       => __( 'Installment amount', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the amount the bbuyer has to pay per month.', 'woosea' ),
+                        		'description' => __( 'Enter the amount the bbuyer has to pay per month.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2880,9 +2847,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_cost_of_good_sold',
-                        		'label'       => __( 'Cost of goods sold', 'woosea' ),
+                        		'label'       => __( 'Cost of goods sold', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the cost of good you are selling.', 'woosea' ),
+                        		'description' => __( 'Enter the cost of good you are selling.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2892,9 +2859,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_multipack',
-                        		'label'       => __( 'Multipack', 'woosea' ),
+                        		'label'       => __( 'Multipack', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter the multipack amount.', 'woosea' ),
+                        		'description' => __( 'Enter the multipack amount.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -2904,13 +2871,13 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_is_bundle',
-					'label'		=> __( 'Is bundle', 'woosea' ),
+					'label'		=> __( 'Is bundle', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the is bundle value.', 'woosea' ),
+					'description'	=> __( 'Select the is bundle value.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'yes'		=> __( 'yes', 'woosea' ),
-						'no'		=> __( 'no', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'yes'		=> __( 'yes', 'woo-product-feed-pro' ),
+						'no'		=> __( 'no', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2921,21 +2888,21 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_energy_efficiency_class',
-					'label'		=> __( 'Energy efficiency class', 'woosea' ),
+					'label'		=> __( 'Energy efficiency class', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the product energy efficiency class.', 'woosea' ),
+					'description'	=> __( 'Select the product energy efficiency class.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'A+++'		=> __( 'A+++', 'woosea' ),
-						'A++'		=> __( 'A++', 'woosea' ),
-						'A+'		=> __( 'A+', 'woosea' ),
-						'A'		=> __( 'A', 'woosea' ),
-						'B'		=> __( 'B', 'woosea' ),
-						'C'		=> __( 'C', 'woosea' ),
-						'D'		=> __( 'D', 'woosea' ),
-						'E'		=> __( 'E', 'woosea' ),
-						'F'		=> __( 'F', 'woosea' ),
-						'G'		=> __( 'G', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'A+++'		=> __( 'A+++', 'woo-product-feed-pro' ),
+						'A++'		=> __( 'A++', 'woo-product-feed-pro' ),
+						'A+'		=> __( 'A+', 'woo-product-feed-pro' ),
+						'A'		=> __( 'A', 'woo-product-feed-pro' ),
+						'B'		=> __( 'B', 'woo-product-feed-pro' ),
+						'C'		=> __( 'C', 'woo-product-feed-pro' ),
+						'D'		=> __( 'D', 'woo-product-feed-pro' ),
+						'E'		=> __( 'E', 'woo-product-feed-pro' ),
+						'F'		=> __( 'F', 'woo-product-feed-pro' ),
+						'G'		=> __( 'G', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2946,21 +2913,21 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_min_energy_efficiency_class',
-					'label'		=> __( 'Minimum energy efficiency class', 'woosea' ),
+					'label'		=> __( 'Minimum energy efficiency class', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the minimum product energy efficiency class.', 'woosea' ),
+					'description'	=> __( 'Select the minimum product energy efficiency class.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'A+++'		=> __( 'A+++', 'woosea' ),
-						'A++'		=> __( 'A++', 'woosea' ),
-						'A+'		=> __( 'A+', 'woosea' ),
-						'A'		=> __( 'A', 'woosea' ),
-						'B'		=> __( 'B', 'woosea' ),
-						'C'		=> __( 'C', 'woosea' ),
-						'D'		=> __( 'D', 'woosea' ),
-						'E'		=> __( 'E', 'woosea' ),
-						'F'		=> __( 'F', 'woosea' ),
-						'G'		=> __( 'G', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'A+++'		=> __( 'A+++', 'woo-product-feed-pro' ),
+						'A++'		=> __( 'A++', 'woo-product-feed-pro' ),
+						'A+'		=> __( 'A+', 'woo-product-feed-pro' ),
+						'A'		=> __( 'A', 'woo-product-feed-pro' ),
+						'B'		=> __( 'B', 'woo-product-feed-pro' ),
+						'C'		=> __( 'C', 'woo-product-feed-pro' ),
+						'D'		=> __( 'D', 'woo-product-feed-pro' ),
+						'E'		=> __( 'E', 'woo-product-feed-pro' ),
+						'F'		=> __( 'F', 'woo-product-feed-pro' ),
+						'G'		=> __( 'G', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2971,21 +2938,21 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_max_energy_efficiency_class',
-					'label'		=> __( 'Maximum energy efficiency class', 'woosea' ),
+					'label'		=> __( 'Maximum energy efficiency class', 'woo-product-feed-pro' ),
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the maximum product energy efficiency class.', 'woosea' ),
+					'description'	=> __( 'Select the maximum product energy efficiency class.', 'woo-product-feed-pro' ),
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'A+++'		=> __( 'A+++', 'woosea' ),
-						'A++'		=> __( 'A++', 'woosea' ),
-						'A+'		=> __( 'A+', 'woosea' ),
-						'A'		=> __( 'A', 'woosea' ),
-						'B'		=> __( 'B', 'woosea' ),
-						'C'		=> __( 'C', 'woosea' ),
-						'D'		=> __( 'D', 'woosea' ),
-						'E'		=> __( 'E', 'woosea' ),
-						'F'		=> __( 'F', 'woosea' ),
-						'G'		=> __( 'G', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'A+++'		=> __( 'A+++', 'woo-product-feed-pro' ),
+						'A++'		=> __( 'A++', 'woo-product-feed-pro' ),
+						'A+'		=> __( 'A+', 'woo-product-feed-pro' ),
+						'A'		=> __( 'A', 'woo-product-feed-pro' ),
+						'B'		=> __( 'B', 'woo-product-feed-pro' ),
+						'C'		=> __( 'C', 'woo-product-feed-pro' ),
+						'D'		=> __( 'D', 'woo-product-feed-pro' ),
+						'E'		=> __( 'E', 'woo-product-feed-pro' ),
+						'F'		=> __( 'F', 'woo-product-feed-pro' ),
+						'G'		=> __( 'G', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -2996,9 +2963,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_is_promotion',
-                      		  	'label'       => __( 'Is promotion', 'woosea' ),
+                      		  	'label'       => __( 'Is promotion', 'woo-product-feed-pro' ),
                        		 	'desc_tip'    => 'true',
-                	       	 	'description' => __( 'Enter your promotion ID.', 'woosea' ),
+                	       	 	'description' => __( 'Enter your promotion ID.', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -3008,9 +2975,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_custom_field_0',
-                    		    	'label'       => __( 'Custom field 0', 'woosea' ),
+                    		    	'label'       => __( 'Custom field 0', 'woo-product-feed-pro' ),
                        		 	'desc_tip'    => 'true',
-                        		'description' => __( 'Enter your custom field 0', 'woosea' ),
+                        		'description' => __( 'Enter your custom field 0', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -3020,9 +2987,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_custom_field_1',
-                        		'label'       => __( 'Custom field 1', 'woosea' ),
+                        		'label'       => __( 'Custom field 1', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter your custom field 1', 'woosea' ),
+                        		'description' => __( 'Enter your custom field 1', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -3032,9 +2999,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_custom_field_2',
-                        		'label'       => __( 'Custom field 2', 'woosea' ),
+                        		'label'       => __( 'Custom field 2', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter your custom field 2', 'woosea' ),
+                        		'description' => __( 'Enter your custom field 2', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -3044,9 +3011,9 @@ function woosea_custom_general_fields() {
 	 		woocommerce_wp_text_input(
                 		array(
                        		 	'id'          => '_woosea_custom_field_3',
-                        		'label'       => __( 'Custom field 3', 'woosea' ),
+                        		'label'       => __( 'Custom field 3', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter your custom field 3', 'woosea' ),
+                        		'description' => __( 'Enter your custom field 3', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -3056,9 +3023,9 @@ function woosea_custom_general_fields() {
 			woocommerce_wp_text_input(
                 		array(
                         		'id'          => '_woosea_custom_field_4',
-                        		'label'       => __( 'Custom field 4', 'woosea' ),
+                        		'label'       => __( 'Custom field 4', 'woo-product-feed-pro' ),
                        	 		'desc_tip'    => 'true',
-                        		'description' => __( 'Enter your custom field 4', 'woosea' ),
+                        		'description' => __( 'Enter your custom field 4', 'woo-product-feed-pro' ),
                 		)
         		);
 		}
@@ -3067,9 +3034,9 @@ function woosea_custom_general_fields() {
 		woocommerce_wp_checkbox(
 			array(
 				'id'		=> '_woosea_exclude_product',
-				'label'		=> __( 'Exclude from feeds', 'woosea' ),
+				'label'		=> __( 'Exclude from feeds', 'woo-product-feed-pro' ),
 				'desc_tip'	=> 'true',
-				'description'	=> __( 'Check this box if you want this product to be excluded from product feeds.', 'woosea' ),
+				'description'	=> __( 'Check this box if you want this product to be excluded from product feeds.', 'woo-product-feed-pro' ),
 			)
 		);
 
@@ -3225,10 +3192,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'       => '_woosea_variable_brand['.$loop.']',
-                  	       		'label'       => __( '<br>Brand', 'woosea' ),
+                  	       		'label'       => __( '<br>Brand', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Brand',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Brand here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Brand here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_brand', true),
                                 	'wrapper_class' => 'form-row-full',
                         	)
@@ -3240,10 +3207,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_gtin['.$loop.']',
-                                	'label'       => __( '<br>GTIN', 'woosea' ),
+                                	'label'       => __( '<br>GTIN', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'GTIN',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product GTIN here.', 'woosea' ),
+                                	'description' => __( 'Enter the product GTIN here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_gtin', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3255,10 +3222,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_mpn['.$loop.']',
-                         	       	'label'       => __( '<br>MPN', 'woosea' ),
+                         	       	'label'       => __( '<br>MPN', 'woo-product-feed-pro' ),
                          	       	'placeholder' => 'Manufacturer Product Number',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the MPN here.', 'woosea' ),
+                                	'description' => __( 'Enter the MPN here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_mpn', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3270,10 +3237,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                 	woocommerce_wp_text_input(
                         	array(
                          	       	'id'          => '_woosea_variable_upc['.$loop.']',
-                               		'label'       => __( '<br>UPC', 'woosea' ),
+                               		'label'       => __( '<br>UPC', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'UPC',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product UPC here.', 'woosea' ),
+                                	'description' => __( 'Enter the product UPC here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_upc', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3285,10 +3252,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_ean['.$loop.']',
-                                	'label'       => __( '<br>EAN', 'woosea' ),
+                                	'label'       => __( '<br>EAN', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'EAN',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product EAN here.', 'woosea' ),
+                                	'description' => __( 'Enter the product EAN here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_ean', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3300,10 +3267,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_color['.$loop.']',
-                                	'label'       => __( '<br>Color', 'woosea' ),
+                                	'label'       => __( '<br>Color', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Color',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Color here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Color here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_color', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3315,10 +3282,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_size['.$loop.']',
-                                	'label'       => __( '<br>Size', 'woosea' ),
+                                	'label'       => __( '<br>Size', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Size',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Size here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Size here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_size', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3330,17 +3297,17 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_gender['.$loop.']',
-					'label'		=> __( 'Gender', 'woosea' ),
+					'label'		=> __( 'Gender', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Gender',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the gender.', 'woosea' ),
+					'description'	=> __( 'Select the gender.', 'woo-product-feed-pro' ),
                                 	'value'       	=> get_post_meta($variation->ID, '_woosea_gender', true),
                                 	'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'female'	=> __( 'female', 'woosea' ),
-						'male'		=> __( 'male', 'woosea' ),
-						'unisex'	=> __( 'unisex', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'female'	=> __( 'female', 'woo-product-feed-pro' ),
+						'male'		=> __( 'male', 'woo-product-feed-pro' ),
+						'unisex'	=> __( 'unisex', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -3351,10 +3318,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                 	woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_material['.$loop.']',
-                                	'label'       => __( '<br>Material', 'woosea' ),
+                                	'label'       => __( '<br>Material', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Material',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Material here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Material here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_material', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3366,10 +3333,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_pattern['.$loop.']',
-                                	'label'       => __( '<br>Pattern', 'woosea' ),
+                                	'label'       => __( '<br>Pattern', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Pattern',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Pattern here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Pattern here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_pattern', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3381,10 +3348,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                 	woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_unit_pricing_measure['.$loop.']',
-                                	'label'       => __( '<br>Unit pricing measure', 'woosea' ),
+                                	'label'       => __( '<br>Unit pricing measure', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Unit pricing measure',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Unit pricing measure here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Unit pricing measure here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_unit_pricing_measure', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3396,10 +3363,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                 	woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_variable_unit_pricing_base_measure['.$loop.']',
-                                	'label'       => __( '<br>Unit pricing base measure', 'woosea' ),
+                                	'label'       => __( '<br>Unit pricing base measure', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Unit pricing base measure',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the product Unit pricing base measure here.', 'woosea' ),
+                                	'description' => __( 'Enter the product Unit pricing base measure here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_unit_pricing_base_measure', true),
                                 	'wrapper_class' => 'form-row-first',
                         	)
@@ -3411,10 +3378,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_optimized_title['.$loop.']',
-                                	'label'       => __( '<br>Optimized title', 'woosea' ),
+                                	'label'       => __( '<br>Optimized title', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Optimized title',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter a optimized product title here.', 'woosea' ),
+                                	'description' => __( 'Enter a optimized product title here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_optimized_title', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3426,10 +3393,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                 	woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_installment_months['.$loop.']',
-                                	'label'       => __( '<br>Installment months', 'woosea' ),
+                                	'label'       => __( '<br>Installment months', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Installment months',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the number of montly installments for the buyer here.', 'woosea' ),
+                                	'description' => __( 'Enter the number of montly installments for the buyer here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_installment_months', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3441,10 +3408,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_installment_amount['.$loop.']',
-                                	'label'       => __( '<br>Installment amount', 'woosea' ),
+                                	'label'       => __( '<br>Installment amount', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Installment amount',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the installment amount here.', 'woosea' ),
+                                	'description' => __( 'Enter the installment amount here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_installment_amount', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3456,18 +3423,18 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_condition['.$loop.']',
-					'label'		=> __( 'Product condition', 'woosea' ),
+					'label'		=> __( 'Product condition', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Product condition',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the product condition.', 'woosea' ),
+					'description'	=> __( 'Select the product condition.', 'woo-product-feed-pro' ),
                                 	'value'       	=> get_post_meta($variation->ID, '_woosea_condition', true),
                                 	'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'new'		=> __( 'new', 'woosea' ),
-						'refurbished'	=> __( 'refurbished', 'woosea' ),
-						'used'		=> __( 'used', 'woosea' ),
-						'damaged'	=> __( 'damaged', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'new'		=> __( 'new', 'woo-product-feed-pro' ),
+						'refurbished'	=> __( 'refurbished', 'woo-product-feed-pro' ),
+						'used'		=> __( 'used', 'woo-product-feed-pro' ),
+						'damaged'	=> __( 'damaged', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -3478,19 +3445,19 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_age_group['.$loop.']',
-					'label'		=> __( 'Product age group', 'woosea' ),
+					'label'		=> __( 'Product age group', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Product age group',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the product age group.', 'woosea' ),
+					'description'	=> __( 'Select the product age group.', 'woo-product-feed-pro' ),
                                 	'value'       	=> get_post_meta($variation->ID, '_woosea_age_group', true),
                                 	'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'newborn'	=> __( 'newborn', 'woosea' ),
-						'infant'	=> __( 'infant', 'woosea' ),
-						'toddler'	=> __( 'toddler', 'woosea' ),
-						'kids'		=> __( 'kids', 'woosea' ),
-						'adult'		=> __( 'adult', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'newborn'	=> __( 'newborn', 'woo-product-feed-pro' ),
+						'infant'	=> __( 'infant', 'woo-product-feed-pro' ),
+						'toddler'	=> __( 'toddler', 'woo-product-feed-pro' ),
+						'kids'		=> __( 'kids', 'woo-product-feed-pro' ),
+						'adult'		=> __( 'adult', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -3501,10 +3468,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_cost_of_good_sold['.$loop.']',
-                                	'label'       => __( '<br>Cost of good sold', 'woosea' ),
+                                	'label'       => __( '<br>Cost of good sold', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Cost of good sold',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the cost of good sold.', 'woosea' ),
+                                	'description' => __( 'Enter the cost of good sold.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_cost_of_good_sold', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3516,10 +3483,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_multipack['.$loop.']',
-                                	'label'       => __( '<br>Multipack', 'woosea' ),
+                                	'label'       => __( '<br>Multipack', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Multipack amount',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter the multipack amount here.', 'woosea' ),
+                                	'description' => __( 'Enter the multipack amount here.', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_multipack', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3531,10 +3498,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_is_bundle['.$loop.']',
-					'label'		=> __( 'Is bundle', 'woosea' ),
+					'label'		=> __( 'Is bundle', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Is bundle',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the is bundle value.', 'woosea' ),
+					'description'	=> __( 'Select the is bundle value.', 'woo-product-feed-pro' ),
                                 	'value'       	=> get_post_meta($variation->ID, '_woosea_is_bundle', true),
                            	     	'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
@@ -3551,24 +3518,24 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_energy_efficiency_class['.$loop.']',
-					'label'		=> __( 'Energy efficiency class', 'woosea' ),
+					'label'		=> __( 'Energy efficiency class', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Energy efficiency class',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the energy efficiency class.', 'woosea' ),
+					'description'	=> __( 'Select the energy efficiency class.', 'woo-product-feed-pro' ),
           	                	'value'       	=> get_post_meta($variation->ID, '_woosea_energy_efficiency_class', true),
                 	                'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'A+++'		=> __( 'A+++', 'woosea' ),
-						'A++'		=> __( 'A++', 'woosea' ),
-						'A+'		=> __( 'A+', 'woosea' ),
-						'A'		=> __( 'A', 'woosea' ),
-						'B'		=> __( 'B', 'woosea' ),
-						'C'		=> __( 'C', 'woosea' ),
-						'D'		=> __( 'D', 'woosea' ),
-						'E'		=> __( 'E', 'woosea' ),
-						'F'		=> __( 'F', 'woosea' ),
-						'G'		=> __( 'G', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'A+++'		=> __( 'A+++', 'woo-product-feed-pro' ),
+						'A++'		=> __( 'A++', 'woo-product-feed-pro' ),
+						'A+'		=> __( 'A+', 'woo-product-feed-pro' ),
+						'A'		=> __( 'A', 'woo-product-feed-pro' ),
+						'B'		=> __( 'B', 'woo-product-feed-pro' ),
+						'C'		=> __( 'C', 'woo-product-feed-pro' ),
+						'D'		=> __( 'D', 'woo-product-feed-pro' ),
+						'E'		=> __( 'E', 'woo-product-feed-pro' ),
+						'F'		=> __( 'F', 'woo-product-feed-pro' ),
+						'G'		=> __( 'G', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -3579,24 +3546,24 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_min_energy_efficiency_class['.$loop.']',
-					'label'		=> __( 'Minimum energy efficiency class', 'woosea' ),
+					'label'		=> __( 'Minimum energy efficiency class', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Minimum energy efficiency class',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the minimum energy efficiency class.', 'woosea' ),
+					'description'	=> __( 'Select the minimum energy efficiency class.', 'woo-product-feed-pro' ),
                       	          	'value'       	=> get_post_meta($variation->ID, '_woosea_min_energy_efficiency_class', true),
                                 	'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'A+++'		=> __( 'A+++', 'woosea' ),
-						'A++'		=> __( 'A++', 'woosea' ),
-						'A+'		=> __( 'A+', 'woosea' ),
-						'A'		=> __( 'A', 'woosea' ),
-						'B'		=> __( 'B', 'woosea' ),
-						'C'		=> __( 'C', 'woosea' ),
-						'D'		=> __( 'D', 'woosea' ),
-						'E'		=> __( 'E', 'woosea' ),
-						'F'		=> __( 'F', 'woosea' ),
-						'G'		=> __( 'G', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'A+++'		=> __( 'A+++', 'woo-product-feed-pro' ),
+						'A++'		=> __( 'A++', 'woo-product-feed-pro' ),
+						'A+'		=> __( 'A+', 'woo-product-feed-pro' ),
+						'A'		=> __( 'A', 'woo-product-feed-pro' ),
+						'B'		=> __( 'B', 'woo-product-feed-pro' ),
+						'C'		=> __( 'C', 'woo-product-feed-pro' ),
+						'D'		=> __( 'D', 'woo-product-feed-pro' ),
+						'E'		=> __( 'E', 'woo-product-feed-pro' ),
+						'F'		=> __( 'F', 'woo-product-feed-pro' ),
+						'G'		=> __( 'G', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -3607,24 +3574,24 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_select(
 				array(
 					'id'		=> '_woosea_max_energy_efficiency_class['.$loop.']',
-					'label'		=> __( 'Maximum energy efficiency class', 'woosea' ),
+					'label'		=> __( 'Maximum energy efficiency class', 'woo-product-feed-pro' ),
 					'placeholder'	=> 'Maximum energy efficiency class',
 					'desc_tip'	=> 'true',
-					'description'	=> __( 'Select the maximum energy efficiency class.', 'woosea' ),
+					'description'	=> __( 'Select the maximum energy efficiency class.', 'woo-product-feed-pro' ),
                                 	'value'       	=> get_post_meta($variation->ID, '_woosea_max_energy_efficiency_class', true),
                                 	'wrapper_class' => 'form-row form-row-full',
 					'options'	=> array (
-						''		=> __( '', 'woosea' ),
-						'A+++'		=> __( 'A+++', 'woosea' ),
-						'A++'		=> __( 'A++', 'woosea' ),
-						'A+'		=> __( 'A+', 'woosea' ),
-						'A'		=> __( 'A', 'woosea' ),
-						'B'		=> __( 'B', 'woosea' ),
-						'C'		=> __( 'C', 'woosea' ),
-						'D'		=> __( 'D', 'woosea' ),
-						'E'		=> __( 'E', 'woosea' ),
-						'F'		=> __( 'F', 'woosea' ),
-						'G'		=> __( 'G', 'woosea' ),
+						''		=> __( '', 'woo-product-feed-pro' ),
+						'A+++'		=> __( 'A+++', 'woo-product-feed-pro' ),
+						'A++'		=> __( 'A++', 'woo-product-feed-pro' ),
+						'A+'		=> __( 'A+', 'woo-product-feed-pro' ),
+						'A'		=> __( 'A', 'woo-product-feed-pro' ),
+						'B'		=> __( 'B', 'woo-product-feed-pro' ),
+						'C'		=> __( 'C', 'woo-product-feed-pro' ),
+						'D'		=> __( 'D', 'woo-product-feed-pro' ),
+						'E'		=> __( 'E', 'woo-product-feed-pro' ),
+						'F'		=> __( 'F', 'woo-product-feed-pro' ),
+						'G'		=> __( 'G', 'woo-product-feed-pro' ),
 					)
 				)
 			);
@@ -3635,10 +3602,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_is_promotion['.$loop.']',
-                                	'label'       => __( '<br>Is promotion', 'woosea' ),
+                                	'label'       => __( '<br>Is promotion', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Is promotion',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter your promotion ID', 'woosea' ),
+                                	'description' => __( 'Enter your promotion ID', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_is_promotion', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3650,10 +3617,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_custom_field_0['.$loop.']',
-                                	'label'       => __( '<br>Custom field 0', 'woosea' ),
+                                	'label'       => __( '<br>Custom field 0', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Custom field 0',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter your custom field 0', 'woosea' ),
+                                	'description' => __( 'Enter your custom field 0', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_custom_field_0', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3665,10 +3632,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
         	                array(
                 	                'id'          => '_woosea_custom_field_1['.$loop.']',
-                        	        'label'       => __( '<br>Custom field 1', 'woosea' ),
+                        	        'label'       => __( '<br>Custom field 1', 'woo-product-feed-pro' ),
                           	      	'placeholder' => 'Custom field 1',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter your custom field 1', 'woosea' ),
+                                	'description' => __( 'Enter your custom field 1', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_custom_field_1', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3680,10 +3647,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
                 	woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_custom_field_2['.$loop.']',
-                                	'label'       => __( '<br>Custom field 2', 'woosea' ),
+                                	'label'       => __( '<br>Custom field 2', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Custom field 2',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter your custom field 2', 'woosea' ),
+                                	'description' => __( 'Enter your custom field 2', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_custom_field_2', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3695,10 +3662,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 			woocommerce_wp_text_input(
                         	array(
                                 	'id'          => '_woosea_custom_field_3['.$loop.']',
-                                	'label'       => __( '<br>Custom field 3', 'woosea' ),
+                                	'label'       => __( '<br>Custom field 3', 'woo-product-feed-pro' ),
                                 	'placeholder' => 'Custom field 3',
                                 	'desc_tip'    => 'true',
-                                	'description' => __( 'Enter your custom field 3', 'woosea' ),
+                                	'description' => __( 'Enter your custom field 3', 'woo-product-feed-pro' ),
                                 	'value'       => get_post_meta($variation->ID, '_woosea_custom_field_3', true),
                                 	'wrapper_class' => 'form-row-last',
                         	)
@@ -3724,10 +3691,10 @@ function woosea_custom_variable_fields( $loop, $variation_id, $variation ) {
 		woocommerce_wp_checkbox(
 			array(
 				'id'		=> '_woosea_exclude_product['.$loop.']',
-				'label'		=> __( '&nbsp;Exclude from feeds', 'woocommerce' ),
+				'label'		=> __( '&nbsp;Exclude from feeds', 'woo-product-feed-pro' ),
 				'placeholder'	=> 'Exclude from feeds',
 				'desc_tip'	=> 'true',
-				'description'	=> __( 'Check this box if you want this product to be excluded from product feeds.', 'woocommerce' ),
+				'description'	=> __( 'Check this box if you want this product to be excluded from product feeds.', 'woo-product-feed-pro' ),
                                 'value'       	=> get_post_meta($variation->ID, '_woosea_exclude_product', true),
 			)
 		);
@@ -3741,10 +3708,14 @@ add_action( 'woocommerce_product_after_variable_attributes', 'woosea_custom_vari
 function woosea_save_custom_variable_fields( $post_id ) {
 
         if (isset( $_POST['variable_sku'] ) ) {
+                $variable_sku          = sanitize_text_field($_POST['variable_sku']);
+                $variable_post_id      = sanitize_text_field($_POST['variable_post_id']);
 
-                $variable_sku          = $_POST['variable_sku'];
-                $variable_post_id      = $_POST['variable_post_id'];
-                $max_loop = max( array_keys( $_POST['variable_post_id'] ) );
+		if(is_array($variable_post_id)){
+			$max_loop = max( array_keys( $variable_post_id ) );
+		} else {
+			$max_loop = 0;
+		}
 
                 for ( $i = 0; $i <= $max_loop; $i++ ) {
 
@@ -3754,7 +3725,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Brand Field
 		if(isset($_POST['_woosea_variable_brand'])){
-                	$_brand = $_POST['_woosea_variable_brand'];
+                	$_brand = sanitize_text_field($_POST['_woosea_variable_brand']);
                		$variation_id = (int) $variable_post_id[$i];
                 	if ( isset( $_brand[$i] ) ) {
                 		 update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
@@ -3763,7 +3734,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // MPN Field
 		if(isset($_POST['_woosea_variable_mpn'])){
-                	$_mpn = $_POST['_woosea_variable_mpn'];
+                	$_mpn = sanitize_text_field($_POST['_woosea_variable_mpn']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_mpn[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_mpn', stripslashes( sanitize_text_field( $_mpn[$i] )));
@@ -3772,7 +3743,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // UPC Field
 		if(isset($_POST['_woosea_variable_upc'])){
-                	$_upc = $_POST['_woosea_variable_upc'];
+                	$_upc = sanitize_text_field($_POST['_woosea_variable_upc']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_upc[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_upc', stripslashes( sanitize_text_field( $_upc[$i] )));
@@ -3781,7 +3752,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // EAN Field
 		if(isset($_POST['_woosea_variable_ean'])){
-                	$_ean = $_POST['_woosea_variable_ean'];
+                	$_ean = sanitize_text_field($_POST['_woosea_variable_ean']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_ean[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_ean', stripslashes( sanitize_text_field( $_ean[$i] )));
@@ -3790,7 +3761,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // GTIN Field
 		if(isset($_POST['_woosea_variable_gtin'])){
-                	$_gtin = $_POST['_woosea_variable_gtin'];
+                	$_gtin = sanitize_text_field($_POST['_woosea_variable_gtin']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_gtin[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gtin', stripslashes( sanitize_text_field( $_gtin[$i] )));
@@ -3799,7 +3770,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Color Field
 		if(isset($_POST['_woosea_variable_color'])){
-                	$_color = $_POST['_woosea_variable_color'];
+                	$_color = sanitize_text_field($_POST['_woosea_variable_color']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_color[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_color', stripslashes( sanitize_text_field( $_color[$i] )));
@@ -3808,7 +3779,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Size Field
 		if(isset($_POST['_woosea_variable_size'])){
-                	$_size = $_POST['_woosea_variable_size'];
+                	$_size = sanitize_text_field($_POST['_woosea_variable_size']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_size[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_size', stripslashes( sanitize_text_field( $_size[$i] )));
@@ -3817,7 +3788,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Gender Field
 		if(isset($_POST['_woosea_variable_gender'])){
-                	$_gender = $_POST['_woosea_variable_gender'];
+                	$_gender = sanitize_text_field($_POST['_woosea_variable_gender']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_gender[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gender', stripslashes( sanitize_text_field( $_gender[$i] )));
@@ -3826,7 +3797,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Material Field
 		if(isset($_POST['_woosea_variable_material'])){
-                	$_material = $_POST['_woosea_variable_material'];
+                	$_material = sanitize_text_field($_POST['_woosea_variable_material']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_material[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_material', stripslashes( sanitize_text_field( $_material[$i] )));
@@ -3835,7 +3806,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Pattern Field
 		if(isset($_POST['_woosea_variable_pattern'])){
-                	$_pattern = $_POST['_woosea_variable_pattern'];
+                	$_pattern = sanitize_text_field($_POST['_woosea_variable_pattern']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_pattern[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_pattern', stripslashes( sanitize_text_field( $_pattern[$i] )));
@@ -3844,7 +3815,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Unit pricing measure Field
 		if(isset($_POST['_woosea_variable_unit_pricing_measure'])){
-                	$_pricing_measure = $_POST['_woosea_variable_unit_pricing_measure'];
+                	$_pricing_measure = sanitize_text_field($_POST['_woosea_variable_unit_pricing_measure']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_pricing_measure[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_unit_pricing_measure', stripslashes( sanitize_text_field( $_pricing_measure[$i] )));
@@ -3853,7 +3824,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Unit pricing base measure Field
 		if(isset($_POST['_woosea_variable_unit_pricing_base_measure'])){
-                	$_pricing_base = $_POST['_woosea_variable_unit_pricing_base_measure'];
+                	$_pricing_base = sanitize_text_field($_POST['_woosea_variable_unit_pricing_base_measure']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_pricing_base[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_unit_pricing_base_measure', stripslashes( sanitize_text_field( $_pricing_base[$i] )));
@@ -3862,7 +3833,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
 		// Optimized title Field
 		if(isset($_POST['_woosea_optimized_title'])){
-                	$_opttitle = $_POST['_woosea_optimized_title'];
+                	$_opttitle = sanitize_text_field($_POST['_woosea_optimized_title']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_opttitle[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_optimized_title', stripslashes( sanitize_text_field( $_opttitle[$i] )));
@@ -3871,7 +3842,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
 		// Installment months Field
 		if(isset($_POST['_woosea_installment_months'])){
-                	$_installment_months = $_POST['_woosea_installment_months'];
+                	$_installment_months = sanitize_text_field($_POST['_woosea_installment_months']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_installment_months[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_installment_months', stripslashes( sanitize_text_field( $_installment_months[$i] )));
@@ -3880,7 +3851,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
 		// Installment amount Field
 		if(isset($_POST['_woosea_installment_amount'])){
-                	$_installment_amount = $_POST['_woosea_installment_amount'];
+                	$_installment_amount = sanitize_text_field($_POST['_woosea_installment_amount']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_installment_amount[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_installment_amount', stripslashes( sanitize_text_field( $_installment_amount[$i] )));
@@ -3889,7 +3860,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Product condition Field
 		if(isset($_POST['_woosea_condition'])){
-                	$_condition = $_POST['_woosea_condition'];
+                	$_condition = sanitize_text_field($_POST['_woosea_condition']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_condition[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_condition', stripslashes( sanitize_text_field( $_condition[$i] )));
@@ -3898,7 +3869,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Product age group
 		if(isset($_POST['_woosea_age_group'])){
-                	$_age_group = $_POST['_woosea_age_group'];
+                	$_age_group = sanitize_text_field($_POST['_woosea_age_group']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_age_group[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_age_group', stripslashes( sanitize_text_field( $_age_group[$i] )));
@@ -3908,7 +3879,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Cost of good sold
 		if(isset($_POST['_woosea_cost_of_good_sold'])){
-                	$_cost_of_good_sold = $_POST['_woosea_cost_of_good_sold'];
+                	$_cost_of_good_sold = sanitize_text_field($_POST['_woosea_cost_of_good_sold']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_cost_of_good_sold[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_cost_of_good_sold', stripslashes( sanitize_text_field( $_cost_of_good_sold[$i] )));
@@ -3917,7 +3888,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Multipack
 		if(isset($_POST['_woosea_multipack'])){
-                	$_multipack = $_POST['_woosea_multipack'];
+                	$_multipack = sanitize_text_field($_POST['_woosea_multipack']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_multipack[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_multipack', stripslashes( sanitize_text_field( $_multipack[$i] )));
@@ -3926,7 +3897,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
       
                 // Is promotion
 		if(isset($_POST['_woosea_is_promotion'])){
-	                $_is_promotion = $_POST['_woosea_is_promotion'];
+	                $_is_promotion = sanitize_text_field($_POST['_woosea_is_promotion']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_is_promotion[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_promotion', stripslashes( sanitize_text_field( $_is_promotion[$i] )));
@@ -3935,7 +3906,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
 		 // Is bundle
 		if(isset($_POST['_woosea_is_bundle'])){
-                	$_is_bundle = $_POST['_woosea_is_bundle'];
+                	$_is_bundle = sanitize_text_field($_POST['_woosea_is_bundle']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_is_bundle[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_bundle', stripslashes( sanitize_text_field( $_is_bundle[$i] )));
@@ -3944,7 +3915,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Energy efficiency class
 		if(isset($_POST['_woosea_energy_efficiency_class'])){
-                	$_energy_efficiency_class = $_POST['_woosea_energy_efficiency_class'];
+                	$_energy_efficiency_class = sanitize_text_field($_POST['_woosea_energy_efficiency_class']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_energy_efficiency_class', stripslashes( sanitize_text_field( $_energy_efficiency_class[$i] )));
@@ -3953,7 +3924,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Minimum energy efficiency class
 		if(isset($_POST['_woosea_min_energy_efficiency_class'])){
-                	$_min_energy_efficiency_class = $_POST['_woosea_min_energy_efficiency_class'];
+                	$_min_energy_efficiency_class = sanitize_text_field($_POST['_woosea_min_energy_efficiency_class']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_min_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_min_energy_efficiency_class', stripslashes( sanitize_text_field( $_min_energy_efficiency_class[$i] )));
@@ -3962,7 +3933,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Maximum energy efficiency class
 		if(isset($_POST['_woosea_max_energy_efficiency_class'])){
-                	$_max_energy_efficiency_class = $_POST['_woosea_max_energy_efficiency_class'];
+                	$_max_energy_efficiency_class = sanitize_text_field($_POST['_woosea_max_energy_efficiency_class']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_max_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_max_energy_efficiency_class', stripslashes( sanitize_text_field( $_max_energy_efficiency_class[$i] )));
@@ -3971,7 +3942,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Custom field 0
 		if(isset($_POST['_woosea_custom_field_0'])){
-	         	$_custom_field_0 = $_POST['_woosea_custom_field_0'];
+	         	$_custom_field_0 = sanitize_text_field($_POST['_woosea_custom_field_0']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_0[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_0', stripslashes( sanitize_text_field( $_custom_field_0[$i] )));
@@ -3980,7 +3951,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Custom field 1
 		if(isset($_POST['_woosea_custom_field_1'])){
-                	$_custom_field_1 = $_POST['_woosea_custom_field_1'];
+                	$_custom_field_1 = sanitize_text_field($_POST['_woosea_custom_field_1']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_1[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_1', stripslashes( sanitize_text_field( $_custom_field_1[$i] )));
@@ -3989,7 +3960,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Custom field 2
 		if(isset($_POST['_woosea_custom_field_2'])){
-                	$_custom_field_2 = $_POST['_woosea_custom_field_2'];
+                	$_custom_field_2 = sanitize_text_field($_POST['_woosea_custom_field_2']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_2[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_2', stripslashes( sanitize_text_field( $_custom_field_2[$i] )));
@@ -3998,7 +3969,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Custom field 3
 		if(isset($_POST['_woosea_custom_field_3'])){
-                	$_custom_field_3 = $_POST['_woosea_custom_field_3'];
+                	$_custom_field_3 = sanitize_text_field($_POST['_woosea_custom_field_3']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_3[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_3', stripslashes( sanitize_text_field( $_custom_field_3[$i] )));
@@ -4007,7 +3978,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 
                 // Custom field 4
 		if(isset($_POST['_woosea_custom_field_4'])){
- 	               $_custom_field_4 = $_POST['_woosea_custom_field_4'];
+ 	               $_custom_field_4 = sanitize_text_field($_POST['_woosea_custom_field_4']);
                         $variation_id = (int) $variable_post_id[$i];
                         if ( isset( $_custom_field_4[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_4', stripslashes( sanitize_text_field( $_custom_field_4[$i] )));
@@ -4018,7 +3989,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(empty($_POST['_woosea_exclude_product'])){
 			$_excludeproduct[$i] = "no";
 		} else {
-			$_excludeproduct = $_POST['_woosea_exclude_product'];
+			$_excludeproduct = sanitize_text_field($_POST['_woosea_exclude_product']);
         	} 
 		   	$variation_id = (int) $variable_post_id[$i];
                 	if ( isset( $_excludeproduct[$i] ) ) {
@@ -4161,39 +4132,46 @@ add_action( 'wp_ajax_woosea_fieldmapping_dialog_helptext', 'woosea_fieldmapping_
  * Get the dropdowns for the fieldmapping page
  */
 function woosea_fieldmapping_dropdown(){
-	$channel_hash = sanitize_text_field($_POST['channel_hash']);
-	$rowCount = sanitize_text_field($_POST['rowCount']);
-        $channel_data = WooSEA_Update_Project::get_channel_data($channel_hash);
+	check_ajax_referer('woosea_ajax_nonce', 'security');
 
-        require plugin_dir_path(__FILE__) . '/classes/channels/class-'.$channel_data['fields'].'.php';
-        $obj = "WooSEA_".$channel_data['fields'];
-        $fields_obj = new $obj;
-        $attributes = $fields_obj->get_channel_attributes();
-	$field_options = "<option selected></option>";
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator' );
+
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$channel_hash = sanitize_text_field($_POST['channel_hash']);
+		$rowCount = sanitize_text_field($_POST['rowCount']);
+	        $channel_data = WooSEA_Update_Project::get_channel_data($channel_hash);
+
+	        require plugin_dir_path(__FILE__) . '/classes/channels/class-'.$channel_data['fields'].'.php';
+        	$obj = "WooSEA_".$channel_data['fields'];
+        	$fields_obj = new $obj;
+        	$attributes = $fields_obj->get_channel_attributes();
+		$field_options = "<option selected></option>";
  	
-	foreach($attributes as $key => $value){
-		$field_options .= "<option></option>";
-		$field_options .= "<optgroup label='$key'><strong>$key</strong>";
-		foreach($value as $k => $v){
-               		$field_options .= "<option value='$v[feed_name]'>$k ($v[name])</option>";
+		foreach($attributes as $key => $value){
+			$field_options .= "<option></option>";
+			$field_options .= "<optgroup label='$key'><strong>$key</strong>";
+			foreach($value as $k => $v){
+               			$field_options .= "<option value='$v[feed_name]'>$k ($v[name])</option>";
+			}
 		}
-	}
  
-        $attributes_obj = new WooSEA_Attributes;
-        $attribute_dropdown = $attributes_obj->get_product_attributes();
+        	$attributes_obj = new WooSEA_Attributes;
+        	$attribute_dropdown = $attributes_obj->get_product_attributes();
 
-	$attribute_options = "<option selected></option>";
-   	foreach($attribute_dropdown as $drop_key => $drop_value){
-        	$attribute_options .= "<option value='$drop_key'>$drop_value</option>";
-	}
+		$attribute_options = "<option selected></option>";
+   		foreach($attribute_dropdown as $drop_key => $drop_value){
+        		$attribute_options .= "<option value='$drop_key'>$drop_value</option>";
+		}
 
-	$data = array (
-		'field_options' => $field_options,
-		'attribute_options' => $attribute_options,
-	);
+		$data = array (
+			'field_options' => $field_options,
+			'attribute_options' => $attribute_options,
+		);
 
-	echo json_encode($data);
-	wp_die();
+		echo json_encode($data);
+		wp_die();
+	}	
 }
 add_action( 'wp_ajax_woosea_fieldmapping_dropdown', 'woosea_fieldmapping_dropdown' );
 
@@ -4216,70 +4194,6 @@ function woosea_autocomplete_dropdown() {
 
 }
 add_action( 'wp_ajax_woosea_autocomplete_dropdown', 'woosea_autocomplete_dropdown' );
-
-/**
- * Autosuggest categories or productnames for category mapping page
- */
-function woosea_autocomplete_mapping() {
-	$query = sanitize_text_field($_POST['query']);
-	$searchin = sanitize_text_field($_POST['searchin']);
-	$condition = sanitize_text_field($_POST['condition']);
-
-	$data = array();	
-	$data_raw = array();
-
-	// search on exact productname
-	if (($searchin == "title") AND ($condition == "=") OR ($condition == "contains")){
-		$prods = new WP_Query(
-                	array(
-				's' => $query,
-           			'posts_per_page' => -1,
-                         	'post_type' => array('product'),
-                              	'post_status' => 'publish',
-                            	'fields' => 'ids',
-                              	'no_found_rows' => true
-                    	)
-          	);
-
-                while ($prods->have_posts()) : $prods->the_post();
-               		global $product;
-			$product_title = $product->get_title();
-
-                     	if(!$product) {
-                        	return -1;
-                      	}
-
-			if ($product->is_type( 'variable' )) {
-				$attrv = $product->get_variation_attributes();
-				foreach ($attrv as $ka => $va){
-					foreach ($va as $k => $v){
-						$data_raw[] = $product_title ." ". ucfirst($v);
-					}
-				}
-			}
-            	endwhile;
-             	wp_reset_query();	
-	// search on exact categoryname
-	} elseif (($searchin == "categories") AND ($condition == "=")) {
-		$hide_empty = false ;
-		$cat_args = array(
-			'search'	=> $query,
-    			'hide_empty' 	=> $hide_empty,
-		);
-		$all_categories = get_terms( 'product_cat', $cat_args );
-            	foreach($all_categories as $sub_category) {
-                	$data_raw[] = $sub_category->name;
-            	}   
-	} else {
-		$data_raw[] = "";
-	}
-
-	$data = array_unique($data_raw);
-	$data = json_encode($data);
-	echo $data;
-	wp_die();
-}
-add_action( 'wp_ajax_woosea_autocomplete_mapping', 'woosea_autocomplete_mapping' );
 
 /**
  * Function for serving different HTML templates while configuring the feed
@@ -4334,9 +4248,7 @@ function woosea_generate_pages(){
 	if (!$_POST){
 		$generate_step = 0;
 	} else {
-		$from_post = $_POST;
-  		$from_post = stripslashes_recursive($from_post);
-
+  		$from_post = stripslashes_recursive($_POST);
 		$channel_hash = sanitize_text_field($_POST['channel_hash']);
 		$step = sanitize_text_field($_POST['step']);	
 		$generate_step = $step;
@@ -4584,119 +4496,6 @@ function woosea_last_updated($project_hash){
 }
 
 /**
- * Track user and channel conversions
- */
-function woosea_track_conversion () {
-	$save_conversion = "no";
-
-	// First check if adTribesID cookie is active
-	if(isset($_COOKIE['adTribesID'])) {
-		$adTribesID = $_COOKIE['adTribesID'];
-		$utm_source = ""; // we did not save the utm values in cookies
-		$utm_campaign = "";
-		$utm_medium = "";
-		$utm_term = "";
-		$save_conversion = "yes";
-	// Or conversion is trackes in session
-	} elseif(!empty($_POST['adTribesID'])) {
-		$adTribesID = sanitize_text_field($_POST['adTribesID']);
-		$utm_source = sanitize_text_field($_POST['utm_source']);
-		$utm_campaign = sanitize_text_field($_POST['utm_campaign']);
-		$utm_medium = sanitize_text_field($_POST['utm_medium']);
-		$utm_term = sanitize_text_field($_POST['utm_term']);
-		$save_conversion = "yes";
-	}
-	
-	if($save_conversion == "yes"){
-		list($project_hash, $plugin, $productId) = explode('|', $adTribesID);
-		
-		if((!empty($productId)) AND ($productId > 0)){
-			$conversion_timestamp = date("j-n-Y G:i:s");
-
-			// Insert the conversion data into the MySql conversion table
-			global $wpdb;
-       	 		$charset_collate = $wpdb->get_charset_collate();
-        		$table_name = $wpdb->prefix . 'adtribes_my_conversions';
-
-			// Get the last order ID
-        		$orderId = get_option( 'last_order_id' );
-			$inserted_id = 0;
-			$success = "no";
-
-			// Check if order was not inserted before inserting it.
-			$orderId_check = $wpdb->get_results("SELECT * FROM $table_name WHERE orderId = '".$orderId."'");
-
-			if($wpdb->num_rows == 0){
-				$wpdb->insert($table_name, 
-						array(
-							'conversion_time' => current_time('mysql' , 1),
-							'project_hash' => $project_hash,
-							'utm_source' => $utm_source,
-							'utm_campaign' => $utm_campaign,
-							'utm_medium' => $utm_medium,
-							'utm_term' => $utm_term,
-							'productId' => $productId,
-							'orderId' => $orderId		
-						),
-						array(
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%s',
-							'%d',
-							'%d'
-						)
-				);
-
-				$inserted_id = $wpdb->insert_id;
-			}
-	
-			if($inserted_id > 0){
-				$success = "yes";
-			}
-
-			$data = array (
-				"conversion_saved" => $success,
-			);
-
-		        $data = json_encode($data);
-		        echo $data;
-		        wp_die();
-		}
-	}
-}
-add_action( 'wp_ajax_woosea_track_conversion','woosea_track_conversion');
-add_action( 'wp_ajax_nopriv_woosea_track_conversion','woosea_track_conversion');
-
-/**
- * Set tracking cookies
- */
-function woosea_set_cookie () {
-
-	if(!empty($_POST['adTribesID'])) {
-		$adTribesID = sanitize_text_field($_POST['adTribesID']);
-
-		// Conversion cookie will expire in 30 days from now. Make this configurable later.
-		$number_of_days = 30;
-		$date_of_expiry = time() + 60 * 60 *24 * $number_of_days;
-		setcookie('adTribesID', $adTribesID, $date_of_expiry);
-
-		$success = "yes";
-		$data = array (
-			"cookie_set" => $success,
-		);
-
-	        $data = json_encode($data);
-	        echo $data;
-	        wp_die();
-	}
-}
-add_action( 'wp_ajax_woosea_set_cookie','woosea_set_cookie');
-add_action( 'wp_ajax_nopriv_woosea_set_cookie','woosea_set_cookie');
-
-/**
  * Process next batch for product feed
  */
 function woosea_continue_batch($project_hash){
@@ -4866,102 +4665,4 @@ function woosea_clear(){
  * Add plugin links to Wordpress menu
  */
 add_action( 'admin_menu' , 'woosea_menu_addition' );
-
-/**
- * Register all dashboard metaboxes
-*/
-
-function woosea_blog_widgets() {
-	global $wp_meta_boxes;
-	
-	add_meta_box('woosea_rss_dashboard_widget', __('Latest Product Feed Pro Tutorials', 'rc_mdm'), 'woosea_my_rss_box','dashboard','side','high');
-}
-//add_action('wp_dashboard_setup', 'woosea_blog_widgets');
-
-/**
- * Creates the RSS metabox
- */
-function woosea_feed_interval( $seconds ) {
-	return 172800; // Cache the feed for 2 days
-}
-
-function woosea_my_rss_box() {
-	// Get RSS Feed(s)
-	include_once(ABSPATH . WPINC . '/feed.php');
-        $domain = $_SERVER['HTTP_HOST'];
-	
-	// My feeds list (add your own RSS feeds urls)
-	$my_feeds = array( 
-		'https://www.adtribes.io/feed/' 
-	);
-
-	add_filter( 'wp_feed_cache_transient_lifetime' , 'woosea_feed_interval' );
-	
-	// Loop through Feeds
-	foreach ( $my_feeds as $feed) :
-		// Get a SimplePie feed object from the specified feed source.
-		$rss = fetch_feed( $feed );
-		
-		$maxitems = 0;
-		$rss_items = array();
-		$rss_title = "";
-
-		if (!is_wp_error( $rss ) ) : // Checks that the object is created correctly 
-			// Figure out how many total items there are, and choose a limit 
-		    	$maxitems = $rss->get_item_quantity( 5 ); 
-		
-		    	// Build an array of all the items, starting with element 0 (first element).
-		    	$rss_items = $rss->get_items( 0, $maxitems ); 
-	
-		    	// Get RSS title
-		    	$rss_title = '<a href="'.$rss->get_permalink().'" target="_blank">'.strtoupper( $rss->get_title() ).'</a>'; 
-			//endif;
-	
-			// Display the container
-			echo '<div class="rss-widget">';
-			echo '<strong>'.$rss_title.'</strong>';
-			echo '<hr style="border: 0; background-color: #DFDFDF; height: 1px;">';
-		
-			// Starts items listing within <ul> tag
-			echo '<ul>';
-		
-			// Check items
-			if ( $maxitems == 0 ) {
-				echo '<li>'.__( 'No item', 'rc_mdm').'.</li>';
-			} else {
-				// Loop through each feed item and display each item as a hyperlink.
-				foreach ( $rss_items as $item ) :
-					// Uncomment line below to display non human date
-					//$item_date = $item->get_date( get_option('date_format').' @ '.get_option('time_format') );
-				
-					// Get human date (comment if you want to use non human date)
-					$item_date = human_time_diff( $item->get_date('U'), current_time('timestamp')).' '.__( 'ago', 'rc_mdm' );
-				
-					// Start displaying item content within a <li> tag
-					echo '<li>';
-					// create item link
-					echo '<a href="'.esc_url( $item->get_permalink() ).'?utm_source='.$domain.'&utm_medium=plugin&utm_campaign=dashboard-rss" title="'.$item_date.'" target="_blank">';
-					// Get item title
-					echo esc_html( $item->get_title() );
-					echo '</a>';
-					// Display date
-					echo ' <span class="rss-date">'.$item_date.'</span><br />';
-					// Get item content
-					$content = $item->get_content();
-					// Shorten content
-					$content = wp_html_excerpt($content, 120) . ' [...]';
-					// Display content
-					echo $content;
-					// End <li> tag
-					echo '</li>';
-				endforeach;
-			}
-			// End <ul> tag
-			echo '</ul>';
-			echo '<hr style="border: 0; background-color: #DFDFDF; height: 1px;">';
-			echo '<a href="https://adtribes.io/tutorials/?utm_source='.$domain.'&utm_medium=plugin&utm_campaign=dashboard-rss" target="_blank">More tutorials on our website</a>';
-			echo '</div>';
-		endif;
-	endforeach; // End foreach feed
-}
 ?>

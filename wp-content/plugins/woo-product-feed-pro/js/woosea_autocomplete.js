@@ -5586,6 +5586,7 @@ jQuery(document).ready(function($) {
 	];
 
         jQuery(".dashicons-arrow-down").on('click', function(){
+		var nonce = $('#nonce_category_mapping').val();
 		var className = $(this).attr("class").split(' ')[2];
 		var rowCount = className.split("_")[2];
 		var map_to_category = $(".autocomplete_" + rowCount).val();
@@ -5617,11 +5618,15 @@ jQuery(document).ready(function($) {
 			$('.autocomplete_' + rowCountLoop).addClass("input-field-large-active");
 		});
 
-
 		jQuery.ajax({
                 	method: "POST",
                         url: ajaxurl,
-                       	data: { 'action': 'woosea_add_mass_cat_mapping', 'project_hash': project_hash, 'catMappings': toAjax  }
+                       	data: { 
+				'action': 'woosea_add_mass_cat_mapping', 
+				'security': nonce,
+				'project_hash': project_hash, 
+				'catMappings': toAjax  
+			}
                 })
 			
 		.done(function( data ) {
@@ -5638,6 +5643,7 @@ jQuery(document).ready(function($) {
 	
 
         jQuery(".dashicons-arrow-down-alt").on('click',function(){
+		var nonce = $('#nonce_category_mapping').val();
 		var className = $(this).attr("class").split(' ')[2];
 		var rowCount = className.split("_")[2]
 		var map_to_category = $(".autocomplete_" + rowCount).val();
@@ -5674,7 +5680,12 @@ jQuery(document).ready(function($) {
 				jQuery.ajax({
                 			method: "POST",
                         		url: ajaxurl,
-                       			data: { 'action': 'woosea_add_mass_cat_mapping', 'project_hash': project_hash, 'catMappings': toAjax  }
+                       			data: { 
+						'action': 'woosea_add_mass_cat_mapping', 
+						'security': nonce,
+						'project_hash': project_hash, 
+						'catMappings': toAjax  
+					}
                 		})
 			
 				.done(function( data ) {
@@ -5726,7 +5737,14 @@ jQuery(document).ready(function($) {
 					jQuery.ajax({
                         			method: "POST",
                         			url: ajaxurl,
-                       	 			data: { 'action': 'woosea_add_cat_mapping', 'rowCount': rowCount, 'map_to_category': map_to_category, 'className': className, 'project_hash': project_hash, 'criteria': criteria  }
+                       	 			data: { 
+							'action': 'woosea_add_cat_mapping', 
+							'rowCount': rowCount, 
+							'map_to_category': map_to_category, 
+							'className': className, 
+							'project_hash': project_hash, 
+							'criteria': criteria  
+						}
                 			})
                 		
 					.done(function( data ) {
@@ -5745,7 +5763,14 @@ jQuery(document).ready(function($) {
 				jQuery.ajax({
                         		method: "POST",
                        			url: ajaxurl,
-                       	 		data: { 'action': 'woosea_add_cat_mapping', 'rowCount': rowCount, 'map_to_category': map_to_category, 'className': className, 'project_hash': project_hash, 'criteria': criteria  }
+                       	 		data: { 
+						'action': 'woosea_add_cat_mapping', 
+						'rowCount': rowCount, 
+						'map_to_category': map_to_category, 
+						'className': className, 
+						'project_hash': project_hash, 
+						'criteria': criteria  
+					}
                 		})
 
 			     	.done(function( data ) {

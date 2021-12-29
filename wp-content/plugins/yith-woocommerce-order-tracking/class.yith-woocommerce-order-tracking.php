@@ -509,7 +509,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Order_Tracking' ) ) {
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YITH_YWOT_SLUG );
 		}
 
 		// endregion.

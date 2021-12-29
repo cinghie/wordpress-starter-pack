@@ -10,7 +10,7 @@
 module.exports = {
     // mode: 'jit',
     purge: ['src/**/*'],
-    important: '.extendify-sdk',
+    important: 'div.extendify-sdk',
     darkMode: false,
     theme: {
         screens: {
@@ -25,12 +25,26 @@ module.exports = {
             '3xl': '1600px',
             '4xl': '1920px',
         },
+        order: {},
         // Extend will add on to TW config, where the above will override and replace
         extend: {
+            boxShadow: {
+                'inner-sm':
+                    'inset 0 0 0 1px rgba(0,0,0,0.1),0 3px 15px -3px rgba(0,0,0,0.025),0 0 1px rgba(0,0,0,.02)',
+                'inner-md':
+                    'inset 0 0 0 1px rgba(0,0,0,0.2),0 3px 15px -3px rgba(0,0,0,0.025),0 0 1px rgba(0,0,0,.02)',
+                modal: ' 0 0 0 1px rgba(0,0,0,0.1),0 3px 15px -3px rgba(0,0,0,0.035),0 0 1px rgba(0,0,0,.05)',
+            },
+            maxWidth: {
+                '8xl': '98rem',
+            },
             minWidth: {
                 md2: '960px',
+                sm: '7rem',
             },
             minHeight: {
+                20: '5rem',
+                40: '10rem',
                 60: '15rem',
             },
             fontSize: {
@@ -40,9 +54,14 @@ module.exports = {
                 extendify: {
                     lightest: '#f8fffe',
                     light: '#e7f8f5',
-                    main: '#008160',
+                    main: '#0B4A43',
+                    'main-dark': '#05312C',
                     link: '#299875',
                     bright: '#30a850',
+                    alert: '#841010',
+                    gray: '#5F5F5F',
+                    secondary: '#CBC3F5',
+                    black: '#1e1e1e',
                 },
                 'wp-theme': {
                     // It's a Tailwind convention for the base color to use 500 then build off that
@@ -53,12 +72,12 @@ module.exports = {
                 wp: {
                     alert: {
                         yellow: '#f0b849',
-                        red:    '#cc1818',
-                        green:  '#4ab866',
+                        red: '#cc1818',
+                        green: '#4ab866',
                     },
                 },
                 gray: {
-                    50:  '#fafafa',
+                    50: '#fafafa',
                     100: '#f0f0f0',
                     150: '#eaeaea', // This wasn't a variable but I saw it on buttons
                     200: '#e0e0e0', // Used sparingly for light borders.
@@ -71,8 +90,14 @@ module.exports = {
                 },
             },
             zIndex: {
-                high: '1000000',
+                high: '99999',
                 max: '2147483647', // Highest the browser allows - don't block WP re-auth modal though
+            },
+            lineHeight: {
+                'extra-tight': '0.5',
+            },
+            ringWidth: {
+                wp: 'var(--wp-admin-border-width-focus)',
             },
         },
     },
@@ -86,6 +111,7 @@ module.exports = {
     plugins: [],
     corePlugins: {
         preflight: false,
+        animation: false,
         container: false,
     },
 }

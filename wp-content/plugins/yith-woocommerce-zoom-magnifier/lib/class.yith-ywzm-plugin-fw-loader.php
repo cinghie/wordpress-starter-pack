@@ -149,6 +149,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 				'admin-tabs'       => $admin_tabs,
 				'class'            => yith_set_wrapper_class(),
 				'options-path'     => YITH_YWZM_DIR . '/plugin-options',
+				'plugin_slug'      => YITH_YWZM_SLUG,
 			);
 
 			/* === Fixed: not updated theme  === */
@@ -217,7 +218,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
-			return defined( 'YITH_REFER_ID' ) ? $this->_premium_landing . '?refer_id=' . YITH_REFER_ID : $this->_premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->_premium_landing, YITH_YWZM_SLUG );
 		}
 
 		// region    ****    licence related methods ****.

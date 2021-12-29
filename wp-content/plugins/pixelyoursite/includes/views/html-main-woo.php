@@ -264,7 +264,7 @@ e&utm_campaign=pro-feature' ); ?>
         <div class="card-header">
             Pinterest Tag ID setting
             <?php renderProBadge( 'https://www.pixelyoursite.com/pinterest-tag?utm_source=pys-free-plugin&utm_medium=pinterest-badge&utm_campaign=requiere-free-add-on',
-                "Requires free add-on"); ?>
+                "Requires paid add-on"); ?>
         </div>
     </div>
 <?php endif; ?>

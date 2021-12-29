@@ -1,41 +1,63 @@
 import create from 'zustand'
-import { templates as config } from '../config'
-import { createBlocksFromInnerBlocksTemplate } from '../util/blocks'
+import { useGlobalStore } from './GlobalState'
+import { useUserStore } from './User'
+import { useTaxonomyStore } from './Taxonomies'
 
-const defaultCategoryForType = (type, tax) => type === 'pattern' && tax === 'tax_categories'
-    ? 'Default'
-    : ''
+const defaultCategoryForType = (tax) =>
+    tax === 'tax_categories'
+        ? 'Unknown'
+        : useTaxonomyStore.getState()?.taxonomies[tax][0]?.term ?? undefined
 
 export const useTemplatesStore = create((set, get) => ({
     templates: [],
+    skipNextFetch: false,
     fetchToken: null,
-    activeTemplate: {},
-    activeTemplateBlocks: {},
     taxonomyDefaultState: {},
+    nextPage: '',
     searchParams: {
         taxonomies: {},
-        type: config.defaultType,
-        search: '',
+        type: 'pattern',
     },
-    // The offset is returned from Airtable.
-    // It's removed when search params are updated
-    // Or otherwise updated on each request
-    nextPage: '',
-    removeTemplates: () => set({
-        nextPage: '',
-        templates: [],
-    }),
-    appendTemplates: (templates) => set({
-        templates: [...new Map([...get().templates, ...templates].map(item => [item.id, item])).values()],
-    }),
-    setupDefaultTaxonomies: (taxonomies) => {
-        // This will transform ['tax_categories', 'tax_another'] to {tax_categories: 'Default', tax_another: ''}
-        const defaultState = (tax) => defaultCategoryForType(get().searchParams.type, tax)
-        const taxonomyDefaultState = Object.keys(taxonomies).reduce((theObject, current) => (theObject[current] = defaultState(current), theObject), {})
-        const tax = {}
-        tax.taxonomies = Object.assign(
-            {}, taxonomyDefaultState, get().searchParams.taxonomies,
+    initTemplateData() {
+        set({
+            activeTemplate: {},
+        })
+        get().setupDefaultTaxonomies()
+        get().updateType(useGlobalStore.getState().currentType)
+    },
+    appendTemplates: (templates) =>
+        set({
+            templates: [
+                ...new Map(
+                    [...get().templates, ...templates].map((item) => [
+                        item.id,
+                        item,
+                    ]),
+                ).values(),
+            ],
+        }),
+    setupDefaultTaxonomies: () => {
+        const taxonomies = useTaxonomyStore.getState().taxonomies
+        let taxonomyDefaultState = Object.entries(taxonomies).reduce(
+            (state, current) => (
+                (state[current[0]] = defaultCategoryForType(current[0])), state
+            ),
+            {},
         )
+        const tax = {}
+
+        taxonomyDefaultState = Object.assign(
+            {},
+            taxonomyDefaultState,
+
+            // Override with the user's preferred taxonomies - Currently only supported with tax_categories
+            useUserStore.getState().preferredOptions?.taxonomies ?? {},
+
+            // Override with the global state
+            useGlobalStore.getState()?.currentTaxonomies ?? {},
+        )
+
+        tax.taxonomies = Object.assign({}, taxonomyDefaultState)
 
         set({
             taxonomyDefaultState: taxonomyDefaultState,
@@ -44,57 +66,49 @@ export const useTemplatesStore = create((set, get) => ({
             },
         })
     },
-    setActive: (template) => {
-        set({
-            activeTemplate: template,
-        })
-
-        // This will convert the template to blocks for quick(er) injection
-        if (template?.fields?.code) {
-            const { parse } = window.wp.blocks
-            set({
-                activeTemplateBlocks: createBlocksFromInnerBlocksTemplate(parse(template.fields.code)),
-            })
-        }
-    },
-    resetTaxonomies: () => {
-        // Special default state for tax_categories
-        const taxCatException = {
-            ['tax_categories']: get().searchParams.type === 'pattern'
-                ? 'Default'
-                : '',
-        }
-        get().updateSearchParams({
-            taxonomies: Object.assign(get().taxonomyDefaultState, taxCatException),
-        })
-    },
     updateTaxonomies: (params) => {
-        // Special case for when the user isn't searching defaults. This way it mimics "all"
-        // if (!Object.values(params).includes('Default') && !Object.keys(params).includes('tax_categories')) {
-        //     console.log(get().searchParams.type,get().searchParams.taxonomies.tax_categories === 'Default')
-        //     if (get().searchParams.type === 'pattern' && get().searchParams.taxonomies.tax_categories === 'Default') {
-        //         params.tax_categories = ''
-        //     }
-        // }
-
-        const tax = {}
-        tax.taxonomies = Object.assign(
-            {}, get().searchParams.taxonomies, params,
+        const data = {}
+        data.taxonomies = Object.assign(
+            {},
+            get().searchParams.taxonomies,
+            params,
         )
-        get().updateSearchParams(tax)
+        if (data?.taxonomies?.tax_categories) {
+            // This is what the user "prefers", which may be used outside the library
+            // which is persisted to the database, where as the global library state is in local storage
+            useUserStore
+                .getState()
+                .updatePreferredOption(
+                    'tax_categories',
+                    data?.taxonomies?.tax_categories,
+                )
+        }
+        useGlobalStore.getState().updateCurrentTaxonomies(data?.taxonomies)
+        get().updateSearchParams(data)
     },
-    // TODO: Something is calling this too often
+    updateType(type) {
+        useGlobalStore.getState().updateCurrentType(type)
+        get().updateSearchParams({ type })
+    },
     updateSearchParams: (params) => {
         // If taxonomies are set to {}, lets use the default
         if (params?.taxonomies && !Object.keys(params.taxonomies).length) {
             params.taxonomies = get().taxonomyDefaultState
         }
+
+        const searchParams = Object.assign({}, get().searchParams, params)
+
+        // If the params are the same then don't update
+        if (
+            JSON.stringify(searchParams) === JSON.stringify(get().searchParams)
+        ) {
+            return
+        }
+
         set({
             templates: [],
             nextPage: '',
-            searchParams: {
-                ...Object.assign(get().searchParams, params),
-            },
+            searchParams,
         })
     },
 }))

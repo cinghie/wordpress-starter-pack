@@ -81,6 +81,7 @@ jQuery(function($) {
 
 	//$('.checkbox-field').change(function(index, obj){
 	$('.checkbox-field').on('change', function(index, obj){
+                var csrfToken = $('#csrfToken').val();
 
 		if(get_value == 'woosea_manage_settings' && tab_value == 'woosea_manage_attributes'){
 			var attribute_value = $(this).val();
@@ -90,16 +91,26 @@ jQuery(function($) {
 	                jQuery.ajax({
  		               	method: "POST",
                	         	url: ajaxurl,
-                        	data: { 'action': 'woosea_add_attributes', 'attribute_name': attribute_name, 'attribute_value': attribute_value, 'active': attribute_status }
+                        	data: { 
+					'action': 'woosea_add_attributes', 
+					'security': csfrToken,
+					'attribute_name': attribute_name, 
+					'attribute_value': attribute_value, 
+					'active': attribute_status 
+				}
                 	})
 		} else if (get_value == 'woosea_manage_feed') {
-    			project_hash = $(this).val();
+			project_hash = $(this).val();
 			project_status = $(this).prop("checked");
 
 	                jQuery.ajax({
  		               	method: "POST",
                	         	url: ajaxurl,
-                        	data: { 'action': 'woosea_project_status', 'project_hash': project_hash, 'active': project_status }
+                        	data: { 
+					'action': 'woosea_project_status', 
+					'project_hash': project_hash, 
+					'active': project_status 
+				}
                 	})
 
          		$("table tbody").find('input[name="manage_record"]').each(function(){
@@ -346,7 +357,7 @@ jQuery(function($) {
 				}
                 	})
 			.done(function( data ) {
-				$('#facebook_pixel').after('<tr id="facebook_pixel_id"><td colspan="2"><span>Insert Facebook pixel ID:</span>&nbsp;<input type="text" class="input-field-medium" id="fb_pixel_id" name="fb_pixel_id">&nbsp;<input type="button" id="save_facebook_pixel_id" value="Save"></td></tr>');	
+				$('#facebook_pixel').after('<tr id="facebook_pixel_id"><td colspan="2"><span>Insert Facebook pixel ID:</span>&nbsp;<input type=\"hidden\" name=\"nonce_facebook_pixel_id\" id=\"nonce_facebook_pixel_id\" value=\"'+ nonce +'\"><input type="text" class="input-field-medium" id="fb_pixel_id" name="fb_pixel_id">&nbsp;<input type="button" id="save_facebook_pixel_id" value="Save"></td></tr>');	
 			})
                 	.fail(function( data ) {
                         	console.log('Failed AJAX Call :( /// Return Data: ' + data);
@@ -388,7 +399,7 @@ jQuery(function($) {
 				}
                 	})
 			.done(function( data ) {
-				$('#facebook_capi').after('<tr id="facebook_capi_token"><td colspan="2"><span>Insert your Facebook Conversion API token:</span><br/><br/><input type="textarea" class="textarea-field" id="fb_capi_token" name="fb_capi_token"><br/><br/><input type="button" id="save_facebook_capi_token" value="Save"></td></tr>');	
+				$('#facebook_capi').after('<tr id="facebook_capi_token"><td colspan="2"><span>Insert your Facebook Conversion API token:</span><br/><br/><input type=\"hidden\" name=\"nonce_facebook_capi_id\" id=\"nonce_facebook_capi_id\" value=\"' + nonce +'\"><input type="textarea" class="textarea-field" id="fb_capi_token" name="fb_capi_token"><br/><br/><input type="button" id="save_facebook_capi_token" value="Save"></td></tr>');	
 			})
                 	.fail(function( data ) {
                         	console.log('Failed AJAX Call :( /// Return Data: ' + data);
@@ -427,7 +438,7 @@ jQuery(function($) {
                         		data: { 'action': 'woosea_add_batch', 'status': "on" }
                 		})
 				.done(function( data ) {
-					$('#batch').after('<tr id="woosea_batch_size"><td colspan="2"><span>Insert batch size:</span>&nbsp;<input type="text" class="input-field-medium" id="batch_size" name="batch_size">&nbsp;<input type="submit" id="save_batch_size" value="Save"></td></tr>');	
+					$('#batch').after('<tr id="woosea_batch_size"><td colspan="2"><span>Insert batch size:</span>&nbsp;<input type=\"hidden\" name=\"nonce_batch\" id=\"nonce_batch\" value=\"'+ nonce +'\"><input type="text" class="input-field-medium" id="batch_size" name="batch_size">&nbsp;<input type="submit" id="save_batch_size" value="Save"></td></tr>');	
 				})
                 		.fail(function( data ) {
                         		console.log('Failed AJAX Call :( /// Return Data: ' + data);
@@ -449,9 +460,10 @@ jQuery(function($) {
 		}
 	})	
 
-        // Save Google Dynamic Remarketing pixel ID
+        // Save Batch Size
         jQuery("#save_batch_size").on('click',function(){
-                var batch_size = $('#batch_size').val();
+		var nonce = $('#nonce_batch').val();
+		var batch_size = $('#batch_size').val();
 	        var re = /^[0-9]*$/;
                 
 		var woosea_valid_batch_size=re.test(batch_size);
@@ -468,7 +480,11 @@ jQuery(function($) {
                         jQuery.ajax({
                                 method: "POST",
                                 url: ajaxurl,
-                                data: { 'action': 'woosea_save_batch_size', 'batch_size': batch_size }
+                                data: { 
+					'action': 'woosea_save_batch_size', 
+					'security': nonce,
+					'batch_size': batch_size 
+				}
                         })
                 }	
 	})
@@ -490,7 +506,7 @@ jQuery(function($) {
 				}
                 	})
 			.done(function( data ) {
-				$('#remarketing').after('<tr id="adwords_conversion_id"><td colspan="2"><span>Insert your Dynamic Remarketing Conversion tracking ID:</span>&nbsp;<input type="text" class="input-field-medium" id="adwords_conv_id" name="adwords_conv_id">&nbsp;<input type="submit" id="save_conversion_id" value="Save"></td></tr>');	
+				$('#remarketing').after('<tr id="adwords_conversion_id"><td colspan="2"><span>Insert your Dynamic Remarketing Conversion tracking ID:</span>&nbsp;<input type=\"hidden\" name=\"nonce_adwords_conversion_id\" id=\"nonce_adwords_conversion_id\" value=\"'+ nonce +'\"><input type="text" class="input-field-medium" id="adwords_conv_id" name="adwords_conv_id">&nbsp;<input type="submit" id="save_conversion_id" value="Save"></td></tr>');	
 			})
                 	.fail(function( data ) {
                         	console.log('Failed AJAX Call :( /// Return Data: ' + data);
@@ -517,7 +533,8 @@ jQuery(function($) {
 
         // Save Google Dynamic Remarketing pixel ID
         jQuery("#save_conversion_id").on('click',function(){
-                var adwords_conversion_id = $('#adwords_conv_id').val();
+                var nonce = $('#nonce_adwords_conversion_id').val();
+		var adwords_conversion_id = $('#adwords_conv_id').val();
 	        var re = /^[0-9,-]*$/;
                 
 		var woosea_valid_conversion_id=re.test(adwords_conversion_id);
@@ -533,15 +550,20 @@ jQuery(function($) {
 			// Now we need to save the conversion ID so we can use it in the dynamic remarketing JS
                         jQuery.ajax({
                                 method: "POST",
-                                url: ajaxurl,
-                                data: { 'action': 'woosea_save_adwords_conversion_id', 'adwords_conversion_id': adwords_conversion_id }
+				url: ajaxurl,
+                                data: { 
+					'action': 'woosea_save_adwords_conversion_id', 
+					'security': nonce,
+					'adwords_conversion_id': adwords_conversion_id 
+				}
                         })
                 }	
 	})
 
         // Save Facebook Pixel ID
         jQuery("#save_facebook_pixel_id").on('click',function(){
-	        var facebook_pixel_id = $('#fb_pixel_id').val();
+	        var nonce = $('#nonce_facebook_pixel_id').val();
+		var facebook_pixel_id = $('#fb_pixel_id').val();
 	        var re = /^[0-9]*$/;
 		var woosea_valid_facebook_pixel_id=re.test(facebook_pixel_id);
 
@@ -558,14 +580,19 @@ jQuery(function($) {
                         jQuery.ajax({
                                 method: "POST",
                                 url: ajaxurl,
-                                data: { 'action': 'woosea_save_facebook_pixel_id', 'facebook_pixel_id': facebook_pixel_id }
+                                data: { 
+					'action': 'woosea_save_facebook_pixel_id', 
+					'security': nonce,
+					'facebook_pixel_id': facebook_pixel_id 
+				}
                         })
                 }	
 	})
 
         // Save Facebook Conversion API token
         jQuery("#save_facebook_capi_token").on('click',function(){
-	        var facebook_capi_token = $('#fb_capi_token').val();
+	        var nonce = $('#nonce_facebook_capi_id').val();
+		var facebook_capi_token = $('#fb_capi_token').val();
 	        var re = /^[0-9A-Za-z]*$/;
 		var woosea_valid_facebook_capi_token=re.test(facebook_capi_token);
 
@@ -582,7 +609,11 @@ jQuery(function($) {
                         jQuery.ajax({
                                 method: "POST",
                                 url: ajaxurl,
-                                data: { 'action': 'woosea_save_facebook_capi_token', 'facebook_capi_token': facebook_capi_token }
+                                data: { 
+					'action': 'woosea_save_facebook_capi_token', 
+					'security': nonce,
+					'facebook_capi_token': facebook_capi_token 
+				}
                         })
                 }	
 	})
@@ -739,7 +770,6 @@ jQuery(function($) {
 						$(".woo-product-feed-pro-blink_off_"+hash).text(function () {
                                         		$(this).addClass('woo-product-feed-pro-blink_me');
 							var status = $(".woo-product-feed-pro-blink_off_"+hash).text();
-							console.log("Set interval on manual refresh");
 							myInterval = setInterval(woosea_check_perc,5000);
 							if(status == "ready"){
 								return $(this).text().replace("ready", "processing (0%)");
@@ -763,9 +793,6 @@ jQuery(function($) {
 
 		$("table tbody").find('input[name="manage_record"]').each(function(){
        	        	var hash = this.value;
-
-			console.log("Doing a new check again because interval is set");
-
 			jQuery.ajax({
 				method: "POST",
                       	 	url: ajaxurl,

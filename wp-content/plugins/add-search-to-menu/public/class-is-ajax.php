@@ -55,6 +55,8 @@ class IS_Ajax {
         $is_settings = $search_form->prop( '_is_settings' );
         $is_includes = $search_form->prop( '_is_includes' );
         $posts_per_page = isset( $is_settings['posts_per_page'] ) ? $is_settings['posts_per_page'] : 10;
+		$is_index_search = $search_form->is_index_search();
+		$index_empty = IS_Index_Model::is_index_empty();
 
 		$defaults = array(
 			'show_description'           => 0,
@@ -91,12 +93,12 @@ class IS_Ajax {
 
 		$template = locate_template( 'is-ajax-results.php' );
 
-		if ( ! $template ) {
-			$template = 'partials/is-ajax-results.php';
+		if ( $template ) {
+			require_once $template;
+		} else {
+			require_once IS_PLUGIN_DIR . 'public/partials/is-ajax-results.php';
 		}
-
-		include_once( $template );
-		
+	
 		wp_die();
 	}
 
@@ -155,7 +157,7 @@ class IS_Ajax {
 		if ( $is_markup ) {
 			do_action( 'is_term_title_markup', $taxonomy, $search_term, $term_title, $wrapper_class, $tags );
 		} else if( $tags ) { ?>
-			<div class="<?php echo $wrapper_class; ?>">
+			<div class="<?php esc_attr_e( $wrapper_class ); ?>">
 			<?php foreach ($tags as $key => $tag) { ?>
 				<div data-id="<?php echo esc_attr( $tag['term_id'] ); ?>" class="is-ajax-search-post">
 					<span class="is-ajax-term-label"><?php echo esc_html( $term_title ); ?></span>
@@ -195,9 +197,9 @@ class IS_Ajax {
 				}
 				$details = ob_get_clean();
 				if ( $details  ) {?>
-					<div class="<?php echo $wrapper_class; ?>">
+					<div class="<?php esc_attr_e( $wrapper_class ); ?>">
 				<?php
-					echo $details;
+					echo wp_kses_post( $details );
 				?>
 				</div>
 			<?php }
@@ -389,7 +391,7 @@ class IS_Ajax {
 		} else if ( isset( $field['show_image'] ) && $field['show_image'] ) { ?>
                     <div class="left-section">
                         <div class="thumbnail">
-                            <a href="<?php echo get_the_permalink( $temp_id ); ?>"><?php echo $image; ?></a>
+                            <a href="<?php echo get_the_permalink( $temp_id ); ?>"><?php echo wp_kses_post( $image ); ?></a>
                         </div>
                     </div>
 		<?php }
@@ -414,7 +416,7 @@ class IS_Ajax {
                 <div class="is-title">
                         <a href="<?php echo get_the_permalink( $post->ID ); ?>">
                                 <?php if( $product && isset( $field['show_featured_icon'] ) && $field['show_featured_icon'] && $product->is_featured() ) { ?>
-                                <svg class="is-featured-icon" focusable="false" aria-label="<?php _e( "Featured Icon", "ivory-search" ); ?>" version="1.1" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <svg class="is-featured-icon" focusable="false" aria-label="<?php _e( "Featured Icon", "add-search-to-menu" ); ?>" version="1.1" viewBox="0 0 20 21" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g fill-rule="evenodd" stroke="none" stroke-width="1"><g transform="translate(-296.000000, -422.000000)"><g transform="translate(296.000000, 422.500000)"><path d="M10,15.273 L16.18,19 L14.545,11.971 L20,7.244 L12.809,6.627 L10,0 L7.191,6.627 L0,7.244 L5.455,11.971 L3.82,19 L10,15.273 Z"></path></g></g></g>
                                 </svg>
                                 <?php } ?>
@@ -468,13 +470,13 @@ class IS_Ajax {
 				if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
 				    $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
 				}
-				$time_string = sprintf( $time_string,
+				printf( $time_string,
 				    esc_attr( get_the_date( 'c', $post->ID ) ),
 				    esc_html( get_the_date( '', $post->ID ) ),
 				    esc_attr( get_the_modified_date( 'c', $post->ID ) ),
 				    esc_html( get_the_modified_date( '', $post->ID ) )
 				);
-				echo $time_string; ?>
+				 ?>
 			</span>
 		</span>
 		<?php }
@@ -499,7 +501,7 @@ class IS_Ajax {
                 <span class="is-meta-tag">
                     <?php echo sprintf( '<i>%s</i>', __( 'Tagged with:', 'add-search-to-menu' ) ); ?>
                     <span class="is-tags-links">
-                    <?php foreach ( $terms as $key => $term ) { if ( $key ) { echo ', '; }?><a href="<?php echo get_term_link( $term->term_id, $post->post_type.'_tag' ); ?> " rel="tag"><?php echo $term->name; ?></a><?php } ?>
+                    <?php foreach ( $terms as $key => $term ) { if ( $key ) { echo ', '; }?><a href="<?php echo get_term_link( $term->term_id, $post->post_type.'_tag' ); ?> " rel="tag"><?php esc_html_e( $term->name ); ?></a><?php } ?>
                     </span>
                 </span>
                 <?php }
@@ -527,7 +529,7 @@ class IS_Ajax {
                 <span class="is-meta-category">
                     <?php echo sprintf( '<i>%s</i>', __( 'Categories:', 'add-search-to-menu' ) ); ?>
                     <span class="is-cat-links">
-                    <?php foreach ( $terms as $key => $term ) { if ( $key ) { echo ', '; } ?><a href="<?php echo get_term_link( $term->term_id, $tax_name ); ?> " rel="tag"><?php echo $term->name; ?></a><?php } ?>
+                    <?php foreach ( $terms as $key => $term ) { if ( $key ) { echo ', '; } ?><a href="<?php echo get_term_link( $term->term_id, $tax_name ); ?> " rel="tag"><?php esc_html_e( $term->name ); ?></a><?php } ?>
                     </span>
                 </span>
                 <?php }
@@ -575,7 +577,7 @@ class IS_Ajax {
     		$content = wp_trim_words( $content, $excerpt_length, '...' );
     		?>
     		<div class="is-ajax-result-description">
-    			<?php echo $content; ?>
+    			<?php echo wp_kses_post( $content ); ?>
     		</div>
     		<?php
 		}
@@ -599,7 +601,7 @@ class IS_Ajax {
 			if( isset( $field['show_stock_status'] ) && $field['show_stock_status'] ) {
 				$stock_status = ( $product->is_in_stock() ) ? 'in-stock' : 'out-of-stock';
 				$stock_status_text = ( 'in-stock' == $stock_status ) ? __( 'In stock', 'add-search-to-menu' ) : __( 'Out of stock', 'add-search-to-menu' );
-				echo '<span class="stock-status is-'.$stock_status.'">'.$stock_status_text.'</span>';
+				echo '<span class="stock-status is-'. esc_attr( $stock_status ).'">'. esc_html($stock_status_text).'</span>';
 			}
 		}
 	}
@@ -646,7 +648,7 @@ class IS_Ajax {
 					if ( $product->is_in_stock() || false === $hide_price_out_of_stock ) {?>
                                         <span class="is-prices">
 					<?php
-						echo $product->get_price_html();
+						echo wp_kses_post( $product->get_price_html() );
                                                 ?>
                                         </span>
                                         <?php

@@ -19,13 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<label for="attribute_public"><?php echo esc_html__( 'Description', 'yith-woocommerce-color-label-variations' ); ?></label>
 		</th>
 		<td>
-			<textarea name="attribute_description" id="attribute_description">
-			<?php
+			<textarea name="attribute_description" id="attribute_description"><?php
 			if ( $att_description ) {
 				echo wp_kses_post( $att_description );
 			}
-			?>
-			</textarea>
+			?></textarea>
 			<p class="description"><?php echo esc_html__( 'Description for product attributes.', 'yith-woocommerce-color-label-variations' ); ?></p>
 		</td>
 	</tr>
@@ -34,13 +32,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="form-field">
 		<label for="attribute_description"><?php echo esc_html__( 'Description', 'yith-woocommerce-color-label-variations' ); ?></label>
-		<textarea name="attribute_description" id="attribute_description">
-		<?php
+		<textarea name="attribute_description" id="attribute_description"><?php
 		if ( $att_description ) {
 			echo wp_kses_post( $att_description );
 		}
-		?>
-		</textarea>
+		?></textarea>
 		<p class="description"><?php echo esc_html__( 'Description for product attributes.', 'yith-woocommerce-color-label-variations' ); ?></p>
 	</div>
 

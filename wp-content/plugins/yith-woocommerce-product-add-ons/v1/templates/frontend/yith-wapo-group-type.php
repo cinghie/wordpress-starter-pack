@@ -95,7 +95,7 @@ if ( ! ( isset( $options['label'] ) ) || count( $options['label'] ) <= 0 ) {
 
 	<?php if ( $description && 'yes' === $yith_wapo_frontend->option_show_description_type ) : ?>
 
-		<div class="ywapo_product_option_description"><?php echo wp_kses_post( wpautop( wptexturize( $description ) ) ); ?></div>
+		<div class="ywapo_product_option_description"><?php echo wptexturize( $description ); // phpcs:ignore ?></div>
 
 	<?php endif; ?>
 

@@ -4,13 +4,13 @@
  * Plugin Name: Checkout Fields Manager for WooCommerce
  * Plugin URI:  https://quadlayers.com/portfolio/woocommerce-checkout-manager/
  * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     5.4.9
+ * Version:     5.5.3
  * Author:      QuadLayers
  * Author URI:  https://quadlayers.com
  * License: GPLv3
  * Text Domain: woocommerce-checkout-manager
  * WC requires at least: 3.1.0
- * WC tested up to: 5.5
+ * WC tested up to: 6.0
  */
 if (!defined('ABSPATH')) {
   die('-1');
@@ -20,7 +20,7 @@ if (!defined('WOOCCM_PLUGIN_NAME')) {
   define('WOOCCM_PLUGIN_NAME', 'Checkout Fields Manager for WooCommerce');
 }
 if (!defined('WOOCCM_PLUGIN_VERSION')) {
-  define('WOOCCM_PLUGIN_VERSION', '5.4.9');
+  define('WOOCCM_PLUGIN_VERSION', '5.5.3');
 }
 if (!defined('WOOCCM_PLUGIN_FILE')) {
   define('WOOCCM_PLUGIN_FILE', __FILE__);

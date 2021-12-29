@@ -21,10 +21,14 @@ $attributes_obj = new WooSEA_Attributes;
 $attributes = $attributes_obj->get_product_attributes();
 
 /**
+ * Update or get project configuration 
+ */
+$nonce = wp_create_nonce( 'woosea_ajax_nonce' );
+
+/**
  * Get some channel configs for default utm_source
  * Update project configuration 
  */
-
 if (array_key_exists('project_hash', $_GET)){
         $project = WooSEA_Update_Project::get_project_data(sanitize_text_field($_GET['project_hash']));
 	$channel_data = WooSEA_Update_Project::get_channel_data(sanitize_text_field($_GET['channel_hash']));
@@ -52,7 +56,8 @@ if (array_key_exists('project_hash', $_GET)){
                         	</div>
 	
 				<form id="googleanalytics" method="post">
-		
+				<input name="nonce_google_mapping" id="nonce_google_mapping" class="nonce_google_mapping" value="<?php print "$nonce";?>" type="hidden">
+
 				<table class="woo-product-feed-pro-table">
 				<!--
 				<tr>

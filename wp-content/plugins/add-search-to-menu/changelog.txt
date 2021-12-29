@@ -1,3 +1,37 @@
+= 4.7.1 =
+* Improved - Code quality to adhere to WordPress development standards and improve safety/security.
+
+= 4.7 =
+* Fixed - IvoryAjaxVars is not defined error when JS file loading is disabled.
+* Fixed - Security issue.
+
+= 4.6.6 =
+* Fixed - JavaScript error "Invalid value used as weak map key" in the AJAX search.
+
+= 4.6.5 =
+* Improved - Implemented simple scroll bar for AJAX search results.
+
+= 4.6.4 =
+* Fixed - AJAX was not working since last plugin version.
+
+= 4.6.3 =
+* Fixed - Notice displayed on creating new search form and in the plugin settings.
+* Fixed - Full width menu search opening and closing issue.
+
+= 4.6.2 =
+* Fixed - Undefined tab index notice in admin area.
+
+= 4.6.1 =
+* Fixed - Broken AJAX search results scrollbar.
+* Fixed – Security issue in plugin settings (Thanks to Jinson Varghese Behanan from Astra Security).
+* Improved - Do not search special character stopwords.
+
+= 4.6 =
+* Fixed - AJAX search results was not scrolling on search form scroll.
+* Fixed - Stopwords was not excluding from search.
+* Fixed - Menu search icon accessibility issue.
+* Updated - Freemius SDK to 2.4.2
+
 = 4.5.11 =
 * Fixed - Empty button accessibility issue.
 

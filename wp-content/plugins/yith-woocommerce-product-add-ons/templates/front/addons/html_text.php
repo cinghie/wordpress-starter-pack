@@ -11,6 +11,10 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 $text_content = $addon->get_setting( 'text_content' );
 
+if ( YITH_WAPO::$is_wpml_installed ) {
+	$text_content = YITH_WAPO_WPML::string_translate( $text_content );
+}
+
 ?>
 
 <p>

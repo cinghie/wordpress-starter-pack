@@ -4,6 +4,9 @@ class IS_Search_Form {
 
 	const post_type = 'is_search_form';
 
+	const S_ENG_WP = 'wp';
+	const S_ENG_INDEX = 'index';
+
 	private static $found_items = 0;
 	private static $current = null;
 
@@ -43,6 +46,39 @@ class IS_Search_Form {
 		}
 
 		return self::$current = new self( $post );
+	}
+
+	/**
+	 * Load IS Search Form from request.
+	 *
+	 * @since 5.0
+	 *
+	 * @param int $is_id Optional. The search form ID to load.
+	 * @return self The retrieved object.
+	 */
+	public static function load_from_request() {
+		$search_form = null;
+		$is_id = null;
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			$is_id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : null;
+		} else {
+			$is_id = absint( get_query_var( 'id' ) );
+		}
+
+		$opt = Ivory_Search::load_options();
+		if ( empty( $is_id ) && empty( $opt['default_search'] ) ) {
+			$page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
+			if ( ! empty( $page ) ) {
+				$is_id = $page->ID;
+			}
+		}
+
+		if ( ! empty( $is_id ) && is_numeric( $is_id ) ) {
+			$search_form = self::get_instance( $is_id );
+		}
+
+		return $search_form;
 	}
 
 	public static function count() {
@@ -160,6 +196,20 @@ class IS_Search_Form {
 		return isset( $props[$name] ) ? $props[$name] : null;
 	}
 
+	/**
+	 * Get IS Search Form option.
+	 *
+	 * @since 5.0
+	 * @param string $group The option group.
+	 * @param string $name The option name.
+	 * @param mixed  $default The default value.
+	 * @return mixed The option value.
+	 */
+	public function group_prop( $group, $name, $default = null ) {
+		$props = $this->get_properties();
+		return isset( $props[$group][$name] ) ? $props[$group][$name] : $default;
+	}
+
 	public function get_properties() {
 		$properties = (array) $this->properties;
 
@@ -227,14 +277,21 @@ class IS_Search_Form {
 		}
 	}
 
-	// Return true if this form is the same one as currently POSTed.
-	public function is_posted() {
+	/**
+	 * Verifies if index search engine is selected.
+	 * 
+	 * @since 5.0
+	 * @return bool True if it is index search engine.
+	 */
+	public function is_index_search() {
+		$index_search = false;
 
-		if ( empty( $_POST['_is_unit_tag'] ) ) {
-			return false;
+		$engine = $this->group_prop( '_is_settings', 'search_engine', self::S_ENG_WP );
+		if ( self::S_ENG_INDEX == $engine ) {
+			$index_search = true;
 		}
 
-		return $this->unit_tag == $_POST['_is_unit_tag'];
+		return $index_search;
 	}
 
 	/**
@@ -245,12 +302,16 @@ class IS_Search_Form {
 	 * @param  int $post_id     Post ID.
 	 * @return mixed
 	 */
-	function get_css( $post_id ) {
+	function display_css( $post_id ) {
 
 		$settings = get_option( 'is_search_' . $post_id );
 		$search_form = IS_Search_Form::get_instance( $post_id );
-		$css = '';
+		$css = false;
 
+		if ( ! empty( $settings ) && ( ! empty( preg_grep('/^text-box/', array_keys($settings)) ) || ! empty( preg_grep('/^submit-button/', array_keys($settings)) ) || ! empty( preg_grep('/^search-results/', array_keys($settings)) ) ) ) {
+			$css = true; ?>
+			<style type="text/css">
+		<?php }
 		// AJAX customizer fields.
 		$_ajax = $search_form->prop( '_is_ajax' );
 		if ( isset( $_ajax['enable_ajax'] ) ) {
@@ -261,7 +322,7 @@ class IS_Search_Form {
 			$suggestion_box_text_color     = isset( $settings['search-results-text'] ) ? $settings['search-results-text'] : '';
 			$suggestion_box_link_color     = isset( $settings['search-results-link'] ) ? $settings['search-results-link'] : '';
 			$suggestion_box_border_color   = isset( $settings['search-results-border'] ) ? $settings['search-results-border'] : '';
-			ob_start();
+
 			if ( '' !== $suggestion_box_bg_color ) { ?>
 				#is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-ajax-search-post,                        
 	            #is-ajax-search-result-<?php echo esc_attr( $post_id ); ?> .is-show-more-results,
@@ -313,7 +374,6 @@ class IS_Search_Form {
                 }
 			<?php
                         }
-			$css .= ob_get_clean();
 		}
 
 		// Customize options.
@@ -328,7 +388,7 @@ class IS_Search_Form {
 			$search_submit_color    = isset( $settings['submit-button-text'] ) ? $settings['submit-button-text'] : '';
 			$search_submit_bg_color = isset( $settings['submit-button-bg'] ) ? $settings['submit-button-bg'] : '';
 			$search_submit_border_color = isset( $settings['submit-button-border'] ) ? $settings['submit-button-border'] : '';
-			ob_start();
+
 			if ( '' !== $search_submit_color || '' !== $search_submit_bg_color || '' !== $search_submit_border_color ) { ?>
 			.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-submit:focus,
 			.is-form-id-<?php echo esc_attr( $post_id ); ?> .is-search-submit:hover,
@@ -383,10 +443,11 @@ class IS_Search_Form {
 			}
                         <?php
                         }
-			$css .= ob_get_clean();
 		}
 
-		return $css;
+		if ( $css ) { ?>
+			</style>
+		<?php }
 	}
 
 	/* Generating Form HTML */
@@ -405,8 +466,10 @@ class IS_Search_Form {
                 $result = '';
                 $search_form = false;
                 $enabled_customization = false;
+                $is_site_lang = isset( $_GET['lang'] ) ? sanitize_text_field($_GET['lang']) : false;
                 $is_opt = Ivory_Search::load_options();
                 $min = ( defined( 'IS_DEBUG' ) && IS_DEBUG ) ? '' : '.min';
+				$is_site_lang = isset( $_GET['lang'] ) ? sanitize_text_field( $_GET['lang'] ) : false;
 
 				if ( $args['id'] ) {
 	                $search_form = IS_Search_Form::get_instance( $args['id'] );
@@ -425,11 +488,8 @@ class IS_Search_Form {
 	                        wp_enqueue_style( 'ivory-ajax-search-styles', plugins_url( '/public/css/ivory-ajax-search'.$min.'.css', IS_PLUGIN_FILE ), array(), IS_VERSION );
 	                }
 
-	                if ( $enabled_customization ) {
-	                	$inline_css = $this->get_css( $args['id'] );
-	                	if ( '' !== $inline_css && ! ivory_search_is_json_request() ) {
-	                    	echo '<style type="text/css">' . $inline_css . '</style>';
-	                   	}
+	                if ( $enabled_customization && ! ivory_search_is_json_request() ) {
+                		 $this->display_css( $args['id'] );
 	                }
 
 	                if ( isset( $_settings['disable'] ) ) {
@@ -447,13 +507,13 @@ class IS_Search_Form {
                     add_filter( 'get_search_form', array( IS_Admin_Public::getInstance(), 'get_search_form' ), 9999999 );
 
                     if ( 'n' !== $display_id ) {
-                        $result = preg_replace('/<\/form>/', '<input type="hidden" name="id" value="' . $args['id'] . '" /></form>', $result );
+                        $result = preg_replace('/<\/form>/', '<input type="hidden" name="id" value="' . esc_attr( $args['id'] ) . '" /></form>', $result );
                     }
                     if ( ! isset( $_includes['post_type_url']  ) && isset( $_includes['post_type'] ) && count( $_includes['post_type'] ) < 2 ) {
-                            $result = preg_replace('/<\/form>/', '<input type="hidden" name="post_type" value="' . reset( $_includes['post_type'] ) . '" /></form>', $result );
+                            $result = preg_replace('/<\/form>/', '<input type="hidden" name="post_type" value="' . esc_attr( reset( $_includes['post_type'] ) ) . '" /></form>', $result );
                     }
-                    if ( isset( $_GET['lang'] ) ) {
-                        $result = preg_replace('/<\/form>/', '<input type="hidden" name="lang" value="' . $_GET['lang'] . '" /></form>', $result );
+                    if ( $is_site_lang ) {
+                        $result = preg_replace('/<\/form>/', '<input type="hidden" name="lang" value="' . esc_attr( $is_site_lang ) . '" /></form>', $result );
                     }
 
                     $result = apply_filters( 'is_default_search_form', $result );
@@ -482,21 +542,21 @@ class IS_Search_Form {
                     wp_enqueue_script( 'ivory-ajax-search-scripts' );
                     if ( ! ivory_search_is_json_request() && isset( $_settings['highlight_terms'] ) ) {
                     	wp_enqueue_script( 'is-highlight' );
-						if ( isset( $_settings['highlight_color'] ) && ! empty( $_settings['highlight_color'] ) && ! is_search() ) {
-							echo '<style type="text/css" media="screen">';
-							echo '#is-ajax-search-result-' . $args['id'].' .is-highlight { background-color: '.$_settings['highlight_color'].' !important;}';
-							echo '#is-ajax-search-result-' . $args['id'].' .meta .is-highlight { background-color: transparent !important;}';
-							echo '</style>';
-						}
+						if ( isset( $_settings['highlight_color'] ) && ! empty( $_settings['highlight_color'] ) && ! is_search() ) { ?>
+							<style type="text/css" media="screen">
+							#is-ajax-search-result-<?php esc_html_e( $args['id'] ); ?> .is-highlight { background-color: <?php esc_html_e( $_settings['highlight_color'] ); ?> !important;}
+							#is-ajax-search-result-<?php esc_html_e( $args['id'] ); ?> .meta .is-highlight { background-color: transparent !important;}
+							</style>
+						<?php }
                 	}
 
                     $min_no_for_search  = isset( $_ajax['min_no_for_search'] ) ? $_ajax['min_no_for_search'] : '1';
                     $result_box_max_height = isset( $_ajax['result_box_max_height'] ) ? $_ajax['result_box_max_height'] : '400';
 
                     // Add data AJAX attributes.
-                    $data_attrs = 'data-min-no-for-search="'.esc_attr( $min_no_for_search ).'"';
-                    $data_attrs .= ' data-result-box-max-height="'.$result_box_max_height.'"';
-                    $data_attrs .= ' data-form-id="'.$args['id'].'"';
+                    $data_attrs = 'data-min-no-for-search='. $min_no_for_search;
+                    $data_attrs .= ' data-result-box-max-height='.$result_box_max_height;
+                    $data_attrs .= ' data-form-id='.$args['id'];
                 }
 
                 $temp = ( 'is-form-style-default' !== $form_style ) ? 'is-form-style ' : '';
@@ -522,34 +582,37 @@ class IS_Search_Form {
 	                }
 	            }
 
-                $result = '<form '.$data_attrs.' class="is-search-form '. $classes .'" action="' . $search_url . '" method="get" role="search" >';
-                $autocomplete = apply_filters( 'is_search_form_autocomplete', 'autocomplete="off"' );
-                $search_val = ( isset( $_GET['id'] ) && $_GET['id'] === $args['id'] ) ? get_search_query() : '';
-                $result .= '<label for="is-search-input-' . $args['id'] . '"><span class="is-screen-reader-text">'.__( 'Search for:', 'add-search-to-menu').'</span><input  type="search" id="is-search-input-' . $args['id'] . '" name="s" value="' . $search_val.'" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '.$autocomplete.' />';
+                $result = '<form '.esc_attr( $data_attrs ).' class="is-search-form '. esc_attr( $classes ) .'" action="' . esc_url( $search_url ) . '" method="get" role="search" >';
+                $autocomplete = apply_filters( 'is_search_form_autocomplete', 'autocomplete=off' );
+
+                $is_form_id = ( isset( $_GET['id'] ) && is_numeric( $_GET['id'] ) ) ? sanitize_key( $_GET['id'] ) : false;
+                $search_val = ( $is_form_id && $is_form_id === $args['id'] ) ? get_search_query() : '';
+                $result .= '<label for="is-search-input-' . esc_attr( $args['id'] ) . '"><span class="is-screen-reader-text">'.__( 'Search for:', 'add-search-to-menu').'</span><input  type="search" id="is-search-input-' . esc_attr( $args['id'] ) . '" name="s" value="' . esc_attr( $search_val ).'" class="is-search-input" placeholder="' . esc_attr( $placeholder_text ) . '" '. esc_attr( $autocomplete ) .' />';
+
                 // AJAX Loader.
                 if ( isset( $_ajax['enable_ajax'] ) ) {
                     $loader_image = isset( $settings['loader-image'] ) ? $settings['loader-image'] : IS_PLUGIN_URI . 'public/images/spinner.gif';
                     if ( $loader_image ) {
-                            $result .= '<span class="is-loader-image" style="display: none;background-image:url('.$loader_image.');" ></span>';
+                            $result .= '<span class="is-loader-image" style="display: none;background-image:url('.esc_url( $loader_image).');" ></span>';
                     }
                 }
                 $result .= '</label>';
                 if ( 'is-form-style-3' === $form_style ) {
-                    $result .= '<button type="submit" class="is-search-submit"><span class="is-screen-reader-text">'.__( 'Search Button', 'add-search-to-menu').'</span><span class="is-search-icon"><svg focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></span></button>';
+                    $result .= '<button type="submit" class="is-search-submit"><span class="is-screen-reader-text">'.__( 'Search Button', 'add-search-to-menu').'</span><span class="is-search-icon"><svg focusable="false" aria-label="' . __( "Search", "add-search-to-menu" ) . '" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></span></button>';
 				} else if ( 'is-form-style-2' !== $form_style ) {
-                    $result .= '<input type="submit" value="' . esc_html( $search_btn_text ) . '" class="is-search-submit" />';
+                    $result .= '<input type="submit" value="' . esc_attr( $search_btn_text ) . '" class="is-search-submit" />';
                 }
 
                 if ( 'n' !== $display_id ) {
-                    $result .= '<input type="hidden" name="id" value="' . $args['id'] . '" />';
+                    $result .= '<input type="hidden" name="id" value="' . esc_attr( $args['id'] ) . '" />';
                 }
 
                 if ( ! isset( $_includes['post_type_url']  ) && isset( $_includes['post_type'] ) && count( $_includes['post_type'] ) < 2 ) {
-                        $result .= '<input type="hidden" name="post_type" value="' . reset( $_includes['post_type'] ) . '" />';
+                        $result .= '<input type="hidden" name="post_type" value="' . esc_attr( reset( $_includes['post_type'] ) ) . '" />';
                 }
 
-                if ( isset( $_GET['lang'] ) ) {
-                    $result .=  '<input type="hidden" name="lang" value="' . $_GET['lang'] . '" />';
+                if ( $is_site_lang ) {
+                    $result .=  '<input type="hidden" name="lang" value="' . esc_attr( $is_site_lang ) . '" />';
                 }
                 $result .= '</form>';
 
@@ -557,11 +620,11 @@ class IS_Search_Form {
 		}
 
                 if ( isset( $is_opt['easy_edit'] ) && is_user_logged_in() && current_user_can( 'administrator' ) ) {
-                    $result .= '<div class="is-link-container"><div><a class="is-edit-link" target="_blank" href="'.admin_url( 'admin.php?page=ivory-search&post='.$args['id'].'&action=edit' ) . '">'.__( "Edit", "ivory-search") .'</a>';
+                    $result .= '<div class="is-link-container"><div><a class="is-edit-link" target="_blank" href="'.admin_url( 'admin.php?page=ivory-search&post='.absint( $args['id'] ).'&action=edit' ) . '">'.__( "Edit", "add-search-to-menu") .'</a>';
 
                     if ( ! is_customize_preview() ) {
                         if ( $enabled_customization ) {
-                                $result .= ' <a class="is-customize-link" target="_blank" href="'.admin_url( 'customize.php?autofocus[section]=is_section_'.$args['id'].'&url=' . get_the_permalink( get_the_ID() ) ) .'">'.__( "Customizer", "ivory-search") .'</a>';
+                                $result .= ' <a class="is-customize-link" target="_blank" href="'.admin_url( 'customize.php?autofocus[section]=is_section_'.absint( $args['id'] ).'&url=' . get_the_permalink( get_the_ID() ) ) .'">'.__( "Customizer", "add-search-to-menu") .'</a>';
                         }
                     }
                     $result .= '</div></div>';

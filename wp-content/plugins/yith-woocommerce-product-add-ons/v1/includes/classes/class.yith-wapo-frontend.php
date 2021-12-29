@@ -770,7 +770,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 							if ( is_object( $single_group_type ) ) {
 
-								$option_index = isset( $_REQUEST['option_index'] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+								$option_index = $_REQUEST['option_index'] ?? ''; // phpcs:ignore
 
 								if ( $option_index >= 0 ) {
 
@@ -781,7 +781,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 										$price            = $options['price'][ $option_index ];
 										$price_type       = $options['type'][ $option_index ];
-										$value            = isset( $_REQUEST['option_value'] ) ?? null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+										$value            = $_REQUEST['option_value'] ?? null; // phpcs:ignore
 										$price_calculated = $this->get_display_price( $product, $price, $price_type, true, $variation, null, $value );
 
 										echo wp_kses_post( $price_calculated );
@@ -827,7 +827,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 					if ( is_object( $single_group_type ) ) {
 
-						$option_index = isset( $_REQUEST['option_index'] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						$option_index = $_REQUEST['option_index'] ?? ''; // phpcs:ignore
 
 						if ( $option_index >= 0 ) {
 
@@ -838,7 +838,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 								$price            = $options['price'][ $option_index ];
 								$price_type       = $options['type'][ $option_index ];
-								$value            = isset( $_REQUEST['option_value'] ) ?? null; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+								$value            = $_REQUEST['option_value'] ?? null; // phpcs:ignore
 								$price_calculated = $this->get_display_price( $product, $price, $price_type, true, null, $product_price, $value );
 
 								echo wp_kses_post( $price_calculated );
@@ -1294,7 +1294,6 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 					}
 				}
 			}
-
 			return $other_data;
 		}
 
@@ -1343,7 +1342,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 
 						$name = '<span id="' . $single_type_options['type_id'] . '">' . $single_type_options['name'] . '</span>';
 
-						if ( '' !== $single_type_options['price'] ) {
+						if ( 0 !== $single_type_options['price'] && ! empty( $single_type_options['price'] ) ) {
 
 							$name .= apply_filters( 'yith_wapo_order_item_addon_price', ' (' . wc_price( $single_type_options['price'] ) . ')' );
 
@@ -1428,7 +1427,6 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 					}
 				}
 			}
-
 			return $formatted_meta;
 		}
 

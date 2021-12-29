@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
-Tested up to: 5.8
-Stable tag: 2.2.6
+Tested up to: 5.9
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,76 @@ You must enable the dependency on the option you are interested in by inserting 
 3. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
 
 == Changelog ==
+
+= 2.4.0 – Released on 19 Dec 2021 =
+
+* New: support for WooCommerce 6.0
+* New: option to show/hide block titles in the cart page
+* Update: YITH plugin framework
+* Dev: override feature for addon templates
+* Dev: override feature for block.php template
+* Dev: moved the addon description inside the .options element
+* Dev: changed the toggle icon
+* Dev: add price display suffix to total price table
+* Dev: added html element to checkbox template
+* Fix: compatibility with quick view and min/max rules
+* Fix: product bundles integration
+* Fix: clear option description when "Select an option" is selected
+* Fix: price calculation if qty is not grater than 0
+* Fix: Check that the cart item price is numeric
+* Fix: compatibility with WPML
+* Fix: additional check to avoid error checking if product has blocks
+* Fix: addons main title and description with WPML
+* Fix: missing jQuery images
+* Fix: Improved required error for checkbox and radio buttons
+* Fix: min/max feature
+* Fix: "select" class in radio options
+* Fix: fatal error on "Call to a member function get_category_ids() on bool"
+* Fix: fixed display suffix to the total price table
+* Fix: avoid error when the product addon type has a product removed on the site
+* Fix: fixed CSS rules for images of select addon
+* Fix: minor bugs
+
+= 2.3.0 – Released on 18 Nov 2021 =
+
+* New: support for WooCommerce 5.9
+* Update: YITH plugin framework
+* Dev: added classes to the labels of radio template
+* Dev: product price multiplication by qty in single product page
+* Dev: added new filter "yith_wapo_addon_classes"
+* Dev: allow the exclusion of products when the category filter is active
+* Dev: re-enabled the addon description
+* Fix: WPML compatibility
+* Fix: price calculation on hidden options
+* Fix: toggle feature
+* Fix: fixed the information displaying in the block list after the migration
+* Fix: fixed tooltip color warning if it doesn't exists
+* Fix: tooltip and image replacement compatibility with custom themes
+* Fix: avoid show addons in components of YITH Composite Products
+* Fix: hide add-on price when the amount is zero
+* Fix: compatibility with YITH Multi Vendors
+* Fix: replace price was affecting to related products
+* Fix: subtotal price duplicated in Product Bundles
+* Fix: .change() is not a function (for Divi theme)
+* Fix: ajax add to cart feature
+* Fix: price calculation for hidden options
+* Fix: js code for role based plugin
+* Fix: added media queries to avoid hover rules in mobile devices
+* Fix: replace product image not working for checkboxes
+* Fix: v1 gallery variation of color and labels
+
+= 2.2.7 – Released on 25 Oct 2021 =
+
+* Update: YITH plugin framework
+* Dev: re-enabled the images and descriptions of the "Select" addons
+* Dev: hide add-ons price if value is 0
+* Fix: required hidden options
+* Fix: price not showing on emails when empty or 0
+* Fix: option images don't show in "Select" add-ons (v1)
+* Fix: HTML code in add-ons description (v1)
+* Fix: product attributes description
+* Fix: switch version problems
+* Fix: minor bugs
 
 = 2.2.6 – Released on 15 Oct 2021 =
 

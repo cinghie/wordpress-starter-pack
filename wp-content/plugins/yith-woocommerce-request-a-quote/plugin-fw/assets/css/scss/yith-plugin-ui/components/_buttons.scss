@@ -93,19 +93,31 @@
     .yith-plugin-fw__button--add, .yith-add-button {
         @include button-primary;
 
-        @include button-with-icon("\e90a");
+        @include button-with-icon("\f115");
+
+        &:before {
+            display                    : inline-block;
+            margin                     : 0 10px 0 -5px;
+            font-size                  : .95em;
+            transition                 : transform .2s, margin .2s, font-size .2s;
+            transition-timing-function : ease-in-out;
+        }
 
         &.closed {
             @include button-secondary;
 
-            @include button-with-icon("\e906");
+            &:before {
+                font-size : 1.15em;
+                margin    : 0 8px 0 -5px;
+                transform : rotate(-45deg);
+            }
         }
     }
 
     .yith-plugin-fw__button--close {
         @include button-secondary;
 
-        @include button-with-icon("\e906");
+        @include button-with-icon("\f117");
     }
 
     .yith-plugin-fw__button--edit, .yith-edit-button {
@@ -166,7 +178,7 @@
             top         : 50%;
             left        : 10px;
             transform   : translateY(-50%);
-            font-size   : 1.15em;
+            font-size   : 1em;
             font-weight : 400;
         }
     }

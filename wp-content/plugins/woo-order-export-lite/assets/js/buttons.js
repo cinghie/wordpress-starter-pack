@@ -23,11 +23,29 @@ function woe_show_preview( response ) {
 	window.scrollTo( 0, document.body.scrollHeight );
 }
 
+function woe_get_json_settings() {
+	let obj = jQuery( '#export_job_settings' ).serializeJSON();
+	if( obj.settings.item_names ) {
+		let filter_items = obj.settings.item_names;
+
+		let sz = filter_items.length;
+		let additional = [];
+		for (let i = 0; i < sz; i++) {
+			if (filter_items[i].includes("& ")) {
+				additional.push(filter_items[i].replaceAll("&", "&#038;"));
+				additional.push(filter_items[i].replaceAll("&", "&amp;"));
+			}
+		}
+		obj.settings.item_names = filter_items.concat(additional);
+	}
+	return JSON.stringify(obj);
+}
+
 function woe_preview( size ) {
 
 	jQuery( '#output_preview, #output_preview_csv' ).hide();
 
-	var data = 'json=' + woe_make_json_var( jQuery( '#export_job_settings' ) );
+	var data = 'json=' + encodeURIComponent(woe_get_json_settings());
 
 	// var estimate_data = data + "&action=order_exporter&method=estimate&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
@@ -64,7 +82,7 @@ function woe_close_waiting_dialog() {
 
 function woe_get_data() {
 	var data = new Array();
-	data.push( {name: 'json', value: woe_make_json( jQuery( '#export_job_settings' ) )} );
+	data.push( {name: 'json', value: woe_get_json_settings()} );
 	data.push( {name: 'action', value: 'order_exporter'} );
 	data.push( {name: 'mode', value: mode} );
 	data.push( {name: 'id', value: job_id} );
@@ -179,9 +197,10 @@ function woe_get_all( start, percent, method ) {
 		return;
 	}
 
-	woe_export_progress( parseInt( percent, 10 ), jQuery( '#progressBar' ) );
+	//woe_export_progress( parseInt( percent, 10 ), jQuery( '#progressBar' ) );
 
 	if ( percent < 100 ) {
+		woe_export_progress( parseInt( percent, 10 ), jQuery( '#progressBar' ) );
 		data = woe_get_data();
 		data.push( {name: 'method', value: method} );
 		data.push( {name: 'start', value: start} );
@@ -217,6 +236,7 @@ function woe_get_all( start, percent, method ) {
 		} );
 	}
 	else {
+		jQuery( '#progress_div .title-gen-file').show();
 		data = woe_get_data();
 		data.push( {name: 'method', value: 'export_finish'} );
 		data.push( {name: 'file_id', value: window.file_id} );
@@ -230,6 +250,7 @@ function woe_get_all( start, percent, method ) {
 			dataType: "json",
 			error: function ( xhr, status, error ) {
 				alert( xhr.responseText );
+				woe_export_progress( 100, jQuery( '#progressBar' ) );
 			},
 			success: function ( response ) {
 				var download_format = output_format;
@@ -250,6 +271,7 @@ function woe_get_all( start, percent, method ) {
 						ajaxurl.indexOf( '?' ) === - 1 ? '?' : '&'
 					) + 'action=order_exporter&method=export_download&format=' + download_format + '&file_id=' + window.file_id + '&tab=' + settings_form.woe_active_tab );
 				}
+				woe_export_progress( 100, jQuery( '#progressBar' ) );
 
 				woe_reset_date_filter_for_cron();
 			}
@@ -339,7 +361,7 @@ jQuery( document ).ready( function ( $ ) {
 
 	$( "#export-wo-pb-btn" ).click( function () {
 		$( '#export_wo_pb_form' ).attr( "action", ajaxurl );
-		$( '#export_wo_pb_form' ).find( '[name=json]' ).val( woe_make_json( $( '#export_job_settings' ) ) );
+		$( '#export_wo_pb_form' ).find( '[name=json]' ).val( woe_get_json_settings() );
 		$( '#export_wo_pb_form' ).submit();
 		return false;
 	} );

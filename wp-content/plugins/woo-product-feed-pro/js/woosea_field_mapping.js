@@ -13,29 +13,9 @@ jQuery(document).ready(function($) {
       		}
     	});
 
-	// Open jQuery dialog and get the right title and attribute helptext 
-    	jQuery( ".opener" ).on( "click", function() {
-		var id=$(this).attr('id');
-
-                jQuery.ajax({
-                        method: "POST",
-                        url: ajaxurl,
-                        data: { 'action': 'woosea_fieldmapping_dialog_helptext', 'field': id }
-                })
-                .done(function( data ) {
-                        data = JSON.parse( data );
-	
-			jQuery("#dialogText").text(data.helptext); // set attribute helptext, get it via ajax
-			$( "#dialog" ).dialog( "open" );
-			$( "#dialog" ).dialog( "option", "title", id); // set title of dialog window
-                })
-                .fail(function( data ) {
-                        console.log('Failed AJAX Call :( /// Return Data: ' + data);
-                });
-	});
-
 	// Add a mapping row to the table for field mappings
 	jQuery(".add-field-mapping").on('click', function(){
+		var nonce = $('#nonce_field_mapping').val();	
 		var channel_hash = $('#channel_hash').val();
 		var prevRow = $("tr.rowCount:last input[type=hidden]").val();
 		var addrow_value = $('#addrow').val();
@@ -52,7 +32,12 @@ jQuery(document).ready(function($) {
                 jQuery.ajax({
                         method: "POST",
                         url: ajaxurl,
-                        data: { 'action': 'woosea_fieldmapping_dropdown', 'rowCount': rowCount, 'channel_hash': channel_hash }
+                        data: { 
+				'action': 'woosea_fieldmapping_dropdown', 
+				'rowCount': rowCount, 
+				'security': nonce,
+				'channel_hash': channel_hash 
+			}
                 })
                 .done(function( data ) {
                         data = JSON.parse( data );
@@ -74,6 +59,7 @@ jQuery(document).ready(function($) {
 
 	// Add a mapping row to the table for own mappings
 	jQuery(".add-own-mapping").on('click', function(){
+		var nonce = $('#nonce_field_mapping').val();
 		var channel_hash = $('#channel_hash').val();
                 var prevRow = $("tr.rowCount:last input[type=hidden]").val();
 		var addrow_value = $('#addrow').val();
@@ -90,7 +76,12 @@ jQuery(document).ready(function($) {
                 jQuery.ajax({
                         method: "POST",
                         url: ajaxurl,
-                        data: { 'action': 'woosea_fieldmapping_dropdown', 'rowCount': rowCount, 'channel_hash': channel_hash }
+                        data: { 
+				'action': 'woosea_fieldmapping_dropdown', 
+				'security': nonce,
+				'rowCount': rowCount, 
+				'channel_hash': channel_hash 
+			}
                 })
                 .done(function( data ) {
                         data = JSON.parse( data );

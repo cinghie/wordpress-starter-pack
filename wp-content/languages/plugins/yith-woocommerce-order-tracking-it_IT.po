@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Order Tracking - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-10-12 11:28:01+0000\n"
+"PO-Revision-Date: 2021-12-20 16:01:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,11 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Order Tracking - Stable (latest release)\n"
+
+#: plugin-fw/includes/class-yit-plugin-panel.php:853
+msgctxt "Premium tab name"
+msgid "Get premium"
+msgstr "Diventa premium"
 
 #. Translators: %1$f: Table size, %2$f: Index size, %3$f: Free size, %4$s
 #. Engine.
@@ -137,18 +142,18 @@ msgid "Width"
 msgstr "Larghezza"
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:799
+#: plugin-fw/includes/class-yit-plugin-panel.php:806
 msgctxt "Help tab default description"
 msgid "We want to help you to enjoy a wonderful experience with all our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:798
+#: plugin-fw/includes/class-yit-plugin-panel.php:805
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:488
+#: plugin-fw/includes/class-yit-plugin-panel.php:492
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -161,7 +166,7 @@ msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Se sicuro di voler eliminare gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1965
+#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1982
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
@@ -170,96 +175,96 @@ msgstr "Sì, sposta nel cestino"
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
-#: plugin-fw/yit-functions.php:2101
+#: plugin-fw/yit-functions.php:2118
 msgctxt "Term action"
 msgid "Delete"
 msgstr "Elimina"
 
-#: plugin-fw/yit-functions.php:2088
+#: plugin-fw/yit-functions.php:2105
 msgctxt "Term action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:2080
+#: plugin-fw/yit-functions.php:2097
 msgctxt "Term action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:2070
+#: plugin-fw/yit-functions.php:2087
 msgctxt "Term action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:1994 plugin-fw/yit-functions.php:2002
-#: plugin-fw/yit-functions.php:2119
+#: plugin-fw/yit-functions.php:2011 plugin-fw/yit-functions.php:2019
+#: plugin-fw/yit-functions.php:2136
 msgid "Further actions"
 msgstr "Ulteriori azioni"
 
-#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:1983
-#: plugin-fw/yit-functions.php:2110
+#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:2000
+#: plugin-fw/yit-functions.php:2127
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:1980
-#: plugin-fw/yit-functions.php:2108
+#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:1997
+#: plugin-fw/yit-functions.php:2125
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/yit-functions.php:1973
+#: plugin-fw/yit-functions.php:1990
 msgctxt "Post action"
 msgid "Delete Permanently"
 msgstr "Elimina definitivamente"
 
-#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1962
+#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1979
 msgid "Confirm trash"
 msgstr "Conferma"
 
-#: plugin-fw/yit-functions.php:1956
+#: plugin-fw/yit-functions.php:1973
 msgctxt "Post action"
 msgid "Trash"
 msgstr "Cestina"
 
-#: plugin-fw/yit-functions.php:1948
+#: plugin-fw/yit-functions.php:1965
 msgctxt "Post action"
 msgid "Restore"
 msgstr "Ripristina"
 
-#: plugin-fw/yit-functions.php:1936
+#: plugin-fw/yit-functions.php:1953
 msgctxt "Post action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:1928
+#: plugin-fw/yit-functions.php:1945
 msgctxt "Post action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:1917
+#: plugin-fw/yit-functions.php:1934
 msgctxt "Post action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:1908
+#: plugin-fw/yit-functions.php:1925
 msgctxt "Post action"
 msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1896
-#: plugin-fw/yit-functions.php:2056
+#: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1913
+#: plugin-fw/yit-functions.php:2073
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
 #. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1896 plugin-fw/yit-functions.php:2056
+#: plugin-fw/yit-functions.php:1913 plugin-fw/yit-functions.php:2073
 msgid "Are you sure you want to delete \"%s\"?"
 msgstr "Sei sicuro di voler eliminare \"%s\"?"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1894
+#: plugin-fw/yit-functions.php:1911
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Sei sicuro di voler spostare \"%s\" nel cestino?"
 
@@ -294,7 +299,7 @@ msgstr "Opzioni salvate"
 msgid "Save Options"
 msgstr "Salva opzioni "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1440
+#: plugin-fw/includes/class-yit-plugin-panel.php:1528
 msgid "help us by leaving a good review"
 msgstr "aiutaci lasciando una recensione positiva"
 
@@ -417,7 +422,7 @@ msgstr "Cancella"
 #: plugin-fw/includes/class-yit-assets.php:153
 #: plugin-fw/templates/sysinfo/tabs/main.php:42
 #: plugin-fw/templates/sysinfo/tabs/main.php:50
-#: plugin-fw/yit-functions.php:1964 plugin-fw/yit-functions.php:1982
+#: plugin-fw/yit-functions.php:1981 plugin-fw/yit-functions.php:1999
 msgid "No"
 msgstr "No"
 
@@ -473,15 +478,15 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1441
+#: plugin-fw/includes/class-yit-plugin-panel.php:1529
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1438
+#: plugin-fw/includes/class-yit-plugin-panel.php:1526
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1437
+#: plugin-fw/includes/class-yit-plugin-panel.php:1525
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
@@ -640,7 +645,7 @@ msgstr "YITH System Information"
 msgid "Custom:"
 msgstr "Personalizzato:"
 
-#: plugin-fw/templates/fields/select-buttons.php:32
+#: plugin-fw/templates/fields/select-buttons.php:20
 msgid "Remove All"
 msgstr "Rimuovi tutto"
 
@@ -692,36 +697,36 @@ msgstr "YITH"
 msgid "With <code><strong>YITH WooCommerce Order Tracking</strong></code> Easy managing order tracking information for WooCommerce orders. Set the carrier and the tracking code and your customers will get notified about their shipping. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
 msgstr "Con <code><strong>YITH WooCommerce Order Tracking</strong></code> hai una facile gestione dei dati di tracciamento per gli ordini di WooCommerce. Imposta il corriere e il codice di tracciamento per permettere ai tuoi clienti di essere informati sulle loro spedizioni. <a href=\"https://yithemes.com/\" target=\"_blank\">Ottieni più plugin per il tuo e-commerce su <strong>YITH</strong></a>."
 
-#: plugin-fw/yit-plugin.php:206
+#: plugin-fw/yit-plugin.php:205
 msgid "License"
 msgstr "Chiave di licenza"
 
-#: plugin-fw/yit-plugin.php:202
+#: plugin-fw/yit-plugin.php:201
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: plugin-fw/yit-plugin.php:97
+#: plugin-fw/yit-plugin.php:96
 msgctxt "Plugin Row Meta"
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: plugin-fw/yit-plugin.php:93
+#: plugin-fw/yit-plugin.php:92
 msgctxt "Plugin Row Meta"
 msgid "Support"
 msgstr "Assistenza"
 
-#: plugin-fw/yit-plugin.php:89
+#: plugin-fw/yit-plugin.php:88
 msgctxt "Plugin Row Meta"
 msgid "Documentation"
 msgstr "Documentazione"
 
-#: plugin-fw/yit-plugin.php:85
+#: plugin-fw/yit-plugin.php:84
 msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Live Demo"
 
-#: plugin-fw/templates/fields/icons.php:63
+#: plugin-fw/templates/fields/icons.php:78
 msgid "Set Default"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -777,8 +782,8 @@ msgstr "Hai già pensato a come generare fatture per il tuo negozio? %1$sYITH Wo
 msgid "Delivery note"
 msgstr "Documenti di trasporto"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:451
-#: plugin-fw/includes/class-yit-plugin-panel.php:454
+#: plugin-fw/includes/class-yit-plugin-panel.php:455
+#: plugin-fw/includes/class-yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -1021,65 +1026,65 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:969
+#: plugin-fw/includes/class-yit-plugin-panel.php:1057
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:968
+#: plugin-fw/includes/class-yit-plugin-panel.php:1056
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:967
+#: plugin-fw/includes/class-yit-plugin-panel.php:1055
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:966
+#: plugin-fw/includes/class-yit-plugin-panel.php:1054
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:965
+#: plugin-fw/includes/class-yit-plugin-panel.php:1053
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:963
-#: plugin-fw/includes/class-yit-plugin-panel.php:964
+#: plugin-fw/includes/class-yit-plugin-panel.php:1051
+#: plugin-fw/includes/class-yit-plugin-panel.php:1052
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:962
+#: plugin-fw/includes/class-yit-plugin-panel.php:1050
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:961
+#: plugin-fw/includes/class-yit-plugin-panel.php:1049
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:960
+#: plugin-fw/includes/class-yit-plugin-panel.php:1048
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:959
+#: plugin-fw/includes/class-yit-plugin-panel.php:1047
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:657
+#: plugin-fw/includes/class-yit-plugin-panel.php:664
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:661
+#: plugin-fw/includes/class-yit-plugin-panel.php:668
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:139
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:657
+#: plugin-fw/includes/class-yit-plugin-panel.php:664
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:652
+#: plugin-fw/includes/class-yit-plugin-panel.php:659
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:132
 msgid "Save Changes"
 msgstr "Salva modifiche"
@@ -1092,7 +1097,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:423
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:430
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 

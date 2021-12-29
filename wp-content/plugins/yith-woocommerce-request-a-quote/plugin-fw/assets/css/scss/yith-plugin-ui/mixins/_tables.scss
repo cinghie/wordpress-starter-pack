@@ -42,7 +42,7 @@
 
     &:before {
       font-family: yith-icon;
-      content: "\f106";
+      content: "\f116";
       color: inherit;
       font-size: 10px;
       top: 0;
@@ -53,14 +53,14 @@
   th.sorted.asc .sorting-indicator:before,
   th.desc:hover span.sorting-indicator:before,
   th.desc a:focus span.sorting-indicator:before {
-    content: "\e903";
+    content: "\f113";
     font-weight: 600;
   }
 
   th.sorted.desc .sorting-indicator:before,
   th.asc:hover span.sorting-indicator:before,
   th.asc a:focus span.sorting-indicator:before {
-    content: "\e900";
+    content: "\f110";
     font-weight: 600;
   }
   @include table-action-buttons;

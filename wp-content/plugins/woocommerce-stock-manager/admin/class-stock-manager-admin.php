@@ -3,7 +3,7 @@
  * Main class for Stock Manager.
  *
  * @package  woocommerce-stock-manager/admin/
- * @version  2.8.2.1
+ * @version  2.8.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -346,10 +346,10 @@ class Stock_Manager_Admin {
 			$args = array(
 				'file'           => WSM_PLUGIN_FILE,
 				'prefix'         => 'wsm',
-				'option_name'    => 'sa_offer_halloween_2021_wsm',
+				'option_name'    => 'sa_offer_bfcm_2021_wsm',
 				'campaign'       => 'sa_halloween_2021',
-				'start'          => '2021-10-29 06:30:00',
-				'end'            => '2021-11-02 06:30:00',
+				'start'          => '2021-11-23 06:30:00',
+				'end'            => '2021-12-02 06:30:00',
 				'is_plugin_page' => $is_wsm_admin ? true : false,
 			);
 

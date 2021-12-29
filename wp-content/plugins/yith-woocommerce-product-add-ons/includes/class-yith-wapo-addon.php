@@ -70,13 +70,8 @@ if ( ! class_exists( 'YITH_WAPO_Addon' ) ) {
 
 			if ( $id > 0 ) {
 
-				$row = wp_cache_get( 'wapo_addon_' . $id );
-				if ( ! $row ) {
-					$row = $wpdb->get_row( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-						$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_wapo_addons WHERE id=%d", $id )
-					);
-					wp_cache_set( 'wapo_addon_' . $id, $row );
-				}
+				$query = "SELECT * FROM {$wpdb->prefix}yith_wapo_addons WHERE id='$id'";
+				$row   = $wpdb->get_row( $query ); // phpcs:ignore
 
 				if ( isset( $row ) && $row->id === (string) $id ) {
 
@@ -116,6 +111,9 @@ if ( ! class_exists( 'YITH_WAPO_Addon' ) ) {
 				&& isset( $this->options[ $option ] )
 				&& is_array( $this->options[ $option ] )
 				&& isset( $this->options[ $option ][ $index ] ) ) {
+				if ( YITH_WAPO::$is_wpml_installed ) {
+					return YITH_WAPO_WPML::string_translate( $this->options[ $option ][ $index ] );
+				}
 				return $this->options[ $option ][ $index ];
 			}
 			return $default;
@@ -174,7 +172,7 @@ if ( ! class_exists( 'YITH_WAPO_Addon' ) ) {
 					$sign_class        = 'negative';
 					$option_price_sale = 0;
 				}
-				if ( '' !== $option_price ) {
+				if ( '' !== $option_price && $option_price > 0 ) {
 					$option_price = $option_price + ( ( $option_price / 100 ) * yith_wapo_get_tax_rate() );
 					if ( '' !== $option_price_sale && $option_price_sale > 0 ) {
 						$html_price = '<small class="option-price"><span class="brackets">(</span><span class="sign ' . $sign_class . '">' . $sign . '</span><del>' . wc_price( $option_price ) . '</del> ' . wc_price( $option_price_sale ) . '<span class="brackets">)</span></small>';

@@ -46,7 +46,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
          *
          */
 
-        $this->ads = metaslider_pro_is_installed() ? $this->pro_notices() : $this->lite_notices();
+        $this->ads = $this->lite_notices();
 
         // To avoid showing the user ads off the start, lets wait
         $this->notices_content = ($this->ad_delay_has_finished()) ? $this->ads : array();
@@ -114,7 +114,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
                 'text' => _x('With the MetaSlider Add-on pack you can give your slideshows a professional look!', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
                 'image' => 'metaslider_logo.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'dismiss_time' => 'pro_layers',
                 'hide_time' => 12,
                 'supported_positions' => array('header'),
@@ -124,7 +124,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
                 'text' => __('Upgrade today to benefit from many more premium features. Find out more.', 'ml-slider'),
                 'image' => 'metaslider_logo.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'dismiss_time' => 'pro_features',
                 'hide_time' => 12,
                 'supported_positions' => array('header'),
@@ -175,47 +175,47 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
         $coupons = json_decode(file_get_contents(METASLIDER_PATH .'seasonal-discounts.json'), true);
         $coupon_object =  array(
             'blackfriday' => array(
-                'title' => _x('Black Friday - 20% off the MetaSlider Add-on Pack until November 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible. Also, "Black Friday" is the name of an event in the United States', 'ml-slider'),
-                'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
+                'title' => _x('Black Friday — Get 60% off the MetaSlider Add-on Pack until November 30th!', 'Keep the phrase "MetaSlider Add-on Pack" when possible. Also, "Black Friday" is the name of an event in the United States', 'ml-slider'),
+                'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/black_friday.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'hide_time' => '',
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'christmas' => array(
-                'title' => _x('Christmas sale - 20% off the MetaSlider Add-on Pack until December 25th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
+                'title' => _x('Christmas sale - 60% off the MetaSlider Add-on Pack until December 25th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
+                'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/christmas.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'hide_time' => '',
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'newyear' => array(
-                'title' => _x('Happy New Year - 20% off the MetaSlider Add-on Pack until January 14th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
+                'title' => _x('Happy New Year - 60% off the MetaSlider Add-on Pack until January 14th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
+                'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/new_year.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'hide_time' => '',
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'spring' => array(
                 'title' => _x('Spring sale - 20% off the MetaSlider Add-on Pack until April 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
+                'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/spring.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'hide_time' => '',
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'summer' => array(
                 'title' => _x('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
+                'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/summer.png',
                 'button_link' => 'metaslider',
-                'button_meta' => 'ml-slider',
+                'button_meta' => 'buy-w-discount',
                 'hide_time' => '',
                 'supported_positions' => array('header', 'dashboard'),
             ),
@@ -273,11 +273,11 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     {
         $valid = array();
         $time_now = time();
-        // $time_now = strtotime('2020-11-20 00:00:01'); // Black Friday
-        // $time_now = strtotime('2020-12-01 00:00:01'); // XMAS
-        // $time_now = strtotime('2020-12-26 00:00:01'); // NY
-        // $time_now = strtotime('2020-04-01 00:00:01'); // Spring
-        // $time_now = strtotime('2020-07-01 00:00:01'); // Summer
+        // $time_now = strtotime('2021-11-20 00:00:01'); // Black Friday
+        // $time_now = strtotime('2021-12-01 00:00:01'); // XMAS
+        // $time_now = strtotime('2021-12-26 00:00:01'); // NY
+        // $time_now = strtotime('2022-04-01 00:00:01'); // Spring
+        // $time_now = strtotime('2022-07-01 00:00:01'); // Summer
         foreach ($this->seasonal_notices() as $ad_identifier => $notice) {
             if (!isset($notice['valid_from']) || !isset($notice['valid_to'])) {
                 continue;
@@ -449,7 +449,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
         $messages = array(
             'lets_start' => __('Let\'s Start', 'ml-slider'),
             'review' => _x('Review MetaSlider', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
-            'ml-slider' => __('Find out more', 'ml-slider'),
+            'ml-slider' => __('Find out more &rarr;', 'ml-slider'),
+            'buy-w-discount' => __('Get it now &rarr;', 'ml-slider'),
             'signup' => __('Sign up', 'ml-slider'),
             'go_there' => __('Go there', 'ml-slider')
         );

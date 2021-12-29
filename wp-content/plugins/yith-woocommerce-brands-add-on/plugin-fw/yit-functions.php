@@ -1859,7 +1859,7 @@ if ( ! function_exists( 'yith_plugin_fw_get_component' ) ) {
 			);
 
 			$component = wp_parse_args( $component, $defaults );
-			
+
 			$component_template = '/components/' . $type . '.php';
 
 			if ( ! $echo ) {

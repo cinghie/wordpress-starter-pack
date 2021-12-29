@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2021-06-09 13:51+0200\n"
-"PO-Revision-Date: 2021-06-09 13:54+0200\n"
+"POT-Creation-Date: 2021-12-18 10:41+0100\n"
+"PO-Revision-Date: 2021-12-18 10:43+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wp-product-feed-manager.php\n"
@@ -172,9 +172,16 @@ msgstr ""
 
 #: includes/data/class-wppfm-channel.php:196
 #, php-format
-msgid "2141 - Please open a support ticket at %s for support on this issue."
+msgid ""
+"2141 - Your WP Product Feed Manager plugin is unable to check for channel "
+"updates. This could be due to a temporary problem with our server. If this "
+"message does not clear in 15 minutes, please open a support ticket at %s for "
+"support on this issue."
 msgstr ""
-"2141-Open een ondersteuningsaanvraag op %s voor ondersteuning op dit punt."
+"2141 - De WP Product Feed Manager plugin kon een kanaal update niet "
+"uitvoeren. Dit kan duiden op een tijdelijk probleem met onze server. Als "
+"deze melding na 15 minuten nog steeds wordt weergegeven, open dan een "
+"support ticket via %s om ondersteuning bij dit probleem te vragen."
 
 #. translators: %s: Name of a channel
 #: includes/data/class-wppfm-channel.php:276
@@ -1340,19 +1347,19 @@ msgstr "Beschrijving"
 msgid "Shop Category"
 msgstr "Winkel Categorie"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:105
+#: includes/user-interface/elements/class-wppfm-form-element.php:106
 msgid "Save & Generate Feed"
 msgstr "Bewaar & Genereer Datafeed"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:108
+#: includes/user-interface/elements/class-wppfm-form-element.php:109
 msgid "Save Feed"
 msgstr "Datafeed Opslaan"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:111
+#: includes/user-interface/elements/class-wppfm-form-element.php:112
 msgid "View Feed"
 msgstr "Feed bekijken"
 
-#: includes/user-interface/elements/class-wppfm-form-element.php:124
+#: includes/user-interface/elements/class-wppfm-form-element.php:125
 msgid "Open Feed List"
 msgstr "Lijst met datafeeds openen"
 
@@ -1436,7 +1443,7 @@ msgstr ""
 "verwijder uw oude back-ups en maak een nieuwe."
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-actions.php:186
+#: includes/user-interface/wppfm-admin-actions.php:209
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
@@ -1445,7 +1452,7 @@ msgstr ""
 "2121-Het activeren van uw licentie is mislukt. Open een support ticket op %s "
 "voor ondersteuning op dit punt."
 
-#: includes/user-interface/wppfm-admin-actions.php:205
+#: includes/user-interface/wppfm-admin-actions.php:228
 #, php-format
 msgid ""
 "An error has occurred. It is possible that the wpmarketingrobot website is "
@@ -1460,7 +1467,7 @@ msgstr ""
 "deze fout blijft bestaan, neem dan contact op met auke@wpmarketingrobot.com. "
 "Foutbericht: %s"
 
-#: includes/user-interface/wppfm-admin-actions.php:255
+#: includes/user-interface/wppfm-admin-actions.php:278
 #, php-format
 msgid ""
 "You have an invalid or expired license key for your %1$s plugin.\n"
@@ -1475,7 +1482,7 @@ msgstr ""
 "admin&utm_medium=renewal_link&utm_campaign=license_expired\"> Klik hier om "
 "uw licenties te beheren</a> en uw datafeeds actueel te houden."
 
-#: includes/user-interface/wppfm-admin-actions.php:272
+#: includes/user-interface/wppfm-admin-actions.php:295
 #, php-format
 msgid ""
 "The license key for your %1$s plugin is expiring soon. If you wish you can "
@@ -1529,7 +1536,7 @@ msgstr ""
 "Als het werken met onze Feed Manager je bevalt, laat het ons weten door een "
 "%s-rating achter te laten. Alvast enorm bedankt!"
 
-#: includes/user-interface/wppfm-admin-menu-functions.php:256
+#: includes/user-interface/wppfm-admin-menu-functions.php:261
 #, php-format
 msgid ""
 "2122 - Checking your license failed. Please open a support ticket at %s for "
@@ -1600,8 +1607,12 @@ msgid "https://www.wpmarketingrobot.com"
 msgstr "https://www.wpmarketingrobot.com"
 
 #. Description of the plugin/theme
+#, fuzzy
+#| msgid ""
+#| "An easy to use WordPress plugin that generates and submits your product "
+#| "feeds to merchant centres."
 msgid ""
-"An easy to use WordPress plugin that generates and submits your product "
+"An easy-to-use WordPress plugin that generates and submits your product "
 "feeds to merchant centres."
 msgstr ""
 "Een eenvoudig te gebruiken WordPress plugin die product feeds genereert en "
@@ -1610,6 +1621,11 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Michel Jongbloed"
 msgstr "Michel Jongbloed"
+
+#, php-format
+#~ msgid "2141 - Please open a support ticket at %s for support on this issue."
+#~ msgstr ""
+#~ "2141-Open een ondersteuningsaanvraag op %s voor ondersteuning op dit punt."
 
 #~ msgid ""
 #~ "Could not identify the channel. \n"

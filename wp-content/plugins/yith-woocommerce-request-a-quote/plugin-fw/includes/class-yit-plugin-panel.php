@@ -112,6 +112,8 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'init_wp_with_tabs' ), 11 );
 				add_action( 'admin_init', array( $this, 'maybe_redirect_to_proper_wp_page' ) );
 
+				/* Add UTM tracking code on premium tab */
+                add_filter( 'yith_plugin_fw_premium_landing_uri', array( $this, 'add_utm_data_on_premium_tab' ), 10, 2 );
 				// Init actions once to prevent multiple initialization.
 				static::init_actions();
 			}
@@ -1697,6 +1699,18 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 		 */
 		public function save_toggle_element_options() {
 			return true;
+		}
+
+		/**
+		 * Add UTM data in premium tab
+		 *
+		 * @param string $url      The url that want to track.
+		 * @param string $slug     Plugin slug.
+		 *
+		 * @since 3.8.4
+		 */
+		public function add_utm_data_on_premium_tab( $url, $slug ) {
+			return ! empty( $this->settings['plugin_slug'] ) && $slug === $this->settings['plugin_slug'] && 'premium' === $this->get_current_tab() ? yith_plugin_fw_add_utm_data( $url, $slug, 'button-upgrade', 'wp-free-dashboard' ) : $url;
 		}
 	}
 }

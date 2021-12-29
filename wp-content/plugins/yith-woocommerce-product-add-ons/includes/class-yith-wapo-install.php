@@ -122,6 +122,8 @@ if ( ! class_exists( 'YITH_WAPO_Install' ) ) {
 				$import_products_exclude_id = strpos( $block->products_exclude_id, ',' ) !== false ? explode( ',', $block->products_exclude_id ) : $block->products_exclude_id;
 
 				$request['block_id']                             = 'new';
+				$request['block_user_id']                        = empty( $block->user_id ) ? 0 : $block->user_id;
+				$request['block_vendor_id']                      = empty( $block->vendor_id ) ? 0 : $block->vendor_id;
 				$request['block_name']                           = empty( $block->name ) ? '' : $block->name;
 				$request['block_rule_show_in']                   = empty( $block->products_id ) ? 'all' : 'products';
 				$request['block_rule_show_in_products']          = empty( $block->products_id ) ? '' : $import_products_id;
@@ -148,6 +150,7 @@ if ( ! class_exists( 'YITH_WAPO_Install' ) ) {
 
 					// Display options.
 					$request['addon_title']             = $addon->label;
+					$request['addon_description']       = $addon->description;
 					$request['addon_show_image']        = ( '' !== $addon->image ? 'yes' : 'no' );
 					$request['addon_image']             = $addon->image;
 					$request['addon_image_replacement'] = '';

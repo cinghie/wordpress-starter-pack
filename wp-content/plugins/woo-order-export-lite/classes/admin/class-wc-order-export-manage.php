@@ -252,6 +252,7 @@ class WC_Order_Export_Manage {
 			'format_xls_auto_width'                    => 1,
 			'format_xls_direction_rtl'                 => 0,
 			'format_xls_force_general_format'          => 0,
+            'format_xls_remove_emojis'                 => 0,
 			'format_xls_row_images_width'              => 50,
 			'format_xls_row_images_height'             => 50,
 			
@@ -263,6 +264,7 @@ class WC_Order_Export_Manage {
 			'format_csv_item_rows_start_from_new_line' => 0,
 			'format_csv_encoding'                      => 'UTF-8',
 			'format_csv_delete_linebreaks'             => 0,
+            'format_csv_remove_linebreaks'             => 0,
 			'format_csv_force_quotes'                  => 0,
 			
 			'format_tsv_linebreak'                     => '\r\n',
@@ -511,6 +513,14 @@ class WC_Order_Export_Manage {
 			    $default_segment_fields,
 			    apply_filters( $filter, array(), $format )
 			);
+
+            if ($segment == 'common') {
+                $settings = WC_Order_Export_Main_Settings::get_settings();
+                $type = isset($settings['post_type']) ? $settings['post_type'] : (isset($_GET['woe_post_type']) ? $_GET['woe_post_type'] : '');
+                if ( $type !== 'shop_order_refund' ) {
+                    unset($default_segment_fields['orig_order_date']);
+                }
+            }
 
 			foreach ( $default_segment_fields as $key => $value ) {
 				$order_field            = $value;

@@ -209,6 +209,14 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 			'increase' => __( 'Increase the main product price', 'yith-woocommerce-product-add-ons' ),
 			'decrease' => __( 'Discount the main product price', 'yith-woocommerce-product-add-ons' ),
 		);
+		if ( 'number' === $addon_type ) {
+			$price_options = array(
+				'free'            => __( 'Product price doesn\'t change - set option as free', 'yith-woocommerce-product-add-ons' ),
+				'increase'        => __( 'Increase the main product price', 'yith-woocommerce-product-add-ons' ),
+				'decrease'        => __( 'Discount the main product price', 'yith-woocommerce-product-add-ons' ),
+				'value_x_product' => __( 'Value multiplied by product price', 'yith-woocommerce-product-add-ons' ),
+			);
+		}
 		if ( 'product' === $addon_type ) {
 			$option_price_method = $addon->get_option( 'price_method', $x, 'product' );
 			$price_options       = array(

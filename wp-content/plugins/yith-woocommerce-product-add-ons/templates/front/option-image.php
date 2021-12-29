@@ -10,11 +10,12 @@
  * @var int $x
  * @var string $option_image
  * @var string $hide_option_images
- * @var string $setting_hide_images
  * @var string $addon_options_images_position
  */
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
+
+$setting_hide_images = get_option( 'yith_wapo_hide_images' );
 
 if ( $addon->get_option( 'show_image', $x ) && '' !== $option_image && ! $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
 

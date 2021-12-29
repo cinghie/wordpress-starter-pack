@@ -26,17 +26,24 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 		if ( '1' === $addon->visibility && yith_wapo_is_addon_type_available( $addon->type ) ) :
 
 			// Display settings.
-			$addon_title                   = $addon->get_setting( 'title' );
+			$addon_title       = $addon->get_setting( 'title' );
+			$addon_description = $addon->get_setting( 'description' );
+			if ( YITH_WAPO::$is_wpml_installed ) {
+				$addon_title       = YITH_WAPO_WPML::string_translate( $addon_title );
+				$addon_description = YITH_WAPO_WPML::string_translate( $addon_description );
+			}
 			$addon_show_image              = $addon->get_setting( 'show_image' );
 			$addon_image                   = $addon->get_setting( 'image' );
 			$addon_image_replacement       = $addon->get_setting( 'image_replacement' );
 			$addon_options_images_position = $addon->get_setting( 'options_images_position' );
 
 			if ( get_option( 'yith_wapo_show_in_toggle' ) === 'yes' ) {
-				$toggle_addon   = 'toggle';
+				$toggle_addon   = 'wapo-toggle';
+				$toggle_status  = get_option( 'yith_wapo_show_toggle_opened' ) === 'yes' ? 'toggle-open' : 'toggle-closed';
 				$toggle_default = get_option( 'yith_wapo_show_toggle_opened' ) === 'yes' ? 'default-open' : 'default-closed';
 			} else {
-				$toggle_addon   = $addon->get_setting( 'show_as_toggle' ) !== 'no' ? 'toggle' : '';
+				$toggle_addon   = $addon->get_setting( 'show_as_toggle' ) !== 'no' ? 'wapo-toggle' : '';
+				$toggle_status  = $addon->get_setting( 'show_as_toggle' ) === 'open' ? 'toggle-open' : 'toggle-closed';
 				$toggle_default = $addon->get_setting( 'show_as_toggle' ) === 'open' ? 'default-open' : 'default-closed';
 			}
 			if ( 'toggle' === $toggle_addon && '' === $addon_title ) {
@@ -81,10 +88,12 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 			$conditional_rule_addon       = (array) $addon->get_setting( 'conditional_rule_addon' );
 			$conditional_rule_addon_is    = (array) $addon->get_setting( 'conditional_rule_addon_is' );
 
+			$addon_classes = apply_filters( 'yith_wapo_addon_classes', 'yith-wapo-addon yith-wapo-addon-type-' . esc_attr( $addon->type ) . ' ' . esc_attr( $toggle_addon ) . ' ' . esc_attr( $conditional_logic_class ), $addon );
+
 			?>
 
 			<div id="yith-wapo-addon-<?php echo esc_attr( $addon->id ); ?>"
-				class="yith-wapo-addon yith-wapo-addon-type-<?php echo esc_attr( $addon->type ); ?> <?php echo esc_attr( $toggle_addon ); ?> <?php echo esc_attr( $conditional_logic_class ); ?>"
+				class="<?php echo esc_attr( $addon_classes ); ?>"
 				data-min="<?php echo esc_attr( $min_max_values['min'] ); ?>"
 				data-max="<?php echo esc_attr( $min_max_values['max'] ); ?>"
 				data-exa="<?php echo esc_attr( $min_max_values['exa'] ); ?>"
@@ -110,7 +119,10 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 				<?php endif; ?>
 
 				<?php if ( '' !== $addon_title ) : ?>
-					<<?php echo esc_attr( $style_addon_titles ); ?> class="wapo-block-title"><?php echo esc_html( $addon_title ); ?></<?php echo esc_attr( $style_addon_titles ); ?>>
+					<<?php echo esc_attr( $style_addon_titles ); ?> class="wapo-addon-title <?php echo esc_attr( $toggle_status ); ?>"><?php echo esc_html( $addon_title ); ?></<?php echo esc_attr( $style_addon_titles ); ?>>
+					<?php if ( 'yes' === get_option( 'yith_wapo_show_blocks_in_cart', 'no' ) ): ?>
+						<?php echo '<input type="hidden" class="wapo-addon-title-hidden" name="yith_wapo[][' . esc_attr( $addon->id ) . '-addon_title]" value="' . esc_html( $addon_title ) . '" />' ?>
+					<?php endif; ?>
 				<?php endif; ?>
 
 				<?php
@@ -121,7 +133,14 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 					echo '<div class="options ' . esc_attr( $toggle_default ) . ' per-row-' . esc_attr( $options_per_row ) . ( $show_in_a_grid ? ' grid' : '' ) . '">';
 
+					if ( '' !== $addon_description ) {
+						echo '<p class="wapo-addon-description">' . stripslashes( $addon_description ) . '</p>'; // phpcs:ignore
+					}
+
 					if ( 'select' === $addon->type ) {
+
+						echo '<div class="option-image"></div>';
+
 						echo '<select id="yith-wapo-' . esc_attr( $addon->id ) . '"
 							name="yith_wapo[][' . esc_attr( $addon->id ) . ']"
 							data-addon-id="' . esc_attr( $addon->id ) . '"
@@ -160,12 +179,35 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 								$price_sale = $price_sale > 0 ? $price_sale : '0';
 							}
 
-							include YITH_WAPO_DIR . '/templates/front/addons/' . $addon->type . '.php';
+							$setting_hide_images = get_option( 'yith_wapo_hide_images' );
+							wc_get_template(
+								$addon->type . '.php',
+								array(
+									'addon'               => $addon,
+									'addon_options_images_position' => $addon_options_images_position,
+									'hide_option_images'  => $hide_option_images,
+									'hide_option_label'   => $hide_option_label,
+									'hide_option_prices'  => $hide_option_prices,
+									'image_replacement'   => $image_replacement,
+									'option_description'  => $option_description,
+									'option_image'        => $option_image,
+									'options_width_css'   => $options_width_css,
+									'price'               => $price,
+									'price_method'        => $price_method,
+									'price_sale'          => $price_sale,
+									'price_type'          => $price_type,
+									'selection_type'      => $selection_type,
+									'setting_hide_images' => $setting_hide_images,
+									'x'                   => $x,
+								),
+								'',
+								YITH_WAPO_DIR . '/templates/front/addons/'
+							);
 						}
 					}
 
 					if ( 'select' === $addon->type ) {
-						echo '</select>';
+						echo '</select><p class="option-description"></p>';
 					}
 
 					echo '<div class="clear"></div>';

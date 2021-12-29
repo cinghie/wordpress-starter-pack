@@ -85,6 +85,16 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 									</div>
 									<!-- End option field -->
 
+									<!-- Option field -->
+									<div class="field-wrap" style="margin-top: 20px;">
+										<label for="addon-description" style="width: 50px;"><?php echo esc_html__( 'Description', 'yith-woocommerce-product-add-ons' ); ?>:</label>
+										<div class="field">
+											<textarea type="text" name="addon_description" id="addon-description"><?php echo esc_attr( $addon->get_setting( 'description' ) ); ?></textarea>
+											<span class="description"><?php echo esc_html__( 'Enter a description to show before the options.', 'yith-woocommerce-product-add-ons' ); ?></span>
+										</div>
+									</div>
+									<!-- End option field -->
+
 									<?php for ( $x = 0; $x < $options_total; $x++ ) : ?>
 										<div class="option <?php echo 1 === $options_total ? 'open' : ''; ?>">
 											<div class="actions" style="<?php echo 1 === $options_total ? 'display: none;' : ''; ?>">

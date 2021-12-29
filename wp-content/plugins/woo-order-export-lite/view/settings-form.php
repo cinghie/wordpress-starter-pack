@@ -18,20 +18,20 @@ $options                  = WC_Order_Export_Main_Settings::get_settings();
 
 $pdf_format_available_options = array(
 	'orientation' => array(
-		'P' => 'Portrait',
-		'L' => 'Landscape',
+		'P' => __( 'Portrait', 'woo-order-export-lite' ),
+		'L' => __( 'Landscape', 'woo-order-export-lite' ),
 	),
 	'page_size'   => array(
 		'A3'     => 'A3',
 		'A4'     => 'A4',
 		'A5'     => 'A5',
-		'letter' => 'Letter',
-		'legal'  => 'Legal',
+		'letter' => __( 'Letter', 'woo-order-export-lite' ),
+		'legal'  => __( 'Legal', 'woo-order-export-lite' ),
 	),
 );
 
 function print_formats_field( $type, $segment = "", $selected = "", $custom_key = "" ) {
-	if ( ! $type && $type !== 'meta' && $type !== 'field' ) {
+	if ( ! $type && $type !== 'meta' && $type !== 'field' && $type !== 'calculated' ) {
 		return '';
 	}
 	$margin_left = 'meta' == $type ? '1px' : '4px';
@@ -214,7 +214,9 @@ function remove_time_from_date( $datetime ) {
 
         <div id="my-export-file" class="my-block">
             <div class="wc-oe-header">
-				<?php _e( 'Export filename', 'woo-order-export-lite' ) ?>:
+				<?php _e( 'Export filename', 'woo-order-export-lite' ) ?> :
+				<a style="float:right;font-weight:normal" target="_blank" href="https://docs.algolplus.com/algol_order_export/the-export-filename-block/">
+                <?php _e('supported tags', 'woo-order-export-lite' ) ?></a>
             </div>
             <label id="export_filename" class="width-100">
                 <input type="text" name="settings[export_filename]" class="width-100"
@@ -248,6 +250,7 @@ function remove_time_from_date( $datetime ) {
                 <input type=hidden name="settings[format_xls_auto_width]" value=0>
                 <input type=hidden name="settings[format_xls_direction_rtl]" value=0>
                 <input type=hidden name="settings[format_xls_force_general_format]" value=0>
+                <input type=hidden name="settings[format_xls_remove_emojis]" value=0>
                 <input type=checkbox name="settings[format_xls_use_xls_format]"
                        value=1 <?php if ( @$settings['format_xls_use_xls_format'] ) {
 					echo 'checked';
@@ -272,6 +275,10 @@ function remove_time_from_date( $datetime ) {
                        value=1 <?php if ( @$settings['format_xls_force_general_format'] ) {
 					echo 'checked';
 				} ?> > <?php _e( 'Force general format for all cells', 'woo-order-export-lite' ) ?><br>
+                <input type=checkbox name="settings[format_xls_remove_emojis]"
+                       value=1 <?php if ( @$settings['format_xls_remove_emojis'] ) {
+                    echo 'checked';
+                } ?> > <?php _e( 'Remove emojis', 'woo-order-export-lite' ) ?><br>
 
 	            <div class="pdf_two_col_block">
 		            <?php _e( 'Images width', 'woo-order-export-lite' ) ?>
@@ -293,6 +300,7 @@ function remove_time_from_date( $datetime ) {
                 <input type=hidden name="settings[format_csv_display_column_names]" value=0>
                 <input type=hidden name="settings[format_csv_force_quotes]" value=0>
                 <input type=hidden name="settings[format_csv_delete_linebreaks]" value=0>
+                <input type=hidden name="settings[format_csv_remove_linebreaks]" value=0>
                 <input type=hidden name="settings[format_csv_item_rows_start_from_new_line]" value=0>
                 <input type=checkbox name="settings[format_csv_add_utf8_bom]"
                        value=1 <?php if ( @$settings['format_csv_add_utf8_bom'] ) {
@@ -310,6 +318,10 @@ function remove_time_from_date( $datetime ) {
                        value=1 <?php if ( @$settings['format_csv_delete_linebreaks'] ) {
 					echo 'checked';
 				} ?> > <?php _e( 'Convert line breaks to literals', 'woo-order-export-lite' ) ?><br>
+                <input type=checkbox name="settings[format_csv_remove_linebreaks]"
+                       value=1 <?php if ( @$settings['format_csv_remove_linebreaks'] ) {
+                    echo 'checked';
+                } ?> > <?php _e( 'Remove line breaks', 'woo-order-export-lite' ) ?><br>
                 <input type=checkbox name="settings[format_csv_item_rows_start_from_new_line]"
                        value=1 <?php if ( @$settings['format_csv_item_rows_start_from_new_line'] ) {
 					echo 'checked';
@@ -941,7 +953,7 @@ function remove_time_from_date( $datetime ) {
                 include_once WOE_PRO_PLUGIN_BASEPATH . '/view/filter-by-subscription.php';
             } else {
                 ?>
-                <span class="my-hide-next "><?php _e( 'Filter by order', 'export' ); ?>
+                <span class="my-hide-next "><?php _e( 'Filter by order', 'woo-order-export-lite' ); ?>
                 <span class="ui-icon ui-icon-triangle-1-s my-icon-triangle"></span></span>
                 <div id="my-order" class="hide">
                     <div><input type="hidden" name="settings[skip_suborders]" value="0"/><label><input type="checkbox"
@@ -1375,10 +1387,10 @@ function remove_time_from_date( $datetime ) {
                     </div>
                     <div class="custom-fields__condotion-wrapper custom-fields__condotion-wrapper_position">
                         <select id="billing_locations" class="select2-i18n" data-select2-i18n-width="150">
-                            <option>City</option>
-                            <option>State</option>
-                            <option>Postcode</option>
-                            <option>Country</option>
+                            <option value="City"><?php _e( 'City', 'woo-order-export-lite' );?></option>
+                            <option value="State"><?php _e( 'State', 'woo-order-export-lite' );?></option>
+                            <option value="Postcode"><?php _e( 'Postcode', 'woo-order-export-lite' );?></option>
+                            <option value="Country"><?php _e( 'Country', 'woo-order-export-lite' );?></option>
                         </select>
                         <select id="billing_compare" class="select_compare">
                             <option>=</option>
@@ -1425,10 +1437,10 @@ function remove_time_from_date( $datetime ) {
                     </div>
                     <div class="custom-fields__condotion-wrapper custom-fields__condotion-wrapper_position">
                         <select id="shipping_locations" class="select2-i18n" data-select2-i18n-width="150">
-                            <option>City</option>
-                            <option>State</option>
-                            <option>Postcode</option>
-                            <option>Country</option>
+                            <option value="City"><?php _e( 'City', 'woo-order-export-lite' );?></option>
+                            <option value="State"><?php _e( 'State', 'woo-order-export-lite' );?></option>
+                            <option value="Postcode"><?php _e( 'Postcode', 'woo-order-export-lite' );?></option>
+                            <option value="Country"><?php _e( 'Country', 'woo-order-export-lite' );?></option>
                         </select>
                         <select id="shipping_compare" class="select_compare">
                             <option>=</option>
@@ -1567,9 +1579,6 @@ function remove_time_from_date( $datetime ) {
                 </div>
                 <div id='fields' style='display:none;'>
 
-		    <div class="summary-products-mode-tip">
-			<?php _e( 'Turn off mode Summary report to export order fields', 'woo-order-export-lite' ) ?>
-		    </div>
                     <div class="fields-control-block"></div>
                     <br>
                     <div class="fields-control">
@@ -1621,6 +1630,9 @@ function remove_time_from_date( $datetime ) {
                             </button>
                             <button class='button-secondary add-custom'>
 								<?php _e( 'Add static field', 'woo-order-export-lite' ) ?>
+                            </button>
+                            <button class='button-secondary add-calculated'>
+								<?php _e( 'Add calculated field', 'woo-order-export-lite' ) ?>
                             </button>
                         </div>
                         <div class="tab-actions-buttons other_items-actions-buttons">
@@ -1772,7 +1784,7 @@ function remove_time_from_date( $datetime ) {
 											'woo-order-export-lite' ) ?></button>
                                 </div>
                             </div>
-			    <div class='div_custom products-segment segment-form products-add-static-field'>
+			                <div class='div_custom products-segment segment-form products-add-static-field'>
                                 <div>
                                     <label for="colname_custom_field_products"><?php _e( 'Column name',
 											'woo-order-export-lite' ) ?>:</label>
@@ -1816,7 +1828,7 @@ function remove_time_from_date( $datetime ) {
                                 <label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label><input
                                         type='text' id='colname_custom_meta_product_items'/>
                                 <div style="margin-top: 15px;"></div>
-								<?php echo print_formats_field( 'meta', 'products_items' ); ?>
+								<?php echo print_formats_field( 'meta', 'product_items' ); ?>
                                 <div style="text-align: right;">
                                     <button id='button_custom_meta_product_items'
                                             class='button-secondary'><?php _e( 'Confirm',
@@ -1837,7 +1849,7 @@ function remove_time_from_date( $datetime ) {
                                     <input type='text' class="set-up__selects_sm" id='value_custom_field_product_items'/>
                                 </div>
                                 <div>
-									<?php echo print_formats_field( 'field', 'products_items' ); ?>
+									<?php echo print_formats_field( 'field', 'product_items' ); ?>
                                 </div>
                                 <div style="text-align: right;">
                                     <button id='button_custom_field_product_items'
@@ -1898,73 +1910,166 @@ function remove_time_from_date( $datetime ) {
                             </div>
                             <div class='div_custom other-items-segment segment-form other-items-add-fee-form'>
                                 <label>
-				    <?php _e( 'Fee name', 'woo-order-export-lite' ) ?>:
-				</label>
-				<br/>
+                                    <?php _e( 'Fee name', 'woo-order-export-lite' ) ?>:
+                                </label>
+                                <br/>
                                 <select id='select_fee_items'></select>
-				<br/>
-				<br/>
-				<label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
-				<input type='text' id='colname_fee_item_other_items'/>
+                                <br/>
+                                <br/>
+                                <label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
+                                <input type='text' id='colname_fee_item_other_items'/>
                                 <div style="margin-top: 20px;">
-				    <?php echo print_formats_field( 'field', 'other_items', 'money',  'format_fee_item_other_items'); ?>
+				                    <?php echo print_formats_field( 'field', 'other_items', 'money',  'format_fee_item_other_items'); ?>
                                 </div>
                                 <div style="text-align: right;">
                                     <button id='button_other_items_add_fee_field' class='button-secondary'>
-					<?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
+					                    <?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
                                     </button>
                                     <button class='button-secondary button-cancel'>
-					<?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+					                    <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
                                     </button>
                                 </div>
                             </div>
                             <div class='div_custom other-items-segment segment-form other-items-add-shipping-form'>
                                 <label>
-				    <?php _e( 'Shipping name', 'woo-order-export-lite' ) ?>:
-				</label>
-                <br/>
-				<select id='select_shipping_items'></select>
-				<br/>
-				<br/>
-				<label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
-				<input type='text' id='colname_shipping_item_other_items'/>
+                                    <?php _e( 'Shipping name', 'woo-order-export-lite' ) ?>:
+                                </label>
+                                <br/>
+                                <select id='select_shipping_items'></select>
+                                <br/>
+                                <br/>
+                                <label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
+                                <input type='text' id='colname_shipping_item_other_items'/>
                                 <div style="margin-top: 20px;">
-				    <?php echo print_formats_field( 'field', 'other_items', 'money',  'format_shipping_item_other_items'); ?>
+				                    <?php echo print_formats_field( 'field', 'other_items', 'money',  'format_shipping_item_other_items'); ?>
                                 </div>
                                 <div style="text-align: right;">
                                     <button id='button_other_items_add_shipping_field' class='button-secondary'>
-					<?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
+					                    <?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
                                     </button>
                                     <button class='button-secondary button-cancel'>
-					<?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+					                    <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
                                     </button>
                                 </div>
                             </div>
                             <div class='div_custom other-items-segment segment-form other-items-add-tax-form'>
                                 <label>
-				    <?php _e( 'Tax name', 'woo-order-export-lite' ) ?>:
-				</label>
-				<br/>
+                                    <?php _e( 'Tax name', 'woo-order-export-lite' ) ?>:
+                                </label>
+                                <br/>
                                 <select id='select_tax_items'></select>
-				<br/>
-				<br/>
-				<label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
-				<input type='text' id='colname_tax_item_other_items'/>
+                                    <br/>
+                                    <br/>
+                                    <label><?php _e( 'Column name', 'woo-order-export-lite' ) ?>:</label>
+                                    <input type='text' id='colname_tax_item_other_items'/>
                                 <div style="margin-top: 20px;">
-				    <?php echo print_formats_field( 'field', 'other_items', 'money',  'format_tax_item_other_items'); ?>
+				                    <?php echo print_formats_field( 'field', 'other_items', 'money',  'format_tax_item_other_items'); ?>
                                 </div>
                                 <div style="text-align: right;">
                                     <button id='button_other_items_add_tax_field' class='button-secondary'>
-					<?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
+					                    <?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
                                     </button>
                                     <button class='button-secondary button-cancel'>
-					<?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+					                    <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="div_calculated segment-form all-segments">
+                                <div style="padding-bottom: 0.4rem">
+                                    <a class='add_form_tip' href="https://docs.algolplus.com/algol_order_export/fields/" target="_blank">
+                                        <?php _e( "You should add code to section \"Misc Settings\". Read the guide", 'woo-order-export-lite' )?>
+                                    </a>
+                                </div>
+                                <div>
+                                    <label for="metakey_custom_calculated">
+                                        <?php _e('Meta key', 'woo-order-export-lite') ?>:
+                                    </label>
+                                    <input type="text" id="metakey_custom_calculated"/>
+                                </div>
+                                <div>
+                                    <label for="label_custom_calculated">
+                                        <?php _e('Label', 'woo-order-export-lite') ?>:
+                                    </label>
+                                    <input type="text" id="label_custom_calculated"/>
+                                </div>
+                                <div>
+                                    <?php echo print_formats_field('calculated'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button id='button_custom_calculated' class='button-secondary'>
+					                    <?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                    <button class='button-secondary button-cancel'>
+					                    <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="div_calculated segment-form products-segment">
+                                <div style="padding-bottom: 0.4rem">
+                                    <a class='add_form_tip' href="https://docs.algolplus.com/algol_order_export/add-calculated-field-for-product/" target="_blank">
+                                        <?php _e( "You should add code to section \"Misc Settings\". Read the guide", 'woo-order-export-lite' )?>
+                                    </a>
+                                </div>
+                                <div>
+                                    <label for="metakey_custom_calculated_products">
+                                        <?php _e('Meta key', 'woo-order-export-lite') ?>:
+                                    </label>
+                                    <input type="text" id="metakey_custom_calculated_products"/>
+                                </div>
+                                <div>
+                                    <label for="label_custom_calculated_products">
+                                        <?php _e('Label', 'woo-order-export-lite') ?>:
+                                    </label>
+                                    <input type="text" id="label_custom_calculated_products"/>
+                                </div>
+                                <div>
+                                    <?php echo print_formats_field('calculated', 'products'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button id='button_custom_calculated_products' class='button-secondary'>
+					                    <?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                    <button class='button-secondary button-cancel'>
+					                    <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="div_calculated segment-form product_items-segment">
+                                <div style="padding-bottom: 0.4rem">
+                                    <a class='add_form_tip' href="https://docs.algolplus.com/algol_order_export/add-calculated-field-for-product/" target="_blank">
+                                        <?php _e( "You should add code to section \"Misc Settings\". Read the guide", 'woo-order-export-lite' )?>
+                                    </a>
+                                </div>
+                                <div>
+                                    <label for="metakey_custom_calculated_product_items">
+                                        <?php _e('Meta key', 'woo-order-export-lite') ?>:
+                                    </label>
+                                    <input type="text" id="metakey_custom_calculated_product_items"/>
+                                </div>
+                                <div>
+                                    <label for="label_custom_calculated_product_items">
+                                        <?php _e('Label', 'woo-order-export-lite') ?>:
+                                    </label>
+                                    <input type="text" id="label_custom_calculated_product_items"/>
+                                </div>
+                                <div>
+                                    <?php echo print_formats_field('calculated', 'product_items'); ?>
+                                </div>
+                                <div style="text-align: right;">
+                                    <button id='button_custom_calculated_product_items' class='button-secondary'>
+					                    <?php _e( 'Confirm', 'woo-order-export-lite' ) ?>
+                                    </button>
+                                    <button class='button-secondary button-cancel'>
+					                    <?php _e( 'Cancel', 'woo-order-export-lite' ) ?>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="woe_hints_block">
+                        <div class="summary-products-mode-tip">
+                            <?php _e( 'Turn off mode Summary report to export order fields', 'woo-order-export-lite' ) ?>
+                        </div>
                         <?php foreach ( $segment_hints as $key => $hint ): ?>
                                 <div class="woe_segment_tips" id="woe_tips_<?php echo $key ?>">
                                     <?php echo $hint; ?> 
@@ -2048,6 +2153,7 @@ function remove_time_from_date( $datetime ) {
             <div id="progressBar">
                 <div></div>
             </div>
+            <h3 class="title-gen-file"><?php _e( "Generating file...", 'woo-order-export-lite' ) ?></h3>
         </div>
         <div id="background"></div>
 	<?php } ?>

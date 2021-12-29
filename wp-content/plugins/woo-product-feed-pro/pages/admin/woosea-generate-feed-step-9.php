@@ -24,6 +24,11 @@ $attributes = $attributes_obj->get_product_attributes();
 /**
  * Update or get project configuration 
  */
+$nonce = wp_create_nonce( 'woosea_ajax_nonce' );
+
+/**
+ * Update or get project configuration 
+ */
 if (array_key_exists('project_hash', $_GET)){
         $project = WooSEA_Update_Project::get_project_data(sanitize_text_field($_GET['project_hash']));
         $channel_data = WooSEA_Update_Project::get_channel_data(sanitize_text_field($_GET['channel_hash']));
@@ -46,6 +51,7 @@ if (array_key_exists('project_hash', $_GET)){
                         	<p><?php _e($notifications_box['message'], 'sample-text-domain' ); ?></p>
                 	</div>
 			<form id="fieldmanipulation" method="post">
+			<input name="nonce_manipulation_mapping" id="nonce_manipulation_mapping" class="nonce_manipulation_mapping" value="<?php print "$nonce";?>" type="hidden">
 
 			<table class="woo-product-feed-pro-table" id="woosea-ajax-table" border="1">
 				<thead>

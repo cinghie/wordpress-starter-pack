@@ -9,6 +9,8 @@
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
+$required = $addon->get_option( 'required', $x ) === 'yes';
+
 ?>
 
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>" class="yith-wapo-option quantity">
@@ -24,6 +26,7 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 			<!-- LABEL -->
 			<?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
+			<?php echo $required ? '<span class="required">*</span>' : ''; ?>
 
 			<!-- PRICE -->
 			<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
@@ -52,12 +55,19 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 	<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
 
+	<!-- REQUIRED -->
+	<?php if ( $required ) : ?>
+		<small class="required-error" style="color: #f00; padding: 5px 0px; display: none;"><?php echo esc_html__( 'This option is required.', 'yith-woocommerce-product-add-ons' ); ?></small>
+	<?php endif; ?>
+
+	<!-- TOOLTIP -->
 	<?php if ( $addon->get_option( 'tooltip', $x ) !== '' ) : ?>
 		<span class="tooltip position-<?php echo esc_attr( get_option( 'yith_wapo_tooltip_position' ) ); ?>" style="<?php echo esc_attr( $options_width_css ); ?>">
 			<span><?php echo esc_attr( $addon->get_option( 'tooltip', $x ) ); ?></span>
 		</span>
 	<?php endif; ?>
 
+	<!-- DESCRIPTION -->
 	<?php if ( '' !== $option_description ) : ?>
 		<p class="description">
 			<?php echo wp_kses_post( $option_description ); ?>

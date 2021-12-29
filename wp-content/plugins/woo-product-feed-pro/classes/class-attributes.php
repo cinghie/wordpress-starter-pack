@@ -79,25 +79,34 @@ private function get_custom_attributes() {
 	global $wpdb;
      	$list = array();
      	
-      $sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
+      	//$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key NOT LIKE 'pyre%' AND meta.meta_key NOT LIKE 'sbg_%' AND meta.meta_key NOT LIKE 'rp_%' GROUP BY meta.meta_key ORDER BY meta.meta_key ASC;";
+	//$data = $wpdb->get_results($sql);
 
-//      	$sql = "SELECT 
-//			meta.meta_id, 
-//			meta.meta_key as name, 
-//			meta.meta_value as type 
-//		FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts 
-//		WHERE 
-//			meta.post_id = posts.id AND 
-//			posts.post_type LIKE 'product_%' 
-//			GROUP BY meta.meta_key
-//			ORDER BY meta.meta_key ASC;";
-	$data = $wpdb->get_results($sql);
+	if ( ! function_exists( 'woosea_get_meta_keys_for_post_type' ) ) :
 
+    		function woosea_get_meta_keys_for_post_type( $post_type, $sample_size = 5 ) {
+        		$meta_keys = array();
+        		$posts     = get_posts( array( 'post_type' => $post_type, 'limit' => $sample_size ) );
+
+        		foreach ( $posts as $post ) {
+            			$post_meta_keys = get_post_custom_keys( $post->ID );
+            			$meta_keys      = array_merge( $meta_keys, $post_meta_keys );
+        		}
+
+        		// Use array_unique to remove duplicate meta_keys that we received from all posts
+        		// Use array_values to reset the index of the array
+        		return array_values( array_unique( $meta_keys ) );
+    		}
+	endif;
+
+	$post_type = "product";
+	$data = woosea_get_meta_keys_for_post_type($post_type);	
+	
       	if (count($data)) {
      		foreach ($data as $key => $value) {
-			if (!preg_match("/_product_attributes/i",$value->name)){
-				$value_display = str_replace("_", " ",$value->name);
-                    		$list["custom_attributes_" . $value->name] = ucfirst($value_display);
+			if (!preg_match("/_product_attributes/i",$value)){
+				$value_display = str_replace("_", " ",$value);
+                    		$list["custom_attributes_" . $value] = ucfirst($value_display);
             		} else {
 				$sql = "SELECT meta.meta_id, meta.meta_key as name, meta.meta_value as type FROM " . $wpdb->prefix . "postmeta" . " AS meta, " . $wpdb->prefix . "posts" . " AS posts WHERE meta.post_id = posts.id AND posts.post_type LIKE '%product%' AND meta.meta_key='_product_attributes';";
 				$data = $wpdb->get_results($sql);
@@ -233,11 +242,13 @@ public function get_mapping_attributes_dropdown() {
 			"rounded_sale_price" => "Sale price rounded",
 			"system_price" => "System price",
 			"system_net_price" => "System price excl. VAT",
+			"system_net_sale_price" => "System sale price excl. VAT",
+			"system_net_regular_price" => "System regular price excl. VAT",
 			"system_regular_price" => "System regular price",
 			"system_sale_price" => "System sale price",
-			"vivino_price" => "Pinterest / Vivino price",
-			"vivino_sale_price" => "Pinterest / Vivino sale price",
-			"vivino_regular_price" => "Pinterest / Vivino regular price",
+			"vivino_price" => "Pinterest / TikTok / Vivino price",
+			"vivino_sale_price" => "Pinterest / TikTok / Vivino sale price",
+			"vivino_regular_price" => "Pinterest / TikTok / Vivino regular price",
 			"non_geo_wcml_price" => "Non GEO WCML price",
 			"mm_min_price" => "Mix & Match minimum price",
 			"mm_min_regular_price" => "Mix & Match minimum regular price",
@@ -271,6 +282,8 @@ public function get_mapping_attributes_dropdown() {
 			"region_id" => "Region Id",
 			"stock_status" => "Stock Status WooCommerce",
             		"quantity" => "Quantity [Stock]",
+			"virtual" => "Virtual",
+			"downloadable" => "Downloadable",
 			"product_type" => "Product Type",
 			"content_type" => "Content Type",
                         "exclude_from_catalog" => "Excluded from catalog",
@@ -472,7 +485,9 @@ public function get_mapping_attributes_dropdown() {
 			"region_id" => "Region Id",
 			"stock_status" => "Stock Status WooCommerce",
 			"quantity" => "Quantity [Stock]",
-                        "price" => "Price",
+			"virtual" => "Virtual",
+                        "downloadable" => "Downloadable",
+			"price" => "Price",
                         "regular_price" => "Regular price",
                         "sale_price" => "Sale price",
                         "net_price" => "Price excl. VAT",
@@ -488,12 +503,14 @@ public function get_mapping_attributes_dropdown() {
                         "rounded_regular_price" => "Regular price rounded",
                         "rounded_sale_price" => "Sale price rounded",
 		        "system_price" => "System price",
-                        "system_net_price" => "System price excl. VAT",
+			"system_net_price" => "System price excl. VAT",
+			"system_net_sale_price" => "System sale price excl. VAT",
+                        "system_net_regular_price" => "System regular price excl. VAT",
                         "system_regular_price" => "System regular price",
                         "system_sale_price" => "System sale price",	
-			"vivino_price" => "Pinterest / Vivino price",
-			"vivino_sale_price" => "Pinterest / Vivino sale price",
-                        "vivino_regular_price" => "Pinterest / Vivino regular price",
+			"vivino_price" => "Pinterest / TikTok / Vivino price",
+			"vivino_sale_price" => "Pinterest / TikTok / Vivino sale price",
+                        "vivino_regular_price" => "Pinterest / TikTok / Vivino regular price",
 			"non_geo_wcml_price" => "Non GEO WCML price",
 			"mm_min_price" => "Mix & Match minimum price",
                         "mm_min_regular_price" => "Mix & Match minimum regular price",

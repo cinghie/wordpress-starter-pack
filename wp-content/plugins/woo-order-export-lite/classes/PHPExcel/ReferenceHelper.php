@@ -482,7 +482,7 @@ class PHPExcel_ReferenceHelper
                             foreach ($conditionalStyles as $conditionalStyle) {
                                 $cloned[] = clone $conditionalStyle;
                             }
-                            $pSheet->setConditionalStyles(PHPExcel_Cell::stringFromColumnIndex($j) . $i, $cloned);
+                            $pSheet->setConditionalStyles($cloned, PHPExcel_Cell::stringFromColumnIndex($j) . $i);
                         }
                     }
                 }
@@ -505,7 +505,7 @@ class PHPExcel_ReferenceHelper
                             foreach ($conditionalStyles as $conditionalStyle) {
                                 $cloned[] = clone $conditionalStyle;
                             }
-                            $pSheet->setConditionalStyles(PHPExcel_Cell::stringFromColumnIndex($i) . $j, $cloned);
+                            $pSheet->setConditionalStyles($cloned, PHPExcel_Cell::stringFromColumnIndex($i) . $j);
                         }
                     }
                 }

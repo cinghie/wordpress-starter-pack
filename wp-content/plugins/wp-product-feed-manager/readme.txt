@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 1.35.0
+Stable tag: 1.37.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -96,6 +96,17 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.37.0 - 20/12/2021 =
+* Added the "Regular Price With Tax", "Regular Price Without Tax", "Sale Price With Tax" and "Sale Price Without Tax" sources.
+* Fixed an issue that would cause a type error when opening the Edit Feed page.
+* Tested on WooCommerce 6.0.
+
+= 1.36.0 - 10/11/2021 =
+* Fixed an issue where if there is a source with the name "null" it would be selected as WooCommerce source by default.
+* Fixed an issue where selected categories in the Category Mapping table would automatically deselect if they had zero products assigned to them.
+* Fixed an issue with the edit feed page if a user would save a feed with an attribute filter being not assigned.
+* Tested on WooCommerce 5.9.
+
 = 1.35.0 - 14/10/2021 =
 * Fixed an issue where some attributes like Weight would not calculate correctly in a feed query.
 * Updated the Google Feed Specifications.

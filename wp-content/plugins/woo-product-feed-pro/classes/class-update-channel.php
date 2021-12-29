@@ -118,10 +118,13 @@ class WooSEA_Update_Project {
 			}	
                 	update_option( 'channel_project',$project_fill,'' );
 		} else {
-			$project_temp = get_option( 'channel_project' );
-			$project_fill = array_merge($project_temp, $project_data);
-                
-			update_option( 'channel_project',$project_fill,'' );
+	             	$project_temp = get_option( 'channel_project' );
+                        if(is_array($project_temp)){
+                                $project_fill = array_merge($project_temp, $project_data);
+                        } else {
+                                $project_fill = $project_data;
+                        }
+                        update_option( 'channel_project',$project_fill,'' );	
 		}
 		return $project_fill;
 	}

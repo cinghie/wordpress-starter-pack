@@ -26,12 +26,20 @@ class WOE_Formatter_Csv extends WOE_Formatter_sv {
 				return true;  //stop default fputcsv!
 			}, 10, 7);
 		}
-		
+
 	}
+
+    protected function remove_linebreaks_from_array( &$data ) {
+        $data = array_map( array( $this, 'remove_linebreaks_callback' ), $data );
+    }
 	
 	protected function delete_linebreaks_from_array( &$data ) {
 		$data = array_map( array( $this, 'delete_linebreaks_callback' ), $data );
 	}
+
+    protected function remove_linebreaks_callback( $value ) {
+        return preg_replace( "/([\r,\n])+/", " ", $value);
+    }
 
 	protected function delete_linebreaks_callback( $value ) {
 		// show linebreaks as literals
@@ -45,6 +53,9 @@ class WOE_Formatter_Csv extends WOE_Formatter_sv {
 		if ( ! empty( $this->settings['delete_linebreaks'] ) ) {
 			$this->delete_linebreaks_from_array( $arr );
 		}
+        if ( ! empty( $this->settings['remove_linebreaks'] ) ) {
+            $this->remove_linebreaks_from_array( $arr );
+        }
 		parent::prepare_array( $arr );
 	}
 

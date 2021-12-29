@@ -436,8 +436,14 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 	protected function getRowHeight( $widths, $row ) {
 		$nb = 0;
 		for ( $i = 0; $i < count( $row ); $i ++ ) {
-			// do not calculate height for non string values
-			$value = is_string( $row[ $i ] ) ? $row[ $i ] : 0;
+			if ( $this->isLinkCell($row[ $i ]) ) {
+				$value = $row[ $i ]['link'];
+			} elseif ( is_string( $row[ $i ] ) ) {
+				$value = $row[ $i ];
+			} else {
+				$value = 0;
+			}
+
 			$nb    = max( $nb, $this->NbLines( $widths[ $i ], $value ) );
 		}
 
@@ -589,7 +595,7 @@ class WOE_PDF_MC_Table extends WOE_FPDF {
 		$l            = 0;
 		$line_counter = 1;
 		while ( $ch_index < $text_len ) {
-			$char = $s[ $ch_index ];
+			$char = mb_substr($s, $ch_index, 1);
 			if ( $char == "\n" ) {
 				$ch_index ++;
 				$sep = - 1;

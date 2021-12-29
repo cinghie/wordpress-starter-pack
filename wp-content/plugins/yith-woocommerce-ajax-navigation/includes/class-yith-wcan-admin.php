@@ -162,7 +162,7 @@ if ( ! class_exists( 'YITH_WCAN_Admin' ) ) {
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing_url;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing_url, YITH_WCAN_SLUG );
 		}
 
 		/**

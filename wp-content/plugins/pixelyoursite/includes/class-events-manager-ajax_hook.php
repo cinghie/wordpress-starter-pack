@@ -32,150 +32,24 @@ class AjaxHookEventManager {
         if(EventsWoo()->isEnabled()) {
 
             // use for fb server only because ajax request cause bugs in woo
-            if(Facebook()->enabled()
-                && Facebook()->isServerApiEnabled()
-                && PYS()->getOption( 'woo_remove_from_cart_enabled')
-            ) {
-                add_action( 'woocommerce_remove_cart_item', array($this, 'trackRemoveFromCartEvent'), 10, 2);
-            }
 
-            if ( isEventEnabled('woo_add_to_cart_enabled')
-                && PYS()->getOption('woo_add_to_cart_on_button_click')
+
+            if ( PYS()->getOption('woo_add_to_cart_on_button_click')
+                && isEventEnabled('woo_add_to_cart_enabled')
             )
             {
-
+                add_action( 'woocommerce_after_add_to_cart_button', 'PixelYourSite\EventsManager::setupWooSingleProductData' );
                 if(PYS()->getOption('woo_add_to_cart_catch_method') == "add_cart_hook") {
                     add_action( 'wp_footer', array( __CLASS__, 'addDivForAjaxPixelEvent')  );
                     add_action( 'woocommerce_add_to_cart',array(__CLASS__, 'trackWooAddToCartEvent'),40, 6);
-                } else {
-
-                    if(Facebook()->enabled() && Facebook()->isServerApiEnabled()) {
-                        add_action( 'woocommerce_add_to_cart',array(__CLASS__, 'trackWooFacebookAddToCartEvent'),40, 6);
-                    }
-
                 }
+                add_action( 'woocommerce_after_add_to_cart_button', 'PixelYourSite\EventsManager::setupWooSingleProductData' );
 
             }
         }
 
 
 
-    }
-
-    /**
-     * @param String $cart_item_key
-     * @param \WC_Cart $cart
-     */
-
-    function trackRemoveFromCartEvent ($cart_item_key,$cart) {
-        $eventId = 'woo_remove_from_cart';
-
-        $url = $_SERVER['HTTP_HOST'].strtok($_SERVER["REQUEST_URI"], '?');
-        $postId = url_to_postid($url);
-        $cart_id = wc_get_page_id( 'cart' );
-        $item = $cart->get_cart_item($cart_item_key);
-        $is_ajax_request = wp_doing_ajax();
-        if( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'yith_wacp_add_item_cart') {
-            $is_ajax_request = true;
-        }
-
-        if(isset($item['variation_id'])) {
-            $product_id = $item['variation_id'];
-        } else {
-            $product_id = $item['product_id'];
-        }
-
-
-        if( $cart_id==$postId) {
-            PYS()->getLog()->debug('trackRemoveFromCartEvent send fb server with out browser event');
-            $event = new SingleEvent("woo_remove_from_cart",EventTypes::$STATIC);
-            $eventData = Facebook()->getEventData($eventId,$item);
-            $event->addParams($eventData['data']);
-            $event->addParams(getStandardParams());
-            if(isset($_COOKIE['pys_landing_page'])){
-                $event->addParams(['landing_page'=>$_COOKIE['pys_landing_page']]);
-            }
-
-            unset($eventData['data']);
-            $event->addPayload($eventData);
-
-            if(isset($_COOKIE["pys_fb_event_id"])) {
-                $eventID = json_decode(stripslashes($_COOKIE["pys_fb_event_id"]))->RemoveFromCart;
-            } else {
-                $eventID = (new EventIdGenerator())->guidv4();
-            }
-
-            $data = $event->getData();
-
-            $data = EventsManager::filterEventParams($data,"woo",[
-                'event_id'=>$event->getId(),
-                'pixel'=>Facebook()->getSlug(),
-                'product_id'=>$product_id
-            ]);
-
-            $serverEvent = FacebookServer()->createEvent($eventID,$data['name'],$data['params']);
-            $ids = (array)$event->payload["pixelIds"];
-
-            if($is_ajax_request) {
-                FacebookServer()->sendEvent($ids,array($serverEvent));
-            } else {
-                FacebookServer()->addAsyncEvents(array(array("pixelIds" => $ids, "event" => $serverEvent )));
-            }
-        }
-    }
-
-    static function trackWooFacebookAddToCartEvent($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
-        if(isset($cart_item_data['woosb_parent_id'])) return; // fix for WPC Product Bundles for WooCommerce (Premium) product
-
-        $is_ajax_request = wp_doing_ajax();
-        if( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'yith_wacp_add_item_cart') {
-            $is_ajax_request = true;
-        }
-        PYS()->getLog()->debug('trackWooFacebookAddToCartEvent is_ajax_request '.$is_ajax_request);
-        if( !empty($variation_id)
-            && $variation_id > 0
-            && ( !Facebook()->getOption( 'woo_variable_as_simple' )
-                ||  !Facebook\Helpers\isDefaultWooContentIdLogic() )
-        ) {
-            $_product_id = $variation_id;
-        } else {
-            $_product_id = $product_id;
-        }
-
-        $event = EventsWoo()->getEvent("woo_add_to_cart_on_button_click");
-        if(is_array($event) && count($event) > 0) {
-            $event = $event[0];
-        }
-        $event->args = ['productId' => $_product_id,'quantity' => $quantity];
-        $isSuccess = Facebook()->addParamsToEvent( $event );
-        if ( !$isSuccess ) {
-            return; // event is disabled or not supported for the pixel
-        }
-
-        // prepare event data
-        if(isset($_COOKIE['pys_landing_page']))
-            $event->addParams(['landing_page'=>$_COOKIE['pys_landing_page']]);
-        $eventData = $event->getData();
-        $eventData = EventsManager::filterEventParams($eventData,"woo",[
-            'event_id'=>$event->getId(),
-            'pixel'=>Facebook()->getSlug(),
-            'product_id'=>$product_id
-        ]);
-
-        if(isset($_COOKIE["pys_fb_event_id"])) {
-            $eventID = json_decode(stripslashes($_COOKIE["pys_fb_event_id"]))->AddToCart;
-        } else {
-            return; // not send if event id is empty
-        }
-
-        $ids = (array)$event->payload["pixelIds"];
-        $serverEvent = FacebookServer()->createEvent($eventID,$eventData['name'],$eventData['params']);
-
-        if($is_ajax_request) {
-            FacebookServer()->sendEvent($ids,array($serverEvent));
-        } else {
-            FacebookServer()->addAsyncEvents(array(array("pixelIds" => $ids, "event" => $serverEvent )));
-        }
     }
 
 
@@ -207,52 +81,30 @@ class AjaxHookEventManager {
             }
 
 
-            $event = new SingleEvent('woo_add_to_cart_on_button_click',EventTypes::$STATIC);
+            $event = new SingleEvent('woo_add_to_cart_on_button_click',EventTypes::$STATIC,'woo');
             $event->args = ['productId' => $_product_id,'quantity' => $quantity];
-            $isSuccess = $pixel->addParamsToEvent( $event );
-            if ( !$isSuccess ) {
+            $events = $pixel->generateEvents( $event );
+
+            if ( count($events) == 0 ) {
                 continue; // event is disabled or not supported for the pixel
             }
-
-            if(count($event->params) == 0) {
-                // add product params
-                // use for not update bing and pinterest, need remove in next updates
-                $eventData = $pixel->getEventData('woo_add_to_cart_on_button_click',$product_id);
-                if($eventData) {
-                    $event->addParams($eventData['params']);
-                    unset($eventData['params']);
-                    $event->addPayload($eventData);
-                }
-            }
-
-
+            $event = $events[0];
 
             // add standard params
-            if($pixel->getSlug() != "ga" || $pixel->isUse4Version()) {
-                $event->addParams($standardParams);
-            }
+            $event->addParams($standardParams);
 
             // prepare event data
             $eventData = $event->getData();
-            $eventData = EventsManager::filterEventParams($eventData,"woo",[
-                'event_id'=>$event->getId(),
-                'pixel'=>$pixel->getSlug(),
-                'product_id'=>$product_id
-            ]);
+            $eventData = EventsManager::filterEventParams($eventData,"woo");
 
             AjaxHookEventManager::$pendingEvents["woo_add_to_cart_on_button_click"][ $pixel->getSlug() ] = $eventData;
 
             if($pixel->getSlug() == "facebook" && Facebook()->isServerApiEnabled()) {
-                $name = $eventData['name'];
-                $data = $eventData['params'];
-                $eventID = isset($eventData['eventID']) ? $eventData['eventID'] : false;
-                $ids = (array)$event->payload["pixelIds"];
-                $event = FacebookServer()->createEvent($eventID,$name,$data);
 
                 if($is_ajax_request) {
-                    FacebookServer()->sendEvent($ids,array($event));
+                    FacebookServer()->sendEventsNow([$event]);
                 } else {
-                    FacebookServer()->addAsyncEvents(array(array("pixelIds" => $ids, "event" => $event )));
+                    FacebookServer()->sendEventsAsync([$event]);
                 }
             }
         }

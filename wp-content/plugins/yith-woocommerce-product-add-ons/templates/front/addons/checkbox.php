@@ -45,10 +45,6 @@ $checked  = $addon->get_option( 'default', $x ) === 'yes';
 
 		</span>
 
-		<?php if ( $required ) : ?>
-			<small class="required-error" style="color: #f00; padding: 5px 0px; display: none;"><?php echo esc_html__( 'This option is required.', 'yith-woocommerce-product-add-ons' ); ?></small>
-		<?php endif; ?>
-
 		<!-- RIGHT IMAGE -->
 		<?php
 		if ( 'right' === $addon_options_images_position ) {
@@ -56,11 +52,17 @@ $checked  = $addon->get_option( 'default', $x ) === 'yes';
 		?>
 
 		<!-- LABEL -->
-		<?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
-		<?php echo $required ? '<span class="required">*</span>' : ''; ?>
+		<span class="yith-wapo-addon-label">
+			<?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
+				<?php echo $required ? '<span class="required">*</span>' : ''; ?>
 
-		<!-- PRICE -->
-		<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
+			<!-- PRICE -->
+			<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
+		</span>
+
+		<?php if ( $required ) : ?>
+			<small class="required-error" style="color: #f00; padding: 5px 0px; display: none;"><?php echo esc_html__( 'This option is required.', 'yith-woocommerce-product-add-ons' ); ?></small>
+		<?php endif; ?>
 
 	</label>
 

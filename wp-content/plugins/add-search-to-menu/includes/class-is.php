@@ -55,18 +55,24 @@ class IS_Loader {
 	 * Loads plugin functionality.
 	 */
 	function load() {
-            if ( ! ivory_search_is_json_request() ) {
-		$this->set_locale();
+        if ( ! ivory_search_is_json_request() ) {
+			$this->set_locale();
 
-		$this->admin_public_hooks();
+			$this->admin_public_hooks();
 
-		if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
-			$this->admin_hooks();
-		} 
-                if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
-			$this->public_hooks();
+			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+				$this->admin_hooks();
+			} 
+            if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+				$this->public_hooks();
+			}
+        }
+		//avoid save events from meta boxes when guten blocks saves
+		elseif ( empty( $_GET['meta-box-loader'] ) ) {
+			//Indexing events hooks (save post for guten block save).
+			$index_mgr = IS_Index_Manager::getInstance();
+			$index_mgr->init_index_hooks();
 		}
-            }
 	}
 
 	/**
@@ -116,6 +122,12 @@ class IS_Loader {
 		add_action( 'is_admin_notices', array( $admin, 'admin_updated_message' ) );
 		add_filter( 'map_meta_cap', array( $admin, 'map_meta_cap' ), 10, 4 );
 		add_filter( 'admin_footer_text', array( $admin, 'admin_footer_text' ), 1 );
+
+		//Build index hooks.
+		$index_mgr = IS_Index_Manager::getInstance();
+		$index_mgr->init_build_hooks();
+		//Indexing events hooks (save post, post type, comments).
+		$index_mgr->init_index_hooks();
 	}
 
 	/**
@@ -157,7 +169,9 @@ class IS_Loader {
 			add_filter( 'posts_distinct_request', array( $public, 'posts_distinct_request' ), 9999999, 2 );
 			add_filter( 'posts_join' , array( $public, 'posts_join' ), 9999999, 2 );
 			add_filter( 'posts_search', array( $public, 'posts_search' ), 9999999, 2 );
-			add_action( 'pre_get_posts', array( $public, 'pre_get_posts' ), 9 );
+			// Changed pre_get_posts priority from 9 to 9999999 
+			// as product search restricted to category was not working in free plugin.
+			add_action( 'pre_get_posts', array( $public, 'pre_get_posts' ), 9999999 );
 			add_action( 'wp_footer', array( $public, 'wp_footer' ) );
 			add_action( 'wp_head', array( $public, 'wp_head' ), 9999999 );
 		}, 9999999 );
@@ -165,12 +179,19 @@ class IS_Loader {
                 $ajax = IS_Ajax::getInstance();
 		add_action( 'wp_ajax_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );
 		add_action( 'wp_ajax_nopriv_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );
+
+		//Indexing events hooks (save post, post type, comments).
+		$index_mgr = IS_Index_Manager::getInstance();
+		$index_mgr->init_index_hooks();
+		
+		$index_search = IS_Index_Search::getInstance();
+		$index_search->init_hooks();
 	}
 
 	/**
 	 * Displays search form by processing shortcode.
 	 */
-	function search_form_shortcode( $atts ) {
+	function search_form_shortcode( $args ) {
 
 		if ( is_feed() ) {
 			return '[ivory-search]';
@@ -185,15 +206,19 @@ class IS_Loader {
 				'id'	     => 0,
 				'title'	     => '',
 			),
-			$atts, 'ivory-search'
+			$args, 'ivory-search'
 		);
 
-		$id = (int) $atts['id'];
+		$atts = array_map( 'sanitize_text_field', $atts );
 
-        $search_form = IS_Search_Form::get_instance( $id );
+		if ( ! is_numeric( $atts['id'] ) || 0 == $atts['id'] ) {
+			return '[ivory-search 404 "Invalid search form ID '. esc_html( $atts['id'] ) .'"]';
+		}
+
+        $search_form = IS_Search_Form::get_instance( $atts['id'] );
 
 		if ( ! $search_form ) {
-			return '[ivory-search 404 "The search form '.$id.' does not exist"]';
+			return '[ivory-search 404 "The search form '. esc_html( $atts['id'] ) .' does not exist"]';
 		} 
 
 		$form  = $search_form->form_html( $atts );

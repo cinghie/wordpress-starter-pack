@@ -76,6 +76,8 @@ if ( ! class_exists( 'YITH_WAPO_Block' ) ) {
 				if ( isset( $row ) && $row->id === $id ) {
 
 					$this->id         = $row->id;
+					$this->user_id    = $row->user_id;
+					$this->vendor_id  = $row->vendor_id;
 					$this->settings   = @unserialize( $row->settings ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize, WordPress.PHP.NoSilencedErrors.Discouraged
 					$this->priority   = $row->priority;
 					$this->visibility = $row->visibility;

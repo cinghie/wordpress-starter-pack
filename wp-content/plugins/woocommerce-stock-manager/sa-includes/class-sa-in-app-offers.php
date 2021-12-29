@@ -3,7 +3,7 @@
  * Stock Manager in app offers
  *
  * @package  woocommerce-stock-manager/sa-includes/
- * @version  1.2.2
+ * @version  1.2.3
  */
 
 // Exit if accessed directly.
@@ -182,10 +182,10 @@ class SA_In_App_Offers {
 			<div class="sa_offer">
 				<div class="sa_offer_content">
 					<a href="https://www.storeapps.org/woocommerce-plugins/?utm_source=in_app&utm_medium=<?php echo esc_attr( $this->prefix ); ?>_banner&utm_campaign=<?php echo esc_attr( $this->campaign ); ?>" target="_blank">
-						<img src="<?php echo esc_url( plugins_url( 'sa-includes/images/Halloween-2021-800-200.png', $this->plugin_file ) ); ?>" />
+						<img src="<?php echo esc_url( plugins_url( 'sa-includes/images/BFCM-2021-800-200.png', $this->plugin_file ) ); ?>" />
 					</a>
 					<div class="sa_dismiss"> <!-- Do not change this class -->
-						<a href="?wsm_dismiss_admin_notice=1&option_name=sa_offer_halloween_2021" style="color: grey; text-decoration: none;"><?php echo esc_html__( 'Hide this' ); ?></a>
+						<a href="?wsm_dismiss_admin_notice=1&option_name=sa_offer_bfcm_2021" style="color: grey; text-decoration: none;"><?php echo esc_html__( 'Hide this' ); ?></a>
 					</div>
 				</div>
 			</div>

@@ -4,7 +4,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 include_once 'abstract-class-woe-formatter-plain-format.php';
-include_once 'class-woe-formatter-csv.php';
 
 if ( ! class_exists( 'WOE_PDF_MC_Table' ) ) {
 	include_once dirname( __FILE__ ) . '/../FPDF/class-woe-pdf-mc-table.php';
@@ -16,7 +15,7 @@ if ( ! class_exists( 'WOE_PDF_MC_Table' ) ) {
  * Using CSV formatter as basis. Works like CSV (even creates csv file) but after finish,
  * fetches data from file and paste them to PDF as table
  */
-class WOE_Formatter_PDF extends WOE_Formatter_Csv {
+class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 	/** @var $pdf WOE_PDF_MC_Table */
 	protected $pdf;
 
@@ -25,8 +24,10 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 	private $font_size = 5;
 	private $repeat_header = false;
 
-	private $image_positions = array();
-	private $link_positions = array();
+	/**
+	 * @var WOE_Formatter_Storage
+	 */
+	protected $storage;
 
 	public function __construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset ) {
 
@@ -39,10 +40,6 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 		$this->page_size     = ! empty( $settings['page_size'] ) ? $settings['page_size'] : 'A4';
 		$this->font_size     = ! empty( $settings['font_size'] ) ? $settings['font_size'] : 5;
 		$this->repeat_header = ! empty( $settings['repeat_header'] );
-
-		if ( $mode != 'preview' ) {
-			$filename = str_replace( '.pdf', '.csv', $filename );
-		}
 
 		$this->image_format_fields = array();
 		if ( isset( $field_formats['order']['image'] ) ) {
@@ -71,98 +68,163 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 
 		parent::__construct( $mode, $filename, $settings, $format, $labels, $field_formats, $date_format, $offset );
 
-		$this->image_positions = array();
-		$this->link_positions = array();
-		if ( $this->mode != 'preview' ) {
-			$tmp_data = get_transient( $this->get_tmp_data_transient_name() );
+		if ( $this->mode != 'preview' && !$this->summary_report_products && !$this->summary_report_customers ) {
+			$storage_filename = str_replace( '.csv', '', $filename ) . ".storage";
+			$this->storage = new WOE_Formatter_Storage_Csv($storage_filename);
+			$this->storage->load();
+		}
+		if ($this->summary_report_products || $this->summary_report_customers) {
+			$summaryKey = $this->summary_report_products ? WOE_Formatter_Storage_Summary_Session::SUMMARY_PRODUCTS_KEY :
+				WOE_Formatter_Storage_Summary_Session::SUMMARY_CUSTOMERS_KEY;
+			$this->storage =  new WOE_Formatter_Storage_Summary_Session($summaryKey);
+			$this->storage->load();
+		}
+	}
 
-			if ( ! empty( $tmp_data['image_positions'] ) ) {
-				$this->image_positions = $tmp_data['image_positions'];
-			}
+	public function start( $data = '' ) {
+		parent::start();
 
-			if ( ! empty( $tmp_data['link_positions'] ) ) {
-				$this->link_positions = $tmp_data['link_positions'];
-			}
+		if ( $this->mode == 'preview' ) {	
+			$data = $this->make_header( $data );
+			$data = apply_filters( "woe_{$this->format}_header_filter", $data );
+
+			$this->rows[] = $data;
 		}
 	}
 
 	public function output( $rec ) {
-		$rows = parent::output( $rec );
+		//$rows = parent::output( $rec ); //we can't change parent because of html
+		$is_summary_mode = $this->summary_report_products || $this->summary_report_customers;
 
-		if ( $this->mode != 'preview' ) {
-			if ( 0 === count($this->image_positions) ) {
-				foreach ( $rows as $row ) {
-					$pos = 0;
-					foreach ( $row as $field => $text ) {
-						if ( $this->field_format_is( $field, $this->image_format_fields ) ) {
-							$this->image_positions[] = $pos;
-						}
-						$pos ++;
+		//was taken from parent::output()
+		$rec = WOE_Formatter::output( $rec );
+		if ($is_summary_mode) {
+			$rows = array($rec);
+		} else {
+			$rows = apply_filters( 'woe_fetch_order_data', $this->maybe_multiple_fields( $rec ) );
+		}
+
+		if ( $this->mode !== 'preview' || $is_summary_mode  ) {
+			if ( ! $this->storage->getColumns() ) {
+				$tmpLabels = $this->make_header( "" ); //it filters labels
+				$tmpRow = $this->extractRowForHeaderProcess($rows);
+				$tmpLabels = apply_filters( "woe_{$this->format}_header_filter", $tmpLabels );
+
+				foreach ( array_keys( $tmpRow ) as $index => $key ) {
+					$column = new WOE_Formatter_Storage_Column();
+					$column->setKey( $key );
+					if ( $this->field_format_is( $key, $this->image_format_fields ) ) {
+						$column->setMetaItem( "image", true );
 					}
-					break;
+					if ( $this->field_format_is( $key, $this->link_format_fields ) ) {
+						$column->setMetaItem( "link", true );
+					}
+					if ( isset( $tmpLabels[ $index ] ) ) {
+						$column->setMetaItem( "label", $tmpLabels[ $index ] );
+					}
+					$this->storage->insertColumn( $column );
 				}
+
+				$this->storage->saveHeader();
 			}
 
-			if ( 0 === count( $this->link_positions ) ) {
-				foreach ( $rows as $row ) {
-					$pos = 0;
-					foreach ( $row as $field => $text ) {
-						if ( $this->field_format_is( $field, $this->link_format_fields ) ) {
-							$this->link_positions[] = $pos;
-						}
-						$pos ++;
-					}
-					break;
+			foreach ( $rows as $row ) {
+				if (!$row = $this->applyOutputRowFilter($row)) {
+					continue;
 				}
+				$rowObj = new WOE_Formatter_Storage_Row();
+				$rowObj->setData($row);
+				$rowObj->setMetaItem("order_id", (int)WC_Order_Export_Engine::$order_id);
+				$this->insertRowAndSave($rowObj);
 			}
-
-			$tmp_data['image_positions'] = $this->image_positions;
-			$tmp_data['link_positions'] = $this->link_positions;
-			set_transient( $this->get_tmp_data_transient_name(), $tmp_data, 5 * MINUTE_IN_SECONDS );
+		} else {
+			foreach ( $rows as $row ) {
+				if (!$row = $this->applyOutputRowFilter($row)) {
+					continue;
+				}
+				$this->rows[] = $row;
+			}
 		}
 
 		return $rows;
 	}
 
+	public function finish_partial() {
+		parent::finish_partial();
+		$this->storage->close();
+	}
+
 	public function finish() {
 		if ( $this->mode === 'preview' ) {
+			if($this->summary_report_products || $this->summary_report_customers) {
+				$this->rows = $this->storage->processDataForPreview($this->rows);
+			}
+			$this->rows = apply_filters( "woe_{$this->format}_preview_rows", $this->rows );
+
 			$image_preview_multiply = 5;
+
+			fwrite( $this->handle, '<table>' );
+			if ( $this->settings['display_column_names'] && count( $this->rows ) < 2 || count( $this->rows ) < 1 ) {
+				$this->rows[] = array( '<td colspan=10><b>' . __( 'No results', 'woo-order-export-lite' ) . '</b></td>' );
+			}
+
 			foreach ( $this->rows as $row_index => $row ) {
-				if ( ! empty( $this->settings['display_column_names'] ) && $row_index === 0 ) {
+				if ( empty( $this->settings['display_column_names'] ) && $row_index === 0 ) {
 					continue;
 				}
-				foreach ( $row as $column => $cell ) {
+				foreach ( $row as $column => &$cell ) {
 					if ( $this->field_format_is( $column, $this->image_format_fields ) ) {
 						$html = $this->make_img_html_from_path(
 							$cell,
 							$this->settings['row_images_width'] * $image_preview_multiply,
 							$this->settings['row_images_height'] * $image_preview_multiply );
 						
-						if ( $html ) {
-							$this->rows[ $row_index ][ $column ] = $html;
-						} else {
-							$this->rows[ $row_index ][ $column ] = "";
-						}
+							$cell = $html ? $html : "";
 					}
 				}
+
+				if ( $row_index == 0 AND ! empty( $this->settings['display_column_names'] ) ) {
+					fwrite( $this->handle,
+						'<tr style="font-weight:bold"><td>' . join( '</td><td>', $row ) . "</td><tr>\n" );
+				} else {
+					fwrite( $this->handle, '<tr><td>' . join( '</td><td>', $row ) . "</td><tr>\n" );
+				}
 			}
+			fwrite( $this->handle, '</table>' );
 		}
 
 		parent::finish();
 
 		if ( $this->mode != 'preview' ) {
+			$this->storage->close(); //if it's full export, storage hasn't been closed
 
 			if ( apply_filters( 'woe_pdf_output', false, $this->settings, str_replace( '.csv', '.pdf', $this->filename ) ) ) {
 			    return;
 			}
-
+			
+			if ( has_filter( 'woe_storage_sort_by_field') ) {
+				$this->storage->loadFull();
+				$this->storage->sortRowsByColumn( apply_filters( 'woe_storage_sort_by_field',"plain_products_name") );
+				$this->storage->forceSave();
+				$this->storage->close();
+			}
+			
 			$this->pdf = new WOE_PDF_MC_Table( $this->orientation, 'mm', $this->page_size );
 
+			$this->storage->initRowIterator();
+			$row = array();
 
 			$solid_width = array();
-			if ( count( $this->image_positions ) ) {
-				foreach ( $this->image_positions as $position ) {
-					$solid_width[ $position ] = $this->settings['row_images_width'];
+			$imageColumns = array();
+			$linkColumns = array();
+			foreach ( $this->storage->getColumns() as $pos => $column ) {
+				if ( $column->getMetaItem("image") === true ) {
+					$solid_width[ $pos ] = $this->settings['row_images_width'];
+					$imageColumns[] = $column->getKey();
+				}
+
+				if ( $column->getMetaItem("link") === true ) {
+					$linkColumns[] = $column->getKey();
 				}
 			}
 
@@ -227,8 +289,9 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 			$this->pdf->AliasNbPages();
 			$this->pdf->AddPage();
 
-			$this->handle = fopen( $this->filename, 'r' );
-			$row          = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
+			foreach ( $this->storage->getColumns() as $column ) {
+				$row[] = $column->getMetaItem( "label" );
+			}
 			$row          = apply_filters( 'woe_row_before_format_pdf', $row );
 
 			if ( ! empty( $this->settings['display_column_names'] ) ) {
@@ -237,7 +300,6 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 					$this->pdf->addTableHeader( $row );
 					do_action("woe_pdf_below_header", $this->pdf, $this);
 				}	
-				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 
 			$pageBreakOrderLines = wc_string_to_bool( $this->settings['row_dont_page_break_order_lines'] );
@@ -246,24 +308,24 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 			$orderRows = array();
 			$orderId = null;
 
-			while ( $row ) {
-				if ( count( $this->image_positions ) ) {
-					foreach ( $this->image_positions as $position ) {
-						$source           = $row[ $position ];
-						$row[ $position ] = array(
+			while ( $rowObj = $this->storage->getNextRow() ) {
+				$row = $rowObj->getData();
+
+				foreach ( $row as $key => &$item ) {
+					if ( in_array($key, $imageColumns) ) {
+						$source = $item;
+						$item = array(
 							'type'   => 'image',
 							'value' => $source,
 						);
 
 						if ( ! empty( $this->settings['row_images_add_link'] ) ) {
-							$row[ $position ]['link'] = str_replace( wp_get_upload_dir()['basedir'], wp_get_upload_dir()['baseurl'], $source );
+							$item['link'] = str_replace( wp_get_upload_dir()['basedir'], wp_get_upload_dir()['baseurl'], $source );
 						}
 					}
-				}
 
-				if ( count( $this->link_positions ) ) {
-					foreach ( $this->link_positions as $position ) {
-						$source = $row[ $position ];
+					if ( in_array($key, $linkColumns) ) {
+						$source = $item;
 
 						// fetch "href" attribute from "a" tag if existing
 						if ( preg_match( '/<a\s+(?:[^>]*?\s+)?href=(["\'])(.*?)\1/', $source, $matches ) ) {
@@ -272,15 +334,16 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 							}
 						}
 
-						$row[ $position ] = array(
+						$item = array(
 							'type' => 'link',
 							'link' => $source,
 						);
 					}
 				}
 
-				$currentOrderId = intval( array_pop( $row ) ); // always pop! even $pageBreakOrderLines is false
+				$currentOrderId = $rowObj->getMetaItem( "order_id" ); // always pop! even $pageBreakOrderLines is false
 				$orderId        = ! $orderId ? $currentOrderId : $orderId;
+				$row            = array_values( $row ); // really important to do this
 
 				$row        = apply_filters( 'woe_pdf_prepare_row', $row );
 				$row_style  = apply_filters( "woe_pdf_before_print_row", null, $row, $this->pdf, $this );
@@ -311,8 +374,6 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 				} else {
 					$this->pdf->addRow( $row, null, $row_height, $row_style );
 				}
-
-				$row = fgetcsv( $this->handle, 0, $this->delimiter, $this->enclosure );
 			}
 
 			if ( count( $orderRows ) ) {
@@ -332,9 +393,10 @@ class WOE_Formatter_PDF extends WOE_Formatter_Csv {
 				}
 			}
 			do_action("woe_pdf_finished", $this->pdf, $this);
-			$this->pdf->output_to_destination( 'f', str_replace( '.csv', '.pdf', $this->filename ) );
+			$this->pdf->output_to_destination( 'f', $this->filename );
 
-			delete_transient( $this->get_tmp_data_transient_name() );
+			$this->storage->close();
+            $this->storage->delete();
 		}
 	}
 

@@ -70,10 +70,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				wp_nonce_field( 'is-save-search-form_' . $post_id );
 			}
 		?>
-		<input type="hidden" id="post_ID" name="post_ID" value="<?php echo (int) $post_id; ?>" />
+		<input type="hidden" id="post_ID" name="post_ID" value="<?php esc_attr_e( (int) $post_id ); ?>" />
 		<input type="hidden" id="is_locale" name="is_locale" value="<?php echo esc_attr( $post->locale() ); ?>" />
 		<input type="hidden" id="hiddenaction" name="action" value="save" />
-		<input type="hidden" id="tab" name="tab" value="<?php echo $tab; ?>" />
+		<input type="hidden" id="tab" name="tab" value="<?php esc_attr_e( $tab ); ?>" />
 
 		<div id="poststuff">
 		<div id="search-body" class="metabox-holder columns-2">
@@ -113,7 +113,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$shortcode_text = esc_attr( $post->shortcode() );
 						}
 						?>
-						<span class="shortcode wp-ui-highlight"><input type="text" id="is-shortcode" onfocus="this.select();" readonly="readonly" class="large-text code" value="<?php echo $shortcode_text; ?>" title="<?php _e( "Click to copy shortcode", 'add-search-to-menu' ); ?>" /></span>
+						<span class="shortcode wp-ui-highlight"><input type="text" id="is-shortcode" onfocus="this.select();" readonly="readonly" class="large-text code" value="<?php esc_attr_e( $shortcode_text ); ?>" title="<?php _e( "Click to copy shortcode", 'add-search-to-menu' ); ?>" /></span>
 
 						</p>
 					</div>

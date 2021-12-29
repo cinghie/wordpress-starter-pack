@@ -254,7 +254,7 @@ if ( ! class_exists( 'YITH_WAPO_Type' ) ) {
 			$new_type                     = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_label                    = isset( $_POST['label'] ) ? htmlspecialchars( sanitize_text_field( wp_unslash( $_POST['label'] ) ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_image                    = isset( $_POST['image'] ) ? sanitize_text_field( wp_unslash( $_POST['image'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$new_description              = isset( $_POST['description'] ) ? sanitize_text_field( wp_unslash( $_POST['description'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$new_description              = isset( $_POST['description'] ) ? $_POST['description'] : ''; // phpcs:ignore
 			$new_operator                 = isset( $_POST['operator'] ) ? sanitize_text_field( wp_unslash( $_POST['operator'] ) ) : 'OR'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$new_depend                   = $_POST['depend'] ?? ''; // phpcs:ignore
 			$new_depend_variations        = $_POST['depend_variations'] ?? ''; // phpcs:ignore

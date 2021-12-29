@@ -333,7 +333,7 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 
 			if ( $edit ) {
 				$attribute_to_edit = $wpdb->get_var( 'SELECT meta_value FROM ' . $wpdb->prefix . "yith_wccl_meta WHERE wc_attribute_tax_id = '$edit'" ); // phpcs:ignore
-				$att_description   = isset( $attribute_to_edit ) ? $attribute_to_edit : false;
+				$att_description   = $attribute_to_edit ?? false;
 			}
 
 			ob_start();
@@ -379,7 +379,7 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 			global $wpdb;
 
 			// get attribute description.
-			$descr = isset( $_POST['attribute_description'] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$descr = $_POST['attribute_description'] ?? ''; // phpcs:ignore
 
 			// insert db value.
 			if ( $descr ) {
@@ -406,7 +406,7 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 		public function attribute_update_description_field( $id, $attribute, $old_attributes ) {
 			global $wpdb;
 
-			$descr = isset( $_POST['attribute_description'] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$descr = $_POST['attribute_description'] ?? ''; // phpcs:ignore
 
 			// get meta value.
 			$meta = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'yith_wccl_meta WHERE wc_attribute_tax_id = %d', $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -607,7 +607,7 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 		 */
 		public function attribute_save( $term_id, $tt_id, $taxonomy ) {
 
-			$meta_value = isset( $_POST['term_value'] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$meta_value = $_POST['term_value'] ?? ''; // phpcs:ignore
 			if ( $meta_value ) {
 				if ( is_array( $meta_value ) ) {
 					// first remove empty values.
@@ -623,7 +623,7 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 
 				ywccl_update_term_meta( $term_id, $taxonomy . '_yith_wccl_value', $value );
 			}
-			$term_tooltip = isset( $_POST['term_tooltip'] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$term_tooltip = $_POST['term_tooltip'] ?? ''; // phpcs:ignore
 			if ( $term_tooltip ) {
 				ywccl_update_term_meta( $term_id, $taxonomy . '_yith_wccl_tooltip', $term_tooltip );
 			}
@@ -864,9 +864,9 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 
 			$tax     = esc_attr( sanitize_text_field( wp_unslash( $_POST['taxonomy'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$term    = wc_clean( sanitize_text_field( wp_unslash( $_POST['term_name'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$slug    = wc_clean( isset( $_POST['term_slug'] ) ?? '' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$value   = wc_clean( implode( ',', array_filter( isset( $_POST['term_value'] ) ) ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$tooltip = wc_clean( isset( $_POST['term_tooltip'] ) ?? '' ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$slug    = wc_clean( wp_unslash( $_POST['term_slug'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$value   = wc_clean( implode( ',', array_filter( wp_unslash( $_POST['term_value'] ?? '' ) ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$tooltip = wc_clean( wp_unslash( $_POST['term_tooltip'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$args    = array();
 
 			if ( '' === $value ) {
@@ -1012,7 +1012,7 @@ if ( ! class_exists( 'YITH_WCCL_Admin' ) ) {
 		 * @return void
 		 */
 		public function save_variation_custom_meta( $variation_id, $index ) {
-			$gallery = isset( $_POST['yith_wccl_variation_gallery'][ $index ] ) ?? ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$gallery = $_POST['yith_wccl_variation_gallery'][ $index ] ?? ''; // phpcs:ignore
 			$in_loop = isset( $_POST['yith_wccl_variation_in_loop'][ $index ] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			// get variation.
 			$variation = wc_get_product( $variation_id );

@@ -683,7 +683,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 										'action': 'wapo_save_group',
 										'group_name': jQuery('#wapo-group-name').val(),
 										'post_id': <?php echo esc_attr( isset( $post->ID ) ? $post->ID : 0 ); ?>,
-										'nonce': <?php echo sanitize_key( $nonce ); ?>
+										'nonce': '<?php echo sanitize_key( $nonce ); ?>'
 									};
 									jQuery.post(ajaxurl, data, function(response) {
 										if ( response == '::no_name' ) { alert( '<?php echo esc_html__( 'NO NAME', 'yith-woocommerce-product-add-ons' ); ?>' ); }
@@ -717,7 +717,8 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				 */
 				function wapo_save_group_callback() {
 					global $wpdb;
-					if ( isset( $_POST['post_id'] ) && wp_verify_nonce( 'wapo_save_group' . sanitize_key( $_POST['post_id'] ) ) && isset( $_POST['group_name'] ) && '' !== $_POST['group_name'] ) {
+					$nonce = isset( $_POST['nonce'] ) ? sanitize_key( $_POST['nonce'] ) : '';
+					if ( isset( $_POST['post_id'] ) && wp_verify_nonce( $nonce, 'wapo_save_group' . sanitize_key( $_POST['post_id'] ) ) && isset( $_POST['group_name'] ) && '' !== $_POST['group_name'] ) {
 						$group_name        = sanitize_key( $_POST['group_name'] );
 						$user_id           = get_current_user_id();
 						$post_id           = isset( $_POST['post_id'] ) ? sanitize_key( $_POST['post_id'] ) : 0;

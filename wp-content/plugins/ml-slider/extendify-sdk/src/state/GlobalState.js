@@ -1,17 +1,25 @@
 import create from 'zustand'
-import { useTemplatesStore } from './Templates'
+import { persist } from 'zustand/middleware'
 
-export const useGlobalStore = create((set) => ({
-    open: false,
-    metaData: {},
-    currentPage: 'welcome',
-    setOpen: (value) => {
-        set({
-            open: value,
-        })
-        // Reset the state if it's closed manualy
-        // value && useTemplatesStore.getState().setActive({}) - Not this though
-        value && useTemplatesStore.getState().removeTemplates()
-        // value && useTemplatesStore.getState().setActive({}) // This can be used to default to grid
-    },
-}))
+export const useGlobalStore = create(
+    persist(
+        (set) => ({
+            open: false,
+            metaData: {},
+            currentTaxonomies: {},
+            currentType: 'pattern',
+            settingsModal: false,
+            updateCurrentTaxonomies: (data) =>
+                set({
+                    currentTaxonomies: Object.assign({}, data),
+                }),
+            updateCurrentType: (data) => set({ currentType: data }),
+            setOpen: (value) => {
+                set({ open: value })
+            },
+        }),
+        {
+            name: 'extendify-global-state',
+        },
+    ),
+)

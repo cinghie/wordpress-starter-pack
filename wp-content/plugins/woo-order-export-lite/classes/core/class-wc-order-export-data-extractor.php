@@ -558,25 +558,27 @@ class WC_Order_Export_Data_Extractor {
 			//print_r($filters );die();
 			foreach ( $filters as $operator => $fields ) {
 				foreach ( $fields as $label => $values ) {
-					$field  = $names2fields[ $label ];
-					$values = self::sql_subset( $values );
-					if ( $values ) {
-						$label = esc_sql( $label );
+                    if (isset($names2fields[ $label ])) {
+                        $field  = $names2fields[ $label ];
+                        $values = self::sql_subset( $values );
+                        if ( $values ) {
+                            $label = esc_sql( $label );
 
-						if ($operator == 'NOT SET') {
-						    $taxonomy_where[] = "NOT ( orderitemmeta_product.meta_key IN('_product_id') AND orderitemmeta_product.meta_value IN (SELECT  object_id FROM {$wpdb->term_relationships} AS `{$field}_rel`
+                            if ($operator == 'NOT SET') {
+                                $taxonomy_where[] = "NOT ( orderitemmeta_product.meta_key IN('_product_id') AND orderitemmeta_product.meta_value IN (SELECT  object_id FROM {$wpdb->term_relationships} AS `{$field}_rel`
 							    INNER JOIN {$wpdb->term_taxonomy} AS `{$field}_cat` ON `{$field}_cat`.term_taxonomy_id = `{$field}_rel`.term_taxonomy_id
 							    WHERE `{$field}_cat`.taxonomy='$label' AND  `{$field}_cat`.term_id IN (SELECT term_id FROM {$wpdb->terms} ) ))";
-						} elseif ($operator == 'IS SET') {
-						    $taxonomy_where[] = "( orderitemmeta_product.meta_key IN('_product_id') AND orderitemmeta_product.meta_value IN (SELECT  object_id FROM {$wpdb->term_relationships} AS `{$field}_rel`
+                            } elseif ($operator == 'IS SET') {
+                                $taxonomy_where[] = "( orderitemmeta_product.meta_key IN('_product_id') AND orderitemmeta_product.meta_value IN (SELECT  object_id FROM {$wpdb->term_relationships} AS `{$field}_rel`
 							    INNER JOIN {$wpdb->term_taxonomy} AS `{$field}_cat` ON `{$field}_cat`.term_taxonomy_id = `{$field}_rel`.term_taxonomy_id
 							    WHERE `{$field}_cat`.taxonomy='$label' AND  `{$field}_cat`.term_id IN (SELECT term_id FROM {$wpdb->terms} ) ))";
-						} else {
-						    $taxonomy_where[] = "( orderitemmeta_product.meta_key IN('_product_id') AND orderitemmeta_product.meta_value  $operator (SELECT  object_id FROM {$wpdb->term_relationships} AS `{$field}_rel`
+                            } else {
+                                $taxonomy_where[] = "( orderitemmeta_product.meta_key IN('_product_id') AND orderitemmeta_product.meta_value  $operator (SELECT  object_id FROM {$wpdb->term_relationships} AS `{$field}_rel`
 							    INNER JOIN {$wpdb->term_taxonomy} AS `{$field}_cat` ON `{$field}_cat`.term_taxonomy_id = `{$field}_rel`.term_taxonomy_id
 							    WHERE `{$field}_cat`.taxonomy='$label' AND  `{$field}_cat`.term_id IN (SELECT term_id FROM {$wpdb->terms} WHERE name IN ($values) ) ))";
-						}
-					}
+                            }
+                        }
+                    }
 				}
 			}
 			if( $taxonomy_where )
@@ -1323,7 +1325,7 @@ class WC_Order_Export_Data_Extractor {
 				$_date         = date( 'Y-m-d', $_time );
 				$last_month    = strtotime( $_date . " -3 month" );
 				$quarter_start = date( 'Y-' . self::get_quarter_month( $last_month ) . '-01', $last_month );
-				$quarter_end   = date( 'Y-' . ( self::get_quarter_month( $last_month ) + 2 ) . '-31', $last_month );
+				$quarter_end   = date( 'Y-' . ( self::get_quarter_month( $last_month ) + 2 ) . '-t', strtotime("$quarter_start +2 month") );
 
 				$from_date = sprintf( '%s %s', $quarter_start, '00:00:00' );
 				$to_date   = sprintf( '%s %s', $quarter_end, '23:59:59' );
@@ -1483,7 +1485,7 @@ class WC_Order_Export_Data_Extractor {
 		foreach ( $order->get_items( 'line_item' ) as $item_id => $item ) {
 			/** @var WC_Order_Item_Product $item */
 			do_action( "woe_get_order_product_item", $item );
-			if ( $options['export_refunds'] AND $item['qty'] == 0 ) // skip zero items, when export refunds
+			if ( $options['export_refunds'] AND $item['qty'] == 0 AND !apply_filters("woe_allow_export_zero_qty", false) ) // skip zero items, when export refunds
 			{
 				continue;
 			}
@@ -1520,6 +1522,12 @@ class WC_Order_Export_Data_Extractor {
 								if(!$matched_like) {
 									continue 3;
 								}
+							}
+							else if($operator == 'IS SET' && $meta === '') {
+								continue 3;
+							}
+							else if($operator == 'NOT SET' && $meta !== '') {
+								continue 3;
 							}
 							else if(in_array($operator, self::$operator_must_check_values)) {
 								if(empty($meta)) {

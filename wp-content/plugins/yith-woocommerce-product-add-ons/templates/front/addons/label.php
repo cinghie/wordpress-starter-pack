@@ -126,7 +126,7 @@ $description_html = '' !== $option_description ? '<p class="description">' . wp_
 
 		<div class="outside">
 
-			<?php if ( 'outside' === $label_position && 'under' !== $images_position ) : ?>
+			<?php if ( 'outside' === $label_position && 'above' !== $images_position ) : ?>
 				<?php echo wp_kses_post( $label_price_html ); ?>
 			<?php endif; ?>
 

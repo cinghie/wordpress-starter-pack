@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: brand, brands, logo, manufacturer, yit, e-commerce, ecommerce, shop, supplier, woocommerce brand, woocommerce filter, filter, brand filter, woocommerce manufacturer, woocommerce supplier, brands for woocommerce, brands for wc, product brands, brands for products
 Requires at least: 5.6
 Tested up to: 5.8
-Stable tag: 1.7.0
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,9 +42,19 @@ YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YIT
 
 == Changelog ==
 
+= 1.9.0 - Released on 14 December 2021 =
+
+* New: support for WooCommerce 6.0
+* Update: YITH Plugin Framework
+
+= 1.8.0 - Released on 08 November 2021 =
+
+* New: support for WooCommerce 5.9
+* Update: YITH Plugin Framework
+
 = 1.7.0 - Released on 11 October 2021 =
 
-* New: support for WooCommerce 5.7
+* New: support for WooCommerce 5.8
 * Update: YITH Plugin Framework
 
 = 1.6.1 - Released on 27 September 2021 =

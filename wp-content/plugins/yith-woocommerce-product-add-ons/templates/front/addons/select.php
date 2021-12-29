@@ -21,7 +21,9 @@ $selected = $addon->get_option( 'default', $x ) === 'yes' ? 'selected="selected"
 	data-first-free-enabled="<?php echo esc_attr( $addon->get_setting( 'first_options_selected', 'no' ) ); ?>"
 	data-first-free-options="<?php echo esc_attr( $addon->get_setting( 'first_free_options', 0 ) ); ?>"
 	data-addon-id="<?php echo esc_attr( $addon->id ); ?>"
-	data-replace-image="<?php echo esc_attr( $image_replacement ); ?>">
+	data-image="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>"
+	data-replace-image="<?php echo esc_attr( $image_replacement ); ?>"
+	data-description="<?php echo wp_kses_post( $addon->get_option( 'description', $x ) ); ?>">
 	<?php echo wp_kses_post( $addon->get_option( 'label', $x ) ); ?>
 	<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
 </option>

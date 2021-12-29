@@ -188,7 +188,7 @@ $show_vendor_column = YITH_WAPO::$is_vendor_installed && ( ! isset( $vendor_user
 
 	<?php endfor; ?>
 
-	<a href="admin.php?page=yith_wapo_panel&yith_wapo_v2=1&nonce=<?php echo esc_attr( wp_create_nonce( 'wapo_admin' ) ); ?>" class="button yith-update-button">
+	<a href="admin.php?page=yith_wapo_panel&yith_wapo_v2=1&nonce=<?php echo esc_attr( wp_create_nonce( 'switch_version' ) ); ?>" class="button yith-update-button">
 		<?php echo esc_html__( 'Switch to the new 2.0 version', 'yith-woocommerce-product-add-ons' ); ?>
 	</a><br />
 	<small>* <?php echo esc_html__( 'You will not lose the current configuration of your add-ons.', 'yith-woocommerce-product-add-ons' ); ?></small>

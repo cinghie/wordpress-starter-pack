@@ -2,10 +2,10 @@
 Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook pixel, Facebook Conversion API, Facebook CAPI,Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
+Tags: Google Shopping Feed, WooCommerce Product Feed, Facebook Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Facebook Pixel, Facebook Conversion API
 Requires at least: 4.5
 Tested up to: 5.8
-Stable tag: 10.8.1
+Stable tag: 11.0.7
 
 == Description ==
 
@@ -174,6 +174,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Pinterest
 * <a href="https://help.vivino.com/s/article/How-do-I-create-my-product-feed-XML?language=en_US" target="_blank">Vivino</a>
 * <a href="https://businesshelp.snapchat.com/en-US/a/product-catalog-specs" target="_blank">Snapchat</a>
+* <a href="https://ads.tiktok.com/help/article?aid=10001006" target="_blank">TikTok</a>
 * <a href="https://yandex.com/support/market-tech-requirements/index.html" target="_blank">Yandex</a>
 * ShopMania
 * Shopping.com
@@ -208,12 +209,12 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * <a href="https://www.miinto.nl" target="_blank">Miinto Netherlands</a>
 * <a href="https://www.miinto.pl" target="_blank">Miinto Poland</a>
 * <a href="https://www.miinto.se" target="_blank">Miinto Sweden</a>
+* <a href="https://www.miinto.de" target="_blank">Miinto Germany</a>
 * <a href="https://www.vertaa.fi" target="_blank">Vertaa.fi</a>
 * Prisjakt
 * Hintaseuranta
 * Connexity
 * <a href="https://www.katoni.dk" target="_blank">Katoni.dk</a>
-* Cdiscount
 * Fnac
 * ManoMano
 * <a href="https://www.fruugo.co.uk" target="_blank">Fruugo.co.uk</a>
@@ -231,13 +232,13 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Webgains
 * Crowdfox
 * <a href="https://www.salidzini.lv" target="_blank">Salidzini.lv</a>
-* Real.de
 * Allyouneed
 * Apomio
 * <a href="http://developer.skroutz.gr/feedspec/" target="_blank" rel="nofollow">Skroutz.gr</a>
 * <a href="https://company.billiger.de/wAssets/docs/landingpages/Data-Feed-Specification.pdf" target="_blank" rel="nofollow">Billiger.de</a>
 * Choozen
 * Domodi
+* <a href="https://www.elcheapo.de" target="_blank" rel="nofollow">ElCheapo.de</a>
 * Geizhals
 * <a href="https://www.guenstiger.de" target="_blank" rel="nofollow">Guenstiger.de</a>
 * Hood.de
@@ -251,7 +252,6 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * <a href="https://www.compari.ro" target="_blank">Compari.ro</a>
 * My Best Brands
 * Preis.de
-* Rakuten
 * Restposten.de
 * Sparmedo.de
 * Stylelounge.de
@@ -335,6 +335,97 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.0.7 (2021-12-23) =
+* Added missing capability checks on plugin settings that could influence product feeds. Only administrators are allowed to make these changes.
+
+= 11.0.6 (2021-12-22) =
+* Added htaccess files to the feed directories so they no longer will be cached (thanks @Anders!)
+* Added downloadable and virtual attribute data so those can be added to feeds and filtered on
+* Fixed an issue where disabled product variations still made it into the size attribute
+* Fixed an array merge warning that showed when a new feed was being created and no previous feed was present
+
+= 11.0.5 (2021-12-20) =
+* Fixed an issue where shipping formula's were not translated to shipping costs properly
+
+= 11.0.4 (2021-12-18) =
+* Solved a rounding issue for discount calculations on products that use a point as seperator
+
+= 11.0.3 (2021-12-16) =
+* Checked for compatibility with WooCommerce 6.0
+* Solved a PHP warning that was showing in the logs when creating a Skroutz feed
+
+= 11.0.2 (2021-12-15) =
+* Solved a PHP warning that was showing in the logs when creating a Skroutz feed
+* Solved a mysqli::real_connect() error
+
+= 11.0.1 (2021-12-14) =
+* Reverted previous release as it lead to invalid header errors on new plugin installs
+
+= 11.0.0 (2021-12-11) =
+* Removed unused variables from some functions and did an extra array check
+
+= 10.9.9 (2021-12-10) =
+* Solved a PHP notice
+
+= 10.9.8 (2021-12-09) =
+* Replaced usage of site_url with home_url for feed headings
+
+= 10.9.7 (2021-12-05) =
+* Added template for Miinto Germany
+
+= 10.9.6 (2021-12-04) =
+* Fixed some PHP notices that showed when the Google Dynamic Remarketing feature was enabled but parent variable products returned no price
+
+= 10.9.5 (2021-12-03) =
+* Solved an issue where product variations could not be updated
+
+= 10.9.4 (2021-12-02) =
+* Removed the graphs from the manage feeds page, will soon be replaced by new ones
+* Replaced a filter_var_array function with a proper Wordpress sanitize function
+
+= 10.9.3 (2021-12-01) =
+* Added the System regular price ex. VAT and System sale price ex. VAT attributes
+
+= 10.9.2 (2021-12-01) =
+* Updated the out of date Chart.js libraries
+* Removed eval for shipping cost formula's
+* Replaced usage of CURL with Wordpress HTTP API
+* Solved some translation permalink issues
+* Added missing sanitizing to POST and GET requests
+* Added escaping to some variables that are being echo'd
+
+= 10.9.1 (2021-11-29) =
+* Added extra authorisation and checks to prevent cross-site scripting abuse
+* Added Guadeloupe (GP), Martinique (MQ), French Guiana (GF) and Reunion (RE) to the list of supported countries
+* Removed CDATA feature as it was not properly functioning
+
+= 10.9.0 (2021-11-25) =
+* Added template for TikTok
+
+= 10.8.9 (2021-11-22) =
+* Added template for German ElCheapo.de
+
+= 10.8.8 (2021-11-18) =
+* Fixed an issue with the Discount Rules for WooCommerce plugin from FlyCart that returned no decimals in round discount prices. The .00 are now also added.
+
+= 10.8.7 (2021-11-15) =
+* Added extra image attribute 4 to 9 for Beslist.nl feeds
+
+= 10.8.6 (2021-11-12) =
+* Tested for compatibility with WooCommerce 5.9
+
+= 10.8.5 (2021-11-07) =
+* Fixed the JSON-lD for the brand details
+
+= 10.8.4 (2021-11-02) =
+* Fixed an issue with Skroutz feeds where product sizes that are out of stock are now removed from the size field
+
+= 10.8.3 (2021-11-01) =
+* Solved a PHP notice upon activation of plugin
+
+= 10.8.2 (2021-10-30) =
+* Solved a PHP notice upon activation of plugin
 
 = 10.8.1 (2021-10-26) =
 * Added the "is not empty" operator for filters and rules
@@ -3444,6 +3535,97 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.0.7 =
+Added missing capability checks on plugin settings that could influence product feeds. Only administrators are allowed to make these changes
+
+= 11.0.6 =
+Added htaccess files to the feed directories so they no longer will be cached (thanks @Anders!)
+Fixed an issue where disabled product variations still made it into the size attribute
+Fixed an array merge warning that showed when a new feed was being created and no previous feed was present
+Added downloadable and virtual attribute data so those can be added to feeds and filtered on
+
+= 11.0.5 =
+Fixed an issue where shipping formula's were not translated to shipping costs properly
+
+= 11.0.4 =
+Solved a rounding issue for discount calculations on products that use a point as seperator
+
+= 11.0.3 =
+Checked for compatibility with WooCommerce 6.0
+Solved a PHP warning that was showing in the logs when creating a Skroutz feed
+
+= 11.0.2 =
+Solved a PHP warning that was showing in the logs when creating a Skroutz feed
+Solved a mysqli::real_connect() error
+
+= 11.0.1 =
+Reverted previous release as it lead to invalid header errors on new plugin installs
+
+= 11.0.0 =
+Removed unused variables from some functions and did an extra array check
+
+= 10.9.9 =
+Solved a PHP notice
+
+= 10.9.8 =
+Replaced usage of site_url with home_url for feed headings
+
+= 10.9.7 =
+Added template for Miinto Germany
+
+= 10.9.6 =
+Fixed some PHP notices that showed when the Google Dynamic Remarketing feature was enabled but parent variable products returned no price
+
+= 10.9.5 =
+Solved an issue where product variations could not be updated
+
+= 10.9.4 =
+Removed the graphs from the manage feeds page, will soon be replaced by new ones
+Replaced a filter_var_array function with a proper Wordpress sanitize function
+
+= 10.9.3 =
+Added the System regular price ex. VAT and System sale price ex. VAT attributes
+
+= 10.9.2 =
+Updated the out of date Chart.js libraries
+Removed eval for shipping cost formula's
+Replaced usage of CURL with Wordpress HTTP API
+Solved some translation permalink issues
+Added missing sanitizing to POST and GET requests
+Added escaping to some variables that are being echo'd
+
+= 10.9.1 =
+Added extra authorisation and checks to prevent cross-site scripting abuse
+Added Guadeloupe (GP), Martinique (MQ), French Guiana (GF) and Reunion (RE) to the list of supported countries
+Removed CDATA feature as it was not properly functioning
+
+= 10.9.0 =
+Added template for TikTok
+
+= 10.8.9 =
+Added template for German ElCheapo.de
+
+= 10.8.8 =
+Fixed an issue with the Discount Rules for WooCommerce plugin from FlyCart that returned no decimals in round discount prices. The .00 are now also added.
+
+= 10.8.7 =
+Added extra image attribute 4 to 9 for Beslist.nl feeds
+
+= 10.8.6 =
+Tested for compatibility with WooCommerce 5.9
+
+= 10.8.5 =
+Fixed the JSON-lD for the brand details
+
+= 10.8.4 =
+Fixed an issue with Skroutz feeds where product sizes that are out of stock are now removed from the size field
+
+= 10.8.3 =
+Solved a PHP notice upon activation of plugin
+
+= 10.8.2 =
+Solved a PHP notice upon activation of plugin
 
 = 10.8.1 =
 Added the "is not empty" operator for filters and rules

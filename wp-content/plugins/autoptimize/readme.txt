@@ -5,7 +5,7 @@ Donate link: http://blog.futtta.be/2013/10/21/do-not-donate-to-me/
 Requires at least: 4.9
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 2.9.2
+Stable tag: 2.9.4
 
 Autoptimize speeds up your website by optimizing JS, CSS, images (incl. lazy-load), HTML and Google Fonts, asyncing JS, removing emoji cruft and more.
 
@@ -324,6 +324,23 @@ You can get help on the [wordpress.org support forum](http://wordpress.org/suppo
 Just [fork Autoptimize on Github](https://github.com/futtta/autoptimize) and code away!
 
 == Changelog ==
+
+= 2.9.4 =
+* Fix for 2 AMP compatibility issues (toolbar JS & lazyload JS).
+* Fix for PHP notice in autoptimizeImages.php.
+* Change default for "lazyload from nth image" from 0 to 2 (only applies to new installations).
+* Improvements to the exit survey.
+* Enjoy the end-of-year celebrations, there are great Autoptimize things to come in 2022! ;-)
+
+= 2.9.3 =
+* Improvement: add logic to autoptimize_404_handler.php to differentiate between different multisite sites.
+* Improvement: remove the different feeds (and all JS to switch between them) on the settings-page, keeping only the "Autoptimize news".
+* Improvement: reduced autoptimize_enable_site_config option lookups when on multisite and AO is active for network.
+* Fixed wrong variable name that caused PHP notices (but did not affect normal usage) to $w3tc_minify_on.
+* Fix for Autoptimize Toolbar being loaded on AMP pages for logged in administrators/ editors
+* Fix for CDN replacement edge case (if the CDN has the site_url in it).
+* Fix for service availability checks causing too many outgoing requests (root cause likely to be object caching resulting in the autoptimize_service_availability option not being updated)
+* Added "exit survey" when Autoptimize is deactivated (with the kind help of Shakeeb of RapidLoad, thanks brother!)
 
 = 2.9.2 =
 * New: page/ post settings now have a "Generate Critical CSS"-button (critical CSS needs to be active with valid API key)

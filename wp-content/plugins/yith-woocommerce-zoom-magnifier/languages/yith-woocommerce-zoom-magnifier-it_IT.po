@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Zoom Magnifier\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2021-10-07 15:43:27+00:00\n"
+"POT-Creation-Date: 2021-12-21 16:04:21+00:00\n"
 "PO-Revision-Date: 2015-10-07 15:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Premium Version"
 msgstr "Versione Premium"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:190
+#: lib/class.yith-ywzm-plugin-fw-loader.php:191
 #, fuzzy
 msgid ""
 "YITH WooCommerce Product Gallery & Image Zoom  is available in an "
@@ -59,15 +59,15 @@ msgstr ""
 "YITH WooCommerce Zoom Magnifier è disponibile in una straordinaria versione "
 "PREMIUM con molte nuove opzioni, scoprila subito."
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:191
+#: lib/class.yith-ywzm-plugin-fw-loader.php:192
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:199
+#: lib/class.yith-ywzm-plugin-fw-loader.php:200
 msgid "YITH WooCommerce Product Gallery & Image Zoom "
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:200
+#: lib/class.yith-ywzm-plugin-fw-loader.php:201
 #, fuzzy
 msgid ""
 "In YIT Plugins tab you can find  YITH WooCommerce Product Gallery & Image "

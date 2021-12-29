@@ -2,7 +2,7 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.23.0
+Stable tag: 3.23.5
 Requires PHP: 5.2
 Tested up to: 5.8
 License: GPLv2 or later
@@ -287,6 +287,22 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Integrates directly in Gutenberg
 
 == Changelog ==
+
+= 3.23.5 - 2021/Nov/30 =
+* FIX: Fixes post output stripslashes bug
+
+= 3.23.4 - 2021/Nov/23 =
+* FIX: Fixes array key on boolean bug
+
+= 3.23.3 - 2021/Nov/12 =
+* FIX: Fixes theme conflict with the utility class stylesheet
+
+= 3.23.2 - 2021/Nov/11 =
+* FIX: Lowers utility class display specificity
+
+= 3.23.1 - 2021/Nov/3 =
+* TWEAK: Changes how metagallery language files are loaded
+* FEATURE: Updates library
 
 = 3.23.0 - 2021/Aug/27 =
 * TWEAK: Bug fixes and updates to the library

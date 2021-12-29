@@ -1,6 +1,7 @@
 /* CSS for adverts */
 
 .updraft-ad-container {
+    border-left-color: #FF6A3D!important;
     position: relative;
     padding-right: 150px!important;
 }
@@ -70,7 +71,7 @@ h4.updraft_advert_heading {
 }
 
 .updraft_notice_link {
-	padding-left:5px;
+	margin-left:10px;
 }
 
 .updraft_text_center {

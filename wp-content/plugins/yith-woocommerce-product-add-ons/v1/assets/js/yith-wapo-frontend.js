@@ -1997,10 +1997,12 @@ jQuery( function ($) {
         }
 
         // Initialize
-        $('body').find('form:not(.in_loop).cart').each(function () {
-            $(this).init_yith_wapo_totals();
-            $(this).find('.variations select').change();
-        });
+        setTimeout( function() {
+            $('body').find('form:not(.in_loop).cart').each(function () {
+                $(this).init_yith_wapo_totals();
+                $(this).find('.variations select').change();
+            });
+        }, 3000 );
 
         $('body').find('.wapo_option_tooltip').each(function () {
             var tooltip = $(this).data('tooltip');
@@ -2240,10 +2242,11 @@ jQuery( function ($) {
     $('select.ywapo_input').change(function(){
         var imageUrl = $(this).find(':selected').data('image');
         if ( typeof imageUrl !== 'undefined' ) {
+            var container = $(this).parent();
             var image = '<img src="' + imageUrl + '" style="max-width: 100%">';
             var description = $(this).find(':selected').data('description');
-            $(this).prev('div.wapo_option_image').html( image );
-            $(this).next('p.wapo_option_description').html( description );
+            container.find('div.wapo_option_image').html( image );
+            container.find('p.wapo_option_description').html( description );
         }
     });
     $('select.ywapo_input').trigger('change');

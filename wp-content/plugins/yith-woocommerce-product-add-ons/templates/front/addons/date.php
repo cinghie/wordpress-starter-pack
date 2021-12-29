@@ -193,62 +193,6 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 
 	<script type="text/javascript">
 
-		var selectableDays = [<?php echo wp_kses_post( $selectable_days ); ?>];
-		var selectedDays = [<?php echo wp_kses_post( $selected_days ); ?>];
-
-		function setAvailableDays( date ) {
-
-			var returnValue = true;
-
-			<?php if ( '' !== $selectable_days ) : ?>
-
-				for ( i = 0; i < selectableDays.length; i++ ) {
-					var currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
-					if ( jQuery.inArray( currentDate, selectableDays ) != -1 ) {
-						returnValue = true;
-						// return [true];
-					} else {
-						returnValue = false;
-						// return [false];
-					}
-				}
-			<?php endif; ?>
-
-			<?php if ( 'yes' === $enable_disable_days ) : ?>
-				for ( i = 0; i < selectedDays.length; i++ ) {
-					var currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
-					if ( jQuery.inArray( currentDate, selectedDays ) != -1 ) {
-						returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'false' : 'true'; ?>;
-						// return <?php echo 'disable' === $enable_disable_date_rules ? '[false]' : '[true]'; ?>;
-					} else {
-						returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'true' : 'false'; ?>;
-						// return <?php echo 'disable' === $enable_disable_date_rules ? '[true]' : '[false]'; ?>;
-					}
-				}
-			<?php endif; ?>
-
-			<?php if ( 'daysweek' === $date_rule_what ) : ?>
-
-				if ( false ) {
-					return [false];
-
-					<?php foreach ( $date_rule_daysweek as $key => $dayweek ) : ?>
-						} else if ( date.getDay() === <?php echo esc_attr( $dayweek ); ?> ) {
-							returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'false' : 'true'; ?>;
-							// return <?php echo 'disable' === $enable_disable_date_rules ? '[false]' : '[true]'; ?>;
-					<?php endforeach; ?>
-
-				} else {
-					returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'true' : 'false'; ?>;
-					// return <?php echo 'disable' === $enable_disable_date_rules ? '[true]' : '[false]'; ?>;
-				}
-			<?php endif; ?>
-
-			if ( returnValue ) { return [true]; }
-			return [false];
-
-		}
-
 		jQuery( function() {
 			jQuery( '#yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>' ).datepicker({
 				dateFormat: '<?php echo esc_attr( $date_format_js ); ?>',
@@ -261,7 +205,58 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 				if ( $end_year > 0 ) :
 					?>
 					maxDate: new Date('<?php echo esc_attr( $end_year ); ?>-12-31'),<?php endif; ?>
-				beforeShowDay: setAvailableDays,
+				  beforeShowDay: function(date){
+					  var selectableDays = [<?php echo wp_kses_post( $selectable_days ); ?>];
+					  var selectedDays = [<?php echo wp_kses_post( $selected_days ); ?>];
+					  var returnValue = true;
+
+					  <?php if ( '' !== $selectable_days ) : ?>
+
+					  for ( i = 0; i < selectableDays.length; i++ ) {
+						  var currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
+						  if ( jQuery.inArray( currentDate, selectableDays ) != -1 ) {
+							  returnValue = true;
+							  // return [true];
+						  } else {
+							  returnValue = false;
+							  // return [false];
+						  }
+					  }
+					  <?php endif; ?>
+
+					  <?php if ( 'yes' === $enable_disable_days ) : ?>
+					  for ( i = 0; i < selectedDays.length; i++ ) {
+						  var currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
+						  if ( jQuery.inArray( currentDate, selectedDays ) != -1 ) {
+							  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'false' : 'true'; ?>;
+							  // return <?php echo 'disable' === $enable_disable_date_rules ? '[false]' : '[true]'; ?>;
+						  } else {
+							  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'true' : 'false'; ?>;
+							  // return <?php echo 'disable' === $enable_disable_date_rules ? '[true]' : '[false]'; ?>;
+						  }
+					  }
+					  <?php endif; ?>
+
+					  <?php if ( 'daysweek' === $date_rule_what ) : ?>
+
+					  if ( false ) {
+						  return [false];
+
+						  <?php foreach ( $date_rule_daysweek as $key => $dayweek ) : ?>
+					  } else if ( date.getDay() === <?php echo esc_attr( $dayweek ); ?> ) {
+						  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'false' : 'true'; ?>;
+						  // return <?php echo 'disable' === $enable_disable_date_rules ? '[false]' : '[true]'; ?>;
+						  <?php endforeach; ?>
+
+					  } else {
+						  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'true' : 'false'; ?>;
+						  // return <?php echo 'disable' === $enable_disable_date_rules ? '[true]' : '[false]'; ?>;
+					  }
+					  <?php endif; ?>
+
+					  if ( returnValue ) { return [true]; }
+					  return [false];
+				  },
 				<?php
 				if ( 'yes' === $show_time_selector ) :
 					?>

@@ -38,6 +38,9 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 								<th class="exc-products"><?php echo esc_html__( 'Exclude products:', 'yith-woocommerce-product-add-ons' ); ?></th>
 								<th class="exc-categories"><?php echo esc_html__( 'Exclude categories:', 'yith-woocommerce-product-add-ons' ); ?></th>
 							<?php endif; ?>
+							<?php if ( class_exists( 'YITH_Vendors' ) ) : ?>
+								<th class="vendor"><?php echo esc_html__( 'Vendor:', 'yith-woocommerce-product-add-ons' ); ?></th>
+							<?php endif; ?>
 							<th class="active"><?php echo esc_html__( 'Active', 'yith-woocommerce-product-add-ons' ); ?></th>
 						</tr>
 					</thead>
@@ -52,7 +55,7 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 								</td>
 								<td class="products">
 									<?php
-									$included_products = $block->get_rule( 'show_in_products' );
+									$included_products = (array) $block->get_rule( 'show_in_products' );
 									if ( is_array( $included_products ) ) {
 										foreach ( $included_products as $key => $value ) {
 											if ( $value > 0 ) {
@@ -70,7 +73,7 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 								</td>
 								<td class="categories">
 									<?php
-									$included_categories = $block->get_rule( 'show_in_categories' );
+									$included_categories = (array) $block->get_rule( 'show_in_categories' );
 									if ( is_array( $included_categories ) ) {
 										foreach ( $included_categories as $key => $value ) {
 											$category = get_term_by( 'id', $value, 'product_cat' );
@@ -87,7 +90,7 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 								<?php if ( defined( 'YITH_WAPO_PREMIUM' ) && YITH_WAPO_PREMIUM ) : ?>
 									<td class="exc-products">
 										<?php
-										$included_products = $block->get_rule( 'exclude_products_products' );
+										$included_products = (array) $block->get_rule( 'exclude_products_products' );
 										if ( is_array( $included_products ) ) {
 											foreach ( $included_products as $key => $value ) {
 												if ( $value > 0 ) {
@@ -105,7 +108,7 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 									</td>
 									<td class="exc-categories">
 										<?php
-										$excluded_categories = $block->get_rule( 'exclude_products_categories' );
+										$excluded_categories = (array) $block->get_rule( 'exclude_products_categories' );
 										if ( is_array( $excluded_categories ) ) {
 											foreach ( $excluded_categories as $key => $value ) {
 												$category = get_term_by( 'id', $value, 'product_cat' );
@@ -113,6 +116,22 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 													echo '<div><a href="' . esc_attr( get_term_link( $category->term_id, 'product_cat' ) ) . '" target="_blank">'
 														. esc_html( $category->name ) . ' (#' . esc_html( $category->term_id ) . ')</div>';
 												}
+											}
+										} else {
+											echo '-';
+										}
+										?>
+									</td>
+								<?php endif; ?>
+								<?php if ( class_exists( 'YITH_Vendors' ) ) : ?>
+									<td class="vendor">
+										<?php
+										if ( $block->vendor_id > 0 ) {
+											$vendor = yith_get_vendor( $block->vendor_id, 'vendor' );
+											if ( is_object( $vendor ) && $vendor->is_valid() ) {
+												echo esc_html( stripslashes( $vendor->name ) );
+											} else {
+												echo '-';
 											}
 										} else {
 											echo '-';

@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the YITH WooCommerce Catalog Mode package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Catalog Mode 2.2.0\n"
+"Project-Id-Version: YITH WooCommerce Catalog Mode 2.4.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-catalog-mode\n"
-"POT-Creation-Date: 2021-10-05 13:38:39+00:00\n"
+"POT-Creation-Date: 2021-12-03 16:31:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,12 +14,12 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: class-yith-woocommerce-catalog-mode.php:187
+#: class-yith-woocommerce-catalog-mode.php:201
 #: plugin-options/settings-options.php:15
 msgid "Settings"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:188
+#: class-yith-woocommerce-catalog-mode.php:202
 msgid "Premium Version"
 msgstr ""
 
@@ -221,27 +221,27 @@ msgid ""
 "e-commerce shop on <strong>YITH</strong></a>"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:178
+#: class-yith-woocommerce-catalog-mode.php:177
 msgctxt "general settings tab name"
 msgid "Settings"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:179
+#: class-yith-woocommerce-catalog-mode.php:178
 msgctxt "exclusion settings tab name"
 msgid "Exclusion List"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:180
+#: class-yith-woocommerce-catalog-mode.php:179
 msgctxt "inquiry form settings tab name"
 msgid "Inquiry Form"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:181
+#: class-yith-woocommerce-catalog-mode.php:180
 msgctxt "buttons & labels settings tab name"
 msgid "Buttons & Labels"
 msgstr ""
 
-#: class-yith-woocommerce-catalog-mode.php:209
+#: class-yith-woocommerce-catalog-mode.php:185
 #. translators: %1$s opening B tag - %2$s closing B tag
 msgctxt "[HELP TAB] Video title"
 msgid ""

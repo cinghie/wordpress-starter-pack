@@ -45,7 +45,7 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 		if ( ! empty( $this->settings['add_utf8_bom'] ) ) {
 			fwrite( $this->handle, chr( 239 ) . chr( 187 ) . chr( 191 ) );
 		}
-
+		$this->rows = array();
 		if ( ! empty( $this->settings['display_column_names'] ) AND $data ) {
 			if ( $this->mode == 'preview' ) {
 				$this->rows[] = $data;
@@ -79,8 +79,8 @@ abstract class WOE_Formatter_sv extends WOE_Formatter_Plain_Format {
 				$this->rows[] = $row;
 			} else {
 				// insert order id of inserted rows, only required for PDF
-				if ( $this instanceof WOE_Formatter_PDF ) {
-					$row[] = intval( WC_Order_Export_Engine::$order_id );
+				if ( $this instanceof WOE_Formatter_PDF || $this instanceof WOE_Formatter_Xls ) {
+					$row[] = ! $this->summary_processing ? intval( WC_Order_Export_Engine::$order_id ) : 0;
 				}
 
 				if ( ! apply_filters( "woe_{$this->format}_custom_output_func", false, $this->handle, $row,

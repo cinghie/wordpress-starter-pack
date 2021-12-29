@@ -525,7 +525,7 @@
             return;
         }
 
-        /*
+
         obj.$xhr = $.ajax({
             url: yith_wccl_general.ajaxurl.toString().replace( '%%endpoint%%', yith_wccl_general.actionVariationGallery ),
             data: {
@@ -555,7 +555,7 @@
                 $(document).trigger( 'yith_wccl_product_gallery_loaded' );
             }
         });
-        */
+
     }
 
     WCCL.prototype.resetLoopForm = function( obj ){

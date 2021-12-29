@@ -805,6 +805,35 @@ function woe_add_bind_for_custom_fields( prefix, output_format, $to ) {
 		return false;
 	} );
 
+	jQuery( '#button_custom_calculated_' + prefix + '' ).off();
+	jQuery( '#button_custom_calculated_' + prefix + '' ).click( function () {
+		var metakey = jQuery( '#metakey_custom_calculated_' + prefix + '' ).val();
+		var label = jQuery( '#label_custom_calculated_' + prefix + '' ).val();
+		var format_field = jQuery( '#format_custom_calculated_' + prefix + '' ).val();
+		if ( ! metakey ) {
+			alert( export_messages.empty_column_name );
+			jQuery( '#metakey_custom_calculated_' + prefix + '' ).focus();
+			return false
+		}
+		if ( ! label && 'products' !== prefix ) {
+			alert( export_messages.empty_value );
+			jQuery( '#label_custom_calculated_' + prefix + '' ).focus();
+			return false
+		}
+
+		jQuery( '#metakey_custom_calculated_' + prefix + '' ).val( "" );
+
+		jQuery( '#label_custom_calculated_' + prefix + '' ).val( "" );
+		jQuery( '#format_custom_calculated_' + prefix + '' ).val( "" );
+
+		var segment = jQuery( '.segment_choice.active' ).attr( 'data-segment' );
+
+		woe_add_custom_meta( jQuery( "#" + segment + '_unselected_segment' ), prefix, output_format, metakey, label, segment, format_field );
+
+		jQuery( this ).siblings( '.button-cancel' ).trigger( 'click' );
+
+		return false;
+	} );
 }
 
 function woe_add_custom_field( to, index_p, format, colname, value, segment, format_field ) {
@@ -1041,6 +1070,11 @@ jQuery( document ).ready( function ( $ ) {
 		$( '.woe_segment_tips' ).removeClass( 'active' );
 		$( '#woe_tips_' + $( this ).data( 'segment' ) ).addClass( 'active' );
 
+		$('.add-calculated').hide();
+		if(jQuery.inArray(segment, ["common", "products", "product_items"]) >= 0) {
+			$('.add-calculated').show();
+		}
+
 		window.location.href = $( this ).attr( 'href' );
 
 		woe_reset_field_contorls();
@@ -1137,6 +1171,23 @@ jQuery( document ).ready( function ( $ ) {
 			).addClass( 'active' );
 		} else {
 			jQuery( '.tab-actions-forms .div_custom.segment-form.all-segments' ).addClass( 'active' );
+		}
+
+		return false;
+	} );
+
+	jQuery( '.tab-controls .tab-actions-buttons .add-calculated' ).on( 'click', function () {
+
+		jQuery( '.tab-actions-forms .segment-form' ).removeClass( 'active' );
+
+		if ( jQuery( '.tab-actions-forms .div_calculated.segment-form.' +
+		        jQuery( '#unselected_fields .segment_choice.active' ).attr( 'data-segment' ) + '-segment'
+			).length ) {
+			jQuery( '.tab-actions-forms .div_calculated.segment-form.' +
+			        jQuery( '#unselected_fields .segment_choice.active' ).attr( 'data-segment' ) + '-segment'
+			).addClass( 'active' );
+		} else {
+			jQuery( '.tab-actions-forms .div_calculated.segment-form.all-segments' ).addClass( 'active' );
 		}
 
 		return false;
@@ -1245,6 +1296,32 @@ jQuery( document ).ready( function ( $ ) {
 
         return false;
     });
+
+	jQuery( '#button_custom_calculated' ).click( function () {
+		var metakey = jQuery( '#metakey_custom_calculated' ).val();
+		var label = jQuery( '#label_custom_calculated' ).val();
+		var format_field = jQuery( '#format_custom_calculated' ).val();
+		if ( ! metakey ) {
+			alert( export_messages.empty_meta_key );
+			jQuery( '#metakey_custom_calculated' ).focus();
+			return false
+		}
+		if ( ! label ) {
+			alert( export_messages.empty_column_name );
+			jQuery( '#label_custom_calculated' ).focus();
+			return false
+		}
+
+		var segment = jQuery( '.segment_choice.active' ).attr( 'data-segment' );
+
+		woe_add_custom_meta( jQuery( "#" + segment + '_unselected_segment' ), 'orders', output_format, metakey, label, segment, format_field );
+
+		woe_reset_field_contorls();
+
+		jQuery( this ).siblings( '.button-cancel' ).trigger( 'click' );
+
+		return false;
+	} );
 
 	jQuery( '.tab-controls .other_items-actions-buttons .add-fee' ).on( 'click', function () {
 	    jQuery( '.tab-actions-forms .segment-form' ).removeClass( 'active' );

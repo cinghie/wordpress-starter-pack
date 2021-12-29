@@ -173,21 +173,35 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			if ( defined( 'YWCTM_PREMIUM' ) && YWCTM_PREMIUM ) {
-
 				$admin_tabs = array(
 					'premium-settings' => esc_html_x( 'Settings', 'general settings tab name', 'yith-woocommerce-catalog-mode' ),
 					'exclusions'       => esc_html_x( 'Exclusion List', 'exclusion settings tab name', 'yith-woocommerce-catalog-mode' ),
 					'inquiry-form'     => esc_html_x( 'Inquiry Form', 'inquiry form settings tab name', 'yith-woocommerce-catalog-mode' ),
 					'buttons-labels'   => esc_html_x( 'Buttons & Labels', 'buttons & labels settings tab name', 'yith-woocommerce-catalog-mode' ),
 				);
-
+				$help_tab   = array(
+					'main_video' => array(
+						/* translators: %1$s opening B tag - %2$s closing B tag */
+						'desc' => sprintf( _x( 'Check this video to learn how to %1$sconvert your shop into a product catalog%2$s', '[HELP TAB] Video title', 'yith-woocommerce-catalog-mode' ), '<b>', ':</b>' ),
+						'url'  => array(
+							'it' => 'https://www.youtube.com/embed/5i8fTXTw97I',
+							'en' => 'https://www.youtube.com/embed/Ku_8Yk3cDTg',
+							'es' => 'https://www.youtube.com/embed/WX80if_6gEE',
+						),
+					),
+					'playlists'  => array(
+						'it' => 'https://www.youtube.com/watch?v=5i8fTXTw97I&list=PL9c19edGMs09CTincDLWuCumR9A7JwZ4C',
+						'en' => 'https://www.youtube.com/watch?v=Ku_8Yk3cDTg&list=PLDriKG-6905mo3NWj8er7QVNirWeENSdy',
+						'es' => 'https://www.youtube.com/watch?v=WX80if_6gEE&list=PL9Ka3j92PYJO9UgIkP3Yv53Nqf1uk5Tv0',
+					),
+					'hc_url'     => 'https://support.yithemes.com/hc/en-us/categories/4402976774161-YITH-WOOCOMMERCE-CATALOG-MODE',
+				);
 			} else {
-
 				$admin_tabs = array(
 					'settings' => esc_html__( 'Settings', 'yith-woocommerce-catalog-mode' ),
 					'premium'  => esc_html__( 'Premium Version', 'yith-woocommerce-catalog-mode' ),
 				);
-
+				$help_tab   = array();
 			}
 
 			$args = array(
@@ -203,19 +217,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				'admin-tabs'       => $admin_tabs,
 				'options-path'     => YWCTM_DIR . '/plugin-options',
 				'class'            => yith_set_wrapper_class(),
-				'help_tab'         => array(
-					'main_video' => array(
-						/* translators: %1$s opening B tag - %2$s closing B tag */
-						'desc' => sprintf( _x( 'Check this video to learn how to %1$sconvert your shop into a product catalog%2$s', '[HELP TAB] Video title', 'yith-woocommerce-catalog-mode' ), '<b>', ':</b>' ),
-						'url'  => array(
-							'it' => 'https://www.youtube.com/embed/5i8fTXTw97I',
-						),
-					),
-					'playlists'  => array(
-						'it' => 'https://www.youtube.com/watch?v=5i8fTXTw97I&list=PL9c19edGMs09CTincDLWuCumR9A7JwZ4C',
-					),
-					'hc_url'     => 'https://support.yithemes.com/hc/en-us/categories/4402976774161-YITH-WOOCOMMERCE-CATALOG-MODE',
-				),
+				'help_tab'         => $help_tab,
 			);
 
 			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );
@@ -276,7 +278,14 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 			foreach ( $pages as $key => $page ) {
 
-				$page_id = ( in_array( current_filter(), array( 'wp_get_nav_menu_items', 'wp_nav_menu_objects' ), true ) ? $page->object_id : $page->ID );
+				if ( in_array( current_filter(), array( 'wp_get_nav_menu_items', 'wp_nav_menu_objects' ), true ) ) {
+					$page_id = $page->object_id;
+					if ( 'page' !== $page->obect_id ) {
+						continue;
+					}
+				} else {
+					$page_id = $page->ID;
+				}
 
 				if ( in_array( (int) $page_id, $excluded_pages, true ) ) {
 					unset( $pages[ $key ] );
@@ -872,7 +881,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YWCTM_SLUG );
 		}
 
 		/**
@@ -935,7 +944,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			$plugin_name  = $plugin_data['Name'];
 			$requirements = array(
 				'min_wp_version' => '5.6.0',
-				'min_wc_version' => '5.3.0',
+				'min_wc_version' => '5.8.0',
 			);
 			yith_plugin_fw_add_requirements( $plugin_name, $requirements );
 		}

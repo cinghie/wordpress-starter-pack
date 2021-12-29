@@ -151,7 +151,8 @@ abstract class WOE_Formatter {
 	}
 
 	protected function format_date_field( $field_value ) {
-		if ( ! WOE_Formatter::is_valid_time_stamp( $field_value ) ) {
+		// 20211208 is not timestamp! too, strtotime() can parse it
+		if ( ! WOE_Formatter::is_valid_time_stamp( $field_value ) OR strtotime( $field_value ) ) {
 			$ts = strtotime( $field_value );
 		} else {
 			$ts = $field_value;

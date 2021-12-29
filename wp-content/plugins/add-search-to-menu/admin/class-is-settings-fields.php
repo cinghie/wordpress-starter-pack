@@ -93,17 +93,17 @@ class IS_Settings_Fields
 			<h3 scope="row"><label for="<?php 
                 esc_attr_e( $field['args']['label_for'] );
                 ?>"><?php 
-                echo  $field['title'] ;
+                echo  wp_kses_post( $field['title'] ) ;
                 ?></label>
 			<?php 
             } else {
                 ?> 
 			<h3 scope="row"><?php 
-                echo  $field['title'] ;
+                echo  wp_kses_post( $field['title'] ) ;
             }
             
             
-            if ( 'Custom CSS' === $field['title'] || 'Advanced' === $field['title'] ) {
+            if ( 'Custom CSS' === $field['title'] || 'Advanced' === $field['title'] || 'ivory_search_index' == $section && 'Post Types' == $field['title'] ) {
                 ?>
                         <span class="is-actions"><a class="expand" href="#"><?php 
                 esc_html_e( 'Expand All', 'add-search-to-menu' );
@@ -143,12 +143,21 @@ class IS_Settings_Fields
                     return $allowed_options;
                 } );
             } else {
+                
                 if ( isset( $_POST['is_analytics'] ) ) {
                     add_filter( $temp_oname, function ( $allowed_options ) {
                         $allowed_options['ivory_search'][0] = 'is_analytics';
                         return $allowed_options;
                     } );
+                } else {
+                    if ( isset( $_POST['is_index'] ) ) {
+                        add_filter( $temp_oname, function ( $allowed_options ) {
+                            $allowed_options['ivory_search'][0] = 'is_index';
+                            return $allowed_options;
+                        } );
+                    }
                 }
+            
             }
         
         }
@@ -161,6 +170,9 @@ class IS_Settings_Fields
                     break;
                 case 'analytics':
                     $tab = 'analytics';
+                    break;
+                case 'index':
+                    $tab = 'index';
                     break;
             }
         }
@@ -228,7 +240,7 @@ class IS_Settings_Fields
                 'ivory_search',
                 'ivory_search_settings'
             );
-            register_setting( 'ivory_search', 'is_settings' );
+            register_setting( 'ivory_search', 'is_settings', array( $this, 'is_validate_setting' ) );
         } else {
             
             if ( 'menu-search' === $tab ) {
@@ -263,12 +275,98 @@ class IS_Settings_Fields
                         'ivory_search_analytics'
                     );
                     register_setting( 'ivory_search', 'is_analytics' );
+                } else {
+                    
+                    if ( 'index' === $tab ) {
+                        $index = IS_Settings_Index_Fields::getInstance();
+                        add_settings_section(
+                            'ivory_search_index',
+                            '',
+                            array( $index, 'index_section_desc' ),
+                            'ivory_search'
+                        );
+                        add_settings_field(
+                            'ivory_search_index_post_types',
+                            __( 'Post Types', 'add-search-to-menu' ),
+                            array( $index, 'post_types_settings' ),
+                            'ivory_search',
+                            'ivory_search_index'
+                        );
+                        add_settings_field(
+                            'ivory_search_index_taxonomies',
+                            __( 'Taxonomies', 'add-search-to-menu' ),
+                            array( $index, 'taxonomies_settings' ),
+                            'ivory_search',
+                            'ivory_search_index'
+                        );
+                        add_settings_field(
+                            'ivory_search_index_meta_fields',
+                            __( 'Custom Fields', 'add-search-to-menu' ),
+                            array( $index, 'meta_fields_settings' ),
+                            'ivory_search',
+                            'ivory_search_index'
+                        );
+                        add_settings_field(
+                            'ivory_search_index_extra_fields',
+                            __( 'Extras', 'add-search-to-menu' ),
+                            array( $index, 'extra_settings' ),
+                            'ivory_search',
+                            'ivory_search_index'
+                        );
+                        add_settings_field(
+                            'ivory_search_index_advanced_fields',
+                            __( 'Advanced', 'add-search-to-menu' ),
+                            array( $index, 'advanced_settings' ),
+                            'ivory_search',
+                            'ivory_search_index'
+                        );
+                        register_setting( 'ivory_search', 'is_index' );
+                    }
+                
                 }
             
             }
         
         }
     
+    }
+    
+    function is_validate_setting( $args )
+    {
+        
+        if ( isset( $args['custom_css'] ) && preg_match( '#</?\\w+#', $args['custom_css'] ) ) {
+            add_settings_error(
+                'is_settings',
+                'invalid_is_css',
+                __( 'Invalid Custom CSS Code', 'add-search-to-menu' ),
+                'error'
+            );
+            $args['custom_css'] = $this->opt['custom_css'];
+        }
+        
+        
+        if ( isset( $args['custom_css'] ) && preg_match( '#</?\\w+#', $args['stopwords'] ) ) {
+            add_settings_error(
+                'is_settings',
+                'invalid_is_stopwords',
+                __( 'Invalid Stopwords', 'add-search-to-menu' ),
+                'error'
+            );
+            $args['stopwords'] = $this->opt['stopwords'];
+        }
+        
+        
+        if ( isset( $args['custom_css'] ) && preg_match( '#</?\\w+#', $args['synonyms'] ) ) {
+            add_settings_error(
+                'is_settings',
+                'invalid_is_synonyms',
+                __( 'Invalid Synonyms', 'add-search-to-menu' ),
+                'error'
+            );
+            $args['synonyms'] = $this->opt['synonyms'];
+        }
+        
+        return $args;
     }
     
     /**
@@ -473,7 +571,7 @@ class IS_Settings_Fields
         $color = ( isset( $this->opt['menu_magnifier_color'] ) ? $this->opt['menu_magnifier_color'] : '#848484' );
         ?>
 		<input style="width: 80px;" class="menu-magnifier-color is-colorpicker" size="5" type="text" id="is-menu-magnifier-color" name="is_menu_search[menu_magnifier_color]" value="<?php 
-        echo  $color ;
+        esc_attr_e( $color );
         ?>" />
 		<br /><i> <?php 
         esc_html_e( 'Select menu magnifier icon color.', 'add-search-to-menu' );
@@ -535,11 +633,11 @@ class IS_Settings_Fields
             foreach ( $posts as $post ) {
                 ?>
 				<option value="<?php 
-                echo  $post->ID ;
+                esc_attr_e( $post->ID );
                 ?>" <?php 
                 selected( $post->ID, $check_value, true );
                 ?>><?php 
-                echo  $post->post_title ;
+                esc_html_e( $post->post_title );
                 ?></option>
 			<?php 
             }
@@ -550,10 +648,8 @@ class IS_Settings_Fields
             if ( $check_value ) {
                 ?>
 				<a href="<?php 
-                echo  esc_url( menu_page_url( 'ivory-search', false ) ) ;
-                ?>&post=<?php 
-                echo  $check_value ;
-                ?>&action=edit">  <?php 
+                echo  esc_url( menu_page_url( 'ivory-search', false ) . '&post=' . absint( $check_value ) . '&action=edit' ) ;
+                ?>">  <?php 
                 esc_html_e( 'Edit Search Form', 'add-search-to-menu' );
                 ?></a>
 			<?php 
@@ -693,11 +789,11 @@ class IS_Settings_Fields
             foreach ( $posts as $post ) {
                 ?>
 				<option value="<?php 
-                echo  $post->ID ;
+                esc_attr_e( $post->ID );
                 ?>" <?php 
                 selected( $post->ID, $check_value, true );
                 ?>><?php 
-                echo  $post->post_title ;
+                esc_html_e( $post->post_title );
                 ?></option>
 			<?php 
             }
@@ -708,7 +804,7 @@ class IS_Settings_Fields
             if ( $check_value && get_post_type( $check_value ) ) {
                 ?>
 				<a href="<?php 
-                echo  esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit' ;
+                echo  esc_url( menu_page_url( 'ivory-search', false ) . '&post=' . absint( $check_value ) . '&action=edit' ) ;
                 ?>"><?php 
                 esc_html_e( "Edit", 'add-search-to-menu' );
                 ?></a>
@@ -761,11 +857,11 @@ class IS_Settings_Fields
             foreach ( $posts as $post ) {
                 ?>
 				<option value="<?php 
-                echo  $post->ID ;
+                esc_attr_e( $post->ID );
                 ?>" <?php 
                 selected( $post->ID, $check_value, true );
                 ?>><?php 
-                echo  $post->post_title ;
+                esc_html_e( $post->post_title );
                 ?></option>
 			<?php 
             }
@@ -776,7 +872,7 @@ class IS_Settings_Fields
             if ( $check_value && get_post_type( $check_value ) ) {
                 ?>
 				<a href="<?php 
-                echo  esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $check_value . '&action=edit' ;
+                echo  esc_url( menu_page_url( 'ivory-search', false ) . '&post=' . absint( $check_value ) . '&action=edit' ) ;
                 ?>"> <?php 
                 esc_html_e( "Edit", 'add-search-to-menu' );
                 ?></a>
@@ -808,7 +904,7 @@ class IS_Settings_Fields
         ?>
         <div>
 		<label for="is_search_in_header"><input class="ivory_search_display_in_header" type="checkbox" id="is_search_in_header" name="is_settings[header_menu_search]" value="header_menu_search" <?php 
-        echo  $check_string ;
+        esc_attr_e( $check_string );
         ?>/>
 		<span class="toggle-check-text"></span><?php 
         esc_html_e( 'Display search form in site header on mobile devices', 'add-search-to-menu' );
@@ -822,7 +918,7 @@ class IS_Settings_Fields
         ?>
 		<div>
 		<label for="is_site_uses_cache"><input class="ivory_search_display_in_header" type="checkbox" id="is_site_uses_cache" name="is_settings[site_uses_cache]" value="site_uses_cache" <?php 
-        echo  $check_string ;
+        esc_attr_e( $check_string );
         ?>/>
 		<span class="toggle-check-text"></span><?php 
         esc_html_e( 'This site uses cache', 'add-search-to-menu' );
@@ -928,7 +1024,7 @@ class IS_Settings_Fields
             ?>]" value="<?php 
             esc_attr_e( $key );
             ?>" <?php 
-            echo  $check_string ;
+            esc_attr_e( $check_string );
             ?>/>
 			<span class="toggle-check-text"></span><?php 
             esc_html_e( $file );

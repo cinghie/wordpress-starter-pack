@@ -221,7 +221,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				return;
 			}
 
-			$capability  = 'manage_options';
+			$capability  = 'manage_woocommerce';
 			$parent_page = 'yit_plugin_panel';
 
 			if ( class_exists( 'YITH_Vendors' ) ) {
@@ -236,7 +236,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 			$tabs = array(
 				'blocks' => __( 'Options Blocks', 'yith-woocommerce-product-add-ons' ),
 			);
-			if ( 'manage_options' === $capability ) {
+			if ( 'manage_woocommerce' === $capability ) {
 				$tabs['settings'] = __( 'General Settings', 'yith-woocommerce-product-add-ons' );
 				$tabs['style']    = __( 'Style', 'yith-woocommerce-product-add-ons' );
 				// $tabs['impexp'] = __( 'Import / Export', 'yith-woocommerce-product-add-ons' ); phpcs:ignore Squiz.PHP.CommentedOutCode.Found
@@ -255,7 +255,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				'plugin_slug'      => YITH_WAPO_SLUG,
 				'page_title'       => 'YITH WooCommerce Product Add-ons & Extra Options',
 				'menu_title'       => 'Product Add-ons',
-				'capability'       => $capability,
+				'capability'       => apply_filters( 'yith_wapo_register_panel_capabilities', $capability ),
 				'parent'           => YITH_WAPO_SLUG,
 				'parent_page'      => $parent_page,
 				'page'             => $this->panel_page,
@@ -311,10 +311,10 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 				// CSS.
-				wp_enqueue_style( 'wapo-admin', YITH_WAPO_URL . 'assets/css/_new_yith-wapo-admin.css', false, wp_rand( 10000, 99999 ) );
+				wp_enqueue_style( 'wapo-admin', YITH_WAPO_URL . 'assets/css/admin.css', false, wp_rand( 10000, 99999 ) );
 
 				// JS.
-				wp_register_script( 'yith_wapo_admin', YITH_WAPO_URL . 'assets/js/_new_yith-wapo-admin.js', array( 'jquery' ), wp_rand( 10000, 99999 ), true );
+				wp_register_script( 'yith_wapo_admin', YITH_WAPO_URL . 'assets/js/admin' . $suffix . '.js', array( 'jquery' ), wp_rand( 10000, 99999 ), true );
 				wp_enqueue_script( 'yith_wapo_admin' );
 
 			}

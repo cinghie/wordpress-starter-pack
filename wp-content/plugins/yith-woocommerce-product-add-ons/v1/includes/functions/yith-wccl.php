@@ -123,8 +123,11 @@ if ( ! function_exists( 'yith_wccl_get_variation_gallery' ) ) {
 
 		global $sitepress;
 
-		$variation = wc_get_product( $variation->ID );
-		if ( ! $variation || ! $variation instanceof WC_Product ) {
+		if ( ! ( $variation instanceof WC_Product ) ) {
+			$variation = wc_get_product( $variation->ID );
+		}
+
+		if ( ! $variation ) {
 			return array();
 		}
 
@@ -133,7 +136,9 @@ if ( ! function_exists( 'yith_wccl_get_variation_gallery' ) ) {
 			$parent_id = wpml_object_id_filter( $variation->get_id(), 'product_variation', false, $sitepress->get_default_language() );
 			if ( ! empty( $parent_id ) ) {
 				$variation = wc_get_product( $parent_id );
-				$gallery   = $variation->get_meta( '_yith_wccl_gallery', true );
+				if ( $variation ) {
+					$gallery = $variation->get_meta( '_yith_wccl_gallery', true );
+				}
 			}
 		}
 

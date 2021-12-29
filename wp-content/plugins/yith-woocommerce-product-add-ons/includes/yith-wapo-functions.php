@@ -27,7 +27,7 @@ if ( ! function_exists( 'yith_wapo_get_addons_by_block_id' ) ) {
 		foreach ( $results as $key => $addon ) {
 			$addons[] = new YITH_WAPO_Addon( $addon->id );
 		}
-		return $addons;
+		return apply_filters( 'yith_wapo_addons_by_block_id', $addons, $block_id );
 	}
 }
 
@@ -43,7 +43,7 @@ if ( ! function_exists( 'yith_wapo_get_blocks' ) ) {
 
 		// YITH Multi Vendor integration.
 		$vendor_check = '';
-		if ( class_exists( 'YITH_Vendors' ) && ! is_product() ) {
+		if ( ! current_user_can( 'administrator' ) && class_exists( 'YITH_Vendors' ) && ! is_product() ) {
 			$vendor = yith_get_vendor( 'current', 'user' );
 			if ( $vendor->is_valid() ) {
 				$vendor_check = "AND vendor_id='$vendor->id'";
@@ -131,11 +131,13 @@ if ( ! function_exists( 'yith_wapo_get_option_price' ) ) {
 		$option_price_sale = '';
 		if ( 'percentage' === $info['price_type'] ) {
 			$_product = wc_get_product( $product_id );
+
 			// WooCommerce Measurement Price Calculator (compatibility).
 			if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
 				$product_price = $cart_item['pricing_item_meta_data']['_price'];
 			} else {
-				$product_price = floatval( $_product->get_price() ); }
+				$product_price = ( $_product instanceof WC_Product ) ? floatval( $_product->get_price() ) : 0; 
+			}
 			// end WooCommerce Measurement Price Calculator (compatibility).
 			$option_percentage      = floatval( $info['price'] );
 			$option_percentage_sale = floatval( $info['price_sale'] );
@@ -163,15 +165,30 @@ if ( ! function_exists( 'yith_wapo_get_tax_rate' ) ) {
 	 */
 	function yith_wapo_get_tax_rate() {
 		$wc_tax_rate = false;
+		
 		if ( get_option( 'woocommerce_calc_taxes', 'no' ) === 'yes' ) {
+
 			$wc_tax_rates = WC_Tax::get_rates();
-			if ( get_option( 'woocommerce_prices_include_tax' ) === 'no' && get_option( 'woocommerce_tax_display_shop' ) === 'incl' ) {
-				$wc_tax_rate = reset( $wc_tax_rates )['rate'] ?? 0;
-			}
-			if ( get_option( 'woocommerce_prices_include_tax' ) === 'yes' && get_option( 'woocommerce_tax_display_shop' ) === 'excl' ) {
-				$wc_tax_rate = - reset( $wc_tax_rates )['rate'] ?? 0;
+
+			if ( is_cart() || is_checkout() ) {
+				$wc_tax_rate = false;
+
+				if ( get_option( 'woocommerce_prices_include_tax' ) === 'no' && get_option( 'woocommerce_tax_display_cart' ) === 'incl' ) {
+					$wc_tax_rate = reset( $wc_tax_rates )['rate'] ?? 0;
+				}
+				if ( get_option( 'woocommerce_prices_include_tax' ) === 'yes' && get_option( 'woocommerce_tax_display_cart' ) === 'excl' ) {
+					$wc_tax_rate = - reset( $wc_tax_rates )['rate'] ?? 0;
+				}
+			} else {
+				if ( get_option( 'woocommerce_prices_include_tax' ) === 'no' && get_option( 'woocommerce_tax_display_shop' ) === 'incl' ) {
+					$wc_tax_rate = reset( $wc_tax_rates )['rate'] ?? 0;
+				}
+				if ( get_option( 'woocommerce_prices_include_tax' ) === 'yes' && get_option( 'woocommerce_tax_display_shop' ) === 'excl' ) {
+					$wc_tax_rate = - reset( $wc_tax_rates )['rate'] ?? 0;
+				}
 			}
 		}
+
 		return $wc_tax_rate;
 	}
 }
@@ -217,5 +234,69 @@ if ( ! function_exists( 'yith_wapo_product_has_blocks' ) ) {
 	 */
 	function yith_wapo_product_has_blocks( $product_id ) {
 
+		if ( ! $product_id ) {
+			return false;
+		}
+
+		$product = wc_get_product( $product_id );
+
+		if ( $product instanceof WC_Product ) {
+			$product_categories = $product->get_category_ids();
+			$exclude_global     = apply_filters( 'yith_wapo_exclude_global', get_post_meta( $product_id, '_wapo_disable_global', true ) === 'yes' ? 1 : 0 );
+
+			foreach ( yith_wapo_get_blocks() as $key => $block ) {
+
+				if ( '1' === $block->visibility ) {
+
+					$show_in                   = $block->get_rule( 'show_in' );
+					$included_product_check    = in_array( (string) $product->get_id(), (array) $block->get_rule( 'show_in_products' ), true );
+					$included_category_check   = count( array_intersect( (array) $block->get_rule( 'show_in_categories' ), $product_categories ) ) > 0;
+					$exclude_in                = $block->get_rule( 'exclude_products' );
+					$excluded_product_check    = ( 'all' === $show_in || 'categories' === $show_in ) && in_array( absint( $product->get_id() ), array_map( 'absint', (array) $block->get_rule( 'exclude_products_products' ) ), true );
+					$excluded_categories_check = 'all' === $show_in && count( array_intersect( (array) $block->get_rule( 'exclude_products_categories' ), $product_categories ) ) > 0;
+
+					$show_to            = $block->get_rule( 'show_to' );
+					$show_to_user_roles = $block->get_rule( 'show_to_user_roles' );
+					$show_to_membership = $block->get_rule( 'show_to_membership' );
+
+					// Include.
+					if ( ( 'all' === $show_in && ! $exclude_global ) || ( 'products' === $show_in && ( $included_product_check || $included_category_check ) ) ) {
+						// Exclude.
+						if ( 'yes' !== $exclude_in || ( ! $excluded_product_check && ! $excluded_categories_check ) ) {
+							// Show to.
+							if (
+								'' === $show_to
+								|| 'all' === $show_to
+								|| ( 'guest_users' === $show_to && ! is_user_logged_in() )
+								|| ( 'logged_users' === $show_to && is_user_logged_in() )
+								|| ( 'user_roles' === $show_to && count( array_intersect( (array) $show_to_user_roles, (array) wp_get_current_user()->roles ) ) > 0 )
+								|| ( 'membership' === $show_to && yith_wcmbs_user_has_membership( get_current_user_id(), $show_to_membership ) )
+							) {
+								$addons = yith_wapo_get_addons_by_block_id( $block->id );
+								if ( count( $addons ) > 0 ) {
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+
+	}
+}
+
+if ( ! function_exists( 'yith_wapo_wpml_register_string' ) ) {
+	/**
+	 * Register a string in wpml translation.
+	 *
+	 * @param string $context The context name.
+	 * @param string $name    The name.
+	 * @param string $value   The value to translate.
+	 */
+	function yith_wapo_wpml_register_string( $context, $name, $value ) {
+		do_action( 'wpml_register_single_string', $context, $name, $value );
 	}
 }

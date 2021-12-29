@@ -309,6 +309,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 				'page'             => 'yith_wcbr_panel',
 				'admin-tabs'       => $this->available_tabs,
 				'options-path'     => YITH_WCBR_DIR . 'plugin-options',
+				'plugin_slug'      => YITH_WCBR_SLUG,
 			);
 
 			/* === Fixed: not updated theme  === */
@@ -339,7 +340,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @since   1.0.0
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing_url;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing_url, YITH_WCBR_SLUG );
 		}
 
 		/**

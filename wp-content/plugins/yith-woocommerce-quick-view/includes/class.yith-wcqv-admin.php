@@ -224,7 +224,7 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YITH_WCQV_SLUG );
 		}
 
 	}

@@ -176,6 +176,11 @@ class WC_Order_Export_Engine {
 		if ( ! apply_filters( 'woe_load_custom_formatter_' . $format, false ) ) {
 			include_once dirname( dirname( __FILE__ ) ) . "/formats/class-woe-formatter-$format.php";
 		}
+		include_once dirname( dirname( __FILE__ ) ) . "/formats/storage/interface-woe-formatter-storage.php";
+		include_once dirname( dirname( __FILE__ ) ) . "/formats/storage/class-woe-formatter-storage-row.php";
+		include_once dirname( dirname( __FILE__ ) ) . "/formats/storage/class-woe-formatter-storage-column.php";
+		include_once dirname( dirname( __FILE__ ) ) . "/formats/storage/class-woe-formatter-storage-csv.php";
+		include_once dirname( dirname( __FILE__ ) ) . "/formats/storage/class-woe-formatter-storage-summary-session.php";
 
 		$format_settings = array( 'global_job_settings' => $settings );
 		foreach ( $settings as $key => $val ) {
@@ -552,7 +557,6 @@ class WC_Order_Export_Engine {
 		$settings = self::replace_sort_field( $settings );
 		$sql .= apply_filters( "woe_sql_get_order_ids_order_by",
 			" ORDER BY " . $settings['sort'] . " " . $settings['sort_direction'] );
-
 		if ( $limit ) {
 			$sql .= " LIMIT " . intval( $limit );
 		}
@@ -624,7 +628,7 @@ class WC_Order_Export_Engine {
 
 	public static function replace_sort_field( $settings ) {
 		$settings['sort'] = ! in_array( $settings['sort'], self::get_wp_posts_fields() ) ?  'ordermeta_cf_sort.meta_value' : $settings['sort'];
-
+		$settings['sort'] = apply_filters("woe_adjust_sort_field", $settings['sort'], $settings);
 		return $settings;
 	}
 

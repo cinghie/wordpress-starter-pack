@@ -1,6 +1,6 @@
 {
   "name": "yith-plugin-framewowrk",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "YITH Plugin Framework",
   "main": "Gruntfile.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "i18n:download-translations": "node ./bin/download-translations.js",
     "i18n:update-po": "grunt update_po",
     "i18n:clean": "node ./bin/clean-language-files.js",
-    "phpcs": "grunt phpcs",
+    "phpcs": "composer run-script phpcs",
     "env:start": "node ./tools/local-env/scripts/start.js",
     "env:stop": "node ./tools/local-env/scripts/docker.js down",
     "env:restart": "npm run env:stop && npm run env:start",

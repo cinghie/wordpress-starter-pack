@@ -8,8 +8,8 @@ require_once 'trait-woe-plain-format.php';
 abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 	use WOE_Order_Export_Plain_Format;
 	private $duplicate_settings = array();
-	private $summary_report_products;
-	private $summary_report_customers;
+	protected $summary_report_products;
+	protected $summary_report_customers;
 	protected $rows;
 	var $encoding;
 
@@ -651,4 +651,286 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		return $html;
 	}
 
+	public function insertRowAndSave($row)
+    {
+        if ( $row instanceof WOE_Formatter_Storage_Row ) {
+            if ($this->summary_report_products) {
+                $this->saveSummaryProductsData($row);
+            } elseif ($this->summary_report_customers) {
+                $this->saveSummaryCustomersData($row);
+            } else {
+				$this->storage->insertRowAndSave($row);
+			}
+        }
+    }
+
+	/**
+	 * @param WOE_Formatter_Storage_Row $rowObj
+	 */
+	protected function saveSummaryProductsData( $rowObj ) { //this summary method works with storage (for xls/pdf)
+		if(!$this instanceof WOE_Formatter_PDF && !$this instanceof WOE_Formatter_Xls) {
+			return;
+		}
+		$order = false;
+		$row = $rowObj->getData();
+
+		foreach ( self::get_array_from_array( $row, 'products' ) as $item_id => $item ) {
+			$product_item = new WC_Order_Item_Product( $item_id );
+			$product      = $product_item->get_product();
+			$item_meta = get_metadata( 'order_item', $item_id );
+			if ( ! $order ) {
+				$order = new WC_Order( $product_item->get_order_id() );
+			}
+			
+			if( $product )
+				$key = $product->get_id();
+			elseif( isset($item_meta['_variation_id'][0]) )
+				$key = $item_meta['_variation_id'][0] ? $item_meta['_variation_id'][0] : $item_meta['_product_id'][0];
+			else
+				$key = $item_id;
+			$key = apply_filters( "woe_summary_products_adjust_key", $key, $product, $product_item, $order, $item );
+
+			//add new product 
+			if ( ! $this->storage->getRow($key) ) {
+				$new_row = array();
+				foreach ( $this->labels['products']->get_labels() as $label_data ) {
+					$original_key = $label_data['key'];
+					if ( preg_match( '#^(line_|qty)#', $original_key ) )//skip item values!
+					{
+						continue;
+					}
+					$field_key = $label_data['parent_key'] ? $label_data['parent_key'] : $original_key;
+					if ( preg_match( '#^summary_report_total_#', $field_key ) ) {
+						$new_row[ $original_key ] = 0;
+					}//total fields
+					else {
+						$value = $item[ $field_key ];
+						$new_row[ $original_key ] = $value;
+					}  // already calculated
+				}
+				$new_row                                  = apply_filters( 'woe_summary_column_keys',
+					$new_row );// legacy hook
+				$new_row                                  = apply_filters( "woe_summary_products_prepare_product",
+					$new_row, $key, $product, $product_item, $order,$item );
+				$newRowObj = new WOE_Formatter_Storage_Row();
+				$newRowObj->setData($new_row);
+				$newRowObj->setMeta($rowObj->getMeta());
+				$newRowObj->setKey($key);
+				$this->storage->setRow($newRowObj);
+			}
+			$storageRowObj = $this->storage->getRow($key);
+			$storageData = $storageRowObj->getData();
+
+			//increase totals 
+			if ( isset( $storageData['summary_report_total_qty'] ) ) {
+				$storageData['summary_report_total_qty'] += $product_item->get_quantity();
+			}
+			
+			if ( isset( $storageData['summary_report_total_weight'] ) AND $product ) { // only if product exists! 
+				$storageData['summary_report_total_weight'] += $product_item->get_quantity() * (float)$product->get_weight();
+			}
+
+			if ( isset( $storageData['summary_report_total_amount'] ) ) {
+				$total                                                                   = method_exists( $product_item,
+					'get_total' ) ? $product_item->get_total() : $product_item['line_total'];
+				$storageData['summary_report_total_amount'] += wc_round_tax_total( $total );
+			}
+
+			if ( isset( $storageData['summary_report_total_discount'] ) ) {
+				$total = $product_item->get_subtotal() - $product_item->get_total();
+				$storageData['summary_report_total_discount'] += wc_round_tax_total( $total );
+			}
+
+			if ( isset( $storageData['summary_report_total_refund_count'] ) ) {
+				$storageData['summary_report_total_refund_count'] += abs( $order->get_qty_refunded_for_item($item_id) );
+			}
+
+			if ( isset( $storageData['summary_report_total_refund_amount'] ) ) {
+				$total = $order->get_total_refunded_for_item($item_id);
+				$storageData['summary_report_total_refund_amount'] += wc_round_tax_total( $total );
+			}
+
+			$storageRowObj->setData($storageData);
+			$this->storage->setRow($storageRowObj);
+
+			do_action( "woe_summary_products_add_item", $key, $product_item, $order, $item );
+		}
+		do_action( "woe_summary_products_added_order", $order );
+	}
+
+	protected function saveSummaryCustomersData( $rowObj ) { //this summary method works with storage (for xls/pdf)
+		if(!$this instanceof WOE_Formatter_PDF && !$this instanceof WOE_Formatter_Xls) {
+			return;
+		}
+		$order_id = $rowObj->getMetaItem('order_id');
+		$order = new WC_Order( $order_id );
+		$row = $rowObj->getData();
+
+		$key = $order->get_billing_email();
+		$key = apply_filters( "woe_summary_customers_adjust_key", $key, $order );
+
+		$allowed_fields = WC_Order_Export_Data_Extractor_UI::get_order_fields(
+		    $this->settings['global_job_settings']['format'],
+		    array('user', 'billing', 'shipping')
+		);
+
+		//add new product
+		if ( ! $this->storage->getRow($key) ) {
+			$new_row = array();
+			foreach ( $this->labels['order']->get_labels() as $label_data ) {
+				$original_key = $label_data['key'];
+				if ( ! isset( $allowed_fields[$original_key] ) && 
+				! preg_match( '^\\AUSER_.+^', $original_key ) && 
+				! preg_match( '^\\A_billing_.+^', $original_key ) &&
+				! preg_match( '^\\A_shipping_.+^', $original_key) &&
+				! preg_match( '^\\Astatic_field.+^', $original_key ) ) {
+				    continue;
+				}
+				$field_key = $label_data['parent_key'] ? $label_data['parent_key'] : $original_key;
+				if ( preg_match( '#^summary_report_total_#', $field_key ) ) {
+					$new_row[ $original_key ] = 0;
+				}//total fields
+				else {
+					$value = $row[ $field_key ];
+					$new_row[ $original_key ] = $value;
+				}  // already calculated
+			}
+			$new_row                                  = apply_filters( 'woe_summary_column_keys',
+				$new_row );// legacy hook
+			$new_row                                  = apply_filters( "woe_summary_customers_prepare_row",
+				$new_row, $key, $order );
+			$newRowObj = new WOE_Formatter_Storage_Row();
+			$newRowObj->setData($new_row);
+			$newRowObj->setMeta($rowObj->getMeta());
+			$newRowObj->setKey($key);
+			$this->storage->setRow($newRowObj);
+		}
+		$storageRowObj = $this->storage->getRow($key);
+		$storageData = $storageRowObj->getData();
+
+		//increase totals
+		if ( isset( $storageData['summary_report_total_count'] ) ) {
+			$storageData['summary_report_total_count']++;
+		}
+		
+		if ( isset( $storageData['summary_report_total_count_items'] ) ) {
+			$storageData['summary_report_total_count_items'] += $order->get_item_count();
+		}
+		
+		if ( isset( $storageData['summary_report_total_count_items_exported'] ) ) {
+			if( empty( WC_Order_Export_Engine::$extractor_options['include_products']) ) {
+				$storageData['summary_report_total_count_items_exported'] += $order->get_item_count(); // can add all items
+			} else {
+				$export_only_products = WC_Order_Export_Engine::$extractor_options['include_products'];
+				$exported_items = 0;
+				foreach ( $order->get_items( 'line_item') as $item ) {
+					if ( $export_only_products AND
+						! in_array( $item['product_id'], $export_only_products ) AND // not  product
+						( ! $item['variation_id'] OR ! in_array( $item['variation_id'],
+								$export_only_products ) )  // not variation
+					) {
+						continue;
+					}				
+					//OK, item was exported 
+					$exported_items += $item->get_quantity();
+				}
+				$storageData['summary_report_total_count_items_exported'] += $exported_items; 
+			}	
+		}
+
+		if ( isset( $storageData['summary_report_total_amount'] ) ) {
+			$storageData['summary_report_total_amount'] += wc_round_tax_total( $order->get_total() );
+		}
+
+		if ( isset( $storageData['summary_report_total_amount_paid'] ) ) {
+			$storageData['summary_report_total_amount_paid'] += $order->is_paid() ? wc_round_tax_total( $order->get_total() ) : 0;
+		}
+
+		if ( isset( $storageData['summary_report_total_shipping'] ) ) {
+			$storageData['summary_report_total_shipping'] += wc_round_tax_total( $order->get_shipping_total() );
+		}
+		
+		if ( isset( $storageData['summary_report_total_discount'] ) ) {
+			$storageData['summary_report_total_discount'] += wc_round_tax_total( $order->get_discount_total() );
+		}
+
+		if ( isset( $storageData['summary_report_total_refund_count'] ) ) {
+			$storageData['summary_report_total_refund_count'] += $order->get_status() == 'wc-refunded' ? 1 : 0;
+		}
+
+		if ( isset( $storageData['summary_report_total_refund_amount'] ) ) {
+			$storageData['summary_report_total_refund_amount'] += wc_round_tax_total( $order->get_total_refunded() );
+		}
+
+		if( isset( $storageData['summary_report_total_tax_amount'] ) ) {
+			$storageData['summary_report_total_tax_amount'] += wc_round_tax_total( $order->get_total_tax() );
+		}
+
+		if ( isset( $storageData['summary_report_total_fee_amount'] ) ) {
+			$fees = 0;
+
+			if ( method_exists( $order, 'get_total_fees' ) ) {
+				$fees = $order->get_total_fees();
+			} else if ( method_exists( $order, 'calculate_fees' ) ) {
+				$fees = $order->calculate_fees();
+			}
+
+			$storageData['summary_report_total_fee_amount'] += wc_round_tax_total( $fees );
+		}
+
+		$storageRowObj->setData($storageData);
+		$this->storage->setRow($storageRowObj);
+
+		do_action( "woe_summary_customers_add_item", $key, $order, $row );
+	}
+
+	protected function extractRowForHeaderProcess($rows) {
+		$row = reset($rows);
+		if ($this->summary_report_products) {
+			$products_row = self::get_array_from_array($row, 'products');
+			$product_row = reset($products_row);
+			$product_labels = $this->labels['products']->get_labels();
+			$row = array_filter($product_row, function($field_key) use ($product_labels) {
+				foreach ( $product_labels as $label_data ) {
+					$label_key = $label_data['parent_key'] ? $label_data['parent_key'] : $label_data['key'];
+					if ( $field_key == $label_key ) {
+						return true;
+					}
+				}
+				return false;
+			}, ARRAY_FILTER_USE_KEY);
+			return $row;
+		}
+		if ($this->summary_report_customers) {
+			$allowed_fields = WC_Order_Export_Data_Extractor_UI::get_order_fields(
+				$this->format,
+				array('user', 'billing', 'shipping')
+			);
+			$order_lables = $this->labels['order']->get_labels();
+			$row = array_filter($row, function($field_key) use ($allowed_fields, $order_lables) {
+				foreach ( $order_lables as $label_data ) {
+					$label_key = $label_data['parent_key'] ? $label_data['parent_key'] : $label_data['key'];
+					$original_key = $label_data['key'];
+					if ( $field_key == $label_key &&
+					(isset( $allowed_fields[$original_key] ) || 
+					preg_match( '^\\AUSER_.+^', $original_key ) || 
+					preg_match( '^\\A_billing_.+^', $original_key ) ||
+					preg_match( '^\\A_shipping_.+^', $original_key) ||
+					preg_match( '^\\Astatic_field.+^', $original_key )) ) {
+						return true;
+					}
+				}
+				return false;
+			}, ARRAY_FILTER_USE_KEY);
+			return $row;
+		}
+		return $row;
+	}
+
+	protected function applyOutputRowFilter($row) {
+		if ( $this->has_output_filter ) {
+			$row = apply_filters( "woe_{$this->format}_output_filter", $row, $this );
+		}
+		return $row;
+	}
 }

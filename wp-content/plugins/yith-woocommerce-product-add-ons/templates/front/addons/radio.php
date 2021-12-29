@@ -11,18 +11,20 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 $required = $addon->get_option( 'required', $x ) === 'yes';
 $checked  = $addon->get_option( 'default', $x ) === 'yes';
+$selected = $checked ? 'selected' : '';
 
 ?>
 
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>"
-	class="yith-wapo-option"
+	class="yith-wapo-option selection-<?php echo esc_attr( $selection_type ); ?> <?php echo esc_attr( $selected ); ?>"
 	data-replace-image="<?php echo esc_attr( $image_replacement ); ?>">
 
 	<!-- LEFT/ABOVE IMAGE -->
-	<?php
-	if ( 'left' === $addon_options_images_position || 'above' === $addon_options_images_position ) {
-		include YITH_WAPO_DIR . '/templates/front/option-image.php'; }
-	?>
+	<?php if ( 'left' === $addon_options_images_position || 'above' === $addon_options_images_position ) : ?>
+	<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+		<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
+	</label>
+	<?php endif; ?>
 
 	<span class="radiobutton <?php echo $checked ? 'checked' : ''; ?>">
 
@@ -44,13 +46,14 @@ $checked  = $addon->get_option( 'default', $x ) === 'yes';
 	</span>
 
 	<!-- RIGHT IMAGE -->
-	<?php
-	if ( 'right' === $addon_options_images_position ) {
-		include YITH_WAPO_DIR . '/templates/front/option-image.php'; }
-	?>
+	<?php if ( 'right' === $addon_options_images_position ) : ?>
+		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
+		</label>
+	<?php endif; ?>
 
 	<!-- LABEL -->
-	<label for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+	<label class="yith-wapo-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
 		<?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
 		<?php echo $required ? '<span class="required">*</span>' : ''; ?>
 
@@ -58,6 +61,7 @@ $checked  = $addon->get_option( 'default', $x ) === 'yes';
 		<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
 	</label>
 
+	<!-- TOOLTIP -->
 	<?php if ( $addon->get_option( 'tooltip', $x ) !== '' ) : ?>
 		<span class="tooltip position-<?php echo esc_attr( get_option( 'yith_wapo_tooltip_position' ) ); ?>" style="width: 100%">
 			<span><?php echo wp_kses_post( $addon->get_option( 'tooltip', $x ) ); ?></span>
@@ -65,10 +69,11 @@ $checked  = $addon->get_option( 'default', $x ) === 'yes';
 	<?php endif; ?>
 
 	<!-- UNDER IMAGE -->
-	<?php
-	if ( 'under' === $addon_options_images_position ) {
-		include YITH_WAPO_DIR . '/templates/front/option-image.php'; }
-	?>
+	<?php if ( 'under' === $addon_options_images_position ) : ?>
+		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
+		</label>
+	<?php endif; ?>
 
 	<!-- DESCRIPTION -->
 	<?php if ( '' !== $option_description ) : ?>

@@ -219,6 +219,24 @@ input.date {
     border: 1px solid lightgrey;
 }
 
+#progress_div .title-gen-file {
+    display: none;
+    -webkit-animation: title-gen-file 3s linear infinite;
+    animation: title-gen-file 3s linear infinite;
+}
+
+@-webkit-keyframes title-gen-file {
+    0% { color: rgba(34, 34, 34, 1); }
+    50% { color: rgba(34, 34, 34, 0); }
+    100% { color: rgba(34, 34, 34, 1); }
+  }
+
+@keyframes title-gen-file {
+    0% { color: rgba(34, 34, 34, 1); }
+    50% { color: rgba(34, 34, 34, 0); }
+    100% { color: rgba(34, 34, 34, 1); }
+}
+
 #progressBar {
 
     width: 400px;
@@ -878,7 +896,10 @@ input[type=number] {
 .div_custom.segment-form.all-segments > div,
 .div_custom.products-segment > div,
 .div_custom.product_items-segment > div,
-.div_custom.coupons-segment > div {
+.div_custom.coupons-segment > div,
+.div_calculated.segment-form.all-segments > div,
+.div_calculated.products-segment > div,
+.div_calculated.product_items-segment > div {
     margin-top: .2rem;
 }
 #my-export-date-field  input[type="radio"] {

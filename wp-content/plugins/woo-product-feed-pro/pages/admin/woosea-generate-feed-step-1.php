@@ -17,6 +17,11 @@ $notifications_obj = new WooSEA_Get_Admin_Notifications;
 $notifications_box = $notifications_obj->get_admin_notifications ( '1', 'false' );
 
 /**
+ * Update or get project configuration 
+ */
+$nonce = wp_create_nonce( 'woosea_ajax_nonce' );
+
+/**
  * Update project configuration 
  */
 if (array_key_exists('project_hash', $_GET)){
@@ -166,7 +171,8 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
         		</tbody>
                              
  			<form action="" method="post">
-   
+			<input name="nonce_category_mapping" id="nonce_category_mapping" class="nonce_category_mapping" value="<?php print "$nonce";?>" type="hidden">
+
 			<tr>
 				<td colspan="3">
                                 <input type="hidden" id="channel_hash" name="channel_hash" value="<?php print "$project[channel_hash]";?>">

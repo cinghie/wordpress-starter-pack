@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 trait WC_Order_Export_Ajax_Helpers {
 	protected $tempfile_prefix = 'woocommerce-order-file-';
+	//to avoid using transients for file name
+	protected $filename;
+	protected $tmp_filename;
 
 	protected $_wp_using_ext_object_cache_previous;
 
@@ -113,7 +116,7 @@ trait WC_Order_Export_Ajax_Helpers {
 
 		$this->start_prevent_object_cache();
 
-		$filename = get_transient( $this->tempfile_prefix . $_REQUEST['file_id'] );
+		$filename = $this->tmp_filename ? $this->tmp_filename :	get_transient( $this->tempfile_prefix . $_REQUEST['file_id'] );
 		if ( $filename === false ) {
 			echo json_encode( array( 'error' => __( 'Can\'t find exported file', 'woo-order-export-lite' ) ) );
 			die();
@@ -124,6 +127,14 @@ trait WC_Order_Export_Ajax_Helpers {
 		return $filename;
 	}
 
+	public function set_filename($filename) {
+		$this->filename = $filename;
+	}
+
+	public function set_tmp_filename($tmp_filename) {
+		$this->tmp_filename = $tmp_filename;
+	}
+
 	protected function delete_temp_file() {
 
 		$this->start_prevent_object_cache();
@@ -131,6 +142,10 @@ trait WC_Order_Export_Ajax_Helpers {
 		if ( $filename !== false ) {
 			delete_transient( $this->tempfile_prefix . $_REQUEST['file_id'] );
 			unlink( $filename );
+            //also delete storage file
+            if(file_exists($filename . '.storage')) {
+                unlink($filename . '.storage');
+            }
 		}
 		$this->stop_prevent_object_cache();
 	}

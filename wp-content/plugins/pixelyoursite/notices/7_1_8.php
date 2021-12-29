@@ -18,7 +18,9 @@ function adminGetPromoNoticesContent() {
 </br></br>
 How to verify your domanin on Facebook: <a href="https://www.pixelyoursite.com/verify-domain-facebook" target="_blank">Click here</a>
 </br></br>
-Find out about Custom Conversion using the Signal event: <a href="https://www.pixelyoursite.com/signal-custom-conversions-aem" target="_blank">Click here</a></br></br>'
+Find out about Custom Conversion using the Signal event: <a href="https://www.pixelyoursite.com/signal-custom-conversions-aem" target="_blank">Click here</a>
+</br></br>
+Add the TikTok Tag with <a href="https://www.pixelyoursite.com/tiktok-tag-pixelyoursite" target="_blank">PixelYourSite Professional</a>.'
           ],
 
 
@@ -33,7 +35,9 @@ Find out about Custom Conversion using the Signal event: <a href="https://www.pi
 </br></br>
 How to verify your domani on Facebook: <a href="https://www.pixelyoursite.com/verify-domain-facebook" target="_blank">Click here</a>
 </br></br>
-Find out about Custom Conversion using the Signal event: <a href="https://www.pixelyoursite.com/signal-custom-conversions-aem" target="_blank">Click here</a></br></br>'
+Find out about Custom Conversion using the Signal event: <a href="https://www.pixelyoursite.com/signal-custom-conversions-aem" target="_blank">Click here</a>
+</br></br>
+Add the TikTok Tag with <a href="https://www.pixelyoursite.com/tiktok-tag-pixelyoursite" target="_blank">PixelYourSite Professional</a>.'
           ],
 
         ],

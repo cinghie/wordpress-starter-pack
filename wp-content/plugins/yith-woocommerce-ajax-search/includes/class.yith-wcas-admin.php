@@ -128,8 +128,8 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 				'create_menu_page' => true,
 				'parent_slug'      => '',
 				'plugin_slug'      => YITH_WCAS_SLUG,
-				'page_title'       => __( 'YITH WooCommerce Ajax Search', 'yith-woocommerce-ajax-search' ),
-				'menu_title'       => __( 'Ajax Search', 'yith-woocommerce-ajax-search' ),
+				'page_title'       => 'YITH WooCommerce Ajax Search',
+				'menu_title'       => 'Ajax Search',
 				'capability'       => 'manage_options',
 				'parent'           => '',
 				'parent_page'      => 'yith_plugin_panel',
@@ -197,7 +197,7 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
-			return $this->_premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->_premium_landing, YITH_WCAS_SLUG );
 		}
 
 	}

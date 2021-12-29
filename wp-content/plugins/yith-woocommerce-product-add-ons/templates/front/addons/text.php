@@ -10,6 +10,7 @@
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 $required = $addon->get_option( 'required', $x ) === 'yes';
+$remove_spaces = apply_filters('yith_wapo_remove_spaces', false );
 
 ?>
 
@@ -26,6 +27,7 @@ $required = $addon->get_option( 'required', $x ) === 'yes';
 
 			<!-- LABEL -->
 			<?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
+			<?php echo $required ? '<span class="required">*</span>' : ''; ?>
 
 			<!-- PRICE -->
 			<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
@@ -49,9 +51,12 @@ $required = $addon->get_option( 'required', $x ) === 'yes';
 		data-first-free-enabled="<?php echo esc_attr( $addon->get_setting( 'first_options_selected', 'no' ) ); ?>"
 		data-first-free-options="<?php echo esc_attr( $addon->get_setting( 'first_free_options', 0 ) ); ?>"
 		data-addon-id="<?php echo esc_attr( $addon->id ); ?>"
+		<?php echo 'characters' === $price_type && $remove_spaces ? 'data-remove-spaces=\'yes\'' : ''  ?>
 		<?php echo $required ? 'required' : ''; ?>
+
 		style="<?php echo esc_attr( $options_width_css ); ?>">
 
+	<!-- REQUIRED -->
 	<?php if ( $required ) : ?>
 		<small class="required-error" style="color: #f00; padding: 5px 0px; display: none;"><?php echo esc_html__( 'This option is required.', 'yith-woocommerce-product-add-ons' ); ?></small>
 	<?php endif; ?>

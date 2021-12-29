@@ -1480,6 +1480,30 @@ trait WPPFM_Processing_Support {
 			$product->_min_group_price = $this->get_group_price( $woocommerce_product_parent );
 		}
 
+		// @since 2.26.0
+		if ( in_array( '_regular_price_with_tax', $active_field_names )  ) {
+			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_regular_price( 'feed' ) ) );
+			$product->_regular_price_with_tax = wppfm_prep_money_values( $price );
+		}
+
+		// @since 2.26.0
+		if ( in_array( '_regular_price_without_tax', $active_field_names )  ) {
+			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_regular_price( 'feed' ) ) );
+			$product->_regular_price_without_tax = wppfm_prep_money_values( $price );
+		}
+
+		// @since 2.26.0
+		if ( in_array( '_sale_price_with_tax', $active_field_names )  ) {
+			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_sale_price( 'feed' ) ) );
+			$product->_sale_price_with_tax = wppfm_prep_money_values( $price );
+		}
+
+		// @since 2.26.0
+		if ( in_array( '_sale_price_without_tax', $active_field_names )  ) {
+			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_sale_price( 'feed' ) ) );
+			$product->_sale_price_without_tax = wppfm_prep_money_values( $price );
+		}
+
 		$woocommerce_product = null;
 
 		return true;

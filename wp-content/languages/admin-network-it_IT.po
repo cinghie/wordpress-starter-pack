@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.8.x - Development - Administration - Network Admin package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-06-28 08:12:26+0000\n"
+"PO-Revision-Date: 2021-11-14 21:41:54+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -171,7 +171,7 @@ msgstr "Installazione con sotto directory"
 
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:917
 msgid "Active Child Theme"
-msgstr "Tema Child attivo"
+msgstr "Tema child attivo"
 
 #: wp-admin/network/site-info.php:193
 msgid "Attributes"
@@ -408,8 +408,8 @@ msgstr[1] "Abilitati <span class=\"count\">(%s)</span>"
 msgctxt "themes"
 msgid "All <span class=\"count\">(%s)</span>"
 msgid_plural "All <span class=\"count\">(%s)</span>"
-msgstr[0] "Totale <span class=\"count\">(%s)</span>"
-msgstr[1] "Totali <span class=\"count\">(%s)</span>"
+msgstr[0] "Tutti <span class=\"count\">(%s)</span>"
+msgstr[1] "Tutti <span class=\"count\">(%s)</span>"
 
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:319
 msgid "No themes found."
@@ -628,7 +628,7 @@ msgstr "Sì, elimina questi temi"
 
 #: wp-admin/network/themes.php:142
 msgid "You are about to remove the following themes:"
-msgstr "Stai per rimuovere i seguenti themi:"
+msgstr "Stai per rimuovere i seguenti temi:"
 
 #: wp-admin/network/themes.php:141
 msgid "These themes may be active on other sites in the network."
@@ -812,11 +812,11 @@ msgstr "I temi possono essere abilitati, tramite la schermata Modifica sito (che
 
 #: wp-admin/network/themes.php:182
 msgid "No, return me to the theme list"
-msgstr "No, fammi tornare sull'elenco dei temi"
+msgstr "No, fammi tornare all'elenco dei temi"
 
 #: wp-admin/network/themes.php:173
 msgid "Yes, delete this theme"
-msgstr "Si, cancella questo tema"
+msgstr "Sì, elimina questo tema"
 
 #: wp-admin/network/themes.php:159
 msgid "Are you sure you want to delete these themes?"
@@ -1201,7 +1201,7 @@ msgstr "Siti rimossi dallo spam."
 
 #: wp-admin/network/users.php:259
 msgid "Users deleted."
-msgstr "Utenti cancellati."
+msgstr "Utenti eliminati."
 
 #: wp-admin/network/users.php:253
 msgid "Users marked as spam."
@@ -1225,11 +1225,11 @@ msgstr "Sito archiviato."
 
 #: wp-admin/network/sites.php:317
 msgid "Site deleted."
-msgstr "Sito cancellato."
+msgstr "Sito eliminato."
 
 #: wp-admin/network/sites.php:314
 msgid "Sites deleted."
-msgstr "Siti cancellati."
+msgstr "Siti eliminati."
 
 #: wp-admin/network/sites.php:105 wp-admin/network/sites.php:223
 msgid "Sorry, you are not allowed to change the current site."

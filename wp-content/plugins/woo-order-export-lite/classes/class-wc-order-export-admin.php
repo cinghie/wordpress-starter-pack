@@ -198,9 +198,9 @@ class WC_Order_Export_Admin {
 	public function add_action_links( $links ) {
 		$mylinks = array(
 			'<a href="admin.php?page=wc-order-export">' . __( 'Settings', 'woo-order-export-lite' ) . '</a>',
-			'<a href="https://algolplus.com/plugins/documentation-order-export-woocommerce/" target="_blank">' . __( 'Docs',
+			'<a href="https://docs.algolplus.com/order-export-docs/" target="_blank">' . __( 'Docs',
 				'woo-order-export-lite' ) . '</a>',
-			'<a href="https://algolplus.freshdesk.com" target="_blank">' . __( 'Support',
+			'<a href="https://docs.algolplus.com/support/" target="_blank">' . __( 'Support',
 				'woo-order-export-lite' ) . '</a>',
 		);
 
@@ -465,7 +465,7 @@ class WC_Order_Export_Admin {
 	// calls ajax_action_XXXX
 	public function ajax_gate() {
 
-		if( !current_user_can('view_woocommerce_reports') ){
+		if( !current_user_can('view_woocommerce_reports')  AND !current_user_can(self::$cap_export_orders) ){
 			die( __( 'You can not do it', 'woo-order-export-lite' ) );
 		}
 

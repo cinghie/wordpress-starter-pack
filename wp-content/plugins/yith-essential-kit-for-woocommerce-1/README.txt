@@ -1,10 +1,10 @@
 === YITH Essential Kit for WooCommerce #1 ===
 
 Contributors: yithemes
-Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode,yith woocommerce advanced reviews, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce quick view,yith woocommerce mailchimp,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager,yith woocommerce multi vendor
+Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce quick view,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager
 Requires at least: 3.8
-Tested up to: 5.6
-Stable tag: 2.2.1
+Tested up to: 5.9
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ And it often happens that when looking for a plugin you find another one that in
 
 Especially because it is difficult to make them all work well together and not conflict with each other.<br />
 
-Isn't that true? So, no problem, this is why we have packed a group of our plugins all together: all the main extensions for your site, from wishlist and image zoom to quote requests, multi vendor store and credit card payments.<br />
+Isn't that true? So, no problem, this is why we have packed a group of our plugins all together: all the main extensions for your site, from wishlist and image zoom to quote requests.<br />
 
 You won't need to look for each of them on wordpress.org, you can just download and install **YITH Essential Kit for WooCommerce #1** and choose later to activate the plugins that you really need and deactivate them when you do not need them: and they will always be there, easy to find, certain to work.
 
@@ -68,26 +68,11 @@ Products<br />
 * [YITH WooCommerce Badge Management](https://wordpress.org/plugins/yith-woocommerce-badges-management)
 <br />Allows you to create and manage custom badges for WooCommerce products.
 
-* [YITH WooCommerce Advanced Reviews](https://wordpress.org/plugins/yith-woocommerce-advanced-reviews)
-<br />Extends the basic functionality of WooCommerce reviews and add a histogram table to the reviews of your products.
-
-
-* [YITH WooCommerce Mailchimp](https://wordpress.org/plugins/yith-woocommerce-mailchimp)
-<br />Integrate MailChimp into your WooCommerce shop to manage users' subscription directly from your store.
-
 * [YITH WooCommerce Order Tracking](https://wordpress.org/plugins/yith-woocommerce-order-tracking)
 <br />Add an easy tool to manage order shipping information of your WooCommerce shop and to notified your customers about the shipping.
 
-Multi store<br />
-
-* [YITH WooCommerce Multi Vendor](https://wordpress.org/plugins/yith-woocommerce-product-vendors)
-<br />Is a plugin developed to switch your website into a platform hosting more than one WooCommerce shop, like a multivendor marketplace.
-
 * [YITH WooCommerce Tab Manager](https://wordpress.org/plugins/yith-woocommerce-tab-manager)
 <br />Manager plugin let you add custom tabs in WooCommerce single product page
-
-* [YITH WooCommerce Cart Messages](https://wordpress.org/plugins/yith-woocommerce-cart-messages)
-<br />A plugin for WooCommerce let you add custom messages in the cart page and/or in the checkout page.
 
 * [YITH WooCommerce Product Add-Ons](https://wordpress.org/plugins/yith-woocommerce-product-add-ons)
 <br />Increase average order value by letting your customers purchase additional options on your products.
@@ -100,17 +85,13 @@ Multi store<br />
 4. YITH WooCommerce Compare allows you to compare more products of your shop in one complete table. WooCommerce Compatible up to 2.4.x
 5. YITH WooCommerce Ajax Product Filter offers the perfect way to filter all the products of your shop.
 6. YITH WooCommerce Ajax Search allows your users to search products in real time.
-7. YITH WooCommerce Advanced Reviews extends the basic functionality of woocommerce reviews and add a histogram table to the reviews of your products, as well as you see in most trendy e-
 8. YITH WooCommerce Order Tracking add an easy tool to manage order shipping information of your shop and to notified your customers about the shipping.
 9. YITH WooCommerce Catalog Mode, a plugin for disabling sales in your e-commerce and turn it into an e-commerce into an online catalogue.
-11. YITH WooCommerce Cart Messages plugin let you add custom messages in the cart page and/or in the checkout page.
 13. YITH WooCommerce Request A Quote plugin lets your customers ask for an estimate of a list of products they are interested into.
 14. YITH WooCommerce Quick View adds the possibility to have a quick preview of the products right from product list
-15. YITH WooCommerce Multi Vendor is a plugin developed to switch your website into a platform hosting more than one shop, like a multivendor marketplace.
 16. YITH Infinite Scrolling add infinite scrolling to archive post or shop page.
 17. YITH WooCommerce Badge Management allows you to create and manage custom badges for products.
 18. YITH WooCommerce Tab Manager plugin let you add custom tabs in single product page
-19. YITH WooCommerce Mailchimp integrate MailChimp into your e-commerce shop to manage users' subscription directly from your store. WooCommerce 2.3.x compatible.
 20. YITH WooCommerce Waiting List enables registered users to request an email notification when an out-of-stock product comes back into stock.
 21. YITH WooCommerce Product Add-Ons in "Single Product" page
 
@@ -135,6 +116,19 @@ You can get additional features of the plugins installed with the premium versio
 YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essential Kit for WooCommerce #1" under "YIT Plugins" menu. Here you are able to activate/deactivate all the plugins within.
 
 == Changelog ==
+
+= 2.4.0 - Released on 02 December 2021 =
+* New: support for WooCommerce 6.0
+* Update: YITH plugin framework
+* Update: removed YITH WooCommerce Advanced Reviews (no longer supported, it still works if you have it installed)
+
+= 2.3.0 - Released on 17 November 2021 =
+* New: support for WooCommerce 5.9
+* Update: YITH plugin framework
+* Update: removed YITH WooCommerce Multi Vendor (no longer supported, it still works if you have it installed)
+* Update: removed YITH WooCommerce Cart Messages (no longer supported, it still works if you have it installed)
+* Update: removed YITH WooCommerce Mailchimp (no longer supported, it still works if you have it installed)
+
 = 2.2.1 - Released on 27 September 2021 =
 * Fix: layout issue in modules page
 
@@ -395,7 +389,7 @@ YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essent
 
 = 1.1.17 =
 
-* Fixed: YITH WooCommerce Zoom Magnifier error 
+* Fixed: YITH WooCommerce Zoom Magnifier error
 
 = 1.1.16 =
 
@@ -435,7 +429,7 @@ YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essent
 
 = 1.1.7 =
 
-* Fixed: Prevent warning 
+* Fixed: Prevent warning
 
 = 1.1.6 =
 

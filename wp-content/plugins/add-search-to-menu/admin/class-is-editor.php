@@ -5,9 +5,11 @@ class IS_Search_Editor
     private  $search_form ;
     private  $panels = array() ;
     private  $is_premium_plugin = false ;
+    private  $index_conflicts ;
     public function __construct( IS_Search_Form $search_form )
     {
         $this->search_form = $search_form;
+        $this->index_conflicts = $this->get_index_conflicts();
     }
     
     function is_name( $string )
@@ -37,9 +39,9 @@ class IS_Search_Editor
             return;
         }
         echo  '<ul id="search-form-editor-tabs">' ;
-        $url = esc_url( menu_page_url( 'ivory-search-new', false ) );
+        $url = menu_page_url( 'ivory-search-new', false );
         if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
-            $url = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_GET['post'] . '&action=edit';
+            $url = menu_page_url( 'ivory-search', false ) . '&post=' . absint( $_GET['post'] ) . '&action=edit';
         }
         $tab = 'includes';
         if ( isset( $_GET['tab'] ) ) {
@@ -64,7 +66,7 @@ class IS_Search_Editor
                 '<li id="%1$s-tab" class="%2$s"><a href="%3$s" title="%4$s">%5$s</a></li>',
                 esc_attr( $id ),
                 esc_attr( $class ),
-                $url . '&tab=' . $id,
+                esc_url( $url . '&tab=' . $id ),
                 esc_attr( $panel['description'] ),
                 esc_html( $panel['title'] )
             ) ;
@@ -121,10 +123,10 @@ class IS_Search_Editor
         }
         
         if ( isset( $_REQUEST['post'] ) ) {
-            $includes_url = '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit&tab=' . $section . '">' . $sec_name . '</a>';
+            $includes_url = '<a href="' . esc_url( menu_page_url( 'ivory-search', false ) . '&post=' . absint( $_REQUEST['post'] ) . '&action=edit&tab=' . $section ) . '">' . esc_html( $sec_name ) . '</a>';
         } else {
             if ( isset( $_REQUEST['page'] ) && 'ivory-search-new' === $_REQUEST['page'] ) {
-                $includes_url = '<a href="' . esc_url( menu_page_url( 'ivory-search-new', false ) ) . '&tab=' . $section . '">' . $sec_name . '</a>';
+                $includes_url = '<a href="' . esc_url( menu_page_url( 'ivory-search-new', false ) . '&tab=' . $section ) . '">' . esc_html( $sec_name ) . '</a>';
             }
         }
         
@@ -145,14 +147,14 @@ class IS_Search_Editor
         ?>
 		</h4>
 		<div class="search-form-editor-box" id="<?php 
-        echo  $id ;
+        esc_attr_e( $id );
         ?>">
 
 		<div class="form-table form-table-panel-includes">
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        esc_attr_e( $id );
         ?>-post_type"><?php 
         esc_html_e( 'Post Types', 'add-search-to-menu' );
         ?></label>
@@ -166,7 +168,9 @@ class IS_Search_Editor
 				<?php 
         $content = __( 'Search selected post types.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
-        echo  '<div>' ;
+        ?>
+				<div>
+	                <?php 
         $post_types = get_post_types( array(
             'public' => true,
         ), 'objects' );
@@ -185,76 +189,159 @@ class IS_Search_Editor
         
         
         if ( !empty($post_types) ) {
-            echo  '<div class="is-cb-dropdown">' ;
-            echo  '<div class="is-cb-title">' ;
+            ?>
+	                    <div class="is-cb-dropdown">
+	                    	<div class="is-cb-title">
+		                    <?php 
             
             if ( empty($post_types2) ) {
-                echo  '<span class="is-cb-select">' . __( 'Select Post Types', 'add-search-to-menu' ) . '</span><span class="is-cb-titles"></span>' ;
+                ?>
+		                        <span class="is-cb-select"><?php 
+                _e( 'Select Post Types', 'add-search-to-menu' );
+                ?></span>
+		                        <span class="is-cb-titles"></span>
+		                    <?php 
             } else {
-                echo  '<span style="display:none;" class="is-cb-select">' . __( 'Select Post Types', 'add-search-to-menu' ) . '</span><span class="is-cb-titles">' ;
+                ?>
+		                        <span style="display:none;" class="is-cb-select"><?php 
+                _e( 'Select Post Types', 'add-search-to-menu' );
+                ?></span>
+		                        <span class="is-cb-titles">
+		                        <?php 
                 foreach ( $post_types2 as $post_type2 ) {
+                    
                     if ( isset( $post_types[$post_type2] ) ) {
-                        echo  '<span title="' . $post_type2 . '"> ' . $post_types[$post_type2]->labels->name . '</span>' ;
+                        ?>
+		                            	<span title="<?php 
+                        esc_attr_e( $post_type2 );
+                        ?>"><?php 
+                        esc_html_e( $post_types[$post_type2]->labels->name );
+                        ?></span>
+		                        	<?php 
                     }
+                
                 }
-                echo  '</span>' ;
+                ?>
+		                        </span>
+		                    <?php 
             }
             
-            echo  '</div>' ;
-            echo  '<div class="is-cb-multisel">' ;
+            ?>
+	                    	</div>
+		                    <div class="is-cb-multisel">
+							<?php 
             foreach ( $post_types as $key => $post_type ) {
                 $checked = ( $default_search && in_array( $key, $post_types2 ) || isset( $includes['post_type'][esc_attr( $key )] ) ? esc_attr( $key ) : 0 );
-                echo  '<label for="' . $id . '-post_type-' . esc_attr( $key ) . '"> ' ;
-                echo  '<input class="_is_includes-post_type" type="checkbox" id="' . $id . '-post_type-' . esc_attr( $key ) . '" name="' . $id . '[post_type][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $key, $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' ;
-                echo  ucfirst( esc_html( $post_type->labels->name ) ) . '</label>' ;
+                ?>
+								<label for="<?php 
+                esc_attr_e( $id );
+                ?>-post_type-<?php 
+                esc_attr_e( $key );
+                ?>">
+								<input class="_is_includes-post_type" type="checkbox" id="<?php 
+                esc_attr_e( $id );
+                ?>-post_type-<?php 
+                esc_attr_e( $key );
+                ?>" name="<?php 
+                esc_attr_e( $id );
+                ?>[post_type][<?php 
+                esc_attr_e( $key );
+                ?>]" value="<?php 
+                esc_attr_e( $key );
+                ?>" <?php 
+                checked( $key, $checked );
+                ?>/>
+								<span class="toggle-check-text"></span>
+								<?php 
+                echo  ucfirst( esc_html( $post_type->labels->name ) ) ;
+                ?></label>
+							<?php 
             }
-            echo  '</div></div>' ;
+            ?>
+							</div>
+						</div>
+					<?php 
         } else {
-            echo  '<span class="notice-is-info">' . __( 'No post types registered on the site.', 'add-search-to-menu' ) . '</span>' ;
+            ?>
+						<span class="notice-is-info">
+							<?php 
+            _e( 'No post types registered on the site.', 'add-search-to-menu' );
+            ?>
+						</span>
+					<?php 
         }
         
         
         if ( isset( $includes['post_type'] ) && is_array( $includes['post_type'] ) && 1 == count( $includes['post_type'] ) ) {
             $checked = ( isset( $includes['post_type_url'] ) ? 'y' : 'n' );
-            echo  '<br /><p class="check-radio"><label for="' . $id . '-post_type_url"><input class="_is_includes-post_type_url" type="checkbox" id="' . $id . '-post_type_url" name="' . $id . '[post_type_url]" value="y" ' . checked( 'y', $checked, false ) . '/>' ;
-            echo  '<span class="toggle-check-text"></span>' . esc_html__( "Do not display post_type in the search URL", 'add-search-to-menu' ) . '</label></p>' ;
+            ?>
+	                            <br />
+	                            <p class="check-radio">
+	                            	<label for="<?php 
+            esc_attr_e( $id );
+            ?>-post_type_url">
+	                            		<input class="_is_includes-post_type_url" type="checkbox" id="<?php 
+            esc_attr_e( $id );
+            ?>-post_type_url" name="<?php 
+            esc_attr_e( $id );
+            ?>[post_type_url]" value="y" <?php 
+            checked( 'y', $checked );
+            ?>/>
+	                            		<span class="toggle-check-text"></span>
+	                            		<?php 
+            esc_html_e( "Do not display post_type in the search URL", 'add-search-to-menu' );
+            ?>
+	                            	</label>
+	                            </p>
+	                 <?php 
         }
         
         ?>
-			</div></div>
+				</div>
+			</div>
 
-                        <?php 
+            <?php 
         foreach ( $post_types2 as $post_type ) {
             if ( !isset( $post_types[$post_type] ) ) {
                 continue;
             }
-            $accord_title = $post_types[$post_type]->labels->name;
+            ?>
+
+				<h3 scope="row" class="is-p-type post-type-<?php 
+            esc_attr_e( $post_type );
+            ?>">
+					<label for="<?php 
+            esc_attr_e( $id );
+            ?>-post__in">
+						<?php 
+            esc_html_e( $post_types[$post_type]->labels->name );
             
             if ( 'product' == $post_type ) {
-                $accord_title .= ' <i>' . __( '( WooCommerce )', 'add-search-to-menu' ) . '</i>';
+                ?>
+		                    <i><?php 
+                _e( '( WooCommerce )', 'add-search-to-menu' );
+                ?></i>
+		                <?php 
             } else {
+                
                 if ( 'attachment' == $post_type ) {
-                    $accord_title .= ' <i>' . __( '( Images, Videos, Audios, Docs, PDFs, Files & Attachments  )', 'add-search-to-menu' ) . '</i>';
+                    ?>
+		                	<i><?php 
+                    _e( '( Images, Videos, Audios, Docs, PDFs, Files & Attachments  )', 'add-search-to-menu' );
+                    ?></i>
+		                <?php 
                 }
+            
             }
             
             ?>
-
-			<h3 scope="row" class="is-p-type post-type-<?php 
-            echo  $post_type ;
+					</label>
+				</h3>
+				<div class="post-type-<?php 
+            esc_attr_e( $post_type );
             ?>">
-				<label for="<?php 
-            echo  $id ;
-            ?>-post__in"><?php 
-            echo  $accord_title ;
-            ?></label>
-			</h3>
-			<div class="post-type-<?php 
-            echo  $post_type ;
-            ?>">
-				<?php 
-            echo  '<div>' ;
+					<div>
+					<?php 
             
             if ( 'product' == $post_type && !class_exists( 'WooCommerce' ) ) {
                 IS_Help::woocommerce_inactive_field_notice();
@@ -262,7 +349,7 @@ class IS_Search_Editor
                 continue;
             }
             
-            $posts_found = false;
+            $selected_pt = array();
             $posts_per_page = ( defined( 'DISABLE_IS_LOAD_ALL' ) || isset( $includes['post__in'] ) ? -1 : 100 );
             $posts = get_posts( array(
                 'post_type'      => $post_type,
@@ -270,61 +357,57 @@ class IS_Search_Editor
                 'orderby'        => 'title',
                 'order'          => 'ASC',
             ) );
-            $html = '<div class="is-posts">';
-            $selected_pt = array();
             
             if ( !empty($posts) ) {
-                $posts_found = true;
-                $html .= '<div class="col-wrapper"><div class="col-title">';
-                $col_title = '<span>' . $post_types[$post_type]->labels->name . '</span>';
+                $tchecked = 'all';
+                
+                if ( isset( $includes['post__in'] ) ) {
+                    foreach ( $posts as $post1 ) {
+                        
+                        if ( in_array( $post1->ID, $includes['post__in'] ) ) {
+                            array_push( $selected_pt, $post_type );
+                            $tchecked = 'selected';
+                        }
+                    
+                    }
+                    if ( 'all' === $tchecked ) {
+                        echo  '<span class="notice-is-info" style="margin-bottom: 20px;">' . sprintf( __( 'The %s are not searchable as the search form is configured to only search specific posts of another post type.', 'add-search-to-menu' ), strtolower( esc_html( $post_types[$post_type]->labels->name ) ) ) . '</span>' ;
+                    }
+                }
+                
+                echo  '<p class="check-radio"><label for="' . esc_attr( $post_type ) . '-post-search_all" ><input class="is-post-select" type="radio" id="' . esc_attr( $post_type ) . '-post-search_all" name="' . esc_attr( $post_type ) . 'i[post_search_radio]" value="all" ' . checked( 'all', $tchecked, false ) . '/>' ;
+                echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search all %s", 'add-search-to-menu' ), strtolower( esc_html( $post_types[$post_type]->labels->name ) ) ) . '</label></p>' ;
+                echo  '<p class="check-radio"><label for="' . esc_attr( $post_type ) . '-post-search_selected" ><input class="is-post-select" type="radio" id="' . esc_attr( $post_type ) . '-post-search_selected" name="' . esc_attr( $post_type ) . 'i[post_search_radio]" value="selected" ' . checked( 'selected', $tchecked, false ) . '/>' ;
+                echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search only selected %s", 'add-search-to-menu' ), strtolower( esc_html( $post_types[$post_type]->labels->name ) ) ) . '</label></p>' ;
+            }
+            
+            echo  '<div class="is-posts">' ;
+            
+            if ( !empty($posts) ) {
+                echo  '<div class="col-wrapper"><div class="col-title">' ;
+                $col_title = '<span>' . esc_html( $post_types[$post_type]->labels->name ) . '</span>';
                 $temp = '';
                 foreach ( $posts as $post2 ) {
                     $checked = ( isset( $includes['post__in'] ) && in_array( $post2->ID, $includes['post__in'] ) ? $post2->ID : 0 );
-                    if ( $checked ) {
-                        array_push( $selected_pt, $post_type );
-                    }
                     $post_title = ( isset( $post2->post_title ) && '' !== $post2->post_title ? esc_html( $post2->post_title ) : $post2->post_name );
                     $temp .= '<option value="' . esc_attr( $post2->ID ) . '" ' . selected( $post2->ID, $checked, false ) . '>' . $post_title . '</option>';
                 }
-                if ( !empty($selected_pt) && in_array( $post_type, $selected_pt ) ) {
+                if ( 'selected' === $tchecked ) {
                     $col_title = '<strong>' . $col_title . '</strong>';
                 }
-                $html .= $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div>';
-                $html .= '<select class="_is_includes-post__in" name="' . $id . '[post__in][]" multiple size="8" >';
-                $html .= $temp . '</select>';
+                echo  $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div>' ;
+                echo  '<select class="_is_includes-post__in" name="' . esc_attr( $id ) . '[post__in][]" multiple size="8" >' ;
+                echo  $temp . '</select>' ;
                 if ( count( $posts ) >= 100 && !defined( 'DISABLE_IS_LOAD_ALL' ) && !isset( $includes['post__in'] ) ) {
-                    $html .= '<div id="' . $post_type . '" class="load-all">' . __( 'Load All', 'add-search-to-menu' ) . '</div>';
+                    echo  '<div id="' . esc_attr( $post_type ) . '" class="load-all">' . __( 'Load All', 'add-search-to-menu' ) . '</div>' ;
                 }
-                $html .= '</div><br />';
-            }
-            
-            
-            if ( !$posts_found ) {
-                $html .= '<span class="notice-is-info">' . sprintf( __( 'No %s created.', 'add-search-to-menu' ), $post_types[$post_type]->labels->name ) . '</span>';
+                echo  '</div><br />' ;
+                echo  '<label for="' . esc_attr( $id ) . '-post__in" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />' ;
             } else {
-                $html .= '<label for="' . $id . '-post__in" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                echo  '<span class="notice-is-info">' . sprintf( __( 'No %s created.', 'add-search-to-menu' ), $post_types[$post_type]->labels->name ) . '</span>' ;
             }
             
-            $html .= '</div>';
-            $checked = 'all';
-            
-            if ( !empty($selected_pt) && in_array( $post_type, $selected_pt ) ) {
-                $checked = 'selected';
-            } else {
-                if ( isset( $includes['post__in'] ) ) {
-                    echo  '<span class="notice-is-info">' . sprintf( __( 'The %s are not searchable as the search form is configured to only search specific posts of another post type.', 'add-search-to-menu' ), strtolower( $post_types[$post_type]->labels->name ) ) . '</span><br /><br />' ;
-                }
-            }
-            
-            
-            if ( $posts_found ) {
-                echo  '<p class="check-radio"><label for="' . $post_type . '-post-search_all" ><input class="is-post-select" type="radio" id="' . $post_type . '-post-search_all" name="' . $post_type . 'i[post_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search all %s", 'add-search-to-menu' ), strtolower( $post_types[$post_type]->labels->name ) ) . '</label></p>' ;
-                echo  '<p class="check-radio"><label for="' . $post_type . '-post-search_selected" ><input class="is-post-select" type="radio" id="' . $post_type . '-post-search_selected" name="' . $post_type . 'i[post_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search only selected %s", 'add-search-to-menu' ), strtolower( $post_types[$post_type]->labels->name ) ) . '</label></p>' ;
-            }
-            
-            echo  $html ;
+            echo  '</div>' ;
             $tax_objs = get_object_taxonomies( $post_type, 'objects' );
             
             if ( !empty($tax_objs) ) {
@@ -347,8 +430,8 @@ class IS_Search_Editor
                             $selected_tax = true;
                         }
                         
-                        $html .= $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div><input type="hidden" id="' . $id . '-tax_post_type" name="' . $id . '[tax_post_type][' . $key . ']" value="' . implode( ',', $tax_obj->object_type ) . '" />';
-                        $html .= '<select class="_is_includes-tax_query" name="' . $id . '[tax_query][' . $key . '][]" multiple size="8" >';
+                        $html .= $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div><input type="hidden" id="' . esc_attr( $id ) . '-tax_post_type" name="' . esc_attr( $id ) . '[tax_post_type][' . $key . ']" value="' . implode( ',', $tax_obj->object_type ) . '" />';
+                        $html .= '<select class="_is_includes-tax_query" name="' . esc_attr( $id ) . '[tax_query][' . $key . '][]" multiple size="8" >';
                         foreach ( $terms as $key2 => $term ) {
                             $checked = ( isset( $includes['tax_query'][$key] ) && in_array( $term->term_taxonomy_id, $includes['tax_query'][$key] ) ? $term->term_taxonomy_id : 0 );
                             $html .= '<option value="' . esc_attr( $term->term_taxonomy_id ) . '" ' . selected( $term->term_taxonomy_id, $checked, false ) . '>' . esc_html( $term->name ) . '</option>';
@@ -359,20 +442,20 @@ class IS_Search_Editor
                 }
                 
                 if ( $terms_exist ) {
-                    $html .= '<br /><label for="' . $id . '-tax_query" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                    $html .= '<br /><label for="' . esc_attr( $id ) . '-tax_query" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
                     $html .= '</div>';
                     $checked = ( $selected_tax ? 'selected' : 'all' );
-                    echo  '<br /><p class="check-radio"><label for="' . $post_type . '-tax-search_all" ><input class="is-tax-select" type="radio" id="' . $post_type . '-tax-search_all" name="' . $post_type . 'i[tax_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
+                    echo  '<br /><p class="check-radio"><label for="' . esc_attr( $post_type ) . '-tax-search_all" ><input class="is-tax-select" type="radio" id="' . esc_attr( $post_type ) . '-tax-search_all" name="' . esc_attr( $post_type ) . 'i[tax_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
                     echo  '<span class="toggle-check-text"></span>' . sprintf(
                         esc_html__( "Search %s of all taxonomies (%s categories, tags & terms %s)", 'add-search-to-menu' ),
                         strtolower( $post_types[$post_type]->labels->name ),
                         '<i>',
                         '</i>'
                     ) . '</label></p>' ;
-                    echo  '<p class="check-radio"><label for="' . $post_type . '-tax-search_selected" ><input class="is-tax-select" type="radio" id="' . $post_type . '-tax-search_selected" name="' . $post_type . 'i[tax_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+                    echo  '<p class="check-radio"><label for="' . esc_attr( $post_type ) . '-tax-search_selected" ><input class="is-tax-select" type="radio" id="' . esc_attr( $post_type ) . '-tax-search_selected" name="' . esc_attr( $post_type ) . 'i[tax_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
                     echo  '<span class="toggle-check-text"></span>' . sprintf(
                         esc_html__( "Search %s of only selected taxonomies (%s categories, tags & terms %s)", 'add-search-to-menu' ),
-                        strtolower( $post_types[$post_type]->labels->name ),
+                        strtolower( esc_html( $post_types[$post_type]->labels->name ) ),
                         '<i>',
                         '</i>'
                     ) . '</label></p>' ;
@@ -387,7 +470,7 @@ class IS_Search_Editor
                 $html = '<div class="col-wrapper is-metas">';
                 $selected_meta = false;
                 $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
-                $html .= '<select class="_is_includes-custom_field" name="' . $id . '[custom_field][]" multiple size="8" >';
+                $html .= '<select class="_is_includes-custom_field" name="' . esc_attr( $id ) . '[custom_field][]" multiple size="8" >';
                 foreach ( $meta_keys as $meta_key ) {
                     $checked = ( isset( $includes['custom_field'] ) && in_array( $meta_key, $includes['custom_field'] ) ? $meta_key : 0 );
                     if ( $checked ) {
@@ -396,10 +479,10 @@ class IS_Search_Editor
                     $html .= '<option value="' . esc_attr( $meta_key ) . '" ' . selected( $meta_key, $checked, false ) . '>' . esc_html( $meta_key ) . '</option>';
                 }
                 $html .= '</select>';
-                $html .= '<br /><label for="' . $id . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                $html .= '<br /><label for="' . esc_attr( $id ) . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
                 $html .= '</div>';
                 $checked = ( $selected_meta ? 'selected' : 'all' );
-                echo  '<br /><p class="check-radio"><label for="' . $post_type . '-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="' . $post_type . '-meta-search_selected" name="' . $post_type . 'i[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+                echo  '<br /><p class="check-radio"><label for="' . esc_attr( $post_type ) . '-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="' . esc_attr( $post_type ) . '-meta-search_selected" name="' . esc_attr( $post_type ) . 'i[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search selected %s custom fields values", 'add-search-to-menu' ), $post_type ) . '</label></p>' ;
                 echo  $html ;
             }
@@ -412,10 +495,10 @@ class IS_Search_Editor
                 if ( '' !== $woo_sku_disable ) {
                     echo  '<div class="upgrade-parent">' ;
                 }
-                echo  '<p class="check-radio"><label for="' . $id . '-sku" ><input class="_is_includes-woocommerce" type="checkbox" ' . $woo_sku_disable . ' id="' . $id . '-sku" name="' . $id . '[woo][sku]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+                echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-sku" ><input class="_is_includes-woocommerce" type="checkbox" ' . $woo_sku_disable . ' id="' . esc_attr( $id ) . '-sku" name="' . esc_attr( $id ) . '[woo][sku]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search product SKU", 'add-search-to-menu' ) . '</label></p>' ;
                 $checked = ( isset( $includes['woo']['variation'] ) && $includes['woo']['variation'] ? 1 : 0 );
-                echo  '<p class="check-radio"><label for="' . $id . '-variation" ><input class="_is_includes-woocommerce" type="checkbox" ' . $woo_sku_disable . ' id="' . $id . '-variation" name="' . $id . '[woo][variation]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+                echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-variation" ><input class="_is_includes-woocommerce" type="checkbox" ' . $woo_sku_disable . ' id="' . esc_attr( $id ) . '-variation" name="' . esc_attr( $id ) . '[woo][variation]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search product variation", 'add-search-to-menu' ) . '</label>' ;
                 echo  IS_Admin::pro_link( 'pro_plus' ) ;
                 if ( '' !== $woo_sku_disable ) {
@@ -442,14 +525,14 @@ class IS_Search_Editor
                             ksort( $file_types );
                             $html = '<br /><div class="is-mime">';
                             $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
-                            $html .= '<select class="_is_includes-post_file_type" name="' . $id . '[post_file_type][]" ' . $file_type_disable . ' multiple size="8" >';
+                            $html .= '<select class="_is_includes-post_file_type" name="' . esc_attr( $id ) . '[post_file_type][]" ' . $file_type_disable . ' multiple size="8" >';
                             foreach ( $file_types as $key => $file_type ) {
                                 $checked = ( isset( $includes['post_file_type'] ) && in_array( $file_type, $includes['post_file_type'] ) ? $file_type : 0 );
                                 $html .= '<option value="' . esc_attr( $file_type ) . '" ' . selected( $file_type, $checked, false ) . '>' . esc_html( $key ) . '</option>';
                             }
                             $html .= '</select>';
                             echo  IS_Admin::pro_link( 'pro_plus' ) ;
-                            $html .= '<br /><label for="' . $id . '-post_file_type" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                            $html .= '<br /><label for="' . esc_attr( $id ) . '-post_file_type" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
                             
                             if ( isset( $includes['post_file_type'] ) ) {
                                 $html .= __( 'Selected File Types :', 'add-search-to-menu' );
@@ -466,17 +549,17 @@ class IS_Search_Editor
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search only selected  MIME types", 'add-search-to-menu' ) . '</label></p>' ;
                             echo  $html ;
                             echo  '<span class="search-attachments-wrapper">' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_images"><input class="search-attachments" type="checkbox" id="' . $id . '-search_images" name="search_images" value="1" checked="checked" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_images"><input class="search-attachments" type="checkbox" id="' . esc_attr( $id ) . '-search_images" name="search_images" value="1" checked="checked" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search Images", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_videos"><input class="search-attachments" type="checkbox" id="' . $id . '-search_videos" name="search_videos" value="1" checked="checked" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_videos"><input class="search-attachments" type="checkbox" id="' . esc_attr( $id ) . '-search_videos" name="search_videos" value="1" checked="checked" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search Videos", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_audios"><input class="search-attachments" type="checkbox" id="' . $id . '-search_audios" name="search_audios" value="1" checked="checked" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_audios"><input class="search-attachments" type="checkbox" id="' . esc_attr( $id ) . '-search_audios" name="search_audios" value="1" checked="checked" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search Audios", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_text"><input class="search-attachments" type="checkbox" id="' . $id . '-search_text" name="search_text" value="1" checked="checked" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_text"><input class="search-attachments" type="checkbox" id="' . esc_attr( $id ) . '-search_text" name="search_text" value="1" checked="checked" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search Text Files", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_pdfs"><input class="search-attachments" type="checkbox" id="' . $id . '-search_pdfs" name="search_pdfs" value="1" checked="checked" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_pdfs"><input class="search-attachments" type="checkbox" id="' . esc_attr( $id ) . '-search_pdfs" name="search_pdfs" value="1" checked="checked" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search PDF Files", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_docs"><input class="search-attachments" type="checkbox" id="' . $id . '-search_docs" name="search_docs" value="1" checked="checked"/>' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_docs"><input class="search-attachments" type="checkbox" id="' . esc_attr( $id ) . '-search_docs" name="search_docs" value="1" checked="checked"/>' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search Document Files", 'add-search-to-menu' ) . '</label></p>' ;
                             echo  '</span>' ;
                             if ( '' !== $file_type_disable ) {
@@ -502,7 +585,7 @@ class IS_Search_Editor
 
 			<h3 scope="row">
                             <label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-extras"><?php 
         echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -515,27 +598,32 @@ class IS_Search_Editor
 			<div><div class="includes_extras">
 			<h4 scope="row" class="is-first-title">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-search_content"><?php 
         echo  esc_html( __( 'Search Content', 'add-search-to-menu' ) ) ;
         ?></label>
 			</h4>
 			<?php 
         $checked = ( $default_search || isset( $includes['search_title'] ) && $includes['search_title'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_title"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_title" name="' . $id . '[search_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_title"><input class="_is_includes-post_type" type="checkbox" id="' . esc_attr( $id ) . '-search_title" name="' . esc_attr( $id ) . '[search_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post title %s( File title )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_title' ) ;
         $checked = ( $default_search || isset( $includes['search_content'] ) && $includes['search_content'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_content"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_content" name="' . $id . '[search_content]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_content"><input class="_is_includes-post_type" type="checkbox" id="' . esc_attr( $id ) . '-search_content" name="' . esc_attr( $id ) . '[search_content]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post content %s( File description )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_content' ) ;
         $checked = ( $default_search || isset( $includes['search_excerpt'] ) && $includes['search_excerpt'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_excerpt"><input class="_is_includes-post_type" type="checkbox" id="' . $id . '-search_excerpt" name="' . $id . '[search_excerpt]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_excerpt"><input class="_is_includes-post_type" type="checkbox" id="' . esc_attr( $id ) . '-search_excerpt" name="' . esc_attr( $id ) . '[search_excerpt]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search post excerpt %s( File caption )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_excerpt' ) ;
         $checked = ( isset( $includes['search_tax_title'] ) && $includes['search_tax_title'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_tax_title" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_title" name="' . $id . '[search_tax_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_tax_title" ><input class="_is_includes-tax_query" type="checkbox" id="' . esc_attr( $id ) . '-search_tax_title" name="' . esc_attr( $id ) . '[search_tax_title]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag title %s( Displays posts of the category/tag )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_tax_title' ) ;
         $checked = ( isset( $includes['search_tax_desp'] ) && $includes['search_tax_desp'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_tax_desp" ><input class="_is_includes-tax_query" type="checkbox" id="' . $id . '-search_tax_desp" name="' . $id . '[search_tax_desp]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_tax_desp" ><input class="_is_includes-tax_query" type="checkbox" id="' . esc_attr( $id ) . '-search_tax_desp" name="' . esc_attr( $id ) . '[search_tax_desp]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search category/tag description %s( Displays posts of the category/tag )%s", 'add-search-to-menu' ), '<i>', '</i>' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_tax_desp' ) ;
         
         if ( isset( $includes['tax_query'] ) ) {
             $tax_rel_disable = '';
@@ -565,9 +653,9 @@ class IS_Search_Editor
             }
             
             $checked = ( isset( $includes['tax_rel'] ) && "AND" == $includes['tax_rel'] ? "AND" : "OR" );
-            echo  '<label for="' . $id . '-tax_rel_and" ><input class="_is_includes-tax_query" type="radio" id="' . $id . '-tax_rel_and" ' . $tax_rel_disable . ' name="' . $id . '[tax_rel]" value="AND" ' . checked( 'AND', $checked, false ) . '/>' ;
+            echo  '<label for="' . esc_attr( $id ) . '-tax_rel_and" ><input class="_is_includes-tax_query" type="radio" id="' . esc_attr( $id ) . '-tax_rel_and" ' . $tax_rel_disable . ' name="' . esc_attr( $id ) . '[tax_rel]" value="AND" ' . checked( 'AND', $checked, false ) . '/>' ;
             echo  '<span class="toggle-check-text"></span>' . esc_html__( "AND - Search posts having all the above selected category terms", 'add-search-to-menu' ) . '</label></p>' ;
-            echo  '<p class="check-radio"><label for="' . $id . '-tax_rel_or" ><input class="_is_includes-tax_query" type="radio" id="' . $id . '-tax_rel_or" ' . $tax_rel_disable . ' name="' . $id . '[tax_rel]" value="OR" ' . checked( 'OR', $checked, false ) . '/>' ;
+            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-tax_rel_or" ><input class="_is_includes-tax_query" type="radio" id="' . esc_attr( $id ) . '-tax_rel_or" ' . $tax_rel_disable . ' name="' . esc_attr( $id ) . '[tax_rel]" value="OR" ' . checked( 'OR', $checked, false ) . '/>' ;
             echo  '<span class="toggle-check-text"></span>' . esc_html__( "OR - Search posts having any one of the above selected category terms", 'add-search-to-menu' ) . '</label></p>' ;
         }
         
@@ -576,7 +664,7 @@ class IS_Search_Editor
 
 			<h4 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-post_status"><?php 
         echo  esc_html( __( 'Post Status', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -613,7 +701,7 @@ class IS_Search_Editor
             foreach ( $post_statuses as $key => $post_status ) {
                 $checked = ( isset( $includes['post_status'][esc_attr( $key )] ) ? $includes['post_status'][esc_attr( $key )] : 0 );
                 $temp = ( 'publish' === $post_status || 'inherit' === $post_status ? '' : $post_status_disable );
-                echo  '<label for="' . $id . '-post_status-' . esc_attr( $key ) . '"><input class="_is_includes-post_status" type="checkbox" ' . $temp . ' id="' . $id . '-post_status-' . esc_attr( $key ) . '" name="' . $id . '[post_status][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $key, $checked, false ) . '/>' ;
+                echo  '<label for="' . esc_attr( $id ) . '-post_status-' . esc_attr( $key ) . '"><input class="_is_includes-post_status" type="checkbox" ' . $temp . ' id="' . esc_attr( $id ) . '-post_status-' . esc_attr( $key ) . '" name="' . esc_attr( $id ) . '[post_status][' . esc_attr( $key ) . ']" value="' . esc_attr( $key ) . '" ' . checked( $key, $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span> ' . ucwords( str_replace( '-', ' ', esc_html( $post_status ) ) ) . '</label>' ;
             }
             echo  '</div></div>' ;
@@ -623,7 +711,7 @@ class IS_Search_Editor
 			</div></div>
 			<h4 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-author"><?php 
         echo  esc_html( __( 'Authors', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -671,7 +759,7 @@ class IS_Search_Editor
                         continue;
                     }
                     $checked = ( isset( $includes['author'][esc_attr( $author->ID )] ) ? $includes['author'][esc_attr( $author->ID )] : 0 );
-                    echo  '<label for="' . $id . '-author-' . esc_attr( $author->ID ) . '"><input class="_is_includes-author" type="checkbox" ' . $author_disable . ' id="' . $id . '-author-' . esc_attr( $author->ID ) . '" name="' . $id . '[author][' . esc_attr( $author->ID ) . ']" value="' . esc_attr( $author->ID ) . '" ' . checked( $author->ID, $checked, false ) . '/>' ;
+                    echo  '<label for="' . esc_attr( $id ) . '-author-' . esc_attr( $author->ID ) . '"><input class="_is_includes-author" type="checkbox" ' . $author_disable . ' id="' . esc_attr( $id ) . '-author-' . esc_attr( $author->ID ) . '" name="' . esc_attr( $id ) . '[author][' . esc_attr( $author->ID ) . ']" value="' . esc_attr( $author->ID ) . '" ' . checked( $author->ID, $checked, false ) . '/>' ;
                     echo  '<span class="toggle-check-text"></span> ' . ucfirst( esc_html( $author->display_name ) ) . '</label>' ;
                 }
                 echo  '</div></div>' ;
@@ -685,14 +773,15 @@ class IS_Search_Editor
             echo  '</div>' ;
         }
         $checked = ( isset( $includes['search_author'] ) && $includes['search_author'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_author" ><input class="_is_includes-author" type="checkbox" id="' . $id . '-search_author" name="' . $id . '[search_author]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_author" ><input class="_is_includes-author" type="checkbox" id="' . esc_attr( $id ) . '-search_author" name="' . esc_attr( $id ) . '[search_author]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search author Display Name and display the posts created by that author", 'add-search-to-menu' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_author' ) ;
         ?>
 			</div></div>
 
 			<h4 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-comment_count"><?php 
         echo  esc_html( __( 'Comments', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -704,7 +793,7 @@ class IS_Search_Editor
         if ( '' !== $comment_count_disable ) {
             echo  '<div class="upgrade-parent">' . IS_Admin::pro_link() ;
         }
-        echo  '<label for="' . $id . '-comment_count-compare"> ' . esc_html( __( 'Search posts having number of comments', 'add-search-to-menu' ) ) . '</label><select class="_is_includes-comment_count" name="' . $id . '[comment_count][compare]" ' . $comment_count_disable . ' style="min-width: 50px;">' ;
+        echo  '<label for="' . esc_attr( $id ) . '-comment_count-compare"> ' . esc_html( __( 'Search posts having number of comments', 'add-search-to-menu' ) ) . '</label><select class="_is_includes-comment_count" name="' . esc_attr( $id ) . '[comment_count][compare]" ' . esc_attr( $comment_count_disable ) . ' style="min-width: 50px;">' ;
         $checked = ( isset( $includes['comment_count']['compare'] ) ? htmlspecialchars_decode( $includes['comment_count']['compare'] ) : '=' );
         $compare = array(
             '=',
@@ -715,28 +804,29 @@ class IS_Search_Editor
             '<='
         );
         foreach ( $compare as $d ) {
-            echo  '<option value="' . htmlspecialchars_decode( $d ) . '" ' . selected( $d, $checked, false ) . '>' . esc_html( $d ) . '</option>' ;
+            echo  '<option value="' . esc_attr( htmlspecialchars_decode( $d ) ) . '" ' . selected( $d, $checked, false ) . '>' . esc_html( $d ) . '</option>' ;
         }
         echo  '</select>' ;
-        echo  '<select class="_is_includes-comment_count" name="' . $id . '[comment_count][value]" ' . $comment_count_disable . ' >' ;
+        echo  '<select class="_is_includes-comment_count" name="' . esc_attr( $id ) . '[comment_count][value]" ' . esc_attr( $comment_count_disable ) . ' >' ;
         $checked = ( isset( $includes['comment_count']['value'] ) ? $includes['comment_count']['value'] : 'na' );
         echo  '<option value="na" ' . selected( 'na', $checked, false ) . '>' . esc_html( __( 'NA', 'add-search-to-menu' ) ) . '</option>' ;
         for ( $d = 0 ;  $d <= 999 ;  $d++ ) {
-            echo  '<option value="' . $d . '" ' . selected( $d, $checked, false ) . '>' . $d . '</option>' ;
+            echo  '<option value="' . esc_attr( $d ) . '" ' . selected( $d, $checked, false ) . '>' . esc_html( $d ) . '</option>' ;
         }
         echo  '</select>' ;
         if ( '' !== $comment_count_disable ) {
             echo  '</div>' ;
         }
         $checked = ( isset( $includes['search_comment'] ) && $includes['search_comment'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-search_comment" ><input class="_is_includes-comment_count" type="checkbox" id="' . $id . '-search_comment" name="' . $id . '[search_comment]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_comment" ><input class="_is_includes-comment_count" type="checkbox" id="' . esc_attr( $id ) . '-search_comment" name="' . esc_attr( $id ) . '[search_comment]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search approved comment content", 'add-search-to-menu' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'search_comment' ) ;
         ?>
 			</div></div>
 
 			<h4 scope="row">
                             <label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-has_password"><?php 
         echo  esc_html( __( 'Password Protected', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -744,17 +834,17 @@ class IS_Search_Editor
 			<div><div>
 				<?php 
         $checked = ( isset( $includes['has_password'] ) ? $includes['has_password'] : 'null' );
-        echo  '<p class="check-radio"><label for="' . $id . '-has_password" ><input class="_is_includes-has_password" type="radio" id="' . $id . '-has_password" name="' . $id . '[has_password]" value="null" ' . checked( 'null', $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-has_password" ><input class="_is_includes-has_password" type="radio" id="' . esc_attr( $id ) . '-has_password" name="' . esc_attr( $id ) . '[has_password]" value="null" ' . checked( 'null', $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search posts with or without passwords", 'add-search-to-menu' ) . '</label></p>' ;
-        echo  '<p class="check-radio"><label for="' . $id . '-has_password_1" ><input class="_is_includes-has_password" type="radio" id="' . $id . '-has_password_1" name="' . $id . '[has_password]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-has_password_1" ><input class="_is_includes-has_password" type="radio" id="' . esc_attr( $id ) . '-has_password_1" name="' . esc_attr( $id ) . '[has_password]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search posts with passwords", 'add-search-to-menu' ) . '</label></p>' ;
-        echo  '<p class="check-radio"><label for="' . $id . '-has_password_0" ><input class="_is_includes-has_password" type="radio" id="' . $id . '-has_password_0" name="' . $id . '[has_password]" value="0" ' . checked( 0, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-has_password_0" ><input class="_is_includes-has_password" type="radio" id="' . esc_attr( $id ) . '-has_password_0" name="' . esc_attr( $id ) . '[has_password]" value="0" ' . checked( 0, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search posts without passwords", 'add-search-to-menu' ) . '</label></p>' ;
         ?>
 			</div></div>
 			<h4 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-date_query"><?php 
         echo  esc_html( __( 'Date', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -767,9 +857,9 @@ class IS_Search_Editor
         $range = array( 'after', 'before' );
         foreach ( $range as $value ) {
             $col_title = ( 'after' == $value ? __( 'From', 'add-search-to-menu' ) : __( 'To', 'add-search-to-menu' ) );
-            echo  '<div class="col-wrapper ' . $value . '"><div class="col-title">' . $col_title . '</div>' ;
+            echo  '<div class="col-wrapper ' . esc_attr( $value ) . '"><div class="col-title">' . esc_html( $col_title ) . '</div>' ;
             $checked = ( isset( $includes['date_query'][$value]['date'] ) ? $includes['date_query'][$value]['date'] : '' );
-            echo  '<input type="text" id="is-' . $value . '-datepicker" name="' . $id . '[date_query][' . $value . '][date]" value="' . $checked . '">' ;
+            echo  '<input type="text" id="is-' . esc_attr( $value ) . '-datepicker" name="' . esc_attr( $id ) . '[date_query][' . esc_attr( $value ) . '][date]" value="' . esc_attr( $checked ) . '">' ;
             echo  '</div>' ;
         }
         ?>
@@ -861,12 +951,12 @@ class IS_Search_Editor
 					<div>
                                             <?php 
         
-        if ( isset( $_GET['post'] ) ) {
-            $customizer_url = admin_url( 'customize.php?autofocus[section]=is_section_' . $_GET['post'] );
+        if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+            $customizer_url = admin_url( 'customize.php?autofocus[section]=is_section_' . sanitize_key( $_GET['post'] ) );
             if ( !$enable_customize ) {
                 $customizer_url = "//" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             }
-            echo  '<a style="font-size: 20px;font-weight: 800; padding: 25px 0;display: block;text-align: center;box-shadow:none;"class="is-customize-link" href="' . esc_url( $customizer_url ) . '">' . __( "Search Form Customizer", "ivory-search" ) . '</a>' ;
+            echo  '<a style="font-size: 20px;font-weight: 800; padding: 25px 0;display: block;text-align: center;box-shadow:none;"class="is-customize-link" href="' . esc_url( $customizer_url ) . '">' . __( "Search Form Customizer", "add-search-to-menu" ) . '</a>' ;
         }
         
         ?>
@@ -1802,7 +1892,7 @@ class IS_Search_Editor
         ?>
 		</h4>
 		<div class="search-form-editor-box" id="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>">
 		<div class="form-table form-table-panel-excludes">
 
@@ -1832,9 +1922,11 @@ class IS_Search_Editor
             ?>
 			<h3 scope="row">
                             <label for="<?php 
-            echo  $id ;
+            echo  esc_attr( $id ) ;
             ?>-post__not_in"><?php 
-            echo  $accord_title ;
+            echo  wp_kses( $accord_title, array(
+                'i' => array(),
+            ) ) ;
             ?></label>
                             <?php 
             
@@ -1895,10 +1987,10 @@ class IS_Search_Editor
                         $col_title = '<strong>' . $col_title . '</strong>';
                     }
                     $html .= $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div>';
-                    $html .= '<select class="_is_excludes-post__not_in" name="' . $id . '[post__not_in][]" multiple size="8" >';
+                    $html .= '<select class="_is_excludes-post__not_in" name="' . esc_attr( $id ) . '[post__not_in][]" multiple size="8" >';
                     $html .= $temp . '</select>';
                     if ( count( $posts ) >= 100 && !defined( 'DISABLE_IS_LOAD_ALL' ) && !isset( $excludes['post__not_in'] ) ) {
-                        $html .= '<div id="' . $post_type . '" class="load-all">' . __( 'Load All', 'add-search-to-menu' ) . '</div>';
+                        $html .= '<div id="' . esc_attr( $post_type ) . '" class="load-all">' . __( 'Load All', 'add-search-to-menu' ) . '</div>';
                     }
                     $html .= '</div>';
                 }
@@ -1907,7 +1999,7 @@ class IS_Search_Editor
                 if ( !$posts_found ) {
                     $html .= '<br /><span class="notice-is-info">' . sprintf( __( 'No %s created.', 'add-search-to-menu' ), $post_types2[$post_type]->labels->name ) . '</span>';
                 } else {
-                    $html .= '<br /><label for="' . $id . '-post__not_in" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                    $html .= '<br /><label for="' . esc_attr( $id ) . '-post__not_in" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
                 }
                 
                 $html .= '</div>';
@@ -1924,9 +2016,9 @@ class IS_Search_Editor
                         continue;
                     }
                     
-                    echo  '<p class="check-radio"><label for="' . $post_type . '-post-search_all" ><input class="is-post-select" type="radio" id="' . $post_type . '-post-search_all" name="' . $post_type . 'i[post_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
+                    echo  '<p class="check-radio"><label for="' . esc_attr( $post_type ) . '-post-search_all" ><input class="is-post-select" type="radio" id="' . esc_attr( $post_type ) . '-post-search_all" name="' . esc_attr( $post_type ) . 'i[post_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
                     echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Do not exclude any %s from search", 'add-search-to-menu' ), strtolower( $post_types2[$post_type]->labels->singular_name ) ) . '</label></p>' ;
-                    echo  '<p class="check-radio"><label for="' . $post_type . '-post-search_selected" ><input class="is-post-select" type="radio" id="' . $post_type . '-post-search_selected" name="' . $post_type . 'i[post_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+                    echo  '<p class="check-radio"><label for="' . esc_attr( $post_type ) . '-post-search_selected" ><input class="is-post-select" type="radio" id="' . esc_attr( $post_type ) . '-post-search_selected" name="' . esc_attr( $post_type ) . 'i[post_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
                     echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Exclude selected %s from search", 'add-search-to-menu' ), strtolower( $post_types2[$post_type]->labels->name ) ) . '</label></p>' ;
                     echo  $html ;
                 } else {
@@ -1938,6 +2030,7 @@ class IS_Search_Editor
             $tax_objs = get_object_taxonomies( $post_type, 'objects' );
             
             if ( !empty($tax_objs) ) {
+                $terms_exist = false;
                 $html = '<div class="is-taxes">';
                 $selected_tax = false;
                 foreach ( $tax_objs as $key => $tax_obj ) {
@@ -1947,6 +2040,7 @@ class IS_Search_Editor
                     ) );
                     
                     if ( !empty($terms) && !empty($tax_obj->labels->name) ) {
+                        $terms_exist = true;
                         $html .= '<div class="col-wrapper"><div class="col-title">';
                         $col_title = ucwords( str_replace( '-', ' ', str_replace( '_', ' ', esc_html( $tax_obj->labels->name ) ) ) );
                         
@@ -1955,7 +2049,7 @@ class IS_Search_Editor
                             $selected_tax = true;
                         }
                         
-                        $html .= $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div><select class="_is_excludes-tax_query" name="' . $id . '[tax_query][' . $key . '][]" multiple size="8" >';
+                        $html .= $col_title . '<input class="list-search" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text"></div><select class="_is_excludes-tax_query" name="' . esc_attr( $id ) . '[tax_query][' . $key . '][]" multiple size="8" >';
                         foreach ( $terms as $key2 => $term ) {
                             $checked = ( isset( $excludes['tax_query'][$key] ) && in_array( $term->term_taxonomy_id, $excludes['tax_query'][$key] ) ? $term->term_taxonomy_id : 0 );
                             $html .= '<option value="' . esc_attr( $term->term_taxonomy_id ) . '" ' . selected( $term->term_taxonomy_id, $checked, false ) . '>' . esc_html( $term->name ) . '</option>';
@@ -1964,24 +2058,28 @@ class IS_Search_Editor
                     }
                 
                 }
-                $html .= '<br /><label for="' . $id . '-tax_query" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
-                $html .= '</div>';
-                $checked = ( $selected_tax ? 'selected' : 'all' );
-                echo  '<br /><p class="check-radio"><label for="' . $post_type . '-tax-search_all" ><input class="is-tax-select" type="radio" id="' . $post_type . '-tax-search_all" name="' . $post_type . 'i[tax_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' . sprintf(
-                    esc_html__( "Do not exclude any %s from search of any taxonomies (%s categories, tags & terms %s)", 'add-search-to-menu' ),
-                    strtolower( $post_types2[$post_type]->labels->singular_name ),
-                    '<i>',
-                    '</i>'
-                ) . '</label></p>' ;
-                echo  '<p class="check-radio"><label for="' . $post_type . '-tax-search_selected" ><input class="is-tax-select" type="radio" id="' . $post_type . '-tax-search_selected" name="' . $post_type . 'i[tax_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' . sprintf(
-                    esc_html__( "Exclude %s from search of selected taxonomies (%s categories, tags & terms %s)", 'add-search-to-menu' ),
-                    strtolower( $post_types2[$post_type]->labels->name ),
-                    '<i>',
-                    '</i>'
-                ) . '</label></p>' ;
-                echo  $html ;
+                
+                if ( $terms_exist ) {
+                    $html .= '<br /><label for="' . esc_attr( $id ) . '-tax_query" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                    $html .= '</div>';
+                    $checked = ( $selected_tax ? 'selected' : 'all' );
+                    echo  '<br /><p class="check-radio"><label for="' . esc_attr( $post_type ) . '-tax-search_all" ><input class="is-tax-select" type="radio" id="' . esc_attr( $post_type ) . '-tax-search_all" name="' . esc_attr( $post_type ) . 'i[tax_search_radio]" value="all" ' . checked( 'all', $checked, false ) . '/>' ;
+                    echo  '<span class="toggle-check-text"></span>' . sprintf(
+                        esc_html__( "Do not exclude any %s from search of any taxonomies (%s categories, tags & terms %s)", 'add-search-to-menu' ),
+                        strtolower( $post_types2[$post_type]->labels->singular_name ),
+                        '<i>',
+                        '</i>'
+                    ) . '</label></p>' ;
+                    echo  '<p class="check-radio"><label for="' . esc_attr( $post_type ) . '-tax-search_selected" ><input class="is-tax-select" type="radio" id="' . esc_attr( $post_type ) . '-tax-search_selected" name="' . esc_attr( $post_type ) . 'i[tax_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+                    echo  '<span class="toggle-check-text"></span>' . sprintf(
+                        esc_html__( "Exclude %s from search of selected taxonomies (%s categories, tags & terms %s)", 'add-search-to-menu' ),
+                        strtolower( $post_types2[$post_type]->labels->name ),
+                        '<i>',
+                        '</i>'
+                    ) . '</label></p>' ;
+                    echo  $html ;
+                }
+            
             }
             
             $meta_keys = $this->is_meta_keys( $post_type );
@@ -1991,7 +2089,7 @@ class IS_Search_Editor
                 $selected_meta = false;
                 $custom_field_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
                 $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
-                $html .= '<select class="_is_excludes-custom_field" name="' . $id . '[custom_field][]" ' . $custom_field_disable . ' multiple size="8" >';
+                $html .= '<select class="_is_excludes-custom_field" name="' . esc_attr( $id ) . '[custom_field][]" ' . $custom_field_disable . ' multiple size="8" >';
                 foreach ( $meta_keys as $meta_key ) {
                     $checked = ( isset( $excludes['custom_field'] ) && in_array( $meta_key, $excludes['custom_field'] ) ? $meta_key : 0 );
                     if ( $checked ) {
@@ -2001,10 +2099,10 @@ class IS_Search_Editor
                 }
                 $html .= '</select>';
                 $html .= IS_Admin::pro_link();
-                $html .= '<br /><label for="' . $id . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                $html .= '<br /><label for="' . esc_attr( $id ) . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
                 $html .= '</div>';
                 $checked = ( $selected_meta ? 'selected' : 'all' );
-                echo  '<br /><p class="check-radio"><label for="' . $post_type . '-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="' . $post_type . '-meta-search_selected" name="' . $post_type . 'i[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+                echo  '<br /><p class="check-radio"><label for="' . esc_attr( $post_type ) . '-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="' . esc_attr( $post_type ) . '-meta-search_selected" name="' . esc_attr( $post_type ) . 'i[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Exclude %s from search having selected custom fields", 'add-search-to-menu' ), strtolower( $post_types2[$post_type]->labels->name ) ) . '</label></p>' ;
                 echo  $html ;
             }
@@ -2017,7 +2115,7 @@ class IS_Search_Editor
                     echo  '<br /><div class="upgrade-parent">' ;
                 }
                 $checked = ( isset( $excludes['woo']['outofstock'] ) && $excludes['woo']['outofstock'] ? 1 : 0 );
-                echo  '<p class="check-radio"><label for="' . $id . '-outofstock" ><input class="_is_excludes-woocommerce" type="checkbox" ' . $outofstock_disable . ' id="' . $id . '-outofstock" name="' . $id . '[woo][outofstock]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+                echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-outofstock" ><input class="_is_excludes-woocommerce" type="checkbox" ' . $outofstock_disable . ' id="' . esc_attr( $id ) . '-outofstock" name="' . esc_attr( $id ) . '[woo][outofstock]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
                 echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude 'Out of Stock' products from search", 'add-search-to-menu' ) . '</label></p>' ;
                 echo  IS_Admin::pro_link( 'pro_plus' ) ;
                 if ( '' !== $outofstock_disable ) {
@@ -2043,14 +2141,14 @@ class IS_Search_Editor
                             ksort( $file_types );
                             $html = '<br /><div class="is-mime">';
                             $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
-                            $html .= '<select class="_is_excludes-post_file_type" name="' . $id . '[post_file_type][]" ' . $file_type_disable . ' multiple size="8" >';
+                            $html .= '<select class="_is_excludes-post_file_type" name="' . esc_attr( $id ) . '[post_file_type][]" ' . $file_type_disable . ' multiple size="8" >';
                             foreach ( $file_types as $key => $file_type ) {
                                 $checked = ( isset( $excludes['post_file_type'] ) && in_array( $file_type, $excludes['post_file_type'] ) ? $file_type : 0 );
                                 $html .= '<option value="' . esc_attr( $file_type ) . '" ' . selected( $file_type, $checked, false ) . '>' . esc_html( $key ) . '</option>';
                             }
                             $html .= '</select>';
                             echo  IS_Admin::pro_link( 'pro_plus' ) ;
-                            $html .= '<br /><label for="' . $id . '-post_file_type" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
+                            $html .= '<br /><label for="' . esc_attr( $id ) . '-post_file_type" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
                             
                             if ( isset( $excludes['post_file_type'] ) ) {
                                 $html .= __( 'Excluded File Types :', 'add-search-to-menu' );
@@ -2067,17 +2165,17 @@ class IS_Search_Editor
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude selected  MIME types from search", 'add-search-to-menu' ) . '</label></p>' ;
                             echo  $html ;
                             echo  '<span class="search-attachments-wrapper">' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_images"><input class="search-attachments exclude" type="checkbox" id="' . $id . '-search_images" name="search_images" value="1" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_images"><input class="search-attachments exclude" type="checkbox" id="' . esc_attr( $id ) . '-search_images" name="search_images" value="1" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude Images", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_videos"><input class="search-attachments exclude" type="checkbox" id="' . $id . '-search_videos" name="search_videos" value="1" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_videos"><input class="search-attachments exclude" type="checkbox" id="' . esc_attr( $id ) . '-search_videos" name="search_videos" value="1" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude Videos", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_audios"><input class="search-attachments exclude" type="checkbox" id="' . $id . '-search_audios" name="search_audios" value="1" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_audios"><input class="search-attachments exclude" type="checkbox" id="' . esc_attr( $id ) . '-search_audios" name="search_audios" value="1" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude Audios", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_text"><input class="search-attachments exclude" type="checkbox" id="' . $id . '-search_text" name="search_text" value="1" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_text"><input class="search-attachments exclude" type="checkbox" id="' . esc_attr( $id ) . '-search_text" name="search_text" value="1" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude Text Files", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_pdfs"><input class="search-attachments exclude" type="checkbox" id="' . $id . '-search_pdfs" name="search_pdfs" value="1" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_pdfs"><input class="search-attachments exclude" type="checkbox" id="' . esc_attr( $id ) . '-search_pdfs" name="search_pdfs" value="1" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude PDF Files", 'add-search-to-menu' ) . '</label></p>' ;
-                            echo  '<p class="check-radio"><label for="' . $id . '-search_docs"><input class="search-attachments exclude" type="checkbox" id="' . $id . '-search_docs" name="search_docs" value="1" />' ;
+                            echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_docs"><input class="search-attachments exclude" type="checkbox" id="' . esc_attr( $id ) . '-search_docs" name="search_docs" value="1" />' ;
                             echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude Document Files", 'add-search-to-menu' ) . '</label></p>' ;
                             echo  '</span>' ;
                             if ( '' !== $file_type_disable ) {
@@ -2103,7 +2201,7 @@ class IS_Search_Editor
         ?>
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-extras"><?php 
         echo  esc_html( __( 'Extras', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2116,7 +2214,7 @@ class IS_Search_Editor
 			<div>
 			<h4 scope="row" class="is-first-title">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-author"><?php 
         echo  esc_html( __( 'Authors', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2165,7 +2263,7 @@ class IS_Search_Editor
                         continue;
                     }
                     $checked = ( isset( $excludes['author'][esc_attr( $author->ID )] ) ? $excludes['author'][esc_attr( $author->ID )] : 0 );
-                    echo  '<label for="' . $id . '-author-' . esc_attr( $author->ID ) . '"><input class="_is_excludes-author" type="checkbox" ' . $author_disable . ' id="' . $id . '-author-' . esc_attr( $author->ID ) . '" name="' . $id . '[author][' . esc_attr( $author->ID ) . ']" value="' . esc_attr( $author->ID ) . '" ' . checked( $author->ID, $checked, false ) . '/>' ;
+                    echo  '<label for="' . esc_attr( $id ) . '-author-' . esc_attr( $author->ID ) . '"><input class="_is_excludes-author" type="checkbox" ' . $author_disable . ' id="' . esc_attr( $id ) . '-author-' . esc_attr( $author->ID ) . '" name="' . esc_attr( $id ) . '[author][' . esc_attr( $author->ID ) . ']" value="' . esc_attr( $author->ID ) . '" ' . checked( $author->ID, $checked, false ) . '/>' ;
                     echo  '<span class="toggle-check-text"></span> ' . ucfirst( esc_html( $author->display_name ) ) . '</label>' ;
                 }
                 echo  '</div></div>' ;
@@ -2180,7 +2278,7 @@ class IS_Search_Editor
 
 			<h4 scope="row">
                             <label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-post_status"><?php 
         echo  esc_html( __( 'Post Status', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2191,7 +2289,7 @@ class IS_Search_Editor
         IS_Help::help_info( $content );
         echo  '<div>' ;
         $checked = ( isset( $excludes['ignore_sticky_posts'] ) && $excludes['ignore_sticky_posts'] ? 1 : 0 );
-        echo  '<label for="' . $id . '-ignore_sticky_posts" ><input class="_is_excludes-post_status" type="checkbox" id="' . $id . '-ignore_sticky_posts" name="' . $id . '[ignore_sticky_posts]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<label for="' . esc_attr( $id ) . '-ignore_sticky_posts" ><input class="_is_excludes-post_status" type="checkbox" id="' . esc_attr( $id ) . '-ignore_sticky_posts" name="' . esc_attr( $id ) . '[ignore_sticky_posts]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude sticky posts from search", 'add-search-to-menu' ) . '</label>' ;
         ?>
 			</div></div>
@@ -2212,13 +2310,13 @@ class IS_Search_Editor
         ?>
 		</h4>
 		<div class="search-form-editor-box" id="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>">
 		<div class="form-table form-table-panel-options">
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-posts_per_page"><?php 
         echo  esc_html( __( 'Posts Per Page', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2232,7 +2330,7 @@ class IS_Search_Editor
         $content = __( 'Display selected number of posts in search results.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         echo  '<div>' ;
-        echo  '<select class="_is_settings-posts_per_page" name="' . $id . '[posts_per_page]" >' ;
+        echo  '<select class="_is_settings-posts_per_page" name="' . esc_attr( $id ) . '[posts_per_page]" >' ;
         $default_per_page = get_option( 'posts_per_page', 10 );
         $checked = ( isset( $settings['posts_per_page'] ) ? $settings['posts_per_page'] : $default_per_page );
         for ( $d = 1 ;  $d <= 1000 ;  $d++ ) {
@@ -2247,7 +2345,7 @@ class IS_Search_Editor
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-order"><?php 
         echo  esc_html( __( 'Order Search Results', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2257,7 +2355,7 @@ class IS_Search_Editor
         IS_Help::help_info( $content );
         echo  '<div>' ;
         $orderby_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
-        echo  '<select class="_is_settings-order" name="' . $id . '[orderby]" ' . $orderby_disable . ' >' ;
+        echo  '<select class="_is_settings-order" name="' . esc_attr( $id ) . '[orderby]" ' . $orderby_disable . ' >' ;
         $checked = ( isset( $settings['orderby'] ) ? $settings['orderby'] : 'date' );
         $orderbys = array(
             'date',
@@ -2282,7 +2380,7 @@ class IS_Search_Editor
         foreach ( $orderbys as $orderby ) {
             echo  '<option value="' . $orderby . '" ' . selected( $orderby, $checked, false ) . '>' . ucwords( str_replace( '_', ' ', esc_html( $orderby ) ) ) . '</option>' ;
         }
-        echo  '</select><select class="_is_settings-order" name="' . $id . '[order]" ' . $orderby_disable . ' >' ;
+        echo  '</select><select class="_is_settings-order" name="' . esc_attr( $id ) . '[order]" ' . $orderby_disable . ' >' ;
         $checked = ( isset( $settings['order'] ) ? $settings['order'] : 'DESC' );
         $orders = array( 'DESC', 'ASC' );
         foreach ( $orders as $order ) {
@@ -2296,7 +2394,7 @@ class IS_Search_Editor
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-highlight_terms"><?php 
         echo  esc_html( __( 'Highlight Search Terms', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2304,10 +2402,10 @@ class IS_Search_Editor
 			<div><div>
 			<?php 
         $checked = ( isset( $settings['highlight_terms'] ) && $settings['highlight_terms'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-highlight_terms" ><input class="_is_settings-highlight_terms" type="checkbox" id="' . $id . '-highlight_terms" name="' . $id . '[highlight_terms]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-highlight_terms" ><input class="_is_settings-highlight_terms" type="checkbox" id="' . esc_attr( $id ) . '-highlight_terms" name="' . esc_attr( $id ) . '[highlight_terms]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Highlight searched terms on search results page", 'add-search-to-menu' ) . '</label></p>' ;
         $color = ( isset( $settings['highlight_color'] ) ? $settings['highlight_color'] : '#FFFFB9' );
-        echo  '<div class="highlight-container"><br /><input style="width: 80px;" class="_is_settings-highlight_terms is-colorpicker" size="5" type="text" id="' . $id . '-highlight_color" name="' . $id . '[highlight_color]" value="' . $color . '" />' ;
+        echo  '<div class="highlight-container"><br /><input style="width: 80px;" class="_is_settings-highlight_terms is-colorpicker" size="5" type="text" id="' . esc_attr( $id ) . '-highlight_color" name="' . esc_attr( $id ) . '[highlight_color]" value="' . $color . '" />' ;
         echo  '<br /><i> ' . esc_html__( "Select text highlight color", 'add-search-to-menu' ) . '</i></div>' ;
         ?>
 			</div></div>
@@ -2315,7 +2413,7 @@ class IS_Search_Editor
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-term_rel"><?php 
         echo  esc_html( __( 'Search All Or Any Search Terms', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2326,9 +2424,9 @@ class IS_Search_Editor
         IS_Help::help_info( $content );
         echo  '<div>' ;
         $checked = ( isset( $settings['term_rel'] ) && "OR" === $settings['term_rel'] ? "OR" : "AND" );
-        echo  '<p class="check-radio"><label for="' . $id . '-term_rel_or" ><input class="_is_settings-term_rel" type="radio" id="' . $id . '-term_rel_or" name="' . $id . '[term_rel]" value="OR" ' . checked( 'OR', $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-term_rel_or" ><input class="_is_settings-term_rel" type="radio" id="' . esc_attr( $id ) . '-term_rel_or" name="' . esc_attr( $id ) . '[term_rel]" value="OR" ' . checked( 'OR', $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "OR - Display content having any of the search terms", 'add-search-to-menu' ) . '</label></p>' ;
-        echo  '<p class="check-radio"><label for="' . $id . '-term_rel_and" ><input class="_is_settings-term_rel" type="radio" id="' . $id . '-term_rel_and" name="' . $id . '[term_rel]" value="AND" ' . checked( 'AND', $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-term_rel_and" ><input class="_is_settings-term_rel" type="radio" id="' . esc_attr( $id ) . '-term_rel_and" name="' . esc_attr( $id ) . '[term_rel]" value="AND" ' . checked( 'AND', $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "AND - Display content having all the search terms", 'add-search-to-menu' ) . '</label></p>' ;
         ?>
 			</div></div>
@@ -2336,7 +2434,7 @@ class IS_Search_Editor
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-fuzzy_match"><?php 
         echo  esc_html( __( 'Fuzzy Matching', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2346,17 +2444,20 @@ class IS_Search_Editor
         IS_Help::help_info( $content );
         echo  '<div>' ;
         $checked = ( isset( $settings['fuzzy_match'] ) ? $settings['fuzzy_match'] : '2' );
-        echo  '<p class="check-radio"><label for="' . $id . '-whole" ><input class="_is_settings-fuzzy_match" type="radio" id="' . $id . '-whole" name="' . $id . '[fuzzy_match]" value="1" ' . checked( '1', $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-whole" ><input class="_is_settings-fuzzy_match" type="radio" id="' . esc_attr( $id ) . '-whole" name="' . esc_attr( $id ) . '[fuzzy_match]" value="1" ' . checked( '1', $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Whole - Search posts that include the whole search term", 'add-search-to-menu' ) . '</label></p>' ;
-        echo  '<p class="check-radio"><label for="' . $id . '-partial" ><input class="_is_settings-fuzzy_match" type="radio" id="' . $id . '-partial" name="' . $id . '[fuzzy_match]" value="2" ' . checked( '2', $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-partial" ><input class="_is_settings-fuzzy_match" type="radio" id="' . esc_attr( $id ) . '-partial" name="' . esc_attr( $id ) . '[fuzzy_match]" value="2" ' . checked( '2', $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Partial - Also search words in the posts that begins or ends with the search term", 'add-search-to-menu' ) . '</label></p>' ;
+        echo  '<p class="check-radio"><label for="' . $id . '-anywhere" ><input class="_is_settings-fuzzy_match" type="radio" id="' . $id . '-anywhere" name="' . $id . '[fuzzy_match]" value="3" ' . checked( '3', $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . esc_html__( "Anywhere - Also search words in the posts that have the search term in any position of the word", 'add-search-to-menu' ) . '</label></p>' ;
+        echo  $this->get_conflicts_info( 'fuzzy_match' ) ;
         ?>
 			</div></div>
 
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        echo  esc_attr( $id ) ;
         ?>-keyword_stem"><?php 
         echo  esc_html( __( 'Keyword Stemming', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2370,7 +2471,7 @@ class IS_Search_Editor
         echo  '<div>' ;
         $stem_disable = ( is_fs()->is_plan_or_trial( 'pro_plus' ) && $this->is_premium_plugin ? '' : ' disabled ' );
         $checked = ( isset( $settings['keyword_stem'] ) && $settings['keyword_stem'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-keyword_stem" ><input class="_is_settings-keyword_stem" type="checkbox" id="' . $id . '-keyword_stem" ' . $stem_disable . ' name="' . $id . '[keyword_stem]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-keyword_stem" ><input class="_is_settings-keyword_stem" type="checkbox" id="' . esc_attr( $id ) . '-keyword_stem" ' . $stem_disable . ' name="' . esc_attr( $id ) . '[keyword_stem]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Also search base word of searched keyword", 'add-search-to-menu' ) . '</label></p>' ;
         echo  IS_Admin::pro_link( 'pro_plus' ) ;
         ?>
@@ -2379,37 +2480,222 @@ class IS_Search_Editor
 
 			<h3 scope="row">
 				<label for="<?php 
-        echo  $id ;
+        esc_attr_e( $id );
+        ?>-search-engine"><?php 
+        echo  esc_html( __( 'Search Engine', 'add-search-to-menu' ) ) ;
+        ?></label>
+			</h3>
+			<div>
+			<?php 
+        $content = __( 'Select which search engine to use.', 'add-search-to-menu' );
+        IS_Help::help_info( $content );
+        echo  '<div>' ;
+        $checked = ( isset( $settings['search_engine'] ) && "index" === $settings['search_engine'] ? "index" : "wp" );
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_engine_wp" ><input class="_is_settings-search_engine" type="radio" id="' . esc_attr( $id ) . '-search_engine_wp" name="' . esc_attr( $id ) . '[search_engine]" value="wp" ' . checked( 'wp', $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . esc_html__( "Default WordPress Search Engine", 'add-search-to-menu' ) . '</label></p>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-search_engine_index" ><input class="_is_settings-search_engine" type="radio" id="' . esc_attr( $id ) . '-search_engine_index" name="' . esc_attr( $id ) . '[search_engine]" value="index" ' . checked( 'index', $checked, false ) . '/>' ;
+        echo  '<span class="toggle-check-text"></span>' . esc_html__( "Inverted Index Search Engine", 'add-search-to-menu' ) . '</label></p>' ;
+        ?>
+			<p class="is-index-conflicts">
+				<?php 
+        if ( is_array( $this->index_conflicts ) ) {
+            foreach ( $this->index_conflicts as $option => $conflicts ) {
+                echo  $this->get_conflicts_info( $option ) ;
+            }
+        }
+        ?>
+			</p>
+			</div></div>
+
+
+			<h3 scope="row">
+				<label for="<?php 
+        esc_attr_e( $id );
         ?>-extras"><?php 
         echo  esc_html( __( 'Others', 'add-search-to-menu' ) ) ;
         ?></label>
-			<span class="is-actions"><a class="expand" href="#"><?php 
+				<span class="is-actions"><a class="expand" href="#"><?php 
         esc_html_e( 'Expand All', 'add-search-to-menu' );
         ?></a><a class="collapse" href="#" style="display:none;"><?php 
         esc_html_e( 'Collapse All', 'add-search-to-menu' );
-        ?></a></span></h3>
+        ?></a></span>
+			</h3>
 			<div><div>
 			<?php 
         $checked = ( isset( $settings['move_sticky_posts'] ) && $settings['move_sticky_posts'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-move_sticky_posts" ><input class="_is_settings-move_sticky_posts" type="checkbox" id="' . $id . '-move_sticky_posts" name="' . $id . '[move_sticky_posts]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-move_sticky_posts" ><input class="_is_settings-move_sticky_posts" type="checkbox" id="' . esc_attr( $id ) . '-move_sticky_posts" name="' . esc_attr( $id ) . '[move_sticky_posts]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Display sticky posts to the start of the search results page", 'add-search-to-menu' ) . '</label></p>' ;
         $checked = ( isset( $settings['demo'] ) && $settings['demo'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-demo" ><input class="_is_settings-demo" type="checkbox" id="' . $id . '-demo" name="' . $id . '[demo]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-demo" ><input class="_is_settings-demo" type="checkbox" id="' . esc_attr( $id ) . '-demo" name="' . esc_attr( $id ) . '[demo]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Display search form only for site administrator", 'add-search-to-menu' ) . '</label></p>' ;
         $checked = ( isset( $settings['disable'] ) && $settings['disable'] ? 1 : 0 );
-        echo  '<p class="check-radio"><label for="' . $id . '-disable" ><input class="_is_settings-disable" type="checkbox" id="' . $id . '-disable" name="' . $id . '[disable]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-disable" ><input class="_is_settings-disable" type="checkbox" id="' . esc_attr( $id ) . '-disable" name="' . esc_attr( $id ) . '[disable]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Disable this search form", 'add-search-to-menu' ) . '</label></p>' ;
         echo  '<br /><p class="check-radio">' ;
         $content = __( 'Select whether to display an error when user perform search without any search word.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
         $checked = ( isset( $settings['empty_search'] ) && $settings['empty_search'] ? 1 : 0 );
-        echo  '<br /><label for="' . $id . '-empty_search" ><input class="_is_settings-empty_search" type="checkbox" id="' . $id . '-empty_search" name="' . $id . '[empty_search]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
+        echo  '<br /><label for="' . esc_attr( $id ) . '-empty_search" ><input class="_is_settings-empty_search" type="checkbox" id="' . esc_attr( $id ) . '-empty_search" name="' . esc_attr( $id ) . '[empty_search]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Display an error for empty search query", 'add-search-to-menu' ) . '</label></p>' ;
         ?>
 			</div></div>
+
+
 		</div>
 		</div>
 		<?php 
+    }
+    
+    /**
+     * Get index settings conflict info.
+     * 
+     * @since 5.0
+     * @param string $option The option key to show conflict info for.
+     * @param string $post_type Optional. The post type when option key allows it.
+     * @return string The conflict notice to print.
+     */
+    public function get_conflicts_info( $option, $post_type = null )
+    {
+        $search_engine = $this->search_form->group_prop( '_is_settings', 'search_engine' );
+        $conflict = null;
+        
+        if ( 'index' == $search_engine && !empty($this->index_conflicts[$option]) ) {
+            
+            if ( !empty($post_type) ) {
+                if ( !empty($this->index_conflicts[$option][$post_type]) ) {
+                    $conflict = $this->index_conflicts[$option][$post_type];
+                }
+            } else {
+                
+                if ( is_array( $this->index_conflicts[$option] ) ) {
+                    $conflict = implode( '<br />', $this->index_conflicts[$option] );
+                } else {
+                    $conflict = $this->index_conflicts[$option];
+                }
+            
+            }
+            
+            if ( $conflict ) {
+                return sprintf( '<span class="notice-is-info">%s</span><br />', wp_kses_post( $conflict ) );
+            }
+        }
+    
+    }
+    
+    /**
+     * Get index settings conflicts with this search form.
+     * 
+     * @since 5.0
+     * @return array {
+     * 		string $key The option key
+     * 		string $notice The html escaped notice to show.
+     * } 	
+     */
+    public function get_index_conflicts()
+    {
+        $conflicts = [];
+        $index_opt = IS_Index_Options::getInstance();
+        if ( IS_Index_Model::is_index_empty() ) {
+            $conflicts['index'] = esc_html__( 'The Index should be created to use this option in the Index ' ) . $index_opt->get_index_settings_link();
+        }
+        $props = $this->search_form->get_properties();
+        foreach ( $props as $key => $group ) {
+            if ( !empty($group) && is_array( $group ) ) {
+                foreach ( $group as $prop => $val ) {
+                    $diff = array();
+                    switch ( $prop ) {
+                        case 'post_type':
+                            $diff = array_diff( $val, $index_opt->get_post_types() );
+                            if ( !empty($diff) ) {
+                                $conflicts[$prop] = sprintf( esc_html( _n(
+                                    'The %s post type is not selected in Index',
+                                    'The %s post types are not selected in Index',
+                                    count( $diff ),
+                                    'add-search-to-menu'
+                                ) ), implode( ', ', $diff ) ) . $index_opt->get_index_settings_link( 'post_types' );
+                            }
+                            break;
+                        case 'custom_field':
+                            if ( IS_Index_Options::META_OPT_ALL != $index_opt->meta_fields_opt ) {
+                                $indexed_meta_fields = $index_opt->get_meta_keys();
+                            }
+                            $post_types = array_keys( get_post_types( array(
+                                'public' => true,
+                            ), 'objects' ) );
+                            foreach ( $post_types as $post_type ) {
+                                $meta_keys = $this->is_meta_keys( $post_type );
+                                $selected = array_intersect( $meta_keys, $val );
+                                $diff = array_diff( $selected, $indexed_meta_fields );
+                                if ( !empty($diff) ) {
+                                    $conflicts[$prop][$post_type] = sprintf( esc_html( _n(
+                                        'The %s meta field is not selected in Index',
+                                        'The %s meta fields are not selected in Index',
+                                        count( $diff ),
+                                        'add-search-to-menu'
+                                    ) ), implode( ', ', $diff ) ) . $index_opt->get_index_settings_link( 'meta_fields' );
+                                }
+                            }
+                            break;
+                        case 'search_title':
+                            if ( $val && !$index_opt->index_title ) {
+                                $conflicts[$prop] = esc_html__( 'The post title is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'search_content':
+                            if ( $val && !$index_opt->index_content ) {
+                                $conflicts[$prop] = esc_html__( 'The post content is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'search_excerpt':
+                            if ( $val && !$index_opt->index_excerpt ) {
+                                $conflicts[$prop] = esc_html__( 'The post excerpt is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'search_tax_title':
+                            if ( $val && !$index_opt->index_tax_title ) {
+                                $conflicts[$prop] = esc_html__( 'The taxonomy title is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'search_tax_desp':
+                            if ( $val && !$index_opt->index_tax_desp ) {
+                                $conflicts[$prop] = esc_html__( 'The taxonomy description is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'search_author':
+                            if ( $val && !$index_opt->index_author_info ) {
+                                $conflicts[$prop] = esc_html__( 'The Author info is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'search_comment':
+                            if ( $val && !$index_opt->index_comments ) {
+                                $conflicts[$prop] = esc_html__( 'The comments are not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'sku':
+                            if ( $val && !$index_opt->index_product_sku ) {
+                                $conflicts[$prop] = esc_html__( 'The product SKU is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            break;
+                        case 'fuzzy_match':
+                            
+                            if ( 3 == $val && $this->search_form->is_index_search() ) {
+                                $link = sprintf( ' <a href="#ui-id-9" class="%s" data-is="#ui-id-9">%s</a>', 'is-option-link', esc_html__( 'Anywhere Fuzzy Matching', 'add-search-to-menu' ) );
+                                $link1 = sprintf( ' <a href="#ui-id-13" class="%s" data-is="#ui-id-13">%s</a>', 'is-option-link', esc_html__( 'Inverted Index Search Engine', 'add-search-to-menu' ) );
+                                $conflicts[$prop] = sprintf(
+                                    '%s %s %s %s',
+                                    esc_html__( 'It is not recommended to use the', 'add-search-to-menu' ),
+                                    $link,
+                                    esc_html__( 'option along with', 'add-search-to-menu' ),
+                                    $link1
+                                );
+                            }
+                            
+                            break;
+                    }
+                }
+            }
+        }
+        return $conflicts;
     }
 
 }

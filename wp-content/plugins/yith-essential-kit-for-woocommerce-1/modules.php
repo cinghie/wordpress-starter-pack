@@ -22,13 +22,6 @@ $plugins_list = array(
 		'required'    => false,
 		'recommended' => true,
 	),
-	'yith-woocommerce-cart-messages'                  => array(
-		'name'     => 'YITH WooCommerce Cart Message',
-		'slug'     => 'yith-woocommerce-cart-messages',
-		'free'     => 'YITH_YWCM_FREE_INIT',
-		'premium'  => 'YITH_YWCM_INIT',
-		'required' => false,
-	),
 	'yith-woocommerce-ajax-navigation'                => array(
 		'name'        => 'YITH WooCommerce Ajax Product Filter',
 		'slug'        => 'yith-woocommerce-ajax-navigation',
@@ -50,14 +43,6 @@ $plugins_list = array(
 		'free'        => 'YITH_YWRAQ_FREE_INIT',
 		'premium'     => 'YITH_YWRAQ_PREMIUM',
 		'init'        => 'yith-woocommerce-request-a-quote.php',
-		'required'    => false,
-		'recommended' => true,
-	),
-	'yith-woocommerce-advanced-reviews'               => array(
-		'name'        => 'YITH Woocommerce Advanced Reviews',
-		'slug'        => 'yith-woocommerce-advanced-reviews',
-		'free'        => 'YITH_YWAR_FREE_INIT',
-		'premium'     => 'YITH_YWAR_PREMIUM',
 		'required'    => false,
 		'recommended' => true,
 	),
@@ -96,13 +81,6 @@ $plugins_list = array(
 		'premium'  => 'YITH_WCQV_PREMIUM',
 		'required' => false,
 	),
-	'yith-woocommerce-mailchimp'                      => array(
-		'name'     => 'YITH WooCommerce Mailchimp',
-		'slug'     => 'yith-woocommerce-mailchimp',
-		'free'     => 'YITH_WCMC_FREE_INIT',
-		'premium'  => 'YITH_WCMC_PREMIUM_INIT',
-		'required' => false,
-	),
 	'yith-infinite-scrolling'                         => array(
 		'name'     => 'YITH Infinite Scrolling',
 		'slug'     => 'yith-infinite-scrolling',
@@ -122,13 +100,6 @@ $plugins_list = array(
 		'slug'     => 'yith-woocommerce-tab-manager',
 		'free'     => 'YWTM_FREE_INIT',
 		'premium'  => 'YWTM_INIT',
-		'required' => false,
-	),
-	'yith-woocommerce-product-vendors'                => array(
-		'name'     => 'YITH WooCommerce Multi Vendor',
-		'slug'     => 'yith-woocommerce-product-vendors',
-		'free'     => 'YITH_WPV_FREE_INIT',
-		'premium'  => 'YITH_WPV_PREMIUM',
 		'required' => false,
 	),
 	'yith-woocommerce-product-add-ons'                => array(

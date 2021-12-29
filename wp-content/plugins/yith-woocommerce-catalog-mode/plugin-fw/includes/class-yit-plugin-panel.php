@@ -112,6 +112,8 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 				add_action( 'admin_enqueue_scripts', array( $this, 'init_wp_with_tabs' ), 11 );
 				add_action( 'admin_init', array( $this, 'maybe_redirect_to_proper_wp_page' ) );
 
+				/* Add UTM tracking code on premium tab */
+                add_filter( 'yith_plugin_fw_premium_landing_uri', array( $this, 'add_utm_data_on_premium_tab' ), 10, 2 );
 				// Init actions once to prevent multiple initialization.
 				static::init_actions();
 			}
@@ -806,6 +808,26 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 					'show_submit_ticket' => true,
 				)
 			);
+
+			// add campaign parameters to url.
+			if ( $this->settings['plugin_slug'] ) {
+				$utm_medium   = $this->settings['plugin_slug'];
+				$utm_source   = 'wp-premium-dashboard';
+				$utm_campaign = 'help-tab';
+
+				$campaign_urls = array(
+					'submit_ticket_url',
+					'doc_url',
+				);
+
+				foreach ( $campaign_urls as $campaign_url ) {
+					if ( empty( $options[ $campaign_url ] ) ) {
+						continue;
+					}
+
+					$options[ $campaign_url ] = yith_plugin_fw_add_utm_data( $options[ $campaign_url ], $utm_medium, $utm_campaign, $utm_source );
+				}
+			}
 
 			// set template variables.
 			$current_tab     = $this->get_current_tab();
@@ -1677,6 +1699,18 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 		 */
 		public function save_toggle_element_options() {
 			return true;
+		}
+
+		/**
+		 * Add UTM data in premium tab
+		 *
+		 * @param string $url      The url that want to track.
+		 * @param string $slug     Plugin slug.
+		 *
+		 * @since 3.8.4
+		 */
+		public function add_utm_data_on_premium_tab( $url, $slug ) {
+			return ! empty( $this->settings['plugin_slug'] ) && $slug === $this->settings['plugin_slug'] && 'premium' === $this->get_current_tab() ? yith_plugin_fw_add_utm_data( $url, $slug, 'button-upgrade', 'wp-free-dashboard' ) : $url;
 		}
 	}
 }
