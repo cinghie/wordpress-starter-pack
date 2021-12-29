@@ -165,7 +165,11 @@ class WP_Optimize_Options {
 		return $this->get_option('wpo-sites', array('all'));
 	}
 
-	
+	/**
+	 * Save options
+	 *
+	 * @return array
+	 */
 	public function save_settings($settings) {
 		$output = array('messages' => array(), 'errors' => array());
 		if (!empty($settings["enable-schedule"])) {
@@ -193,6 +197,14 @@ class WP_Optimize_Options {
 			$this->update_option('retention-period', $retention_period);
 		} else {
 			$this->update_option('retention-enabled', 'false');
+		}
+
+		if (!empty($settings["enable-revisions-retention"])) {
+			$revisions_retention_count = (int) $settings['revisions-retention-count'];
+			$this->update_option('revisions-retention-enabled', 'true');
+			$this->update_option('revisions-retention-count', $revisions_retention_count);
+		} else {
+			$this->update_option('revisions-retention-enabled', 'false');
 		}
 
 		// Get saved admin menu value before check.
@@ -283,7 +295,7 @@ class WP_Optimize_Options {
 		}
 
 		// disable cache and clean any information related to WP-Optimize Cache.
-		WPO_Page_Cache::instance()->clean_up();
+		WP_Optimize()->get_page_cache()->clean_up();
 		// delete settings from .htaccess
 		WP_Optimize::get_browser_cache()->disable();
 		WP_Optimize::get_gzip_compression()->disable();

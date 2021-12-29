@@ -1,4 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+<?php if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 /**
@@ -21,21 +23,31 @@ add_filter( 'um_edit_label_all_fields', 'um_edit_label_all_fields', 10, 2 );
 
 
 /**
- * Outputs a soundcloud track
+ * Outputs a SoundCloud track
  *
- * @param $value
- * @param $data
+ * @param string $value
+ * @param array $data
  *
  * @return string
  */
 function um_profile_field_filter_hook__soundcloud_track( $value, $data ) {
 
 	if ( ! is_numeric( $value ) ) {
-		return __( 'Invalid soundcloud track ID', 'ultimate-member' );
+		# if we're passed a track url:
+		if ( preg_match( '/https:\/\/soundcloud.com\/.*/', $value ) ) {
+			$value = '<div class="um-soundcloud">
+					<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=' . esc_attr( urlencode( $value ) ) . '&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"></iframe>
+					</div>';
+			return $value;
+		} else {
+			# neither a track id nor url:
+			return __( 'Invalid SoundCloud track ID', 'ultimate-member' );
+		}
 	}
 
+	# if we're passed a track id:
 	$value = '<div class="um-soundcloud">
-					<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' . $value . '&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"></iframe>
+					<iframe width="100%" height="166" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' . esc_attr( $value ) . '&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"></iframe>
 					</div>';
 
 	return $value;
@@ -55,7 +67,7 @@ function um_profile_field_filter_hook__youtube_video( $value, $data ) {
 	if ( empty( $value ) ) {
 		return '';
 	}
-	$value = ( strstr( $value, 'http') || strstr( $value, '://' ) ) ? um_youtube_id_from_url( $value ) : $value;
+	$value = ( strstr( $value, 'http' ) || strstr( $value, '://' ) ) ? um_youtube_id_from_url( $value ) : $value;
 	$value = '<div class="um-youtube">
 					<iframe width="600" height="450" src="https://www.youtube.com/embed/' . $value . '" frameborder="0" allowfullscreen></iframe>
 					</div>';
@@ -78,13 +90,45 @@ function um_profile_field_filter_hook__vimeo_video( $value, $data ) {
 		return '';
 	}
 
-	$value = ( !is_numeric( $value ) ) ? (int) substr(parse_url($value, PHP_URL_PATH), 1) : $value;
+	$value = ! is_numeric( $value ) ? (int) substr( parse_url( $value, PHP_URL_PATH ), 1 ) : $value;
 	$value = '<div class="um-vimeo">
-					<iframe src="https://player.vimeo.com/video/'. $value . '" width="600" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+					<iframe src="https://player.vimeo.com/video/' . $value . '" width="600" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 					</div>';
 	return $value;
 }
 add_filter( 'um_profile_field_filter_hook__vimeo_video', 'um_profile_field_filter_hook__vimeo_video', 99, 2 );
+
+
+/**
+ * Outputs a viber link
+ *
+ * @param $value
+ * @param $data
+ *
+ * @return int|string
+ */
+function um_profile_field_filter_hook__viber( $value, $data ) {
+	$value = str_replace('+', '', $value);
+	$value = '<a href="viber://chat?number=%2B' . esc_attr( $value ) . '" target="_blank"  rel="nofollow" title="' . esc_attr( $data['title'] ) . '">' . esc_html( $value ) . '</a>';
+	return $value;
+}
+add_filter( 'um_profile_field_filter_hook__viber', 'um_profile_field_filter_hook__viber', 99, 2 );
+
+
+/**
+ * Outputs a whatsapp link
+ *
+ * @param $value
+ * @param $data
+ *
+ * @return int|string
+ */
+function um_profile_field_filter_hook__whatsapp( $value, $data ) {
+	$value = str_replace('+', '', $value);
+	$value = '<a href="https://api.whatsapp.com/send?phone=' . esc_attr( $value ) . '" target="_blank"  rel="nofollow" title="' . esc_attr( $data['title'] ) . '">' . esc_html( $value ) . '</a>';
+	return $value;
+}
+add_filter( 'um_profile_field_filter_hook__whatsapp', 'um_profile_field_filter_hook__whatsapp', 99, 2 );
 
 
 /**
@@ -341,52 +385,45 @@ function um_profile_field_filter_hook__( $value, $data, $type = '' ) {
 		return '';
 	}
 
-	if ( ( isset( $data['validate'] ) && $data['validate'] != '' && strstr( $data['validate'], 'url' ) ) || ( isset( $data['type'] ) && $data['type'] == 'url' ) ) {
-		$alt = ( isset( $data['url_text'] ) && !empty( $data['url_text'] ) ) ? $data['url_text'] : $value;
+	if ( isset( $data['type'] ) && 'text' === $data['type'] && isset( $data['validate'] ) && 'skype' === $data['validate'] ) {
+		$alt = ! empty( $data['url_text'] ) ? $data['url_text'] : $value;
 		$url_rel = ( isset( $data['url_rel'] ) && $data['url_rel'] == 'nofollow' ) ? 'rel="nofollow"' : '';
-		if( !strstr( $value, 'http' )
-		    && !strstr( $value, '://' )
-		    && !strstr( $value, 'www.' )
-		    && !strstr( $value, '.com' )
-		    && !strstr( $value, '.net' )
-		    && !strstr( $value, '.org' )
-		) {
-			if ( $data['validate'] == 'soundcloud_url' ) 	$value = 'https://soundcloud.com/' . $value;
-			if ( $data['validate'] == 'youtube_url' ) 		$value = 'https://youtube.com/user/' . $value;
-			if ( $data['validate'] == 'facebook_url' ) 		$value = 'https://facebook.com/' . $value;
-			if ( $data['validate'] == 'twitter_url' ) 		$value = 'https://twitter.com/' . $value;
-			if ( $data['validate'] == 'linkedin_url' ) 		$value = 'https://linkedin.com/' . $value;
-			if ( $data['validate'] == 'skype' ) 			$value = 'skype:'.$value.'?chat';
-			if ( $data['validate'] == 'googleplus_url' ) 	$value = 'https://plus.google.com/' . $value;
-			if ( $data['validate'] == 'instagram_url' ) 	$value = 'https://instagram.com/' . $value;
-			if ( $data['validate'] == 'vk_url' ) 			$value = 'https://vk.com/' . $value;
+		$data['url_target'] = ( isset( $data['url_target'] ) ) ? $data['url_target'] : '_blank';
+
+		if ( false === strstr( $value, 'join.skype.com' ) ) {
+			$value = 'skype:' . $value . '?chat';
 		}
 
+		$value = '<a href="'. esc_attr( $value ) .'" title="' . esc_attr( $alt ) . '" target="' . esc_attr( $data['url_target'] ) . '" ' . $url_rel . '>' . esc_html( $alt ) . '</a>';
+	} else {
+		if ( ( isset( $data['validate'] ) && $data['validate'] !== '' && strstr( $data['validate'], 'url' ) ) || ( isset( $data['type'] ) && $data['type'] == 'url' ) ) {
+			$alt = ( isset( $data['url_text'] ) && !empty( $data['url_text'] ) ) ? $data['url_text'] : $value;
+			$url_rel = ( isset( $data['url_rel'] ) && $data['url_rel'] == 'nofollow' ) ? 'rel="nofollow"' : '';
+			if ( ! strstr( $value, 'http' )
+			     && !strstr( $value, '://' )
+			     && !strstr( $value, 'www.' )
+			     && !strstr( $value, '.com' )
+			     && !strstr( $value, '.net' )
+			     && !strstr( $value, '.org' )
+			     && !strstr( $value, '.me' )
+			) {
+				if ( $data['validate'] == 'soundcloud_url' ) 	$value = 'https://soundcloud.com/' . $value;
+				if ( $data['validate'] == 'youtube_url' ) 		$value = 'https://youtube.com/user/' . $value;
+				if ( $data['validate'] == 'telegram_url' ) 		$value = 'https://t.me/' . $value;
+				if ( $data['validate'] == 'facebook_url' ) 		$value = 'https://facebook.com/' . $value;
+				if ( $data['validate'] == 'twitter_url' ) 		$value = 'https://twitter.com/' . $value;
+				if ( $data['validate'] == 'linkedin_url' ) 		$value = 'https://linkedin.com/' . $value;
+				if ( $data['validate'] == 'googleplus_url' ) 	$value = 'https://plus.google.com/' . $value;
+				if ( $data['validate'] == 'instagram_url' ) 	$value = 'https://instagram.com/' . $value;
+				if ( $data['validate'] == 'vk_url' ) 			$value = 'https://vk.com/' . $value;
+			}
 
-		if ( isset( $data['validate'] ) && $data['validate'] == 'skype' ) {
-
-			$value = $value;
-
-		} else {
-
-			if ( strpos($value, 'http://') !== 0 ) {
+			if ( strpos( $value, 'http://' ) !== 0 ) {
 				$value = 'http://' . $value;
 			}
 			$data['url_target'] = ( isset( $data['url_target'] ) ) ? $data['url_target'] : '_blank';
 			$value = '<a href="'. $value .'" title="'.$alt.'" target="'.$data['url_target'].'" ' . $url_rel . '>'.$alt.'</a>';
-
 		}
-
-	}
-
-	if ( isset( $data['validate'] ) && $data['validate'] == 'skype' ) {
-
-		$value = str_replace('https://','',$value );
-		$value = str_replace('http://','',$value );
-
-		$data['url_target'] = ( isset( $data['url_target'] ) ) ? $data['url_target'] : '_blank';
-		$value = '<a href="'. 'skype:'.$value.'?chat'.'" title="'.$value.'" target="'.$data['url_target'].'" ' . $url_rel . '>'.$value.'</a>';
-
 	}
 
 	if ( ! is_array( $value ) ) {
@@ -456,7 +493,7 @@ function um_get_custom_field_array( $array, $fields ) {
 			$condition_metakey = $fields[ $value[1] ]['metakey'];
 
 			if ( isset( $_POST[ $condition_metakey ] ) ) {
-				$cond_value = ( $fields[ $value[1] ]['type'] == 'radio' ) ? $_POST[ $condition_metakey ][0] : $_POST[ $condition_metakey ];
+				$cond_value = ( $fields[ $value[1] ]['type'] === 'radio' ) ? $_POST[ $condition_metakey ][0] : $_POST[ $condition_metakey ];
 				list( $visibility, $parent_key, $op, $parent_value ) = $value;
 
 				if ( $visibility == 'hide' ) {

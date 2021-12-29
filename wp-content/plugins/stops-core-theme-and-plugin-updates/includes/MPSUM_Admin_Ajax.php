@@ -229,7 +229,7 @@ class MPSUM_Admin_Ajax {
 				$options['theme_updates'] = 'automatic_off';
 				$options['plugin_updates'] = 'automatic_off';
 				$options['translation_updates'] = 'automatic_off';
-				$options['core_updates'] = 'automatic_off';
+				$options['core_updates'] = 'on'; // 'on' is for 'Manually update', it's different with 'automatic', since 'automatic_off' and 'on' is basically the same, so we use 'on' instead and remove the 'automatic_off', also the UI.
 				$options['automatic_development_updates'] = 'off';
 				break;
 			case 'automatic-updates-custom':
@@ -252,7 +252,7 @@ class MPSUM_Admin_Ajax {
 				}
 				break;
 			case 'core-updates':
-				if ('on' == $value) {
+				if ('on' == $value || 'automatic_off' == $value) {
 					$options['core_updates'] = 'on';
 				} elseif ('off' == $value) {
 					$options['core_updates'] = 'off';
@@ -260,8 +260,6 @@ class MPSUM_Admin_Ajax {
 					$options['core_updates'] = 'automatic';
 				} elseif ('automatic_minor' == $value) {
 					$options['core_updates'] = 'automatic_minor';
-				} elseif ('automatic_off' == $value) {
-					$options['core_updates'] = 'automatic_off';
 				}
 				break;
 			case 'plugin-updates':
@@ -346,10 +344,25 @@ class MPSUM_Admin_Ajax {
 					wp_clear_scheduled_hook('eum_notification_updates_monthly');
 				}
 				break;
+			case 'plugin-auto-updates-notification-emails':
+				if ('on' === $value) {
+					$options['plugin_auto_updates_notification_emails'] = 'on';
+				} else {
+					$options['plugin_auto_updates_notification_emails'] = 'off';
+				}
+				break;
+			case 'rollback-updates-notification-emails':
+				if ('off' === $value) {
+					$options['rollback_updates_notification_emails'] = 'off';
+				} else {
+					$options['rollback_updates_notification_emails'] = 'on';
+				}
+				break;
 			case 'notification-emails-send_now':
 				MPSUM_Update_Notifications::get_instance()->maybe_send_update_notification_email();
 				break;
 		}
+		$options = apply_filters('eum_save_core_options', $options, $id, $value);
 		// Save options
 		MPSUM_Updates_Manager::update_options($options, 'core');
 
@@ -373,6 +386,11 @@ class MPSUM_Admin_Ajax {
 		// Check if update notification emails is set
 		if (!isset($options['update_notification_updates'])) {
 			$options['update_notification_updates'] = 'off';
+		}
+		
+		// Check if plugin auto updates notification emails is set
+		if (!isset($options['plugin_auto_updates_notification_emails'])) {
+			$options['plugin_auto_updates_notification_emails'] = 'on';
 		}
 
 		// Add error to options for returning
@@ -423,6 +441,12 @@ class MPSUM_Admin_Ajax {
 		if (!isset($options['update_notification_updates'])) {
 			$options['update_notification_updates'] = 'off';
 		}
+		
+		// Check if plugin auto updates notification emails is set
+		if (!isset($options['plugin_auto_updates_notification_emails'])) {
+			$options['plugin_auto_updates_notification_emails'] = 'on';
+		}
+		
 
 		if (isset($options['email_addresses']) && ! is_array($options['email_addresses'])) {
 			$options['email_addresses'] = array();
@@ -483,7 +507,7 @@ class MPSUM_Admin_Ajax {
 			}
 		}
 
-		$this->plugins_update_all_options($plugin_options, $plugin_automatic_options);
+		if (current_user_can('update_plugins')) $this->update_all_options(apply_filters('eum_plugins_update_options', array('plugins' => $plugin_options, 'plugins_automatic' => $plugin_automatic_options), $updated_options));
 	}
 
 	/**
@@ -550,29 +574,11 @@ class MPSUM_Admin_Ajax {
 				}
 				break;
 			default:
-				return;
+				if (!has_filter('eum_plugins_update_options')) return;
+				break;
 		}
 
-		$this->plugins_update_all_options($plugin_options, $plugin_automatic_options);
-	}
-
-	/**
-	 * Updates all plugin update options
-	 *
-	 * @param array $plugin_options           An array of plugin update options
-	 * @param array $plugin_automatic_options An array of plugin automatic update options
-	 *
-	 * @return array
-	 */
-	private function plugins_update_all_options($plugin_options, $plugin_automatic_options) {
-		if (!current_user_can('update_plugins')) return array();
-		$plugin_options = array_values(array_unique($plugin_options));
-		$plugin_automatic_options = array_values(array_unique($plugin_automatic_options));
-		$options = MPSUM_Updates_Manager::get_options();
-		$options['plugins'] = $plugin_options;
-		$options['plugins_automatic'] = $plugin_automatic_options;
-		MPSUM_Updates_Manager::update_options($options);
-		return $options;
+		$this->update_all_options(apply_filters('eum_plugins_update_options', array('plugins' => $plugin_options, 'plugins_automatic' => $plugin_automatic_options), $updated_options, $action));
 	}
 
 	/**
@@ -624,7 +630,7 @@ class MPSUM_Admin_Ajax {
 			}
 		}
 
-		$this->themes_update_all_options($theme_options, $theme_automatic_options);
+		$this->update_all_options(apply_filters('eum_themes_update_options', array('themes' => $theme_options, 'themes_automatic' => $theme_automatic_options), $updated_options));
 	}
 
 	/**
@@ -692,26 +698,25 @@ class MPSUM_Admin_Ajax {
 				}
 				break;
 			default:
-				return;
+				if (!has_filter('eum_themes_update_options')) return;
+				break;
 		}
-		$this->themes_update_all_options($theme_options, $theme_automatic_options);
+		
+		$this->update_all_options(apply_filters('eum_themes_update_options', array('themes' => $theme_options, 'themes_automatic' => $theme_automatic_options), $updated_options, $action));
 	}
 
 	/**
-	 * Updates all theme update options
+	 * Updates all plugin or theme update options
 	 *
-	 * @param array $theme_options           An array of theme update options
-	 * @param array $theme_automatic_options An array of theme automatic update options
+	 * @param array $all_options An array of associative arrays containing free/basic (e.g. allowed plugin options, automatic update options) and additional feature settings/options (e.g. semantic versioning options(patch releases))
 	 *
 	 * @return array
 	 */
-	private function themes_update_all_options($theme_options, $theme_automatic_options) {
-		if (!current_user_can('update_themes')) return array();
-		$theme_options = array_values(array_unique($theme_options));
-		$theme_automatic_options = array_values(array_unique($theme_automatic_options));
+	private function update_all_options($all_options) {
 		$options = MPSUM_Updates_Manager::get_options();
-		$options['themes'] = $theme_options;
-		$options['themes_automatic'] = $theme_automatic_options;
+		foreach ((array) $all_options as $key => $feature_options) {
+			$options[$key] = array_values(array_unique($feature_options));
+		}
 		MPSUM_Updates_Manager::update_options($options);
 		return $options;
 	}
@@ -903,9 +908,6 @@ class MPSUM_Admin_Ajax {
 		// Reset options
 		MPSUM_Updates_Manager::update_options(array());
 
-		// Remove table version
-		delete_site_option('mpsum_log_table_version');
-
 		// Remove Webhook
 		delete_site_option('easy_updates_manager_webhook');
 
@@ -951,14 +953,12 @@ class MPSUM_Admin_Ajax {
 			$wpdb->query($safe_mode_sql);
 		}
 
-		// Remove active plugins option
-		delete_site_option('eum_active_pre_restore_plugins');
-		delete_site_option('eum_active_pre_restore_plugins_multisite');
-
 		// Remove transients when someone disables plugin, theme, or core updates
 		delete_site_transient('eum_core_checked');
 		delete_site_transient('eum_themes_checked');
 		delete_site_transient('eum_plugins_checked');
+
+		delete_site_option('eum_unproven_updates_post_install');
 
 		$message = __('The plugin settings have now been reset.', 'stops-core-theme-and-plugin-updates');
 		return $message;

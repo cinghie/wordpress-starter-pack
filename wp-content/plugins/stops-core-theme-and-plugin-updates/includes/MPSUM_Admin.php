@@ -259,10 +259,12 @@ class MPSUM_Admin {
 		// Get options
 		$options = MPSUM_Updates_Manager::get_options('core');
 
-		// Modal dependencies on the plugins tab
+		// Modal dependencies on the plugins and logs tab
 		if ('plugins' === $is_active_tab) {
 			wp_enqueue_script('plugin-install');
 			wp_enqueue_script('updates');
+		}
+		if ('plugins' === $is_active_tab || 'logs' === $is_active_tab) {
 			wp_enqueue_script('common');
 			wp_enqueue_style('common');
 			wp_enqueue_script('thickbox');
@@ -317,7 +319,7 @@ class MPSUM_Admin {
 			'minor_releases_label_off_status'            => __('Automatic minor release updates are now turned off.', 'stops-core-theme-and-plugin-updates'),
 			'development_releases'                       => _x('Development updates (Core)', 'Beta and RC releases for WordPress core', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_description'           => __('Allow your install to receive development updates for WordPress core (for advanced users only)', 'stops-core-theme-and-plugin-updates'),
-			'development_releases_label_on'              => __('Include WordPress development updates', 'stops-core-theme-and-plugin-updates'),
+			'development_releases_label_on'              => __('Allow development versions to be replaced with a new minor/major version', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_label_on_status'       => __('Automatic development release updates are now turned on.', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_label_off'             => __('Disable development updates', 'stops-core-theme-and-plugin-updates'),
 			'development_releases_label_off_status'      => __('Automatic development release updates are now turned off.', 'stops-core-theme-and-plugin-updates'),
@@ -370,15 +372,17 @@ class MPSUM_Admin {
 			'emails_save'                                => __('Save e-mail addresses', 'stops-core-theme-and-plugin-updates'),
 			'emails_save_empty'                          => __('Please enter an e-mail address', 'stops-core-theme-and-plugin-updates'),
 			'emails_saving'                              => __('Saving...', 'stops-core-theme-and-plugin-updates'),
+			'plugin_auto_updates_notification_label'     => __('Automatic plugin updates notification e-mails', 'stops-core-theme-and-plugin-updates'),
+			'plugin_auto_updates_notification_description' => __('Be notified when a plugin automatically updates.', 'stops-core-theme-and-plugin-updates'),
+			'plugin_auto_notification_emails_off_status'   => __('E-mail notifications for automatic plugin updates are now off.', 'stops-core-theme-and-plugin-updates'),
+			'plugin_auto_notification_emails_on_status'  => __('E-mail notifications for automatic plugin updates are now on.', 'stops-core-theme-and-plugin-updates'),
 			'core_updates'                               => __('WordPress core updates', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_description'                   => __('This allows you to configure how WordPress updates are handled, including automatic updates.', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_on'                      => __('Manually update', 'stops-core-theme-and-plugin-updates'),
-			'core_updates_label_on_tooltip'              => __('Update WordPress manually through the updates screen. Minor WordPress versions will still automatically update.', 'stops-core-theme-and-plugin-updates'),
+			'core_updates_label_on_tooltip'              => __('Update WordPress manually through the updates screen and turn off all automatic updates for WordPress core.', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_on_status'               => __('Core updates are set to manual. Update WordPress from the updates screen.', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_off'                     => __('Disable core updates', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_off_tooltip'             => __('Turn off all core WordPress updates and prevent update notices from being shown.', 'stops-core-theme-and-plugin-updates'),
-			'core_updates_label_auto_disabled'           => __('Disable auto updates', 'stops-core-theme-and-plugin-updates'),
-			'core_updates_label_auto_disabled_tooltip'   => __('Turn off all automatic updates for WordPress core.', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_automatic'               => __('Auto update all releases', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_automatic_tooltip'       => __('Update WordPress core and minor versions automatically.', 'stops-core-theme-and-plugin-updates'),
 			'core_updates_label_automatic_minor'         => __('Auto update all minor versions', 'stops-core-theme-and-plugin-updates'),
@@ -429,6 +433,10 @@ class MPSUM_Admin {
 			'general_section_title_notifications'        => __('Notifications', 'stops-core-theme-and-plugin-updates'),
 			'general_section_title_others'               => __('Others', 'stops-core-theme-and-plugin-updates'),
 			'general_section_title_rating'               => __('Rating', 'stops-core-theme-and-plugin-updates'),
+			'rollback_updates_notification_label'        => __('Updates rollback notification e-mails', 'stops-core-theme-and-plugin-updates'),
+			'rollback_updates_notification_description'  => __('Be notified when there are problematic plugins, which updates cause a fatal PHP error.', 'stops-core-theme-and-plugin-updates'),
+			'rollback_updates_notification_emails_off_status'   => __('E-mail notifications for problematic plugins are now off.', 'stops-core-theme-and-plugin-updates'),
+			'rollback_updates_notification_emails_on_status'    => __('E-mail notifications for problematic plugins are now on.', 'stops-core-theme-and-plugin-updates'),
 		);
 
 		// Show the ratings? Based on a constant and a default option that a user can select.

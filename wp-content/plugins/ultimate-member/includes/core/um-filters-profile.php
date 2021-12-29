@@ -66,7 +66,7 @@ function um_dynamic_user_profile_title( $title, $id = '' ) {
 		return $title;
 	}
 
-	return ( strlen( $title ) !== strlen( utf8_decode( $title ) ) ) ? $title : utf8_encode( $title );
+	return ( strlen( $title ) !== mb_strlen( $title ) ) ? $title : utf8_encode( $title );
 }
 add_filter( 'the_title', 'um_dynamic_user_profile_title', 100000, 2 );
 
@@ -79,7 +79,7 @@ add_filter( 'the_title', 'um_dynamic_user_profile_title', 100000, 2 );
  * @return string|false                The canonical URL, or false if current URL is canonical.
  */
 function um_get_canonical_url( $canonical_url, $post ) {
-	if ( UM()->config()->permalinks['user'] == $post->ID ) {
+	if ( UM()->config()->permalinks['user'] == $post->ID || ( UM()->external_integrations()->is_wpml_active() && UM()->config()->permalinks['user'] == wpml_object_id_filter( $post->ID, 'page', true, icl_get_default_language() ) ) ) {
 
 		/**
 		 * UM hook

@@ -18,6 +18,8 @@ class MPSUM_Themes_List_Table extends MPSUM_List_Table {
 
 	private $status = 'all';
 
+	private $allowed_statuses = array();
+
 	private $page = '1';
 
 	/**
@@ -38,15 +40,17 @@ class MPSUM_Themes_List_Table extends MPSUM_List_Table {
 			'ajax' => true
 		));
 
+		$this->allowed_statuses = apply_filters('eum_themes_list_table_allowed_statuses', array('all', 'update_disabled', 'update_enabled', 'automatic'));
+
 		if (isset($_REQUEST['action']) && 'eum_ajax' === $_REQUEST['action']) {
 			$this->status = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'all';
-			if (!in_array($this->status, array('all', 'update_disabled', 'update_enabled', 'automatic')))
+			if (!in_array($this->status, $this->allowed_statuses))
 				$this->status = 'all';
 
 			$this->page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : '1';
 		} else {
 			$this->status = isset($args['view']) ? $args['view'] : 'all';
-			if (!in_array($this->status, array('all', 'update_disabled', 'update_enabled', 'automatic')))
+			if (!in_array($this->status, $this->allowed_statuses))
 				$this->status = 'all';
 
 			$this->page = isset($args['paged']) ? $args['paged'] : 1;
@@ -119,6 +123,8 @@ class MPSUM_Themes_List_Table extends MPSUM_List_Table {
 				}
 			}
 		}
+
+		$themes = apply_filters('eum_themes_list_table_prepare_items', $themes);
 
 		$totals = array();
 
@@ -289,6 +295,9 @@ class MPSUM_Themes_List_Table extends MPSUM_List_Table {
 				case 'automatic':
 					$text = _n('Automatic updates <span class="count">(%s)</span>', 'Automatic updates <span class="count">(%s)</span>', $count, 'stops-core-theme-and-plugin-updates');
 					break;
+				default:
+					$text = apply_filters('eum_themes_list_table_text_view', '', $type, $count);
+					break;
 			}
 
 			if ('search' != $type) {
@@ -326,7 +335,7 @@ class MPSUM_Themes_List_Table extends MPSUM_List_Table {
 			$actions['disallow-automatic-selected'] = esc_html__('Automatic updates off', 'stops-core-theme-and-plugin-updates');
 		}
 
-		return $actions;
+		return apply_filters('eum_themes_list_table_bulk_actions', $actions);
 	}
 
 	/**
@@ -458,6 +467,7 @@ class MPSUM_Themes_List_Table extends MPSUM_List_Table {
 
 						echo '</div></div>';
 					}
+					do_action('eum_populate_themes_list_table_column', $column_name, $theme);
 					echo '</div>';
 					echo "</td>";
 					break;

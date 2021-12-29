@@ -13,7 +13,7 @@
 			$( el ).parent().addClass( 'loading' ).append( '<span class="spinner is-active" style="float: none;"></span>' );
 			
 			$.ajax( {
-				url: cnArgs.ajaxUrl,
+				url: cnArgs.ajaxURL,
 				type: 'POST',
 				dataType: 'json',
 				data: {

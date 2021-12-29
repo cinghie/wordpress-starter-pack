@@ -4,10 +4,16 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         shell: {
             composer: {
-                command: 'composer install --no-dev --no-scripts --prefer-dist'
+                command: './composer.phar install --no-dev --no-scripts --prefer-dist'
             },
             git_checkout: {
                 command: 'git checkout-index -a -f --prefix=build/'
+            },
+            clean_build_dependencies: {
+                command: 'rm -R build/lib/vendor/redux-framework/*.json build/lib/vendor/redux-framework/*.lock build/lib/vendor/redux-framework/sample'
+            },
+            copy_redux: {
+                command: 'cp -R lib/vendor/redux-framework build/lib/vendor/redux-framework'
             }
         },
         clean: {
@@ -125,7 +131,7 @@ module.exports = function (grunt) {
         },
         'github-release': {
             options: {
-                repository: 'No3x/wp-mail-logging', // Path to repository
+                repository: 'kgjerstad/wp-mail-logging', // Path to repository
                 auth: grunt.file.readJSON('credentials.json'),
                 release: {
                     tag_name: 'release/<%= pkg.version %>',
@@ -221,7 +227,7 @@ module.exports = function (grunt) {
     grunt.registerTask('pre_vcs', ['shell:composer', 'version_number', 'copy', 'copyto:vendor', 'compress']);
     grunt.registerTask('do_git', [/*'gitadd',*/ 'gitcommit', 'gittag', 'gitpush']);
 
-    grunt.registerTask('just_build', ['clean_pre_build', 'shell:composer', 'makepot', 'potomo', 'copy', 'copyto:vendor', 'assert-valid-copy', 'compress']);
+    grunt.registerTask('just_build', ['clean_pre_build', 'shell:composer', 'makepot', 'potomo', 'copy', 'copyto:vendor', 'shell:copy_redux','shell:clean_build_dependencies', 'assert-valid-copy', 'compress']);
     grunt.registerTask('release', ['clean_pre_build', 'pre_vcs', 'do_git', 'github-release', 'clean:post_build']);
     grunt.registerTask('compilecss', ['less']);
 };

@@ -238,7 +238,7 @@
 							changed = true;
 						}
 					} );
-				} else {
+				} else if( ! $( this ).hasClass( 'is_index_status') ) {
 					if ( this.defaultValue != $( this ).val() ) {
 						changed = true;
 					}
@@ -741,5 +741,444 @@
 
 	$('#is_disable_analytics').on('click', function() {
 		toggle_analytics_info();
+	} );
+
+	/**
+	 * Expand panel when link is clicked.
+	 * 
+	 * The link is used in conflict info about anywhere 
+	 * fuzzy match and index search engine.
+	 * 
+	 * @since 5.0
+	 */
+	$( '.is-option-link' ).on( 'click', function() {
+		const panel_el = $( this ).data( 'is' );
+		const panel = $( panel_el ); //fuzzy match panel
+		if( ! panel.hasClass( 'ui-accordion-header-active' ) ) {
+			panel.click();
+		}
+	} );
+
+	/**
+	 * Ajax Requesting flag.
+	 * 
+	 * @since 5.0
+	 * @var bool 
+	 */
+	 var is_requesting = false;
+
+	/**
+	 * Create, resume and recreate index ajax request.
+	 * 
+	 * @since 5.0
+	 * @param array data {
+	 *      @type string ajax_url The ajax request url.
+	 *      @type string method The request method.
+	 *      @type string action The request action name to fire wp_ajax.
+	 *      @type string _isnonce The security nonce to validate the request.
+	 *      @type int page The page request number.
+	 *      @type string start_msg The start message feedback to the user.
+	 *      @type string btn_label The button label.
+	 * }
+	 */
+	function is_index_create( data ) {
+		is_show_loader( true );
+		is_disable_index_controls( true );
+		is_update_progress_bar( true, data );
+		if( data.page && 1 == data.page ) {
+			$('.form-table .is-actions a.collapse').click();
+		}
+
+		if( ! is_requesting ) {
+			is_requesting = true;
+			$.ajax( {
+				url: data.ajax_url,
+				method: data.method,
+				data: data,
+				error: function( xhr, ajaxOptions, thrownError ) {
+					const data = xhr.responseJSON;
+					console.log( data );
+					is_requesting = false;
+					is_show_loader( false );
+					is_disable_index_controls( false );
+					is_start_timer( false );
+				}
+			} ).done( function ( ret ) {
+				is_requesting = false;
+				ret = JSON.parse( ret );
+				is_show_loader( false );
+				is_update_progress_bar( true, ret );
+	
+				if( 'pausing' == data.idx_status && 'created' != ret.idx_status ) {
+					ret.idx_status = 'paused';
+				}
+				is_results_add( ret.results, true );
+				is_manage_idx_create_btn( ret );
+			} );
+		}
+	}
+
+	/**
+	 * Handle btn state change actions.
+	 * 
+	 * @since 5.0
+	 * @var int 
+	 */	
+	function is_manage_idx_create_btn( data ) {
+		const btn = $( '#is_index_create_btn' );
+
+		btn.data( 'is', data );
+		const label = data.btn_labels[ data.idx_status ];
+		btn.val( label );
+		btn.prop( 'disabled', false );
+
+		switch( data.idx_status ) {
+			case 'created':
+				is_disable_index_controls( false );
+				is_start_timer( false );
+				break;
+
+			case 'pausing':
+				is_disable_index_controls( true, true );
+				is_start_timer( false );
+				break;
+
+			case 'paused':
+				is_disable_index_controls( false );
+				is_start_timer( false );
+				break;
+	
+			case 'empty':
+			case 'creating':
+				is_index_create( data );
+				is_start_timer( true );
+				break;
+		}
+
+	}
+
+	/**
+	 * Create button click event handler.
+	 * 
+	 * Show starting message and start execution timer.
+	 * 
+	 * @since 5.0
+	 */
+	$( '#is_index_create_btn' ).on( 'click', function(e) {
+		e.preventDefault();
+		const data = $( this ).data( 'is' );
+		switch( data.idx_status ) {
+			case 'creating':
+				data.idx_status = 'pausing';
+				break;
+
+			case 'empty':
+			case 'created':
+				is_results_add( "\n" + data.start_msg );
+			case 'paused':
+				data.idx_status = 'creating';
+				break;
+		}
+		is_manage_idx_create_btn( data );
+	} );
+
+	/**
+	 * Scroll textarea to the bottom.
+	 * 
+	 * @since 5.0
+	 * @param string text The Text to append.
+	 * @param bool clear_first Clear the textearea before adding.
+	 */
+	function is_results_add( text, clear_first ) {
+		if( text ) {
+			const results_el = $( '#is-index-status' );
+			let results = text;
+			if( ! clear_first ) {
+				results = results_el.val() + "\n" + text;
+			}
+			results_el.val( results );
+			results_el.scrollTop(results_el[0].scrollHeight);	
+		}
+	}
+
+	/**
+	 * Disable index settings controls while a request is running.
+	 * 
+	 * @since 5.0
+	 */
+	 function is_disable_index_controls( disable, enable_create_btn ) {
+		$( '#ivory_search_options input' ).prop( 'disabled', disable );
+
+		const btn_disable = enable_create_btn ? true : false;
+		$( '#is_index_create_btn' ).prop( 'disabled', btn_disable );
+	}
+
+	/**
+	 * Delete all index ajax request.
+	 * 
+	 * @since 5.0
+	 * @param array data {
+	 *      @type string ajax_url The ajax request url.
+	 *      @type string method The request method.
+	 *      @type string action The request action name to fire wp_ajax.
+	 *      @type string _isnonce The security nonce to validate the request.
+	 *      @type string start_msg The start message feedback to the user.	 * 
+	 * }
+	 */
+	function is_index_delete( data ) {
+		is_show_loader( true );
+		is_disable_index_controls( true );
+		$.ajax( {
+			url: data.ajax_url,
+			method: data.method,
+			data: data,
+			error: function( xhr, ajaxOptions, thrownError ) {
+				const data = xhr.responseJSON;
+				console.log( data );
+				is_show_loader( false );
+				is_disable_index_controls( false );
+			}
+		} ).done( function ( ret ) {
+			ret = JSON.parse( ret );
+			is_show_loader( false );
+
+			is_results_add( ret.results, true );
+			if( ret.btn_label ) {
+				const btn = $( '#is_index_create_btn' );
+				btn.val( ret.btn_label );
+				const data = btn.data( 'is' );
+				data.page = 1;
+				btn.data( 'is', data );
+			}
+
+			is_disable_index_controls( false );
+		} );
+	}
+
+	/**
+	 * Delete index button click event handler.
+	 * 
+	 * Show starting message.
+	 * 
+	 * @since 5.0
+	 */
+	$( '#is_index_delete_btn' ).on( 'click', function(e) {
+		e.preventDefault();
+		is_update_progress_bar( false );
+
+		const data = $( this ).data( 'is' );
+		is_results_add( data.start_msg );
+		is_index_delete( data );
+		is_start_timer( false, true );
+	} );
+
+	/**
+	 * Index a post ajax request.
+	 * 
+	 * @since 5.0
+	 * @param array data {
+	 *      @type string ajax_url The ajax request url.
+	 *      @type string method The request method.
+	 *      @type string action The request action name to fire wp_ajax.
+	 *      @type string _isnonce The security nonce to validate the request.
+	 *      @type int $post_id The post ID to request ajax. It is set on event handler.
+	 *      @type string start_msg The start message feedback to the user.
+	 * }
+	 */
+	 function is_index_post( data ) {
+		is_show_loader( true );
+		is_disable_index_controls( true );
+		$.ajax( {
+			url: data.ajax_url,
+			method: data.method,
+			data: data,
+			error: function( xhr, ajaxOptions, thrownError ) {
+				const data = xhr.responseJSON;
+				console.log( data );
+				is_show_loader( false );
+				is_disable_index_controls( false );
+			}
+		} ).done( function ( ret ) {
+			ret = JSON.parse( ret );
+			is_show_loader( false );
+
+			is_results_add( ret.results );
+			is_disable_index_controls( false );
+		} );
+	}
+
+	/**
+	 * Index Post button click event handler.
+	 * 
+	 * Show starting message. 
+	 * Set post_id from text field.
+	 * 
+	 * @since 5.0
+	 */
+	$( '#is_index_post_btn' ).on( 'click', function(e) {
+		e.preventDefault();
+		is_update_progress_bar( false );
+
+		let data = $( this ).data( 'is' );
+		is_results_add( "\n" + data.start_msg );
+		data.post_id = $( '#is_index_post_txt' ).val();		
+		is_index_post( data );
+	} );
+
+	/**
+	 * Show loading feedback.
+	 * 
+	 * @since 5.0
+	 */
+	function is_show_loader( show ) {
+		if( show ) {
+			$( '.is-loader' ).show();
+		}
+		else {
+			$( '.is-loader' ).hide();
+		}
+	}
+
+	/**
+	 * Time elapsed var.
+	 * 
+	 * @since 5.0
+	 * @var int 
+	 */
+	var is_time_elapsed = 0;
+
+	/**
+	 * Interval ID ref to clear afterwards.
+	 * 
+	 * @since 5.0
+	 * @var int 
+	 */
+	var interval_id = 0;
+
+	/**
+	 * Start elapsed execution timer interval.
+	 * 
+	 * Call is_update_time_elapsed function every second.
+	 * 
+	 * @since 5.0
+	 * @param bool start If true, start the timer, stop otherwise.
+	 */	
+	function is_start_timer( start, reset ) {
+		if( reset ) {
+			is_time_elapsed = 0;
+		}
+		if( start ) {
+
+			$( '#is_time_elapsed_wrap' ).show();
+
+			if( ! interval_id ) {
+				interval_id = window.setInterval( is_update_time_elapsed, 1000 );
+			}
+		}
+		else {
+			window.clearInterval( interval_id );
+			interval_id = 0;
+		}
+	}
+	
+	/**
+	 * Update time elapsed label every second. 
+	 * 
+	 * @since 5.0
+	 */	
+	function is_update_time_elapsed() {
+		is_time_elapsed++;
+		const time = new Date( is_time_elapsed * 1000 )
+						.toISOString()
+						.substr( 11, 8 )
+						+ '  ' 
+						+ '.'.repeat( is_time_elapsed % 4 );
+
+		$( '#is_time_elapsed' ).html( time );
+	}
+
+	/**
+	 * Updates the progress bar.
+	 * 
+	 * @since 5.0
+	 * @param bool show True to show, false to hide.
+	 * @param array data The data received from server.
+	 */	
+	function is_update_progress_bar( show, data ) {
+		if( show ) {
+			$( '#is_progress' ).show();
+			let percentage = Math.round( data.indexed / data.total * 100 );
+			percentage += '%';
+			$( '#is_indicator' ).css( 'width', percentage );	
+		}
+		else {
+			$( '#is_progress' ).hide();
+			$( '#is_time_elapsed_wrap' ).hide();
+		}
+	}
+	/**
+	 * Toggle taxonomies select input.
+	 * 
+	 * Index settings - taxonomies section.
+	 * 
+	 * @since 5.0
+	 */
+	 function toggle_taxonomies_select() {
+		if( 'select' == $( '.is_index_taxonomies_opt:checked' ).val() ) {
+			$( '.is-index-tax-select' ).show();
+		} else {
+			$( '.is-index-tax-select' ).hide();
+		}
+	}
+	toggle_taxonomies_select();
+	
+	/**
+	 * Toggle taxonomies select input event handler.
+	 * 
+	 * @since 5.0
+	 */
+	 $( '.is_index_taxonomies_opt' ).on( 'click', function() {
+		toggle_taxonomies_select();
+	} );
+
+	/**
+	 * Toggle meta fields select input.
+	 * 
+	 * Index settings - meta fields section.
+	 * 
+	 * @since 5.0
+	 */
+	 function toggle_index_meta_fields_inputs() {
+		if( 'select' == $( '.is_index_meta_fields_opt:checked' ).val() ) {
+			$( '.is-index-metas' ).show();
+		} else {
+			$( '.is-index-metas' ).hide();
+		}
+	}
+	toggle_index_meta_fields_inputs();
+	
+	/**
+	 * Toggle meta fields select input event handler.
+	 * 
+	 * @since 5.0
+	 */
+	 $( '.is_index_meta_fields_opt' ).on( 'click', function() {
+		toggle_index_meta_fields_inputs();
+	} );
+
+	/**
+	 * Reset index settings button event handler.
+	 * 
+	 * @since 5.0
+	 */
+	 $( '#is-index-reset' ).on( 'click', function(e) {
+		const data = $( this ).data( 'is' );
+		if( data && data.confirm_msg && confirm( data.confirm_msg ) ) {
+			$( 'form' ).prop( 'action', '' );
+			$( 'form input[name="action"]' ).val( data.action );
+			$( 'form input[name="_wpnonce"]' ).val( data._wpnonce );
+			return true;
+		}
+		return false;
 	} );
 } )( jQuery );

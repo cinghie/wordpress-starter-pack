@@ -1,3 +1,22 @@
+function um_sanitize_value( value, el ) {
+	var element = document.createElement( 'div' );
+	element.innerText = value;
+	var sanitized_value = element.innerHTML;
+	if ( el ) {
+		jQuery( el ).val( sanitized_value );
+	}
+
+	return sanitized_value;
+}
+
+function um_unsanitize_value( input ) {
+	var e = document.createElement( 'textarea' );
+	e.innerHTML = input;
+	// handle case of empty input
+	return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
+
+
 function um_init_datetimepicker() {
 	jQuery('.um-datepicker:not(.picker__input)').each(function(){
 		var elem = jQuery(this);
@@ -124,6 +143,7 @@ jQuery(document).ready(function() {
 	function unselectEmptyOption( e ) {
 		var $element = jQuery( e.currentTarget );
 		var $selected = $element.find(':selected');
+
 		if ( $selected.length > 1 ) {
 			$selected.each( function ( i, option ) {
 				if ( option.value === '' ) {
@@ -147,11 +167,21 @@ jQuery(document).ready(function() {
 		jQuery(".um-s2").each( function( e ) {
 			var obj = jQuery(this);
 
-			obj.select2({
-				allowClear: false,
-				minimumResultsForSearch: 10,
-				dropdownParent: obj.parent()
-			}).on( 'change', unselectEmptyOption );
+			// fix https://github.com/ultimatemember/ultimatemember/issues/941
+			// using .um-custom-shortcode-tab class as temporarily solution
+			var atts = {};
+			if ( obj.parents('.um-custom-shortcode-tab').length ) {
+				atts = {
+					allowClear: false
+				};
+			} else {
+				atts = {
+					allowClear: false,
+					minimumResultsForSearch: 10,
+					dropdownParent: obj.parent()
+				};
+			}
+			obj.select2( atts ).on( 'change', unselectEmptyOption );
 		} );
 
 		jQuery(".um-s3").each( function( e ) {
@@ -248,7 +278,7 @@ jQuery(document).ready(function() {
 				parent.find('.um-single-image-preview img').attr( 'src', '' );
 				parent.find('.um-single-image-preview').hide();
 				parent.find('.um-btn-auto-width').html( parent.data('upload-label') );
-				parent.find('input[type=hidden]').val( 'empty_file' );
+				parent.find('input[type="hidden"]').val( 'empty_file' );
 			}
 		};
 

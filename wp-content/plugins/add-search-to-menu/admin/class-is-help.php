@@ -64,6 +64,11 @@ class IS_Help {
 					'title'   => __( 'Settings', 'add-search-to-menu' ),
 					'content' => $this->content( 'settings' ) ) );
 
+				$this->screen->add_help_tab( array(
+					'id'	  => 'index',
+					'title'   => __( 'Index', 'add-search-to-menu' ),
+					'content' => $this->content( 'index' ) ) );	
+
 				$this->sidebar();
 
 				return;
@@ -95,10 +100,13 @@ class IS_Help {
 		$content['settings_overview'] = '<p>' . __( "On this screen, you can manage search added in the site navgation menu and configure settings that will affect all search forms and search functionality on the site. The settings screen comprised of the following sections:", 'add-search-to-menu' ) . '</p>';
 		$content['settings_overview'] .= '<p>' . sprintf( '<strong>%1$s</strong> %2$s', __( 'Menu Search', 'add-search-to-menu' ), __( 'provides a place where you can customize the behavior of search form added in the site navgation menu.', 'add-search-to-menu' ) ) . '</p>';
 		$content['settings_overview'] .= '<p>' . sprintf( '<strong>%1$s</strong> %2$s', __( 'Settings', 'add-search-to-menu' ), __( 'provides options to configure sitewide search functionality.', 'add-search-to-menu' ) ) . '</p>';
+		$content['settings_overview'] .= '<p>' . sprintf( '<strong>%1$s</strong> %2$s', __( 'Index', 'add-search-to-menu' ), __( 'provides options to configure sitewide index functionality.', 'add-search-to-menu' ) ) . '</p>';
 
 		$content['search_to_menu'] = '<p>' . __( "Cofigure the options in this section to manage search added in the site navigation menu.", 'add-search-to-menu' ) . '</p>';
 
 		$content['settings'] = '<p>' . __( "Configure options in this section to manage sitewide search functionality.", 'add-search-to-menu' ) . '</p>';
+
+		$content['index'] = '<p>' . __( "Configure options in this section to manage sitewide indexing functionality.", 'add-search-to-menu' ) . '</p>';
 
 		if ( ! empty( $content[$name] ) ) {
 			return $content[$name];
@@ -117,7 +125,7 @@ class IS_Help {
 	public static function help_info( $content ) { ?>
 		<span class="is-help">
 			<span class="is-info">
-				<?php echo $content; ?>
+				<?php echo wp_kses_post( $content ); ?>
 			</span>
 		</span>
 	<?php	
@@ -133,13 +141,13 @@ class IS_Help {
 
 	public static function woocommerce_inactive_field_notice( $echo = true ) {
 
-                $woo_url = '<a href="'.admin_url('plugins.php').'" target="_blank">'.__( "WooCommerce", 'add-search-to-menu' ).'</a>';
-		$message = sprintf( __( 'Activate %s plugin to use this option.', 'add-search-to-menu' ), $woo_url );
+        $woo_url = '<a href="'.admin_url('plugins.php').'" target="_blank">'.__( "WooCommerce", 'add-search-to-menu' ).'</a>';
+		$message = '<span class="notice-is-info"> ' . sprintf( __( 'Activate %s plugin to use this option.', 'add-search-to-menu' ), $woo_url ) . '</span>';
 
 		if( $echo ) {
-			echo '<span class="notice-is-info"> ' . $message . '</span>';
+			echo wp_kses_post( $message );
 		} else {
-			return '<span class="notice-is-info">' . $message . '</span>';
+			return wp_kses_post( $message );
 		}
 	}
 }

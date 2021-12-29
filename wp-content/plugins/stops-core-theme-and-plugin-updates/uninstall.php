@@ -25,6 +25,9 @@ foreach ($all_plugins as $key => $value) {
 	}
 }
 
+$freeActive = false;
+$premiumActive = false;
+
 foreach ($all_plugins as $plugin) {
 	if ('Easy Updates Manager Premium' == $plugin['Name']) $premiumActive = true;
 	if ('Easy Updates Manager' == $plugin['Name']) $freeActive = true;
@@ -62,6 +65,7 @@ if (($isPremium && !$freeActive) || ($isFree && !$premiumActive)) {
 	delete_site_option('easy_updates_manager_name');
 	delete_site_option('easy_updates_manager_author');
 	delete_site_option('easy_updates_manager_url');
+	delete_site_option('eum_unproven_updates_post_install');
 
 	// For logs removal
 	global $wpdb;

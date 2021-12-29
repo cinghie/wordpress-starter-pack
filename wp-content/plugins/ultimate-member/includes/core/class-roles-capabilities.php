@@ -21,6 +21,23 @@ if ( ! class_exists( 'um\core\Roles_Capabilities' ) ) {
 		function __construct() {
 			add_action( 'wp_roles_init', array( &$this, 'um_roles_init' ), 99999 );
 			add_action( 'update_option', array( &$this, 'um_on_roles_update' ), 10, 3 );
+			add_action( 'set_user_role', array( &$this, 'remove_user_cache' ), 10, 1 );
+		}
+
+
+		/**
+		 * Flush the Cache User Profile on set new user role(s)
+		 *
+		 * @param int $user_id
+		 */
+		function remove_user_cache( $user_id ) {
+			$user = get_userdata( $user_id );
+
+			if ( ! is_a( $user, '\WP_User' ) ) {
+				return;
+			}
+
+			UM()->user()->remove_cache( $user_id );
 		}
 
 
@@ -382,21 +399,25 @@ if ( ! class_exists( 'um\core\Roles_Capabilities' ) ) {
 		function get_priority_user_role( $user_id ) {
 			$user = get_userdata( $user_id );
 
-			if ( empty( $user->roles ) )
+			if ( empty( $user->roles ) ) {
 				return false;
+			}
 
 			// User has roles so look for a UM Role one
 			$um_roles_keys = get_option( 'um_roles', array() );
 
 			if ( ! empty( $um_roles_keys ) ) {
-				$um_roles_keys = array_map( function( $item ) {
-					return 'um_' . $item;
-				}, $um_roles_keys );
+				$um_roles_keys = array_map(
+					function( $item ) {
+						return 'um_' . $item;
+					},
+					$um_roles_keys
+				);
 			}
 
 			$orders = array();
 			foreach ( array_values( $user->roles ) as $userrole ) {
-				if ( ! empty( $um_roles_keys ) && in_array( $userrole, $um_roles_keys ) ) {
+				if ( ! empty( $um_roles_keys ) && in_array( $userrole, $um_roles_keys, true ) ) {
 					$userrole_metakey = substr( $userrole, 3 );
 				} else {
 					$userrole_metakey = $userrole;
@@ -643,13 +664,18 @@ if ( ! class_exists( 'um\core\Roles_Capabilities' ) ) {
 							$return = 0;
 						}
 					} else {
-						if ( ! um_user( 'can_edit_everyone' ) ) {
+
+						if ( ! um_user( 'can_access_private_profile' ) && UM()->user()->is_private_profile( $user_id ) ) {
 							$return = 0;
 						} else {
-							if ( um_user( 'can_edit_roles' ) && ( empty( $current_user_roles ) || count( array_intersect( $current_user_roles, um_user( 'can_edit_roles' ) ) ) <= 0 ) ) {
+							if ( ! um_user( 'can_edit_everyone' ) ) {
 								$return = 0;
 							} else {
-								$return = 1;
+								if ( um_user( 'can_edit_roles' ) && ( empty( $current_user_roles ) || count( array_intersect( $current_user_roles, um_user( 'can_edit_roles' ) ) ) <= 0 ) ) {
+									$return = 0;
+								} else {
+									$return = 1;
+								}
 							}
 						}
 					}

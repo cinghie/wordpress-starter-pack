@@ -76,6 +76,18 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'zapier_integration_active'                => false,
 		'zapier_subscription'                      => [],
 		'zapier_api_key'                           => '',
+		'enable_metabox_insights'                  => true,
+		'enable_link_suggestions'                  => true,
+		'algolia_integration_active'               => false,
+		'import_cursors'                           => [],
+		'workouts_data'                            => [ 'configuration' => [ 'finishedSteps' => [] ] ],
+		'dismiss_configuration_workout_notice'     => false,
+		'importing_completed'                      => [],
+		'wincher_integration_active'               => true,
+		'wincher_tokens'                           => [],
+		'wincher_automatically_add_keyphrases'     => false,
+		'wincher_website_id'                       => '',
+		'first_time_install'                       => false,
 	];
 
 	/**
@@ -140,7 +152,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Add the actions and filters for the option.
 	 *
-	 * @return \WPSEO_Option_Wpseo
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 *       is updated early on and if so, change the call to schedule these for a later action on add/update
 	 *       instead of running them straight away.
@@ -261,6 +272,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'license_server_version':
 				case 'home_url':
 				case 'zapier_api_key':
+				case 'wincher_website_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -333,6 +345,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_tokens':
 				case 'custom_taxonomy_slugs':
 				case 'zapier_subscription':
+				case 'wincher_tokens':
+				case 'workouts_data':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -356,6 +370,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'import_cursors':
+				case 'workouts_data':
+				case 'importing_completed':
+					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+
 				/*
 				 * Boolean (checkbox) fields.
 				 */
@@ -367,6 +389,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'yoast_tracking'
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
+				 *  'first_time_install'
 				 *  and most of the feature variables.
 				 */
 				default:
@@ -407,6 +430,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_enhanced_slack_sharing'  => false,
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
+			'wincher_integration_active'     => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
@@ -447,12 +471,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	/**
 	 * Clean a given option value.
 	 *
-	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                      clean according to the rules for this option.
-	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
-	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
-	 *                                      access to the real old values, in contrast to the saved ones.
+	 * @param array       $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                           clean according to the rules for this option.
+	 * @param string|null $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
+	 * @param array|null  $all_old_option_values Optional. Only used when importing old options to have
+	 *                                           access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return array Cleaned option.
 	 */

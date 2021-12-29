@@ -3,7 +3,7 @@ Contributors: seedprod, smub
 Donate link: http://www.seedprod.com
 Tags: maintenance mode, coming soon page, coming soon, under construction, landing page, launch, maintenance, construction, offline, unavailable, under construction page, launch page
 Requires at least: 5.0
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
 Stable tag: 6.2.0
 Text Domain: coming-soon
@@ -156,6 +156,13 @@ Yes, you cam build custom Product, Checkout and Cart pages with our WooCommerce 
 
 
 == Changelog ==
+= 6.6.0 =
+
+* Added - Column Alignment Controls
+* Added - Divice Visibility Controls
+* Added - Full Length Template Previews
+* Tweak - Version Sync with Pro
+
 = 6.2.1 =
 
 * Tweak - Clarify External Service is used for license upgrades.
@@ -241,6 +248,12 @@ Yes, you cam build custom Product, Checkout and Cart pages with our WooCommerce 
 * New - Custom 404 Pages
 
 == Upgrade Notice ==
+
+= 6.6.0 =
+
+* Added - Column Alignment Controls
+* Added - Divice Visibility Controls
+
 = 6.2.0 =
 
 * Added - WooCommerce Blocks Pro Version

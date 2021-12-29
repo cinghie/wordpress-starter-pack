@@ -229,7 +229,7 @@ class MPSUM_Utils {
 		$free_available = $free_plugin_active = $premium_available = $premium_plugin_active = $free_slug = $premium_slug = false;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Both $free_available and $premium_available are used and being set but Ci has flagged this as unused.  Its fine to ignore.
 		foreach ($get_plugins as $key => $value) {
 			if ('Easy Updates Manager' === $value['Name']) {
-				$free_available = true;
+				$free_available = true;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $free_available Filter use
 				$free_slug = $key;
 				if (is_multisite()) {
 					if (is_plugin_active_for_network($free_slug)) {

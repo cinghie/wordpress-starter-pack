@@ -19,6 +19,7 @@ if ( ! class_exists( 'um\core\Validation' ) ) {
 		 */
 		function __construct() {
 			$this->regex_safe = '/\A[\w\-\.]+\z/';
+			$this->regex_username_safe = '|[^a-z0-9 _.\-@]|i';
 			$this->regex_phone_number = '/\A[\d\-\.\+\(\)\ ]+\z/';
 
 
@@ -214,12 +215,12 @@ if ( ! class_exists( 'um\core\Validation' ) ) {
 			 * }
 			 * ?>
 			 */
-			$regex_safe_username = apply_filters('um_validation_safe_username_regex',$this->regex_safe );
+			$regex_safe_username = apply_filters( 'um_validation_safe_username_regex', $this->regex_username_safe );
 
 			if ( is_email( $string ) ) {
 				return true;
 			}
-			if ( ! is_email( $string ) && ! preg_match( $regex_safe_username, $string ) ) {
+			if ( ! is_email( $string ) && preg_match( $regex_safe_username, $string ) ) {
 				return false;
 			}
 			return true;
@@ -277,6 +278,27 @@ if ( ! class_exists( 'um\core\Validation' ) ) {
 				return true;
 			}
 			if ( ! preg_match( $this->regex_phone_number, $string ) ) {
+				return false;
+			}
+			return true;
+		}
+
+
+		/**
+		 * Is Discord ID?
+		 *
+		 * @param $string
+		 *
+		 * @return bool
+		 */
+		public function is_discord_id( $string ) {
+			if ( ! $string ) {
+				return true;
+			}
+			if ( substr_count( $string, '#' ) > 1 ) {
+				return false;
+			}
+			if ( ! preg_match( '/^(.+)#(\d+)$/', trim( $string ) ) ) {
 				return false;
 			}
 			return true;

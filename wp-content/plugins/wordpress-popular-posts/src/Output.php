@@ -76,6 +76,14 @@ class Output {
     private $themer;
 
     /**
+     * WordPress Date format.
+     *
+     * @var     string
+     * @access  private
+     */
+    private $wp_date_format;
+
+    /**
      * Constructor.
      *
      * @since   4.0.0
@@ -85,7 +93,7 @@ class Output {
      * @param   WordPressPopularPosts\Translate $translate
      * @param   \WordPressPopularPosts\Themer    $themer
      */
-    public function __construct(array $public_options = [], array $admin_options = [], Image $thumbnail, Translate $translate, \WordPressPopularPosts\Themer $themer)
+    public function __construct(array $public_options, array $admin_options, Image $thumbnail, Translate $translate, \WordPressPopularPosts\Themer $themer)
     {
         $this->public_options = $public_options;
         $this->admin_options = $admin_options;
@@ -95,9 +103,10 @@ class Output {
 
         $this->more = '...';
 
-        // Allow customization of the more (...) string
-        if ( has_filter('wpp_excerpt_more') )
-            $this->more = apply_filters('wpp_excerpt_more', $this->more);
+        $this->wp_date_format = get_option('date_format');
+
+        if ( ! $this->wp_date_format )
+            $this->wp_date_format = 'F j, Y';
     }
 
     /**
@@ -120,7 +129,7 @@ class Output {
     public function set_public_options(array $public_options = [])
     {
         $this->public_options = Helper::merge_array_r(
-            $this->public_options,
+            Settings::get('widget_options'),
             $public_options
         );
     }
@@ -132,7 +141,7 @@ class Output {
      */
     public function output()
     {
-        echo $this->output;
+        echo $this->get_output();
     }
 
     /**
@@ -143,6 +152,7 @@ class Output {
      */
     public function get_output()
     {
+        $this->output = "\n" . ( WP_DEBUG ? '<!-- WordPress Popular Posts v' . WPP_VERSION . ( $this->admin_options['tools']['cache']['active'] ? ' - cached' : '' ) . ' -->' : '' ) . "\n" . $this->output;
         return $this->output;
     }
 
@@ -156,7 +166,7 @@ class Output {
         // Got some posts, format 'em!
         if ( ! empty($this->data) ) {
 
-            $this->output = "\n" . "<!-- WordPress Popular Posts" . ( WP_DEBUG ? ' v' . WPP_VERSION : '' ) . " -->" . "\n";
+            $this->output = '';
 
             // Allow WP themers / coders access to raw data
             // so they can build their own output
@@ -171,7 +181,12 @@ class Output {
             ) {
                 $this->output .= '<div class="popular-posts-sr">';
 
-                $theme_stylesheet = $this->themer->get_theme($this->public_options['theme']['name'])['path'] . '/style.css';
+                if ( @file_exists(get_template_directory() . '/wordpress-popular-posts/themes/' . $this->public_options['theme']['name'] . '/style.css') ) {
+                    $theme_stylesheet = get_template_directory() . '/wordpress-popular-posts/themes/' . $this->public_options['theme']['name'] . '/style.css';
+                } else {
+                    $theme_stylesheet = $this->themer->get_theme($this->public_options['theme']['name'])['path'] . '/style.css';
+                }
+
                 $theme_css_rules = wp_strip_all_tags(file_get_contents($theme_stylesheet), true);
                 $additional_styles = '';
 
@@ -281,11 +296,13 @@ class Output {
               ? $this->public_options['shorten_title']['length']
               : 25;
 
-            $post_title = Helper::truncate($post_title, $length, $this->public_options['shorten_title']['words'], $this->more);
+            $more = $this->public_options['shorten_title']['words'] ? ' ' . $this->more : $this->more;
+            $more = apply_filters('wpp_title_more', $more);
+            $post_title = Helper::truncate($post_title, $length, $this->public_options['shorten_title']['words'], $more);
         }
 
         // Thumbnail
-        $post_thumbnail = $this->get_thumbnail($post_object);
+        $post_thumbnail = $this->get_thumbnail($post_id);
 
         // Post excerpt
         $post_excerpt = $this->get_excerpt($post_object, $post_id);
@@ -313,7 +330,35 @@ class Output {
         $post_comments = $this->get_comments($post_object);
 
         // Post meta
-        $post_meta = join(' | ', $this->get_metadata($post_object, $post_id));
+        $meta_arr = $this->get_metadata(
+            $post_object,
+            $post_id,
+            $post_date,
+            $post_taxonomies,
+            $post_author,
+            $post_views,
+            $post_comments
+        );
+
+        if (
+            is_array($meta_arr)
+            && ! empty($meta_arr)
+            && "views" == $this->public_options['order_by']
+        ) {
+            $keys = ['views', 'comments', 'author', 'date', 'taxonomy'];
+            $new_meta_arr = [];
+
+            foreach($keys as $key) {
+                if ( isset($meta_arr[$key]))
+                    $new_meta_arr[$key] = $meta_arr[$key];
+            }
+
+            if ( ! empty($new_meta_arr) )
+                $meta_arr = $new_meta_arr;
+        }
+
+        $post_meta_separator = apply_filters('wpp_post_meta_separator', ' | ');
+        $post_meta = join($post_meta_separator, $meta_arr);
 
         $prettify_numbers = apply_filters('wpp_pretiffy_numbers', true);
 
@@ -321,6 +366,7 @@ class Output {
         if ( $this->public_options['markup']['custom_html'] ) {
             $data = [
                 'id' => $post_id,
+                'is_current_post' => $is_current_post,
                 'title' => '<a href="' . $permalink . '" ' . ($post_title_attr !== $post_title ? 'title="' . $post_title_attr . '" ' : '' ) . 'class="wpp-post-title" target="' . $this->admin_options['tools']['link']['target'] . '">' . $post_title . '</a>',
                 'title_attr' => $post_title_attr,
                 'summary' => $post_excerpt,
@@ -330,10 +376,17 @@ class Output {
                 'url' => $permalink,
                 'text_title' => $post_title,
                 'taxonomy' => $post_taxonomies,
+                'taxonomy_copy' => isset($meta_arr['taxonomy']) ? $meta_arr['taxonomy'] : null,
                 'author' => ( ! empty($post_author) ) ? '<a href="' . get_author_posts_url($post_object->uid != $post_id ? get_post_field('post_author', $post_id) : $post_object->uid ) . '">' . $post_author . '</a>' : '',
+                'author_copy' => isset($meta_arr['author']) ? $meta_arr['author'] : null,
+                'author_name' => $post_author,
+                'author_url' => ( ! empty($post_author) ) ? get_author_posts_url($post_object->uid != $post_id ? get_post_field('post_author', $post_id) : $post_object->uid ) : '',
                 'views' => ( $this->public_options['order_by'] == "views" || $this->public_options['order_by'] == "comments" ) ? ($prettify_numbers ? Helper::prettify_number($post_views) : number_format_i18n($post_views)) : ($prettify_numbers ? Helper::prettify_number($post_views, 2) : number_format_i18n($post_views, 2)),
+                'views_copy' => isset($meta_arr['views']) ? $meta_arr['views'] : null,
                 'comments' => $prettify_numbers ? Helper::prettify_number($post_comments) : number_format_i18n($post_comments),
+                'comments_copy' => isset($meta_arr['comments']) ? $meta_arr['comments'] : null,
                 'date' => $post_date,
+                'date_copy' => isset($meta_arr['date']) ? $meta_arr['date'] : null,
                 'total_items' => count($this->data),
                 'item_position' => $position
             ];
@@ -413,11 +466,11 @@ class Output {
      * @return  string
      */
     private function get_permalink(\stdClass $post_object, $post_id) {
-        $permalink = get_permalink($post_object->id);
+        if ( $post_object->id != $post_id ) {
+            return get_permalink($post_id);
+        }
 
-        return $post_object->id != $post_id 
-            ? $this->translate->url($permalink, $this->translate->get_current_language())
-            : $permalink;
+        return get_permalink($post_object->id);
     }
 
     /**
@@ -425,16 +478,16 @@ class Output {
      *
      * @since   3.0.0
      * @access  private
-     * @param   object   $post_object
+     * @param   int     $post_id
      * @return  string
      */
-    private function get_thumbnail(\stdClass $post_object)
+    private function get_thumbnail($post_id)
     {
         $thumbnail = '';
 
         if ( $this->public_options['thumbnail']['active'] ) {
             $thumbnail = $this->thumbnail->get(
-                $post_object,
+                $post_id,
                 [
                     $this->public_options['thumbnail']['width'],
                     $this->public_options['thumbnail']['height']
@@ -501,12 +554,16 @@ class Output {
                 $excerpt = preg_replace('_^(?:(?:https?|ftp)://)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)(?:\.(?:[a-z\x{00a1}-\x{ffff}0-9]+-?)*[a-z\x{00a1}-\x{ffff}0-9]+)*(?:\.(?:[a-z\x{00a1}-\x{ffff}]{2,})))(?::\d{2,5})?(?:/[^\s]*)?$_iuS', '', $excerpt);
             }
 
+            $excerpt = trim($excerpt);
+
         }
 
         // Balance tags, if needed
         if ( '' !== $excerpt ) {
 
-            $excerpt = Helper::truncate($excerpt, $this->public_options['post-excerpt']['length'], $this->public_options['post-excerpt']['words'], $this->more);
+            $more = $this->public_options['post-excerpt']['words'] ? ' ' . $this->more : $this->more;
+            $more = apply_filters('wpp_excerpt_more', $more);
+            $excerpt = Helper::truncate($excerpt, $this->public_options['post-excerpt']['length'], $this->public_options['post-excerpt']['words'], $more);
 
             if ( $this->public_options['post-excerpt']['keep_format'] )
                 $excerpt = force_balance_tags($excerpt);
@@ -547,23 +604,20 @@ class Output {
         $date = '';
 
         if ( $this->public_options['stats_tag']['date']['active'] ) {
-            // Check locale
-            if ( ! $current_language_locale = $this->translate->get_locale($this->translate->get_current_language()) ) {
-                $current_language_locale = get_locale();
+            if ( 'relative' == $this->public_options['stats_tag']['date']['format'] ) {
+                $date = sprintf(
+                    __('%s ago', 'wordpress-popular-posts'),
+                    human_time_diff(
+                        strtotime($post_object->date),
+                        current_time('timestamp')
+                    )
+                );
+            } else {
+                $date = date_i18n(
+                    ( 'wp_date_format' == $this->public_options['stats_tag']['date']['format'] ? $this->wp_date_format : $this->public_options['stats_tag']['date']['format'] ),
+                    strtotime($post_object->date)
+                );
             }
-
-            try {
-                Moment\Moment::setLocale($current_language_locale);
-            } // Locale not found, fallback to English (US)
-            catch( \Exception $e ) {
-                Moment\Moment::setLocale('en_US');
-            }
-
-            $m = new Moment\Moment('@' . strtotime($post_object->date));
-
-            $date = ( 'relative' == $this->public_options['stats_tag']['date']['format'] ) 
-                ? $m->fromNow()->getRelative()
-                : $m->format($this->public_options['stats_tag']['date']['format']);
         }
 
         return $date;
@@ -619,7 +673,7 @@ class Output {
                             continue;
 
                         $term_link = $this->translate->url($term_link, $this->translate->get_current_language());
-                        $post_tax .= "<a href=\"{$term_link}\" class=\"{$taxonomy} {$taxonomy}-{$term->term_id}\">{$term->name}</a>" . $taxonomy_separator;
+                        $post_tax .= "<a href=\"{$term_link}\" class=\"wpp-taxonomy {$taxonomy} {$taxonomy}-{$term->term_id}\">{$term->name}</a>" . $taxonomy_separator;
                     }
                 }
             }
@@ -704,7 +758,8 @@ class Output {
      * @param   integer $post_id
      * @return  array
      */
-    private function get_metadata(\stdClass $post_object, $post_id)
+    //private function get_metadata(\stdClass $post_object, $post_id)
+    private function get_metadata(\stdClass $post_object, $post_id, $date, $post_tax, $author, $pageviews, $comments)
     {
         $stats = [];
 
@@ -712,18 +767,16 @@ class Output {
 
         // comments
         if ( $this->public_options['stats_tag']['comment_count'] ) {
-            $comments = $this->get_comments($post_object);
-
             $comments_text = sprintf(
                 _n('%s comment', '%s comments', $comments, 'wordpress-popular-posts'),
                 $prettify_numbers ? Helper::prettify_number($comments) : number_format_i18n($comments)
             );
+
+            $stats['comments'] = '<span class="wpp-comments">' . $comments_text . '</span>';
         }
 
         // views
         if ( $this->public_options['stats_tag']['views'] ) {
-            $pageviews = $this->get_pageviews($post_object);
-
             if ( $this->public_options['order_by'] == 'avg' ) {
                 $views_text = sprintf(
                     _n('%s view per day', '%s views per day', $pageviews, 'wordpress-popular-posts'),
@@ -736,41 +789,25 @@ class Output {
                     $prettify_numbers ? Helper::prettify_number($pageviews) : number_format_i18n($pageviews)
                 );
             }
-        }
 
-        if ( "comments" == $this->public_options['order_by'] ) {
-            if ( $this->public_options['stats_tag']['comment_count'] )
-                $stats[] = '<span class="wpp-comments">' . $comments_text . '</span>'; // First comments count
-            if ( $this->public_options['stats_tag']['views'] )
-                $stats[] = '<span class="wpp-views">' . $views_text . "</span>"; // ... then views
-        } else {
-            if ( $this->public_options['stats_tag']['views'] )
-                $stats[] = '<span class="wpp-views">' . $views_text . "</span>"; // First views count
-            if ( $this->public_options['stats_tag']['comment_count'] )
-                $stats[] = '<span class="wpp-comments">' . $comments_text . '</span>'; // ... then comments
+            $stats['views'] = '<span class="wpp-views">' . $views_text . "</span>";
         }
 
         // author
         if ( $this->public_options['stats_tag']['author'] ) {
-            $author = $this->get_author($post_object, $post_id);
             $author_url = get_author_posts_url($post_object->uid != $post_id ? get_post_field('post_author', $post_id) : $post_object->uid);
             $display_name = '<a href="' . $this->translate->url($author_url, $this->translate->get_current_language()) . '">' . $author . '</a>';
-            $stats[] = '<span class="wpp-author">' . sprintf(__('by %s', 'wordpress-popular-posts'), $display_name) . '</span>';
+            $stats['author'] = '<span class="wpp-author">' . sprintf(__('by %s', 'wordpress-popular-posts'), $display_name) . '</span>';
         }
 
         // date
         if ( $this->public_options['stats_tag']['date']['active'] ) {
-            $date = $this->get_date($post_object);
-            $stats[] = '<span class="wpp-date">' . ( 'relative' == $this->public_options['stats_tag']['date']['format'] ? sprintf(__('posted %s', 'wordpress-popular-posts'), $date) : sprintf(__('posted on %s', 'wordpress-popular-posts'), $date) ) . '</span>';
+            $stats['date'] = '<span class="wpp-date">' . ( 'relative' == $this->public_options['stats_tag']['date']['format'] ? sprintf(__('posted %s', 'wordpress-popular-posts'), $date) : sprintf(__('posted on %s', 'wordpress-popular-posts'), $date) ) . '</span>';
         }
 
         // taxonomy
-        if ( $this->public_options['stats_tag']['category'] ) {
-            $post_tax = $this->get_taxonomies($post_id);
-
-            if ( $post_tax != '' ) {
-                $stats[] = '<span class="wpp-category">' . sprintf(__('under %s', 'wordpress-popular-posts'), $post_tax) . '</span>';
-            }
+        if ( ($this->public_options['stats_tag']['category'] || $this->public_options['stats_tag']['taxonomy']['active']) && $post_tax != '' ) {
+            $stats['taxonomy'] = '<span class="wpp-category">' . sprintf(__('under %s', 'wordpress-popular-posts'), $post_tax) . '</span>';
         }
 
         return $stats;
@@ -786,19 +823,23 @@ class Output {
      * @param   bool    Used to display post rating (if functionality is available)
      * @return  string
      */
-    private function format_content($string, $data = [], $rating) {
+    private function format_content($string, $data, $rating) {
 
         if ( empty($string) || ( empty($data) || ! is_array($data) ) )
             return false;
 
         $params = [];
-        $pattern = '/\{(pid|excerpt|summary|meta|stats|title|title_attr|image|thumb|thumb_img|thumb_url|rating|score|url|text_title|author|taxonomy|category|views|comments|date|total_items|item_position)\}/i';
+        $pattern = '/\{(pid|current_class|excerpt|summary|meta|stats|title|title_attr|image|thumb|thumb_img|thumb_url|rating|score|url|text_title|author|author_copy|author_name|author_url|taxonomy|taxonomy_copy|category|category_copy|views|views_copy|comments|comments_copy|date|date_copy|total_items|item_position)\}/i';
         preg_match_all($pattern, $string, $matches);
 
         array_map('strtolower', $matches[0]);
 
         if ( in_array("{pid}", $matches[0]) ) {
             $string = str_replace("{pid}", $data['id'], $string);
+        }
+
+        if ( in_array("{current_class}", $matches[0]) ) {
+            $string = str_replace("{current_class}", ( $data['is_current_post'] ? 'current' : '' ), $string);
         }
 
         if ( in_array("{title}", $matches[0]) ) {
@@ -833,8 +874,8 @@ class Output {
 
                 if ( $img_tag->length ) {
                     foreach( $img_tag as $node ) {
-                        if ( $node->hasAttribute('src') || $node->hasAttribute('data-img-src') ) {
-                            $src = $node->hasAttribute('src') ? $node->getAttribute('src') : $node->getAttribute('data-img-src');
+                        if ( $node->hasAttribute('src') ) {
+                            $src = $node->getAttribute('src');
                             $string = str_replace("{thumb_url}", $src, $string);
                         }
                     }
@@ -867,20 +908,48 @@ class Output {
             $string = str_replace("{author}", $data['author'], $string);
         }
 
+        if ( in_array("{author_copy}", $matches[0]) ) {
+            $string = str_replace("{author_copy}", $data['author_copy'], $string);
+        }
+
+        if ( in_array("{author_name}", $matches[0]) ) {
+            $string = str_replace("{author_name}", $data['author_name'], $string);
+        }
+
+        if ( in_array("{author_url}", $matches[0]) ) {
+            $string = str_replace("{author_url}", $data['author_url'], $string);
+        }
+
         if ( in_array("{taxonomy}", $matches[0]) || in_array("{category}", $matches[0]) ) {
             $string = str_replace(["{taxonomy}", "{category}"], $data['taxonomy'], $string);
+        }
+
+        if ( in_array("{taxonomy_copy}", $matches[0]) || in_array("{category_copy}", $matches[0]) ) {
+            $string = str_replace(["{taxonomy_copy}", "{category_copy}"], $data['taxonomy_copy'], $string);
         }
 
         if ( in_array("{views}", $matches[0]) ) {
             $string = str_replace("{views}", $data['views'], $string);
         }
 
+        if ( in_array("{views_copy}", $matches[0]) ) {
+            $string = str_replace("{views_copy}", $data['views_copy'], $string);
+        }
+
         if ( in_array("{comments}", $matches[0]) ) {
             $string = str_replace("{comments}", $data['comments'], $string);
         }
 
+        if ( in_array("{comments_copy}", $matches[0]) ) {
+            $string = str_replace("{comments_copy}", $data['comments_copy'], $string);
+        }
+
         if ( in_array("{date}", $matches[0]) ) {
             $string = str_replace("{date}", $data['date'], $string);
+        }
+
+        if ( in_array("{date_copy}", $matches[0]) ) {
+            $string = str_replace("{date_copy}", $data['date_copy'], $string);
         }
 
         if ( in_array("{total_items}", $matches[0]) ) {

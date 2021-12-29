@@ -6,7 +6,7 @@
 	<h3><?php
 		// Allow white label
 		$eum_white_label = apply_filters('eum_whitelabel_name', __('Easy Updates Manager', 'stops-core-theme-and-plugin-updates'));
-		sprintf(_e("The following constants are set and will prevent automatic updates in %s.", 'stops-core-theme-and-plugin-updates'), $eum_white_label);
+		echo sprintf(__("The following constants are set and will prevent automatic updates in %s.", 'stops-core-theme-and-plugin-updates'), $eum_white_label);
 	?></h3>
 	<div id="easy-updates-manager-constants-enabled-wrapper">
 		<p><?php sprintf(esc_html_e('Please check your wp-config.php file or other files for these constants and remove them to allow Easy Updates Manager to have control.', 'stops-core-theme-and-plugin-updates'), $eum_white_label); ?></p>

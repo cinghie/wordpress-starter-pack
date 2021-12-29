@@ -63,6 +63,10 @@ class MetaSlider_Analytics
      */
     public function showOptInNotice()
     {
+        if (!get_user_option('extendifysdk_announcement')) {
+            // If they haven't seen the the extendify notice, then hold off on showing this one.
+            return;
+        }
         if (self::siteIsOptin()) {
             return;
         }

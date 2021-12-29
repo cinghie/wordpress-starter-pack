@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.7
-Stable tag: 16.0.2
+Tested up to: 5.8
+Stable tag: 17.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,16 +42,17 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian and Turkish.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian, Slovak and Greek.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
-* **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook.
+* **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook. Plus: Social Appearance Templates to guarantee a consistent look.
 * **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
 * **[Premium]** Optimize your content for synonyms and related keyphrases.
 * **[Premium]** Optimize your article for different word forms of your keyphrases, as the singular and plural. But also different verb forms, synonyms, and related keyphrases. This makes for more natural content!
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
+* **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -108,6 +109,7 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/) plugin, when you also activate the [ACF Content Analysis for Yoast SEO](https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/) plugin.
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
 * [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
+* [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
 
 ### BUG REPORTS
 
@@ -234,76 +236,56 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 16.0.2 =
-Release Date: March 18th, 2021
+= 17.8 =
+Release Date: December 14th, 2021
+
+Yoast SEO 17.8 is out now and ready for you to download. In this release, we fix a number of bugs and added a few enhancements for you to enjoy! Read more about what's new in Yoast SEO 17.8 in [our release post in English](https://yoa.st/release-17-8) or [our release post in Spanish](https://yoa.st/release-17-8-spanish)!
 
 Enhancements:
 
-* Changes the deactivation prevention text on the Plugins page from ‘Deactivate Yoast SEO Premium first’ to ‘Required by Yoast SEO Premium’ to avoid confusion.
-
-= 16.0.1 =
-Release Date: March 16th, 2021
+* Improves the user direction in the configuration workout.
+* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
 
 Bugfixes:
 
-* Fixes a bug where in rare cases incorrect usage of `WP_Query` could lead to incorrect SEO data.
-
-= 16.0 =
-Release Date: March 16th, 2021
-
-Yoast SEO 16.0: The Sweet Sixteen release is out! It comes with several fixes and improvements. Happy updating and thank you for using Yoast SEO! Read more about what’s new in Yoast SEO 16.0 in [our release post](https://yoa.st/release-16-0)!
-
-Bugfixes:
-
-* Fixes a bug where invalid breadcrumbs would show PHP warnings.
-* Fixes a bug where a fatal error would be thrown when a post ancestor was not an indexable.
-* Fixes a bug where a fatal error would be thrown when both Yoast SEO and Polylang for WooCommerce were installed, and the site contained WooCommerce variable products. Props to [manooweb](https://github.com/manooweb).
+* Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
+* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
+* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
+* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
+* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
+* Fixes a bug where the Workouts page wouldn't display translations.
 
 Other:
 
-* Sets the WordPress tested up to version to 5.7 and minimum supported WordPress version to 5.6.
+* Fixes some styling issues in the configuration workout.
+* Prevents SEO managers from changing the site description in the configuration workout.
+* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
-= 15.9.2 =
-Release Date: March 11th, 2021
+= 17.7.1 =
+Release Date: December 1st, 2021
 
 Bugfixes:
 
-* Fixes a bug where the order of the robots values was suboptimal when running WordPress 5.7. Note that the order has no effect on how the values are interpreted.
+* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
+* Fixes a bug where Yoast addons would not inherit the auto-update settings from Yoast SEO.
+* Fixes a bug where changing the auto-update settings of another plugin could stop Yoast addons from being auto-updated.
 
-= 15.9.1 =
-Release Date: March 4th, 2021
+= 17.7 =
+Release Date: November 30th, 2021
 
-Welcome to Yoast SEO 15.9.1! This release contains an improvement for the FAQ block schema output, and makes sure the plugin is compatible with WordPress Core's auto-update feature and `robots` changes. Read more about those changes in [our post about Yoast SEO 15.9.1 and WordPress 5.7](https://yoa.st/release-15-9-1)!
+Meet Yoast SEO 17.7! This release introduces a new configuration workout to help you set up the Yoast SEO plugin properly from the get-go. Get the basic settings right in Yoast SEO and create a solid foundation for your SEO! Read more about what's new in Yoast SEO 17.7 in [our release post in English](https://yoa.st/release-17-7) or [our release post in Spanish](https://yoa.st/release-17-7-spanish)!
 
 Enhancements:
 
-* Removes `mainEntityOfPage` from our FAQ Schema block output and moves it to `mainEntity` on the `WebPage` output, fixing a Google parse issue with those FAQ blocks.
-* Performance enhancements in the post indexable builder by skipping link creation on drafts.
+* Replaces the configuration wizard with a configuration workout, which makes it easier to configure Yoast SEO for your website.
+* Adds a link to the archive page for the content types in the Search Appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
+* Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
 
 Bugfixes:
 
-* Fixes a bug where indexable creation caused compatibility problems with code that would hook in to new post creation. 
-
-Other:
-
-* Adds a notification to prompt users to enable auto-updates for Yoast SEO, in case they also have auto-updates for WordPress Core enabled.
-* Ensures compatibility with WordPress Core's `robots` meta tag by hooking into the `wp_robots` filter and using our settings there.
-* Enables/disables auto-updates for the Yoast Woocommerce, News, Video and Local SEO plugins when auto-updates for Yoast SEO are enabled/disabled.
-
-= 15.9 =
-Release Date: February 23rd, 2021
-
-Yoast SEO 15.9 is out! This release comes with performance improvements and general enhancements. Happy updating and thanks for using Yoast SEO! Read more about what’s new in Yoast SEO 15.9 in [our release post](https://yoa.st/release-15-9)!
-
-Enhancements:
-
- * Adds a preview of the chosen image for the organization and person image, social images, Facebook front page image and Facebook default image.
- * Improves interoperability and consistency in database queries.
- * Improves the performance by preventing database queries for the homepage indexable.
-
-Bugfixes:
-
-* Fixes a bug where the disabled style of the switch toggles didn't look right.
+* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
+* Fixes a bug where some post types would cause a PHP warning about custom fields.
+* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

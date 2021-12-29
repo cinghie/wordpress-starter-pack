@@ -3,7 +3,7 @@
   Plugin Name: List category posts
   Plugin URI: https://github.com/picandocodigo/List-Category-Posts
   Description: List Category Posts allows you to list posts by category in a post/page using the [catlist] shortcode. This shortcode accepts a category name or id, the order in which you want the posts to display, the number of posts to display and many more parameters. You can use [catlist] as many times as needed with different arguments. Usage: [catlist argument1=value1 argument2=value2].
-  Version: 0.83.1
+  Version: 0.86
   Author: Fernando Briano
   Author URI: http://fernandobriano.com
 
@@ -64,6 +64,7 @@ class ListCategoryPosts{
         'excerpt_class' =>'',
         'exclude' => '0',
         'excludeposts' => '0',
+        'includeposts' => '0',
         'offset' => '0',
         'tags' => '',
         'exclude_tags' => '',
@@ -77,6 +78,20 @@ class ListCategoryPosts{
         'catlink_string' => '',
         'catlink_tag' =>'',
         'catlink_class' => '',
+        'posts_tags' => '',
+        'posts_tags_tag' => '',
+        'posts_tags_class' => '',
+        'posts_tags_prefix' => ' ',
+        'posts_tags_glue' => ', ',
+        'posts_tags_inner' => '',
+        'posts_taglink' => 'no',
+        'posts_cats' => '',
+        'posts_cats_tag' => '',
+        'posts_cats_class' => '',
+        'posts_cats_prefix' => ' ',
+        'posts_cats_glue' => ', ',
+        'posts_cats_inner' => '',
+        'posts_catlink' => '',
         'child_categories' => 'yes',
         'comments' => 'no',
         'comments_tag' => '',
@@ -92,7 +107,7 @@ class ListCategoryPosts{
         'title_limit' => '0',
         'post_type' => '',
         'post_status' => '',
-        'post_parent' => '0',
+        'post_parent' => '',
         'post_suffix' => '',
         'show_protected' => 'no',
         'class' => '',
@@ -106,9 +121,11 @@ class ListCategoryPosts{
         'customfield_display_name' =>'',
         'customfield_display_name_glue' => ' : ',
         'customfield_display_separately' => 'no',
-        'customfield_orderby' =>'',
+        'customfield_orderby' => '',
+        'customfield_orderby_type' => '',
         'customfield_tag' => '',
         'customfield_class' => '',
+        'customfield_compare' => '',
         'taxonomy' => '',
         'taxonomies_and' => '',
         'taxonomies_or' => '',
@@ -116,6 +133,8 @@ class ListCategoryPosts{
         'categorypage' => '',
         'category_count' => '',
         'category_description' => 'no',
+        'category_description_tag' => '',
+        'category_description_class' => '',
         'morelink' => '',
         'morelink_class' => '',
         'morelink_tag' => '',
@@ -133,6 +152,7 @@ class ListCategoryPosts{
         'instance' => '0',
         'no_post_titles' => 'no',
         'link_titles' => true,
+        'link_current' => '',
         'link_dates' => 'no',
         'after' => '',
         'after_year' => '',
@@ -144,7 +164,8 @@ class ListCategoryPosts{
         'before_day' => '',
         'tags_as_class' => 'no',
         'pagination_bookmarks' => '',
-        'ol_offset' => ''
+        'ol_offset' => '',
+        'main_query' => '',
       );
     }
     return self::$default_params;
@@ -156,7 +177,8 @@ class ListCategoryPosts{
    * @param $content
    */
   static function catlist_func($atts) {
-    $atts = shortcode_atts(self::default_params(), $atts);
+    // Can be filtered using the shortcode_atts_catlist hook.
+    $atts = shortcode_atts(self::default_params(), $atts, 'catlist');
 
     if($atts['numberposts'] == ''){
       $atts['numberposts'] = get_option('numberposts');

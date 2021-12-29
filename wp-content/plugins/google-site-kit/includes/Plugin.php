@@ -10,7 +10,6 @@
 
 namespace Google\Site_Kit;
 
-use Google\Site_Kit\Core\Feature_Tours\Feature_Tours;
 use Google\Site_Kit\Core\Util\Build_Mode;
 use Google\Site_Kit\Core\Util\Feature_Flags;
 use Google\Site_Kit\Core\Util\JSON_File;
@@ -131,7 +130,10 @@ final class Plugin {
 		);
 
 		$display_site_kit_meta = function() {
-			printf( '<meta name="generator" content="Site Kit by Google %s" />', esc_attr( GOOGLESITEKIT_VERSION ) );
+			echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				'googlesitekit_generator',
+				sprintf( '<meta name="generator" content="Site Kit by Google %s" />', esc_attr( GOOGLESITEKIT_VERSION ) )
+			);
 		};
 		add_action( 'wp_head', $display_site_kit_meta );
 		add_action( 'login_head', $display_site_kit_meta );
@@ -154,6 +156,7 @@ final class Plugin {
 			function() use ( $options, $activation_flag ) {
 				$transients   = new Core\Storage\Transients( $this->context );
 				$user_options = new Core\Storage\User_Options( $this->context, get_current_user_id() );
+				$assets       = new Core\Assets\Assets( $this->context );
 
 				$authentication = new Core\Authentication\Authentication( $this->context, $options, $user_options, $transients );
 				$authentication->register();
@@ -161,14 +164,20 @@ final class Plugin {
 				$permissions = new Core\Permissions\Permissions( $this->context, $authentication );
 				$permissions->register();
 
-				$modules = new Core\Modules\Modules( $this->context, $options, $user_options, $authentication );
+				$modules = new Core\Modules\Modules( $this->context, $options, $user_options, $authentication, $assets );
 				$modules->register();
 
-				$assets = new Core\Assets\Assets( $this->context );
+				// Assets must be registered after Modules instance is registered.
 				$assets->register();
 
 				$screens = new Core\Admin\Screens( $this->context, $assets, $modules );
 				$screens->register();
+
+				if ( Feature_Flags::enabled( 'serviceSetupV2' ) ) {
+					( new Core\Authentication\Setup_V2( $this->context, $user_options, $authentication ) )->register();
+				} else {
+					( new Core\Authentication\Setup_V1( $this->context, $user_options, $authentication ) )->register();
+				}
 
 				( new Core\Util\Reset( $this->context ) )->register();
 				( new Core\Util\Reset_Persistent( $this->context ) )->register();
@@ -176,6 +185,7 @@ final class Plugin {
 				( new Core\Util\Tracking( $this->context, $user_options, $screens ) )->register();
 				( new Core\REST_API\REST_Routes( $this->context, $authentication, $modules ) )->register();
 				( new Core\Admin_Bar\Admin_Bar( $this->context, $assets, $modules ) )->register();
+				( new Core\Admin\Available_Tools() )->register();
 				( new Core\Admin\Notices() )->register();
 				( new Core\Admin\Dashboard( $this->context, $assets, $modules ) )->register();
 				( new Core\Notifications\Notifications( $this->context, $options, $authentication ) )->register();
@@ -183,7 +193,9 @@ final class Plugin {
 				( new Core\Util\Health_Checks( $authentication ) )->register();
 				( new Core\Admin\Standalone( $this->context ) )->register();
 				( new Core\Util\Activation_Notice( $this->context, $activation_flag, $assets ) )->register();
+				( new Core\Dismissals\Dismissals( $this->context, $user_options ) )->register();
 				( new Core\Feature_Tours\Feature_Tours( $this->context, $user_options ) )->register();
+				( new Core\User_Surveys\REST_User_Surveys_Controller( $authentication ) )->register();
 				( new Core\Util\Migration_1_3_0( $this->context, $options, $user_options ) )->register();
 				( new Core\Util\Migration_1_8_1( $this->context, $options, $user_options, $authentication ) )->register();
 
@@ -223,6 +235,9 @@ final class Plugin {
 
 		// Add Plugin Row Meta.
 		( new Core\Admin\Plugin_Row_Meta() )->register();
+
+		// Add Plugin Action Links.
+		( new Core\Admin\Plugin_Action_Links( $this->context ) )->register();
 	}
 
 	/**

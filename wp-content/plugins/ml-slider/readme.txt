@@ -2,9 +2,9 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.20.3
+Stable tag: 3.23.5
 Requires PHP: 5.2
-Tested up to: 5.7
+Tested up to: 5.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -198,6 +198,27 @@ Find out more at [metaslider.com](https://www.metaslider.com/)
 
 Follow us on Twitter: [@wpmetaslider](https://twitter.com/wpmetaslider)
 
+## Template and Pattern Library
+
+MetaSlider now includes access to the Extendify template and pattern library that can be accessed by clicking the "Library" button in the menu bar of the editor. We provide a variety of templates and patterns to serve different use cases and are adding more templates every week. Click on features -> MetaSlider to see patterns that incorporate the MetaSlider block.
+
+Note: Templates and patterns rely on blocks and styling applied by the Editor Plus plugin. The Editor Plus plugin is required when importing a template or pattern. If you uninstall Editor Plus, the templates and patterns will still display on your site, but the styling may be affected. Additionally, stock images included in the templates are hosted by Extendify. We recommend replacing the images or adding them to your media library directly.
+
+## Privacy
+
+MetaSlider uses a custom API to fetch templates and patterns from the Extendify template and pattern library. To improve the service and stability we store logs which may contain the following:
+
+* browser type
+* referring site
+* date and time of request
+* category selection or search term
+* anonymized IP address
+
+API requests are only made when a user clicks on the Library button.
+
+For more details on our privacy policy: [https://extendify.com/privacy-policy](https://extendify.com/privacy-policy)
+For more details on our terms of service: [https://extendify.com/terms-of-service](https://extendify.com/terms-of-service)
+
 ### Privacy Policy:
 MetaSlider uses the Appsero SDK to collect non-sensitive diagnostic data upon a user’s confirmation. This data helps us to troubleshoot problems faster & make product improvements.
 Meta Slider only collects this diagnostic data when a user allows it via a notice in WP Admin or MetaSlider settings. View our [privacy policy](https://www.metaslider.com/privacy-policy).
@@ -266,6 +287,36 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Integrates directly in Gutenberg
 
 == Changelog ==
+
+= 3.23.5 - 2021/Nov/30 =
+* FIX: Fixes post output stripslashes bug
+
+= 3.23.4 - 2021/Nov/23 =
+* FIX: Fixes array key on boolean bug
+
+= 3.23.3 - 2021/Nov/12 =
+* FIX: Fixes theme conflict with the utility class stylesheet
+
+= 3.23.2 - 2021/Nov/11 =
+* FIX: Lowers utility class display specificity
+
+= 3.23.1 - 2021/Nov/3 =
+* TWEAK: Changes how metagallery language files are loaded
+* FEATURE: Updates library
+
+= 3.23.0 - 2021/Aug/27 =
+* TWEAK: Bug fixes and updates to the library
+
+= 3.22.1 - 2021/Aug/11 =
+* FIX: Addresses bug with array_key_exists
+* FIX: Addresses conflict with standalone Gutenberg plugin
+
+= 3.22.0 - 2021/Aug/05 =
+* TWEAK: Removes plugin dependency from editor library
+
+= 3.21.0 - 2021/July/19 =
+* FEATURE: Adds MetaSLider patterns to editor Library
+* FIX: Fixes incorrect support URL link
 
 = 3.20.3 - 2021/Mar/02 =
 * FIX: Update responsive slides to improve jQuery compatability

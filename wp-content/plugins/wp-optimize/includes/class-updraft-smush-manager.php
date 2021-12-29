@@ -5,11 +5,11 @@
 
 if (!defined('ABSPATH')) die('Access denied.');
 
-if (!class_exists('Updraft_Task_Manager_1_2')) require_once(WPO_PLUGIN_MAIN_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-task-manager.php');
+if (!class_exists('Updraft_Task_Manager_1_3')) require_once(WPO_PLUGIN_MAIN_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-task-manager.php');
 
 if (!class_exists('Updraft_Smush_Manager')) :
 
-class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
+class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 
 	static protected $_instance = null;
 
@@ -48,7 +48,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		parent::__construct();
 
 		if (!class_exists('Updraft_Smush_Manager_Commands')) include_once('class-updraft-smush-manager-commands.php');
-		if (!class_exists('Smush_Task')) include_once('class-updraft-smush-task.php');
+		if (!class_exists('Updraft_Smush_Task')) include_once('class-updraft-smush-task.php');
 		if (!class_exists('Re_Smush_It_Task')) include_once('class-updraft-resmushit-task.php');
 		if (!class_exists('Updraft_Logger_Interface')) include_once('class-updraft-logger-interface.php');
 		if (!class_exists('Updraft_Abstract_Logger')) include_once('class-updraft-abstract-logger.php');
@@ -155,10 +155,12 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		
 		if (in_array($subaction, $allowed_commands)) {
 
-			if (isset($_REQUEST['data']))
+			if (isset($_REQUEST['data'])) {
 				$data = $_REQUEST['data'];
-
-			$results = call_user_func(array($this->commands, $subaction), $data);
+				$results = call_user_func(array($this->commands, $subaction), $data);
+			} else {
+				$results = call_user_func(array($this->commands, $subaction));
+			}
 			
 			if (is_wp_error($results)) {
 				$results = array(
@@ -307,11 +309,11 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 			// A strict operator (!==) needs to be used, as 0 is a positive result.
 			if (false !== strpos($backup_path, $current_uploads_dir_folder)) {
 				$temp_relative_backup_path = substr($backup_path, strpos($backup_path, $current_uploads_dir_folder) + strlen($current_uploads_dir_folder));
+				if (is_file($uploads_basedir . $temp_relative_backup_path)) {
+					$backup_path = $uploads_basedir . $temp_relative_backup_path;
+				}
 			}
 
-			if (is_file($uploads_basedir . $temp_relative_backup_path)) {
-				$backup_path = $uploads_basedir . $temp_relative_backup_path;
-			}
 
 		}
 
@@ -641,7 +643,8 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 				'back_up_delete_after_days' => $this->options->get_option('back_up_delete_after_days', 50),
 				'preserve_exif' => $this->options->get_option('preserve_exif', false),
 				'autosmush' => $this->options->get_option('autosmush', false),
-				'show_smush_metabox' => $this->options->get_option('show_smush_metabox', 'show') == 'show' ? true : false
+				'show_smush_metabox' => $this->options->get_option('show_smush_metabox', 'show') == 'show' ? true : false,
+				'webp_conversion' => $this->options->get_option('webp_conversion', false)
 			);
 		}
 		return $smush_options;
@@ -776,7 +779,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		if (WP_Optimize()->get_db_info()->table_exists('ewwwio_images')) {
 			$old_show_errors = $wpdb->show_errors(false);
 			// EWWW Image Optimizer.
-			$ewww_image = $wpdb->get_col("SELECT attachment_id FROM {$wpdb->prefix}ewwwio_images WHERE `attachment_id`={$image_id} LIMIT 1");
+			$ewww_image = $wpdb->get_col("SELECT attachment_id FROM {$wpdb->prefix}ewwwio_images WHERE attachment_id={$image_id} AND gallery='media' LIMIT 1");
 			if (!empty($ewww_image)) return true;
 			$wpdb->show_errors($old_show_errors);
 		}
@@ -797,7 +800,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		if (!WP_Optimize()->get_db_info()->table_exists('ewwwio_images')) return $args;
 
 		$old_show_errors = $wpdb->show_errors(false);
-		$compressed_images = $wpdb->get_col("SELECT DISTINCT(attachment_id) FROM {$wpdb->prefix}ewwwio_images");
+		$compressed_images = $wpdb->get_col("SELECT DISTINCT(attachment_id) FROM {$wpdb->prefix}ewwwio_images WHERE gallery='media'");
 		$wpdb->show_errors($old_show_errors);
 
 		if (isset($args['post__not_in'])) {
@@ -1172,7 +1175,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_2 {
 		$total_memory_usage = round(@memory_get_usage(true)/1048576, 1);
 
 		// Attempt to raise limit
-		@set_time_limit(90);
+		@set_time_limit(330);
 
 		$log_header = array();
 

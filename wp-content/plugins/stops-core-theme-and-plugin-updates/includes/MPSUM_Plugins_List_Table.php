@@ -14,6 +14,8 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 
 	private $status = 'all';
 
+	private $allowed_statuses = array();
+
 	private $page = '1';
 
 	/**
@@ -38,9 +40,11 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 		// Get plugins transient
 		$this->plugins_transient = get_site_transient('update_plugins');
 
+		$this->allowed_statuses = apply_filters('eum_plugins_list_table_allowed_statuses', array('all', 'update_disabled', 'update_enabled', 'automatic'));
+
 		if (isset($_REQUEST['action']) && 'eum_ajax' === $_REQUEST['action']) {
 			$this->status = 'all';
-			if (isset($_REQUEST['view']) && in_array($_REQUEST['view'], array('update_disabled', 'update_enabled', 'automatic'))) {
+			if (isset($_REQUEST['view']) && in_array($_REQUEST['view'], array_values(array_diff($this->allowed_statuses, array($this->status))))) {
 				$this->status = $_REQUEST['view'];
 			}
 
@@ -50,7 +54,7 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 			$this->page = isset($_REQUEST['paged']) ? $_REQUEST['paged'] : '1';
 		} else {
 			$this->status = 'all';
-			if (isset($args['view']) && in_array($args['view'], array('update_disabled', 'update_enabled', 'automatic'))) {
+			if (isset($args['view']) && in_array($args['view'], array_values(array_diff($this->allowed_statuses, array($this->status))))) {
 				$this->status = $args['view'];
 			}
 
@@ -129,6 +133,8 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 				}
 			}
 		}
+
+		$plugins = apply_filters('eum_plugins_list_table_prepare_items', $plugins);
 
 		$totals = array();
 		foreach ($plugins as $type => $list)
@@ -341,6 +347,9 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 				case 'automatic':
 					$text = _n('Automatic updates <span class="count">(%s)</span>', 'Automatic updates <span class="count">(%s)</span>', $count, 'stops-core-theme-and-plugin-updates');
 					break;
+				default:
+					$text = apply_filters('eum_plugins_list_table_text_view', '', $type, $count);
+					break;
 			}
 
 			if ('search' != $type) {
@@ -377,7 +386,7 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 			$actions['disallow-automatic-selected'] = esc_html__('Automatic updates off', 'stops-core-theme-and-plugin-updates');
 		}
 
-		return $actions;
+		return apply_filters('eum_plugins_list_table_bulk_actions', $actions);
 	}
 
 	/**
@@ -587,6 +596,7 @@ class MPSUM_Plugins_List_Table extends MPSUM_List_Table {
 
 						echo '</div></div>';
 					}
+					do_action('eum_populate_plugins_list_table_column', $column_name, $item);
 					echo '</div>';
 					echo "</td>";
 					break;

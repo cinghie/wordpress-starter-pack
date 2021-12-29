@@ -49,3 +49,24 @@ is_fs()->add_filter( 'plugin_icon', function () {
 } );
 // Disable affiliate notice
 is_fs()->add_filter( 'show_affiliate_program_notice', '__return_false' );
+/**
+ * Drop index table after uninstall.
+ * When this hook is executed, the plugin files no longer exists.
+ * So we can't call IS_Index_Model::uninstall() method.
+ * 
+ * @since 5.0
+ */
+function is_index_uninstall()
+{
+    global  $wpdb ;
+    $is_index_table = $wpdb->prefix . 'is_inverted_index';
+    $sql = $wpdb->prepare( "SHOW TABLES LIKE %s;", $is_index_table );
+    
+    if ( $wpdb->get_var( $sql ) === $is_index_table ) {
+        $sql = "DROP TABLE {$is_index_table};";
+        $wpdb->query( $sql );
+    }
+
+}
+
+is_fs()->add_action( 'after_uninstall', 'is_index_uninstall' );

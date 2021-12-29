@@ -16,6 +16,20 @@ class WP_Optimizer {
 
 		return array($retain_enabled, $retain_period);
 	}
+
+	/**
+	 * Get data retention options
+	 *
+	 * @return array
+	 */
+	public function get_revisions_retain_info() {
+		$options = WP_Optimize()->get_options();
+
+		$revisions_retention_enabled = $options->get_option('revisions-retention-enabled', 'false');
+		$revisions_retention_count = $revisions_retention_enabled ? $options->get_option('revisions-retention-count', '2') : null;
+
+		return array($revisions_retention_enabled, $revisions_retention_count);
+	}
 	
 	public function get_optimizations_list() {
 	
@@ -490,20 +504,21 @@ class WP_Optimizer {
 
 		$total_gain = 0;
 		$total_size = 0;
-		$row_usage = 0;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Used in the foreach below
+		$row_usage = 0;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $row_usage Used in the foreach below
 		$data_usage = 0;
 		$index_usage = 0;
-		$overhead_usage = 0; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Used in the foreach below
+		$overhead_usage = 0;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $overhead_usage Used in the foreach below
 		
 		$tablesstatus = $this->get_tables();
 
 		foreach ($tablesstatus as $tablestatus) {
-			$row_usage += $tablestatus->Rows;
+			$row_usage += $tablestatus->Rows;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $row_usage declared up above
+			$total_gain += $tablestatus->Data_free;
 			$data_usage += $tablestatus->Data_length;
 			$index_usage += $tablestatus->Index_length;
 
 			if ('InnoDB' != $tablestatus->Engine) {
-				$overhead_usage += $tablestatus->Data_free;
+				$overhead_usage += $tablestatus->Data_free;// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- $overhead_usage declared up above
 				$total_gain += $tablestatus->Data_free;
 			}
 		}

@@ -5,11 +5,13 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
+use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 
 /**
  * This class forces needed methods for the metabox localization.
@@ -53,6 +55,14 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 		$schema_types         = new Schema_Types();
+
+		$is_wincher_active = WPSEO_Options::get( 'wincher_integration_active', true );
+
+		// If feature flag is disabled, Wincher should not be active.
+		$conditional = new Wincher_Conditional();
+		if ( ! $conditional->is_met() ) {
+			$is_wincher_active = false;
+		}
 
 		return [
 			'author_name'                 => get_the_author_meta( 'display_name' ),
@@ -166,6 +176,10 @@ class WPSEO_Metabox_Formatter {
 			'analysisHeadingTitle'        => __( 'Analysis', 'wordpress-seo' ),
 			'zapierIntegrationActive'     => WPSEO_Options::get( 'zapier_integration_active', false ) ? 1 : 0,
 			'zapierConnectedStatus'       => ! empty( WPSEO_Options::get( 'zapier_subscription', [] ) ) ? 1 : 0,
+			'wincherIntegrationActive'    => $is_wincher_active ? 1 : 0,
+			'wincherLoginStatus'          => $is_wincher_active ? YoastSEO()->helpers->wincher->login_status() : false,
+			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', '' ),
+			'wincherAutoAddKeyphrases'    => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
@@ -205,7 +219,7 @@ class WPSEO_Metabox_Formatter {
 	private function get_translations() {
 		$locale = \get_user_locale();
 
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
+		$file = WPSEO_PATH . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
@@ -221,7 +235,7 @@ class WPSEO_Metabox_Formatter {
 	 * Checks if Jetpack's markdown module is enabled.
 	 * Can be extended to work with other plugins that parse markdown in the content.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	private function is_markdown_enabled() {
 		$is_markdown = false;
@@ -246,13 +260,13 @@ class WPSEO_Metabox_Formatter {
 	/**
 	 * Checks if the user is logged in to SEMrush.
 	 *
-	 * @return boolean The SEMrush login status.
+	 * @return bool The SEMrush login status.
 	 */
 	private function get_semrush_login_status() {
 		try {
 			$semrush_client = YoastSEO()->classes->get( SEMrush_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
-			// return false if token is malformed (empty property).
+			// Return false if token is malformed (empty property).
 			return false;
 		}
 

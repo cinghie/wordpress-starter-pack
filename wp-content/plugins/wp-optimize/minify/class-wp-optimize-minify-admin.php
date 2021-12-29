@@ -58,14 +58,6 @@ class WP_Optimize_Minify_Admin {
 	public function admin_enqueue_scripts($hook) {
 		$enqueue_version = (defined('WP_DEBUG') && WP_DEBUG) ? WPO_VERSION.'.'.time() : WPO_VERSION;
 		$min_or_not_internal = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '-'. str_replace('.', '-', WPO_VERSION). '.min';
-		
-		wp_enqueue_script(
-			'wp-optimize-minify-admin-purge',
-			WPO_PLUGIN_URL.'js/minify-admin-purge' . $min_or_not_internal . '.js',
-			array('jquery', 'wp-optimize-send-command'),
-			$enqueue_version
-		);
-
 		if (preg_match('/wp\-optimize/i', $hook)) {
 			wp_enqueue_script('wp-optimize-min-js', WPO_PLUGIN_URL.'js/minify' . $min_or_not_internal . '.js', array('jquery', 'wp-optimize-admin-js'), $enqueue_version);
 		}

@@ -31,6 +31,13 @@ class MPSUM_Logs {
 	 * @var bool Determines whether auto update or manual
 	 */
 	protected $auto_update = false;
+	
+	// Format: key=<version>, value=array of method names to call
+	private static $db_updates = array(
+		'1.1.6' => array(
+			'build_table',
+		)
+	);
 
 	/**
 	 * Holds version number of the table
@@ -39,7 +46,7 @@ class MPSUM_Logs {
 	 * @access private
 	 * @var string $slug
 	 */
-	private $version = '1.1.4';
+	private static $version = '1.1.6';
 
 	/**
 	 * Holds a variable for checkin the logs table
@@ -74,11 +81,8 @@ class MPSUM_Logs {
 	 * @access private
 	 */
 	protected function __construct() {
-		$table_version = get_site_option('mpsum_log_table_version', '0');
-		if (version_compare($table_version, $this->version) < 0) {
-			$this->build_table();
-			MPSUM_Updates_Manager::update_option('mpsum_log_table_version', $this->version);
-		}
+		
+		$this->check_updates();
 
 		// Clear transient on updates screen
 		global $pagenow;
@@ -99,6 +103,26 @@ class MPSUM_Logs {
 		add_filter('eum_i18n', array($this, 'logs_i18n'));
 
 	} //end constructor
+	
+	/**
+	 * See if any database schema updates are needed, and perform them if so.
+	 *
+	 * @return void
+	 */
+	public static function check_updates() {
+		$our_version = self::$version;
+		$db_version = get_site_option('mpsum_log_table_version', '0');
+		if (version_compare($our_version, $db_version, '>')) {
+			foreach (self::$db_updates as $version => $updates) {
+				if (version_compare($version, $db_version, '>')) {
+					foreach ($updates as $update) {
+						call_user_func(array(__CLASS__, $update));
+					}
+				}
+			}
+			MPSUM_Updates_Manager::update_option('mpsum_log_table_version', $our_version);
+		}
+	}
 
 	/**
 	 * Run translations when automatic updates are finished.
@@ -124,7 +148,8 @@ class MPSUM_Logs {
 				$slug = $language_update->slug;
 				$name = $this->get_name_for_update($language_update->type, $slug);
 				$name = $name . ' (' . $language_update->language . ')';
-				$this->insert_log($name, 'translation', $version_from, $version, 'automatic', $status);
+				$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+				$this->insert_log($name, 'translation', $version_from, $version, 'automatic', $status, 0, '', $stacktrace);
 			}
 		}
 	}
@@ -303,8 +328,9 @@ class MPSUM_Logs {
 					}
 
 					list($version, $status) = $this->set_status_and_version($core->result, $version_from, $version, $status);
+					$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
 
-					$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, $user_id);
+					$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, $user_id, '', $stacktrace);
 					break;
 				case 'plugin':
 					foreach ($results as $plugin) {
@@ -320,7 +346,8 @@ class MPSUM_Logs {
 								$notes .= $message . "\n\r\n\r";
 							}
 						}
-						$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, 0, $notes);
+						$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+						$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, 0, $notes, $stacktrace);
 					}
 					break;
 				case 'theme':
@@ -337,7 +364,8 @@ class MPSUM_Logs {
 								$notes .= $message . "\n\r";
 							}
 						}
-						$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, 0, $notes);
+						$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+						$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, 0, $notes, $stacktrace);
 					}
 					break;
 				case 'translation':
@@ -347,7 +375,8 @@ class MPSUM_Logs {
 						$version = (1 == $status) ? $translation->item->version : '';
 						$name = $this->get_name_for_update($translation->item->type, $translation->item->slug);
 						$name = $name . ' (' . $translation->item->language . ')';
-						$this->insert_log($name, $type, $version_from, $version, 'automatic', $status);
+						$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+						$this->insert_log($name, $type, $version_from, $version, 'automatic', $status, 0, '', $stacktrace);
 					}
 					break;
 			}
@@ -387,7 +416,7 @@ class MPSUM_Logs {
 	 * @param int    $status       Status of upgrade
 	 * @param int    $user_id      User responsible for the upgrade
 	 */
-	public function insert_log($name, $type, $version_from, $version, $action, $status, $user_id = 0, $notes = '' ) {
+	public function insert_log($name, $type, $version_from, $version, $action, $status, $user_id = 0, $notes = '', $stacktrace = '' ) {
 		global $wpdb;
 		$table_name = $wpdb->base_prefix . 'eum_logs';
 		if ('' == $version_from) $version_from = '0.00';
@@ -408,9 +437,11 @@ class MPSUM_Logs {
 				'status'       => $status,
 				'date'         => current_time('mysql'),
 				'notes'        => $notes,
+				'stacktrace'   => $stacktrace,
 			),
 			array(
 				'%d',
+				'%s',
 				'%s',
 				'%s',
 				'%s',
@@ -479,7 +510,8 @@ class MPSUM_Logs {
 					$slug = $translation['slug'];
 					$name = $this->get_name_for_update($translation['type'], $slug);
 					$name = $name . ' (' . $translation['language'] . ')';
-					$this->insert_log($name, 'translation', $version_from, $version, 'manual', $status, $user_id);
+					$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+					$this->insert_log($name, 'translation', $version_from, $version, 'manual', $status, $user_id, '', $stacktrace);
 				}
 				break;
 			case 'core':
@@ -493,8 +525,9 @@ class MPSUM_Logs {
 				$version_from = $this->log_messages['core']['from_version']; // Version curently installed
 				$version = $this->log_messages['core']['version']; // Latestr WP Version
 				$name = 'WordPress ' . $version;
+				$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
 
-				$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id);
+				$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id, '', $stacktrace);
 				break;
 			case 'plugin':
 				if (! empty($this->log_messages['plugin']) && isset($options['plugins']) && !empty($options['plugins'])) {
@@ -504,7 +537,8 @@ class MPSUM_Logs {
 							$version = $this->log_messages['plugin'][$plugin]['new_version'];
 							$status = ($version_from == $version) ? 0 : 1;
 							$name = $this->log_messages['plugin'][$plugin]['name'];
-							$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id);
+							$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+							$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id, '', $stacktrace);
 						}
 					}
 				}
@@ -519,7 +553,8 @@ class MPSUM_Logs {
 								$version = $theme_data->get('Version');
 								$status = ($version_from == $version) ? 0 : 1;
 								$name = $theme_data->get('Name');
-								$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id);
+								$stacktrace = json_encode(debug_backtrace(false)); // phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+								$this->insert_log($name, $options['type'], $version_from, $version, 'manual', $status, $user_id, '', $stacktrace);
 							}
 						}
 					}
@@ -536,7 +571,7 @@ class MPSUM_Logs {
 	 * @since 6.0.0
 	 * @access public
 	 */
-	public function build_table() {
+	public static function build_table() {
 		global $wpdb;
 		$tablename = $wpdb->base_prefix . 'eum_logs';
 
@@ -557,6 +592,7 @@ class MPSUM_Logs {
 						action VARCHAR(255) NOT NULL,
 						status VARCHAR(255) NOT NULL,
 						notes TEXT NOT NULL,
+						stacktrace TEXT DEFAULT NULL,
 						date DATETIME NOT NULL,
 						PRIMARY KEY  (log_id)
 						) {$charset_collate};";

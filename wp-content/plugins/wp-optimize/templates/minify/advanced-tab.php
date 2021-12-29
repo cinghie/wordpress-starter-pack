@@ -240,7 +240,7 @@
 						class="large-text code"
 						placeholder="https://cdn.example.com"
 						disabled
-					><?php echo $wpo_minify_options['hpreconnect']; ?></textarea>
+					><?php echo esc_textarea($wpo_minify_options['hpreconnect']); ?></textarea>
 					<p>
 						<?php _e('Use the complete scheme (http:// or https://) followed by the domain name only (no file paths).', 'wp-optimize'); ?>
 					</p>
@@ -264,7 +264,7 @@
 						id="merge_allowed_urls"
 						class="large-text code"
 						placeholder="<?php esc_attr_e('e.g.: example.com', 'wp-optimize'); ?>"
-					><?php echo $wpo_minify_options['merge_allowed_urls']; ?></textarea>
+					><?php echo esc_textarea($wpo_minify_options['merge_allowed_urls']); ?></textarea>
 				</fieldset>
 			</div>
 	
@@ -283,7 +283,7 @@
 								type="text"
 								name="cdn_url"
 								id="cdn_url"
-								value="<?php echo isset($wpo_minify_options['cdn_url']) ? $wpo_minify_options['cdn_url'] : ''; ?>"
+								value="<?php echo isset($wpo_minify_options['cdn_url']) ? esc_attr($wpo_minify_options['cdn_url']) : ''; ?>"
 								size="80"
 							/>
 						</p>

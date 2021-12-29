@@ -14,7 +14,7 @@
                 <template slot="description">{{ __('For users of the free version of MetaSlider, we offer full free support on the wordpress.org forums.', 'ml-slider') }}</template>
                 <template slot="link-text">{{ __('Visit wordpress.org', 'ml-slider') }}</template>
             </textbox-with-link>
-            <textbox-with-link link="https://wordpress.org/plugins/ml-slider" class="mb-4" :new-tab="true">
+            <textbox-with-link link="https://www.metaslider.com/support" class="mb-4" :new-tab="true">
                 <template slot="header">{{ __('Paid Premium Support 🌟', 'ml-slider') }}</template>
                 <template slot="description">{{ __('Paid users of the premium plugin can open a ticket on our private support center to receive personalized support and faster response times.', 'ml-slider') }}</template>
                 <template slot="link-text">{{ __('Visit metaslider.com', 'ml-slider') }}</template>

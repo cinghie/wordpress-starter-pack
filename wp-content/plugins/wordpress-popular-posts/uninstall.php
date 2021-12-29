@@ -6,7 +6,7 @@
  * @author    Hector Cabrera <me@cabrerahector.com>
  * @license   GPL-2.0+
  * @link      https://cabrerahector.com
- * @copyright 2008-2020 Hector Cabrera
+ * @copyright 2008-2021 Hector Cabrera
  */
 
 // If uninstall is not called from WordPress, exit
@@ -77,4 +77,5 @@ function uninstall() {
     $wpdb->query("DROP TABLE IF EXISTS {$prefix}datacache_backup;");
     $wpdb->query("DROP TABLE IF EXISTS {$prefix}log;");
     $wpdb->query("DROP TABLE IF EXISTS {$prefix}summary;");
+    $wpdb->query("DROP TABLE IF EXISTS {$prefix}transients;");
 }

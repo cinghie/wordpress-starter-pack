@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.20.3
+ * Version:     3.23.5
  * Author:      MetaSlider
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -35,7 +35,7 @@ class MetaSliderPlugin
      *
      * @var string
      */
-    public $version = '3.20.3';
+    public $version = '3.23.5';
 
     /**
      * Pro installed version number
@@ -124,7 +124,8 @@ class MetaSliderPlugin
         }
 
         // require_once(METASLIDER_PATH . 'admin/lib/temporary.php');
-        require_once(METASLIDER_PATH . 'admin/lib/callout.php');
+        require_once(METASLIDER_PATH . 'admin/lib/extendify-notice.php');
+        // require_once(METASLIDER_PATH . 'admin/lib/callout.php');
     }
 
     /**
@@ -1900,6 +1901,13 @@ if (file_exists(dirname(__FILE__) . '/metagallery/metagallery.php') && !METAGALL
     }
 }
 
-endif;
+if (is_readable(dirname(__FILE__) . '/extendify-sdk/loader.php')) {
+    if (!isset($GLOBALS['extendify_sdk_partner'])) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+        $GLOBALS['extendify_sdk_partner'] = 'MetaSlider';
+    }
+    require plugin_dir_path(__FILE__) . 'extendify-sdk/loader.php';
+}
 
+endif;
 add_action('plugins_loaded', array(MetaSliderPlugin::get_instance(), 'setup'), 10);

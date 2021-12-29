@@ -5,7 +5,8 @@ Plugin Name: Easy Updates Manager
 Plugin URI: https://easyupdatesmanager.com
 Description: Manage and disable WordPress updates, including core, plugin, theme, and automatic updates - Works with Multisite and has built-in logging features.
 Author: Easy Updates Manager Team
-Version: 9.0.8
+Version: 9.0.12
+Update URI: https://wordpress.org/plugins/stops-core-theme-and-plugin-updates/
 Author URI: https://easyupdatesmanager.com
 Contributors: kidsguide, ronalfy
 Text Domain: stops-core-theme-and-plugin-updates
@@ -17,7 +18,7 @@ Network: true
 
 if (!defined('ABSPATH')) die('No direct access allowed');
 
-if (!defined('EASY_UPDATES_MANAGER_VERSION')) define('EASY_UPDATES_MANAGER_VERSION', '9.0.8');
+if (!defined('EASY_UPDATES_MANAGER_VERSION')) define('EASY_UPDATES_MANAGER_VERSION', '9.0.12');
 
 if (!defined('EASY_UPDATES_MANAGER_MAIN_PATH')) define('EASY_UPDATES_MANAGER_MAIN_PATH', plugin_dir_path(__FILE__));
 if (!defined('EASY_UPDATES_MANAGER_URL')) define('EASY_UPDATES_MANAGER_URL', plugin_dir_url(__FILE__));
@@ -176,6 +177,23 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 				MPSUM_Logs::run();
 			}
 
+			$options = MPSUM_Updates_Manager::get_options();
+			if (!isset($options['migrated_from_9_0_9'])) {
+				if (isset($options['core']['core_updates'])) {
+					switch ($options['core']['core_updates']) {
+						case 'disable_auto_updates_migrated_from_9_0_9':
+							$options['core']['core_updates'] = 'on'; // 'on' is for 'Manually update', it's different with 'automatic', since 'automatic_off' (disable auto updates) and 'on' is basically the same, so we use 'on' instead and remove the 'automatic_off', also the UI.
+							break;
+						case 'manually_update_migrated_from_9_0_9':
+							$options['core']['core_updates'] = 'automatic_minor';
+							break;
+						default:
+							break;
+					}
+				}
+				$options['migrated_from_9_0_9'] = true;
+				MPSUM_Updates_Manager::update_options($options);
+			}
 			MPSUM_Admin_Ajax::get_instance();
 		}
 
@@ -383,12 +401,17 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 				} elseif ('on' === $options['core']['automatic_major_updates']) {
 					$new_options['core']['core_updates'] = 'automatic';
 				} elseif ('off' === $options['core']['automatic_major_updates'] || 'off' === $options['core']['automatic_minor_updates']) {
-					$new_options['core']['core_updates'] = 'automatic_off';
+					$new_options['core']['core_updates'] = 'on'; // 'on' is for 'Manually update', it's different with 'automatic', since 'automatic_off' and 'on' is basically the same, so we use 'on' instead and remove the 'automatic_off', also the UI.
 				}
 				unset($options['core']['automatic_major_updates']);
 			}
 			if (isset($options['core']['core_updates']) && 'off' === $options['core']['core_updates']) {
 				$new_options['core']['core_updates'] = 'off';
+			} elseif (!isset($options['migrated_from_9_0_9']) && isset($options['core']['core_updates']) && 'automatic_off' === $options['core']['core_updates']) {
+				$new_options['core']['core_updates'] = 'disable_auto_updates_migrated_from_9_0_9';
+			} elseif (!isset($options['migrated_from_9_0_9']) && isset($options['core']['core_updates']) && 'on' === $options['core']['core_updates']) {
+				// the 'Manually update (on)' setting doesn't do automatic minor updates anymore, so we change users' preference whose setting is set to 'Manually update' to becoming 'automatic_minor' (Auto update all minor versions)
+				$new_options['core']['core_updates'] = 'manually_update_migrated_from_9_0_9';
 			}
 			if (isset($new_options['core']['core_updates'])) {
 				$options['core']['core_updates'] = $new_options['core']['core_updates'];
@@ -416,7 +439,7 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 			if (isset($options['core']['automatic_theme_updates'])) {
 				if ('on' === $options['core']['automatic_theme_updates']) {
 					$new_options['core']['theme_updates'] = 'automatic';
-				} elseif ('custom' === $options['core']['automatic_updates']) {
+				} elseif ('custom' === $options['core']['automatic_theme_updates']) {
 					$new_options['core']['theme_updates'] = 'individual';
 				} elseif ('off' === $options['core']['automatic_theme_updates']) {
 					$new_options['core']['theme_updates'] = 'automatic_off';
@@ -836,7 +859,7 @@ if (!class_exists('MPSUM_Updates_Manager')) {
 				<# } #>";
 			}
 
-			return $html;
+			return apply_filters('eum_entity_auto_update_setting_html', $html, $entity);
 		}
 		
 		/**

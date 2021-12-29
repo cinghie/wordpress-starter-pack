@@ -81,10 +81,10 @@ class IS_Public
                 
                 if ( is_search() ) {
                     if ( isset( $_GET['id'] ) ) {
-                        $is_temp['is_id'] = $_GET['id'];
+                        $is_temp['is_id'] = sanitize_key( $_GET['id'] );
                     }
                     if ( isset( $_GET['s'] ) ) {
-                        $is_temp['is_label'] = $_GET['s'];
+                        $is_temp['is_label'] = sanitize_text_field( $_GET['s'] );
                     }
                     
                     if ( 0 == $wp_query->found_posts ) {
@@ -234,14 +234,14 @@ class IS_Public
                     
                     if ( '' !== $title ) {
                         $link_title = ( apply_filters( 'is_show_menu_link_title', true ) ? 'title="' . esc_attr( $title ) . '"' : '' );
-                        $temp .= '<a ' . $link_title . ' href="#" aria-label="' . __( "Search Title Link", "ivory-search" ) . '">';
+                        $temp .= '<a ' . $link_title . ' href="#" aria-label="' . __( "Search Title Link", "add-search-to-menu" ) . '">';
                     } else {
-                        $temp .= '<a href="#" aria-label="' . __( "Search Icon Link", "ivory-search" ) . '">';
+                        $temp .= '<a href="#" aria-label="' . __( "Search Icon Link", "add-search-to-menu" ) . '">';
                     }
                     
                     
                     if ( '' == $title ) {
-                        $temp .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '">
+                        $temp .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "add-search-to-menu" ) . '">
 						<path class="search-icon-path" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>';
                     } else {
                         $temp .= $title;
@@ -294,7 +294,7 @@ class IS_Public
                 $items .= '<a ' . $link_title . ' href="#">';
                 
                 if ( '' == $title ) {
-                    $items .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "ivory-search" ) . '">
+                    $items .= '<svg width="20" height="20" class="search-icon" role="img" viewBox="2 9 20 5" focusable="false" aria-label="' . __( "Search", "add-search-to-menu" ) . '">
 					<path class="search-icon-path" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>';
                 } else {
                     $items .= $title;
@@ -329,17 +329,17 @@ class IS_Public
     /**
      * Filters search after the query variable object is created, but before the actual query is run.
      */
-    function pre_get_posts( $query )
+    function pre_get_posts( $query, $index_search = false )
     {
-        if ( !$query->is_search() ) {
+        if ( !$query->is_search() && !$index_search ) {
             return;
         }
         $is_id = '';
         
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            $is_id = ( isset( $_POST['id'] ) ? absint( $_POST['id'] ) : '-1' );
+            $is_id = ( isset( $_POST['id'] ) ? sanitize_key( absint( $_POST['id'] ) ) : '-1' );
         } else {
-            if ( is_admin() || !$query->is_main_query() ) {
+            if ( is_admin() || !$query->is_main_query() && !$index_search ) {
                 return;
             }
             $is_id = get_query_var( 'id' );
@@ -622,6 +622,7 @@ class IS_Public
         }
         
         do_action( 'is_pre_get_posts', $query );
+        return $query;
     }
     
     /**
@@ -681,11 +682,33 @@ class IS_Public
         $f = '%';
         $l = '%';
         $like = 'LIKE';
+        $fuzzy_match_partial = false;
         
-        if ( isset( $q['_is_settings']['fuzzy_match'] ) && '2' !== $q['_is_settings']['fuzzy_match'] ) {
+        if ( !isset( $q['_is_settings']['fuzzy_match'] ) ) {
+            $q['_is_settings']['fuzzy_match'] = '2';
+            //the default is partial fuzzy match
+        }
+        
+        
+        if ( '1' == $q['_is_settings']['fuzzy_match'] ) {
             $like = 'REGEXP';
             $f = '([[:blank:][:punct:]]|^)';
             $l = '([[:blank:][:punct:]]|$)';
+        } else {
+            
+            if ( '2' == $q['_is_settings']['fuzzy_match'] ) {
+                $fuzzy_match_partial = true;
+                $like = 'REGEXP';
+                $f = '([[:<:]])';
+                $l = '([[:>:]])';
+                
+                if ( $this->is_icu_regexp() ) {
+                    $f = '\\b';
+                    $l = '\\b';
+                }
+            
+            }
+        
         }
         
         $searchand = '';
@@ -693,6 +716,9 @@ class IS_Public
         $OR = '';
         foreach ( (array) $q['search_terms'] as $term2 ) {
             $term = $f . $wpdb->esc_like( $term2 ) . $l;
+            if ( $fuzzy_match_partial ) {
+                $term = $f . $wpdb->esc_like( $term2 ) . '|' . $wpdb->esc_like( $term2 ) . $l;
+            }
             $OR = '';
             $search .= "{$searchand} (";
             
@@ -781,7 +807,9 @@ class IS_Public
             foreach ( $q['tax_query'] as $value ) {
                 
                 if ( isset( $value['terms'] ) ) {
-                    $tax_post_type = array_diff( $tax_post_type, array( $value['post_type'] ) );
+                    if ( isset( $value['post_type'] ) ) {
+                        $tax_post_type = array_diff( $tax_post_type, array( $value['post_type'] ) );
+                    }
                     
                     if ( 'OR' === $q['tax_query']['relation'] ) {
                         $search .= $OR;
@@ -882,6 +910,48 @@ class IS_Public
     }
     
     /**
+     * Verifies if the DB uses ICU REGEXP implementation.
+     * 
+     * MySQL implements regular expression support using 
+     * International Components for Unicode (ICU), which 
+     * provides full Unicode support and is multibyte safe.
+     * 
+     * (Prior to MySQL 8.0.4, MySQL used Henry Spencer's 
+     * implementation of regular expressions, which operates 
+     * in byte-wise fashion and is not multibyte safe.
+     * 
+     * @since 5.3
+     */
+    function is_icu_regexp()
+    {
+        $is_icu_regexp = false;
+        global  $wpdb ;
+        $db_version = $wpdb->db_version();
+        
+        if ( version_compare( $db_version, '8.0.4', '>=' ) ) {
+            
+            if ( empty($wpdb->use_mysqli) ) {
+                //deprecated in php 7.0
+                $vesion_details = mysql_get_server_info();
+            } else {
+                $vesion_details = mysqli_get_server_info( $wpdb->dbh );
+            }
+            
+            //mariadb
+            
+            if ( stripos( $vesion_details, 'maria' ) !== false && version_compare( $db_version, '10.0.5', '>=' ) ) {
+                $is_icu_regexp = true;
+            } else {
+                //mysql
+                $is_icu_regexp = true;
+            }
+        
+        }
+        
+        return $is_icu_regexp;
+    }
+    
+    /**
      * Adds code in the header of site front end.
      */
     function wp_head()
@@ -889,6 +959,55 @@ class IS_Public
         if ( isset( $this->opt['header_search'] ) && $this->opt['header_search'] ) {
             echo  do_shortcode( '[ivory-search id="' . $this->opt['header_search'] . '"]' ) ;
         }
+        
+        if ( isset( $this->opt['not_load_files']['js'] ) ) {
+            $is_temp_ajax = array(
+                'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+                'ajax_nonce' => wp_create_nonce( 'is_ajax_nonce' ),
+            );
+            ?>
+			<script id='ivory-search-js-extras'>
+			var IvoryAjaxVars = <?php 
+            echo  json_encode( $is_temp_ajax ) ;
+            ?>;
+			<?php 
+            $is_analytics = get_option( 'is_analytics', array() );
+            $analytics_disabled = ( isset( $is_analytics['disable_analytics'] ) ? $is_analytics['disable_analytics'] : 0 );
+            
+            if ( !$analytics_disabled ) {
+                $is_temp = array(
+                    'is_analytics_enabled' => "1",
+                );
+                
+                if ( is_search() ) {
+                    global  $wp_query ;
+                    if ( isset( $_GET['id'] ) ) {
+                        $is_temp['is_id'] = sanitize_key( $_GET['id'] );
+                    }
+                    if ( isset( $_GET['s'] ) ) {
+                        $is_temp['is_label'] = sanitize_text_field( $_GET['s'] );
+                    }
+                    
+                    if ( 0 == $wp_query->found_posts ) {
+                        $is_temp['is_cat'] = 'Nothing Found';
+                    } else {
+                        $is_temp['is_cat'] = 'Results Found';
+                    }
+                
+                }
+                
+                ?>
+				var IvorySearchVars = <?php 
+                echo  json_encode( $is_temp ) ;
+                ?>;
+				<?php 
+            }
+            
+            ?>
+			</script>
+			<?php 
+        }
+    
     }
     
     /**
@@ -906,11 +1025,15 @@ class IS_Public
         }
         
         
-        if ( isset( $this->opt['custom_css'] ) && $this->opt['custom_css'] != '' ) {
-            echo  '<style type="text/css" media="screen">' ;
-            echo  '/* Ivory search custom CSS code */' ;
+        if ( isset( $this->opt['custom_css'] ) && $this->opt['custom_css'] != '' && !preg_match( '#</?\\w+#', $this->opt['custom_css'] ) ) {
+            ?>
+			<style type="text/css" media="screen">
+			/* Ivory search custom CSS code */
+			<?php 
             echo  wp_specialchars_decode( esc_html( $this->opt['custom_css'] ), ENT_QUOTES ) ;
-            echo  '</style>' ;
+            ?>
+			</style>
+		<?php 
         }
         
         global  $wp_query ;

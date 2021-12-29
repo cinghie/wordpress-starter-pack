@@ -267,7 +267,11 @@ class WP_Optimize_Gzip_Compression {
 					'BrowserMatch ^Mozilla/4 gzip-only-text/html',
 					'BrowserMatch ^Mozilla/4\.0[678] no-gzip',
 					'BrowserMatch \bMSIE !no-gzip !gzip-only-text/html',
-					'Header append Vary User-Agent',
+					array(
+						'<IfModule mod_headers.c>',
+						'Header append Vary User-Agent',
+						'</IfModule>',
+					),
 					'</IfModule>',
 				),
 				'</IfModule>',

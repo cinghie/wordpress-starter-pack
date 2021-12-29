@@ -168,16 +168,16 @@ function um_profile_content_main( $args ) {
 		 */
 		do_action( 'um_after_form', $args );
 
-	} else { ?>
-
+	} else {
+		?>
 		<div class="um-profile-note">
 			<span>
 				<i class="um-faicon-lock"></i>
 				<?php echo $can_view; ?>
 			</span>
 		</div>
-
-	<?php }
+		<?php
+	}
 }
 add_action( 'um_profile_content_main', 'um_profile_content_main' );
 
@@ -363,6 +363,9 @@ function um_user_edit_profile( $args ) {
 
 				}
 
+				// use this filter after all validations has been completed and we can extends data based on key
+				$to_update = apply_filters( 'um_change_usermeta_for_update', $to_update, $args, $fields, $key );
+
 			}
 		}
 	}
@@ -459,8 +462,27 @@ function um_user_edit_profile( $args ) {
 	 */
 	$to_update = apply_filters( 'um_user_pre_updating_profile_array', $to_update, $user_id );
 
-
 	if ( is_array( $to_update ) ) {
+
+		if ( isset( $to_update['first_name'] ) || isset( $to_update['last_name'] ) || isset( $to_update['nickname'] ) ) {
+			$user = get_userdata( $user_id );
+			if ( ! empty( $user ) && ! is_wp_error( $user ) ) {
+				UM()->user()->previous_data['display_name'] = $user->display_name;
+
+				if ( isset( $to_update['first_name'] ) ) {
+					UM()->user()->previous_data['first_name'] = $user->first_name;
+				}
+
+				if ( isset( $to_update['last_name'] ) ) {
+					UM()->user()->previous_data['last_name'] = $user->last_name;
+				}
+
+				if ( isset( $to_update['nickname'] ) ) {
+					UM()->user()->previous_data['nickname'] = $user->nickname;
+				}
+			}
+		}
+
 		UM()->user()->update_profile( $to_update );
 		/**
 		 * UM hook
@@ -626,7 +648,7 @@ function um_editing_user_id_input( $args ) {
 	if ( UM()->fields()->editing == 1 && UM()->fields()->set_mode == 'profile' && UM()->user()->target_id ) { ?>
 
 		<input type="hidden" name="user_id" id="user_id" value="<?php echo esc_attr( UM()->user()->target_id ); ?>" />
-		<input type="hidden" name="profile_nonce" id="profile_nonce" value="<?php echo esc_attr( wp_create_nonce( 'um-profile-nonce' . UM()->user()->target_id ) ); ?>" />
+		<input type="hidden" name="profile_nonce" id="profile_nonce" value="<?php echo esc_attr( UM()->form()->nonce ); ?>" />
 
 	<?php }
 }
@@ -699,7 +721,11 @@ function um_profile_dynamic_meta_desc() {
 
 		$locale = get_user_locale( $user_id );
 		$site_name = get_bloginfo( 'name' );
-		$twitter_site = '@' . sanitize_title( $site_name );
+
+		$twitter = (string) um_user( 'twitter' );
+		if ( ! empty( $twitter ) ) {
+			$twitter = trim( str_replace( 'https://twitter.com/', '', $twitter ), "/ \n\r\t\v\0" );
+		}
 
 		$title = trim( um_user( 'display_name' ) );
 		$description = um_convert_tags( UM()->options()->get( 'profile_desc' ) );
@@ -741,7 +767,9 @@ function um_profile_dynamic_meta_desc() {
 		<meta property="og:url" content="<?php echo esc_url( $url ); ?>"/>
 
 		<meta name="twitter:card" content="summary"/>
-		<meta name="twitter:site" content="<?php echo esc_attr( $twitter_site ); ?>"/>
+		<?php if ( $twitter ) { ?>
+			<meta name="twitter:site" content="@<?php echo esc_attr( $twitter ); ?>"/>
+		<?php } ?>
 		<meta name="twitter:title" content="<?php echo esc_attr( $title ); ?>"/>
 		<meta name="twitter:description" content="<?php echo esc_attr( $description ); ?>"/>
 		<meta name="twitter:image" content="<?php echo esc_url( $image ); ?>"/>
@@ -1294,42 +1322,38 @@ function um_pre_profile_shortcode( $args ) {
 	 */
 	extract( $args );
 
-	if ( $mode == 'profile' && UM()->fields()->editing == false ) {
-		UM()->fields()->viewing = 1;
-
-		if ( um_get_requested_user() ) {
-			if ( ! um_can_view_profile( um_get_requested_user() ) && ! um_is_myprofile() ) {
-				um_redirect_home( um_get_requested_user(), um_is_myprofile() );
+	if ( $mode == 'profile' ) {
+		if ( UM()->fields()->editing ) {
+			if ( um_get_requested_user() ) {
+				if ( ! UM()->roles()->um_current_user_can( 'edit', um_get_requested_user() ) ) {
+					um_redirect_home( um_get_requested_user(), um_is_myprofile() );
+				}
+				um_fetch_user( um_get_requested_user() );
 			}
-
-			if ( ! UM()->roles()->um_current_user_can( 'edit', um_get_requested_user() ) ) {
-				UM()->user()->cannot_edit = 1;
-			}
-
-			um_fetch_user( um_get_requested_user() );
 		} else {
-			if ( ! is_user_logged_in() ) {
-				um_redirect_home( um_get_requested_user(), um_is_myprofile() );
-			}
+			UM()->fields()->viewing = 1;
 
-			if ( ! um_user( 'can_edit_profile' ) ) {
-				UM()->user()->cannot_edit = 1;
+			if ( um_get_requested_user() ) {
+				if ( ! um_can_view_profile( um_get_requested_user() ) && ! um_is_myprofile() ) {
+					um_redirect_home( um_get_requested_user(), um_is_myprofile() );
+				}
+
+				if ( ! UM()->roles()->um_current_user_can( 'edit', um_get_requested_user() ) ) {
+					UM()->user()->cannot_edit = 1;
+				}
+
+				um_fetch_user( um_get_requested_user() );
+			} else {
+				if ( ! is_user_logged_in() ) {
+					um_redirect_home( um_get_requested_user(), um_is_myprofile() );
+				}
+
+				if ( ! um_user( 'can_edit_profile' ) ) {
+					UM()->user()->cannot_edit = 1;
+				}
 			}
 		}
 	}
-
-	if ( $mode == 'profile' && UM()->fields()->editing == true ) {
-		UM()->fields()->editing = 1;
-
-		if ( um_get_requested_user() ) {
-			if ( ! UM()->roles()->um_current_user_can( 'edit', um_get_requested_user() ) ) {
-				um_redirect_home( um_get_requested_user(), um_is_myprofile() );
-			}
-			um_fetch_user( um_get_requested_user() );
-		}
-
-	}
-
 }
 add_action( 'um_pre_profile_shortcode', 'um_pre_profile_shortcode' );
 
@@ -1530,7 +1554,7 @@ function um_add_submit_button_to_profile( $args ) {
 
 	<div class="um-col-alt">
 
-		<?php if ( isset( $args['secondary_btn'] ) && $args['secondary_btn'] != 0 ) { ?>
+		<?php if ( ! empty( $args['secondary_btn'] ) ) { ?>
 
 			<div class="um-left um-half">
 				<input type="submit" value="<?php esc_attr_e( wp_unslash( $args['primary_btn_word'] ), 'ultimate-member' ); ?>" class="um-button" />

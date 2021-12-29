@@ -13,7 +13,6 @@ namespace Google\Site_Kit\Core\Authentication;
 use Google\Site_Kit\Context;
 use Google\Site_Kit\Core\Util\Feature_Flags;
 use WP_Error;
-use Exception;
 
 /**
  * Class for authentication service.
@@ -24,18 +23,25 @@ use Exception;
  */
 class Google_Proxy {
 
-	const BASE_URL                = 'https://sitekit.withgoogle.com';
-	const OAUTH2_SITE_URI         = '/o/oauth2/site/';
-	const OAUTH2_REVOKE_URI       = '/o/oauth2/revoke/';
-	const OAUTH2_TOKEN_URI        = '/o/oauth2/token/';
-	const OAUTH2_AUTH_URI         = '/o/oauth2/auth/';
-	const OAUTH2_DELETE_SITE_URI  = '/o/oauth2/delete-site/';
-	const SETUP_URI               = '/site-management/setup/';
-	const PERMISSIONS_URI         = '/site-management/permissions/';
-	const USER_INPUT_SETTINGS_URI = '/site-management/settings/';
-	const FEATURES_URI            = '/site-management/features/';
-	const ACTION_SETUP            = 'googlesitekit_proxy_setup';
-	const ACTION_PERMISSIONS      = 'googlesitekit_proxy_permissions';
+	const PRODUCTION_BASE_URL       = 'https://sitekit.withgoogle.com';
+	const STAGING_BASE_URL          = 'https://site-kit-dev.appspot.com';
+	const OAUTH2_SITE_URI           = '/o/oauth2/site/';
+	const OAUTH2_REVOKE_URI         = '/o/oauth2/revoke/';
+	const OAUTH2_TOKEN_URI          = '/o/oauth2/token/';
+	const OAUTH2_AUTH_URI           = '/o/oauth2/auth/';
+	const OAUTH2_DELETE_SITE_URI    = '/o/oauth2/delete-site/';
+	const SETUP_URI                 = '/site-management/setup/';
+	const PERMISSIONS_URI           = '/site-management/permissions/';
+	const USER_INPUT_SETTINGS_URI   = '/site-management/settings/';
+	const FEATURES_URI              = '/site-management/features/';
+	const SURVEY_TRIGGER_URI        = '/survey/trigger/';
+	const SURVEY_EVENT_URI          = '/survey/event/';
+	const ACTION_EXCHANGE_SITE_CODE = 'googlesitekit_proxy_exchange_site_code';
+	const ACTION_SETUP              = 'googlesitekit_proxy_setup';
+	const ACTION_SETUP_START        = 'googlesitekit_proxy_setup_start';
+	const ACTION_PERMISSIONS        = 'googlesitekit_proxy_permissions';
+	const ACTION_VERIFY             = 'googlesitekit_proxy_verify';
+	const NONCE_ACTION              = 'googlesitekit_proxy_nonce';
 
 	/**
 	 * Plugin context.
@@ -64,7 +70,8 @@ class Google_Proxy {
 	 * @return string The application name.
 	 */
 	public static function get_application_name() {
-		return 'wordpress/google-site-kit/' . GOOGLESITEKIT_VERSION;
+		$platform = self::get_platform();
+		return $platform . '/google-site-kit/' . GOOGLESITEKIT_VERSION;
 	}
 
 	/**
@@ -110,7 +117,7 @@ class Google_Proxy {
 			$query_params,
 			array(
 				'supports' => rawurlencode( implode( ' ', $this->get_supports() ) ),
-				'nonce'    => rawurlencode( wp_create_nonce( self::ACTION_SETUP ) ),
+				'nonce'    => rawurlencode( wp_create_nonce( self::NONCE_ACTION ) ),
 			)
 		);
 
@@ -136,7 +143,7 @@ class Google_Proxy {
 		$params      = array_merge( $params, $user_fields );
 
 		$params['application_name'] = rawurlencode( self::get_application_name() );
-		$params['hl']               = get_user_locale();
+		$params['hl']               = $this->context->get_locale( 'user' );
 
 		return add_query_arg( $params, $this->url( self::SETUP_URI ) );
 	}
@@ -159,7 +166,7 @@ class Google_Proxy {
 		}
 
 		$query_args['application_name'] = rawurlencode( self::get_application_name() );
-		$query_args['hl']               = get_user_locale();
+		$query_args['hl']               = $this->context->get_locale( 'user' );
 
 		return add_query_arg( $query_args, $this->url( self::PERMISSIONS_URI ) );
 	}
@@ -173,11 +180,9 @@ class Google_Proxy {
 	 * @return string Complete proxy URL.
 	 */
 	public function url( $path = '' ) {
-		if ( defined( 'GOOGLESITEKIT_PROXY_URL' ) && GOOGLESITEKIT_PROXY_URL ) {
-			$url = GOOGLESITEKIT_PROXY_URL;
-		} else {
-			$url = self::BASE_URL;
-		}
+		$url = defined( 'GOOGLESITEKIT_PROXY_URL' ) && self::STAGING_BASE_URL === GOOGLESITEKIT_PROXY_URL
+			? self::STAGING_BASE_URL
+			: self::PRODUCTION_BASE_URL;
 
 		$url = untrailingslashit( $url );
 
@@ -202,6 +207,7 @@ class Google_Proxy {
 		$request_args = array(
 			'headers' => ! empty( $args['headers'] ) && is_array( $args['headers'] ) ? $args['headers'] : array(),
 			'body'    => ! empty( $args['body'] ) && is_array( $args['body'] ) ? $args['body'] : array(),
+			'timeout' => isset( $args['timeout'] ) ? $args['timeout'] : 15,
 		);
 
 		if ( $credentials && $credentials instanceof Credentials ) {
@@ -439,13 +445,81 @@ class Google_Proxy {
 	 * @return array|WP_Error Response of the wp_remote_post request.
 	 */
 	public function get_features( Credentials $credentials ) {
+		$platform = self::get_platform();
 		return $this->request(
 			self::FEATURES_URI,
 			$credentials,
 			array(
 				'body' => array(
-					'platform' => 'wordpress/google-site-kit',
+					'platform' => $platform . '/google-site-kit',
 					'version'  => GOOGLESITEKIT_VERSION,
+				),
+			)
+		);
+	}
+
+	/**
+	 * Gets the platform.
+	 *
+	 * @since 1.37.0
+	 *
+	 * @return string WordPress multisite or WordPress.
+	 */
+	public static function get_platform() {
+		if ( is_multisite() ) {
+			return 'wordpress-multisite';
+		}
+		return 'wordpress'; // phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
+	}
+
+	/**
+	 * Sends survey trigger ID to the proxy.
+	 *
+	 * @since 1.35.0
+	 *
+	 * @param Credentials $credentials  Credentials instance.
+	 * @param string      $access_token Access token.
+	 * @param string      $trigger_id   Token ID.
+	 * @return array|WP_Error Response of the wp_remote_post request.
+	 */
+	public function send_survey_trigger( Credentials $credentials, $access_token, $trigger_id ) {
+		return $this->request(
+			self::SURVEY_TRIGGER_URI,
+			$credentials,
+			array(
+				'access_token' => $access_token,
+				'json_request' => true,
+				'body'         => array(
+					'trigger_context' => array(
+						'trigger_id' => $trigger_id,
+						'language'   => get_user_locale(),
+					),
+				),
+			)
+		);
+	}
+
+	/**
+	 * Sends survey event to the proxy.
+	 *
+	 * @since 1.35.0
+	 *
+	 * @param Credentials     $credentials  Credentials instance.
+	 * @param string          $access_token Access token.
+	 * @param array|\stdClass $session      Session object.
+	 * @param array|\stdClass $event        Event object.
+	 * @return array|WP_Error Response of the wp_remote_post request.
+	 */
+	public function send_survey_event( Credentials $credentials, $access_token, $session, $event ) {
+		return $this->request(
+			self::SURVEY_EVENT_URI,
+			$credentials,
+			array(
+				'access_token' => $access_token,
+				'json_request' => true,
+				'body'         => array(
+					'session' => $session,
+					'event'   => $event,
 				),
 			)
 		);

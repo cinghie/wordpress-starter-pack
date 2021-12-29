@@ -36,10 +36,10 @@
 				$( this ).closest('.is-menu').find( 'form' ).animate( { 
 					width: '310'
 					}, function() {
+						$( this ).closest('.is-menu').addClass( 'open' );
 						$( this ).closest('.is-menu').find( 'button.is-search-submit' ).show();
 				} );
 			} else if ( $( this ).closest('.is-menu').hasClass( 'full-width-menu' ) ) {
-				$( this ).closest('.is-menu').addClass( 'active-search' );
 				var menu_width = $( this ).closest('ul').outerWidth();
 				if ( $( this ).closest( '.is-menu-wrapper' ).hasClass( 'is-expanded' ) ) {
 					menu_width = $( window ).width();
@@ -58,6 +58,8 @@
 				$( this ).closest('.is-menu').find( 'form' ).animate( { 
 					width: menu_width+'px',
 					}, function() {
+						$( this ).closest('.is-menu').addClass( 'active-search' );
+						$( this ).closest('.is-menu').addClass( 'open' );
 						$( this ).closest('.is-menu').find( 'button.is-search-submit' ).show();
 				} );
 			} else if ( $( this ).closest('.is-menu').hasClass( 'popup' ) ) {
@@ -65,7 +67,6 @@
 				$( '#is-popup-wrapper form input[type="text"], #is-popup-wrapper form input[type="search"]' ).focus();
 			}
 			if ( $( this ).closest('.is-menu').hasClass( 'sliding' ) || $( this ).closest('.is-menu').hasClass( 'full-width-menu' ) ) {
-				$( this ).closest('.is-menu').addClass( 'open' );
 				$( this ).closest('.is-menu').find( 'form input[type="search"], form input[type="text"]' ).focus();
 			}
 			$(this).closest('.is-menu').find( 'form input[type="search"], form input[type="text"]' ).focus();

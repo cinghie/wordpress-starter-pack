@@ -3,9 +3,9 @@ Contributors: fernandobt, zymeth25
 Donate Link: http://picandocodigo.net/programacion/wordpress/list-category-posts-wordpress-plugin-english/#support
 Tags: list, categories, posts, cms
 Requires at least: 3.3
-Tested up to: 5.4.2
+Tested up to: 5.8
 Requires PHP: 5.4
-Stable tag: 0.83.1
+Stable tag: 0.86
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,11 @@ Great to use WordPress as a CMS, and create pages with several categories posts.
 Klemens Starybrat has created a GUI for List Category Posts. It helps you create a shortcode from a nice visual interface in WordPress' text editor. Check it out:
 [GUI for List Category Posts](https://wordpress.org/plugins/gui-for-lcp/)
 
+**AJAX pagination**
+
+The ajax pagination feature is maintained in an add-on plugin by Klemens Starybrat. Check it out:
+[LCP Ajax Pagination](https://wordpress.org/plugins/lcp-ajax-pagination)
+
 **Widget**
 
 Since WordPress 4.9, [you can use shortcode in text widgets](https://make.wordpress.org/core/2017/10/24/widget-improvements-in-wordpress-4-9/). So you can just add a text widget in Appearence > Widgets and write the List Category Posts shortcode.
@@ -60,7 +65,7 @@ Some users have made videos on how to use the plugin (thank you, you are awesome
 
 **Support the plugin**
 
-Klemens Starybrat has been writing lots of amazing code for this plugin, so if you've found it useful and want to pay it forward, consider sponsoring him on GitHub: https://github.com/sponsors/zymeth25
+Klemens Starybrat has been writing lots of amazing code for this plugin, so if you've found it useful and want to pay it forward, consider sponsoring him on GitHub: https://github.com/sponsors/klemens-st
 
 I have a [PayPal account](http://picandocodigo.net/programacion/wordpress/list-category-posts-wordpress-plugin-english/#support "Donate via PayPal") where you can donate too.
 
@@ -231,6 +236,48 @@ Widget built for WordPress 2.8's Widget API, so you need at least WP 2.8 to use 
 Template system has changed. Custom templates should be stored in WordPress theme folder.
 
 == Changelog ==
+
+= 0.86 =
+
+* **New feature**: use `link_current=no` to prevent the current post from being wrapped in a link.
+* **New feature**: display categories and tags of each post with `posts_cats` and `posts_tags`, a bunch of new parameters have been added to customise this feature, see [the docs](https://github.com/picandocodigo/List-Category-Posts/wiki/More-parameters-you-can-use).
+* Fixed an issue with `currenttags`, when navigating to a post with no tags, no posts are displayed, same as with `categorypage`.
+* Updated the testing environment and CI scripts.
+
+= 0.85.1 =
+
+* Attempted fix of a compatibility issue with some versions of PHP 7.4
+
+= 0.85 =
+
+* **New feature**: Support for custom field data types for `customfield_orderby`, use `customfield_orderby_type`. Thanks @vosykapavel!
+* **New feature**: Run LCP in standard secondary loop mode with `main_query=no`. See [the docs](https://github.com/picandocodigo/List-Category-Posts/wiki/More-parameters-you-can-use#other-parameters) and #445.
+* Removed the `target` attribute from `<a>` elements in post titles (#464) .
+* `post_parent=0 post_type=page` now works as expected, displaying only top level pages (#370).
+* Fixed multiple authors by id (#426).
+
+= 0.84.2 =
+
+* Fixed includeposts undefined index in older widgets.
+* Fixed invalid href attribute in morelink.
+
+= 0.84.1 =
+
+* Filter hook added: `shortcode_atts_catlist`, see [the docs](https://developer.wordpress.org/reference/hooks/shortcode_atts_shortcode/).
+* Filter hook added: `lcp_pagination_html`, see [the source](https://github.com/picandocodigo/List-Category-Posts/blob/90d6cf08aad9c4590e3c06b8ce8d9256f757917f/include/lcp-paginator.php#L104).
+
+= 0.84.0 =
+
+* **New feature**: Select specific posts by IDs: `[catlist includeposts="2,97"]`. Thanks @hvianna!
+* **New feature:** Advanced customfield filtering with `customfield_compare`, see [the docs](https://github.com/picandocodigo/List-Category-Posts/wiki/How-to-select-which-posts-to-show#other-ways-of-selecting-what-posts-to-show) for instructions.
+* **New feature:** It is now possible to style `category_description` with `category_description_tag` and `category_description_class`.
+* Changed the default wrapper tag for `content=yes` to `<div>` to avoid generating invalid HTML (previously `<p>`).
+* Fixed `excerpt_full` not being run through `the_excerpt` filters (thanks @StefanXRoos!). The filters are now applied same as for `excerpt_yes`. **Please check your setup** if you are using `excerpt_full`.
+* Fixed `display_id` bug, thanks for reporting @fiestoforo!
+* Fixed PHP warnings in WP admin caused by the widget, thanks for reporting @hiskingdomprophecy (#420).
+* Fixed `posts_where` filter not being properly removed when using `starting_with`.
+* Full refactor of HTML generation making it easier to maintain.
+* Upgraded PHP to 7.4 in the Vagrant machine.
 
 = 0.83.1 =
 

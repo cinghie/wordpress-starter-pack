@@ -29,13 +29,13 @@ class IS_Widget extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
 		if ( ! empty( $instance['search_form'] ) ) {
-				echo do_shortcode( '[ivory-search id="' . $instance['search_form'] . '"]' );
+				echo do_shortcode( '[ivory-search id="' . esc_attr( $instance['search_form'] ) . '"]' );
 		} else {
 			$page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
             if ( ! empty( $page ) ) {
-					echo do_shortcode( '[ivory-search id="' . $page->ID . '"]' );
+					echo do_shortcode( '[ivory-search id="' . esc_attr( $page->ID ) . '"]' );
             } else {
-                    _e( 'Please select search form in the Ivory Search widget.', 'add-search-to-menu' );
+                    esc_html_e( 'Please select search form in the Ivory Search widget.', 'add-search-to-menu' );
                 }
          }
 		echo $args['after_widget'];
@@ -63,28 +63,28 @@ class IS_Widget extends WP_Widget {
 
 			$posts = get_posts( $args );
 
-			if ( ! empty( $posts ) ) {
-				$html .= '<label for="'. esc_attr( $this->get_field_id( 'search_form' ) ) .'">'. esc_attr_e( 'Search Form:', 'add-search-to-menu' ) .'</label>';
-				$html .= '<select class="widefat" id="'.esc_attr( $this->get_field_id( 'search_form' ) ).'" name="'.esc_attr( $this->get_field_name( 'search_form' ) ).'" >';
-				$html .= '<option value="0">' . __( 'Click to select Search Form', 'add-search-to-menu' ) . '</option>';
-				if ( ! isset( $instance['search_form'] ) && ! $search_form ) {
+			if ( ! empty( $posts ) ) { ?>
+				<label for="<?php esc_attr_e( $this->get_field_id( 'search_form' ) ); ?>"><?php  esc_attr_e( 'Search Form:', 'add-search-to-menu' ); ?></label>
+				<select class="widefat" id="<?php esc_attr_e( $this->get_field_id( 'search_form' ) ); ?>" name="<?php esc_attr_e( $this->get_field_name( 'search_form' ) ); ?>" >
+				<option value="0"><?php  _e( 'Click to select Search Form', 'add-search-to-menu' ); ?></option>
+				<?php if ( ! isset( $instance['search_form'] ) && ! $search_form ) {
 				foreach ($posts as $val) {
 				       if ( 'default-search-form' === $val->post_name ) {
 				           $search_form = $val->ID;
 				       }
 				   }
 				}
-				foreach ( $posts as $post ) {
-					$html .= '<option value="' . $post->ID . '"' . selected( $post->ID, $search_form, false ) . ' >' . $post->post_title . '</option>';
-				}
+				foreach ( $posts as $post ) { ?>
+					<option value="<?php esc_attr_e( $post->ID ); ?>" <?php selected( $post->ID, $search_form ); ?> ><?php esc_html_e( $post->post_title ); ?></option>
+				<?php }  ?>
 
-				$html .= '</select>';
-				if ( $search_form && get_post_type( $search_form ) ) {
-					$html .= '<a href="' . get_admin_url( null, 'admin.php?page=ivory-search&post='.$search_form.'&action=edit' ) . '">  ' . esc_html__( "Edit", 'add-search-to-menu' ) . '</a>';
-				} else {
-					$html .= '<a href="' . get_admin_url( null, 'admin.php?page=ivory-search-new' ) . '">  ' . esc_html__( "Create New", 'add-search-to-menu' ) . '</a>';
-				}
-				echo $html;
+				</select>
+				<?php if ( $search_form && get_post_type( $search_form ) ) { ?>
+					<a href="<?php echo get_admin_url( null, 'admin.php?page=ivory-search&post='.$search_form.'&action=edit' ); ?>"> <?php esc_html_e( "Edit Search Form", 'add-search-to-menu' ); ?></a>
+				<?php } else { ?>
+					<a href="<?php echo get_admin_url( null, 'admin.php?page=ivory-search-new' ); ?>"><?php esc_html_e( "Create New Search Form", 'add-search-to-menu' ); ?></a>
+				<?php }
+				
 			}
 		?>
 		</p>

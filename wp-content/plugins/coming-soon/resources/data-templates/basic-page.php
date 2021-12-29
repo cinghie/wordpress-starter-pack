@@ -59,6 +59,8 @@ $seedprod_basic_lpage = '
            "customCss":"",
            "headCss":"",
            "mobileCss":"",
+           "mobileVisibilityCss":"",
+           "desktopVisibilityCss":"",
            "placeholderCss":"",
            "useVideoBg":false,
            "useVideoBgUrl":"",
@@ -124,7 +126,9 @@ $seedprod_basic_lpage = '
       "borderLeft": "0",
       "borderRight": "0",
       "borderSync": true,
-      "borderStyle":"solid"
+      "borderStyle":"solid",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
    },
    "section":{
       "bgStyle": "s",
@@ -177,7 +181,12 @@ $seedprod_basic_lpage = '
     "borderLeft": "0",
     "borderRight": "0",
     "borderSync": true,
-    "borderStyle":"solid"
+    "borderStyle":"solid",
+    "alignType":"s",
+    "display":"",
+    "flexDirection":"column",
+    "justifyContent":"",
+    "alignItems":""
  },
    "icon":{
      "icon":"fas fa-angle-double-down",
@@ -190,7 +199,9 @@ $seedprod_basic_lpage = '
      "paddingBottom": "",
      "paddingLeft": "",
      "paddingRight": "",
-     "paddingSync": true
+     "paddingSync": true,
+     "hideOnDesktop": false,
+     "hideOnMobile": false
    },
    "starrating":{
     "label":"",
@@ -219,7 +230,9 @@ $seedprod_basic_lpage = '
     "paddingBottom": "",
     "paddingLeft": "",
     "paddingRight": "",
-    "paddingSync": true
+    "paddingSync": true,
+    "hideOnDesktop": false,
+    "hideOnMobile": false
   },
   "testimonial":{
     "items": [{ "img": "", "txt": "\"This is the greatest thing since sliced bread!\"","name": "John Smith", "title": "CEO" }],
@@ -259,12 +272,57 @@ $seedprod_basic_lpage = '
     "nametypographyBold": "",
     "nametypographyItalic": "",
     "nametypographyUnderline": "",
-    "nametypographyLetterCase": ""
+    "nametypographyLetterCase": "",
+    "hideOnDesktop": false,
+    "hideOnMobile": false
+   },
+   "imagecarousel":{
+    "items": [{ "img": "", "name": "", "title": "CEO" }],
+    "align": "center",
+    "captionalign":"ceter",
+    "showCaption": false,
+    "navColor":"d",
+    "autoPlay":true,
+    "speed":5,
+    "marginTop": "0",
+    "paddingTop": "10",
+    "paddingBottom": "10",
+    "paddingLeft": "10",
+    "paddingRight": "10",
+    "paddingSync": true,
+    "textColor": "#444444",
+    "captionColor": "",
+    "captionfont": "",
+    "captionfontVariant": "",
+    "captionfontSize": "",
+    "captionfontSize_mobile": "",
+    "captionlineHeight": "",
+    "captionlineHeight_mobile": "",
+    "captionletterSpacing": "",
+    "captionletterSpacing_mobile": "",
+    "captiontypographyBold": "",
+    "captiontypographyItalic": "",
+    "captiontypographyUnderline": "",
+    "captiontypographyLetterCase": "",
+    "shadow": "",
+    "imageBorderRadius": "",
+    "imageBorderTop": "0",
+    "imageBorderBottom": "0",
+    "imageBorderLeft": "0",
+    "imageBorderRight": "0",
+    "imageBorderSync": true,
+    "imageBorderStyle":"solid",
+    "imageBorderColor": "",
+    "blockTemplateId": false,
+    "hideOnDesktop": false,
+    "hideOnMobile": false
    },
    "feature":{
     "tag": "h2",
     "icon":"",
     "iconColor":"",
+    "textColor": "",
+    "headerColor": "",
     "iconFontSize":"38",
     "headerTxt": "' . __( 'My Feature or Benefit', 'coming-soon' ) . '",
     "layout": "image",
@@ -304,12 +362,16 @@ $seedprod_basic_lpage = '
     "headertypographyBold": "",
     "headertypographyItalic": "",
     "headertypographyUnderline": "",
-    "headertypographyLetterCase": ""
+    "headertypographyLetterCase": "",
+    "hideOnDesktop": false,
+    "hideOnMobile": false
    },
    "iconfeature":{
     "tag": "h2",
     "icon":"fas fa-check",
     "iconColor":"",
+    "headerColor": "",
+    "textColor": "",
     "iconFontSize":"38",
     "headerTxt": "' . __( 'My Feature or Benefit', 'coming-soon' ) . '",
     "layout": "icon",
@@ -349,7 +411,9 @@ $seedprod_basic_lpage = '
     "headertypographyBold": "",
     "headertypographyItalic": "",
     "headertypographyUnderline": "",
-    "headertypographyLetterCase": ""
+    "headertypographyLetterCase": "",
+    "hideOnDesktop": false,
+    "hideOnMobile": false
    },
    "header":{
       "headerTxt": "' . __( 'My Awesome Headline', 'coming-soon' ) . '",
@@ -383,7 +447,55 @@ $seedprod_basic_lpage = '
       "typographyItalic": "",
       "typographyUnderline": "",
       "align": "center",
-      "typographyLetterCase": ""
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
+    },
+    "animatedheadline":{
+      "beforeHeaderTxt": "' . __( 'Before text', 'coming-soon' ) . '",
+      "headerTxt": "' . __( 'My Awesome Headline', 'coming-soon' ) . '",
+      "headerBiggerTxt": "' . __( 'My Awesome\nBigger Headline', 'coming-soon' ) . '",
+      "afterHeaderTxt": "' . __( 'After text', 'coming-soon' ) . '",
+      "styleType":"highlight",
+      "shapeType":"circle",
+      "animationType":"typing",
+      "infiniteLoop":true,
+      "animationDuration":1200,
+      "animationDelay":8000,
+      "strokeColor":"#DD4A1F",
+      "tag": "h1",
+      "textColor": "",
+      "bgColor": "",
+      "beforeIcon": "",
+      "afterIcon": "",
+      "marginTop": "0",
+      "paddingTop": "",
+      "paddingBottom": "",
+      "paddingLeft": "",
+      "paddingRight": "",
+      "paddingSync": true,
+      "borderRadius": "",
+      "border": "",
+      "borderStyle": "",
+      "borderSize": "",
+      "borderColor": "",
+      "shadow": "",
+      "textShadow": "",
+      "font": "",
+      "fontVariant": "",
+      "fontSize": "",
+      "fontSize_mobile": "",
+      "lineHeight": "",
+      "lineHeight_mobile": "",
+      "letterSpacing": "",
+      "letterSpacing_mobile": "",
+      "typographyBold": "",
+      "typographyItalic": "",
+      "typographyUnderline": "",
+      "align": "center",
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "button":{
       "action": "link",
@@ -426,7 +538,9 @@ $seedprod_basic_lpage = '
       "typographyItalic": "",
       "typographyUnderline": "",
       "align": "center",
-      "typographyLetterCase": ""
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "text":{
       "txt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam commodo velit ex, non ultrices leo auctor at. Integer blandit ex velit, vel aliquam sem tempor eu. Pellentesque sem tortor, elementum et nisi sed, convallis pharetra lorem. Aenean rhoncus rhoncus ex, in dictum massa dictum et. Morbi at nisl fermentum, condimentum tortor a, laoreet leo. Curabitur laoreet diam a metus tincidunt, sed dapibus orci venenatis.",
@@ -459,7 +573,9 @@ $seedprod_basic_lpage = '
       "typographyItalic": "",
       "typographyUnderline": "",
       "align": "left",
-      "typographyLetterCase": ""
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "facebooklike":{
       "buttonType":"like",
@@ -475,7 +591,9 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
-      "paddingSync": true
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "facebookcomments":{
       "orderBy" :"social",
@@ -491,13 +609,15 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
-      "paddingSync": true
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "facebookpage":{
       "layoutPage":"timeline",
       "multiLayoutPage":["timeline"],
-      "smallHeader" : true,
-      "coverPhoto" : true,
+      "smallHeader" : false,
+      "coverPhoto" : false,
       "profilePhoto" : true,
       "hideCTA" : true,
       "height" : "500",   
@@ -508,7 +628,9 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
-      "paddingSync": true
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "facebookembed":{
       "embedType":"post",
@@ -527,6 +649,71 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
+    },
+    "twitterembedtweet":{    
+      "align": "left",
+      "tweeterid":"1385250840898850816",
+      "colorScheme":"light",
+      "width":"350",
+      "marginTop": "0",
+      "paddingTop": "",
+      "paddingBottom": "",
+      "paddingLeft": "",
+      "paddingRight": "",
+      "lang":"en",
+      "paddingSync": true
+    },
+    "twitterembedtimeline":{    
+      "align": "left",
+      "tweeterid":"seedprod",
+      "colorScheme":"light",
+      "width":"350",
+      "height":"350",
+      "hideHeader": false,
+      "hideFooter": true,
+      "hideBorders": false,
+      "transparent": false,
+      "hideScrollbar": false,
+      "showReplies":false,
+      "marginTop": "0",
+      "paddingTop": "",
+      "paddingBottom": "",
+      "paddingLeft": "",
+      "paddingRight": "",
+      "lang":"en",
+      "paddingSync": true
+    },
+    "twittertweetbutton":{
+      "tweetUrl":"https://twitter.com/seedprod",
+      "buttonSize":"small",
+      "tweetText":"",
+      "tweetHashTag":"", 
+      "viaHandle":"", 
+      "relatedTweet":"",   
+      "align": "left",
+      "marginTop": "0",
+      "paddingTop": "",
+      "paddingBottom": "",
+      "paddingLeft": "",
+      "paddingRight": "",
+      "lang":"en",
+      "paddingSync": true
+    },
+    "twitterfollowbutton":{
+      "screenName":"seedprod",
+      "buttonSize":"small",
+      "showScreenName":true,
+      "showCount":false, 
+      "align": "left",
+      "marginTop": "0",
+      "paddingTop": "",
+      "paddingBottom": "",
+      "paddingLeft": "",
+      "paddingRight": "",
+      "lang":"en",
       "paddingSync": true
     },
     "contactform":{
@@ -551,7 +738,9 @@ $seedprod_basic_lpage = '
       "typographyItalic": "",
       "typographyUnderline": "",
       "align": "left",
-      "typographyLetterCase": ""
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "giveaway":{
       "giveawayId":"",
@@ -561,7 +750,9 @@ $seedprod_basic_lpage = '
       "paddingLeft": "",
       "paddingRight": "",
       "paddingSync": true,
-      "align": "center"
+      "align": "center",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "image":{
       "link": "",
@@ -590,7 +781,9 @@ $seedprod_basic_lpage = '
       "imageBorderSync": true,
       "imageBorderStyle":"solid",
       "imageBorderColor": "",
-      "blockTemplateId":false
+      "blockTemplateId":false,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "divider":{
       "style": "solid",
@@ -604,7 +797,9 @@ $seedprod_basic_lpage = '
       "paddingLeft": "0",
       "paddingRight": "0",
       "paddingSync": false,
-      "shadow": ""
+      "shadow": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "spacer": {
       "height": 60
@@ -658,10 +853,27 @@ $seedprod_basic_lpage = '
       "headertypographyBold": "",
       "headertypographyItalic": "",
       "headertypographyUnderline": "",
-      "headertypographyLetterCase": ""
+      "headertypographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "anchor": {
       "name": ""
+    },
+    "googlemaps": {
+      "location": "West Palm Beach, FL",
+      "zoom": "10",
+      "width": "100",
+      "align": "center",
+      "shadow":"",
+      "marginTop": "0",
+      "paddingTop": "",
+      "paddingBottom": "",
+      "paddingLeft": "",
+      "paddingRight": "",
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "customhtml":{
       "code": "",
@@ -670,7 +882,9 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
-      "paddingSync": true
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "shortcode":{
       "shortcode": "",
@@ -679,7 +893,9 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
-      "paddingSync": true
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "login":{
       "align": "left",
@@ -729,7 +945,9 @@ $seedprod_basic_lpage = '
       "btnBgColor": "",
       "btnPaddingVertical": "8",
       "btnPaddingHorizontal": "12",
-      "btnBorderRadius": "3"
+      "btnBorderRadius": "3",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "video":{
       "type":"youtube",
@@ -743,7 +961,9 @@ $seedprod_basic_lpage = '
       "paddingBottom": "",
       "paddingLeft": "",
       "paddingRight": "",
-      "paddingSync": true
+      "paddingSync": true,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "countdown":{
       "countdownType":"",
@@ -790,7 +1010,9 @@ $seedprod_basic_lpage = '
       "typographyUnderline": "",
       "align": "center",
       "typographyLetterCase": "uppercase",
-      "blockTemplateId":false
+      "blockTemplateId":false,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "bulletlist":{
       "layout": "v",
@@ -826,7 +1048,9 @@ $seedprod_basic_lpage = '
       "typographyUnderline": "",
       "align": "left",
       "typographyLetterCase": "",
-      "blockTemplateId":false
+      "blockTemplateId":false,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "nav":{
       "layout": "h",
@@ -858,7 +1082,9 @@ $seedprod_basic_lpage = '
       "typographyItalic": "",
       "typographyUnderline": "",
       "align": "left",
-      "typographyLetterCase": ""
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "form":{
       "items": []
@@ -914,7 +1140,9 @@ $seedprod_basic_lpage = '
       "paddingRight": "",
       "paddingSync": true,
       "gap": false,
-      "blockTemplateId":false
+      "blockTemplateId":false,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "progressbar":{
       "txt": "My Text",
@@ -943,7 +1171,9 @@ $seedprod_basic_lpage = '
       "paddingLeft": "",
       "paddingRight": "",
       "paddingSync": true,
-      "blockTemplateId":false
+      "blockTemplateId":false,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "socialprofiles":{
       "iconStyle":"1",
@@ -966,7 +1196,9 @@ $seedprod_basic_lpage = '
       "borderColor": "",
       "shadow": "",
       "align": "center",
-      "blockTemplateId":false
+      "blockTemplateId":false,
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "socialsharing":{
       "size": "sm",
@@ -984,7 +1216,192 @@ $seedprod_basic_lpage = '
       "borderSize": "",
       "borderColor": "",
       "shadow": "",
-      "align": "center"
+      "align": "center",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
+    },
+    "pricingtable":{
+      "planName": "Enter Your Plan Name",
+      "price": "100",
+      "currencySymbol": "$",
+      "customCurrencySymbol": "",
+      "showRegularPrice": true,
+      "regularPrice": "150",
+      "regularPriceLabel": "Normally",
+      "period": "/month",
+      "description": "Perfect For Beginners",
+      "showTopButton": true,
+      "topButtonText": "Call To Action",
+      "topButtonLink": "",
+      "topButtonLinkOpenNewWindow": false,
+      "topButtonLinkNoFollow": false,
+      "topButtonStyle": "flat",
+      "topButtonBgColor": "",
+      "topButtonShadow": "",
+      "topButtonLineHeight": "",
+      "topbuttonfont": "",
+      "topbuttonfontVariant": "",
+      "topbuttonfontSize": "16",
+      "topbuttonfontSize_mobile": "",
+      "topbuttonlineHeight": "",
+      "topbuttonlineHeight_mobile": "",
+      "topbuttonletterSpacing": "",
+      "topbuttonletterSpacing_mobile": "",
+      "topbuttontypographyBold": "",
+      "topbuttontypographyItalic": "",
+      "topbuttontypographyUnderline": "",
+      "topbuttontypographyLetterCase": "",
+      "topbuttonalign": "center",
+      "topButtonSize":"3",
+      "topButtonPaddingTop": "15",
+      "topButtonPaddingLeft": "35",
+      "topButtonBorderRadius": "7",
+      "topButtonBeforeIcon": "",
+      "topButtonAfterIcon": "",
+      "featuresHeader": "",
+      "featuresList": [{ "icon": "fas fa-check", "txt": "Features List Item #1" }, { "icon": "fas fa-check", "txt": "Features List Item #2" }],
+      "featuresListLayout": "v",
+      "featuresListSpaceBetween":"10",
+      "featuresListIconColor":"10",
+      "featureslistalign": "center",
+      "featureslistfontSize": "16",
+      "featureslisttypographyBold": "",
+      "featureslisttypographyItalic": "",
+      "featureslisttypographyUnderline": "",
+      "featureslisttypographyLetterCase": "",
+      "featureslistfontVariant": "",
+      "featureslistfontSize_mobile": "",
+      "featureslistlineHeight": "1.5",
+      "featureslistlineHeight_mobile": "",
+      "featureslistletterSpacing": "",
+      "featureslistletterSpacing_mobile": "",
+      "featuresListTextColor": "",
+      "featuresListBackgroundColor": "#ffffff",
+      "featuresListPadding": "10",
+      "showBottomButton": true,
+      "bottomButtonText": "Call To Action",
+      "bottomButtonLink": "",
+      "bottomButtonLinkOpenNewWindow": false,
+      "bottomButtonLinkNoFollow": false,
+      "bottomButtonStyle": "flat",
+      "bottomButtonBgColor": "",
+      "bottomButtonShadow": "",
+      "bottomButtonLineHeight": "",
+      "bottombuttonfont": "",
+      "bottombuttonfontVariant": "",
+      "bottombuttonfontSize": "16",
+      "bottombuttonfontSize_mobile": "",
+      "bottombuttonlineHeight": "3",
+      "bottombuttonlineHeight_mobile": "",
+      "bottombuttonletterSpacing": "",
+      "bottombuttonletterSpacing_mobile": "",
+      "bottombuttontypographyBold": "",
+      "bottombuttontypographyItalic": "",
+      "bottombuttontypographyUnderline": "",
+      "bottombuttontypographyLetterCase": "",
+      "bottombuttonalign": "center",
+      "bottomButtonSize":"3",
+      "bottomButtonPaddingTop": "15",
+      "bottomButtonPaddingLeft": "35",
+      "bottomButtonBorderRadius": "7",
+      "bottomButtonBeforeIcon": "",
+      "bottomButtonAfterIcon": "",
+      "headerBackgroundColor": "#f3f3f3",
+      "headerPadding": "20",
+      "plannamealign": "center",
+      "plannamefont": "",
+      "plannamefontVariant": "",
+      "plannamefontSize": "22",
+      "plannamefontSize_mobile": "",
+      "plannamelineHeight": "",
+      "plannamelineHeight_mobile": "",
+      "plannameletterSpacing": "",
+      "plannameletterSpacing_mobile": "",
+      "plannametypographyBold": "",
+      "plannametypographyItalic": "",
+      "plannametypographyUnderline": "",
+      "plannametypographyLetterCase": "",
+      "planNameTextColor": "",
+      "regularpricealign": "center",
+      "regularpricefont": "",
+      "regularpricefontVariant": "",
+      "regularpricefontSize": "16",
+      "regularpricefontSize_mobile": "",
+      "regularpricelineHeight": "",
+      "regularpricelineHeight_mobile": "",
+      "regularpriceletterSpacing": "",
+      "regularpriceletterSpacing_mobile": "",
+      "regularpricetypographyBold": "",
+      "regularpricetypographyItalic": "",
+      "regularpricetypographyUnderline": "",
+      "regularpricetypographyLetterCase": "",
+      "regularPriceTextColor": "#9E9E9E",
+      "descriptionalign": "center",
+      "descriptionfont": "",
+      "descriptionfontVariant": "",
+      "descriptionfontSize": "16",
+      "descriptionfontSize_mobile": "",
+      "descriptionlineHeight": "",
+      "descriptionlineHeight_mobile": "",
+      "descriptionletterSpacing": "",
+      "descriptionletterSpacing_mobile": "",
+      "descriptiontypographyBold": "",
+      "descriptiontypographyItalic": "",
+      "descriptiontypographyUnderline": "",
+      "descriptiontypographyLetterCase": "",
+      "descriptionTextColor": "",
+      "pricealign": "center",
+      "pricefont": "",
+      "pricefontVariant": "",
+      "pricefontSize": "70",
+      "pricefontSize_mobile": "",
+      "pricelineHeight": "",
+      "pricelineHeight_mobile": "",
+      "priceletterSpacing": "",
+      "priceletterSpacing_mobile": "",
+      "pricetypographyBold": true,
+      "pricetypographyItalic": "",
+      "pricetypographyUnderline": "",
+      "pricetypographyLetterCase": "",
+      "priceTextColor": "",
+      "pricesuperscriptalign": "center",
+      "pricesuperscriptfont": "",
+      "pricesuperscriptfontVariant": "",
+      "pricesuperscriptfontSize": "14",
+      "pricesuperscriptfontSize_mobile": "",
+      "pricesuperscriptlineHeight": "",
+      "pricesuperscriptlineHeight_mobile": "",
+      "pricesuperscriptletterSpacing": "",
+      "pricesuperscriptletterSpacing_mobile": "",
+      "pricesuperscripttypographyBold": "",
+      "pricesuperscripttypographyItalic": "",
+      "pricesuperscripttypographyUnderline": "",
+      "pricesuperscripttypographyLetterCase": "",
+      "priceSuperScriptTextColor": "",
+      "priceSuperScriptTop": "-2.5",
+      "marginTop": "0",
+      "paddingTop": "10",
+      "paddingBottom": "10",
+      "paddingLeft": "10",
+      "paddingRight": "10",
+      "paddingSync": true,
+      "borderRadius": "4",
+      "border": "",
+      "borderStyle": "",
+      "borderSize": "",
+      "borderColor": "",
+      "shadow": "",
+      "textShadow": "",
+      "blockBorderRadius": "",
+      "blockBorderTop": "1",
+      "blockBorderBottom": "1",
+      "blockBorderLeft": "1",
+      "blockBorderRight": "1",
+      "blockBorderSync": true,
+      "blockBorderStyle":"solid",
+      "blockBorderColor": "#f3f3f3",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wcaddtocart":{
       "productId": "",
@@ -1025,7 +1442,9 @@ $seedprod_basic_lpage = '
       "typographyItalic": "",
       "typographyUnderline": "",
       "align": "center",
-      "typographyLetterCase": ""
+      "typographyLetterCase": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wccart":{
       "marginTop": "0",
@@ -1078,7 +1497,9 @@ $seedprod_basic_lpage = '
       "cartHeaderBgColor": "",
       "cartHeaderFont": "",
       "cartHeaderFontVariant": "",
-      "cartHeaderColor": ""
+      "cartHeaderColor": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
   "wccheckout":{
       "css": "",
@@ -1147,7 +1568,9 @@ $seedprod_basic_lpage = '
       "paymentBgColor": "",
       "paymentTextColor": "#333",
       "paymentFont": "",
-      "paymentFontVariant": ""
+      "paymentFontVariant": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
 
  "wccustomproductsgrid":{
@@ -1251,7 +1674,9 @@ $seedprod_basic_lpage = '
       "imageBorderLeft": "1",
       "imageBorderRight": "1",
       "imageBorderSync": true,
-      "imagePadding": ""
+      "imagePadding": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wcfeaturedproductsgrid":{
       "columns": "4",
@@ -1353,7 +1778,9 @@ $seedprod_basic_lpage = '
       "imageBorderLeft": "1",
       "imageBorderRight": "1",
       "imageBorderSync": true,
-      "imagePadding": ""
+      "imagePadding": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wcsaleproductsgrid":{
       "columns": "4",
@@ -1455,7 +1882,9 @@ $seedprod_basic_lpage = '
       "imageBorderLeft": "1",
       "imageBorderRight": "1",
       "imageBorderSync": true,
-      "imagePadding": ""
+      "imagePadding": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wcbestsellingproductsgrid":{
       "columns": "4",
@@ -1557,7 +1986,9 @@ $seedprod_basic_lpage = '
       "imageBorderLeft": "1",
       "imageBorderRight": "1",
       "imageBorderSync": true,
-      "imagePadding": ""
+      "imagePadding": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wcrecentproductsgrid":{
       "columns": "4",
@@ -1659,7 +2090,9 @@ $seedprod_basic_lpage = '
       "imageBorderLeft": "1",
       "imageBorderRight": "1",
       "imageBorderSync": true,
-      "imagePadding": ""
+      "imagePadding": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     },
     "wctopratedproductsgrid":{
       "columns": "4",
@@ -1761,7 +2194,9 @@ $seedprod_basic_lpage = '
       "imageBorderLeft": "1",
       "imageBorderRight": "1",
       "imageBorderSync": true,
-      "imagePadding": ""
+      "imagePadding": "",
+      "hideOnDesktop": false,
+      "hideOnMobile": false
     }
 
  }

@@ -1,11 +1,11 @@
 === Ivory Search - WordPress Search Plugin ===
 Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
-Tags: search, woocommerce search, image search, ajax search, search shortcode, live search,  exclude from search, search widget, search menu, search plugin, custom search, search by post type, search by category, relevant search, search forms
+Tags: search, woocommerce search, image search, ajax search, search shortcode, live search, inverted index-based search, exclude from search, search widget, search menu, search plugin, custom search, search by sku, search by post type, search by category, relevance search, search forms
 Requires at least: 3.9
-Tested up to: 5.7
+Tested up to: 5.9
 Requires PHP: 5.2.4
-Stable tag: 4.6.2
+Stable tag: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,18 +35,22 @@ Feel free to ask it using [Contact Form](https://ivorysearch.com/contact/).
 ###Key Features
 
 <ul>
+<li> Perform faster search with inverted index-based search engine.</li> 
+<li> Index and search  shortcode contents.</li>
 <li> Search WooCommerce products.</li>
 <li> Search images, files and attachments.</li>
 <li> Customize search form using customizer.</li>
 <li> Search using AJAX search.</li>
 <li> Track searches in search analytics.</li>
+<li> Index and search TablePress shortcode contents.</li>
 <li> Create unlimited number of search forms.</li>
 <li> Configure each search forms separately.</li>
 <li> Configure search form to search specific content.</li>
 <li> Exclude specific content from search results.</li>
 <li> Display Search Forms anywhere on your site.</li>
 <li> Supports multilingual search.</li>
-<li> Integrates with popular plugins such as WooCommerce, Polylang, bbPress, WPML etc.</li>
+<li> Multilingual Search supported by Weglot</li>
+<li> Integrates with popular plugins such as WooCommerce, Weglot, Polylang, bbPress, WPML etc.</li>
 </ul>
 
 ###AJAX Search or Live Search
@@ -193,49 +197,29 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
-= 4.6.2 =
-* Fixed - Undefined tab index noticein admin area.
+= 5.3 =
+* Fixed - Compatibility issue with MySQL 5.7
+* Fixed - MySQL > 8 REGEXP compatibility issue.
+* Fixed - PHP compatibility issues with static var.
+* Fixed - PHP < 5.3 compatibility issue.
 
-= 4.6.1 =
-* Fixed - Broken AJAX search results scrollbar.
-Fixed – Security issue in plugin settings (Thanks to Jinson Varghese Behanan from Astra Security).
-* Improved - Do not search special character stopwords.
+= 5.2 =
+* Fixed - For some plugins -1 appearing instead of search.
 
-= 4.6 =
-* Fixed - AJAX search results was not scrolling on search form scroll.
-* Fixed - Stopwords was not excluding from search.
-* Fixed - Menu search icon accessibility issue.
-* Updated - Freemius SDK to 2.4.2
+= 5.1 =
+* Fixed - Media library search in admin area was not working.
 
-= 4.5.11 =
-* Fixed - Empty button accessibility issue.
+= 5.0 =
+* Added - Faster search with inverted index-based search engine.
+* Added - Index and search  shortcode contents.
+* Added - Index and search TablePress shortcode contents.
 
-= 4.5.10 =
-* Fixed - Gutenberg editor issue "Update failed. The response is not a valid JSON response."
-* Fixed - Full width mobile header menu was not working.
-* Fixed - Was displaying search query value in all search form input fields.
-* Fixed - Search input field was dispalying rounded corners on iPhone.
-* Fixed - Keyword stemming was not working with Search All Terms option.
-* Improved - Escaped highlighted words in javascript.
+= 4.8.2 =
+* Fixed - Plugin template file is-ajax-results.php was not overriding.
 
-= 4.5.9 =
-* Fixed - Menu search options was not saving in older WP version than 5.5
+= 4.8.1 =
+* Fixed - Autocomplete off was not working.
 
-= 4.5.8 =
-* Fixed - Draft posts were getting searched in the free plugin version.
-
-= 4.5.7 =
-* Fixed - Menu dropdwon style search form issue.
-* Fixed - Search form post status option was not getting saved.
-* Fixed - Draft posts displaying in the search results.
-* Fixed - Warning : Product properties should not be accessed directly.
-
-= 4.5.6 =
-* Fixed - Search form label accessibility issue.
-* Fixed - Mobile menu search issue.
-* Fixed - Whole fuzzy matching option was not working with older version of mysql.
-* Fixed - Compatibility issue with WPForms plugin on saving search form.
-* Improved - Delayed execution of the plugin and essential plugin hooks.
-
-= 4.5.5 =
-* Fixed - Latest jQuery version compatibility issue.
+= 4.8 =
+* Fixed - Error occurred due to inclusion of non-existent file.
+* Fixed - Plugin admin options not working.

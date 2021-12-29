@@ -47,6 +47,8 @@
 						$button_text = __('Rate plugin', 'stops-core-theme-and-plugin-updates');
 					} elseif ('eum_premium' == $button_meta) {
 						$button_text = __('Get premium', 'stops-core-theme-and-plugin-updates');
+					} elseif ('collection' == $button_meta) {
+						$button_text = __('Read more', 'stops-core-theme-and-plugin-updates');
 					}
 					$easy_updates_manager->easy_updates_manager_url($button_link, $button_text, null, 'class="updraft_notice_link"');
 					}

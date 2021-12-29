@@ -159,7 +159,7 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 			// If no user, search the name field
 			if (!$maybe_user) {
 				$wild = '%';
-				$select = "select log_id, user_id, name, type, version_from, version, action, status, date, notes from $tablename WHERE 1=1 AND name LIKE %s";
+				$select = "select log_id, user_id, name, type, version_from, version, action, status, date, notes, stacktrace from $tablename WHERE 1=1 AND name LIKE %s";
 				$term = $wild . $this->search_term . $wild;
 				$orderby = " order by log_id DESC";
 				$limit = " limit %d,%d";
@@ -176,7 +176,7 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 				$this->items = $wpdb->get_results($query);
 			} else {
 				$user_id = $maybe_user->ID;
-				$select = "select log_id, user_id, name, type, version_from, version, action, status, date, notes from $tablename WHERE 1=1 AND user_id = %d";
+				$select = "select log_id, user_id, name, type, version_from, version, action, status, date, notes, stacktrace from $tablename WHERE 1=1 AND user_id = %d";
 
 				$orderby = " order by log_id DESC";
 				$limit = " limit %d,%d";
@@ -217,7 +217,7 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 			}
 
 
-			$select = "select log_id, user_id, name, type, version_from, version, action, status, date, notes from $tablename WHERE 1=1 ";
+			$select = "select log_id, user_id, name, type, version_from, version, action, status, date, notes, stacktrace from $tablename WHERE 1=1 ";
 			$orderby = ' order by ' . sanitize_sql_orderby("log_id {$this->order}");
 			$limit = " limit %d,%d";
 
@@ -494,6 +494,7 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 			'status'  => _x('Status', 'Column header for logs', 'stops-core-theme-and-plugin-updates'),
 			'date'    => _x('Date', 'Column header for logs', 'stops-core-theme-and-plugin-updates'),
 			'notes'    => _x('Notes', 'Column header for notes', 'stops-core-theme-and-plugin-updates'),
+			'stacktrace'    => _x('Stack Trace', 'Column header for stacktrace', 'stops-core-theme-and-plugin-updates'),
 		);
 		return $columns;
 	}
@@ -573,6 +574,10 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 					case 'notes':
 						$row_columns[] = $record_data;
 						break;
+					case 'stacktrace':
+						$row_columns[] = $this->get_stacktrace_column($record_data);
+						break;
+						
 					default:
 						break;
 				}
@@ -607,6 +612,41 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 			$json_array[$log_id] = $row_data;
 		}
 		echo json_encode($json_array);
+	}
+	
+	/**
+	 * Get stacktrace column
+	 *
+	 * @param array $stacktrace raw stacktrace data
+	 * @return array
+	 */
+	public function get_stacktrace_column($stacktrace) {
+		$trace = array_reverse(json_decode($stacktrace, true));
+		$stackrarr = array();
+		$i = 1;
+		$truncate_paths = array(wp_normalize_path(WP_CONTENT_DIR), wp_normalize_path(ABSPATH));
+		foreach ($trace as $node) {
+			$stack = '';
+			if (isset($node['file']) && ($node['line'])) {
+				$filename = $node['file'];
+				$stack = "#$i " . str_replace($truncate_paths, '', wp_normalize_path($filename)) . " (" . $node['line'] . "): ";
+			}
+			if (isset($node['class'])) {
+				$stack .= $node['class'].$node['type'].$node['function'];
+			} else {
+				if (in_array($node['function'], array('do_action', 'apply_filters', 'do_action_ref_array', 'apply_filters_ref_array'), true)) {
+					$stack .= $node['function'] . "('".$node['args'][0]."')";
+				} elseif (in_array($node['function'], array('include', 'include_once', 'require', 'require_once'), true)) {
+					$filename = isset($node['args'][0]) ? $node['args'][0] : '';
+					$stack .= $node['function'] . "('" . str_replace($truncate_paths, '', wp_normalize_path($filename)) . "')";
+				} else {
+					$stack .= $node['function'];
+				}
+			}
+			$stackrarr[] = $stack."\r\n";
+			$i++;
+		}
+		return implode(" ", $stackrarr);
 	}
 
 	/**
@@ -681,6 +721,13 @@ class MPSUM_Logs_List_Table extends MPSUM_List_Table {
 						if (!empty($record_data)) {
 							printf('<a href="#" class="eum-note-expand">%s</a>', esc_html__('Show notes', 'stops-core-theme-and-plugin-updates'));
 							printf('<div style="display: none">%s</div>', wp_kses_post(wpautop($record_data)));
+						}
+						break;
+					case 'stacktrace':
+						if (!empty($record_data)) {
+							$stacktrace = trim($this->get_stacktrace_column($record_data));
+							printf('<a href="#TB_inline?&width=600&height=290&inlineId=trace-%s" title="%s" class="thickbox">%s</a>', $record->log_id, esc_html__('Trace', 'stops-core-theme-and-plugin-updates'), esc_html__('Show Trace', 'stops-core-theme-and-plugin-updates'));
+							printf('<div id="trace-%s" style="display: none">%s</div>', $record->log_id,  wp_kses_post(wpautop($stacktrace)));
 						}
 						break;
 					default:

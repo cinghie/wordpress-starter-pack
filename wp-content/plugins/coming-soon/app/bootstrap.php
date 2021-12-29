@@ -374,7 +374,7 @@ function seedprod_lite_add_admin_edit_seedprod() {
 
 
 		if ( ! empty( $_GET['post'] ) ) {
-			$id = $_GET['post'];
+			$id = absint($_GET['post']);
 
 			if ( ! empty( get_post_meta( $id, '_seedprod_page', true ) ) ) {
 				$is_seedprod            = get_post_meta( $id, '_seedprod_page', true );
@@ -396,7 +396,10 @@ function seedprod_lite_add_admin_edit_seedprod() {
 		$edit_seedprod_label  = '<img src="' . SEEDPROD_PLUGIN_URL . 'public/svg/admin-bar-icon.svg" style="margin-right:7px; margin-top:5px">' . __( 'Edit with SeedProd', 'coming-soon' );
 		$back_wordpress_label = __( 'Back to WordPress Editor', 'coming-soon' );
 
-		$localizations = array( 'ajax_url' => admin_url( 'admin-ajax.php' ) );
+		$localizations = array( 
+			'ajax_url' => admin_url( 'admin-ajax.php' ), 
+			'nonce' =>  wp_create_nonce( 'seedprod_back_to_editor_'.$id ),
+		);
 
 		printf(
 			'
@@ -479,6 +482,7 @@ function seedprod_lite_add_admin_edit_seedprod() {
     
                 var formData = new FormData();
                 formData.append("action", "' . $remove_post_callback . '");
+				formData.append("nonce", "' . $localizations['nonce'] . '");
                 formData.append("post_id", post_id);
                 //console.log(formData);
     
@@ -512,19 +516,19 @@ add_action( 'admin_footer', 'seedprod_lite_add_admin_edit_seedprod' );
 add_action( 'edit_form_after_title', 'seedprod_lite_before_editor' );
 
 function seedprod_lite_before_editor() {
-	$seedprod_app_settings = get_option('seedprod_app_settings');
-    if(!empty($seedprod_app_settings)){
-        $seedprod_app_settings = json_decode(stripslashes ($seedprod_app_settings));
-    }else{
-        // fail safe incase settings go missing
-        require_once(SEEDPROD_PLUGIN_PATH.'resources/data-templates/default-settings.php');
-        update_option('seedprod_app_settings', $seedprod_app_default_settings);
-        $seedprod_app_settings = json_decode($seedprod_app_default_settings);
-    }
-    $disable_seedprod_button = $seedprod_app_settings->disable_seedprod_button;
+	$seedprod_app_settings = get_option( 'seedprod_app_settings' );
+	if ( ! empty( $seedprod_app_settings ) ) {
+		$seedprod_app_settings = json_decode( stripslashes( $seedprod_app_settings ) );
+	} else {
+		// fail safe incase settings go missing
+		require_once SEEDPROD_PLUGIN_PATH . 'resources/data-templates/default-settings.php';
+		update_option( 'seedprod_app_settings', $seedprod_app_default_settings );
+		$seedprod_app_settings = json_decode( $seedprod_app_default_settings );
+	}
+	$disable_seedprod_button = $seedprod_app_settings->disable_seedprod_button;
 
-    if ($disable_seedprod_button==false) {
-        echo '
+	if ( $disable_seedprod_button == false ) {
+		echo '
         <div class="active-seed-prod-buttons-classic"></div>
         <script type="text/javascript">
         jQuery(document).ready(function(){  
@@ -533,7 +537,7 @@ function seedprod_lite_before_editor() {
         });
         </script>
     ';
-    }
+	}
 }
 
 
@@ -541,30 +545,30 @@ function seedprod_lite_before_editor() {
 
 add_action( 'enqueue_block_editor_assets', 'seedprod_lite_link_injection_to_gutenberg_toolbar' );
 function seedprod_lite_link_injection_to_gutenberg_toolbar() {
-	$seedprod_app_settings = get_option('seedprod_app_settings');
-    if(!empty($seedprod_app_settings)){
-        $seedprod_app_settings = json_decode(stripslashes ($seedprod_app_settings));
-    }else{
-        // fail safe incase settings go missing
-        require_once(SEEDPROD_PLUGIN_PATH.'resources/data-templates/default-settings.php');
-        update_option('seedprod_app_settings', $seedprod_app_default_settings);
-        $seedprod_app_settings = json_decode($seedprod_app_default_settings);
-    }
-    $disable_seedprod_button = $seedprod_app_settings->disable_seedprod_button;
+	$seedprod_app_settings = get_option( 'seedprod_app_settings' );
+	if ( ! empty( $seedprod_app_settings ) ) {
+		$seedprod_app_settings = json_decode( stripslashes( $seedprod_app_settings ) );
+	} else {
+		// fail safe incase settings go missing
+		require_once SEEDPROD_PLUGIN_PATH . 'resources/data-templates/default-settings.php';
+		update_option( 'seedprod_app_settings', $seedprod_app_default_settings );
+		$seedprod_app_settings = json_decode( $seedprod_app_default_settings );
+	}
+	$disable_seedprod_button = $seedprod_app_settings->disable_seedprod_button;
 
-    if ($disable_seedprod_button==false) {
-        $screen = get_current_screen();
-        if ('page' === $screen->post_type) {
-            $localizations = array(
-            'admin_url'  => admin_url() . 'admin.php',
-            'ajax_url'   => admin_url('admin-ajax.php'),
-            '_wp_nonce'  => wp_create_nonce('ajax-nonce'),
-            'plugin_url' => SEEDPROD_PLUGIN_URL,
-        );
-            wp_enqueue_script('seedprod-link-in-toolbar', SEEDPROD_PLUGIN_URL . 'public/js/toolbar.js', array(), '1.0', true);
-            wp_localize_script('seedprod-link-in-toolbar', 'localizedVars', $localizations);
-        }
-    }
+	if ( $disable_seedprod_button == false ) {
+		$screen = get_current_screen();
+		if ( 'page' === $screen->post_type ) {
+			$localizations = array(
+				'admin_url'  => admin_url() . 'admin.php',
+				'ajax_url'   => admin_url( 'admin-ajax.php' ),
+				'_wp_nonce'  => wp_create_nonce( 'ajax-nonce' ),
+				'plugin_url' => SEEDPROD_PLUGIN_URL,
+			);
+			wp_enqueue_script( 'seedprod-link-in-toolbar', SEEDPROD_PLUGIN_URL . 'public/js/toolbar.js', array(), '1.0', true );
+			wp_localize_script( 'seedprod-link-in-toolbar', 'localizedVars', $localizations );
+		}
+	}
 }
 
 add_filter( 'display_post_states', 'seedprod_lite_add_post_state', 10, 2 );
@@ -599,15 +603,15 @@ add_action( 'admin_bar_menu', 'seedprod_lite_add_menu_item', 80 );
 add_action( 'wp_ajax_seedprod_lite_remove_post', 'seedprod_lite_remove_post' );
 
 function seedprod_lite_remove_post() {
-	$post_id = $_POST['post_id'];
-	$data    = array(
-		'ID'           => $post_id,
-		'post_content' => '',
-	);
+    if (check_ajax_referer('seedprod_back_to_editor_'.absint($_POST['post_id']), 'nonce') && current_user_can('delete_posts')) {
+        $post_id = absint($_POST['post_id']);
+        $data    = array(
+        'ID'           => $post_id,
+    	);
 
-	delete_post_meta( $post_id, '_seedprod_page' );
-	wp_update_post( $data );
-	wp_die();
+        delete_post_meta($post_id, '_seedprod_page');
+        wp_die();
+    }
 }
 
 

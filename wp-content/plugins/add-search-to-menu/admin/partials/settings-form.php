@@ -49,25 +49,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 								'Analytics',
                                                                 'Search Analytics',
 						),
+						'index' => array(
+								'index',
+								'Index',
+															'Search Index',
+						),
 				);
 
 				$tab = 'settings';
-				switch ( $_GET['tab'] ) {
-					case 'menu-search':
-						$tab = 'menu-search';
-						break;
-					case 'analytics':
-						$tab = 'analytics';
-						break;
+				if ( isset( $_GET['tab'] ) ) {
+					switch ( $_GET['tab'] ) {
+						case 'menu-search':
+							$tab = 'menu-search';
+							break;
+						case 'analytics':
+							$tab = 'analytics';
+							break;
+						case 'index':
+							$tab = 'index';
+							break;
+						}
 				}
-				$url = esc_url( menu_page_url( 'ivory-search-settings', false ) );
+				$url = menu_page_url( 'ivory-search-settings', false );
 				?>
 					<ul id="search-form-editor-tabs">				
 				<?php
 				foreach ( $panels as $id => $panel ) {
 					$class = ( $tab == $id ) ? 'active' : '';
 					echo sprintf( '<li id="%1$s-tab" class="%2$s"><a href="%3$s" title="%4$s">%5$s</a></li>',
-						esc_attr( $panel[0] ), esc_attr( $class ), $url . '&tab=' . $panel[0], esc_attr( $panel[2] ), esc_html( $panel[1] ) );
+						esc_attr( $panel[0] ), esc_attr( $class ), esc_url( $url ) . '&tab=' . $panel[0], esc_attr( $panel[2] ), esc_html( $panel[1] ) );
 				}
 				?>
 					</ul>
@@ -81,6 +91,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					$settings_fields->is_do_settings_sections( 'ivory_search', 'ivory_search_section' );
 				} else if ( 'analytics' ==  $tab ) {
 					$settings_fields->is_do_settings_sections( 'ivory_search', 'ivory_search_analytics' );
+				} else if ( 'index' ==  $tab ) {
+					$settings_fields->is_do_settings_sections( 'ivory_search', 'ivory_search_index' );
 				}
 
 			?>
@@ -100,6 +112,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<div id="publishing-action">
 									<span class="spinner"></span>
 									<?php submit_button( 'Save', 'primary', 'ivory_search_options_submit', false ); ?>
+									<?php if( 'index' == $tab ): ?>
+										<?php 
+											$action = 'index-reset';
+											$confirm_msg = __( "You are about to reset this index settings.\n  'Cancel' to stop, 'OK' to reset.", 'add-search-to-menu' );
+											$data = array(
+												'action' => esc_html( $action ),
+												'_wpnonce' => wp_create_nonce( $action ),
+												'confirm_msg' => esc_html( $confirm_msg ),
+											);
+											$data = esc_attr( json_encode( $data ) );
+										?>
+										<p>
+											<input 
+												type="submit" 
+												id="is-index-reset" 
+												name="is-index-reset" 
+												class="reset button" 
+												value="<?php echo esc_attr( __( 'Reset', 'add-search-to-menu' ) ); ?>"
+												data-is="<?php echo esc_attr( $data ); ?>" 
+											/>
+										</p>
+									<?php endif; ?>
 								</div>
 								<div class="clear"></div>
 							</div><!-- #major-publishing-actions -->

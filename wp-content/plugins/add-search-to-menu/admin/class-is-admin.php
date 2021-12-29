@@ -113,23 +113,26 @@ class IS_Admin
             if ( $array['active'] ) {
                 ?>
 		      $( '<?php 
-                echo  $array['anchor_id'] ;
+                esc_html_e( $array['anchor_id'] );
                 ?>' ).pointer( {
 			 content: '<?php 
-                echo  $array['content'] ;
+                echo  wp_kses( $array['content'], array(
+                    'h3' => array(),
+                    'p'  => array(),
+                ) ) ;
                 ?>',
 			 position: {
 			 edge: '<?php 
-                echo  $array['edge'] ;
+                esc_html_e( $array['edge'] );
                 ?>',
 			 align: '<?php 
-                echo  $array['align'] ;
+                esc_html_e( $array['align'] );
                 ?>'
 		      },
 			 close: function() {
 			    $.post( ajaxurl, {
 			       pointer: '<?php 
-                echo  $pointer ;
+                esc_html_e( $pointer );
                 ?>',
 			       action: 'dismiss-wp-pointer'
 			    } );
@@ -270,15 +273,14 @@ class IS_Admin
     function display_posts()
     {
         $posts = get_posts( array(
-            'post_type'      => $_REQUEST['post_type'],
+            'post_type'      => sanitize_text_field( $_REQUEST['post_type'] ),
             'posts_per_page' => -1,
             'orderby'        => 'title',
             'order'          => 'ASC',
         ) );
         
         if ( !empty($posts) ) {
-            $temp = '';
-            $meta = get_post_meta( $_REQUEST['post_id'] );
+            $meta = ( isset( $_REQUEST['post_id'] ) && is_numeric( $_REQUEST['post_id'] ) ? get_post_meta( sanitize_key( $_REQUEST['post_id'] ) ) : '' );
             
             if ( 'includes' === $_REQUEST['inc_exc'] && isset( $meta['_is_includes'] ) ) {
                 $meta = maybe_unserialize( $meta['_is_includes'][0] );
@@ -299,10 +301,9 @@ class IS_Admin
                     }
                 }
                 
-                $post_title = ( isset( $post2->post_title ) && '' !== $post2->post_title ? esc_html( $post2->post_title ) : $post2->post_name );
-                $temp .= '<option value="' . esc_attr( $post2->ID ) . '" ' . selected( $post2->ID, $checked, false ) . '>' . $post_title . '</option>';
+                $post_title = ( isset( $post2->post_title ) && '' !== $post2->post_title ? $post2->post_title : $post2->post_name );
+                echo  '<option value="' . esc_attr( $post2->ID ) . '" ' . selected( $post2->ID, $checked, false ) . '>' . esc_html( $post_title ) . '</option>' ;
             }
-            echo  $temp ;
         } else {
             _e( 'No posts found', 'add-search-to-menu' );
         }
@@ -418,6 +419,8 @@ class IS_Admin
             $updated_message = __( "Search form deleted.", 'add-search-to-menu' );
         } elseif ( 'reset' == $_REQUEST['message'] ) {
             $updated_message = __( "Search form reset.", 'add-search-to-menu' );
+        } elseif ( 'index-reset' == $_REQUEST['message'] ) {
+            $updated_message = __( "Index settings reset.", 'add-search-to-menu' );
         }
         
         
@@ -440,21 +443,25 @@ class IS_Admin
             $excludes = __( "Excludes", 'add-search-to-menu' );
             
             if ( isset( $_REQUEST['tab'] ) ) {
-                $url = esc_url( menu_page_url( 'ivory-search', false ) ) . '&post=' . $_REQUEST['post'] . '&action=edit';
+                $url = menu_page_url( 'ivory-search', false );
+                if ( isset( $_REQUEST['post'] ) && is_numeric( $_REQUEST['post'] ) ) {
+                    $url .= '&post=' . absint( $_REQUEST['post'] ) . '&action=edit';
+                }
                 
                 if ( 'excludes' == $_REQUEST['tab'] ) {
-                    $includes = '<a href="' . $url . '&tab=includes">' . __( "Includes", 'add-search-to-menu' ) . '</a>';
+                    $includes = '<a href="' . esc_url( $url ) . '&tab=includes">' . __( "Includes", 'add-search-to-menu' ) . '</a>';
                 } else {
                     if ( 'includes' == $_REQUEST['tab'] ) {
-                        $excludes = '<a href="' . $url . '&tab=excludes">' . __( "Excludes", 'add-search-to-menu' ) . '</a>';
+                        $excludes = '<a href="' . esc_url( $url ) . '&tab=excludes">' . __( "Excludes", 'add-search-to-menu' ) . '</a>';
                     }
                 }
             
             }
             
+            $temp_mes = ( isset( $_REQUEST['data'] ) ? sanitize_text_field( $_REQUEST['data'] ) : '' );
             $updated_message2 = sprintf(
                 __( "Please make sure you have not selected similar %s fields in the search form %s and %s sections.", 'add-search-to-menu' ),
-                $_REQUEST['data'],
+                $temp_mes,
                 $includes,
                 $excludes
             );
@@ -568,9 +575,12 @@ class IS_Admin
         if ( current_user_can( 'is_edit_search_forms' ) ) {
             echo  sprintf( '<a href="%1$s" class="add-new-h2">%2$s</a>', esc_url( menu_page_url( 'ivory-search-new', false ) ), esc_html( __( 'Add New Search Form', 'add-search-to-menu' ) ) ) ;
         }
+        
         if ( !empty($_REQUEST['s']) ) {
-            echo  sprintf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'add-search-to-menu' ) . '</span>', esc_html( $_REQUEST['s'] ) ) ;
+            $is_search_input = sanitize_text_field( $_REQUEST['s'] );
+            echo  sprintf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'add-search-to-menu' ) . '</span>', esc_html( $is_search_input ) ) ;
         }
+        
         ?>
 
 		<hr class="wp-header-end" />
@@ -622,25 +632,25 @@ class IS_Admin
     function load_admin_search_form()
     {
         global  $plugin_page ;
-        $action = ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] ? $_REQUEST['action'] : false );
+        $action = ( isset( $_REQUEST['action'] ) && -1 != $_REQUEST['action'] ? sanitize_text_field( $_REQUEST['action'] ) : false );
         
         if ( 'save' == $action ) {
-            $id = ( isset( $_POST['post_ID'] ) ? $_POST['post_ID'] : '-1' );
+            $id = ( isset( $_POST['post_ID'] ) && is_numeric( $_POST['post_ID'] ) ? sanitize_key( $_POST['post_ID'] ) : '-1' );
             check_admin_referer( 'is-save-search-form_' . $id );
             if ( !current_user_can( 'is_edit_search_form', $id ) ) {
                 wp_die( __( 'You are not allowed to edit this item.', 'add-search-to-menu' ) );
             }
-            $args = $_REQUEST;
+            $args = $this->sanitize_settings( $_REQUEST );
             $args['id'] = $id;
-            $args['title'] = ( isset( $_POST['post_title'] ) ? $_POST['post_title'] : null );
+            $args['title'] = ( isset( $_POST['post_title'] ) ? sanitize_text_field( $_POST['post_title'] ) : null );
             $args['title'] = ( null != $args['title'] && 'default search form' == strtolower( $args['title'] ) ? $args['title'] . ' ( Duplicate )' : $args['title'] );
-            $args['_is_locale'] = ( isset( $_POST['is_locale'] ) ? $_POST['is_locale'] : null );
-            $args['_is_includes'] = ( isset( $_POST['_is_includes'] ) ? $_POST['_is_includes'] : '' );
-            $args['_is_excludes'] = ( isset( $_POST['_is_excludes'] ) ? $_POST['_is_excludes'] : '' );
-            $args['_is_ajax'] = ( isset( $_POST['_is_ajax'] ) ? $_POST['_is_ajax'] : '' );
-            $args['_is_customize'] = ( isset( $_POST['_is_customize'] ) ? $_POST['_is_customize'] : '' );
-            $args['_is_settings'] = ( isset( $_POST['_is_settings'] ) ? $_POST['_is_settings'] : '' );
-            $args['tab'] = ( isset( $_POST['tab'] ) ? $_POST['tab'] : 'includes' );
+            $args['_is_locale'] = ( isset( $_POST['is_locale'] ) ? sanitize_text_field( $_POST['is_locale'] ) : null );
+            $args['_is_includes'] = ( isset( $_POST['_is_includes'] ) && is_array( $_POST['_is_includes'] ) ? $this->sanitize_includes( $_POST['_is_includes'] ) : '' );
+            $args['_is_excludes'] = ( isset( $_POST['_is_excludes'] ) && is_array( $_POST['_is_excludes'] ) ? $this->sanitize_excludes( $_POST['_is_excludes'] ) : '' );
+            $args['_is_ajax'] = ( isset( $_POST['_is_ajax'] ) && is_array( $_POST['_is_ajax'] ) ? $this->sanitize_settings( $_POST['_is_ajax'] ) : '' );
+            $args['_is_customize'] = ( isset( $_POST['_is_customize'] ) && is_array( $_POST['_is_customize'] ) ? $this->sanitize_settings( $_POST['_is_customize'] ) : '' );
+            $args['_is_settings'] = ( isset( $_POST['_is_settings'] ) && is_array( $_POST['_is_settings'] ) ? $this->sanitize_settings( $_POST['_is_settings'] ) : '' );
+            $args['tab'] = ( isset( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'includes' );
             $properties = array();
             
             if ( '-1' != $id ) {
@@ -694,7 +704,7 @@ class IS_Admin
             if ( $invalid ) {
                 $query = array(
                     'post' => $id,
-                    'tab'  => ( isset( $_POST['tab'] ) ? $_POST['tab'] : 'includes' ),
+                    'tab'  => ( isset( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'includes' ),
                 );
                 $query['message'] = 'invalid';
                 $query['data'] = $invalid;
@@ -702,7 +712,7 @@ class IS_Admin
                 $search_form = $this->save_form( $args );
                 $query = array(
                     'post' => ( $search_form ? $search_form->id() : 0 ),
-                    'tab'  => ( isset( $_POST['tab'] ) ? $_POST['tab'] : 'includes' ),
+                    'tab'  => ( isset( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'includes' ),
                 );
                 
                 if ( !$search_form ) {
@@ -731,7 +741,7 @@ class IS_Admin
             
             if ( $id ) {
                 $args['id'] = $id;
-                $args['title'] = ( isset( $_POST['post_title'] ) ? $_POST['post_title'] : null );
+                $args['title'] = ( isset( $_POST['post_title'] ) ? sanitize_text_field( $_POST['post_title'] ) : null );
                 $args['_is_locale'] = null;
                 $args['_is_includes'] = '';
                 $args['_is_excludes'] = '';
@@ -740,7 +750,7 @@ class IS_Admin
                 $args['_is_settings'] = '';
                 $search_form = $this->save_form( $args );
                 $query['post'] = $id;
-                $query['tab'] = ( isset( $_POST['tab'] ) ? $_POST['tab'] : 'includes' );
+                $query['tab'] = ( isset( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'includes' );
                 $query['message'] = 'reset';
             }
             
@@ -773,19 +783,19 @@ class IS_Admin
         
         if ( 'delete' == $action ) {
             
-            if ( !empty($_POST['post_ID']) ) {
-                check_admin_referer( 'is-delete-search-form_' . $_POST['post_ID'] );
+            if ( !empty($_POST['post_ID']) && is_numeric( $_POST['post_ID'] ) ) {
+                check_admin_referer( 'is-delete-search-form_' . sanitize_key( $_POST['post_ID'] ) );
             } else {
                 
                 if ( !is_array( $_REQUEST['post'] ) ) {
-                    check_admin_referer( 'is-delete-search-form_' . $_REQUEST['post'] );
+                    check_admin_referer( 'is-delete-search-form_' . sanitize_key( $_REQUEST['post'] ) );
                 } else {
                     check_admin_referer( 'bulk-posts' );
                 }
             
             }
             
-            $posts = ( empty($_POST['post_ID']) ? (array) $_REQUEST['post'] : (array) $_POST['post_ID'] );
+            $posts = ( empty($_POST['post_ID']) ? array_map( 'sanitize_key', (array) $_REQUEST['post'] ) : array_map( 'sanitize_key', (array) $_REQUEST['post_ID'] ) );
             $deleted = 0;
             foreach ( $posts as $post ) {
                 $post = IS_Search_Form::get_instance( $post );
@@ -809,15 +819,17 @@ class IS_Admin
             exit;
         }
         
-        $_GET['post'] = ( isset( $_GET['post'] ) ? $_GET['post'] : '' );
+        if ( !isset( $_GET['post'] ) ) {
+            $_GET['post'] = '';
+        }
         $post = null;
         
         if ( 'ivory-search-new' == $plugin_page ) {
             $post = IS_Search_Form::get_template( array(
-                'locale' => ( isset( $_GET['locale'] ) ? $_GET['locale'] : null ),
+                'locale' => ( isset( $_GET['locale'] ) ? sanitize_text_field( $_GET['locale'] ) : null ),
             ) );
-        } elseif ( !empty($_GET['post']) ) {
-            $post = IS_Search_Form::get_instance( $_GET['post'] );
+        } elseif ( !empty($_GET['post']) && is_numeric( $_GET['post'] ) ) {
+            $post = IS_Search_Form::get_instance( sanitize_key( $_GET['post'] ) );
         }
         
         $current_screen = get_current_screen();
@@ -894,11 +906,11 @@ class IS_Admin
                 );
             }
             
-            $properties['_is_includes'] = $this->sanitize_includes( $args['_is_includes'] );
+            $properties['_is_includes'] = $args['_is_includes'];
         }
         
         if ( null === $args['tab'] || 'excludes' === $args['tab'] ) {
-            $properties['_is_excludes'] = $this->sanitize_excludes( $args['_is_excludes'] );
+            $properties['_is_excludes'] = $args['_is_excludes'];
         }
         
         if ( null === $args['tab'] || 'options' === $args['tab'] ) {
@@ -908,14 +920,14 @@ class IS_Admin
                     'order'   => 'DESC',
                 );
             }
-            $properties['_is_settings'] = $this->sanitize_settings( $args['_is_settings'] );
+            $properties['_is_settings'] = $args['_is_settings'];
         }
         
         if ( null === $args['tab'] || 'ajax' === $args['tab'] ) {
-            $properties['_is_ajax'] = $this->sanitize_settings( $args['_is_ajax'] );
+            $properties['_is_ajax'] = $args['_is_ajax'];
         }
         if ( null === $args['tab'] || 'customize' === $args['tab'] ) {
-            $properties['_is_customize'] = $this->sanitize_settings( $args['_is_customize'] );
+            $properties['_is_customize'] = $args['_is_customize'];
         }
         $search_form->set_properties( $properties );
         do_action(
@@ -992,15 +1004,15 @@ class IS_Admin
                         
                         if ( is_array( $value2 ) ) {
                             foreach ( $value2 as $key3 => $value3 ) {
-                                $output[$key][$key2][$key3] = esc_attr( $input[$key][$key2][$key3] );
+                                $output[$key][$key2][$key3] = sanitize_textarea_field( $input[$key][$key2][$key3] );
                             }
                         } else {
-                            $output[$key][$key2] = esc_attr( $input[$key][$key2] );
+                            $output[$key][$key2] = sanitize_textarea_field( $input[$key][$key2] );
                         }
                     
                     }
                 } else {
-                    $output[$key] = esc_attr( $input[$key] );
+                    $output[$key] = sanitize_textarea_field( $input[$key] );
                 }
             
             }
@@ -1016,14 +1028,18 @@ class IS_Admin
         static  $button = '' ;
         
         if ( !empty($button) ) {
-            echo  $button ;
+            esc_html_e( $button );
             return;
         }
         
-        $nonce = wp_create_nonce( 'is-save-search-form_' . $post_id );
-        $onclick = sprintf( "this.form._wpnonce.value = '%s';" . " this.form.action.value = 'save';" . " return true;", $nonce );
-        $button = sprintf( '<input type="submit" class="button-primary" name="is_save" value="%1$s" onclick="%2$s" />', esc_attr( __( 'Save Form', 'add-search-to-menu' ) ), $onclick );
-        echo  $button ;
+        $onclick = "this.form._wpnonce.value = '" . wp_create_nonce( 'is-save-search-form_' . $post_id ) . "'; this.form.action.value = 'save'; return true;";
+        ?>
+		<input type="submit" class="button-primary" name="is_save" value="<?php 
+        esc_attr_e( 'Save Form', 'add-search-to-menu' );
+        ?>" onclick="<?php 
+        echo  esc_js( $onclick ) ;
+        ?>" />
+		<?php 
     }
     
     /**
@@ -1032,13 +1048,13 @@ class IS_Admin
     public static function pro_link( $plan = 'pro' )
     {
         $is_premium_plugin = false;
-        $msg = esc_html__( "Upgrade to Pro to Access", 'add-search-to-menu' );
+        $msg = __( "Upgrade to Pro to Access", 'add-search-to-menu' );
         
         if ( is_fs()->is_plan_or_trial( $plan ) ) {
-            $msg = esc_html__( "Install Premium Version to Access", 'add-search-to-menu' );
+            $msg = __( "Install Premium Version to Access", 'add-search-to-menu' );
         } else {
             if ( 'pro_plus' === $plan ) {
-                $msg = esc_html__( "Upgrade to Pro Plus to Access", 'add-search-to-menu' );
+                $msg = __( "Upgrade to Pro Plus to Access", 'add-search-to-menu' );
             }
         }
         
@@ -1046,7 +1062,7 @@ class IS_Admin
         if ( is_fs()->is_plan_or_trial( $plan ) && $is_premium_plugin ) {
             return '';
         } else {
-            return '<span class="upgrade-wrapper"><a class="upgrade-link" href="' . esc_url( menu_page_url( 'ivory-search-pricing', false ) ) . '">  ' . $msg . '</a></span>';
+            return '<span class="upgrade-wrapper"><a class="upgrade-link" href="' . esc_url( menu_page_url( 'ivory-search-pricing', false ) ) . '">  ' . esc_html( $msg ) . '</a></span>';
         }
     
     }

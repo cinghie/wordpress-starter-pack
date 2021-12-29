@@ -1,32 +1,52 @@
-# Translation of Plugins - Disable Comments &#8211; Remove Comments &amp; Protect From Spam - Stable (latest release) in Italian
-# This file is distributed under the same license as the Plugins - Disable Comments &#8211; Remove Comments &amp; Protect From Spam - Stable (latest release) package.
+# Translation of Plugins - Disable Comments &#8211; Remove Comments &amp; Stop Spam [Multi-Site Support] - Stable (latest release) in Italian
+# This file is distributed under the same license as the Plugins - Disable Comments &#8211; Remove Comments &amp; Stop Spam [Multi-Site Support] - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-13 21:32:46+0000\n"
+"PO-Revision-Date: 2021-10-02 16:28:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
-"Project-Id-Version: Plugins - Disable Comments &#8211; Remove Comments &amp; Protect From Spam - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Disable Comments &#8211; Remove Comments &amp; Stop Spam [Multi-Site Support] - Stable (latest release)\n"
+
+#: views/settings.php:12
+msgctxt "Tab Name"
+msgid "Delete Comments"
+msgstr "Elimina commenti"
+
+#: views/settings.php:9
+msgctxt "Tab Name"
+msgid "Disable Comments"
+msgstr "Disattiva commenti"
 
 #: views/settings.php:6
 msgid "Version"
 msgstr "Versione"
 
-#: views/partials/_disable.php:15 views/partials/_disable.php:69
-#: views/partials/_disable.php:79
+#: views/partials/_disable.php:15 views/partials/_disable.php:75
+#: views/partials/_disable.php:120 views/partials/_disable.php:130
 msgid "Off"
 msgstr "Off"
 
-#: views/partials/_disable.php:14 views/partials/_disable.php:68
-#: views/partials/_disable.php:78
+#: views/partials/_disable.php:14 views/partials/_disable.php:74
+#: views/partials/_disable.php:119 views/partials/_disable.php:129
 msgid "On"
 msgstr "On"
 
-#: views/partials/_disable.php:19 views/partials/_disable.php:25
-#: views/partials/_disable.php:56 views/partials/_delete.php:6
+#: views/partials/_disable.php:131
+msgid "Disable Comments via REST API"
+msgstr "Disabilita i commenti tramite REST API"
+
+#: views/partials/_disable.php:122
+msgid "Disable Comments via XML-RPC"
+msgstr "Disabilita i commenti tramite XML-RPC"
+
+#: views/partials/_delete.php:15 views/partials/_delete.php:19
+#: views/partials/_disable.php:19 views/partials/_disable.php:28
+#: views/partials/_disable.php:33 views/partials/_disable.php:64
+#: views/partials/_disable.php:80 views/partials/_disable.php:105
 msgid "Note:"
 msgstr "Nota:"
 
@@ -54,64 +74,84 @@ msgstr "Tutti i plugin"
 msgid "About Us"
 msgstr "Chi siamo"
 
-#: includes/class-plugin-usage-tracker.php:859
+#: includes/class-plugin-usage-tracker.php:860
 msgid "Submit and Deactivate"
 msgstr "Invia e disattiva"
 
-#: includes/class-plugin-usage-tracker.php:759
+#: includes/class-plugin-usage-tracker.php:760
 msgid "Please share the reason"
 msgstr "Condividi il motivo"
 
-#: includes/class-plugin-usage-tracker.php:758
+#: includes/class-plugin-usage-tracker.php:759
 msgid "Other"
 msgstr "Altro"
 
-#: includes/class-plugin-usage-tracker.php:756
+#: includes/class-plugin-usage-tracker.php:757
 msgid "It's a temporary deactivation"
 msgstr "È una disattivazione temporanea"
 
-#: includes/class-plugin-usage-tracker.php:755
+#: includes/class-plugin-usage-tracker.php:756
 msgid "I couldn't get the plugin to work"
 msgstr "Non sono riuscito a far funzionare il plugin"
 
-#: includes/class-plugin-usage-tracker.php:752
+#: includes/class-plugin-usage-tracker.php:753
 msgid "I found a better plugin"
 msgstr "Ho trovato un plugin migliore"
 
-#: includes/class-plugin-usage-tracker.php:750
+#: includes/class-plugin-usage-tracker.php:751
 msgid "I no longer need the plugin"
 msgstr "Non ho più bisogno del plugin"
 
-#: includes/class-plugin-usage-tracker.php:653
+#: includes/class-plugin-usage-tracker.php:654
 msgid "No Thanks."
 msgstr "No grazie."
 
-#: disable-comments.php:613
+#: includes/class-plugin-usage-tracker.php:747
+msgid "Sorry to see you go"
+msgstr "Ci dispiace vederti andare"
+
+#: includes/class-plugin-usage-tracker.php:653
+msgid "Sure, I'd like to help"
+msgstr "Certo, mi piacerebbe aiutare"
+
+#: disable-comments.php:969
+msgid "Saved"
+msgstr "Salvato"
+
+#: includes/cli.php:153
+msgid "Disable Comments via XML-RPC. "
+msgstr "Disabilita i commenti tramite XML-RPC."
+
+#: includes/cli.php:157
+msgid "Disable Comments via REST API. "
+msgstr "Disabilita i commenti tramite REST API."
+
+#: disable-comments.php:716
 msgctxt "settings menu title"
 msgid "Disable Comments"
 msgstr "Disable comments"
 
-#: views/partials/_delete.php:48
+#: views/partials/_delete.php:66
 msgid "Total Comments:"
 msgstr "Commenti totali:"
 
-#: disable-comments.php:849 disable-comments.php:853
+#: disable-comments.php:1042 disable-comments.php:1046
 msgid "Internal error occured. Please try again later."
 msgstr "Si è verificato un errore interno. Provare più tardi."
 
-#: views/partials/_delete.php:192
+#: views/partials/_delete.php:210
 msgid "No comments are available for deletion."
 msgstr "Non ci sono commenti da eliminare."
 
-#: views/partials/_disable.php:53 views/partials/_delete.php:30
+#: views/partials/_delete.php:43 views/partials/_disable.php:61
 msgid "Custom post types:"
 msgstr "Tipi di contenuto personalizzati:"
 
-#: disable-comments.php:623 views/partials/_delete.php:54
+#: disable-comments.php:726 views/partials/_delete.php:72
 msgid "Delete Comments"
 msgstr "Elimina i commenti"
 
-#: disable-comments.php:604
+#: disable-comments.php:707
 msgid "Tools"
 msgstr "Strumenti"
 
@@ -119,61 +159,54 @@ msgstr "Strumenti"
 msgid "https://wordpress.org/plugins/disable-comments/"
 msgstr "https://it.wordpress.org/plugins/disable-comments/"
 
-#: views/partials/_disable.php:88
+#: views/partials/_disable.php:140
 msgid "Save Changes"
 msgstr "Salva le modifiche"
 
-#: views/partials/_disable.php:52 views/partials/_delete.php:29
+#: views/partials/_delete.php:42 views/partials/_disable.php:60
 msgid "Only the built-in post types appear above. If you want to disable comments on other custom post types on the entire network, you can supply a comma-separated list of post types below (use the slug that identifies the post type)."
 msgstr "Qui sopra puoi vedere solo i tipi di contenuto (post type) predefiniti. Se vuoi disabilitare i commenti per una particolare tipologia personalizzata sull'intero network, puoi aggiungere qui sotto una lista separata da virgole delle tipologie che ti interessano (usa gli slug che li identificano)."
 
 #. Plugin Name of the plugin
+#: disable-comments.php:329
 msgid "Disable Comments"
 msgstr "Disable Comments"
 
-#: disable-comments.php:603 views/partials/_disable.php:3
+#: disable-comments.php:706 views/partials/_disable.php:3
 msgid "Settings"
 msgstr "Impostazioni"
 
 #. translators: %s: URL to Disabled Comment settings page.
-#: disable-comments.php:514
+#: disable-comments.php:617
 msgid "The <strong>Disable Comments</strong> plugin is active, but isn't configured to do anything yet. Visit the <a href=\"%s\">configuration page</a> to choose which post types to disable comments on."
 msgstr "Il plugin <em>Disable Comments</em> è attivo, ma non è configurato ancora per fare niente. Visita la <a href=\"%s\">pagina di configurazione</a> per scegliere su quali tipologie di contenuto disabilitare i commenti."
 
 #. translators: %s: disabled post types.
-#: disable-comments.php:482
+#: disable-comments.php:582
 msgid ", "
 msgstr ", "
 
 #. translators: %s: disabled post types.
-#: disable-comments.php:482
+#: disable-comments.php:582
 msgid "Note: The <em>Disable Comments</em> plugin is currently active, and comments are completely disabled on: %s. Many of the settings below will not be applicable for those post types."
 msgstr "Il plugin <em>Disable Comments</em> è attualmente attivo e i commenti sono completamente disabilitati su: %s. Molte delle impostazioni che seguono non saranno applicate a queste tipologie di contenuto. "
 
-#: disable-comments.php:379 disable-comments.php:523 disable-comments.php:530
+#: disable-comments.php:478 disable-comments.php:626 disable-comments.php:633
 msgid "Comments are closed."
 msgstr "I commenti sono chiusi."
 
 #. translators: %s: WordPress version no.
-#: disable-comments.php:134
+#: disable-comments.php:169
 msgid "Disable Comments requires WordPress version %s or greater."
 msgstr "Disable Comments richiede la versione %s di WordPress o superiore."
 
-#: disable-comments.php:847 disable-comments.php:881 disable-comments.php:904
-msgid "All comments has been deleted"
-msgstr "Tutti i commenti sono stati eliminati"
-
-#: views/partials/_disable.php:32 views/partials/_delete.php:9
+#: views/partials/_delete.php:22 views/partials/_disable.php:40
 msgid "Everywhere:"
 msgstr "Ovunque:"
 
-#: views/partials/_delete.php:14
+#: views/partials/_delete.php:27
 msgid "On Certain Post Types:"
 msgstr "Su alcune tipologie di contenuto:"
-
-#. Author URI of the plugin
-msgid "https://wpdeveloper.net"
-msgstr "https://wpdeveloper.net"
 
 #. Author of the plugin
 msgid "WPDeveloper"

@@ -78,6 +78,10 @@ abstract class WP_Optimization {
 	public $retention_enabled;
 
 	public $retention_period;
+
+	public $revisions_retention_enabled;
+
+	public $revisions_retention_count;
 	
 	/**
 	 * Results. These should be accessed via get_results()
@@ -356,6 +360,11 @@ abstract class WP_Optimization {
 		
 		$this->retention_enabled = $retention_enabled;
 		$this->retention_period = $retention_period;
+
+		list($revisions_retention_enabled, $revisions_retention_count) = $this->optimizer->get_revisions_retain_info();
+		$this->revisions_retention_enabled = $revisions_retention_enabled;
+		$this->revisions_retention_count = $revisions_retention_count;
+
 	}
 	
 
