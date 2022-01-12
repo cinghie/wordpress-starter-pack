@@ -230,7 +230,7 @@ class IS_Index_Search {
 	 * @param WP_Query $query The WP Query object.
 	 * @return array An array with the low boundary first, the high boundary second.
 	 */
-	protected function get_boundaries( $query ) : array {
+	protected function get_boundaries( $query ) {
 		$hits_count = $query->found_posts;
 
 		if ( isset( $query->query_vars['paged'] ) && $query->query_vars['paged'] > 0 ) {

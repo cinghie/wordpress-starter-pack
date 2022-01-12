@@ -2,7 +2,7 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.23.5
+Stable tag: 3.24.0
 Requires PHP: 5.2
 Tested up to: 5.8
 License: GPLv2 or later
@@ -200,23 +200,21 @@ Follow us on Twitter: [@wpmetaslider](https://twitter.com/wpmetaslider)
 
 ## Template and Pattern Library
 
-MetaSlider now includes access to the Extendify template and pattern library that can be accessed by clicking the "Library" button in the menu bar of the editor. We provide a variety of templates and patterns to serve different use cases and are adding more templates every week. Click on features -> MetaSlider to see patterns that incorporate the MetaSlider block.
-
-Note: Templates and patterns rely on blocks and styling applied by the Editor Plus plugin. The Editor Plus plugin is required when importing a template or pattern. If you uninstall Editor Plus, the templates and patterns will still display on your site, but the styling may be affected. Additionally, stock images included in the templates are hosted by Extendify. We recommend replacing the images or adding them to your media library directly.
-
+MetaSlider includes access to the Extendify template and pattern library that can be accessed by clicking the "Library" button in the menu bar of the editor. We provide a variety of templates and patterns to serve different use cases and are adding more templates every week.
 ## Privacy
 
-MetaSlider uses a custom API to fetch templates and patterns from the Extendify template and pattern library. To improve the service and stability we store logs which may contain the following:
+The Extendify library uses a custom API to fetch block patterns and page layouts from our servers. API requests are only made when a user clicks on the Library button. In order to provide and improve this service, Extendify passes site data along with an API request, including:
 
-* browser type
-* referring site
-* date and time of request
-* category selection or search term
-* anonymized IP address
+* Browser
+* Referring site
+* Category selection
+* WP language
+* Active theme
+* Active plugins
+* Anonymized UUID
+* Anonymized IP address
 
-API requests are only made when a user clicks on the Library button.
-
-For more details on our privacy policy: [https://extendify.com/privacy-policy](https://extendify.com/privacy-policy)
+By accessing the Extendify library, you agree to the Extendify [privacy policy](https://extendify.com/privacy-policy) and [terms of service](https://extendify.com/terms-of-service).
 For more details on our terms of service: [https://extendify.com/terms-of-service](https://extendify.com/terms-of-service)
 
 ### Privacy Policy:
@@ -287,6 +285,9 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Integrates directly in Gutenberg
 
 == Changelog ==
+
+= 3.24.0 - 2022/Jan/6 =
+* Update Extendify library
 
 = 3.23.5 - 2021/Nov/30 =
 * FIX: Fixes post output stripslashes bug

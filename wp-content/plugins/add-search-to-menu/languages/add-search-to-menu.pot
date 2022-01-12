@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ivory Search\n"
-"POT-Creation-Date: 2021-12-28 22:16+0530\n"
+"POT-Creation-Date: 2022-01-06 19:03+0530\n"
 "PO-Revision-Date: 2020-03-17 21:05+0530\n"
 "Last-Translator: \n"
 "Language-Team: Ivory Search <admin@ivorysearch.com>\n"
@@ -169,31 +169,31 @@ msgstr ""
 msgid "You are not allowed to edit this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:649
+#: ../admin/class-is-admin.php:654
 msgid "You are not allowed to reset this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:685
+#: ../admin/class-is-admin.php:690
 msgid "You are not allowed to copy this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:724
+#: ../admin/class-is-admin.php:729
 msgid "You are not allowed to delete this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:728
+#: ../admin/class-is-admin.php:733
 msgid "Error in deleting."
 msgstr ""
 
-#: ../admin/class-is-admin.php:967
+#: ../admin/class-is-admin.php:975
 msgid "Upgrade to Pro to Access"
 msgstr ""
 
-#: ../admin/class-is-admin.php:974
+#: ../admin/class-is-admin.php:982
 msgid "Install Premium Version to Access"
 msgstr ""
 
-#: ../admin/class-is-admin.php:976
+#: ../admin/class-is-admin.php:984
 msgid "Upgrade to Pro Plus to Access"
 msgstr ""
 
@@ -1804,7 +1804,7 @@ msgid "Creating Index..."
 msgstr ""
 
 #: ../includes/class-is-index-manager.php:360
-#: ../includes/class-is-index-manager.php:689
+#: ../includes/class-is-index-manager.php:694
 msgid "Create Index"
 msgstr ""
 
@@ -1852,27 +1852,27 @@ msgstr ""
 msgid "Error: Index was not created"
 msgstr ""
 
-#: ../includes/class-is-index-manager.php:663
+#: ../includes/class-is-index-manager.php:668
 msgid "Deleting Index..."
 msgstr ""
 
-#: ../includes/class-is-index-manager.php:682
+#: ../includes/class-is-index-manager.php:687
 msgid "Index deleted"
 msgstr ""
 
-#: ../includes/class-is-index-manager.php:684
+#: ../includes/class-is-index-manager.php:689
 msgid "Error: Index was not deleted"
 msgstr ""
 
-#: ../includes/class-is-index-manager.php:731
+#: ../includes/class-is-index-manager.php:736
 msgid "Indexing content..."
 msgstr ""
 
-#: ../includes/class-is-index-manager.php:756
+#: ../includes/class-is-index-manager.php:761
 msgid "Content Indexed ID: "
 msgstr ""
 
-#: ../includes/class-is-index-manager.php:769
+#: ../includes/class-is-index-manager.php:774
 msgid "Error: content was not indexed"
 msgstr ""
 

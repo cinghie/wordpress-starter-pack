@@ -1040,7 +1040,7 @@ class IS_Public
         
         if ( is_search() && isset( $wp_query->query_vars['_is_settings']['highlight_terms'] ) && isset( $wp_query->query_vars['_is_settings']['highlight_color'] ) ) {
             echo  '<style type="text/css" media="screen">' ;
-            echo  '.is-highlight { background-color: ' . $wp_query->query_vars['_is_settings']['highlight_color'] . ' !important;}' ;
+            echo  '.is-highlight { background-color: ' . esc_html( $wp_query->query_vars['_is_settings']['highlight_color'] ) . ' !important;}' ;
             echo  '</style>' ;
         }
         

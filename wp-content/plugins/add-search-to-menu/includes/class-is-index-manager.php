@@ -409,7 +409,6 @@ class IS_Index_Manager extends IS_Base_Options {
 		if ( wp_verify_nonce( @$_POST['_isnonce'], self::CREATE_INDEX_ACTION )
 				&& ! $this->check_object_lock() ) {
 			$this->set_object_lock();
-			$this->set_start_time();
 
 			switch ( $idx_status ) {
 				case self::IDX_EMPTY:
@@ -426,6 +425,7 @@ class IS_Index_Manager extends IS_Base_Options {
 				$this->get_build_pagination_args( $page )
 			);
 
+			$this->set_start_time();
 			$indexed = $this->build_offset;
 			$posts   = $ret['posts'];
 			$total   = $ret['total'];
@@ -592,7 +592,8 @@ class IS_Index_Manager extends IS_Base_Options {
 	 */
 	protected function get_build_pagination_args( $page ) {
 		$exec_time     = $this->calc_exec_time();
-		$max_exec_time = ini_get( 'max_execution_time' );
+		$max_exec_time = @ini_get( 'max_execution_time' ) * .8;
+		$max_exec_time = min( $max_exec_time, 45 );
 		$max_per_page  = 100;
 		$multiplier    = 2;
 		$per_page      = $this->build_per_page;
@@ -618,16 +619,20 @@ class IS_Index_Manager extends IS_Base_Options {
 
 				if ( $div > ( 2 * $multiplier ) ) {
 					$per_page *= $multiplier;
-				} elseif ( $div < $multiplier ) {
-					$per_page -= 20;
+				} elseif ( $div > 1.5 ) {
+					$per_page += 10;
 				}
 
-				if ( $per_page > $max_per_page ) {
-					$per_page = $max_per_page;
-				}
-				if ( $per_page < 10 ) {
-					$per_page = 10;
-				}
+			}
+			elseif( $exec_time > $max_exec_time ) {
+				$per_page -= 10;
+			}
+
+			if ( $per_page > $max_per_page ) {
+				$per_page = $max_per_page;
+			}
+			if ( $per_page < 10 ) {
+				$per_page = 10;
 			}
 		}
 

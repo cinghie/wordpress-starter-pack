@@ -647,7 +647,14 @@ class IS_Admin
             $args['_is_locale'] = ( isset( $_POST['is_locale'] ) ? sanitize_text_field( $_POST['is_locale'] ) : null );
             $args['_is_includes'] = ( isset( $_POST['_is_includes'] ) && is_array( $_POST['_is_includes'] ) ? $this->sanitize_includes( $_POST['_is_includes'] ) : '' );
             $args['_is_excludes'] = ( isset( $_POST['_is_excludes'] ) && is_array( $_POST['_is_excludes'] ) ? $this->sanitize_excludes( $_POST['_is_excludes'] ) : '' );
-            $args['_is_ajax'] = ( isset( $_POST['_is_ajax'] ) && is_array( $_POST['_is_ajax'] ) ? $this->sanitize_settings( $_POST['_is_ajax'] ) : '' );
+            
+            if ( isset( $_POST['_is_ajax'] ) && is_array( $_POST['_is_ajax'] ) ) {
+                $args['_is_ajax'] = $this->sanitize_settings( $_POST['_is_ajax'], '', 'nothing_found_text' );
+                $args['_is_ajax']['nothing_found_text'] = wp_filter_post_kses( $_POST['_is_ajax']['nothing_found_text'] );
+            } else {
+                $args['_is_ajax'] = '';
+            }
+            
             $args['_is_customize'] = ( isset( $_POST['_is_customize'] ) && is_array( $_POST['_is_customize'] ) ? $this->sanitize_settings( $_POST['_is_customize'] ) : '' );
             $args['_is_settings'] = ( isset( $_POST['_is_settings'] ) && is_array( $_POST['_is_settings'] ) ? $this->sanitize_settings( $_POST['_is_settings'] ) : '' );
             $args['tab'] = ( isset( $_POST['tab'] ) ? sanitize_text_field( $_POST['tab'] ) : 'includes' );
@@ -981,19 +988,19 @@ class IS_Admin
     /**
      * Sanitizes settings options.
      */
-    function sanitize_settings( $input, $defaults = '' )
+    function sanitize_settings( $input, $defaults = '', $exception = '' )
     {
         if ( null === $input ) {
             return $defaults;
         }
-        $output = $this->sanitize_fields( $input );
+        $output = $this->sanitize_fields( $input, $exception );
         return $output;
     }
     
     /**
      * Sanitizes fields.
      */
-    function sanitize_fields( $input )
+    function sanitize_fields( $input, $exception = '' )
     {
         $output = array();
         if ( is_array( $input ) && !empty($input) ) {
@@ -1004,15 +1011,22 @@ class IS_Admin
                         
                         if ( is_array( $value2 ) ) {
                             foreach ( $value2 as $key3 => $value3 ) {
-                                $output[$key][$key2][$key3] = sanitize_textarea_field( $input[$key][$key2][$key3] );
+                                echo  $input[$key][$key2][$key3] . ' <br>' ;
+                                if ( $exception !== $key3 ) {
+                                    $output[$key][$key2][$key3] = sanitize_textarea_field( $input[$key][$key2][$key3] );
+                                }
                             }
                         } else {
-                            $output[$key][$key2] = sanitize_textarea_field( $input[$key][$key2] );
+                            if ( $exception !== $key2 ) {
+                                $output[$key][$key2] = sanitize_textarea_field( $input[$key][$key2] );
+                            }
                         }
                     
                     }
                 } else {
-                    $output[$key] = sanitize_textarea_field( $input[$key] );
+                    if ( $exception !== $key ) {
+                        $output[$key] = sanitize_textarea_field( $input[$key] );
+                    }
                 }
             
             }

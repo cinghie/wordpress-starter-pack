@@ -103,6 +103,8 @@ class IS_Debug {
 	}
 
 	public static function set_debug_mode() {
+		set_error_handler( array( 'IS_Debug', 'process_error_backtrace') );
+
 		$defines = [
 			'IS_DEBUG',
 			'WP_DEBUG',
@@ -131,6 +133,4 @@ class IS_Debug {
 		return $debug;
 	} 	
 }
-
-set_error_handler( array( 'IS_Debug', 'process_error_backtrace') );
 
