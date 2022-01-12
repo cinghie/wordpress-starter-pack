@@ -17,7 +17,7 @@
         "@wordpress/i18n": "^3.17.0",
         "alpine-magic-helpers": "^0.5.1",
         "alpinejs": "^2.8.0",
-        "axios": "^0.21.1",
+        "axios": "^0.21.2",
         "muuri": "^0.9.3",
         "web-animations-js": "^2.3.2"
     },
