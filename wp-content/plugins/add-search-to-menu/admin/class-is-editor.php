@@ -1299,7 +1299,7 @@ class IS_Search_Editor
         ?>-min_no_for_search" name="<?php 
         echo  esc_attr( $id ) ;
         ?>[min_no_for_search]" value="<?php 
-        echo  $min_no_for_search ;
+        esc_attr_e( $min_no_for_search );
         ?>" />
                                             <p class="description"><?php 
         _e( 'Minimum number of characters required to run ajax search.', 'add-search-to-menu' );
@@ -1316,7 +1316,7 @@ class IS_Search_Editor
         ?>-result_box_max_height" name="<?php 
         echo  esc_attr( $id ) ;
         ?>[result_box_max_height]" value="<?php 
-        echo  esc_attr( $result_box_max_height ) ;
+        esc_attr_e( $result_box_max_height );
         ?>"/>
                                             <p class="description"><?php 
         _e( 'Search results box max height.', 'add-search-to-menu' );
@@ -1338,7 +1338,7 @@ class IS_Search_Editor
         ?>-nothing_found_text" name="<?php 
         echo  esc_attr( $id ) ;
         ?>[nothing_found_text]" value="<?php 
-        echo  $nothing_found_text ;
+        esc_attr_e( $nothing_found_text );
         ?>" />
                                                     <span class="description"><?php 
         _e( 'Text when there is no search results. HTML tags is allowed.', 'add-search-to-menu' );
@@ -2405,7 +2405,7 @@ class IS_Search_Editor
         echo  '<p class="check-radio"><label for="' . esc_attr( $id ) . '-highlight_terms" ><input class="_is_settings-highlight_terms" type="checkbox" id="' . esc_attr( $id ) . '-highlight_terms" name="' . esc_attr( $id ) . '[highlight_terms]" value="1" ' . checked( 1, $checked, false ) . '/>' ;
         echo  '<span class="toggle-check-text"></span>' . esc_html__( "Highlight searched terms on search results page", 'add-search-to-menu' ) . '</label></p>' ;
         $color = ( isset( $settings['highlight_color'] ) ? $settings['highlight_color'] : '#FFFFB9' );
-        echo  '<div class="highlight-container"><br /><input style="width: 80px;" class="_is_settings-highlight_terms is-colorpicker" size="5" type="text" id="' . esc_attr( $id ) . '-highlight_color" name="' . esc_attr( $id ) . '[highlight_color]" value="' . $color . '" />' ;
+        echo  '<div class="highlight-container"><br /><input style="width: 80px;" class="_is_settings-highlight_terms is-colorpicker" size="5" type="text" id="' . esc_attr( $id ) . '-highlight_color" name="' . esc_attr( $id ) . '[highlight_color]" value="' . esc_attr( $color ) . '" />' ;
         echo  '<br /><i> ' . esc_html__( "Select text highlight color", 'add-search-to-menu' ) . '</i></div>' ;
         ?>
 			</div></div>

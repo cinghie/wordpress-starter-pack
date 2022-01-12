@@ -104,6 +104,11 @@ if ( ! class_exists( 'YITH_WCMG_Frontend' ) ) {
 					true
 				);
 
+				/**
+				 * Avoid the stopImmediatePropagation on gallery click if the Featured Audio and Video plugin is enabled
+				 */
+				$stop_immediate_propagation = function_exists( 'YITH_Featured_Audio_Video_Premium_Init') ? false : true;
+
 				wp_localize_script(
 					'ywzm-magnifier',
 					'yith_wc_zoom_magnifier_storage_object',
@@ -113,6 +118,7 @@ if ( ! class_exists( 'YITH_WCMG_Frontend' ) ) {
 							'ajax_url'          => admin_url( 'admin-ajax.php' ),
 							'mouse_trap_width'  => apply_filters( 'yith_wczm_mouse_trap_with', '100%' ),
 							'mouse_trap_height' => apply_filters( 'yith_wczm_mouse_trap_height', '100%' ),
+							'stop_immediate_propagation' => $stop_immediate_propagation,
 						)
 					)
 				);

@@ -636,7 +636,7 @@ class IS_Index_Helper {
 	 * @param string $content The content.
 	 * @return string The content with tags stripped.
 	 */
-	public function strip_all_tags( $content ): string {
+	public function strip_all_tags( $content ) {
 		if ( ! is_string( $content ) ) {
 			$content = '';
 		}
@@ -657,12 +657,15 @@ class IS_Index_Helper {
 	 * @return mixed False, if no result or $offset outside the length of $haystack,
 	 * otherwise the position (which can be non-false 0!).
 	 */
-	public function stripos( $haystack, $needle, int $offset = 0 ) {
+	public function stripos( $haystack, $needle, $offset = 0 ) {
 		if ( ! is_string( $haystack ) ) {
 			$haystack = strval( $haystack );
 		}
 		if ( ! is_string( $needle ) ) {
 			$needle = strval( $needle );
+		}
+		if ( is_null( $offset ) ) {
+			$offset = 0;
 		}
 		if ( $offset > $this->strlen( $haystack ) ) {
 			return false;
@@ -777,7 +780,7 @@ class IS_Index_Helper {
 	 * omitted or null is passed, extract all characters to the end of the string.
 	 * @return string $string The string in lowercase.
 	 */
-	public function substr( $string, int $start, $length = null ) {
+	public function substr( $string, $start, $length = null ) {
 		if ( ! is_string( $string ) ) {
 			$string = strval( $string );
 		}
@@ -798,7 +801,7 @@ class IS_Index_Helper {
 	 * @param string $string The source string.
 	 * @return string Trimmed string.
 	 */
-	public function mb_trim( string $string ) {
+	public function mb_trim( $string ) {
 		$string = str_replace( chr( 194 ) . chr( 160 ), '', $string );
 		$string = str_replace( "\0", '', $string );
 		$string = preg_replace( '/(^\s+)|(\s+$)/us', '', $string );

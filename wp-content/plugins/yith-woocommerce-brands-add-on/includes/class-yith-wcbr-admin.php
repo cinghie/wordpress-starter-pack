@@ -301,8 +301,8 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
-				'page_title'       => __( 'Brands', 'yith-woocommerce-brands-add-on' ),
-				'menu_title'       => __( 'Brands', 'yith-woocommerce-brands-add-on' ),
+				'page_title'       => 'YITH WooCommerce Brands Add-on',
+				'menu_title'       => 'Brands Add-on',
 				'capability'       => 'manage_options',
 				'parent'           => '',
 				'parent_page'      => 'yith_plugin_panel',

@@ -249,7 +249,10 @@
           'click',
           function (e) {
             e.preventDefault();
-            e.stopImmediatePropagation();
+
+            if ( yith_wc_zoom_magnifier_storage_object.stop_immediate_propagation ){
+              e.stopImmediatePropagation();
+            }
 
             if ( $( '#yith_wczm_traffic_light' ).val() == 'free' ) {
 

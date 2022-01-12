@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH Request a Quote for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-10-15 12:11:27+0000\n"
+"PO-Revision-Date: 2022-01-05 10:54:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,41 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH Request a Quote for WooCommerce - Stable (latest release)\n"
+
+#: plugin-fw/templates/panel/premium-tab.php:58
+msgctxt "Premium Tab"
+msgid "Get the premium version"
+msgstr "Ottieni la versione premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:53
+msgctxt "Premium Tab"
+msgid "Check the free vs premium features >"
+msgstr "Confronta le funzionalità della versione gratuita e della premium >"
+
+#: plugin-fw/templates/panel/premium-tab.php:51
+msgctxt "Premium Tab"
+msgid "And so much more!"
+msgstr "E molto altro!"
+
+#: plugin-fw/templates/panel/premium-tab.php:39
+msgctxt "Premium Tab"
+msgid "Plugin premium features images"
+msgstr "Immagini funzionalità premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:34
+msgctxt "Premium Tab"
+msgid "Get premium"
+msgstr "Diventa premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:30
+msgctxt "Premium Tab"
+msgid "Get the premium version to unlock advanced features"
+msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
+
+#: plugin-fw/includes/class-yit-plugin-panel.php:853
+msgctxt "Premium tab name"
+msgid "Get premium"
+msgstr "Diventa premium"
 
 #. Translators: %1$f: Table size, %2$f: Index size, %3$f: Free size, %4$s
 #. Engine.
@@ -328,18 +363,18 @@ msgid "Width"
 msgstr "Larghezza"
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:799
+#: plugin-fw/includes/class-yit-plugin-panel.php:806
 msgctxt "Help tab default description"
 msgid "We want to help you to enjoy a wonderful experience with all our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:798
+#: plugin-fw/includes/class-yit-plugin-panel.php:805
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:488
+#: plugin-fw/includes/class-yit-plugin-panel.php:492
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -519,18 +554,13 @@ msgstr "YITH Request a Quote for WooCommerce è attivo ma non operativo. Il suo 
 msgid "You can't activate the free version of YITH Request a Quote for WooCommerce while you are using the premium one."
 msgstr "Non è possibile attivare la versione free di YITH Request a Quote for WooCommerce se stai già utilizzando la premium."
 
-#: includes/class.yith-request-quote-admin.php:158
-msgctxt "Plugin Name. Do not translate."
-msgid "YITH Request a Quote for WooCommerce"
-msgstr "YITH Request a Quote for WooCommerce"
-
 #. translators: placeholder html tags.
 #. translators: placeholder html tags.
 #: templates/admin/premium.php:239 templates/admin/premium.php:612
 msgid "Upgrade to %1$spremium version%2$s of %1$sYITH Request a Quote for WooCommerce%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH Request a Quote for WooCommerce%2$s per usufruire di tutte le funzionalità!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1460
+#: plugin-fw/includes/class-yit-plugin-panel.php:1528
 msgid "help us by leaving a good review"
 msgstr "Puoi darci una mano lasciando una recensione positiva"
 
@@ -901,15 +931,15 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1461
+#: plugin-fw/includes/class-yit-plugin-panel.php:1529
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1458
+#: plugin-fw/includes/class-yit-plugin-panel.php:1526
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per poter continuare ad aggiornare e migliorare il plugin."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1457
+#: plugin-fw/includes/class-yit-plugin-panel.php:1525
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
@@ -1068,7 +1098,7 @@ msgstr "YITH System Information"
 msgid "Custom:"
 msgstr "Personalizzato:"
 
-#: plugin-fw/templates/fields/select-buttons.php:32
+#: plugin-fw/templates/fields/select-buttons.php:20
 msgid "Remove All"
 msgstr "Rimuovi tutti"
 
@@ -1125,11 +1155,6 @@ msgstr "Versione premium"
 msgctxt "Plugin Row Meta"
 msgid "Support"
 msgstr "Assistenza"
-
-#: includes/class.yith-request-quote-admin.php:159
-msgctxt "Plugin Name. Do not translate."
-msgid "Request a Quote"
-msgstr "Request a Quote"
 
 #. Description of the plugin
 msgid "The <code><strong>YITH Request a Quote for WooCommerce</strong></code> plugin lets your customers ask for an estimate of a list of products they are interested into. It allows hiding add to cart button so that your customers can request a quote on every product page. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
@@ -1243,8 +1268,8 @@ msgid_plural "%s are required fields"
 msgstr[0] "%s è un campo richiesto "
 msgstr[1] "%s sono campi richiesti "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:451
-#: plugin-fw/includes/class-yit-plugin-panel.php:454
+#: plugin-fw/includes/class-yit-plugin-panel.php:455
+#: plugin-fw/includes/class-yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -1461,65 +1486,65 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:989
+#: plugin-fw/includes/class-yit-plugin-panel.php:1057
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:988
+#: plugin-fw/includes/class-yit-plugin-panel.php:1056
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:987
+#: plugin-fw/includes/class-yit-plugin-panel.php:1055
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:986
+#: plugin-fw/includes/class-yit-plugin-panel.php:1054
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:985
+#: plugin-fw/includes/class-yit-plugin-panel.php:1053
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:983
-#: plugin-fw/includes/class-yit-plugin-panel.php:984
+#: plugin-fw/includes/class-yit-plugin-panel.php:1051
+#: plugin-fw/includes/class-yit-plugin-panel.php:1052
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:982
+#: plugin-fw/includes/class-yit-plugin-panel.php:1050
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:981
+#: plugin-fw/includes/class-yit-plugin-panel.php:1049
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:980
+#: plugin-fw/includes/class-yit-plugin-panel.php:1048
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:979
+#: plugin-fw/includes/class-yit-plugin-panel.php:1047
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:657
+#: plugin-fw/includes/class-yit-plugin-panel.php:664
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:661
+#: plugin-fw/includes/class-yit-plugin-panel.php:668
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:139
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:657
+#: plugin-fw/includes/class-yit-plugin-panel.php:664
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:652
+#: plugin-fw/includes/class-yit-plugin-panel.php:659
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:132
 msgid "Save Changes"
 msgstr "Salva modifiche"
@@ -1532,7 +1557,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:423
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:430
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 

@@ -140,7 +140,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
-				'page_title'       => 'Product Gallery & Image Zoom',
+				'page_title'       => 'YITH WooCommerce Product Gallery & Image Zoom',
 				'menu_title'       => 'Product Gallery & Image Zoom',
 				'capability'       => 'manage_options',
 				'parent'           => '',

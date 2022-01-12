@@ -758,6 +758,7 @@ class WooSEA_Get_Products {
 
 					foreach ($shipping_methods as $k => $v){
 						$method = $v->method_title;
+						$method_id = $v->id;
 						$shipping_rate_id = $v->instance_id;
 
 						if($v->enabled == "yes"){
@@ -804,7 +805,7 @@ class WooSEA_Get_Products {
 							}		
 
 							// WooCommerce Table Rate - Bolder Elements
-							if($method == "Table Rate"){
+							if($method_id == "table_rate"){
                                                         	if($this->woosea_is_plugin_active( 'woocommerce-table-rate-shipping/woocommerce-table-rate-shipping.php' )) {
                                                                 	// Set shipping cost
 									$shipping_cost = 0;     
@@ -850,7 +851,7 @@ class WooSEA_Get_Products {
 							}
 
 							// Official WooCommerce Table Rate plugin
-							if($method == "Table rates"){
+							if($method_id == "table_rate"){
                                                         	if($this->woosea_is_plugin_active( 'woocommerce-table-rate-shipping/woocommerce-table-rate-shipping.php' )) {
                                                                 	// Set shipping cost
 									$shipping_cost = 0;     
@@ -1199,22 +1200,22 @@ class WooSEA_Get_Products {
 		}
 
                 // Check if htaccess exists, if not create one
-                $htaccess_file = $path . "/" . ".htaccess";
-                if ( ! file_exists( $htaccess_file ) ) {
-                        $line_ht = "# BEGIN NoCache for woo-product-feed-pro".PHP_EOL;
-                        $line_ht .= "<FilesMatch \"\.(".$feed_config['fileformat'].")$\">".PHP_EOL;
-                        $line_ht .= "  Header Set Pragma \"no-cache\"".PHP_EOL;
-                        $line_ht .= "  Header Set Expires \"Thu, 1 Jan 1970 00:00:00 GMT\"".PHP_EOL;
-                        $line_ht .= "  Header Set Cache-Control \"max-age=0, no-store, no-cache, must-revalidate\"".PHP_EOL;
-                        $line_ht .= "  Header Unset ETag".PHP_EOL;
-                        $line_ht .= "  FileETag None".PHP_EOL;
-                        $line_ht .= "</FilesMatch>".PHP_EOL;
-                        $line_ht .= "# END NoCache for woo-product-feed-pro XML".PHP_EOL;
-
-                        $fp = fopen($htaccess_file, 'a+');
-                        fwrite($fp, $line_ht);
-                        fclose($fp);
-                }
+                //$htaccess_file = $path . "/" . ".htaccess";
+                //if ( ! file_exists( $htaccess_file ) ) {
+                //        $line_ht = "# BEGIN NoCache for woo-product-feed-pro".PHP_EOL;
+                //        $line_ht .= "<FilesMatch \"\.(".$feed_config['fileformat'].")$\">".PHP_EOL;
+                //        $line_ht .= "  Header Set Pragma \"no-cache\"".PHP_EOL;
+                //        $line_ht .= "  Header Set Expires \"Thu, 1 Jan 1970 00:00:00 GMT\"".PHP_EOL;
+                //        $line_ht .= "  Header Set Cache-Control \"max-age=0, no-store, no-cache, must-revalidate\"".PHP_EOL;
+                //        $line_ht .= "  Header Unset ETag".PHP_EOL;
+                //        $line_ht .= "  FileETag None".PHP_EOL;
+                //        $line_ht .= "</FilesMatch>".PHP_EOL;
+                //        $line_ht .= "# END NoCache for woo-product-feed-pro XML".PHP_EOL;
+		//
+                //        $fp = fopen($htaccess_file, 'a+');
+                //        fwrite($fp, $line_ht);
+                //        fclose($fp);
+                //}
 
 		// Check if file exists, if it does: delete it first so we can create a new updated one
 		if ( (file_exists( $file )) AND ($header == "true") AND ($feed_config['nr_products_processed'] == 0) || !file_exists( $file ) ) {
@@ -1434,6 +1435,12 @@ class WooSEA_Get_Products {
 				} elseif ($feed_config['name'] == "Heureka.cz") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
 					$xml->addAttribute('xmlns', 'http://www.heureka.cz/ns/offer/1.0');
+					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Mall.sk") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" standalone="yes"?><ITEMS></ITEMS>');	
+					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Mall.sk availability") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" standalone="yes"?><AVAILABILITIES></AVAILABILITIES>');	
 					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Heureka.sk") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
@@ -1723,6 +1730,10 @@ class WooSEA_Get_Products {
 								$product = $xml->products->addChild('product');
 							} elseif ($feed_config['name'] == "Salidzini.lv") {
 								$product = $xml->addChild('item');
+							} elseif ($feed_config['name'] == "Mall.sk") {
+								$product = $xml->addChild('ITEM');
+							} elseif ($feed_config['name'] == "Mall.sk availability") {
+								$product = $xml->addChild('AVAILABILITY');
 							} elseif ($feed_config['name'] == "Trovaprezzi.it") {
 								$product = $xml->addChild('Offer');
 							} elseif ($feed_config['name'] == "Pricecheck.co.za") {
@@ -1852,14 +1863,18 @@ class WooSEA_Get_Products {
 									}
 									if(!empty($k)){
 										/**
-                                                                 		* Some Zbozi and Heureka attributes need some extra XML nodes
+                                                                 		* Some Zbozi, Mall and Heureka attributes need some extra XML nodes
                                                                  		*/
 										$zbozi_nodes = "PARAM_";
 	
-                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Heureka.cz") OR ($feed_config['name'] == "Heureka.sk")) AND (preg_match("/$zbozi_nodes/i",$k))){
+                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Mall.sk") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Heureka.cz") OR ($feed_config['name'] == "Heureka.sk")) AND (preg_match("/$zbozi_nodes/i",$k))){
 											$pieces = explode ("_", $k);
 											$productp = $product->addChild('PARAM');
-                                                                                	$productp->addChild("PARAM_NAME", $pieces[1]);
+											if($feed_config['name'] == "Mall.sk"){
+												$productp->addChild("PARAM", $pieces[1]);
+											} else {
+												$productp->addChild("PARAM_NAME", $pieces[1]);
+											}
                                                                                 	$productp->addChild("VAL", $v);
                                                                 		} elseif((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Heureka.cz")) AND ($k == "DELIVERY")){
                                                                         		$delivery = $product->addChild('DELIVERY');
@@ -4193,9 +4208,16 @@ class WooSEA_Get_Products {
 							$product_skroutz = wc_get_product($product_data['item_group_id']);
                                      			$variations = $product_skroutz->get_available_variations();
                                     			$variations_id = wp_list_pluck( $variations, 'variation_id' );
+							$total_quantity = 0;
 
 							foreach($variations_id as $var_id){
 								$clr_variation = get_post_meta( $var_id, "attribute_".$clr_attribute, true );
+								
+								// Sum quantity of variations
+								$quantity_variation = $this->get_attribute_value( $var_id, "_stock" );
+								$total_quantity += $quantity_variation;
+								$product_data['quantity'] = $total_quantity;
+
 								if (isset($sz_attribute)) {
 									$size_variation = get_post_meta( $var_id, "attribute_".$sz_attribute, true );
 								}

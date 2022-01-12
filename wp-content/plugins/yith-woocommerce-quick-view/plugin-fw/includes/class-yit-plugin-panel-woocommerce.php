@@ -82,6 +82,8 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 					$this->links = $this->settings['links'];
 				}
 
+				$this->maybe_init_premium_tab();
+
 				add_action( 'admin_init', array( $this, 'set_default_options' ) );
 				add_action( 'admin_menu', array( $this, 'add_setting_page' ) );
 				add_action( 'admin_menu', array( $this, 'add_premium_version_upgrade_to_menu' ), 100 );
@@ -280,7 +282,9 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 
 			$this->print_tabs_nav();
 
-			if ( $custom_tab_options ) {
+			if ( $this->is_premium_tab() && $this->has_premium_tab() ) {
+				$this->print_premium_tab();
+			} elseif ( $custom_tab_options ) {
 				$this->print_custom_tab( $custom_tab_options );
 			} elseif ( $this->is_help_tab() ) {
 				$this->print_help_tab();
@@ -658,7 +662,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 			check_ajax_referer( 'save-toggle-element', 'security' );
 
 			if ( ! current_user_can( $this->settings['capability'] ) ) {
-				wp_die( - 1 );
+				wp_die( -1 );
 			}
 
 			$posted      = $_POST;
@@ -687,7 +691,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel_WooCommerce' ) ) {
 						$i         = 0;
 						$new_value = array();
 						foreach ( $order_elements as $key ) {
-							$index               = apply_filters( 'yith_toggle_elements_index', $i ++, $key );
+							$index               = apply_filters( 'yith_toggle_elements_index', $i++, $key );
 							$new_value[ $index ] = $value[ $key ];
 						}
 

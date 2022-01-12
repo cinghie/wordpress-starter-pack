@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Product Gallery &amp; Image Zoom - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-10-12 11:29:04+0000\n"
+"PO-Revision-Date: 2022-01-10 13:46:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,11 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Product Gallery &amp; Image Zoom - Stable (latest release)\n"
+
+#: plugin-fw/includes/class-yit-plugin-panel.php:853
+msgctxt "Premium tab name"
+msgid "Get premium"
+msgstr "Diventa premium"
 
 #. Translators: %1$f: Table size, %2$f: Index size, %3$f: Free size, %4$s
 #. Engine.
@@ -330,7 +335,7 @@ msgstr "Nascondi miniature galleria sulla pagina prodotto"
 msgid "Zoom Product images"
 msgstr "Zoom Product images"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:199
+#: lib/class.yith-ywzm-plugin-fw-loader.php:200
 msgid "YITH WooCommerce Product Gallery & Image Zoom "
 msgstr "YITH WooCommerce Product Gallery & Image Zoom "
 
@@ -370,18 +375,18 @@ msgid "There was an error with your request; please try again later."
 msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:799
+#: plugin-fw/includes/class-yit-plugin-panel.php:806
 msgctxt "Help tab default description"
 msgid "We want to help you to enjoy a wonderful experience with all our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:798
+#: plugin-fw/includes/class-yit-plugin-panel.php:805
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:488
+#: plugin-fw/includes/class-yit-plugin-panel.php:492
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Aiuto"
@@ -572,13 +577,11 @@ msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
-#. translators: %s is the title of the post object.
 #: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1913
 #: plugin-fw/yit-functions.php:2073
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
-#. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
 #: plugin-fw/yit-functions.php:1913 plugin-fw/yit-functions.php:2073
 msgid "Are you sure you want to delete \"%s\"?"
@@ -589,7 +592,7 @@ msgstr "Sei sicuro di voler eliminare \"%s\"?"
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Sei sicuro di voler spostare \"%s\" nel cestino?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1440
+#: plugin-fw/includes/class-yit-plugin-panel.php:1528
 msgid "help us by leaving a good review"
 msgstr "aiutaci lasciando una recensione positiva"
 
@@ -613,7 +616,6 @@ msgstr "Copiato!"
 msgid "From now on, you can find the option panel of YITH plugins in YITH menu. Every time one of our plugins is added, a new entry will be added to this menu. For example, after the update, plugin options (such as for YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) will be moved from previous location to YITH menu."
 msgstr "D'ora in poi troverai il pannello opzioni dei plugin YITH nel menu YITH. Ogni volta che viene aggiunto uno dei nostri plugin comparirà una voce in questo menu. Ad esempio, dopo l'aggiornamento, le opzioni del plugin (come per YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) verranno spostate dalla posizione precedente al menu YITH."
 
-#. translators: 1. YITH site link; 2. WordPress site link.
 #. translators: 1. YITH site link; 2. WordPress site link.
 #: plugin-fw/includes/class-yit-pointers.php:84
 #: plugin-fw/includes/class-yit-pointers.php:100
@@ -764,15 +766,15 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1441
+#: plugin-fw/includes/class-yit-plugin-panel.php:1529
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1438
+#: plugin-fw/includes/class-yit-plugin-panel.php:1526
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1437
+#: plugin-fw/includes/class-yit-plugin-panel.php:1525
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
@@ -860,7 +862,6 @@ msgid "System Status"
 msgstr "Stato del sistema"
 
 #. translators: 1. user display name; 2. user ID; 3. user email.
-#. translators: 1. user display name; 2. user ID; 3. user email.
 #: plugin-fw/templates/fields/ajax-customers.php:68
 #: plugin-fw/templates/fields/ajax-customers.php:79
 msgid "%1$s (#%2$s &ndash; %3$s)"
@@ -870,7 +871,6 @@ msgstr "%1$s (#%2$s &ndash; %3$s)"
 msgid "Search Customers"
 msgstr "Cerca clienti"
 
-#. translators: %1$s opening link tag, %2$s closing link tag
 #. translators: %1$s opening link tag, %2$s closing link tag
 #: plugin-fw/includes/class-yith-system-status.php:577
 #: plugin-fw/includes/class-yith-system-status.php:600
@@ -931,7 +931,7 @@ msgstr "YITH System Information"
 msgid "Custom:"
 msgstr "Personalizzato:"
 
-#: plugin-fw/templates/fields/select-buttons.php:32
+#: plugin-fw/templates/fields/select-buttons.php:20
 msgid "Remove All"
 msgstr "Rimuovi tutto"
 
@@ -1054,8 +1054,8 @@ msgstr "Cerca prodotto"
 msgid "Search Posts"
 msgstr "Cerca articoli"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:451
-#: plugin-fw/includes/class-yit-plugin-panel.php:454
+#: plugin-fw/includes/class-yit-plugin-panel.php:455
+#: plugin-fw/includes/class-yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -1191,65 +1191,65 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:969
+#: plugin-fw/includes/class-yit-plugin-panel.php:1057
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:968
+#: plugin-fw/includes/class-yit-plugin-panel.php:1056
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:967
+#: plugin-fw/includes/class-yit-plugin-panel.php:1055
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:966
+#: plugin-fw/includes/class-yit-plugin-panel.php:1054
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:965
+#: plugin-fw/includes/class-yit-plugin-panel.php:1053
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:963
-#: plugin-fw/includes/class-yit-plugin-panel.php:964
+#: plugin-fw/includes/class-yit-plugin-panel.php:1051
+#: plugin-fw/includes/class-yit-plugin-panel.php:1052
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:962
+#: plugin-fw/includes/class-yit-plugin-panel.php:1050
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:961
+#: plugin-fw/includes/class-yit-plugin-panel.php:1049
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:960
+#: plugin-fw/includes/class-yit-plugin-panel.php:1048
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:959
+#: plugin-fw/includes/class-yit-plugin-panel.php:1047
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:657
+#: plugin-fw/includes/class-yit-plugin-panel.php:664
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:661
+#: plugin-fw/includes/class-yit-plugin-panel.php:668
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:139
 msgid "Reset to default"
 msgstr "Reimposta valori predefiniti"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:657
+#: plugin-fw/includes/class-yit-plugin-panel.php:664
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:652
+#: plugin-fw/includes/class-yit-plugin-panel.php:659
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:132
 msgid "Save Changes"
 msgstr "Salva modifiche"
@@ -1262,7 +1262,7 @@ msgstr "YITH Plugins"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:423
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:430
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -1275,15 +1275,15 @@ msgstr "Nome"
 msgid "Search Categories"
 msgstr "Cerca categorie"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:200
+#: lib/class.yith-ywzm-plugin-fw-loader.php:201
 msgid "In YIT Plugins tab you can find  YITH WooCommerce Product Gallery & Image Zoom  options.<br> From this menu you can access all settings of the YITH plugins activated."
 msgstr "Nella tab YITH Plugins puoi trovare le opzioni di YITH WooCommerce Product Gallery & Image Zoom.<br> Da questo menu puoi accedere a tutte le impostazioni dei plugin YITH attivati."
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:191
+#: lib/class.yith-ywzm-plugin-fw-loader.php:192
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:190
+#: lib/class.yith-ywzm-plugin-fw-loader.php:191
 msgid "YITH WooCommerce Product Gallery & Image Zoom  is available in an outstanding PREMIUM version with many new options, discover it now."
 msgstr "YITH WooCommerce Product Gallery & Image Zoom è disponibile in una straordinaria versione PREMIUM con molte nuove opzioni, scoprila subito."
 

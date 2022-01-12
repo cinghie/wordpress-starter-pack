@@ -72,7 +72,13 @@ class WooSEA_skroutz {
                                         "name" => "ean",
                                         "feed_name" => "ean",
                                         "format" => "optional",
-                                ),
+				),
+                                "Quantity" => array(
+                                        "name" => "quantity",
+                                        "feed_name" => "quantity",
+					"format" => "required",
+					"woo_suggest" => "quantity",
+				),
                                 "instock" => array(
                                         "name" => "instock",
                                         "feed_name" => "instock",

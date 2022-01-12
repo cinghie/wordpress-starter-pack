@@ -150,8 +150,8 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
-				'page_title'       => _x( 'YITH WooCommerce Quick View', 'options page title', 'yith-woocommerce-quick-view' ),
-				'menu_title'       => _x( 'Quick View', 'plugin menu title', 'yith-woocommerce-quick-view' ),
+				'page_title'       => 'YITH WooCommerce Quick View',
+				'menu_title'       => 'Quick View',
 				'capability'       => 'manage_options',
 				'parent'           => '',
 				'parent_page'      => 'yith_plugin_panel',

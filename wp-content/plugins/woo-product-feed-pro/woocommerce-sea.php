@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.0.7
+ * Version:     11.1.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
- * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Yandex, Comparison shopping websites and over a 100 channels more.
+ * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
  * Plugin URI:  https://wwww.adtribes.io/pro-vs-elite/
  * Author URI:  https://www.adtribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.0.7' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.1.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -129,10 +129,6 @@ function woosea_scripts($hook) {
 		// JS for managing keys
 		wp_register_script( 'woosea_key-js', plugin_dir_url( __FILE__ ) . 'js/woosea_key.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
 		wp_enqueue_script( 'woosea_key-js' );
-
-		// JS for managing addToCart event
-		// wp_register_script( 'woosea_addcart-js', plugin_dir_url( __FILE__ ) . 'js/woosea_add_cart.js', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
-		// wp_enqueue_script( 'woosea_addcart-js' );
 	}
 	// JS for manage projects page
 	wp_register_script( 'woosea_manage-js', plugin_dir_url( __FILE__ ) . 'js/woosea_manage.js?yo=12', '',WOOCOMMERCESEA_PLUGIN_VERSION, true  );
@@ -873,36 +869,6 @@ function woosea_request_review(){
 }
 add_action('admin_notices', 'woosea_request_review');
 
-
-/**
- * Create a seperate MySql table for saving conversion information
- */
-function woosea_create_db_table(){
-	// Create MySql conversion table
-	global $wpdb;
-	$version = get_option( 'my_plugin_version', '1.5.2' );
-	$charset_collate = $wpdb->get_charset_collate();
-	$table_name = $wpdb->prefix . 'adtribes_my_conversions';
-
-	$sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		conversion_time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		project_hash varchar(256) NOT NULL,
-		utm_source varchar(256) NOT NULL,
-		utm_campaign varchar(256) NOT NULL,
-		utm_medium varchar(256) NOT NULL,
-		utm_term varchar(256) NOT NULL,
-		productId int(128) NOT NULL,
-		orderId int(128) NOT NULL,
-		UNIQUE KEY id (id),
-		UNIQUE KEY orderId (orderId)
-	) $charset_collate;";
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta( $sql );
-}
-register_activation_hook(__FILE__, 'woosea_create_db_table');
-
 /**
  * Add some JS and mark-up code on every front-end page in order to get the conversion tracking to work
  */
@@ -935,10 +901,10 @@ add_action( 'woosea_cron_hook', 'woosea_create_all_feeds'); // create a cron hoo
  * Add WooCommerce SEA plugin to Menu
  */
 function woosea_menu_addition(){
-		add_menu_page(__( 'Product Feed PRO for WooCommerce', 'woo-product-feed-pro' ), __( 'Product Feed Pro','woo-product-feed-pro' ), 'manage_options', __FILE__, 'woosea_generate_pages', esc_url( WOOCOMMERCESEA_PLUGIN_URL . '/images/icon-16x16.png'),99);
-            	add_submenu_page(__FILE__, __( 'Feed configuration', 'woo-product-feed-pro' ), __( 'Create feed', 'woo-product-feed-pro' ), 'manage_options', __FILE__, 'woosea_generate_pages');
-            	add_submenu_page(__FILE__, __( 'Manage feeds', 'woo-product-feed-pro' ), __( 'Manage feeds', 'woo-product-feed-pro' ), 'manage_options', 'woosea_manage_feed', 'woosea_manage_feed');
-            	add_submenu_page(__FILE__, __( 'Settings', 'woo-product-feed-pro' ), __( 'Settings', 'woo-product-feed-pro' ), 'manage_options', 'woosea_manage_settings', 'woosea_manage_settings');
+    add_menu_page(__( 'Product Feed PRO for WooCommerce', 'woo-product-feed-pro' ), __( 'Product Feed Pro','woo-product-feed-pro' ), apply_filters( 'woosea_user_cap', 'manage_options' ), __FILE__, 'woosea_generate_pages', esc_url( WOOCOMMERCESEA_PLUGIN_URL . '/images/icon-16x16.png'),99);
+    add_submenu_page(__FILE__, __( 'Feed configuration', 'woo-product-feed-pro' ), __( 'Create feed', 'woo-product-feed-pro' ), apply_filters( 'woosea_user_cap', 'manage_options' ), __FILE__, 'woosea_generate_pages');
+    add_submenu_page(__FILE__, __( 'Manage feeds', 'woo-product-feed-pro' ), __( 'Manage feeds', 'woo-product-feed-pro' ), apply_filters( 'woosea_user_cap', 'manage_options' ), 'woosea_manage_feed', 'woosea_manage_feed');
+    add_submenu_page(__FILE__, __( 'Settings', 'woo-product-feed-pro' ), __( 'Settings', 'woo-product-feed-pro' ), apply_filters( 'woosea_user_cap', 'manage_options' ), 'woosea_manage_settings', 'woosea_manage_settings');
 }
 
 /**
@@ -2195,15 +2161,20 @@ add_action( 'wp_ajax_woosea_project_copy', 'woosea_project_copy' );
 function woosea_project_refresh(){
 	$project_hash = sanitize_text_field($_POST['project_hash']);
         $feed_config = get_option( 'cron_projects' );
+	
+	$user = wp_get_current_user();
+	$allowed_roles = array( 'administrator','editor','author' );
 
-        foreach ( $feed_config as $key => $val ) {
-                if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
-        		$batch_project = "batch_project_".$project_hash;
-			if (!get_option( $batch_project )){
-        			update_option( $batch_project, $val);
-        			$final_creation = woosea_continue_batch($project_hash);
-			} else {
-        			$final_creation = woosea_continue_batch($project_hash);
+	if ( array_intersect( $allowed_roles, $user->roles ) ) {
+        	foreach ( $feed_config as $key => $val ) {
+                	if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
+        			$batch_project = "batch_project_".$project_hash;
+				if (!get_option( $batch_project )){
+        				update_option( $batch_project, $val);
+        				$final_creation = woosea_continue_batch($project_hash);
+				} else {
+        				$final_creation = woosea_continue_batch($project_hash);
+				}
 			}
 		}
 	}
@@ -2308,10 +2279,16 @@ add_action( 'wp_ajax_woosea_review_notification', 'woosea_review_notification' )
  */
 function woosea_enable_structured_data (){
         $status = sanitize_text_field($_POST['status']);
-	if ($status == "off"){
-		update_option( 'structured_data_fix', 'no', 'yes');
-	} else {
-		update_option( 'structured_data_fix', 'yes', 'yes');
+
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
+
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		if ($status == "off"){
+			update_option( 'structured_data_fix', 'no', 'yes');
+		} else {
+			update_option( 'structured_data_fix', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_enable_structured_data', 'woosea_enable_structured_data' );
@@ -2321,12 +2298,17 @@ add_action( 'wp_ajax_woosea_enable_structured_data', 'woosea_enable_structured_d
  * structured data prices
  */
 function woosea_structured_vat (){
-        $status = sanitize_text_field($_POST['status']);
-	if ($status == "off"){
-		update_option( 'structured_vat', 'no', 'yes');
-	} else {
-		update_option( 'structured_vat', 'yes', 'yes');
-	}
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
+
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+		if ($status == "off"){
+			update_option( 'structured_vat', 'no', 'yes');
+		} else {
+			update_option( 'structured_vat', 'yes', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_structured_vat', 'woosea_structured_vat' );
 
@@ -2335,13 +2317,17 @@ add_action( 'wp_ajax_woosea_structured_vat', 'woosea_structured_vat' );
  * Product data manipulation support 
  */
 function woosea_add_manipulation (){
-        $status = sanitize_text_field($_POST['status']);
+	$user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_manipulation_support', 'no', 'yes');
-	} else {
-		update_option( 'add_manipulation_support', 'yes', 'yes');
-	}
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+		if ($status == "off"){
+			update_option( 'add_manipulation_support', 'no', 'yes');
+		} else {
+			update_option( 'add_manipulation_support', 'yes', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_add_manipulation', 'woosea_add_manipulation' );
 
@@ -2350,13 +2336,18 @@ add_action( 'wp_ajax_woosea_add_manipulation', 'woosea_add_manipulation' );
  * WPML support 
  */
 function woosea_add_wpml (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_wpml_support', 'no', 'yes');
-	} else {
-		update_option( 'add_wpml_support', 'yes', 'yes');
-	}
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+        	$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_wpml_support', 'no', 'yes');
+		} else {
+			update_option( 'add_wpml_support', 'yes', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_add_wpml', 'woosea_add_wpml' );
 
@@ -2365,12 +2356,17 @@ add_action( 'wp_ajax_woosea_add_wpml', 'woosea_add_wpml' );
  * Aelia support 
  */
 function woosea_add_aelia (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_aelia_support', 'no', 'yes');
-	} else {
-		update_option( 'add_aelia_support', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_aelia_support', 'no', 'yes');
+		} else {
+			update_option( 'add_aelia_support', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_add_aelia', 'woosea_add_aelia' );
@@ -2380,12 +2376,17 @@ add_action( 'wp_ajax_woosea_add_aelia', 'woosea_add_aelia' );
  * Mother main image for all product variations 
  */
 function woosea_add_mother_image (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_mother_image', 'no', 'yes');
-	} else {
-		update_option( 'add_mother_image', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_mother_image', 'no', 'yes');
+		} else {
+			update_option( 'add_mother_image', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_add_mother_image', 'woosea_add_mother_image' );
@@ -2395,12 +2396,17 @@ add_action( 'wp_ajax_woosea_add_mother_image', 'woosea_add_mother_image' );
  * Shipping costs for all countries 
  */
 function woosea_add_all_shipping (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_all_shipping', 'no', 'yes');
-	} else {
-		update_option( 'add_all_shipping', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {       
+		$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_all_shipping', 'no', 'yes');
+		} else {
+			update_option( 'add_all_shipping', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_add_all_shipping', 'woosea_add_all_shipping' );
@@ -2410,12 +2416,17 @@ add_action( 'wp_ajax_woosea_add_all_shipping', 'woosea_add_all_shipping' );
  * the free shipping class 
  */
 function woosea_free_shipping (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'free_shipping', 'no', 'yes');
-	} else {
-		update_option( 'free_shipping', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+        	$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'free_shipping', 'no', 'yes');
+		} else {
+			update_option( 'free_shipping', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_free_shipping', 'woosea_free_shipping' );
@@ -2425,12 +2436,17 @@ add_action( 'wp_ajax_woosea_free_shipping', 'woosea_free_shipping' );
  * local pickup shipping zones 
  */
 function woosea_local_pickup_shipping (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'local_pickup_shipping', 'no', 'yes');
-	} else {
-		update_option( 'local_pickup_shipping', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'local_pickup_shipping', 'no', 'yes');
+		} else {
+			update_option( 'local_pickup_shipping', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_local_pickup_shipping', 'woosea_local_pickup_shipping' );
@@ -2440,12 +2456,17 @@ add_action( 'wp_ajax_woosea_local_pickup_shipping', 'woosea_local_pickup_shippin
  * free shipping zones 
  */
 function woosea_remove_free_shipping (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'remove_free_shipping', 'no', 'yes');
-	} else {
-		update_option( 'remove_free_shipping', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'remove_free_shipping', 'no', 'yes');
+		} else {
+			update_option( 'remove_free_shipping', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_remove_free_shipping', 'woosea_remove_free_shipping' );
@@ -2455,12 +2476,17 @@ add_action( 'wp_ajax_woosea_remove_free_shipping', 'woosea_remove_free_shipping'
  * logging
  */
 function woosea_add_woosea_logging (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_woosea_logging', 'no', 'yes');
-	} else {
-		update_option( 'add_woosea_logging', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+        	$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_woosea_logging', 'no', 'yes');
+		} else {
+			update_option( 'add_woosea_logging', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_add_woosea_logging', 'woosea_add_woosea_logging' );
@@ -2469,12 +2495,17 @@ add_action( 'wp_ajax_woosea_add_woosea_logging', 'woosea_add_woosea_logging' );
  * This function enables the setting to add CDATA to title and descriptions
  */
 function woosea_add_woosea_cdata (){
-        $status = sanitize_text_field($_POST['status']);
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
 
-	if ($status == "off"){
-		update_option( 'add_woosea_cdata', 'no', 'yes');
-	} else {
-		update_option( 'add_woosea_cdata', 'yes', 'yes');
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {  
+		$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_woosea_cdata', 'no', 'yes');
+		} else {
+			update_option( 'add_woosea_cdata', 'yes', 'yes');
+		}
 	}
 }
 add_action( 'wp_ajax_woosea_add_woosea_cdata', 'woosea_add_woosea_cdata' );
@@ -2589,12 +2620,17 @@ add_action( 'wp_ajax_woosea_add_batch', 'woosea_add_batch' );
  * identifiers GTIN, MPN, EAN, UPC, Brand and Condition
  */
 function woosea_add_identifiers (){
-        $status = sanitize_text_field($_POST['status']);
-	if ($status == "off"){
-		update_option( 'add_unique_identifiers', 'no', 'yes');
-	} else {
-		update_option( 'add_unique_identifiers', 'yes', 'yes');
-	}
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
+
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+        	$status = sanitize_text_field($_POST['status']);
+		if ($status == "off"){
+			update_option( 'add_unique_identifiers', 'no', 'yes');
+		} else {
+			update_option( 'add_unique_identifiers', 'yes', 'yes');
+		}
+	}	
 }
 add_action( 'wp_ajax_woosea_add_identifiers', 'woosea_add_identifiers' );
 
@@ -3085,94 +3121,94 @@ function woosea_save_custom_general_fields($post_id){
 		$woocommerce_exclude_product 		= "no";;
 	}
 
-        if(isset($woocommerce_brand))
+        if(!empty($woocommerce_brand))
                 update_post_meta( $post_id, '_woosea_brand', $woocommerce_brand);
 
-        if(isset($woocommerce_mpn))
+        if(!empty($woocommerce_mpn))
                 update_post_meta( $post_id, '_woosea_mpn', esc_attr($woocommerce_mpn));
 
-        if(isset($woocommerce_upc))
+        if(!empty($woocommerce_upc))
                 update_post_meta( $post_id, '_woosea_upc', esc_attr($woocommerce_upc));
 
-        if(isset($woocommerce_ean))
+        if(!empty($woocommerce_ean))
                 update_post_meta( $post_id, '_woosea_ean', esc_attr($woocommerce_ean));
 
-        if(isset($woocommerce_gtin))
+        if(!empty($woocommerce_gtin))
                 update_post_meta( $post_id, '_woosea_gtin', esc_attr($woocommerce_gtin));
 
-        if(isset($woocommerce_color))
+        if(!empty($woocommerce_color))
                 update_post_meta( $post_id, '_woosea_color', esc_attr($woocommerce_color));
 
-        if(isset($woocommerce_size))
+        if(!empty($woocommerce_size))
                 update_post_meta( $post_id, '_woosea_size', esc_attr($woocommerce_size));
 
-        if(isset($woocommerce_gender))
+        if(!empty($woocommerce_gender))
                 update_post_meta( $post_id, '_woosea_gender', esc_attr($woocommerce_gender));
 
-        if(isset($woocommerce_material))
+        if(!empty($woocommerce_material))
                 update_post_meta( $post_id, '_woosea_material', esc_attr($woocommerce_material));
 
-        if(isset($woocommerce_pattern))
+        if(!empty($woocommerce_pattern))
                 update_post_meta( $post_id, '_woosea_pattern', esc_attr($woocommerce_pattern));
 
-        if(isset($woocommerce_title))
+        if(!empty($woocommerce_title))
                 update_post_meta( $post_id, '_woosea_optimized_title', $woocommerce_title);
 
-        if(isset($woocommerce_unit_pricing_measure))
+        if(!empty($woocommerce_unit_pricing_measure))
                 update_post_meta( $post_id, '_woosea_unit_pricing_measure', $woocommerce_unit_pricing_measure);
  
-        if(isset($woocommerce_unit_pricing_base_measure))
+        if(!empty($woocommerce_unit_pricing_base_measure))
                 update_post_meta( $post_id, '_woosea_unit_pricing_base_measure', $woocommerce_unit_pricing_base_measure);
  
-	if(isset($woocommerce_condition))
+	if(!empty($woocommerce_condition))
                 update_post_meta( $post_id, '_woosea_condition', $woocommerce_condition);
 
-	if(isset($woocommerce_age_group))
+	if(!empty($woocommerce_age_group))
                 update_post_meta( $post_id, '_woosea_age_group', $woocommerce_age_group);
 
-	if(isset($woocommerce_installment_months))
+	if(!empty($woocommerce_installment_months))
                 update_post_meta( $post_id, '_woosea_installment_months', esc_attr($woocommerce_installment_months));
 
-	if(isset($woocommerce_installment_amount))
+	if(!empty($woocommerce_installment_amount))
                 update_post_meta( $post_id, '_woosea_installment_amount', esc_attr($woocommerce_installment_amount));
 
-	if(isset($woocommerce_exclude_product))
+	if(!empty($woocommerce_exclude_product))
                 update_post_meta( $post_id, '_woosea_exclude_product', esc_attr($woocommerce_exclude_product));
 
-	if(isset($woocommerce_cost_of_good_sold))
+	if(!empty($woocommerce_cost_of_good_sold))
                 update_post_meta( $post_id, '_woosea_cost_of_good_sold', esc_attr($woocommerce_cost_of_good_sold));
 	
-	if(isset($woocommerce_multipack))
+	if(!empty($woocommerce_multipack))
                 update_post_meta( $post_id, '_woosea_multipack', esc_attr($woocommerce_multipack));
 	
-	if(isset($woocommerce_is_bundle))
+	if(!empty($woocommerce_is_bundle))
                 update_post_meta( $post_id, '_woosea_is_bundle', esc_attr($woocommerce_is_bundle));
 	
-	if(isset($woocommerce_energy_efficiency_class))
+	if(!empty($woocommerce_energy_efficiency_class))
                 update_post_meta( $post_id, '_woosea_energy_efficiency_class', esc_attr($woocommerce_energy_efficiency_class));
 	
-	if(isset($woocommerce_min_energy_efficiency_class))
+	if(!empty($woocommerce_min_energy_efficiency_class))
                 update_post_meta( $post_id, '_woosea_min_energy_efficiency_class', esc_attr($woocommerce_min_energy_efficiency_class));
 	
-	if(isset($woocommerce_max_energy_efficiency_class))
+	if(!empty($woocommerce_max_energy_efficiency_class))
                 update_post_meta( $post_id, '_woosea_max_energy_efficiency_class', esc_attr($woocommerce_max_energy_efficiency_class));
 
-	if(isset($woocommerce_is_promotion))
+	if(!empty($woocommerce_is_promotion))
                 update_post_meta( $post_id, '_woosea_is_promotion', $woocommerce_is_promotion);
 
-	if(isset($woocommerce_custom_field_0))
+	if(!empty($woocommerce_custom_field_0))
                 update_post_meta( $post_id, '_woosea_custom_field_0', $woocommerce_custom_field_0);
 
-	if(isset($woocommerce_custom_field_1))
+	if(!empty($woocommerce_custom_field_1))
                 update_post_meta( $post_id, '_woosea_custom_field_1', $woocommerce_custom_field_1);
 
-	if(isset($woocommerce_custom_field_2))
+	if(!empty($woocommerce_custom_field_2))
                 update_post_meta( $post_id, '_woosea_custom_field_2', $woocommerce_custom_field_2);
 
-	if(isset($woocommerce_custom_field_3))
+	if(!empty($woocommerce_custom_field_3))
                 update_post_meta( $post_id, '_woosea_custom_field_3', $woocommerce_custom_field_3);
 
-	if(isset($woocommerce_custom_field_4))
+	if(!empty($woocommerce_custom_field_4))
                 update_post_meta( $post_id, '_woosea_custom_field_4', $woocommerce_custom_field_4);
 }
 add_action( 'woocommerce_process_product_meta', 'woosea_save_custom_general_fields' );
@@ -3727,7 +3763,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_brand'])){
                 	$_brand = sanitize_text_field($_POST['_woosea_variable_brand']);
                		$variation_id = (int) $variable_post_id[$i];
-                	if ( isset( $_brand[$i] ) ) {
+                	if ( !empty ( $_brand[$i] ) ) {
                 		 update_post_meta( $variation_id, '_woosea_brand', stripslashes( sanitize_text_field( $_brand[$i] )));
                		}
 		}
@@ -3736,7 +3772,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_mpn'])){
                 	$_mpn = sanitize_text_field($_POST['_woosea_variable_mpn']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_mpn[$i] ) ) {
+                        if ( !empty ( $_mpn[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_mpn', stripslashes( sanitize_text_field( $_mpn[$i] )));
                         }
 		}
@@ -3745,7 +3781,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_upc'])){
                 	$_upc = sanitize_text_field($_POST['_woosea_variable_upc']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_upc[$i] ) ) {
+                        if ( !empty ( $_upc[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_upc', stripslashes( sanitize_text_field( $_upc[$i] )));
                         }
 		}
@@ -3754,7 +3790,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_ean'])){
                 	$_ean = sanitize_text_field($_POST['_woosea_variable_ean']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_ean[$i] ) ) {
+                        if ( !empty ( $_ean[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_ean', stripslashes( sanitize_text_field( $_ean[$i] )));
                         }
 		}
@@ -3763,7 +3799,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_gtin'])){
                 	$_gtin = sanitize_text_field($_POST['_woosea_variable_gtin']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_gtin[$i] ) ) {
+                        if ( !empty ( $_gtin[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gtin', stripslashes( sanitize_text_field( $_gtin[$i] )));
                         }
 		}
@@ -3772,7 +3808,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_color'])){
                 	$_color = sanitize_text_field($_POST['_woosea_variable_color']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_color[$i] ) ) {
+                        if ( !empty ( $_color[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_color', stripslashes( sanitize_text_field( $_color[$i] )));
                         }
 		}
@@ -3781,7 +3817,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_size'])){
                 	$_size = sanitize_text_field($_POST['_woosea_variable_size']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_size[$i] ) ) {
+                        if ( !empty ( $_size[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_size', stripslashes( sanitize_text_field( $_size[$i] )));
                         }
 		}
@@ -3790,7 +3826,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_gender'])){
                 	$_gender = sanitize_text_field($_POST['_woosea_variable_gender']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_gender[$i] ) ) {
+                        if ( !empty ( $_gender[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_gender', stripslashes( sanitize_text_field( $_gender[$i] )));
                         }
 		}
@@ -3799,7 +3835,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_material'])){
                 	$_material = sanitize_text_field($_POST['_woosea_variable_material']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_material[$i] ) ) {
+                        if ( !empty ( $_material[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_material', stripslashes( sanitize_text_field( $_material[$i] )));
                         }
 		}
@@ -3808,7 +3844,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_pattern'])){
                 	$_pattern = sanitize_text_field($_POST['_woosea_variable_pattern']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_pattern[$i] ) ) {
+                        if ( !empty ( $_pattern[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_pattern', stripslashes( sanitize_text_field( $_pattern[$i] )));
                         }
 		}
@@ -3817,7 +3853,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_unit_pricing_measure'])){
                 	$_pricing_measure = sanitize_text_field($_POST['_woosea_variable_unit_pricing_measure']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_pricing_measure[$i] ) ) {
+                        if ( !empty ( $_pricing_measure[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_unit_pricing_measure', stripslashes( sanitize_text_field( $_pricing_measure[$i] )));
                         }
 		}
@@ -3826,7 +3862,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_variable_unit_pricing_base_measure'])){
                 	$_pricing_base = sanitize_text_field($_POST['_woosea_variable_unit_pricing_base_measure']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_pricing_base[$i] ) ) {
+                        if ( !empty ( $_pricing_base[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_unit_pricing_base_measure', stripslashes( sanitize_text_field( $_pricing_base[$i] )));
                         }
 		}
@@ -3835,7 +3871,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_optimized_title'])){
                 	$_opttitle = sanitize_text_field($_POST['_woosea_optimized_title']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_opttitle[$i] ) ) {
+                        if ( !empty ( $_opttitle[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_optimized_title', stripslashes( sanitize_text_field( $_opttitle[$i] )));
                         }
 		}
@@ -3844,7 +3880,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_installment_months'])){
                 	$_installment_months = sanitize_text_field($_POST['_woosea_installment_months']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_installment_months[$i] ) ) {
+                        if ( !empty ( $_installment_months[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_installment_months', stripslashes( sanitize_text_field( $_installment_months[$i] )));
                         }
 		}
@@ -3853,7 +3889,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_installment_amount'])){
                 	$_installment_amount = sanitize_text_field($_POST['_woosea_installment_amount']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_installment_amount[$i] ) ) {
+                        if ( !empty ( $_installment_amount[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_installment_amount', stripslashes( sanitize_text_field( $_installment_amount[$i] )));
                         }
 		}
@@ -3862,7 +3898,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_condition'])){
                 	$_condition = sanitize_text_field($_POST['_woosea_condition']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_condition[$i] ) ) {
+                        if ( !empty ( $_condition[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_condition', stripslashes( sanitize_text_field( $_condition[$i] )));
                         }
 		}
@@ -3871,7 +3907,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_age_group'])){
                 	$_age_group = sanitize_text_field($_POST['_woosea_age_group']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_age_group[$i] ) ) {
+                        if ( !empty ( $_age_group[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_age_group', stripslashes( sanitize_text_field( $_age_group[$i] )));
                         }
 		}
@@ -3881,7 +3917,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_cost_of_good_sold'])){
                 	$_cost_of_good_sold = sanitize_text_field($_POST['_woosea_cost_of_good_sold']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_cost_of_good_sold[$i] ) ) {
+                        if ( !empty ( $_cost_of_good_sold[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_cost_of_good_sold', stripslashes( sanitize_text_field( $_cost_of_good_sold[$i] )));
                         }
 		}
@@ -3890,7 +3926,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_multipack'])){
                 	$_multipack = sanitize_text_field($_POST['_woosea_multipack']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_multipack[$i] ) ) {
+                        if ( !empty ( $_multipack[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_multipack', stripslashes( sanitize_text_field( $_multipack[$i] )));
                         }
          	}
@@ -3899,7 +3935,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_is_promotion'])){
 	                $_is_promotion = sanitize_text_field($_POST['_woosea_is_promotion']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_is_promotion[$i] ) ) {
+                        if ( !empty ( $_is_promotion[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_promotion', stripslashes( sanitize_text_field( $_is_promotion[$i] )));
                         }
 		}
@@ -3908,7 +3944,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_is_bundle'])){
                 	$_is_bundle = sanitize_text_field($_POST['_woosea_is_bundle']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_is_bundle[$i] ) ) {
+                        if ( !empty ( $_is_bundle[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_is_bundle', stripslashes( sanitize_text_field( $_is_bundle[$i] )));
                         }
 		}
@@ -3917,7 +3953,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_energy_efficiency_class'])){
                 	$_energy_efficiency_class = sanitize_text_field($_POST['_woosea_energy_efficiency_class']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_energy_efficiency_class[$i] ) ) {
+                        if ( !empty ( $_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_energy_efficiency_class', stripslashes( sanitize_text_field( $_energy_efficiency_class[$i] )));
                         }
 		}
@@ -3926,7 +3962,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_min_energy_efficiency_class'])){
                 	$_min_energy_efficiency_class = sanitize_text_field($_POST['_woosea_min_energy_efficiency_class']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_min_energy_efficiency_class[$i] ) ) {
+                        if ( !empty ( $_min_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_min_energy_efficiency_class', stripslashes( sanitize_text_field( $_min_energy_efficiency_class[$i] )));
                         }
 		}
@@ -3935,7 +3971,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_max_energy_efficiency_class'])){
                 	$_max_energy_efficiency_class = sanitize_text_field($_POST['_woosea_max_energy_efficiency_class']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_max_energy_efficiency_class[$i] ) ) {
+                        if ( !empty ( $_max_energy_efficiency_class[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_max_energy_efficiency_class', stripslashes( sanitize_text_field( $_max_energy_efficiency_class[$i] )));
                         }
 		}
@@ -3944,7 +3980,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_custom_field_0'])){
 	         	$_custom_field_0 = sanitize_text_field($_POST['_woosea_custom_field_0']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_custom_field_0[$i] ) ) {
+                        if ( !empty ( $_custom_field_0[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_0', stripslashes( sanitize_text_field( $_custom_field_0[$i] )));
                         }
 		}
@@ -3953,7 +3989,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_custom_field_1'])){
                 	$_custom_field_1 = sanitize_text_field($_POST['_woosea_custom_field_1']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_custom_field_1[$i] ) ) {
+                        if ( !empty ( $_custom_field_1[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_1', stripslashes( sanitize_text_field( $_custom_field_1[$i] )));
                         }
 		}
@@ -3962,7 +3998,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_custom_field_2'])){
                 	$_custom_field_2 = sanitize_text_field($_POST['_woosea_custom_field_2']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_custom_field_2[$i] ) ) {
+                        if ( !empty ( $_custom_field_2[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_2', stripslashes( sanitize_text_field( $_custom_field_2[$i] )));
                         }
 		}
@@ -3971,7 +4007,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_custom_field_3'])){
                 	$_custom_field_3 = sanitize_text_field($_POST['_woosea_custom_field_3']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_custom_field_3[$i] ) ) {
+                        if ( !empty ( $_custom_field_3[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_3', stripslashes( sanitize_text_field( $_custom_field_3[$i] )));
                         }
 		}
@@ -3980,7 +4016,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 		if(isset($_POST['_woosea_custom_field_4'])){
  	               $_custom_field_4 = sanitize_text_field($_POST['_woosea_custom_field_4']);
                         $variation_id = (int) $variable_post_id[$i];
-                        if ( isset( $_custom_field_4[$i] ) ) {
+                        if ( !empty ( $_custom_field_4[$i] ) ) {
                                 update_post_meta( $variation_id, '_woosea_custom_field_4', stripslashes( sanitize_text_field( $_custom_field_4[$i] )));
                         }
 		}
@@ -3992,7 +4028,7 @@ function woosea_save_custom_variable_fields( $post_id ) {
 			$_excludeproduct = sanitize_text_field($_POST['_woosea_exclude_product']);
         	} 
 		   	$variation_id = (int) $variable_post_id[$i];
-                	if ( isset( $_excludeproduct[$i] ) ) {
+                	if ( !empty ( $_excludeproduct[$i] ) ) {
                      		update_post_meta( $variation_id, '_woosea_exclude_product', stripslashes( $_excludeproduct[$i]));
         		}
 		}	

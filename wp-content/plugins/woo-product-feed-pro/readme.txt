@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, WooCommerce Product Feed, Facebook Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Facebook Pixel, Facebook Conversion API
 Requires at least: 4.5
 Tested up to: 5.8
-Stable tag: 11.0.7
+Stable tag: 11.1.3
 
 == Description ==
 
@@ -201,6 +201,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * <a href="https://www.heureka.cz" target="_blank">Heureka.cz</a>
 * <a href="https://www.glami.gr" target="_blank">Glami.gr</a>
 * <a href="https://www.bestprice.gr" target="_blank">Bestprice.gr</a>
+* <a href="https://www.mall.sk" target="_blank">Mall.sk</a>
 * AdForm
 * Smartly.io
 * <a href="https://www.shareasale.com" target="_blank">Shareasale.com</a>
@@ -335,6 +336,25 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.1.3 (2022-01-09) =
+* Removed htaccess feature as it seems to be conflicting for some users
+
+= 11.1.2 (2022-01-07) =
+* Added support for the Mall.sk availability feed
+* Added user cap filter 
+
+= 11.1.1 (2022-01-03) =
+* Added quantity support for Skroutz feeds
+
+= 11.1.0 (2022-01-03) =
+* Update of post meta extra fields only when they are set and filled
+
+= 11.0.9 (2022-01-02) =
+* Added user security checks
+
+= 11.0.8 (2021-12-30) =
+* Added template for Slovakian Mall.sk marketplace
 
 = 11.0.7 (2021-12-23) =
 * Added missing capability checks on plugin settings that could influence product feeds. Only administrators are allowed to make these changes.
@@ -3535,6 +3555,25 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.1.3 =
+Removed htaccess feature as it seems to be conflicting for some users
+
+= 11.1.2 =
+Added support for the Mall.sk availability feed
+Added user cap filter
+
+= 11.1.1 =
+Added quantity support for Skroutz feeds
+
+= 11.1.0 =
+Update of post meta extra fields only when they are set and filled
+
+= 11.0.9 =
+Added user security checks
+
+= 11.0.8 =
+Added template for Slovakian Mall.sk marketplace
 
 = 11.0.7 =
 Added missing capability checks on plugin settings that could influence product feeds. Only administrators are allowed to make these changes

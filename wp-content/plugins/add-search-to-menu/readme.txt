@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 5.9
 Requires PHP: 5.2.4
-Stable tag: 5.3
+Stable tag: 5.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,13 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 5.4.1 =
+* Fixed - PHP 5 issue 'Default value for parameters with a class type hint can only be NULL'.
+
+= 5.4 =
+* Fixed - PHP 5.2 compatibility issue.
+* Fixed - Index build max execution time not working.
 
 = 5.3 =
 * Fixed - Compatibility issue with MySQL 5.7

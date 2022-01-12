@@ -31,13 +31,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		protected $panel;
 
 		/**
-		 * Premium tab template file name
-		 *
-		 * @var string
-		 */
-		protected $premium = 'premium.php';
-
-		/**
 		 * Premium version landing link
 		 *
 		 * @var string
@@ -98,9 +91,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_admin' ) );
 			add_action( 'admin_menu', array( $this, 'add_menu_page' ), 5 );
-			add_action( 'yith_catalog_mode_premium', array( $this, 'premium_tab' ) );
 
-			if ( ! is_admin() || $this->is_quick_view() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			if ( ! is_admin() || $this->is_quick_view() || wp_doing_ajax() ) {
 
 				add_action( 'init', array( $this, 'check_disable_shop' ), 11 );
 				add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'hide_add_to_cart_loop' ), 5 );
@@ -199,7 +191,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			} else {
 				$admin_tabs = array(
 					'settings' => esc_html__( 'Settings', 'yith-woocommerce-catalog-mode' ),
-					'premium'  => esc_html__( 'Premium Version', 'yith-woocommerce-catalog-mode' ),
 				);
 				$help_tab   = array();
 			}
@@ -208,7 +199,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				'create_menu_page' => true,
 				'plugin_slug'      => YWCTM_SLUG,
 				'parent_slug'      => '',
-				'page_title'       => 'Catalog Mode',
+				'page_title'       => 'YITH WooCommerce Catalog Mode',
 				'menu_title'       => 'Catalog Mode',
 				'capability'       => 'manage_options',
 				'parent'           => '',
@@ -219,6 +210,26 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				'class'            => yith_set_wrapper_class(),
 				'help_tab'         => $help_tab,
 			);
+
+			if ( ! defined( 'YWCTM_PREMIUM' ) ) {
+				$args['premium_tab'] = array(
+					'premium_features' => array(
+						/* translators: %1$s opening B tag, %2$s closing B tag */
+						sprintf( esc_html__( 'Enable the catalog mode rules %1$s only for guest %2$s or for %1$s users from specific countries %2$s  (Example: hide prices or add to cart buttons only to users from USA)', 'yith-woocommerce-catalog-mode' ), '<b>', '</b>' ),
+						/* translators: %1$s opening B tag, %2$s closing B tag */
+						sprintf( esc_html__( 'Enable the catalog mode on %1$s specific time ranges and/or dates only %2$s (Example: prevent new orders on Sunday or in December during Christmas holidays)', 'yith-woocommerce-catalog-mode' ), '<b>', '</b>' ),
+						/* translators: %1$s opening B tag, %2$s closing B tag */
+						sprintf( esc_html__( 'Use the %1$s Exclusion List %2$s to enable or disable the catalog mode %1$s only on specific products, categories or tag of your shop %2$s', 'yith-woocommerce-catalog-mode' ), '<b>', '</b>' ),
+						esc_html__( 'Hide the Add to Cart button only on specific products and the product prices to all users or to guest users only', 'yith-woocommerce-catalog-mode' ),
+						/* translators: %1$s opening B tag, %2$s closing B tag */
+						sprintf( esc_html__( 'Use the Advanced Builder to %1$s create and design custom buttons or labels %2$s to replace add to cart and price in shop page and product page', 'yith-woocommerce-catalog-mode' ), '<b>', '</b>' ),
+						/* translators: %1$s opening B tag, %2$s closing B tag */
+						sprintf( esc_html__( '%1$s Add a custom inquiry form on the product page %2$s using the default form or choosing a plugin between Contact Form 7, Gravity Form, Ninja Forms, Formidable Forms or WP Forms', 'yith-woocommerce-catalog-mode' ), '<b>', '</b>' ),
+						'<b>' . esc_html__( 'Regular updates, Translations and Premium Support', 'yith-woocommerce-catalog-mode' ) . '</b>',
+					),
+					'main_image_url'   => YWCTM_ASSETS_URL . 'images/get-premium-catalog-mode.jpg',
+				);
+			}
 
 			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );
 
@@ -761,7 +772,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 			$actions = apply_filters( 'ywctm_quick_view_actions', array( 'yith_load_product_quick_view', 'yit_load_product_quick_view' ) );
 
-			return defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_REQUEST['action'] ) && in_array( sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ), $actions, true ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return wp_doing_ajax() && isset( $_REQUEST['action'] ) && in_array( sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ), $actions, true ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		/**
@@ -854,22 +865,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 					$plugin_fw_file = array_shift( $plugin_fw_data );
 					require_once $plugin_fw_file;
 				}
-			}
-		}
-
-		/**
-		 * Premium Tab Template
-		 *
-		 * Load the premium tab template on admin page
-		 *
-		 * @return  void
-		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
-		 */
-		public function premium_tab() {
-			$premium_tab_template = YWCTM_TEMPLATE_PATH . '/admin/' . $this->premium;
-			if ( file_exists( $premium_tab_template ) ) {
-				include_once $premium_tab_template;
 			}
 		}
 
