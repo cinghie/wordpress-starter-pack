@@ -105,11 +105,13 @@ class IS_Index_Search {
 		) {
 			wp_suspend_cache_addition( true );
 
+			$s = array_keys( $this->helper->tokenize_string( $s ) );
+	
 			$post_ids = $this->search( $s );
 
 			if ( ! empty( $post_ids ) ) {
 
-				$posts = $this->get_posts( $post_ids );
+				$posts = $this->get_posts( $post_ids, $s );
 				$found = is_array( $posts ) ? count( $posts ) : 0;
 
 				$wp_query->found_posts = $found;
@@ -143,9 +145,10 @@ class IS_Index_Search {
 	 * @since 5.0
 	 *
 	 * @param array $posts_ids The post ids to fetch posts.
+	 * @param string $s The search string.
 	 * @return array The retrieved posts.
 	 */
-	protected function get_posts( $post_ids ) {
+	protected function get_posts( $post_ids, $s ) {
 		$posts          = array();
 		$max_slice_size = 10000;
 
@@ -178,6 +181,11 @@ class IS_Index_Search {
 					);
 
 					$query = new WP_Query( $args );
+					
+					if ( is_array( $s ) ) {
+						$s = implode( ' ', $s );
+					}
+					$query->query_vars['s'] = $s;
 
 					// Use existing query restrictions.
 					$is_public = IS_Public::getInstance();
@@ -265,7 +273,7 @@ class IS_Index_Search {
 	 * @todo include product variation if enabled in search form.
 	 *
 	 * @since 5.0
-	 * @param string $s The search terms.
+	 * @param string[] $s The array of search terms.
 	 * @return array The ranked post_ids found for the search.
 	 */
 	public function search( $s ) {
@@ -273,16 +281,6 @@ class IS_Index_Search {
 		$search_form = $this->load_search_form();
 
 		if ( empty( $s ) || empty( $search_form ) || ! $search_form->is_index_search() ) {
-			return;
-		}
-
-		if ( is_array( $s ) ) {
-			$s = implode( ' ', $s );
-		}
-
-		$s = array_keys( $this->helper->tokenize_string( $s ) );
-
-		if ( empty( $s ) ) {
 			return;
 		}
 

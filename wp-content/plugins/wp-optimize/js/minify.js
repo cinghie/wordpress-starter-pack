@@ -64,7 +64,6 @@
 					minify.updateFilesLists(response.files);
 					minify.updateStats(response.files);
 				}
-				console.log(response)
 			}).always(function() {
 				$.unblockUI();
 			});

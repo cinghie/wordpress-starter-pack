@@ -4,8 +4,8 @@ Donate link: https://david.dw-perspective.org.uk/donate
 Tags: cache, minify, database, image optimize, performance, clean, spam, speed, caching, smush, smushing
 Requires PHP: 5.6
 Requires at least: 4.5
-Tested up to: 5.8
-Stable tag: 3.2.1
+Tested up to: 5.9
+Stable tag: 3.2.2
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -364,6 +364,35 @@ If none of the above works, disable processing of JavaScript files in the minify
 
 == Changelog ==
 
+
+
+= 3.2.2 - 24/Jan/2022 =
+
+* FEATURE: Cache - Allow debugging of which cache file is chosen
+* FEATURE: Premium - Cache - Serve cached content for logged in users, per role
+* FIX: Premium - Unused Images - Fixed trashed images listing
+* FIX: Image selction issue in compressed and unused image is fixed.
+* FIX: ACF plugin compatibility issue with select2 JS library
+* FIX: Premium - Unused Images - Multibyte characters in filename are not recognised correctly
+* FIX: Table optimization displays wrong information about WP All Import plugin tables
+* FIX: Potential PHP fatal error - Call to undefined function _wp_get_current_user()
+* FIX: Minify - correctly minify multiple `calc` function in single property value
+* FIX: SQL error when keeping post revisions and optimizing
+* FIX: Cache - Prevent caching WordPress critical error page
+* FIX: Minify - Google fonts merging issue when the same font is enqueued in both API V1 and V2
+* FIX: Minify - Make `inherit` and `inline` settings work with Google fonts
+* FIX: Database error upon plugin activation
+* TWEAK: Minify - Show a notice if other minification plugins are installed and active
+* TWEAK: Remove unused bundled JavaScript from minify library to avoid irrelevant scan results
+* TWEAK: Image compression - Image compression stats include gains on image sizes
+* TWEAK: Make sure that messages from WP_Error objects in gzip compression are displayed to users.
+* TWEAK: Prevent PHP notice from WooCommerce deprecation
+* TWEAK: Create `task` tables upon activation, if needed.
+* TWEAK: Show error instead of success when table doesn't exist
+* TWEAK: Update seasonal notices
+* TWEAK: Prevent PHP fatal error in media list view, when images are makred as compressed
+* TWEAK: Image edit window - Link does not go to image settings and more/less link not working
+
 = 3.2.1 - 29/Nov/2021 =
 
 * FIX: Apply different image compression levels
@@ -406,6 +435,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Update comments count after trackbacks and pingbacks deletion
 * TWEAK: Update minified asset when the enqueued scripts and styles version change
 * TWEAK: Use proper constant of includes path in user cache extension
+* TWEAK: Fix path to `wpo-plugins-tables-list.json` in robots.txt
 
 = 3.1.12 - 12/Jul/2021 =
 
@@ -1194,4 +1224,4 @@ If none of the above works, disable processing of JavaScript files in the minify
 * Fix Interface
 
 == Upgrade Notice ==
-* 3.2.1: Many and various tweaks and fixes; a recommended update for all.
+* 3.2.2:* Cache - Allow debugging of which cache file is chosen. Premium - Cache - Serve cached content for logged in users, per role. Many and various tweaks and fixes; a recommended update for all.

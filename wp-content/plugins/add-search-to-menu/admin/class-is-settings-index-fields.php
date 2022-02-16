@@ -637,7 +637,7 @@ class IS_Settings_Index_Fields
         $option = 'meta_fields_selected';
         $saved_opt = $this->index_opt->{$option};
         $name_attr = "{$id}[{$option}][]";
-        $meta_keys = $this->index_opt->get_meta_keys();
+        $meta_keys = $this->index_opt->get_meta_keys( IS_Index_Options::META_OPT_VISIBLE );
         ?>
 			<div class="col-wrapper is-index-metas">							
 				<input 

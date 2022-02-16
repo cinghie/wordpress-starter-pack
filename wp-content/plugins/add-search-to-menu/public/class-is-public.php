@@ -80,6 +80,7 @@ class IS_Public
                 );
                 
                 if ( is_search() ) {
+                    $is_temp['is_search'] = 1;
                     if ( isset( $_GET['id'] ) ) {
                         $is_temp['is_id'] = sanitize_key( $_GET['id'] );
                     }
@@ -644,8 +645,12 @@ class IS_Public
     function posts_search( $search, $query )
     {
         $q = $query->query_vars;
+        $is_index_search = false;
+        if ( !empty($q['_is_settings']['search_engine']) && 'index' === $q['_is_settings']['search_engine'] ) {
+            $is_index_search = true;
+        }
         
-        if ( empty($q['search_terms']) || is_admin() && !(defined( 'DOING_AJAX' ) && DOING_AJAX) || !isset( $q['_is_includes'] ) ) {
+        if ( empty($q['search_terms']) || !isset( $q['_is_includes'] ) || (is_admin() || !$query->is_main_query() && !$is_index_search) && !(defined( 'DOING_AJAX' ) && DOING_AJAX) ) {
             return $search;
             // skip processing
         } else {
@@ -790,6 +795,9 @@ class IS_Public
             $search .= ")";
             $searchand = " {$terms_relation_type} ";
         }
+        if ( isset( $q['_is_includes']['search_content'] ) && class_exists( 'TablePress' ) ) {
+            $search .= $this->tablepress_content_search( (array) $q['search_terms'], $q['_is_settings']['fuzzy_match'], $terms_relation_type );
+        }
         if ( '' === $OR ) {
             $search = " AND ( 0 ";
         }
@@ -804,7 +812,7 @@ class IS_Public
             $OR = '';
             $i = 0;
             $tax_post_type = $q['post_type'];
-            foreach ( $q['tax_query'] as $value ) {
+            foreach ( (array) $q['tax_query'] as $value ) {
                 
                 if ( isset( $value['terms'] ) ) {
                     if ( isset( $value['post_type'] ) ) {
@@ -840,7 +848,7 @@ class IS_Public
         if ( isset( $q['_is_excludes']['tax_query'] ) ) {
             $AND = '';
             $search .= " AND ( ";
-            foreach ( $q['_is_excludes']['tax_query'] as $value ) {
+            foreach ( (array) $q['_is_excludes']['tax_query'] as $value ) {
                 $search .= $AND;
                 $search .= "( {$wpdb->posts}.ID NOT IN ( SELECT {$wpdb->term_relationships}.object_id FROM {$wpdb->term_relationships} WHERE {$wpdb->term_relationships}.term_taxonomy_id IN ( " . implode( ',', $value ) . ") ) )";
                 $AND = " AND ";
@@ -884,7 +892,7 @@ class IS_Public
         if ( isset( $q['_is_includes']['tax_query'] ) || isset( $q['_is_excludes']['tax_query'] ) || $tt_table ) {
             
             if ( isset( $q['_is_includes']['tax_rel'] ) && 'AND' === $q['_is_includes']['tax_rel'] && isset( $q['_is_includes']['tax_query'] ) ) {
-                foreach ( $q['_is_includes']['tax_query'] as $value ) {
+                foreach ( (array) $q['_is_includes']['tax_query'] as $value ) {
                     if ( !empty($value) ) {
                         foreach ( $value as $terms ) {
                             $alias = ( $i ? 'tr' . $i : 'tr' );
@@ -907,6 +915,101 @@ class IS_Public
         
         $join = apply_filters( 'is_posts_join', $join );
         return $join;
+    }
+    
+    function parse_query( $query_object )
+    {
+        
+        if ( $query_object->is_search() && function_exists( 'weglot_get_service' ) ) {
+            $raw_search = $query_object->query['s'];
+            $query_object->set( 's', $raw_search );
+            $language_services = weglot_get_service( 'Language_Service_Weglot' );
+            $parser = weglot_get_service( 'Parser_Service_Weglot' )->get_parser();
+            $original_language = $language_services->get_original_language()->getInternalCode();
+            $current_language = weglot_get_current_language();
+            if ( $original_language != $current_language ) {
+                $replacement = $parser->translate( $raw_search, $current_language, $original_language );
+            }
+            if ( $replacement ) {
+                $query_object->set( 's', $replacement );
+            }
+        }
+    
+    }
+    
+    /* Searches TablePress Table Content
+     *
+     * @since 5.4.2
+     */
+    function tablepress_content_search( $search_terms, $fuzzy_match, $terms_relation )
+    {
+        global  $wpdb ;
+        $search_sql = '';
+        if ( empty($search_terms) || !is_array( $search_terms ) ) {
+            return $search_sql;
+        }
+        // Load all table IDs and prime post meta cache for cached access to options and visibility settings of the tables, don't run filter hook.
+        $table_ids = TablePress::$model_table->load_all( true, false );
+        // Array of all search words that were found, and the table IDs where they were found.
+        $query_result = array();
+        foreach ( $table_ids as $table_id ) {
+            // Load table, with table data, options, and visibility settings.
+            $table = TablePress::$model_table->load( $table_id, true, true );
+            if ( isset( $table['is_corrupted'] ) && $table['is_corrupted'] ) {
+                // Do not search in corrupted tables.
+                continue;
+            }
+            $found_term_count = 0;
+            foreach ( $search_terms as $search_term ) {
+                
+                if ( $table['options']['print_name'] && false !== stripos( $table['name'], $search_term ) || $table['options']['print_description'] && false !== stripos( $table['description'], $search_term ) ) {
+                    // Found the search term in the name or description (and they are shown).
+                    $query_result[$search_term][] = $table_id;
+                    // Add table ID to result list.
+                    // No need to continue searching this search term in this table.
+                    continue;
+                }
+                
+                // Search search term in visible table cells (without taking Shortcode parameters into account!).
+                foreach ( $table['data'] as $row_idx => $table_row ) {
+                    if ( 0 === $table['visibility']['rows'][$row_idx] ) {
+                        // Row is hidden, so don't search in it.
+                        continue;
+                    }
+                    foreach ( $table_row as $col_idx => $table_cell ) {
+                        if ( 0 === $table['visibility']['columns'][$col_idx] ) {
+                            // Column is hidden, so don't search in it.
+                            continue;
+                        }
+                        // @TODO: Cells are not evaluated here, so math formulas are searched.
+                        
+                        if ( '1' == $fuzzy_match && preg_match( "/\\b{$search_term}\\b/i", $table_cell ) || '2' == $fuzzy_match && (preg_match( "/\\b{$search_term}/i", $table_cell ) || preg_match( "/{$search_term}\\b/i", $table_cell )) || '3' == $fuzzy_match && false !== stripos( $table_cell, $search_term ) ) {
+                            $found_term_count++;
+                            
+                            if ( 'OR' == $terms_relation || $found_term_count == sizeof( $search_terms ) ) {
+                                // Found the search term in the cell content.
+                                $query_result[$search_term][] = $table_id;
+                                // Add table ID to result list
+                                // No need to continue searching this search term in this table.
+                                continue 3;
+                            }
+                        
+                        }
+                    
+                    }
+                }
+            }
+        }
+        // For all found table IDs for each search term, add additional OR statement to the SQL "WHERE" clause.
+        $search_sql = $wpdb->remove_placeholder_escape( $search_sql );
+        foreach ( $query_result as $table_ids ) {
+            $table_ids = implode( '|', $table_ids );
+            $regexp = '\\\\[' . TablePress::$shortcode . ' id=(["\\\']?)(' . $table_ids . ')([\\]"\\\' /])';
+            // ' needs to be single escaped, [ double escaped (with \\) in mySQL
+            $search_sql = " OR ({$wpdb->posts}.post_content REGEXP '{$regexp}')";
+        }
+        $search_sql = $wpdb->add_placeholder_escape( $search_sql );
+        return $search_sql;
     }
     
     /**

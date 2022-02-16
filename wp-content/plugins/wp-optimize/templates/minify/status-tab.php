@@ -54,6 +54,14 @@
 
 			<p><?php _e('If this is turned on, then the default settings are that JavaScript and CSS on this website will be concatenated and minified and HTML will be minified.', 'wp-optimize'); ?> <?php _e('You can adjust the settings in the tabs above to control this to meet your requirements.', 'wp-optimize'); ?></p>
 
+			<?php if (!empty($active_minify_plugins)) : ?>
+				<div class="notice notice-error">
+					<p>
+						<?php printf(__('It looks like you already have an active minify plugin (%s) installed. Having more than one active plugin to minify front end assets might cause unexpected results and waste of resources.', 'wp-optimize'), implode(', ', $active_minify_plugins)); ?>
+					</p>
+				</div>
+			<?php endif; ?>
+
 			<?php if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) : ?>
 				<div class="notice notice-warning">
 					<p><span class="dashicons dashicons-info"></span> <?php printf(__('The constant %s is set to true, so no JavaScript or CSS file will be minified.', 'wp-optimize'), '<code>SCRIPT_DEBUG</code>'); ?></p>

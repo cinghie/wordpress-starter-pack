@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Autoptimize - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-08-10 14:57:40+0000\n"
+"PO-Revision-Date: 2022-01-18 23:40:35+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,22 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Autoptimize - Stable (latest release)\n"
+
+#: classes/autoptimizeExitSurvey.php:90
+msgid "WordPress version"
+msgstr "Versione di WordPress"
+
+#: classes/autoptimizeExitSurvey.php:89
+msgid "Plugin version"
+msgstr "Versione del plugin"
+
+#: classes/autoptimizeExitSurvey.php:91
+msgid "Current website:"
+msgstr "Sito web attuale:"
+
+#: classes/autoptimizeExitSurvey.php:92
+msgid "Uninstall reason"
+msgstr "Motivo della disinstallazione"
 
 #: classes/autoptimizeConfig.php:910
 msgid "JS, CSS  &amp; HTML"
@@ -237,7 +253,7 @@ msgid "https://autoptimize.com/"
 msgstr "https://autoptimize.com/"
 
 #. translators: links to the Autoptimize settings page.
-#: classes/autoptimizeToolbar.php:138
+#: classes/autoptimizeToolbar.php:143
 msgid "Your Autoptimize cache might not have been purged successfully, please check on the <a href=%s>Autoptimize settings page</a>."
 msgstr "La tua cache di Autoptimize potrebbe non essere stata pulita correttamente, verificalo nella <a href=\"%s\">pagina delle impostazioni di Autoptimize</a>."
 
@@ -246,11 +262,11 @@ msgstr "La tua cache di Autoptimize potrebbe non essere stata pulita correttamen
 msgid "Autoptimize cannot write to the cache directory (%s), please fix to enable CSS/ JS optimization!"
 msgstr "Autoptimize non può scrivere nella directory della cache (%s), applica le necessarie correzioni per permettere l'ottimizzazione dei CSS/JS!"
 
-#: classes/autoptimizeToolbar.php:98
+#: classes/autoptimizeToolbar.php:103
 msgid "Size"
 msgstr "Dimensione"
 
-#: classes/autoptimizeToolbar.php:99
+#: classes/autoptimizeToolbar.php:104
 msgid "Files"
 msgstr "File"
 
@@ -275,7 +291,7 @@ msgid "These Autoptimize power-ups and related services will improve your site's
 msgstr "Queste estensioni di Autoptimize, e i servizi ad esse associati, miglioreranno ancora di più le performance del tuo sito!"
 
 #. translators: links to the Autoptimize settings page.
-#: classes/autoptimizeToolbar.php:139
+#: classes/autoptimizeToolbar.php:144
 msgid "Dismiss this notice."
 msgstr "Ignora questo avviso."
 
@@ -414,10 +430,6 @@ msgstr "Impostazioni JavaScript"
 msgid "Do not donate for this plugin!"
 msgstr "Non donare per questo plugin!"
 
-#: classes/autoptimizeMain.php:692
-msgid "Thank you for installing and activating Autoptimize. Please configure it under \"Settings\" -> \"Autoptimize\" to start improving your site's performance."
-msgstr "Grazie per aver installato e attivato Autoptimize. Per iniziare a migliorare le prestazioni del tuo sito puoi configurarlo in \"Impostazioni\" -> \"Autoptimize\" "
-
 #: classes/autoptimizeMain.php:699
 msgid "Autoptimize has just been updated. Please <strong>test your site now</strong> and adapt Autoptimize config if needed."
 msgstr "Hai appena aggiornato Autoptimize. <strong>Testa il tuo sito ora</strong> e adatta la configurazione di Autoptimize se necessario."
@@ -440,7 +452,7 @@ msgstr "Aggiungi try-catch wrapping?"
 
 #. Plugin Name of the plugin
 #: classes/autoptimizeCacheChecker.php:110 classes/autoptimizeConfig.php:676
-#: classes/autoptimizeToolbar.php:77
+#: classes/autoptimizeToolbar.php:82
 msgid "Autoptimize"
 msgstr "Autoptimize"
 

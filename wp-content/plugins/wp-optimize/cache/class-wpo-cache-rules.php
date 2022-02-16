@@ -308,8 +308,8 @@ class WPO_Cache_Rules {
 	 * Purge product page upon stock update
 	 */
 	public function purge_product_page($product_with_stock) {
-		if (!empty($product_with_stock->id)) {
-			WPO_Page_Cache::delete_single_post_cache($product_with_stock->id);
+		if (!empty($product_with_stock->get_id())) {
+			WPO_Page_Cache::delete_single_post_cache($product_with_stock->get_id());
 		}
 	}
 

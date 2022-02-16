@@ -76,7 +76,7 @@
 
 	<div class="wpo-fieldgroup__subgroup">
 		<label for="enable_user_caching">
-			<input name="enable_user_caching" id="enable_user_caching" class="cache-settings" type="checkbox" value="true" <?php checked($wpo_cache_options['enable_user_caching']); ?>>
+			<input name="enable_user_caching" id="enable_user_caching" class="cache-settings wpo-select-group" type="checkbox" value="true" <?php checked($wpo_cache_options['enable_user_caching']); ?>>
 			<?php _e('Serve cached pages to logged in users', 'wp-optimize'); ?>
 		</label>
 		<span tabindex="0" data-tooltip="<?php _e('Enable this option if you do not have user-specific or restricted content on your website.', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span> </span>

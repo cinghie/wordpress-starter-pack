@@ -96,10 +96,10 @@ class IS_Search_Editor
      * @global Object $wpdb WPDB object
      * @return Array array of meta keys
      */
-    function is_meta_keys( $post_type )
+    function is_meta_keys()
     {
         global  $wpdb ;
-        $is_fields = $wpdb->get_results( apply_filters( 'is_meta_keys_query', "select DISTINCT meta_key from {$wpdb->postmeta} pt LEFT JOIN {$wpdb->posts} p ON (pt.post_id = p.ID) where meta_key NOT LIKE '\\_%' AND post_type IN ( '{$post_type}' ) ORDER BY meta_key ASC" ) );
+        $is_fields = $wpdb->get_results( apply_filters( 'is_meta_keys_query', "select DISTINCT meta_key from {$wpdb->postmeta} pt LEFT JOIN {$wpdb->posts} p ON (pt.post_id = p.ID) where meta_key NOT LIKE '\\_%' ORDER BY meta_key ASC" ) );
         $meta_keys = array();
         if ( is_array( $is_fields ) && !empty($is_fields) ) {
             foreach ( $is_fields as $field ) {
@@ -464,29 +464,6 @@ class IS_Search_Editor
             
             }
             
-            $meta_keys = $this->is_meta_keys( $post_type );
-            
-            if ( !empty($meta_keys) ) {
-                $html = '<div class="col-wrapper is-metas">';
-                $selected_meta = false;
-                $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
-                $html .= '<select class="_is_includes-custom_field" name="' . esc_attr( $id ) . '[custom_field][]" multiple size="8" >';
-                foreach ( $meta_keys as $meta_key ) {
-                    $checked = ( isset( $includes['custom_field'] ) && in_array( $meta_key, $includes['custom_field'] ) ? $meta_key : 0 );
-                    if ( $checked ) {
-                        $selected_meta = true;
-                    }
-                    $html .= '<option value="' . esc_attr( $meta_key ) . '" ' . selected( $meta_key, $checked, false ) . '>' . esc_html( $meta_key ) . '</option>';
-                }
-                $html .= '</select>';
-                $html .= '<br /><label for="' . esc_attr( $id ) . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
-                $html .= '</div>';
-                $checked = ( $selected_meta ? 'selected' : 'all' );
-                echo  '<br /><p class="check-radio"><label for="' . esc_attr( $post_type ) . '-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="' . esc_attr( $post_type ) . '-meta-search_selected" name="' . esc_attr( $post_type ) . 'i[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Search selected %s custom fields values", 'add-search-to-menu' ), $post_type ) . '</label></p>' ;
-                echo  $html ;
-            }
-            
             
             if ( 'product' == $post_type ) {
                 $woo_sku_disable = ( is_fs()->is_plan_or_trial( 'pro_plus' ) && $this->is_premium_plugin ? '' : ' disabled ' );
@@ -504,6 +481,10 @@ class IS_Search_Editor
                 if ( '' !== $woo_sku_disable ) {
                     echo  '</div>' ;
                 }
+                echo  '</p>' ;
+                echo  '<p class="is-index-conflicts">' ;
+                echo  $this->get_conflicts_info( 'woo', 'sku' ) ;
+                echo  $this->get_conflicts_info( 'woo', 'variation' ) ;
                 echo  '</p>' ;
             }
             
@@ -661,7 +642,43 @@ class IS_Search_Editor
         
         ?>
 			</div>
-
+			<h4 scope="row">
+				<label for="<?php 
+        echo  esc_attr( $id ) ;
+        ?>-custom_field"><?php 
+        echo  esc_html( __( 'Custom Fields', 'add-search-to-menu' ) ) ;
+        ?></label>
+			</h4>
+			<div>
+			<?php 
+        $meta_keys = $this->is_meta_keys();
+        
+        if ( !empty($meta_keys) ) {
+            $html = '<div class="col-wrapper is-metas">';
+            $selected_meta = false;
+            $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
+            $html .= '<select class="_is_includes-custom_field" name="' . esc_attr( $id ) . '[custom_field][]" multiple size="8" >';
+            foreach ( $meta_keys as $meta_key ) {
+                $checked = ( isset( $includes['custom_field'] ) && in_array( $meta_key, $includes['custom_field'] ) ? $meta_key : 0 );
+                if ( $checked ) {
+                    $selected_meta = true;
+                }
+                $html .= '<option value="' . esc_attr( $meta_key ) . '" ' . selected( $meta_key, $checked, false ) . '>' . esc_html( $meta_key ) . '</option>';
+            }
+            $html .= '</select>';
+            $html .= '<br /><label for="' . esc_attr( $id ) . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label>';
+            $html .= '</div>';
+            $checked = ( $selected_meta ? 'selected' : 'all' );
+            echo  '<span class="check-radio"><label for="is-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="is-meta-search_selected" name="is[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+            echo  '<span class="toggle-check-text"></span>' . esc_html__( "Search selected custom fields values", 'add-search-to-menu' ) . '</label></span>' ;
+            echo  $html ;
+            echo  '<p class="is-index-conflicts">' ;
+            echo  $this->get_conflicts_info( 'custom_field' ) ;
+            echo  '</p>' ;
+        }
+        
+        ?>
+			</div>
 			<h4 scope="row">
 				<label for="<?php 
         echo  esc_attr( $id ) ;
@@ -2082,31 +2099,6 @@ class IS_Search_Editor
             
             }
             
-            $meta_keys = $this->is_meta_keys( $post_type );
-            
-            if ( !empty($meta_keys) ) {
-                $html = '<div class="col-wrapper is-metas">';
-                $selected_meta = false;
-                $custom_field_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
-                $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
-                $html .= '<select class="_is_excludes-custom_field" name="' . esc_attr( $id ) . '[custom_field][]" ' . $custom_field_disable . ' multiple size="8" >';
-                foreach ( $meta_keys as $meta_key ) {
-                    $checked = ( isset( $excludes['custom_field'] ) && in_array( $meta_key, $excludes['custom_field'] ) ? $meta_key : 0 );
-                    if ( $checked ) {
-                        $selected_meta = true;
-                    }
-                    $html .= '<option value="' . esc_attr( $meta_key ) . '" ' . selected( $meta_key, $checked, false ) . '>' . esc_html( $meta_key ) . '</option>';
-                }
-                $html .= '</select>';
-                $html .= IS_Admin::pro_link();
-                $html .= '<br /><label for="' . esc_attr( $id ) . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label><br />';
-                $html .= '</div>';
-                $checked = ( $selected_meta ? 'selected' : 'all' );
-                echo  '<br /><p class="check-radio"><label for="' . esc_attr( $post_type ) . '-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="' . esc_attr( $post_type ) . '-meta-search_selected" name="' . esc_attr( $post_type ) . 'i[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
-                echo  '<span class="toggle-check-text"></span>' . sprintf( esc_html__( "Exclude %s from search having selected custom fields", 'add-search-to-menu' ), strtolower( $post_types2[$post_type]->labels->name ) ) . '</label></p>' ;
-                echo  $html ;
-            }
-            
             
             if ( 'product' == $post_type ) {
                 echo  '<br />' ;
@@ -2215,6 +2207,42 @@ class IS_Search_Editor
 			<h4 scope="row" class="is-first-title">
 				<label for="<?php 
         echo  esc_attr( $id ) ;
+        ?>-custom_field"><?php 
+        echo  esc_html( __( 'Custom Fields', 'add-search-to-menu' ) ) ;
+        ?></label>
+			</h4>
+			<div>
+			<?php 
+        $meta_keys = $this->is_meta_keys();
+        
+        if ( !empty($meta_keys) ) {
+            $html = '<div class="col-wrapper is-metas">';
+            $selected_meta = false;
+            $custom_field_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
+            $html .= '<input class="list-search wide" placeholder="' . __( "Search..", 'add-search-to-menu' ) . '" type="text">';
+            $html .= '<select class="_is_excludes-custom_field" name="' . esc_attr( $id ) . '[custom_field][]" ' . $custom_field_disable . ' multiple size="8" >';
+            foreach ( $meta_keys as $meta_key ) {
+                $checked = ( isset( $excludes['custom_field'] ) && in_array( $meta_key, $excludes['custom_field'] ) ? $meta_key : 0 );
+                if ( $checked ) {
+                    $selected_meta = true;
+                }
+                $html .= '<option value="' . esc_attr( $meta_key ) . '" ' . selected( $meta_key, $checked, false ) . '>' . esc_html( $meta_key ) . '</option>';
+            }
+            $html .= '</select>';
+            $html .= IS_Admin::pro_link();
+            $html .= '<label for="' . esc_attr( $id ) . '-custom_field" class="ctrl-multi-select">' . esc_html__( "Hold down the control (ctrl) or command button to select multiple options.", 'add-search-to-menu' ) . '</label>';
+            $html .= '</div>';
+            $checked = ( $selected_meta ? 'selected' : 'all' );
+            echo  '<span class="check-radio"><label for="is-meta-search_selected" ><input class="is-meta-select" type="checkbox" id="is-meta-search_selected" name="is[meta_search_radio]" value="selected" ' . checked( 'selected', $checked, false ) . '/>' ;
+            echo  '<span class="toggle-check-text"></span>' . esc_html__( "Exclude from search having selected custom fields", 'add-search-to-menu' ) . '</label></span>' ;
+            echo  $html ;
+        }
+        
+        ?>
+		</div>
+			<h4 scope="row">
+				<label for="<?php 
+        echo  esc_attr( $id ) ;
         ?>-author"><?php 
         echo  esc_html( __( 'Authors', 'add-search-to-menu' ) ) ;
         ?></label>
@@ -2227,12 +2255,19 @@ class IS_Search_Editor
         
         if ( !isset( $includes['author'] ) ) {
             $author_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
-            $authors = get_users( array(
+            $args = array(
                 'fields'  => array( 'ID', 'display_name' ),
                 'orderby' => 'post_count',
                 'order'   => 'DESC',
-                'who'     => 'authors',
-            ) );
+            );
+            
+            if ( version_compare( $GLOBALS['wp_version'], '5.9', '<' ) ) {
+                $args['who'] = 'authors';
+            } else {
+                $args['capability'] = [ 'edit_posts' ];
+            }
+            
+            $authors = get_users( $args );
             
             if ( !empty($authors) ) {
                 if ( '' !== $author_disable ) {
@@ -2616,24 +2651,17 @@ class IS_Search_Editor
                             }
                             break;
                         case 'custom_field':
-                            if ( IS_Index_Options::META_OPT_ALL != $index_opt->meta_fields_opt ) {
-                                $indexed_meta_fields = $index_opt->get_meta_keys();
-                            }
-                            $post_types = array_keys( get_post_types( array(
-                                'public' => true,
-                            ), 'objects' ) );
-                            foreach ( $post_types as $post_type ) {
-                                $meta_keys = $this->is_meta_keys( $post_type );
-                                $selected = array_intersect( $meta_keys, $val );
-                                $diff = array_diff( $selected, $indexed_meta_fields );
-                                if ( !empty($diff) ) {
-                                    $conflicts[$prop][$post_type] = sprintf( esc_html( _n(
-                                        'The %s meta field is not selected in Index',
-                                        'The %s meta fields are not selected in Index',
-                                        count( $diff ),
-                                        'add-search-to-menu'
-                                    ) ), implode( ', ', $diff ) ) . $index_opt->get_index_settings_link( 'meta_fields' );
-                                }
+                            $indexed_meta_fields = $index_opt->get_meta_keys();
+                            $meta_keys = $this->is_meta_keys();
+                            $selected = array_intersect( $meta_keys, $val );
+                            $diff = array_diff( $selected, $indexed_meta_fields );
+                            if ( !empty($diff) ) {
+                                $conflicts[$prop] = sprintf( esc_html( _n(
+                                    'The %s meta field is not selected in Index',
+                                    'The %s meta fields are not selected in Index',
+                                    count( $diff ),
+                                    'add-search-to-menu'
+                                ) ), implode( ', ', $diff ) ) . $index_opt->get_index_settings_link( 'meta_fields' );
                             }
                             break;
                         case 'search_title':
@@ -2671,9 +2699,12 @@ class IS_Search_Editor
                                 $conflicts[$prop] = esc_html__( 'The comments are not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
                             }
                             break;
-                        case 'sku':
-                            if ( $val && !$index_opt->index_product_sku ) {
-                                $conflicts[$prop] = esc_html__( 'The product SKU is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                        case 'woo':
+                            if ( !empty($val['sku']) && !$index_opt->index_product_sku ) {
+                                $conflicts[$prop]['sku'] = esc_html__( 'The product SKU is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
+                            }
+                            if ( !empty($val['variation']) && !$index_opt->index_product_variation ) {
+                                $conflicts[$prop]['variation'] = esc_html__( 'The product variation is not selected in Index', 'add-search-to-menu' ) . $index_opt->get_index_settings_link( 'extra' );
                             }
                             break;
                         case 'fuzzy_match':

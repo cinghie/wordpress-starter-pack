@@ -874,8 +874,8 @@ span.shortcode > input:focus,
     width: auto;
     display: table-cell;
     border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    -webkit-box-shadow: 3px 6px 0pxrgba(0,0,0,0.175);
+    box-shadow: 3px 6px 0px rgba(0,0,0,0.175);
     top: 100%;
     left: 0;
     background: #FFF;

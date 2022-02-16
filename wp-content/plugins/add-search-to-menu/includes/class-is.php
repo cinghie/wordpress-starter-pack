@@ -60,10 +60,10 @@ class IS_Loader {
 
 			$this->admin_public_hooks();
 
-			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'is_ajax_load_posts' == $_POST['action'] ) ) {
 				$this->admin_hooks();
 			} 
-            if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+            if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'is_ajax_load_posts' == $_POST['action'] ) ) {
 				$this->public_hooks();
 			}
         }
@@ -174,6 +174,7 @@ class IS_Loader {
 			add_action( 'pre_get_posts', array( $public, 'pre_get_posts' ), 9999999 );
 			add_action( 'wp_footer', array( $public, 'wp_footer' ) );
 			add_action( 'wp_head', array( $public, 'wp_head' ), 9999999 );
+			add_action( 'parse_query', array( $public, 'parse_query' ), 9999999, 2 );
 		}, 9999999 );
 
                 $ajax = IS_Ajax::getInstance();
