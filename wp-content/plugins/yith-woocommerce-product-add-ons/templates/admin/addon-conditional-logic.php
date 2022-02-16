@@ -27,7 +27,7 @@ if ( $total_conditional_addons > 0 ) {
 				// $conditional_array[$conditional_addon->id . '-' . $x] =  '- ' . esc_html__( 'Option', 'yith-woocommerce-product-add-ons' ) . ' #' . ( $x + 1 );.
 				if ( isset( $conditional_addon->options['label'][ $x ] ) ) {
 					$option_name = $conditional_addon->options['label'][ $x ];
-					if ( strlen( $option_name ) > 25 ) {
+					if ( apply_filters( 'yith_wapo_reduce_conditional_option_name', true ) && strlen( $option_name ) > 25 ) {
 						$option_name = substr( $option_name, 0, 22 ) . '...';
 					}
 					$conditional_array[ $conditional_addon->id . '-' . $x ] = $conditional_addon->get_setting( 'title' ) . ' - ' . $option_name;
@@ -38,38 +38,41 @@ if ( $total_conditional_addons > 0 ) {
 }
 
 // Get variations.
-$args         = array(
-	'type'    => 'variable',
-	'status'  => 'publish',
-	'orderby' => 'name',
-	'order'   => 'ASC',
-	'limit'   => apply_filters( 'yith_wapo_conditional_logic_variations_limit', 20 ),
-);
-$all_products = wc_get_products( $args );
-foreach ( $all_products as $key => $product ) {
-	if ( $product->get_type() === 'variable' ) {
 
-		$variations    = $product->get_available_variations();
-		$variations_id = wp_list_pluck( $variations, 'variation_id' );
+if ( apply_filters('yith_wapo_include_variations_on_conditional_logic', true ) ) {
 
-		foreach ( $variations_id as $vkey => $variation_id ) {
-			$variation = wc_get_product( $variation_id );
-			$conditional_array[ 'v-' . $product->get_id() . '-' . $variation_id ] =
-				'[ ' . esc_html__( 'Variation', 'yith-woocommerce-product-add-ons' ) . ' ] '
-				. wp_strip_all_tags( $variation->get_formatted_name() );
-		}
+	$args         = array(
+		'type'    => 'variable',
+		'status'  => 'publish',
+		'orderby' => 'name',
+		'order'   => 'ASC',
+		'limit'   => apply_filters( 'yith_wapo_conditional_logic_variations_limit', 20 ),
+	);
+	$all_products = wc_get_products( $args );
+	foreach ( $all_products as $key => $product ) {
+		if ( $product->get_type() === 'variable' ) {
 
-		/* phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-		 * Commented code
-		foreach ( $product->get_variation_attributes() as $variations ) {
-			foreach ( $variations as $variation ) {
-				echo $product->get_title() . " - " . $variation;
+			$variations    = $product->get_available_variations();
+			$variations_id = wp_list_pluck( $variations, 'variation_id' );
+
+			foreach ( $variations_id as $vkey => $variation_id ) {
+				$variation                                                            = wc_get_product( $variation_id );
+				$conditional_array[ 'v-' . $product->get_id() . '-' . $variation_id ] =
+					'[ ' . esc_html__( 'Variation', 'yith-woocommerce-product-add-ons' ) . ' ] '
+					. wp_strip_all_tags( $variation->get_formatted_name() );
 			}
+
+			/* phpcs:ignore Squiz.PHP.CommentedOutCode.Found
+			 * Commented code
+			foreach ( $product->get_variation_attributes() as $variations ) {
+				foreach ( $variations as $variation ) {
+					echo $product->get_title() . " - " . $variation;
+				}
+			}
+			*/
 		}
-		*/
 	}
 }
-
 ?>
 
 <div id="tab-conditional-logic" style="display: none;">
@@ -85,7 +88,7 @@ foreach ( $all_products as $key => $product ) {
 					'name'  => 'addon_enable_rules',
 					'class' => 'enabler',
 					'type'  => 'onoff',
-					'value' => $addon->get_setting( 'enable_rules' ),
+					'value' => $addon->get_setting( 'enable_rules', 'no' ),
 				),
 				true
 			);
@@ -109,7 +112,7 @@ foreach ( $all_products as $key => $product ) {
 						'id'      => 'addon-conditional-logic-display',
 						'name'    => 'addon_conditional_logic_display',
 						'type'    => 'select',
-						'value'   => $addon->get_setting( 'conditional_logic_display' ),
+						'value'   => $addon->get_setting( 'conditional_logic_display', 'show' ),
 						'options' => array(
 							'show' => esc_html__( 'Show', 'yith-woocommerce-product-add-ons' ),
 							'hide' => esc_html__( 'Hide', 'yith-woocommerce-product-add-ons' ),
@@ -125,7 +128,7 @@ foreach ( $all_products as $key => $product ) {
 						'id'      => 'addon-conditional-logic-display-if',
 						'name'    => 'addon_conditional_logic_display_if',
 						'type'    => 'select',
-						'value'   => $addon->get_setting( 'conditional_logic_display_if' ),
+						'value'   => $addon->get_setting( 'conditional_logic_display_if', 'all' ),
 						'options' => array(
 							'all' => esc_html__( 'All of these rules', 'yith-woocommerce-product-add-ons' ),
 							'any' => esc_html__( 'Any of these rules', 'yith-woocommerce-product-add-ons' ),
@@ -152,7 +155,7 @@ foreach ( $all_products as $key => $product ) {
 							'id'      => 'addon-conditional-rule-addon',
 							'name'    => 'addon_conditional_rule_addon[]',
 							'type'    => 'select',
-							'class'   => 'wc-enhanced-select',
+							'class'   => 'wc-enhanced-select addon-conditional-rule-addon',
 							'value'   => $conditional_rule,
 							'options' => $conditional_array,
 						),
@@ -165,6 +168,7 @@ foreach ( $all_products as $key => $product ) {
 						array(
 							'id'      => 'addon-conditional-rule-addon-is',
 							'name'    => 'addon_conditional_rule_addon_is[]',
+							'class'   => 'wc-enhanced-select addon-conditional-rule-addon-is',
 							'type'    => 'select',
 							'value'   => isset( $addon->get_setting( 'conditional_rule_addon_is' )[ $y ] ) ? $addon->get_setting( 'conditional_rule_addon_is' )[ $y ] : '',
 							'options' => array(
@@ -190,9 +194,16 @@ foreach ( $all_products as $key => $product ) {
 	<script type="text/javascript">
 		jQuery('#add-conditional-rule a').click( function() {
 			var ruleTemplate = jQuery('#conditional-rules .field.rule:first-child');
-			var clonedOption = ruleTemplate.clone( true );
+			var clonedOption = ruleTemplate.clone( false );
 			clonedOption.find('input[type=number]').val('');
 			clonedOption.insertBefore('#add-conditional-rule');
+			clonedOption.find('.select2').remove();
+			clonedOption.find('.addon-conditional-rule-addon').select2({
+			   width: '200px',
+			});
+			clonedOption.find('.addon-conditional-rule-addon-is').select2({
+				 width: '150px',
+			});
 		});
 		jQuery('#conditional-rules').on( 'click', '.delete-rule', function() {
 			jQuery(this).parent().remove();

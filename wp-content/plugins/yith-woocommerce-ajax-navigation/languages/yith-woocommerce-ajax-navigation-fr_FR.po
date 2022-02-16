@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Ajax Product Filter\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "ajax-product-filter\n"
-"POT-Creation-Date: 2021-09-24 12:55:48+00:00\n"
+"POT-Creation-Date: 2022-01-12 10:08:55+00:00\n"
 "PO-Revision-Date: 2020-12-29 14:36:56+0000\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -13,6 +13,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
+
+#: includes/class-yith-wcan-admin.php:196
+msgid ""
+"<b>100% mobile friendly:</b> Show filters in a modal view which is purposely "
+"designed for users visiting your site by smartphones or tablets"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:197
+msgid ""
+"Show filters in the default layout or also in an <b>horizontal toolbar above "
+"products</b> (like Zalando)"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:198
+msgid ""
+"Allow customers to <b>filter for price ranges</b> (unlimited ranges and the "
+"last range can show: “& above”) or using the <b>price slider</b>\n"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:200
+msgid ""
+"Allow customers to <b>filter for review</b> and <b>for brand</b> (with the "
+"support to YITH WooCommerce Brands plugin)"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:201
+msgid ""
+"Allow users to <b>order products</b> (by popularity, date, price, date of "
+"publishing, average rating, etc) and see only \tproducts in stock/featured/"
+"on sale"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:202
+msgid ""
+"<b>Show the active filters</b> (with X to remove them) and choose their "
+"position (above products, above or under filters area)"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:203
+msgid ""
+"Create <b>color swatches with image support</b> (to better identify "
+"gradients, textures, patterns, etc.) and with 2 colors"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:204
+msgid "Show the options using <b>custom images or icons</b>"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:205
+msgid ""
+"Choose the <b>order of the options</b> (alphabetical, terms order, terms "
+"count, etc.), enable tooltips and show each set of filters in toggle"
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:206
+msgid ""
+"Choose how to manage terms not availables: hide them OR shown them in grey "
+"color and not clickables "
+msgstr ""
+
+#: includes/class-yith-wcan-admin.php:207
+msgid "<b>Regular updates, Translations and Premium Support</b>"
+msgstr ""
 
 #: includes/data-stores/class-yith-wcan-preset-data-store.php:57
 msgid "Draft Preset"
@@ -105,13 +168,13 @@ msgstr "Réinitialiser tous les filtres"
 msgid "Button Label"
 msgstr "Étiquette du bouton"
 
-#: init.php:148
+#: init.php:149
 msgid ""
 "You can't activate the free version of YITH WooCommerce Ajax Product Filter "
 "while you are using the premium one."
 msgstr ""
 
-#: init.php:166
+#: init.php:167
 #, fuzzy
 msgid ""
 "YITH WooCommerce Ajax Product Filter is enabled but not effective. It "
@@ -182,61 +245,56 @@ msgctxt "[Admin] tab name"
 msgid "SEO"
 msgstr "SEO"
 
-#: includes/class-yith-wcan-admin.php:187
-msgctxt "[Admin] tab name"
-msgid "Premium Version"
-msgstr ""
-
-#: includes/class-yith-wcan-admin.php:191
+#: includes/class-yith-wcan-admin.php:190
 msgctxt "[Admin] tab name"
 msgid "Legacy"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:199
+#: includes/class-yith-wcan-admin.php:217
 msgctxt "[Admin] Plugin description"
 msgid ""
 "It allows your users to find the product they are looking for as quickly as "
 "possible."
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:211
+#: includes/class-yith-wcan-admin.php:230
 msgctxt "[HELP TAB] Video title"
 msgid ""
 "Check this video to learn how to <b>create a filter preset and show it on "
 "the shop page:</b>"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:329
+#: includes/class-yith-wcan-admin.php:349
 msgctxt "[Admin] Generic item name, in \"You have no x yet\""
 msgid "item"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:330
+#: includes/class-yith-wcan-admin.php:350
 msgctxt "[Admin] Preset table empty message second line"
 msgid "But don't worry, here you can create your first one!"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:480
+#: includes/class-yith-wcan-admin.php:500
 msgctxt "[ADMIN] WooCommerce Tools tab, name of the tool"
 msgid "Clear Product Filter transients"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:486
+#: includes/class-yith-wcan-admin.php:506
 msgctxt "[ADMIN] WooCommerce Tools tab, name of the tool"
 msgid "Run filter widgets upgrade"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:481
+#: includes/class-yith-wcan-admin.php:501
 msgctxt "[ADMIN] WooCommerce Tools tab, button for the tool"
 msgid "Clear"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:487
+#: includes/class-yith-wcan-admin.php:507
 msgctxt "[ADMIN] WooCommerce Tools tab, button for the tool"
 msgid "Run"
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:482
+#: includes/class-yith-wcan-admin.php:502
 msgctxt "[ADMIN] WooCommerce Tools tab, description of the tool"
 msgid ""
 "This will clear all transients related to the YITH WooCommerce AJAX Product "
@@ -244,7 +302,7 @@ msgid ""
 "and filters do not display the expected results."
 msgstr ""
 
-#: includes/class-yith-wcan-admin.php:488
+#: includes/class-yith-wcan-admin.php:508
 msgctxt "[ADMIN] WooCommerce Tools tab, description of the tool"
 msgid ""
 "This will create a preset for any sidebar of your shop containing filter "

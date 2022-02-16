@@ -107,7 +107,12 @@ All endpoints under `/cart` (listed in this doc) return responses in the same fo
 			"key": "9bf31c7ff062936a96d3c8bd1f8f2ff3",
 			"id": 15,
 			"quantity": 1,
-			"quantity_limit": 99,
+			"quantity_limits": {
+				"minimum": 1,
+				"maximum": 99,
+				"multiple_of": 1,
+				"editable": true
+			},
 			"name": "Beanie",
 			"summary": "<p>This is a simple product.</p>",
 			"short_description": "<p>This is a simple product.</p>",
@@ -167,7 +172,12 @@ All endpoints under `/cart` (listed in this doc) return responses in the same fo
 			"key": "e369853df766fa44e1ed0ff613f563bd",
 			"id": 34,
 			"quantity": 1,
-			"quantity_limit": 99,
+			"quantity_limits": {
+				"minimum": 1,
+				"maximum": 99,
+				"multiple_of": 1,
+				"editable": true
+			},
 			"name": "WordPress Pennant",
 			"summary": "<p>This is an external product.</p>",
 			"short_description": "<p>This is an external product.</p>",
@@ -456,3 +466,12 @@ curl --header "X-WC-Store-API-Nonce: 12345" --request POST /cart/select-shipping
 ```
 
 Returns the full [Cart Response](#cart-response) on success, or an [Error Response](#error-response) on failure.
+
+<!-- FEEDBACK -->
+---
+
+[We're hiring!](https://woocommerce.com/careers/) Come work with us!
+
+🐞 Found a mistake, or have a suggestion? [Leave feedback about this document here.](https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues/new?assignees=&labels=type%3A+documentation&template=--doc-feedback.md&title=Feedback%20on%20./src/StoreApi/docs/cart.md)
+<!-- /FEEDBACK -->
+

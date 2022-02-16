@@ -9,15 +9,30 @@
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
-$required = $addon->get_option( 'required', $x ) === 'yes';
+$required      = $addon->get_option( 'required', $x ) === 'yes';
+$number_limit  = $addon->get_option( 'number_limit', $x );
+$value         = 0;
+$minimum_value = '';
+$maximum_value = '';
 
+if ( 'yes' === $number_limit ){
+	$minimum_value = $addon->get_option( 'number_limit_min', $x );
+	$maximum_value = $addon->get_option( 'number_limit_max', $x );
+	if ( ! empty( $minimum_value ) ) {
+		$value = $minimum_value;
+	}
+}
 ?>
 
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>" class="yith-wapo-option quantity">
 
 	<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && ! $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
+		<?php
+			$post_id_image = attachment_url_to_postid( $addon->get_option( 'image', $x ) );
+			$alt_text_image = get_post_meta( $post_id_image, '_wp_attachment_image_alt', true );
+		?>
 		<div class="image position-<?php echo esc_attr( $addon_options_images_position ); ?>">
-			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>">
+			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>" alt="<?php echo esc_attr( $alt_text_image ) ?>">
 		</div>
 	<?php endif; ?>
 
@@ -38,12 +53,13 @@ $required = $addon->get_option( 'required', $x ) === 'yes';
 	<input type="number"
 		id="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>"
 		name="yith_wapo[][<?php echo esc_attr( $addon->id . '-' . $x ); ?>]"
-		value=""
-		<?php if ( $addon->get_option( 'number_limit', $x ) === 'yes' ) : ?>
-			min="<?php echo esc_attr( $addon->get_option( 'number_limit_min', $x ) ); ?>"
-			max="<?php echo esc_attr( $addon->get_option( 'number_limit_max', $x ) ); ?>"
+		placeholder="0"
+		<?php if ( 'yes' === $number_limit ) : ?>
+			min="<?php echo esc_attr( $minimum_value ); ?>"
+			max="<?php echo esc_attr( $maximum_value ); ?>"
 		<?php endif; ?>
-		data-price="<?php echo esc_attr( $addon->get_option_price( $x ) ); ?>"
+		value="<?php echo esc_attr( $value ) ?>"
+		data-price="<?php echo esc_attr( $price ); ?>"
 		data-price-sale="<?php echo esc_attr( $price_sale ); ?>"
 		data-price-type="<?php echo esc_attr( $price_type ); ?>"
 		data-price-method="<?php echo esc_attr( $price_method ); ?>"

@@ -14,6 +14,19 @@ use PixelYourSite\Facebook\Helpers;
 
 <!-- Enable WooCommerce -->
 <div class="card card-static">
+    <div class="card-body">
+        <div  class="row">
+            <div class="col">
+                <?php renderDummySwitcher( false); ?>
+                <h4 class="switcher-label">Advanced Purchase Tracking</h4><?php renderProBadge(); ?>
+            </div>
+        </div>
+        <p class="small">
+            If the Purchase event doesn't fire for a transaction when the order is placed by your client, the plugin will send it to Facebook and Google Analytics Universal (not yet supported for GA4) when the order's status changes to Complete.
+        </p>
+    </div>
+</div>
+<div class="card card-static">
     <div class="card-header">
         General
     </div>
@@ -104,8 +117,8 @@ use PixelYourSite\Facebook\Helpers;
                     <p><strong>It looks like you're using both PixelYourSite and Facebook for WooCommerce Extension. Good, because
                             they can do a great job together!</strong></p>
                     <p>Facebook for WooCommerce Extension is a useful free tool that lets you import your products to a Facebook
-                        shop and adds a very basic Facebook pixel on your site. PixelYourSite is a dedicated plugin that
-                        supercharges your Facebook Pixel with extremely useful features.</p>
+                        shop and adds a very basic Meta Pixel (formerly Facebook Pixel) on your site. PixelYourSite is a dedicated plugin that
+                        supercharges your Meta Pixel (formerly Facebook Pixel) with extremely useful features.</p>
                     <p>We made it possible to use both plugins together. You just have to decide what ID to use for your events.</p>
                 </div>
             </div>
@@ -981,7 +994,7 @@ e&utm_campaign=pro-feature' ); ?>
 
 <div class="card">
     <div class="card-header has_switch">
-        <?php PYS()->render_switcher_input('woo_complete_registration_enabled');?> CompleteRegistration for the Facebook Pixel<?php cardCollapseBtn(); ?>
+        <?php PYS()->render_switcher_input('woo_complete_registration_enabled');?> CompleteRegistration for the Meta Pixel (formerly Facebook Pixel)<?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
         <?php if ( Facebook()->enabled() ) : ?>
@@ -1391,7 +1404,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </p>
                 <br><br>
 
-                <p>The Facebook Pixel events are Dynamic Ads ready.</p>
+                <p>The Meta Pixel (formerly Facebook Pixel) events are Dynamic Ads ready.</p>
                 <p>The Google Analytics events track the data Enhanced Ecommerce or Monetization (GA4).</p>
                 <p>The Pinterest events have the required data for Dynamic Remarketing.</p>
 

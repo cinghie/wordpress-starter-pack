@@ -98,6 +98,11 @@ class Updraft_Smush_Manager_Commands extends Updraft_Task_Manager_Commands_1_0 {
 		$response['restore_possible'] = $backup;
 		$response['summary'] = get_post_meta($image, 'smush-info', true);
 
+		$smush_stats = get_post_meta($image, 'smush-stats', true);
+		if (isset($smush_stats['sizes-info'])) {
+			$response['sizes-info'] = WP_Optimize()->include_template('images/smush-details.php', true, array('sizes_info' => $smush_stats['sizes-info']));
+		}
+
 		return $response;
 	}
 

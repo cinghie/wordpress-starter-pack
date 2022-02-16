@@ -13,6 +13,8 @@
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
+$price_type = $addon->get_option( 'price_type', $x, 'fixed' );
+
 ?>
 
 <?php if ( 'product' !== $addon_type ) : ?>
@@ -256,7 +258,7 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 		</small>
 		<input type="text" name="options[price][]" id="option-price" value="<?php echo esc_html( $addon->get_option( 'price', $x ) ); ?>" class="mini">
 	</div>
-	<div class="field option-price-method-increase" style="<?php echo 'decrease' === $option_price_method || 'discount' === $option_price_method ? 'display: none;' : ''; ?>">
+	<div class="field option-price-sale" style="<?php echo 'multiplied' === $price_type || 'decrease' === $option_price_method || 'discount' === $option_price_method ? 'display: none;' : ''; ?>">
 		<small><?php echo esc_html__( 'SALE', 'yith-woocommerce-product-add-ons' ); ?></small>
 		<input type="text" name="options[price_sale][]" id="option-price-sale" value="<?php echo esc_html( $addon->get_option( 'price_sale', $x ) ); ?>" class="mini">
 	</div>

@@ -1108,7 +1108,6 @@ var WP_Optimize = function () {
 					var new_html = '<div class="error">' + resp.errors[i] + '</div>';
 					temporarily_display_notice(new_html, '#wp-optimize-settings-save-results');
 				}
-				console.log(resp.save_results.messages);
 			}
 			if (resp && resp.hasOwnProperty('status_box_contents')) {
 				$(resp.status_box_contents).each(function(index, el) {
@@ -1189,15 +1188,22 @@ var WP_Optimize = function () {
 		spinner.removeClass('visibility-hidden');
 
 		send_command('do_optimization', { optimization_id: 'optimizetables', data: data }, function (response) {
-			if (response.result.meta.tableinfo) {
-				var row = btn.closest('tr'),
-					meta = response.result.meta,
-					tableinfo = meta.tableinfo;
-
-				update_single_table_information(row, tableinfo);
-
-				// update total overhead.
-				$('#wpoptimize_table_list > tbody:last th:eq(6)').html(['<span style="color:', meta.overhead > 0 ? '#0000FF' : '#004600', '">', meta.overhead_formatted,'</span>'].join(''));
+			if (response.result.meta.error) {
+				btn.closest('tr').html('<td colspan="8" class="no-table"><p>' + response.result.meta.message + '</p></td>');
+				setTimeout(function() {
+					$('#wp_optimize_table_list_refresh').trigger('click');
+				}, 2000);
+			} else {
+				if (response.result.meta.tableinfo) {
+					var row = btn.closest('tr'),
+						meta = response.result.meta,
+						tableinfo = meta.tableinfo;
+	
+					update_single_table_information(row, tableinfo);
+	
+					// update total overhead.
+					$('#wpoptimize_table_list > tbody:last th:eq(6)').html(['<span style="color:', meta.overhead > 0 ? '#0000FF' : '#004600', '">', meta.overhead_formatted,'</span>'].join(''));
+				}
 			}
 
 			btn.prop('disabled', false);
@@ -1611,6 +1617,13 @@ var WP_Optimize = function () {
 		spinner.removeClass('visibility-hidden');
 
 		send_command('do_optimization', { optimization_id: 'orphanedtables', data: data }, function (response) {
+			if (response.result.meta.error) {
+				table_to_convert_btn.closest('tr').html('<td colspan="8" class="no-table"><p>' + response.result.meta.message + '</p></td>');
+				setTimeout(function() {
+					$('#wp_optimize_table_list_refresh').trigger('click');
+				}, 2000);
+				return;
+			}
 			if (response.result.meta.success) {
 				var row = table_to_convert_btn.closest('tr');
 

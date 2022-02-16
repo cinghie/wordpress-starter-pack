@@ -150,7 +150,7 @@ if ( count( $raq_content ) === 0 ) :
 						echo $product_quantity; //phpcs:ignore
 						?>
 					</td>
-					<?php if ( ! $hide_price ) : ?>
+					<?php if ( ! $hide_price && WC()->cart ) : ?>
 					<td class="product-subtotal">
 						<?php
 						echo wp_kses_post( apply_filters( 'yith_ywraq_hide_price_template', wp_kses_post( WC()->cart->get_product_subtotal( $_product, $raq['quantity'] ) ), $product_id ) );

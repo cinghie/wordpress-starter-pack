@@ -78,10 +78,12 @@
 			}
 		} );
 		if ( typeof IvorySearchVars !== "undefined" &&  typeof IvorySearchVars.is_analytics_enabled !== "undefined" ) {
-			var id = ( typeof IvorySearchVars.is_id !== "undefined" ) ? IvorySearchVars.is_id : 'Default';
-			var label = ( typeof IvorySearchVars.is_label !== "undefined" ) ? IvorySearchVars.is_label : '';
-			var category = ( typeof IvorySearchVars.is_cat !== "undefined" ) ? IvorySearchVars.is_cat : '';
-			ivory_search_analytics( id, label, category );
+			if ( typeof IvorySearchVars.is_search !== "undefined" && typeof IvorySearchVars.is_search ) {
+				var id = ( typeof IvorySearchVars.is_id !== "undefined" ) ? IvorySearchVars.is_id : 'Default';
+				var label = ( typeof IvorySearchVars.is_label !== "undefined" ) ? IvorySearchVars.is_label : '';
+				var category = ( typeof IvorySearchVars.is_cat !== "undefined" ) ? IvorySearchVars.is_cat : '';
+				ivory_search_analytics( id, label, category );
+			}
 		}
 
  		if ( window.matchMedia( '(max-width: 1024px)' ).matches ) {

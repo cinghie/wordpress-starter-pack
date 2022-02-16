@@ -1011,7 +1011,6 @@ class IS_Admin
                         
                         if ( is_array( $value2 ) ) {
                             foreach ( $value2 as $key3 => $value3 ) {
-                                echo  $input[$key][$key2][$key3] . ' <br>' ;
                                 if ( $exception !== $key3 ) {
                                     $output[$key][$key2][$key3] = sanitize_textarea_field( $input[$key][$key2][$key3] );
                                 }

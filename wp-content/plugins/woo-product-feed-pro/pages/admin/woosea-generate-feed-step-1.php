@@ -106,7 +106,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 
 				$r .= "<tr class=\"catmapping\">";
             			$r .= "<td><input type=\"hidden\" name=\"mappings[$x][rowCount]\" value=\"$x\"><input type=\"hidden\" name=\"mappings[$x][categoryId]\" value=\"$woo_category_id\"><input type=\"hidden\" name=\"mappings[$x][criteria]\" class=\"input-field-large\" id=\"$woo_category_id\" value=\"$woo_category\">$woo_category ($sub_category->count)</td>";
-				$r .= "<td><div id=\"the-basics-$x\"><input type=\"search\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x\" value=\"$mapped_category\"></div></td>";
+				$r .= "<td><div id=\"the-basics-$x\"><input type=\"text\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x\" value=\"$mapped_category\"></div></td>";
 				if(($yo == $nr_categories) AND ($nr_subcats == 0)){
 					$r .= "<td><span class=\"copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to all others\"></span></td>";
 				} else {
@@ -120,7 +120,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 			} else {
 				$r .= "<tr class=\"catmapping\">";
             			$r .= "<td><input type=\"hidden\" name=\"mappings[$x][rowCount]\" value=\"$x\"><input type=\"hidden\" name=\"mappings[$x][categoryId]\" value=\"$woo_category_id\"><input type=\"hidden\" name=\"mappings[$x][criteria]\" class=\"input-field-large\" id=\"$woo_category_id\" value=\"$woo_category\">-- $woo_category ($sub_category->count)</td>";
-				$r .= "<td><div id=\"the-basics-$x\"><input type=\"search\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x mother_$sub_category->parent\" value=\"$mapped_category\"></div></td>";
+				$r .= "<td><div id=\"the-basics-$x\"><input type=\"text\" name=\"mappings[$x][map_to_category]\" class=\"$mapped_active_class js-typeahead js-autosuggest autocomplete_$x mother_$sub_category->parent\" value=\"$mapped_category\"></div></td>";
 				$r .= "<td><span class=\"copy_category_$x\" style=\"display: inline-block;\" title=\"Copy this category to all others\"></span></td>";
 				$r .= "</tr>";
 			}

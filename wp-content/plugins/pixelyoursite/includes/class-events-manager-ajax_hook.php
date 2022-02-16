@@ -42,8 +42,10 @@ class AjaxHookEventManager {
                 if(PYS()->getOption('woo_add_to_cart_catch_method') == "add_cart_hook") {
                     add_action( 'wp_footer', array( __CLASS__, 'addDivForAjaxPixelEvent')  );
                     add_action( 'woocommerce_add_to_cart',array(__CLASS__, 'trackWooAddToCartEvent'),40, 6);
+                } else {
+                    add_action( 'woocommerce_after_add_to_cart_button', 'PixelYourSite\EventsManager::setupWooSingleProductData' );
                 }
-                add_action( 'woocommerce_after_add_to_cart_button', 'PixelYourSite\EventsManager::setupWooSingleProductData' );
+
 
             }
         }

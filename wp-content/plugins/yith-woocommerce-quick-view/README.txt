@@ -3,7 +3,7 @@ Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
 Requires at least: 5.7
 Tested up to: 5.9
-Stable tag: 1.11.0
+Stable tag: 1.12.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,11 @@ Full documentation is available [here](https://docs.yithemes.com/yith-woocommerc
 3. The quick view modal.
 
 == Changelog ==
+
+= 1.12.0 = Released 15 February 2022
+
+* New: support for WooCommerce 6.2
+* Update: YITH plugin framework
 
 = 1.11.0 = Released 10 January 2022
 
@@ -386,8 +391,7 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.11.0 = Released 10 January 2022
+= 1.12.0 = Released 15 February 2022
 
-* New: support for WordPress 5.9
-* New: support for WooCommerce 6.1
+* New: support for WooCommerce 6.2
 * Update: YITH plugin framework

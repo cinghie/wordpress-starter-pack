@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2021-12-18 10:39+0100\n"
-"PO-Revision-Date: 2021-12-18 10:40+0100\n"
+"POT-Creation-Date: 2022-01-23 08:55+0100\n"
+"PO-Revision-Date: 2022-01-23 08:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -321,6 +321,10 @@ msgstr ""
 "Manager. Pour éviter les conflits, veuillez désactiver et supprimer le plug-"
 "in \"Enregistreur du gestionnaire de flux de produits WooCommerce\" de votre "
 "page Plugins."
+
+#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
+msgid "-- Select the WOOCS currency for the feed --"
+msgstr "-- Sélectionnez la devise WOOCS pour le flux --"
 
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
 msgid "-- Select the language of the feed --"
@@ -1456,10 +1460,15 @@ msgid "Settings"
 msgstr "Réglages"
 
 #: includes/user-interface/wppfm-admin-actions.php:85
+#, fuzzy
+#| msgid ""
+#| "Due to the latest update your Feed Manager backups are no longer valid! "
+#| "Please open the Feed Manager Settings page, remove all your backups in "
+#| "and make a new one."
 msgid ""
-"Due to the latest update your Feed Manager backups are no longer valid! "
-"Please open the Feed Manager Settings page, remove all your backups in and "
-"make a new one."
+"Due to an update of your Feed Manager plugin, your feed backups are no "
+"longer valid! Please open the Feed Manager Settings page, remove all current "
+"backups, and make a new one."
 msgstr ""
 "En raison de la dernière mise à jour, vos sauvegardes de gestion de flux ne "
 "sont plus valides ! Veuillez ouvrir la page Paramètres du gestionnaire de "

@@ -74,7 +74,7 @@ trait WPPFM_Feed_Processor_Functions {
 		$meta_data = $queries_class->read_meta_data( $product_id, $parent_product_id, $meta_parent_ids, $this->_pre_data['database_fields']['meta_fields'] );
 
 		foreach ( $meta_data as $meta ) {
-			$meta_value = $prep_meta_class->prep_meta_values( $meta, $this->_feed_data->language );
+			$meta_value = $prep_meta_class->prep_meta_values( $meta, $this->_feed_data->language, $this->_feed_data->currency );
 
 			if ( property_exists( $product_data, $meta->meta_key ) ) {
 				$meta_key = $meta->meta_key;
@@ -95,7 +95,7 @@ trait WPPFM_Feed_Processor_Functions {
 			$product_data->{$third_party_field} = $this->get_third_party_custom_field_data( $product_data->ID, $parent_product_id, $third_party_field );
 		}
 
-		$this->add_procedural_data( $product_data, $this->_pre_data['column_names'], $this->_feed_data->language, $this->_feed_data->feedId );
+		$this->add_procedural_data( $product_data, $this->_pre_data['column_names'], $this->_feed_data->language, $this->_feed_data->currency, $this->_feed_data->feedId );
 
 		return $product_data;
 	}

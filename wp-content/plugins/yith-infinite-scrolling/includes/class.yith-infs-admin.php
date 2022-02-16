@@ -170,8 +170,8 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
-				'page_title'       => __( 'Infinite Scrolling', 'yith-infinite-scrolling' ),
-				'menu_title'       => __( 'Infinite Scrolling', 'yith-infinite-scrolling' ),
+				'page_title'       => 'YITH Infinite Scrolling',
+				'menu_title'       => 'Infinite Scrolling',
 				'parent'           => 'infs',
 				'parent_page'      => 'yith_plugin_panel',
 				'plugin-url'       => YITH_INFS_URL,
@@ -243,7 +243,7 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * @return  string The premium landing link.
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YITH_INFS_SLUG );
 		}
 
 		/**

@@ -223,6 +223,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 
 			$capability  = 'manage_woocommerce';
 			$parent_page = 'yit_plugin_panel';
+			$vendor      = '';
 
 			if ( class_exists( 'YITH_Vendors' ) ) {
 				$vendor                = yith_get_vendor( 'current', 'user' );
@@ -280,6 +281,10 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 					'hc_url'     => 'https://support.yithemes.com/hc/en-us/categories/360003474698-YITH-WOOCOMMERCE-PRODUCT-ADD-ONS',
 				),
 			);
+
+			if ( class_exists( 'YITH_Vendors' ) && $vendor instanceof YITH_Vendor && $vendor->is_valid() ) {
+				unset( $args['help_tab'] );
+			}
 
 			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );
 		}
@@ -398,7 +403,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		 * @return string The premium landing link.
 		 */
 		public function get_premium_landing_uri() {
-			return $this->premium_landing;
+			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YITH_WAPO_SLUG );
 		}
 
 		/**
@@ -514,11 +519,24 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				 * @return mixed
 				 */
 				function wapo_product_data_tab( $product_data_tabs ) {
+					global $post;
+
+					if ( $post && isset( $post->ID ) ) {
+						$product = wc_get_product( $post->ID );
+						if ( $product instanceof WC_Product ) {
+							$not_allowed_product_types = array( 'grouped' );
+							if ( apply_filters( 'yith_wapo_allowed_product_types', true, $not_allowed_product_types ) && in_array( $product->get_type(), $not_allowed_product_types, true ) ) {
+								return $product_data_tabs;
+							}
+						}
+					}
+
 					$product_data_tabs['wapo-product-options'] = array(
 						'label'  => __( 'Product Add-Ons', 'yith-woocommerce-product-add-ons' ),
 						'target' => 'my_custom_product_data',
 						'class'  => array( 'yith_wapo_tab_class' ),
 					);
+
 					return $product_data_tabs;
 				}
 			}

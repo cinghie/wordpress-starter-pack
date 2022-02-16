@@ -20,24 +20,30 @@ if ( $_product instanceof WC_Product ) {
 	}
 	$_product_price = $_product->get_price();
 	$_product_image = wp_get_attachment_image_src( get_post_thumbnail_id( $option_product ), 'thumbnail' );
+	$price_method   = $addon->get_option( 'price_method', $x );
+	$price_type = '';
+
+	if ( 'product' !== $price_method ) {
+		$price_type     = $addon->get_option( 'price_type', $x );
+	}
 
 	$selected = $addon->get_option( 'default', $x ) === 'yes' ? 'selected' : '';
 	$checked  = $addon->get_option( 'default', $x ) === 'yes' ? 'checked="checked"' : '';
 	$instock  = $_product->is_in_stock();
 
-	$option_price      = $addon->get_option_price( $x );
+	$option_price      = ! empty( $price_sale ) ? $price_sale : $price;
 	$option_price_html = '';
-	if ( $addon->get_option( 'price_method', $x ) === 'product' ) {
+	if ( 'product' === $price_method ) {
 		$option_price      = $_product_price;
 		$option_price      = $option_price + ( ( $option_price / 100 ) * yith_wapo_get_tax_rate() );
 		$option_price_html = $addon->get_setting( 'hide_products_prices' ) !== 'yes' ? '<small class="option-price">' . wc_price( $option_price ) . '</small>' : '';
 
-	} elseif ( $addon->get_option( 'price_method', $x ) === 'discount' ) {
+	} elseif ( 'discount' === $price_method ) {
 		$option_price          = $_product_price;
 		$option_discount_value = floatval( $addon->get_option( 'price', $x ) );
 		$price_sale            = $option_price - $option_discount_value;
 		$option_price          = $option_price + ( ( $option_price / 100 ) * yith_wapo_get_tax_rate() );
-		if ( $addon->get_option( 'price_type', $x ) === 'percentage' ) {
+		if ( 'percentage' === $price_type ) {
 			$price_sale = $option_price - ( ( $option_price / 100 ) * $option_discount_value );
 		}
 		$option_price_html = $addon->get_setting( 'hide_products_prices' ) !== 'yes' ?

@@ -52,6 +52,7 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 						'left'  => __( 'Left side', 'yith-woocommerce-product-add-ons' ),
 						'right' => __( 'Right side', 'yith-woocommerce-product-add-ons' ),
 					),
+					'default' => 'above',
 				),
 				true
 			);

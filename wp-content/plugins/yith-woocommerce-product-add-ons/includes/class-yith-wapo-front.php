@@ -80,6 +80,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 			wp_enqueue_style( 'yith_wapo_front', YITH_WAPO_URL . 'assets/css/front.css', false, wp_rand( 10000, 99999 ) );
 			wp_enqueue_style( 'yith_wapo_jquery-ui', YITH_WAPO_URL . 'assets/css/_new_jquery-ui-1.12.1.css', false, wp_rand( 10000, 99999 ) );
 			wp_enqueue_style( 'yith_wapo_jquery-ui-timepicker', YITH_WAPO_URL . 'assets/css/_new_jquery-ui-timepicker-addon.css', false, wp_rand( 10000, 99999 ) );
+			wp_enqueue_style( 'dashicons' );
 
 			// JS.
 			wp_register_script( 'yith_wapo_front', YITH_WAPO_URL . 'assets/js/front' . $suffix . '.js', array( 'jquery', 'jquery-ui-datepicker', 'wc-add-to-cart-variation' ), wp_rand( 10000, 99999 ), true );
@@ -88,6 +89,16 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 				'dom' => array(
 					'single_add_to_cart_button' => '.single_add_to_cart_button',
 				),
+				'ajaxurl'                   => admin_url( 'admin-ajax.php' ),
+				'upload_allowed_file_types' => get_option( 'yith_wapo_upload_allowed_file_types' ),
+				'upload_max_file_size'      => get_option( 'yith_wapo_upload_max_file_size' ),
+				'replace_image_path'        => apply_filters( 'yith_wapo_additional_replace_image_path',
+					'.woocommerce-product-gallery .woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image:first-child img,
+					.woocommerce-product-gallery .woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image:first-child source,
+					.yith_magnifier_zoom img, .yith_magnifier_zoom_magnifier,
+					.owl-carousel .woocommerce-main-image,
+					.woocommerce-product-gallery__image .wp-post-image,
+					.dt-sc-product-image-gallery-container .wp-post-image' ),
 			);
 
 			$front_localize = apply_filters( 'yith_wapo_frontend_localize_args', $front_localize );
@@ -190,13 +201,14 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 		public function print_container() {
 			global $product;
 
+			$not_allowed_product_types = array( 'grouped' );
+
+			if ( apply_filters( 'yith_wapo_allowed_product_types', true, $not_allowed_product_types ) && in_array( $product->get_type(), $not_allowed_product_types, true ) ) {
+				return;
+			}
+
 			do_action( 'yith_wapo_before_main_container' ); ?>
 			<div id="yith-wapo-container" data-product-price="<?php echo esc_attr( $product->get_price() ); ?>">
-				<script type="text/javascript">
-					var ajaxurl = '<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>';
-					var wapo_upload_allowed_file_types = '<?php echo esc_html( get_option( 'yith_wapo_upload_allowed_file_types' ) ); ?>';
-					var wapo_upload_max_file_size = '<?php echo esc_html( get_option( 'yith_wapo_upload_max_file_size' ) ); ?>';
-				</script>
 				<?php $this->print_blocks(); ?>
 			</div><!-- #yith-wapo-container -->
 			<?php
@@ -263,13 +275,20 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 
 				if ( '1' === $block->visibility ) {
 
-					$product_id = $product->get_id();
+					$product_id   = $product->get_id();
+					$variation_id = $variation instanceof WC_Product_Variation ? $variation->get_id() : '';
 
-					$show_in                   = $block->get_rule( 'show_in' );
-					$included_product_check    = in_array( (string) $product_id, (array) $block->get_rule( 'show_in_products' ), true );
-					$included_category_check   = count( array_intersect( (array) $block->get_rule( 'show_in_categories' ), $product_categories ) ) > 0;
-					$exclude_in                = $block->get_rule( 'exclude_products' );
-					$excluded_product_check    = in_array( (string) $product_id, (array) $block->get_rule( 'exclude_products_products' ), true );
+					$show_in                = $block->get_rule( 'show_in' );
+					$included_product_check = in_array( (string) $product_id, (array) $block->get_rule( 'show_in_products' ), true );
+					if ( ! $included_product_check && ! empty( $variation_id ) ) {
+						$included_product_check = in_array( (string) $variation_id, (array) $block->get_rule( 'show_in_products' ), true );
+					}
+					$included_category_check = count( array_intersect( (array) $block->get_rule( 'show_in_categories' ), $product_categories ) ) > 0;
+					$exclude_in              = $block->get_rule( 'exclude_products' );
+					$excluded_product_check  = in_array( (string) $product_id, (array) $block->get_rule( 'exclude_products_products' ), true );
+					if ( ! $excluded_product_check && ! empty( $variation_id ) ) {
+						$excluded_product_check = in_array( (string) $variation_id, (array) $block->get_rule( 'show_in_products' ), true );
+					}
 					$excluded_categories_check = 'all' === $show_in && count( array_intersect( (array) $block->get_rule( 'exclude_products_categories' ), $product_categories ) ) > 0;
 
 					$show_to            = $block->get_rule( 'show_to' );
@@ -363,28 +382,33 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 				<div id="wapo-total-price-table">
 					<table class="<?php echo esc_attr( $total_price_box ); ?>">
 						<?php if ( $blocks_product_price > 0 ) : ?>
-							<tr style="<?php echo esc_attr( 'only_final' === $total_price_box ? 'display: none;' : '' ); ?>">
+							<tr class="wapo-product-price" style="<?php echo esc_attr( 'only_final' === $total_price_box ? 'display: none;' : '' ); ?>">
 								<th><?php echo esc_html__( 'Product price', 'yith-woocommerce-product-add-ons' ); ?>:</th>
 								<td id="wapo-total-product-price"><?php echo wp_kses_post( wc_price( $blocks_product_price ) ); ?><?php echo wp_kses_post( $price_suffix ); ?></td>
 							</tr>
 						<?php endif; ?>
-						<tr style="<?php echo esc_attr( 'all' !== $total_price_box ? 'display: none;' : '' ); ?>">
+						<tr class="wapo-total-options" style="<?php echo esc_attr( 'all' !== $total_price_box ? 'display: none;' : '' ); ?>">
 							<th><?php echo esc_html__( 'Total options', 'yith-woocommerce-product-add-ons' ); ?>:</th>
 							<td id="wapo-total-options-price"></td>
 						</tr>
-						<tr>
-							<th><?php echo esc_html__( 'Order total', 'yith-woocommerce-product-add-ons' ); ?>:</th>
+						<?php if ( apply_filters( 'yith_wapo_table_hide_total_order', true ) ) { ?>
+						<tr class="wapo-total-order">
+							<th><?php echo esc_html( apply_filters( 'yith_wapo_table_total_order_label', __( 'Order total', 'yith-woocommerce-product-add-ons') ) ); ?>:</th>
 							<td id="wapo-total-order-price"></td>
 						</tr>
+						<?php } ?>
 					</table>
 					<script type="text/javascript">
 						jQuery(function($) {
-							jQuery('form.cart *').change(function () {
+							jQuery( 'form.cart div.yith-wapo-addon' ).on( 'change', function () {
 								yith_wapo_calculate_total_price();
-							});
-							jQuery(function () {
+							} );
+                            jQuery( 'form.cart .yith-wapo-addon-type-number input[type="number"], form.cart .yith-wapo-addon-type-text input[type="text"]' ).on( 'keyup', (function () {
+                                yith_wapo_calculate_total_price();
+                            } ) );
+							jQuery( function () {
 								yith_wapo_calculate_total_price();
-							});
+							} );
 
 							function yith_wapo_calculate_total_price() {
 								jQuery('#wapo-total-price-table').css('opacity', '0.5');
@@ -392,42 +416,78 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 									var addonID = 0;
 									var totalPrice = 0;
 									var firstFreeOptions = 0;
+                                    var defaultProductPrice = <?php echo esc_attr( $blocks_product_price ); ?>;
+                                    var totalPriceBoxOption = '<?php echo get_option( 'yith_wapo_total_price_box' ); ?>';
 									jQuery('form.cart .yith-wapo-addon:not(.hidden) input, form.cart .yith-wapo-addon:not(.hidden) select, form.cart .yith-wapo-addon:not(.hidden) textarea').each(function () {
-										if (jQuery(this).data('addon-id')) {
+										let option       = jQuery( this );
+										let option_id    = option.data( 'addon-id' );
 
-											if (jQuery(this).is(':checked') || jQuery(this).find(':selected').is('option')
-												|| (jQuery(this).is('input:not([type=checkbox])') && jQuery(this).is('input:not([type=radio])') && jQuery(this).val() != '')
-												|| (jQuery(this).is('textarea') && jQuery(this).val() != '')) {
-												var option = false;
-												if (jQuery(this).is('select')) {
-													option = jQuery(this).find(':selected');
+										if ( option_id ) {
+											let option_type  = option.attr( 'type' )
+											let price_method = option.data( 'price-method' );
+											let price        = 0;
+											let price_type   = '';
+
+											let addon        = option.parents( '.yith-wapo-addon' );
+											let addon_type   = addon.data( 'addon-type' );
+
+											if ( 'number' === option_type && 0 == option.val() ) {
+												return;
+											}
+
+											if ( option.is( ':checked' ) || option.find( ':selected' ).is('option')
+												|| ( option.is( 'input:not([type=checkbox])' ) && option.is( 'input:not([type=radio])' ) && option.val() != '')
+												|| ( option.is( 'textarea' ) && option.val() != '')
+											) {
+
+												if ( option.is( 'select' ) ) {
+													option = option.find( ':selected' );
 												} else {
-													option = jQuery(this);
+													option = option;
 												}
 
-												if (addonID != option.data('addon-id')) {
-													addonID = option.data('addon-id');
-													firstFreeOptions = option.data('first-free-options');
+												if ( 'number' === option_type ) {
+													yith_wapo_check_multiplied_price( option );
 												}
 
-												if (option.data('first-free-enabled') == 'yes' && firstFreeOptions > 0) {
+												if ( addonID != option.data( 'addon-id' ) ) {
+													addonID = option.data( 'addon-id' );
+													firstFreeOptions = option.data( 'first-free-options' );
+												}
+
+												if ( option.data('first-free-enabled') == 'yes' && firstFreeOptions > 0 ) {
 													firstFreeOptions--;
 												} else {
-													if (typeof option.data('price-sale') != 'undefined' && option.data('price-sale') > 0) {
-														price = parseFloat(option.data('price-sale'));
-														totalPrice += price;
-													} else if (typeof option.data('price') != 'undefined' && option.data('price') != '') {
-														price = parseFloat(option.data('price'));
-														totalPrice += price;
-													}
-												}
 
+													if ( typeof option.data( 'price-type' ) != 'undefined' && '' !== option.data( 'price-type' ) ){
+														price_type = option.data( 'price-type' ); // Percentage or fixed
+													}
+
+                                                    if ( typeof option.data('price-sale') != 'undefined' && option.data('price-sale') > 0 && 'multiplied' !== price_type ) {
+														price = parseFloat( option.data('price-sale') );
+													} else if (typeof option.data( 'price' ) != 'undefined' && option.data( 'price' ) != '') {
+														price = parseFloat( option.data( 'price' ) );
+													}
+
+                                                    if ( 'percentage' === price_type && ( 'product' === addon_type && 'discount' !== price_method ) ) {
+                                                        price = ( price * defaultProductPrice ) / 100;
+                                                    }
+
+													totalPrice += price;
+                                                }
 											}
 										}
 									});
 
-									if (totalPrice > 0) {
-										jQuery('.hide_options tr').fadeIn();
+
+
+                                    // Plugin option "Total price box".
+                                    if ( 'hide_options' === totalPriceBoxOption ) {
+                                        if ( totalPrice !== 0 ) {
+                                            jQuery('#wapo-total-price-table .hide_options tr.wapo-total-options').fadeIn();
+                                        } else {
+                                            jQuery('#wapo-total-price-table .hide_options tr.wapo-total-options').hide();
+                                        }
 									}
 
 									var totalCurrency = '<?php echo esc_attr( get_woocommerce_currency_symbol() ); ?>';
@@ -436,9 +496,9 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 									var totalDecimalSep = '<?php echo esc_attr( get_option( 'woocommerce_price_decimal_sep' ) ); ?>';
 									var totalPriceNumDec = '<?php echo esc_attr( get_option( 'woocommerce_price_num_decimals', 0 ) ); ?>';
 
-									var totalProductPrice = <?php echo esc_attr( $blocks_product_price ); ?>;
-									var totalOptionsPrice = parseFloat(totalPrice);
-									var totalOrderPrice = parseFloat( totalPrice + <?php echo esc_attr( $blocks_product_price ); ?> );
+									var totalProductPrice = defaultProductPrice;
+									var totalOptionsPrice = parseFloat( totalPrice );
+									var totalOrderPrice = parseFloat( totalPrice + defaultProductPrice );
 
 									// Qty multiplication
 									var qty = jQuery('form .quantity input.qty').val();
@@ -488,7 +548,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 									jQuery('#wapo-total-price-table').css('opacity', '1');
 
 									$(document).trigger( 'yith_wapo_product_price_updated', [ total_ProductPrice + total_OptionsPrice ] );
-									
+
 								}, 1000);
 							}
 						});
@@ -504,7 +564,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 					float: left;
 				}
 
-				.yith-wapo-block .yith-wapo-addon .options.per-row-<?php echo esc_attr( $i ); ?> .yith-wapo-option:nth-child(<?php echo esc_attr( $i ); ?>n+1) {
+				.yith-wapo-block .yith-wapo-addon .options.per-row-<?php echo esc_attr( $i ); ?> .yith-wapo-option:nth-of-type(<?php echo esc_attr( $i ); ?>n+1) {
 					clear: both;
 				}
 
@@ -515,7 +575,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 					clear: none;
 				}
 
-				.yith-wapo-block .yith-wapo-addon .options.grid.per-row-<?php echo esc_attr( $i ); ?> .yith-wapo-option:nth-child(<?php echo esc_attr( $i ); ?>n+1) {
+				.yith-wapo-block .yith-wapo-addon .options.grid.per-row-<?php echo esc_attr( $i ); ?> .yith-wapo-option:nth-of-type(<?php echo esc_attr( $i ); ?>n+1) {
 					clear: both;
 				}
 
@@ -652,7 +712,8 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 				}
 
 				/* ACCENT COLOR */
-				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option.selected label:after {
+				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-label .yith-wapo-option.selected label:after,
+				.yith-wapo-block .yith-wapo-addon.yith-wapo-addon-type-product .yith-wapo-option.selected label::after {
 					background-color: <?php echo esc_attr( $style_accent_color ); ?>;
 				}
 

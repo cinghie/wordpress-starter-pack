@@ -1,17 +1,43 @@
 <?php
 
-$extendifysdk_ms_notices_key = 'extendifysdk_announcement';
+$extendifysdk_ms_notices_key = 'extendifysdk_complete_install';
 $extendifysdk_ms_notices_nonce = wp_create_nonce($extendifysdk_ms_notices_key);
+
+function ml_slider_has_extendify_already()
+{
+    return isset($GLOBALS['extendify_sdk_partner']) && $GLOBALS['extendify_sdk_partner'] === '';
+}
 
 add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $extendifysdk_ms_notices_nonce) {
     $current_page = get_current_screen();
-    if (!$current_page || !in_array($current_page->base, ['plugins'])) {
+    if (!$current_page || !in_array($current_page->base, array('plugins'))) {
         return;
     }
     ob_start(); ?>
 <p>
-    <?php esc_html_e('New! MetaSlider now includes a library of Gutenberg patterns and templates. These will help you to easily add your slideshows to your site with pre-designed patterns. This is available in the editor by clicking the \'Library\' button.', 'ml-slider') ?>
+    <?php esc_html_e('We\'re excited to announce that MetaSlider is integrating the Extendify library of Gutenberg patterns and templates to bring the power of WordPress 5.9 to the most popular WordPress slider plugin! Receive the latest and most powerful Gutenberg library features by installing the standalone Extendify plugin.', 'ml-slider') ?>
 </p>
+
+<button id="extendify-install-button" type="button" class="button-primary" style="margin-bottom: 0.3rem;margin-top: 0.5rem;"><?php _e('Install & Activate Extendify', 'ml-slider'); ?></button>
+<script>
+    jQuery(function ($) {
+        $('#extendify-install-button').on('click', function () {
+            const _this = $(this);
+            var data = {
+                action: 'handle_extendify_install',
+                _wpnonce: '<?php echo $extendifysdk_ms_notices_nonce; ?>'
+            };
+            _this.attr('disabled', true).text("<?php _e('Installing...', 'ml-slider'); ?>");
+            $.post(ajaxurl, data, function (response) {
+                _this.text("<?php _e('Finished. Reloading...', 'ml-slider'); ?>");
+                setTimeout(function () {
+                    // Regardless of pass/fail, refresh to hide the notice.
+                    window.location.reload();
+                }, 1500);
+            });
+        });
+    });
+</script>
 <p style="max-width:850px;"><small>
     <?php
     // translators: %s surrounding the word 'here' and is wrapped with <a>.
@@ -23,20 +49,16 @@ add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $exte
     $extendifysdk_ms_notices_content = ob_get_clean();
 
     // In short, the notice will always show until they press dismiss
-    if (!get_user_option($extendifysdk_ms_notices_key)) { ?>
+    if (!ml_slider_has_extendify_already() && !get_user_option($extendifysdk_ms_notices_key)) { ?>
 <div id="<?php echo $extendifysdk_ms_notices_key; ?>" class="notice notice-info"
-    style="display:flex;align-items:stretch;justify-content:space-between;position:relative">
-    <div style="display:flex;align-items:center;position:relative">
-        <div style="margin-right:1.5rem;">
-            <svg width="60" height="60" viewBox="0 0 103 103" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <title>Extendify Logo</title>
-                <rect y="25.75" width="70.8125" height="77.25" fill="black" />
-                <rect x="45.0625" width="57.9375" height="57.9375" fill="#37C2A2" />
-            </svg>
+    style="display:flex;align-items:stretch;justify-content:space-between;position:relative;border-left-color:#29375B">
+    <div style="display:flex;align-items:flex-start;position:relative">
+        <div style="margin-right:1.25rem;margin-left:0.5rem; margin-top:1.25rem">
+                <svg fill="none" height="50" viewBox="0 0 68 68" width="50" xmlns="http://www.w3.org/2000/svg"><path d="m34 0c-18.7656 0-34 15.2344-34 34s15.2344 34 34 34 34-15.2344 34-34c-.1009-18.7656-15.2344-34-34-34zm-23.911 43.9881 19.7745-25.1216 3.2285 4.1365-16.4451 20.9851zm32.9911 0-8.273-10.5934 3.3294-4.2374 11.6024 14.7299h-6.6588zm8.1721 0-13.2166-16.7477-13.1157 16.7477h-6.6588l19.7745-25.1216 19.7745 25.1216z" fill="#29375b"/></svg>
         </div>
         <div>
             <h3 style="margin-bottom:0.25rem;">
-                <?php esc_html_e('New from MetaSlider', 'ml-slider'); ?></h3>
+                <?php esc_html_e('Complete MetaSlider Setup', 'ml-slider'); ?></h3>
             <div style="max-width:850px;">
                 <?php echo $extendifysdk_ms_notices_content; ?>
             </div>
@@ -60,10 +82,29 @@ add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $exte
 
 add_action('wp_ajax_handle_' . $extendifysdk_ms_notices_key, function () use ($extendifysdk_ms_notices_key) {
     if (!wp_verify_nonce($_REQUEST['_wpnonce'], $extendifysdk_ms_notices_key)) {
-        wp_send_json_error([
+        wp_send_json_error(array(
             'message' => esc_html__('The security check failed. Please refresh the page and try again.', 'ml-slider')
-        ], 401);
+        ), 401);
     }
     update_user_option(get_current_user_id(), $extendifysdk_ms_notices_key, time());
+    wp_send_json_success();
+});
+
+add_action('wp_ajax_handle_extendify_install', function () use ($extendifysdk_ms_notices_key) {
+    if (!wp_verify_nonce($_REQUEST['_wpnonce'], $extendifysdk_ms_notices_key)) {
+        wp_send_json_error(array(
+            'message' => esc_html__('The security check failed. Please refresh the page and try again.', 'ml-slider')
+        ), 401);
+    }
+    update_user_option(get_current_user_id(), $extendifysdk_ms_notices_key, time());
+    if (method_exists('Extendify\Library\Plugin', 'install_and_activate_plugin')) {
+        try {
+            Extendify\Library\Plugin::install_and_activate_plugin('extendify');
+        } catch (Exception $e) {
+            wp_send_json_error(array(
+                'message' => $e->getMessage()
+            ), 500);
+        }
+    }
     wp_send_json_success();
 });

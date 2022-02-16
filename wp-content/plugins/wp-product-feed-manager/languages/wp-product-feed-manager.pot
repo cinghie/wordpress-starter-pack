@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2021-12-18 10:36+0100\n"
+"POT-Creation-Date: 2022-01-23 08:52+0100\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -253,6 +253,10 @@ msgid ""
 "The logger code is now integrated in the Feed Manager plugin. To prevent "
 "conflicts please deactivate and remove the \"WooCommerce Product Feed "
 "Manager Logger\" plugin from your Plugins page."
+msgstr ""
+
+#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
+msgid "-- Select the WOOCS currency for the feed --"
 msgstr ""
 
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
@@ -1283,9 +1287,9 @@ msgstr ""
 
 #: includes/user-interface/wppfm-admin-actions.php:85
 msgid ""
-"Due to the latest update your Feed Manager backups are no longer valid! "
-"Please open the Feed Manager Settings page, remove all your backups in and "
-"make a new one."
+"Due to an update of your Feed Manager plugin, your feed backups are no "
+"longer valid! Please open the Feed Manager Settings page, remove all current "
+"backups, and make a new one."
 msgstr ""
 
 #. translators: %s: link to the support page

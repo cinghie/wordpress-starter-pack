@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: zoom, magnifier, slider, carousel, woocommerce
-Requires at least: 5.6
-Tested up to: 5.8
-Stable tag: 2.4.0
+Requires at least: 5.7
+Tested up to: 5.9
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Documentation: https://docs.yithemes.com/yith-woocommerce-zoom-magnifier/
@@ -73,6 +73,16 @@ YITH WooCommerce Product Gallery & Image Zoom will add a new tab called "Product
 7. The slider and arrows in the thumbnails gallery.
 
 == Changelog ==
+
+= Version 2.6.0 - Released: January 27, 2022 =
+
+* New: support for WooCommerce 6.2
+* Update: YITH plugin framework
+
+= Version 2.5.0 - Released: January 24, 2022 =
+
+* New: support for WordPress 5.9
+* Update: YITH plugin framework
 
 = Version 2.4.0 - Released: January 10, 2022 =
 

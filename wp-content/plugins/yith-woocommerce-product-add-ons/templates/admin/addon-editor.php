@@ -95,6 +95,7 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 									</div>
 									<!-- End option field -->
 
+									<div id="addon_options">
 									<?php for ( $x = 0; $x < $options_total; $x++ ) : ?>
 										<div class="option <?php echo 1 === $options_total ? 'open' : ''; ?>">
 											<div class="actions" style="<?php echo 1 === $options_total ? 'display: none;' : ''; ?>">
@@ -119,6 +120,7 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 											<?php include $template_file; ?>
 										</div>
 									<?php endfor; ?>
+									</div>
 									<div id="add-new-option">+ <?php echo esc_html__( 'Add a new option', 'yith-woocommerce-product-add-ons' ); ?></div>
 
 									<!-- NEW OPTION TEMPLATE -->

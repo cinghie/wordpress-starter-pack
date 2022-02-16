@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
 Tested up to: 5.9
-Stable tag: 2.4.0
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,61 @@ You must enable the dependency on the option you are interested in by inserting 
 3. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
 
 == Changelog ==
+
+= 2.7.0 – Released on 16 Feb 2022 =
+
+* New: support for WooCommerce 6.2
+* Dev: added new filter 'yith_wapo_table_hide_total_order'
+* Dev: added new filter 'yith_wapo_allowed_product_types'
+* Dev: improved image replacement option
+* Fix: addons price calculation after input numbers with value 0
+* Fix: add readonly attribute to date add-ons
+* Fix: avoid counting 'Select an option' in Select add-ons as a valid option for the min/max rules
+* Fix: fixed number addon when value is zero
+* Fix: changed the default value with placeholder
+* Fix: apply global accent color to the Product-type add-ons when it is selected
+* Fix: fixed print of addons when a variation is selected ( also for Quick View integration )
+* Fix: hide prices on cart if value is zero
+* Fix: default grid value for free version
+* Fix: minor bugs
+
+= 2.6.0 – Released on 03 Feb 2022 =
+
+* New: support for WordPress 5.9
+* New: added functionality to rearrange addon options
+* Update: YITH plugin framework
+* Dev: exclude addons from grouped products
+* Dev: added a new function to get the label of the addon option
+* Dev: added vendor url in the blocks table
+* Fix: show add-on price in cart when 'yith_wapo_show_options_grouped_in_cart' filter is applied
+* Fix: fixed undefined variable on date rules
+* Fix: fixed show image option
+* Fix: fixed prices on product page with taxes
+* Fix: calculate addon price when writing in a input text
+* Fix: fixed "Hide options in the order email" option
+* Fix: deprecated function is_ajax(), instead using wp_doing_ajax()
+* Fix: changed JS variables to enqueue_script function
+* Fix: fixed multi vendor integration when saving the vendor id
+* Fix: hide help tab for Vendors
+* Fix: minor bugs
+
+= 2.5.0 – Released on 18 Jan 2022 =
+
+* New: support for WooCommerce 6.1
+* Update: YITH plugin framework
+* Dev: show alt text image when you show image on addons
+* Dev: filter yith_wapo_admin_after_addon_title
+* Dev: new filter 'yith_wapo_block_classes'
+* Fix: avoid unexpected value type for separator color variable
+* Fix: fixed error displayed when there isn't an exactly match of numbers
+* Fix: hide "Base price" message in cart if product has no add-ons
+* Fix: fixed addons prices depending on tax configuration
+* Fix: fixed deposit calculation on cart
+* Fix: price calculation for each addon
+* Fix: show addons in the variations when a variable product is selected
+* Fix: calculate total price when event is onkeyup on input type number of number addons
+* Fix: fixed price with percentage price type
+* Fix: minor bugs
 
 = 2.4.0 – Released on 19 Dec 2021 =
 

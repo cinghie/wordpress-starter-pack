@@ -172,7 +172,7 @@ class WP_Optimize_Minify_Functions {
 		if (isset($_SERVER['SERVER_NAME']) && stripos($hurl, preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME'])) !== false) {
 			return true;
 		}
-		if (isset($_SERVER['SERVER_ADDR']) && stripos($hurl, preg_replace('/:\d+$/', '', $_SERVER['SERVER_ADDR'])) !== false) {
+		if (isset($_SERVER['SERVER_ADDR']) && '::1' != $_SERVER['SERVER_ADDR'] && stripos($hurl, preg_replace('/:\d+$/', '', $_SERVER['SERVER_ADDR'])) !== false) {
 			return true;
 		}
 
@@ -255,27 +255,6 @@ class WP_Optimize_Minify_Functions {
 			return self::compat_urls($min);
 		}
 		return self::compat_urls($css);
-	}
-
-	/**
-	 * Find if we are running windows
-	 *
-	 * @return boolean
-	 */
-	public static function server_is_windows() {
-		// PHP 7.2.0+
-		if (defined('PHP_OS_FAMILY')) {
-		 // phpcs:disable
-		 if (strtolower(PHP_OS_FAMILY) == 'windows') return true;
-		 // phpcs:enable
-		}
-		if (function_exists('php_uname')) {
-			$os = php_uname('s');
-			if (stripos($os, 'Windows') !== false) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -642,27 +621,20 @@ class WP_Optimize_Minify_Functions {
 
 		$wp_home = site_url();
 		$wp_domain = parse_url($wp_home, PHP_URL_HOST);
-		// If the server is not Windows, and the file is local.
-		if (self::server_is_windows() === false && stripos($url, $wp_domain) !== false) {
+		// If the file is local.
+		if (false !== stripos($url, $wp_domain)) {
 			// default
 			$f = str_ireplace(rtrim($wp_home, '/'), rtrim(ABSPATH, '/'), $url);
-			clearstatcache();
-			if (file_exists($f)) {
-				$content = file_get_contents($f);
-				// check for php code, skip if found
-				if ("<?php" != strtolower(substr($content, 0, 5)) && stripos($content, "<?php") === false) {
-					return array('content' => $content, 'method' => 'local');
-				}
-			}
-			
 			// failover when home_url != site_url
-			$nhurl = str_ireplace(site_url(), home_url(), $url);
-			$f = str_ireplace(rtrim($wp_home, '/'), rtrim(ABSPATH, '/'), $nhurl);
+			if (!file_exists($f)) {
+				$nhurl = str_ireplace(site_url(), home_url(), $url);
+				$f = str_ireplace(rtrim($wp_home, '/'), rtrim(ABSPATH, '/'), $nhurl);
+			}
 			clearstatcache();
 			if (file_exists($f)) {
 				$content = file_get_contents($f);
 				// check for php code, skip if found
-				if (strtolower(substr($content, 0, 5)) != "<?php" && stripos($content, "<?php") === false) {
+				if ("<?php" != strtolower(substr($content, 0, 5)) && false === stripos($content, "<?php")) {
 					return array('content' => $content, 'method' => 'local');
 				}
 			}
@@ -1071,7 +1043,17 @@ class WP_Optimize_Minify_Functions {
 	public static function is_font_awesome($href) {
 		return (boolean) preg_match('/font[-_]?awesome/i', $href);
 	}
-	
+
+	/**
+	 * Checks if an URL is a google font resource
+	 *
+	 * @param string $href
+	 * @return boolean
+	 */
+	public static function is_google_font($href) {
+		return 'fonts.googleapis.com' === strtolower(parse_url($href, PHP_URL_HOST));
+	}
+
 	/**
 	 * Get the content of an asset, whether local or remote
 	 *
@@ -1100,8 +1082,10 @@ class WP_Optimize_Minify_Functions {
 			WP_PLUGIN_URL => WP_PLUGIN_DIR,
 			$uploads_url => $uploads_dir,
 			get_template_directory_uri() => get_template_directory(),
-			includes_url() => ABSPATH . '/' . WPINC,
+			includes_url() => ABSPATH . WPINC,
 		);
+
+		$file = false;
 		foreach ($possible_urls as $possible_url => $path) {
 			$pos = strpos($url, $possible_url);
 			if (false !== $pos) {
@@ -1109,7 +1093,7 @@ class WP_Optimize_Minify_Functions {
 				break;
 			}
 		}
-		if (file_exists($file)) {
+		if (is_string($file) && file_exists($file)) {
 			return filesize($file);
 		}
 
@@ -1170,7 +1154,7 @@ class WP_Optimize_Minify_Functions {
 		
 		// Remove empty fonts
 		$font_families = explode('|', $family);
-		$font_families = array_diff($font_families, array(':regular', ''));
+		$font_families = array_diff($font_families, array(':regular', 'initial', 'inherit', ''));
 		
 		$system_fonts = array('+apple+system', '-apple-system', 'BlinkMacSystemFont', 'Segoe+UI', 'Helvetica+Neue', 'sans+serif', 'sans-serif', 'Georgia', 'Times', 'Times+New+Roman', 'serif');
 		$google_fonts = array();
@@ -1178,6 +1162,7 @@ class WP_Optimize_Minify_Functions {
 		// URL may look like following, fix it
 		// https://fonts.googleapis.com/css?family=-apple-system,+BlinkMacSystemFont,+%22Segoe+UI%22,+Roboto,+Oxygen-Sans,+Ubuntu,+Cantarell,+%22Helvetica+Neue%22,+sans-serif:regular,700,regular,700|Bebas+Neue:regular,regular&display=block
 		// http://fonts.googleapis.com/css?family=Bellota:regular|:regular|Lato:regular|Creepster:regular&display=block
+		// http://fonts.googleapis.com/css?family=Lora:regular,regular|initial|Lato:regular,regular|&display=swap
 
 		foreach ($font_families as $font) {
 			$font_variant = explode(':', $font);
@@ -1192,7 +1177,10 @@ class WP_Optimize_Minify_Functions {
 			$font = str_replace(array('%22', '"'), '', $font);
 			$font_arr = explode(',', $font);
 			$font_arr = array_diff($font_arr, $system_fonts);
-			$variant = implode(',', array_unique(explode(',', $font_variant[1])));
+			$variant = '';
+			if (!empty($font_variant[1])) {
+				$variant = implode(',', array_unique(explode(',', $font_variant[1])));
+			}
 			if (empty($variant)) {
 				$variant = 'regular';
 			}

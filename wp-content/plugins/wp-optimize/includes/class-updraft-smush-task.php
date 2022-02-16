@@ -77,11 +77,15 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_2 {
 		// build list of files for smush.
 		$files = array_merge(array('full' => $file_path), $this->get_attachment_files($attachment_id));
 
+		$sizes_info = array();
+
 		foreach ($files as $size => $file_path) {
 
 			if (in_array($size, $dont_smush_sizes)) continue;
 
-			if (filesize($file_path) > 5242880) {
+			$file_size = filesize($file_path);
+
+			if ($file_size > 5242880) {
 				$this->update_option('request_timeout', 180);
 			}
 
@@ -111,9 +115,18 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_2 {
 			if ($optimised_image) {
 				$backup_image = ($original_image == $file_path) ? $backup_original_image : false;
 				$this->save_optimised_image($file_path, $optimised_image, $backup_image);
-			}
 
+				clearstatcache($file_path);
+
+				$sizes_info[$size] = array(
+					'original' => $file_size,
+					'compressed' => filesize($file_path),
+				);
+			}
+			
 		}
+
+		$this->update_option('smush-sizes-info', $sizes_info);
 
 		return $this->success;
 	}
@@ -282,6 +295,7 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_2 {
 			'original-size' 	=> $original_size,
 			'smushed-size'		=> filesize($file_path),
 			'savings-percent' 	=> $saved,
+			'sizes-info'		=> $this->get_option('smush-sizes-info'),
 		);
 
 		if (is_multisite()) {

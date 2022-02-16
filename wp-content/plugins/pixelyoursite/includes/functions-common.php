@@ -464,6 +464,12 @@ function isDisabledForCurrentRole() {
 	return false;
 
 }
+function pys_round( $val, $precision = 2, $mode = PHP_ROUND_HALF_UP )  {
+    if ( ! is_numeric( $val ) ) {
+        $val = floatval( $val );
+    }
+    return round( $val, $precision, $mode );
+}
 
 /**
  * Retrieves parameters values for for current queried object

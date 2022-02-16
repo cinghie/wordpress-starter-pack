@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.1.3
+ * Version:     11.2.9
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,13 +11,13 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 5.8
+ * Tested up to: 5.9
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 6.0
+ * WC tested up to: 6.2
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.1.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.2.9' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -258,8 +258,7 @@ function woosea_add_facebook_pixel( $product = null ){
 			$fb_capi_data["event_source_url"] = home_url($_SERVER['REQUEST_URI']);
 
 			if ($fb_pagetype == "product"){
-                		if ( '' !== $product->get_price()) {
-                
+				if (!empty($product->get_price())) {
 		 			$fb_prodid = get_the_id();
 					$product_name = $product->get_name();
 					$product_name = str_replace("\"","",$product_name);
@@ -918,8 +917,8 @@ function woosea_ajax() {
 	$allowed_roles = array( 'administrator' );
 
 	if ( array_intersect( $allowed_roles, $user->roles ) ) {	
-		$rowCount = sanitize_text_field($_POST['rowCount']);
-
+		$rowCount = absint(esc_attr(sanitize_text_field($_POST['rowCount'])));
+		
 		$attributes_dropdown = get_option('attributes_dropdown');
 		if (!is_array($attributes_dropdown)){
 			$attributes_obj = new WooSEA_Attributes;
@@ -942,32 +941,37 @@ add_action( 'wp_ajax_woosea_ajax', 'woosea_ajax' );
  * Get a list of categories for the drop-down 
  */
 function woosea_categories_dropdown() {
-	$rowCount = sanitize_text_field($_POST['rowCount']);
+	$rowCount = absint(esc_attr(sanitize_text_field($_POST['rowCount'])));
 
-	$orderby = 'name';
-	$order = 'asc';
-	$hide_empty = false ;
-	$cat_args = array(
-    		'orderby'    => $orderby,
-    		'order'      => $order,
-    		'hide_empty' => $hide_empty,
-	);
+	$user = wp_get_current_user();
+        $allowed_roles = array( 'administrator','editor','author' );
 
-	$categories_dropdown = "<select name=\"rules[$rowCount][criteria]\">";
-	$product_categories = get_terms( 'product_cat', $cat_args );
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+		$orderby = 'name';
+		$order = 'asc';
+		$hide_empty = false ;
+		$cat_args = array(
+    			'orderby'    => $orderby,
+    			'order'      => $order,
+    			'hide_empty' => $hide_empty,
+		);
 
-	foreach ($product_categories as $key => $category) {
-		$categories_dropdown .= "<option value=\"$category->name\">$category->name ($category->slug)</option>";	
+		$categories_dropdown = "<select name=\"rules[$rowCount][criteria]\">";
+		$product_categories = get_terms( 'product_cat', $cat_args );
 
+		foreach ($product_categories as $key => $category) {
+			$categories_dropdown .= "<option value=\"$category->name\">$category->name ($category->slug)</option>";	
+
+		}
+		$categories_dropdown .= "</select>";
+
+		$data = array (
+			'rowCount' => $rowCount,
+			'dropdown' => $categories_dropdown
+		);
+		echo json_encode($data);
+		wp_die();
 	}
-	$categories_dropdown .= "</select>";
-
-	$data = array (
-		'rowCount' => $rowCount,
-		'dropdown' => $categories_dropdown
-	);
-	echo json_encode($data);
-	wp_die();
 }
 add_action( 'wp_ajax_woosea_categories_dropdown', 'woosea_categories_dropdown' );
 
@@ -1100,10 +1104,12 @@ function woosea_add_mass_cat_mapping(){
 		} else {
 			// Only update the ones that changed
 			foreach ($mappings as $categoryId => $catArray){
-				if (array_key_exists($categoryId, $project['mappings'])){
-					$project['mappings'][$categoryId] = $catArray;
-				} else {
-					$project['mappings'][$categoryId] = $catArray;
+				if(is_array($project['mappings'])){
+					if (array_key_exists($categoryId, $project['mappings'])){
+						$project['mappings'][$categoryId] = $catArray;
+					} else {
+						$project['mappings'][$categoryId] = $catArray;
+					}
 				}
 			}
 			$project_updated = WooSEA_Update_Project::update_project_data($project);
@@ -1121,7 +1127,7 @@ add_action( 'wp_ajax_woosea_add_mass_cat_mapping', 'woosea_add_mass_cat_mapping'
  * Map categories to the correct Google Shopping category taxonomy
  */
 function woosea_add_cat_mapping() {
-	$rowCount = sanitize_text_field($_POST['rowCount']);
+	$rowCount = absint(esc_attr(sanitize_text_field($_POST['rowCount'])));
 	$className = sanitize_text_field($_POST['className']);
 	$map_to_category = sanitize_text_field($_POST['map_to_category']);
 	$project_hash = sanitize_text_field($_POST['project_hash']);
@@ -4175,7 +4181,7 @@ function woosea_fieldmapping_dropdown(){
 
 	if ( array_intersect( $allowed_roles, $user->roles ) ) {
 		$channel_hash = sanitize_text_field($_POST['channel_hash']);
-		$rowCount = sanitize_text_field($_POST['rowCount']);
+		$rowCount = absint(esc_attr(sanitize_text_field($_POST['rowCount'])));
 	        $channel_data = WooSEA_Update_Project::get_channel_data($channel_hash);
 
 	        require plugin_dir_path(__FILE__) . '/classes/channels/class-'.$channel_data['fields'].'.php';
@@ -4215,7 +4221,7 @@ add_action( 'wp_ajax_woosea_fieldmapping_dropdown', 'woosea_fieldmapping_dropdow
  * Get the attribute dropdowns for category mapping
  */
 function woosea_autocomplete_dropdown() {
-	$rowCount = sanitize_text_field($_POST['rowCount']);
+	$rowCount = absint(esc_attr(sanitize_text_field($_POST['rowCount'])));
 	
 	$mapping_obj = new WooSEA_Attributes;
 	$mapping_dropdown = $mapping_obj->get_mapping_attributes_dropdown();

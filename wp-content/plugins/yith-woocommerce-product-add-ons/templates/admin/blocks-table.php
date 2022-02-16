@@ -62,7 +62,7 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 												$_product = wc_get_product( $value );
 												if ( is_object( $_product ) ) {
 													echo '<div><a href="' . esc_attr( $_product->get_permalink() ) . '" target="_blank">'
-														. esc_html( $_product->get_title() ) . ' (#' . esc_html( $_product->get_id() ) . ')</a></div>';
+														. esc_html( $_product->get_name() ) . ' (#' . esc_html( $_product->get_id() ) . ')</a></div>';
 												}
 											}
 										}
@@ -129,7 +129,10 @@ $nonce  = wp_create_nonce( 'wapo_action' );
 										if ( $block->vendor_id > 0 ) {
 											$vendor = yith_get_vendor( $block->vendor_id, 'vendor' );
 											if ( is_object( $vendor ) && $vendor->is_valid() ) {
-												echo esc_html( stripslashes( $vendor->name ) );
+												$vendor_url  = get_edit_term_link( $vendor->id, $vendor->taxonomy );
+												?>
+												<a href="<?php echo esc_url( $vendor_url ) ?>" target="_blank"><?php echo esc_html( stripslashes( $vendor->name ) );?></a>
+												<?php
 											} else {
 												echo '-';
 											}

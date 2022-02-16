@@ -47,7 +47,8 @@ class WooSEA_Get_Products {
     		$string = str_replace("\r", '', $string);    // --- replace with empty space
     		$string = str_replace("\n", ' ', $string);   // --- replace with space
     		$string = str_replace("\t", ' ', $string);   // --- replace with space
-    
+		$string = str_replace("%", ' ', $string);   // --- replace with space
+
     		// ----- remove multiple spaces ----- 
     		$string = trim(preg_replace('/ {2,}/', ' ', $string));
    
@@ -805,10 +806,12 @@ class WooSEA_Get_Products {
 							}		
 
 							// WooCommerce Table Rate - Bolder Elements
-							if($method_id == "table_rate"){
-                                                        	if($this->woosea_is_plugin_active( 'woocommerce-table-rate-shipping/woocommerce-table-rate-shipping.php' )) {
+							if($method_id == "table_rate" OR $method_id == "betrs_shipping"){
+
+                   //                                     	if($this->woosea_is_plugin_active( 'woocommerce-table-rate-shipping/woocommerce-table-rate-shipping.php' )) {
                                                                 	// Set shipping cost
-									$shipping_cost = 0;     
+									$shipping_cost = 0; 
+
 									if(!empty($product_id)){
                                                                         	 // Add product to cart
                                                                         	if ((isset($product_id)) AND ($product_id > 0)){
@@ -823,7 +826,7 @@ class WooSEA_Get_Products {
         											wc_load_cart();
 			                                                            	   	
 												WC()->customer->set_shipping_country( $code_from_config );
-                                                                                		
+
 												if(isset($zone_details['region'])){
 									        			WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
 												}
@@ -847,7 +850,7 @@ class WooSEA_Get_Products {
 											}
                                                                         	}
                                                                 	}
-								}
+		//						}
 							}
 
 							// Official WooCommerce Table Rate plugin
@@ -919,9 +922,10 @@ class WooSEA_Get_Products {
 
 							// CLASS SHIPPING COSTS
 	 			        	     	if((isset($v->instance_settings[$class_cost_id])) AND ($class_cost_id != "no_class_cost")){
+
 								if (is_numeric($v->instance_settings[$class_cost_id])){
 									$shipping_cost = $v->instance_settings[$class_cost_id];
-	
+
 									// Do we need to convert the shipping costswith the Aelia Currency Switcher
                         	                        		if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
                                 						if(!array_key_exists('base_currency', $project_config)){
@@ -1322,6 +1326,7 @@ class WooSEA_Get_Products {
                                                        					$installment_amount = $installment->addChild('g:amount', $installment_split[1], $namespace['g']);
 										}
 									} elseif ($k == "g:color" || $k == "g:size" || $k == "g:material"){
+										
 										if(!empty($v)){
 											$attr_split = explode(",", $v);
 											$nr_attr = count($attr_split)-1;
@@ -1331,10 +1336,10 @@ class WooSEA_Get_Products {
 												$attr_value .= trim($attr_split[$x])."/";
 											}	
 											$attr_value = rtrim($attr_value,"/");	
-											$product->$k = $attr_value;							
+											$product->$k = rawurldecode($attr_value);							
 										}						
 									} else {
-										$product->$k = $v;
+										$product->$k = rawurldecode($v);
 									}
 								}
 							}
@@ -1764,6 +1769,33 @@ class WooSEA_Get_Products {
 									$product->addAttribute('group_id', trim($v));
 								}
 
+                                                                if(($k == "color") AND ($feed_config['name'] == "Skroutz")){
+                                                                        if(preg_match('/,/', $v)){
+                                                                                $cls = explode(",",$v);
+
+                                                                                if (is_array ( $cls ) ) {
+                                                                                        foreach ($cls as $kk => $vv){
+                                                                                                if(!empty($vv)){
+                                                                                                        $additional_color = $product->addChild('color',trim($vv));
+                                                                                                }
+                                                                                        }
+                                                                                }
+                                                                                break;
+                                                                        } elseif (preg_match("/\\s/", $v)){
+                                                                                $clp = explode(" ",$v);
+
+                                                                                if (is_array ( $clp ) ) {
+                                                                                        foreach ($clp as $kk => $vv){
+                                                                                                if(!empty($vv)){
+                                                                                                        $additional_color = $product->addChild('color',trim($vv));
+                                                                                                }
+                                                                                        }
+                                                                                }
+                                                                                break;
+                                                                        }
+                                        
+                                                                }
+
 								if(($k == "available") AND ($feed_config['name'] == "Yandex")){
 									if($v == "in stock"){
 										$v = "true";
@@ -1778,13 +1810,15 @@ class WooSEA_Get_Products {
 								 * id so, create multiple category child nodes
 								 */			
 								if ($k == "categories"){
-									$category = $product->addChild('categories');
-									$cat = explode("||",$v);							
+						                	if((!isset($product->categories)) AND (isset($product))){
+										$category = $product->addChild('categories');
+										$cat = explode("||",$v);							
 
-									if (is_array ( $cat ) ) {
-										foreach ($cat as $kk => $vv){
-											$child = "category";
-											$category->addChild("$child", htmlspecialchars($vv));
+										if (is_array ( $cat ) ) {
+											foreach ($cat as $kk => $vv){
+												$child = "category";
+												$category->addChild("$child", htmlspecialchars($vv));
+											}
 										}
 									}
 								} elseif (preg_match('/^additionalimage/',$k)){
@@ -1866,16 +1900,41 @@ class WooSEA_Get_Products {
                                                                  		* Some Zbozi, Mall and Heureka attributes need some extra XML nodes
                                                                  		*/
 										$zbozi_nodes = "PARAM_";
-	
+
                                                                 		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Mall.sk") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Heureka.cz") OR ($feed_config['name'] == "Heureka.sk")) AND (preg_match("/$zbozi_nodes/i",$k))){
 											$pieces = explode ("_", $k);
 											$productp = $product->addChild('PARAM');
 											if($feed_config['name'] == "Mall.sk"){
-												$productp->addChild("PARAM", $pieces[1]);
+												$productp->addChild("NAME", $pieces[1]);
+                                                                                		$productp->addChild("VALUE", $v);
 											} else {
 												$productp->addChild("PARAM_NAME", $pieces[1]);
+                                                                                		$productp->addChild("VAL", $v);
 											}
-                                                                                	$productp->addChild("VAL", $v);
+										} elseif(($feed_config['name'] == "Mall.sk") AND ($k == "MEDIA")){
+                                                                                        $productp = $product->addChild('MEDIA');
+                                                                                        $productp->addChild("URL", $v);
+											$productp->addChild("MAIN", "true");
+										} elseif(($feed_config['name'] == "Mall.sk") AND ($k == "MEDIA_1")){
+                                                                                        $productp = $product->addChild('MEDIA');
+                                                                                        $productp->addChild("URL", $v);
+											$productp->addChild("MAIN", "false");
+										} elseif(($feed_config['name'] == "Mall.sk") AND ($k == "MEDIA_2")){
+                                                                                        $productp = $product->addChild('MEDIA');
+                                                                                        $productp->addChild("URL", $v);
+											$productp->addChild("MAIN", "false");
+										} elseif(($feed_config['name'] == "Mall.sk") AND ($k == "MEDIA_3")){
+                                                                                        $productp = $product->addChild('MEDIA');
+                                                                                        $productp->addChild("URL", $v);
+											$productp->addChild("MAIN", "false");
+										} elseif(($feed_config['name'] == "Mall.sk") AND ($k == "MEDIA_4")){
+                                                                                        $productp = $product->addChild('MEDIA');
+                                                                                        $productp->addChild("URL", $v);
+											$productp->addChild("MAIN", "false");
+										} elseif(($feed_config['name'] == "Mall.sk") AND ($k == "MEDIA_5")){
+                                                                                        $productp = $product->addChild('MEDIA');
+                                                                                        $productp->addChild("URL", $v);
+											$productp->addChild("MAIN", "false");
                                                                 		} elseif((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Heureka.cz")) AND ($k == "DELIVERY")){
                                                                         		$delivery = $product->addChild('DELIVERY');
                                                                         		$delivery_split = explode("##", $v);
@@ -2857,9 +2916,11 @@ class WooSEA_Get_Products {
 		                        if ($this->woosea_is_plugin_active('woocommerce-product-bundles/woocommerce-product-bundles.php')){
                         			$product_data['price'] = get_post_meta($product_data['id'], '_price', true);
                         			$product_data['sale_price'] = get_post_meta($product_data['id'], '_sale_price', true);
+						
 						if(is_numeric($tax_rates[1]['rate'])){	
-                    		    			$product_data['price_forced'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
-              		   				$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+                    		    			$product_data['price'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+                    		    			$product_data['sale_price'] = round(get_post_meta($product_data['id'], '_sale_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+							$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
 						} else {
                     		    			$product_data['price_forced'] = $product_data['price'];
                     		    			$product_data['regular_price'] = $product_data['price'];
@@ -4206,47 +4267,57 @@ class WooSEA_Get_Products {
 					if(isset($product_data['item_group_id']) AND ($product_data['product_type'] == "variation")){
 						if($product_data['item_group_id'] > 0){
 							$product_skroutz = wc_get_product($product_data['item_group_id']);
-                                     			$variations = $product_skroutz->get_available_variations();
-                                    			$variations_id = wp_list_pluck( $variations, 'variation_id' );
-							$total_quantity = 0;
+							$skroutz_product_type = $product_skroutz->get_type();
 
-							foreach($variations_id as $var_id){
-								$clr_variation = get_post_meta( $var_id, "attribute_".$clr_attribute, true );
+							if ( ($product_skroutz) AND ($skroutz_product_type == "variable") ) {
+
+								$variations = $product_skroutz->get_available_variations();
+                                    				$variations_id = wp_list_pluck( $variations, 'variation_id' );
+								$total_quantity = 0;
+								$quantity_variation = 0;
+
+								foreach($variations_id as $var_id){
+									$clr_variation = get_post_meta( $var_id, "attribute_".$clr_attribute, true );
 								
-								// Sum quantity of variations
-								$quantity_variation = $this->get_attribute_value( $var_id, "_stock" );
-								$total_quantity += $quantity_variation;
-								$product_data['quantity'] = $total_quantity;
+									// Sum quantity of variations
+									$quantity_variation = $this->get_attribute_value( $var_id, "_stock" );
+									if(!empty($quantity_variation)){
+										$total_quantity += $quantity_variation;
+									}
+									$product_data['quantity'] = $total_quantity;
 
-								if (isset($sz_attribute)) {
-									$size_variation = get_post_meta( $var_id, "attribute_".$sz_attribute, true );
-								}
-								$stock_variation = get_post_meta( $var_id, "_stock_status", true );
+									if (isset($sz_attribute)) {
+										$size_variation = get_post_meta( $var_id, "attribute_".$sz_attribute, true );
+									}
+									$stock_variation = get_post_meta( $var_id, "_stock_status", true );
 
-								if($clr_variation == $clr_attr_value){
-									if($stock_variation == "outofstock"){
-										// Remove this size as it is not on stock
-										if(isset($sz_attribute)){
-											if(array_key_exists($sz_attribute, $product_data)){
-												$product_data[$sz_attribute] = str_replace(ucfirst($size_variation),"",$product_data[$sz_attribute]);
-												$product_data[$sz_attribute] = str_replace(", , ",",",$product_data[$sz_attribute]);
-												$product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], " ");
-												$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
-											}	
-										}
-									} else {
-										// Add comma's in the size field and put availability on stock as at least one variation is on stock
-										if(isset($size_variation)){
-											$size_variation_new = $size_variation.",";
-											if ($sz_attribute) {
-												$product_data[$sz_attribute] = str_replace($size_variation,$size_variation_new,$product_data[$sz_attribute]);
-												$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
-												$product_data['availability'] = "in stock";
+									if($clr_variation == $clr_attr_value){
+										if($stock_variation == "outofstock"){
+											// Remove this size as it is not on stock
+											if(isset($sz_attribute)){
+												if(array_key_exists($sz_attribute, $product_data)){
+													$product_data[$sz_attribute] = str_replace(ucfirst($size_variation),"",$product_data[$sz_attribute]);
+													$product_data[$sz_attribute] = str_replace(", , ",",",$product_data[$sz_attribute]);
+													$product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], " ");
+													$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
+												}	
 											}
+										} else {
+											// Add comma's in the size field and put availability on stock as at least one variation is on stock
+											if(isset($size_variation)){
+												$size_variation_new = $size_variation.",";
+												if ($sz_attribute) {
+													$product_data[$sz_attribute] = str_replace($size_variation,$size_variation_new,$product_data[$sz_attribute]);
+													$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
+													$product_data['availability'] = "in stock";
+												}
+											}
+									
 										}
+								
 									}
 								}
-							}
+							}	
 						} else {
 							// This is a parent variable product
 							$product_skroutz = wc_get_product($product_data['id']);
@@ -4811,7 +4882,6 @@ class WooSEA_Get_Products {
                 				$new_file = $path . "/" . sanitize_file_name($feed_config[$key]['filename']) . "." . $feed_config[$key]['fileformat'];
 
 						if (!copy($tmp_file, $new_file)) {
-							error_log("Copy of file failed");
 						} else {
 							unlink($tmp_file);
 						}

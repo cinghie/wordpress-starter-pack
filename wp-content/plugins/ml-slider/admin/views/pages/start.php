@@ -1,7 +1,7 @@
 <?php if (!defined('ABSPATH')) die('No direct access.'); ?>
 
 <div class="metaslider-start mt-16">
-	<div class="welcome-panel metaslider-welcome">
+	<div class="metaslider-welcome">
 		<div class="welcome-panel-content">
 			<h2><?php _e('Thank you for installing MetaSlider, the #1 WordPress slideshow plugin', 'ml-slider'); ?></h2>
 			<p class="about-description"><?php _e('To create your first slideshow, select one of the options below.', 'ml-slider'); ?></p>

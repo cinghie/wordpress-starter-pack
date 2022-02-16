@@ -3,13 +3,13 @@
  * Plugin Name: YITH WooCommerce Brands Add-on
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-brands-add-on/
  * Description: <code><strong>YITH WooCommerce Brands Add-on</strong></code> allows organizing products by brand and improve your shop user experience and your visibility on serach engines. Let your customers browse your shop based on their favourite brands and just with a few clicks. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce on <strong>YITH</strong></a>
- * Version: 1.10.0
+ * Version: 1.11.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-brands-add-on
  * Domain Path: /languages/
- * WC requires at least: 5.9
- * WC tested up to: 6.1
+ * WC requires at least: 6.0
+ * WC tested up to: 6.2
  *
  * @author Your Inspiration Themes
  * @package YITH WooCommerce Brands Add-on
@@ -17,13 +17,21 @@
  */
 
 /*
- * This file belongs to the YIT Framework.
- *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
- */
+	Copyright 2015-2022 Your Inspiration Solutions (email : plugins@yithemes.com)
+
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License, version 2, as
+	published by the Free Software Foundation.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -39,7 +47,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 }
 
 if ( ! defined( 'YITH_WCBR_VERSION' ) ) {
-	define( 'YITH_WCBR_VERSION', '1.10.0' );
+	define( 'YITH_WCBR_VERSION', '1.11.0' );
 }
 
 if ( ! defined( 'YITH_WCBR_URL' ) ) {

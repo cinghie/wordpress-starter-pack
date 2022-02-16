@@ -72,8 +72,12 @@ class Facebook extends Settings implements Pixel {
 	public function getPixelIDs() {
 		
 		$ids = (array) $this->getOption( 'pixel_id' );
-		$ids = (array) reset( $ids );// return first id only
-		return apply_filters("pys_facebook_ids",$ids);
+
+        if(count($ids) == 0|| empty($ids[0])) {
+            return apply_filters("pys_facebook_ids",[]);
+        } else {
+            return apply_filters("pys_facebook_ids",(array) reset( $ids )); // return first id only
+        }
 	}
 	
 	public function getPixelOptions() {

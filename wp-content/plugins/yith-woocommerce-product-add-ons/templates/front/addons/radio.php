@@ -20,11 +20,14 @@ $selected = $checked ? 'selected' : '';
 	data-replace-image="<?php echo esc_attr( $image_replacement ); ?>">
 
 	<!-- LEFT/ABOVE IMAGE -->
-	<?php if ( 'left' === $addon_options_images_position || 'above' === $addon_options_images_position ) : ?>
-	<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
-		<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
-	</label>
-	<?php endif; ?>
+	<?php if ( ! empty( $option_image ) ) {
+		if ( 'left' === $addon_options_images_position || 'above' === $addon_options_images_position ) : ?>
+		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
+		</label>
+		<?php endif; ?>
+	<?php } ?>
+
 
 	<span class="radiobutton <?php echo $checked ? 'checked' : ''; ?>">
 
@@ -33,7 +36,7 @@ $selected = $checked ? 'selected' : '';
 			id="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>"
 			name="yith_wapo[][<?php echo esc_attr( $addon->id ); ?>]"
 			value="<?php echo esc_attr( $x ); ?>"
-			data-price="<?php echo esc_attr( $addon->get_option_price( $x ) ); ?>"
+			data-price="<?php echo esc_attr( $price ); ?>"
 			data-price-sale="<?php echo esc_attr( $price_sale ); ?>"
 			data-price-type="<?php echo esc_attr( $price_type ); ?>"
 			data-price-method="<?php echo esc_attr( $price_method ); ?>"
@@ -46,11 +49,14 @@ $selected = $checked ? 'selected' : '';
 	</span>
 
 	<!-- RIGHT IMAGE -->
-	<?php if ( 'right' === $addon_options_images_position ) : ?>
+	<?php if ( ! empty( $option_image ) ) {
+		if ( 'right' === $addon_options_images_position ) : ?>
 		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
 			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
 		</label>
-	<?php endif; ?>
+		<?php endif; ?>
+	<?php } ?>
+
 
 	<!-- LABEL -->
 	<label class="yith-wapo-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
@@ -69,11 +75,13 @@ $selected = $checked ? 'selected' : '';
 	<?php endif; ?>
 
 	<!-- UNDER IMAGE -->
-	<?php if ( 'under' === $addon_options_images_position ) : ?>
+	<?php if ( ! empty( $option_image ) ) {
+		if ( 'under' === $addon_options_images_position ) : ?>
 		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
 			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
 		</label>
-	<?php endif; ?>
+		<?php endif; ?>
+	<?php } ?>
 
 	<!-- DESCRIPTION -->
 	<?php if ( '' !== $option_description ) : ?>

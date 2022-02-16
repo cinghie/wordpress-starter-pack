@@ -5,13 +5,18 @@ import { __ } from '@wordpress/i18n';
 import { useState, useEffect } from '@wordpress/element';
 import { useDispatch, select } from '@wordpress/data';
 import { ToolbarGroup, ToolbarDropdownMenu } from '@wordpress/components';
-import { Icon, eye } from '@woocommerce/icons';
+import { eye } from '@woocommerce/icons';
+import { Icon } from '@wordpress/icons';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
 interface View {
 	view: string;
 	label: string;
 	icon: string | JSX.Element;
+}
+
+function getView( viewName: string, views: View[] ) {
+	return views.find( ( view ) => view.view === viewName );
 }
 
 export const useViewSwitcher = (
@@ -32,7 +37,25 @@ export const useViewSwitcher = (
 	const selectedBlockClientId = getSelectedBlockClientId();
 
 	useEffect( () => {
+		const selectedBlock = getBlock( selectedBlockClientId );
+
+		if ( ! selectedBlock ) {
+			return;
+		}
+
+		if ( currentView.view === selectedBlock.name ) {
+			return;
+		}
+
 		const viewNames = views.map( ( { view } ) => view );
+
+		if ( viewNames.includes( selectedBlock.name ) ) {
+			const newView = getView( selectedBlock.name, views );
+			if ( newView ) {
+				return setCurrentView( newView );
+			}
+		}
+
 		const parentBlockIds = getBlockParentsByBlockName(
 			selectedBlockClientId,
 			viewNames
@@ -47,15 +70,11 @@ export const useViewSwitcher = (
 			return;
 		}
 
-		const filteredViews = views.filter(
-			( { view } ) => view === parentBlock.name
-		);
+		const newView = getView( parentBlock.name, views );
 
-		if ( filteredViews.length !== 1 ) {
-			return;
+		if ( newView ) {
+			setCurrentView( newView );
 		}
-
-		setCurrentView( filteredViews[ 0 ] );
 	}, [
 		getBlockParentsByBlockName,
 		selectedBlockClientId,
@@ -69,9 +88,7 @@ export const useViewSwitcher = (
 			<ToolbarDropdownMenu
 				label={ __( 'Switch view', 'woo-gutenberg-products-block' ) }
 				text={ currentView.label }
-				icon={
-					<Icon srcElement={ eye } style={ { marginRight: '8px' } } />
-				}
+				icon={ <Icon icon={ eye } style={ { marginRight: '8px' } } /> }
 				controls={ views.map( ( view ) => ( {
 					...view,
 					title: <span>{ view.label }</span>,

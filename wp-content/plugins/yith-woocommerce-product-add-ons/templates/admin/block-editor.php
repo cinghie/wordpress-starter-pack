@@ -87,11 +87,13 @@ $nonce = wp_create_nonce( 'wapo_action' );
 														<?php
 															echo esc_html( $addon->get_setting( 'title' ) ? $addon->get_setting( 'title' ) . ' - ' : '' );
 															echo esc_html( ucwords( str_replace( 'html', 'HTML', str_replace( '_', ' ', $addon->type ) ) ) );
+
 														if ( strpos( $addon->type, 'html' ) === false ) {
 															echo ' (' . esc_html( $total_options ) . ' ';
 															echo 1 === $total_options ? esc_html__( 'option', 'yith-woocommerce-product-add-ons' ) : esc_html__( 'options', 'yith-woocommerce-product-add-ons' );
 															echo ')';
 														}
+														do_action('yith_wapo_admin_after_addon_title', $addon );
 														?>
 													</a>
 												</span>

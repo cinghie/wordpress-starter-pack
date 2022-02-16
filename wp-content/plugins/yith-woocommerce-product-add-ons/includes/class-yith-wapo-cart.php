@@ -52,7 +52,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 			}
 
 			// Add to cart the total price of the item with the addons.
-			add_filter( 'woocommerce_add_cart_item', array( $this, 'add_cart_item' ), 999, 1 );
+			add_filter( 'woocommerce_add_cart_item', array( $this, 'add_cart_item' ), 20, 1 );
 
 			// Display options in cart and checkout page.
 			add_filter( 'woocommerce_get_item_data', array( $this, 'get_item_data' ), 25, 2 );
@@ -92,7 +92,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 		public function add_to_cart_validation( $passed, $product_id ) {
 
 			// Disable add_to_cart_button class on shop page.
-			if ( is_ajax() && ! isset( $_REQUEST['yith_wapo_is_single'] ) && yith_wapo_product_has_blocks( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( wp_doing_ajax() && ! isset( $_REQUEST['yith_wapo_is_single'] ) && yith_wapo_product_has_blocks( $product_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				return false;
 			}
 
@@ -177,6 +177,14 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 				$total_options_price      = 0;
 				$first_free_options_count = 0;
 				$currency_rate            = yith_wapo_get_currency_rate();
+				$_product = wc_get_product( $cart_item['product_id'] );
+				// WooCommerce Measurement Price Calculator (compatibility).
+				if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
+					$product_price = $cart_item['pricing_item_meta_data']['_price'];
+				} else {
+					$product_price = yit_get_display_price( $_product );
+				}
+				$addon_id_check = '';
 				foreach ( $cart_item['yith_wapo_options'] as $index => $option ) {
 					foreach ( $option as $key => $value ) {
 						if ( $key && '' !== $value ) {
@@ -190,31 +198,42 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$option_id = $value;
 							}
 
+							if ( $addon_id != $addon_id_check ) {
+								$first_free_options_count = 0;
+								$addon_id_check = $addon_id;
+							}
+
 							$info = yith_wapo_get_option_info( $addon_id, $option_id );
 
 							if ( 'percentage' === $info['price_type'] ) {
-								$_product = wc_get_product( $cart_item['product_id'] );
-								// WooCommerce Measurement Price Calculator (compatibility).
-								if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
-									$product_price = $cart_item['pricing_item_meta_data']['_price'];
-								} else {
-									$product_price = floatval( $_product->get_price() );
-								}
 								$option_percentage      = floatval( $info['price'] );
 								$option_percentage_sale = floatval( $info['price_sale'] );
 								$option_price           = ( $product_price / 100 ) * $option_percentage;
 								$option_price_sale      = ( $product_price / 100 ) * $option_percentage_sale;
 							} elseif ( 'multiplied' === $info['price_type'] ) {
 								$option_price      = (float) $info['price'] * (float) $value;
-								$option_price_sale = (float) $info['price'] * (float) $value;
+								$option_price_sale = (float) $info['price_sale'] * (float) $value;
 							} elseif ( 'characters' === $info['price_type'] ) {
 								$remove_spaces     = apply_filters( 'yith_wapo_remove_spaces', false );
 								$value             = $remove_spaces ? str_replace( ' ', '', $value ) : $value;
 								$option_price      = (float) $info['price'] * strlen( $value );
-								$option_price_sale = (float) $info['price'] * strlen( $value );
+								$option_price_sale = (float) $info['price_sale'] * strlen( $value );
 							} else {
 								$option_price      = (float) $info['price'];
 								$option_price_sale = (float) $info['price_sale'];
+							}
+
+							if ( 'number' === $info['addon_type'] ) {
+								if ( 'value_x_product' === $info['price_method'] ) {
+									$option_price = $value * $product_price;
+								} else {
+									if ( 'multiplied' === $info['price_type'] ) {
+										$option_price      = $value * $info['price'];
+										$option_price_sale = 0; // By default 0, since sale price doesn't exists.
+									}
+								}
+							} elseif ( 'free' === $info['price_method'] ) {
+								$option_price = 0;
 							}
 
 							// First X free options check.
@@ -222,21 +241,20 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$first_free_options_count ++;
 							} else {
 								$option_price = $option_price_sale > 0 ? $option_price_sale : $option_price;
-
 								if ( 'product' === $info['addon_type'] && ( 'product' === $info['price_method'] || 'discount' === $info['price_method'] ) ) {
 									$option_product_info = explode( '-', $value );
 									$option_product_id   = $option_product_info[1];
 									$option_product_qty  = $option_product_info[2];
 									$option_product      = wc_get_product( $option_product_id );
-									$value               = $option_product->get_title();
-									$product_price       = $option_product->get_price();
+									$product_price       = $option_product instanceof WC_Product ? $option_product->get_price() : '';
 									if ( 'product' === $info['price_method'] ) {
 										$option_price = $product_price;
 									} elseif ( 'discount' === $info['price_method'] ) {
-										$option_discount_value = $option_price;
-										$option_price          = $product_price - $option_discount_value;
+										$option_discount_value = floatval( $info['price'] );
 										if ( 'percentage' === $info['price_type'] ) {
 											$option_price = $product_price - ( ( $product_price / 100 ) * $option_discount_value );
+										} else {
+											$option_price = $product_price - $option_discount_value;
 										}
 									}
 									$total_options_price += floatval( $option_price );
@@ -250,7 +268,6 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 						}
 					}
 				}
-
 				$cart_item_price     = is_numeric( $cart_item['data']->get_price() ) ? ( $cart_item['data']->get_price() / $currency_rate ) : 0;
 				$total_options_price = $total_options_price / $currency_rate;
 
@@ -313,7 +330,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 				$base_product = wc_get_product( $product_parent_id );
 			}
 
-			if ( is_object( $base_product ) ) {
+			if ( is_object( $base_product ) && ! empty( $cart_item['yith_wapo_options'] ) ) {
 				//phpcs:ignore && 'yes' === get_option( 'yith_wapo_settings_show_product_price_cart' ) ) && ( isset( $cart_item['yith_wapo_sold_individually'] ) && ! $cart_item['yith_wapo_sold_individually'] ) ) {
 
 				if ( 'yith_bundle' === $base_product->get_type() && true === $base_product->per_items_pricing && function_exists( 'YITH_WCPB_Frontend_Premium' ) && method_exists( yith_wcpb_frontend(), 'format_product_subtotal' ) ) {
@@ -335,6 +352,14 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 				$cart_data_array          = array();
 				$first_free_options_count = 0;
 				$currency_rate            = yith_wapo_get_currency_rate();
+				$_product = wc_get_product( $cart_item['product_id'] );
+				// WooCommerce Measurement Price Calculator (compatibility).
+				if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
+					$product_price = $cart_item['pricing_item_meta_data']['_price'];
+				} else {
+					$product_price = yit_get_display_price( $_product );
+				}
+				$addon_id_check = '';
 				foreach ( $cart_item['yith_wapo_options'] as $index => $option ) {
 					foreach ( $option as $key => $value ) {
 						if ( $key && '' !== $value ) {
@@ -348,29 +373,26 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$option_id = $value;
 							}
 
+							if ( $addon_id != $addon_id_check ) {
+								$first_free_options_count = 0;
+								$addon_id_check = $addon_id;
+							}
+
 							$info = yith_wapo_get_option_info( $addon_id, $option_id );
 
 							if ( 'percentage' === $info['price_type'] ) {
-								$_product = wc_get_product( $cart_item['product_id'] );
-								// WooCommerce Measurement Price Calculator (compatibility).
-								if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
-									$product_price = $cart_item['pricing_item_meta_data']['_price'];
-								} else {
-									$product_price = floatval( $_product->get_price() );
-								}
-
 								$option_percentage      = floatval( $info['price'] );
 								$option_percentage_sale = floatval( $info['price_sale'] );
 								$option_price           = ( $product_price / 100 ) * $option_percentage;
 								$option_price_sale      = ( $product_price / 100 ) * $option_percentage_sale;
 							} elseif ( 'multiplied' === $info['price_type'] ) {
 								$option_price      = floatval( $info['price'] ) * (float) $value * (float) $currency_rate;
-								$option_price_sale = floatval( $info['price'] ) * (float) $value * (float) $currency_rate;
+								$option_price_sale = floatval( $info['price_sale'] ) * (float) $value * (float) $currency_rate;
 							} elseif ( 'characters' === $info['price_type'] ) {
 								$remove_spaces     = apply_filters( 'yith_wapo_remove_spaces', false );
 								$value             = $remove_spaces ? str_replace( ' ', '', $value ) : $value;
 								$option_price      = floatval( $info['price'] ) * strlen( $value ) * (float) $currency_rate;
-								$option_price_sale = floatval( $info['price'] ) * strlen( $value ) * (float) $currency_rate;
+								$option_price_sale = floatval( $info['price_sale'] ) * strlen( $value ) * (float) $currency_rate;
 							} else {
 								$option_price      = floatval( $info['price'] ) * (float) $currency_rate;
 								$option_price_sale = floatval( $info['price_sale'] ) * (float) $currency_rate;
@@ -401,44 +423,58 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$option_product_id   = $option_product_info[1];
 								$option_product_qty  = $option_product_info[2];
 								$option_product      = wc_get_product( $option_product_id );
-								$value               = $option_product->get_title();
+								if ( $option_product && $option_product instanceof WC_Product ) {
+									$value = $option_product->get_formatted_name();
 
-								// product prices.
-								$product_price = $option_product->get_price();
-								if ( 'product' === $info['price_method'] ) {
-									$option_price = $product_price;
-								} elseif ( 'discount' === $info['price_method'] ) {
-									$option_discount_value = $option_price;
-									$option_price          = $product_price - $option_discount_value;
-									if ( 'percentage' === $info['price_type'] ) {
-										$option_price = $product_price - ( ( $product_price / 100 ) * $option_discount_value );
+									// product prices.
+									$product_price = $option_product->get_price();
+									if ( 'product' === $info['price_method'] ) {
+										$option_price = $product_price;
+									} elseif ( 'discount' === $info['price_method'] ) {
+										$option_discount_value = floatval( $info['price'] );
+										if ( 'percentage' === $info['price_type'] ) {
+											$option_price = $product_price - ( ( $product_price / 100 ) * $option_discount_value );
+										} else {
+											$option_price = $product_price - $option_discount_value;
+										}
 									}
 								}
 							} elseif ( 'file' === $info['addon_type'] ) {
 								$file_url = explode( '/', $value );
 								$value    = '<a href="' . $value . '" target="_blank">' . end( $file_url ) . '</a>';
+							} elseif ( 'number' === $info['addon_type'] ) {
+								if ( 'value_x_product' === $info['price_method'] ) {
+									$option_price = $value * $product_price;
+								} else {
+									if ( 'multiplied' === $info['price_type'] ) {
+										$option_price = $value * $info['price'];
+									}
+								}
 							} elseif ( 'addon_title' === $option_id ) {
 								$info['label']  = '<span class="yith-wapo-group-title"> ' . $info['addon_label'] . '</span>';
 								$cart_data_name = $info['addon_label'];
 								$value          = '';
-							} else {
+							} elseif ( 'free' === $info['price_method'] ) {
+								$option_price = 0;
+							}else {
 								$cart_data_name = $info['label'];
 							}
 
-							$option_price = '' !== $option_price ? ( $option_price + ( ( $option_price / 100 ) * yith_wapo_get_tax_rate() ) ) : 0;
+							$option_price = '' !== $option_price ? $option_price : 0;
+
 							$option_price = apply_filters( 'yith_wapo_addon_prices_on_cart', $option_price );
 
 							if ( 'yes' === get_option( 'yith_wapo_show_options_in_cart' ) ) {
 								if ( ! isset( $cart_data_array[ $cart_data_name ] ) ) {
 									$cart_data_array[ $cart_data_name ] = '';
 								}
-								$cart_data_array[ $cart_data_name ] .= '<div>' . $value . ( '' !== $option_price && floatval( 0 ) !== $option_price ? ' (' . $sign . wc_price( $option_price ) . ')' : '' ) . '</div>';
+								$cart_data_array[ $cart_data_name ] .= '<div>' . $value . ( '' !== $option_price && floatval( 0 ) !== floatval( $option_price ) ? ' (' . $sign . wc_price( $option_price ) . ')' : '' ) . '</div>';
 							}
 
 							if ( ! apply_filters( 'yith_wapo_show_options_grouped_in_cart', true ) ) {
 								$cart_data[] = array(
 									'name'    => $info['label'],
-									'display' => $value,
+									'display' => empty($option_price) ? $value : '<div>' . $value . ( '' !== $option_price && floatval( 0 ) !== floatval( $option_price ) ? ' (' . $sign . wc_price( $option_price ) . ')' : '' ) . '</div>',
 								);
 							}
 						}
@@ -475,6 +511,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 			}
 
 			if ( isset( $cart_item['yith_wapo_options'] ) && ! isset( $cart_item['yith_wcp_child_component_data'] ) ) {
+
 				foreach ( $cart_item['yith_wapo_options'] as $index => $option ) {
 					foreach ( $option as $key => $value ) {
 						if ( $key && '' !== $value ) {
@@ -489,7 +526,6 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							}
 
 							$info = yith_wapo_get_option_info( $addon_id, $option_id );
-
 							if ( 'percentage' === $info['price_type'] ) {
 								$_product = wc_get_product( $cart_item['product_id'] );
 								// WooCommerce Measurement Price Calculator (compatibility).
@@ -504,12 +540,12 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$option_price_sale      = ( $product_price / 100 ) * $option_percentage_sale;
 							} elseif ( 'multiplied' === $info['price_type'] ) {
 								$option_price      = $info['price'] * $value;
-								$option_price_sale = $info['price'] * $value;
+								$option_price_sale = $info['price_sale'] * $value;
 							} elseif ( 'characters' === $info['price_type'] ) {
 								$remove_spaces     = apply_filters( 'yith_wapo_remove_spaces', false );
 								$value             = $remove_spaces ? str_replace( ' ', '', $value ) : $value;
 								$option_price      = $info['price'] * strlen( $value );
-								$option_price_sale = $info['price'] * strlen( $value );
+								$option_price_sale = $info['price_sale'] * strlen( $value );
 							} else {
 								$option_price      = $info['price'];
 								$option_price_sale = $info['price_sale'];
@@ -534,26 +570,29 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$option_product_id   = $option_product_info[1];
 								$option_product_qty  = $option_product_info[2];
 								$option_product      = wc_get_product( $option_product_id );
-								$value               = $option_product->get_title();
+								if ( $option_product && $option_product instanceof WC_Product ) {
+									$value = $option_product->get_formatted_name();
 
-								// Product prices.
-								$product_price = $option_product->get_price();
-								if ( 'product' === $info['price_method'] ) {
-									$option_price = $product_price;
-								} elseif ( 'discount' === $info['price_method'] ) {
-									$option_discount_value = $option_price;
-									$option_price          = $product_price - $option_discount_value;
-									if ( 'percentage' === $info['price_type'] ) {
-										$option_price = $product_price - ( ( $product_price / 100 ) * $option_discount_value );
+									// Product prices.
+									$product_price = $option_product->get_price();
+									if ( 'product' === $info['price_method'] ) {
+										$option_price = $product_price;
+									} elseif ( 'discount' === $info['price_method'] ) {
+										$option_discount_value = floatval( $info['price'] );
+										if ( 'percentage' === $info['price_type'] ) {
+											$option_price = $product_price - ( ( $product_price / 100 ) * $option_discount_value );
+										} else {
+											$option_price = $product_price - $option_discount_value;
+										}
 									}
-								}
 
-								// Stock.
-								if ( $option_product->get_manage_stock() ) {
-									$qty       = ( isset( $cart_item['quantity'] ) && $cart_item['quantity'] > 1 ) ? $cart_item['quantity'] : 1;
-									$stock_qty = $option_product->get_stock_quantity() - $qty;
-									wc_update_product_stock( $option_product, $stock_qty, 'set' );
-									wc_delete_product_transients( $option_product );
+									// Stock.
+									if ( $option_product->get_manage_stock() ) {
+										$qty       = ( isset( $cart_item['quantity'] ) && $cart_item['quantity'] > 1 ) ? $cart_item['quantity'] : 1;
+										$stock_qty = $option_product->get_stock_quantity() - $qty;
+										wc_update_product_stock( $option_product, $stock_qty, 'set' );
+										wc_delete_product_transients( $option_product );
+									}
 								}
 							} elseif ( 'file' === $info['addon_type'] ) {
 								$file_url = explode( '/', $value );
@@ -570,7 +609,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							}
 
 							$option_price  = apply_filters( 'yith_wapo_addon_prices_on_cart', $option_price );
-							$display_value = $value . ( '' !== $option_price && floatval( 0 ) !== $option_price ? ' (' . $sign . wc_price( $option_price ) . ')' : '' );
+							$display_value = $value . ( '' !== $option_price && floatval( 0 ) !== floatval( $option_price ) ? ' (' . $sign . wc_price( $option_price ) . ')' : '' );
 
 							wc_add_order_item_meta( $item_id, $name, $display_value );
 						}
@@ -732,6 +771,14 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 			$option_price = 0;
 			$total_price  = 0;
 
+			$product_id = isset( $cart_item['product_id'] ) ? $cart_item['product_id'] : $cart_item['item_meta']['_product_id'][0];
+			$_product = wc_get_product( $product_id );
+			// WooCommerce Measurement Price Calculator (compatibility).
+			if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
+				$product_price = $cart_item['pricing_item_meta_data']['_price'];
+			} else {
+				$product_price = yit_get_display_price( $_product );
+			}
 			foreach ( $type_list as $list ) {
 				foreach ( $list as $key => $value ) {
 					if ( $key && '' !== $value ) {
@@ -746,31 +793,34 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 						}
 
 						$info       = yith_wapo_get_option_info( $addon_id, $option_id );
-						$product_id = isset( $cart_item['product_id'] ) ? $cart_item['product_id'] : $cart_item['item_meta']['_product_id'][0];
 
 						if ( 'percentage' === $info['price_type'] ) {
-							$_product = wc_get_product( $product_id );
-							// WooCommerce Measurement Price Calculator (compatibility).
-							if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
-								$product_price = $cart_item['pricing_item_meta_data']['_price'];
-							} else {
-								$product_price = floatval( $_product->get_price() );
-							}
+
 							$option_percentage      = floatval( $info['price'] );
 							$option_percentage_sale = floatval( $info['price_sale'] );
 							$option_price           = ( $product_price / 100 ) * $option_percentage;
 							$option_price_sale      = ( $product_price / 100 ) * $option_percentage_sale;
 						} elseif ( 'multiplied' === $info['price_type'] ) {
 							$option_price      = $info['price'] * $value;
-							$option_price_sale = $info['price'] * $value;
+							$option_price_sale = $info['price_sale'] * $value;
 						} elseif ( 'characters' === $info['price_type'] ) {
 							$remove_spaces     = apply_filters( 'yith_wapo_remove_spaces', false );
 							$value             = $remove_spaces ? str_replace( ' ', '', $value ) : $value;
 							$option_price      = $info['price'] * strlen( $value );
-							$option_price_sale = $info['price'] * strlen( $value );
+							$option_price_sale = $info['price_sale'] * strlen( $value );
 						} else {
 							$option_price      = $info['price'];
 							$option_price_sale = $info['price_sale'];
+						}
+
+						if ( 'number' === $info['addon_type'] ) {
+							if ( 'value_x_product' === $info['price_method'] ) {
+								$option_price = $value * $product_price;
+							} else {
+								if ( 'multiplied' === $info['price_type'] ) {
+									$option_price = $value * $info['price'];
+								}
+							}
 						}
 
 						$option_price = $option_price_sale > 0 ? $option_price_sale : $option_price;
@@ -781,14 +831,15 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							$option_product      = wc_get_product( $option_product_id );
 
 							// Product prices.
-							$product_price = $option_product->get_price();
+							$product_price = $option_product instanceof WC_Product ? $option_product->get_price() : 0;
 							if ( 'product' === $info['price_method'] ) {
 								$option_price = $product_price;
 							} elseif ( 'discount' === $info['price_method'] ) {
-								$option_discount_value = $option_price;
-								$option_price          = $product_price - $option_discount_value;
+								$option_discount_value = floatval( $info['price'] );
 								if ( 'percentage' === $info['price_type'] ) {
 									$option_price = $product_price - ( ( $product_price / 100 ) * $option_discount_value );
+								} else {
+									$option_price = $product_price - $option_discount_value;
 								}
 							}
 						}

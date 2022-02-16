@@ -463,7 +463,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Order_Tracking' ) ) {
 				'create_menu_page' => true,
 				'parent_slug'      => '',
 				'plugin_slug'      => YITH_YWOT_SLUG,
-				'page_title'       => 'Order Tracking',
+				'page_title'       => 'YITH WooCommerce Order Tracking',
 				'menu_title'       => 'Order Tracking',
 				'capability'       => 'manage_options',
 				'parent'           => '',

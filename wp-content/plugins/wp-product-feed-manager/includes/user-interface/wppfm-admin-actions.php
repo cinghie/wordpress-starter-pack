@@ -45,7 +45,7 @@ add_action( 'admin_menu', 'wppfm_add_feed_manager_menu' );
  */
 function wppfm_check_backups() {
 	if ( ! wppfm_check_backup_status() ) {
-		$msg = __( 'Due to the latest update your Feed Manager backups are no longer valid! Please open the Feed Manager Settings page, remove all your backups in and make a new one.', 'wp-product-feed-manager' )
+		$msg = __( 'Due to an update of your Feed Manager plugin, your feed backups are no longer valid! Please open the Feed Manager Settings page, remove all current backups, and make a new one.', 'wp-product-feed-manager' )
 		?>
 		<div class="notice notice-warning is-dismissible">
 			<p><?php echo $msg; ?></p>

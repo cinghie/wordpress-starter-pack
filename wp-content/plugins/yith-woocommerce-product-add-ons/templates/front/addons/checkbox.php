@@ -15,7 +15,7 @@ $checked  = $addon->get_option( 'default', $x ) === 'yes';
 ?>
 
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>"
-	class="yith-wapo-option selection-<?php echo esc_attr( $selection_type ); ?>"
+	class="yith-wapo-option selection-<?php echo esc_attr( $selection_type ); ?> <?php echo $checked ? 'selected' : ''; ?>"
 	data-replace-image="<?php echo esc_attr( $image_replacement ); ?>">
 
 	<label for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">

@@ -17,8 +17,12 @@ $remove_spaces = apply_filters('yith_wapo_remove_spaces', false );
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>" class="yith-wapo-option">
 
 	<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && ! $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
+		<?php
+			$post_id_image = attachment_url_to_postid( $addon->get_option( 'image', $x ) );
+			$alt_text_image = get_post_meta( $post_id_image, '_wp_attachment_image_alt', true );
+		?>
 		<div class="image position-<?php echo esc_attr( $addon_options_images_position ); ?>">
-			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>">
+			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>" alt="<?php echo esc_attr( $alt_text_image ) ?>">
 		</div>
 	<?php endif; ?>
 
@@ -41,7 +45,7 @@ $remove_spaces = apply_filters('yith_wapo_remove_spaces', false );
 			minlength="<?php echo esc_attr( $addon->get_option( 'characters_limit_min', $x ) ); ?>"
 			maxlength="<?php echo esc_attr( $addon->get_option( 'characters_limit_max', $x ) ); ?>"
 		<?php endif; ?>
-		data-price="<?php echo esc_attr( $addon->get_option_price( $x ) ); ?>"
+		data-price="<?php echo esc_attr( $price ); ?>"
 		data-price-sale="<?php echo esc_attr( $price_sale ); ?>"
 		data-price-type="<?php echo esc_attr( $price_type ); ?>"
 		data-price-method="<?php echo esc_attr( $price_method ); ?>"

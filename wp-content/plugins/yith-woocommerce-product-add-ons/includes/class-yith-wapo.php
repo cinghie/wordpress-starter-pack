@@ -74,7 +74,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 		/**
 		 * Constructor
 		 */
-		private function __construct() {
+		public function __construct() {
 
 			$this->version = YITH_WAPO_VERSION;
 
@@ -299,10 +299,18 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 					$data['user_id'] = sanitize_text_field( $request['block_user_id'] );
 				}
 
-				// YITH Multi Vendor integration.
+				/** YITH Multi Vendor integration. **/
+				$vendor_id = '';
+
+				// migration.
 				if ( isset( $request['block_vendor_id'] ) ) {
-					$data['vendor_id'] = sanitize_text_field( $request['block_vendor_id'] );
+					$vendor_id = sanitize_text_field( $request['block_vendor_id'] );
+				// v2.
+				} else if ( isset( $request['vendor_id'] ) ) {
+					$vendor_id = sanitize_text_field( $request['vendor_id'] );
 				}
+				$data['vendor_id'] = $vendor_id;
+
 
 				$table = $wpdb->prefix . 'yith_wapo_blocks';
 

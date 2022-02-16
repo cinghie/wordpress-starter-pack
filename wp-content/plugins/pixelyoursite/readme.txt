@@ -1,17 +1,17 @@
 ===PixelYourSite - Your smart PIXEL (TAG) Manager===
 Contributors: PixelYourSite
-Tags: Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel Events, Facebook Dynamic Product Ads, Facebook Conversion Value, WooCommerce Facebook Pixel, Easy Digital Downloads Facebook Pixel, Google Analytics, Google Analytics Enhanced Ecommerce, GA4, WooCommerce Google Analytics, Easy Digital Downloads Google Analytics, head & footer scripts, Pinterest tag
+Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel Events, Facebook Dynamic Product Ads, Facebook Conversion Value, WooCommerce Facebook Pixel, Easy Digital Downloads Facebook Pixel, Google Analytics, Google Analytics Enhanced Ecommerce, GA4, WooCommerce Google Analytics, Easy Digital Downloads Google Analytics, head & footer scripts, Pinterest tag
 Requires at least: 3.0.1
 Requires PHP: 5.4
-Tested up to: 5.8
-Stable tag: 8.2.15
+Tested up to: 5.9
+Stable tag: 8.2.16
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Facebook Pixel & Conversion API (CAPI), Google Analytics Universal or GA4, plus ANY other script. WooCommerce and EDD with Facebook Dynamic Product Ads and Google Enhanced Ecommerce. Track any action with events. Pinterest Tag support via a dedicated paid add-on. Dedicated paid Bing Tag add-on.
+Meta Pixel (Facebook Pixel) & Conversion API (CAPI), Google Analytics Universal or GA4, plus ANY other script. WooCommerce and EDD with Facebook Dynamic Product Ads and Google Enhanced Ecommerce. Track any action with events. Pinterest Tag support via a dedicated paid add-on. Dedicated paid Bing Tag add-on.
 
 == Description ==
-**Manage your Facebook Pixel, implement Facebook Conversion API, add your Google Analytics Universal or GA4 with a single plugin. Add ANY other script (Head & Footer feature). The Pinterest Tag can be implemented via [paid add-on](https://www.pixelyoursite.com/pinterest-tag).**
+**Manage your Meta Pixel (Facebook Pixel), implement Facebook Conversion API, add your Google Analytics Universal or GA4 with a single plugin. Add ANY other script (Head & Footer feature). The Pinterest Tag can be implemented via [paid add-on](https://www.pixelyoursite.com/pinterest-tag).**
 
 PixelYourSite's Signal event will automatically track important actions and send them to all your configured pixels (searches, form submit, comments, downloads).
 
@@ -31,7 +31,7 @@ Learn about [the Signal Event and Aggregated Event Measurement](https://www.pixe
 
 TRACK EVERYTHING WITH A SINGLE PLUGIN:
 
-* The Facebook Pixel: one click install
+* The Meta Pixel (Facebook Pixel): one click install
 
 * Facebook Conversion API: add a token and we send all events using CAPI
 
@@ -55,7 +55,7 @@ TRACK EVERYTHING WITH A SINGLE PLUGIN:
 
 FANTASTIC WOOCOMMERCE INTEGRATION:
 
-* Facebook Pixel: every e-commerce related event is fired automatically. Conversion value is tracked for each event. All the events are 
+* Meta Pixel (Facebook Pixel): every e-commerce related event is fired automatically. Conversion value is tracked for each event. All the events are 
 
 * Dynamic Product Ads ready (content_ids and content_type parameters always present).
 
@@ -458,6 +458,20 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 8.2.16 =
+
+* Terminology change, we are now using "The Meta Pixel" along with "The Facebook Pixel".
+
+* Fix for a possible issue with WooCommerce variable products that have a large number of variations creating a loading page speed problem. 
+
+* Vide link updates.
+
+* WordPress 5.9 compatibility. 
+
+* WooCommerce 6.1 compatibility. 
+
 
 
 = PixelYourSite 8.2.15 =

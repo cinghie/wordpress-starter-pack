@@ -17,9 +17,11 @@
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
+$block_classes = apply_filters( 'yith_wapo_block_classes' ,'yith-wapo-block', $block );
+
 ?>
 
-<div id="yith-wapo-block-<?php echo esc_attr( $block->id ); ?>" class="yith-wapo-block">
+<div id="yith-wapo-block-<?php echo esc_attr( $block->id ); ?>" class="<?php echo esc_attr( $block_classes ) ?>">
 
 	<?php
 	foreach ( $addons as $key => $addon ) :
@@ -55,7 +57,7 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 			$hide_option_prices = $addon->get_setting( 'hide_options_prices' ) === 'yes';
 
 			// Layout.
-			$options_per_row          = $addon->get_setting( 'options_per_row', 1 );
+	        $options_per_row          = defined( 'YITH_WAPO_PREMIUM' ) && YITH_WAPO_PREMIUM ? $addon->get_setting( 'options_per_row', 1 ) : 1;
 			$show_in_a_grid           = $addon->get_setting( 'show_in_a_grid' ) === 'yes';
 			$options_width            = $addon->get_setting( 'options_width', 100 );
 			$options_width_css        = $show_in_a_grid ? 'width: ' . ( $options_width - 2 ) . '%;' : 'width: 100%;';
@@ -88,15 +90,19 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 			$conditional_rule_addon       = (array) $addon->get_setting( 'conditional_rule_addon' );
 			$conditional_rule_addon_is    = (array) $addon->get_setting( 'conditional_rule_addon_is' );
 
-			$addon_classes = apply_filters( 'yith_wapo_addon_classes', 'yith-wapo-addon yith-wapo-addon-type-' . esc_attr( $addon->type ) . ' ' . esc_attr( $toggle_addon ) . ' ' . esc_attr( $conditional_logic_class ), $addon );
+			$addon_classes       = apply_filters( 'yith_wapo_addon_classes',
+				'yith-wapo-addon yith-wapo-addon-type-' . esc_attr( $addon->type ) . ' ' . esc_attr( $toggle_addon ) . ' ' . esc_attr( $toggle_default ) . ' ' . esc_attr( $conditional_logic_class ), $addon );
+			$tax_inc             = get_option( 'woocommerce_prices_include_tax' ) === 'yes';
+			$setting_hide_images = get_option( 'yith_wapo_hide_images' );
 
-			?>
+	?>
 
 			<div id="yith-wapo-addon-<?php echo esc_attr( $addon->id ); ?>"
 				class="<?php echo esc_attr( $addon_classes ); ?>"
 				data-min="<?php echo esc_attr( $min_max_values['min'] ); ?>"
 				data-max="<?php echo esc_attr( $min_max_values['max'] ); ?>"
 				data-exa="<?php echo esc_attr( $min_max_values['exa'] ); ?>"
+				data-addon-type="<?php echo esc_attr( $addon->type ); ?>"
 				<?php if ( 'yes' === $conditional_logic ) : ?>
 				data-addon_id="<?php echo esc_attr( $addon->id ); ?>"
 				data-conditional_logic_display="<?php echo esc_attr( $conditional_logic_display ); ?>"
@@ -145,26 +151,29 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 							name="yith_wapo[][' . esc_attr( $addon->id ) . ']"
 							data-addon-id="' . esc_attr( $addon->id ) . '"
 							style="' . esc_attr( $options_width_select_css ) . '">
-								<option value="">' . esc_html__( 'Select an option', 'yith-woocommerce-product-add-ons' ) . '</option>';
+								<option value="default">' . esc_html( apply_filters( 'yith_wapo_select_option_label', __( 'Select an option', 'yith-woocommerce-product-add-ons' ) ) ) . '</option>';
 					}
 
 					$options_total = is_array( $addon->options ) && isset( array_values( $addon->options )[0] ) ? count( array_values( $addon->options )[0] ) : 1;
 					for ( $x = 0; $x < $options_total; $x++ ) {
 						if ( file_exists( YITH_WAPO_DIR . '/templates/front/addons/' . $addon->type . '.php' ) ) {
 
-							$image_replacement = '';
-							if ( 'addon' === $addon_image_replacement ) {
-								$image_replacement = $addon_image;
-							} elseif ( 'options' === $addon_image_replacement ) {
-								$image_replacement = $addon->get_option( 'image', $x );
-							}
-
-							$option_image       = $addon->get_option( 'image', $x );
+							$option_show_image  = $addon->get_option( 'show_image', $x );
+							$option_image       = $option_show_image ? $addon->get_option( 'image', $x ) : '';
 							$option_description = $addon->get_option( 'description', $x );
 							$price_method       = $addon->get_option( 'price_method', $x );
 							$price_type         = $addon->get_option( 'price_type', $x );
 							$price              = (float) $addon->get_option( 'price', $x ) * $currency_rate;
 							$price_sale         = (float) $addon->get_option( 'price_sale', $x ) * $currency_rate;
+
+							$image_replacement = '';
+							if ( 'addon' === $addon_image_replacement ) {
+								$image_replacement = $addon_image;
+							} elseif ( ! empty( $option_image ) && 'options' === $addon_image_replacement ) {
+								$image_replacement = $option_image;
+							}
+
+							//todo: improve price calculation
 							if ( 'free' === $price_method ) {
 								$price      = '0';
 								$price_sale = '0';
@@ -179,7 +188,13 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 								$price_sale = $price_sale > 0 ? $price_sale : '0';
 							}
 
-							$setting_hide_images = get_option( 'yith_wapo_hide_images' );
+							if ( wc_tax_enabled() && ! $tax_inc && 0 !== $price ) {
+								$price += $price * ( yith_wapo_get_tax_rate() / 100 );
+							}
+							if ( wc_tax_enabled() && ! $tax_inc && 0 !== $price_sale ) {
+								$price_sale += $price_sale * ( yith_wapo_get_tax_rate() / 100 );
+							}
+
 							wc_get_template(
 								$addon->type . '.php',
 								array(

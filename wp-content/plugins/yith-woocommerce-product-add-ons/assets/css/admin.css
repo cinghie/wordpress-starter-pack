@@ -232,7 +232,10 @@
 #plugin-fw-wc #yith-wapo-addon-overlay #addon-editor form #addon-container #tab-conditional-logic #conditional-rules { margin: 20px 0px 0px 0px; }
 #plugin-fw-wc #yith-wapo-addon-overlay #addon-editor form #addon-container #tab-conditional-logic #conditional-rules .field.rule { margin-bottom: 20px; clear: both; }
 #plugin-fw-wc #yith-wapo-addon-overlay #addon-editor form #addon-container #tab-conditional-logic #add-conditional-rule { clear: both; }
-
+.yith-addons-select2-container span.select2-dropdown{
+	width:unset !important;
+	min-width: 200px !important;
+}
 /* ADDON - ADVANCED SETTINGS */
 #plugin-fw-wc #yith-wapo-addon-overlay #addon-editor form #addon-container #tab-advanced-settings .field-wrap #min-max-rules { margin-left: 0; }
 #plugin-fw-wc #yith-wapo-addon-overlay #addon-editor form #addon-container #tab-advanced-settings .field-wrap #min-max-rules .field.rule { width: 100%; margin-bottom: 10px; }
@@ -254,6 +257,7 @@
 #plugin-fw-wc #yith-wapo-addon-overlay form .field-wrap:after { content: ''; display: block; clear: both; }
 #plugin-fw-wc #yith-wapo-addon-overlay form .field-wrap > label { width: 130px; padding: 7px 20px 0px 0px; position: absolute; left: 0; }
 #plugin-fw-wc #yith-wapo-addon-overlay form .field-wrap .field { float: left; }
+#plugin-fw-wc #yith-wapo-addon-overlay form #tab-options-list #addon_options .option { background-color: #ffffff; }
 #plugin-fw-wc #yith-wapo-addon-overlay form #tab-options-list .option .field-wrap { padding-left: 120px; }
 #plugin-fw-wc #yith-wapo-addon-overlay form .field-wrap .field input { width: 220px; height: 45px; border-radius: 5px; }
 #plugin-fw-wc #yith-wapo-addon-overlay form .field-wrap .field .yith-plugin-fw-dimensions input { width: 100%; height: 38px; border-radius: 0; }

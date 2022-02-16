@@ -213,6 +213,15 @@ $settings = array(
 			'default'   => 'yes',
 		),
 
+		'show-blocks-in-cart-page'      => array(
+			'id'        => 'yith_wapo_show_blocks_in_cart',
+			'name'      => __( 'Show block titles in the cart page', 'yith-woocommerce-product-add-ons' ),
+			'desc'      => __( 'Enable to show the titles of the blocks in the cart page.', 'yith-woocommerce-product-add-ons' ),
+			'type'      => 'yith-field',
+			'yith-type' => 'onoff',
+			'default'   => 'no',
+		),
+
 		'show-replacement-image-in-cart' => array(
 			'id'        => 'yith_wapo_show_image_in_cart',
 			'name'      => __( 'Show the replacement image in the cart', 'yith-woocommerce-product-add-ons' ),

@@ -328,6 +328,9 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 									'name'  => 'options[date_rule_value_days][' . $x . '][' . $y . ']',
 									'type'  => 'datepicker',
 									'value' => isset( $addon->get_option( 'date_rule_value_days', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_days', $x, '' )[ $y ] : '',
+									'data'  => array(
+										'date-format' => 'yy-mm-dd',
+									),
 								),
 								true
 							);

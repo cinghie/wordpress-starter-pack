@@ -17,7 +17,7 @@ $separator_color = $addon->get_setting( 'separator_color' );
 if ( 'empty_space' === $separator_style ) {
 	$css = 'height: ' . $separator_size . 'px';
 } else {
-	$css = 'width: ' . $separator_width . '%; border-width: ' . $separator_size . 'px; border-color: ' . $separator_color . ';';
+	$css = 'width: ' . $separator_width . '%; border-width: ' . $separator_size . 'px; border-color: ' . ( ! is_array( $separator_color ) ? $separator_color : '' ) . ';';
 }
 
 ?>

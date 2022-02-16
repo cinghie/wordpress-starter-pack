@@ -53,7 +53,12 @@ $time_slot_to_type   = $addon->get_option( 'time_slot_to_type', $x );
 $time_interval       = $addon->get_option( 'time_interval', $x );
 $time_interval_type  = $addon->get_option( 'time_interval_type', $x );
 
+$enable_disable_days       = $addon->get_option( 'enable_disable_days', $x );
+$enable_disable_date_rules = 'disable';
+
 $selectable_days = '';
+$selected_items            = array();
+
 if ( 'days' === $selectable_dates && $days_min >= -365 && $days_max > $days_min ) {
 	for ( $z = $days_min; $z < $days_max; $z++ ) {
 		$selectable_days .= '"' . date( 'j-n-Y', strtotime( '+' . $z . ' day' ) ) . '", ';
@@ -81,58 +86,63 @@ if ( 'days' === $selectable_dates && $days_min >= -365 && $days_max > $days_min 
 	}
 }
 
-// rules.
-$enable_disable_days       = $addon->get_option( 'enable_disable_days', $x );
-$enable_disable_date_rules = $addon->get_option( 'enable_disable_date_rules', $x, 'enable' );
-$selected_days             = '';
-$date_rules_count          = count( (array) $addon->get_option( 'date_rule_what', $x ) );
-for ( $y = 0; $y < $date_rules_count; $y++ ) {
-	$date_rule_what     = isset( $addon->get_option( 'date_rule_what', $x )[ $y ] ) ? $addon->get_option( 'date_rule_what', $x )[ $y ] : '';
-	$date_rule_days     = isset( $addon->get_option( 'date_rule_value_days', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_days', $x, '' )[ $y ] : '';
-	$date_rule_daysweek = isset( $addon->get_option( 'date_rule_value_daysweek', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_daysweek', $x, '' )[ $y ] : '';
-	$date_rule_months   = isset( $addon->get_option( 'date_rule_value_months', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_months', $x, '' )[ $y ] : '';
-	$date_rule_years    = isset( $addon->get_option( 'date_rule_value_years', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_years', $x, '' )[ $y ] : '';
-	if ( 'days' === $date_rule_what ) {
-		$selected_days .= '"' . date( 'j-n-Y', strtotime( $date_rule_days ) ) . '", ';
-		if ( 'firstavl' === $default_date && ( date( 'j-n-Y', strtotime( $date_rule_days ) ) >= date( 'j-n-Y' ) ) ) {
-			$default_date = date( $date_format, strtotime( $date_rule_days ) );
-		}
-	} elseif ( 'daysweek' === $date_rule_what ) {
-		$yyear = date( 'Y' );
-		for ( $days = 0; $days < 100; $days++ ) {
-			$day_time         = strtotime( '+' . $days . ' days' );
-			$day_date         = date( 'j-n-Y', $day_time );
-			$day_week         = date( 'N', $day_time ) - 1;
-			$day_week_enabled = true;
-			if ( 'firstavl' === $default_date &&
-				(
-					strtotime( $day_date ) >= strtotime( date( 'j-n-Y' ) ) &&
-					(
-						( in_array( $day_week + 1, $date_rule_daysweek, true ) && 'enable' === $enable_disable_date_rules ) ||
-						( ! in_array( $day_week + 1, $date_rule_daysweek, true ) && 'disable' === $enable_disable_date_rules )
-					)
-				) ) {
-				$default_date = date( $date_format, $day_time );
-				break;
+if ( 'yes' === $enable_disable_days ) {
+	// rules.
+	$enable_disable_date_rules = $addon->get_option( 'enable_disable_date_rules', $x, 'enable' );
+	$date_rules_count          = count( (array) $addon->get_option( 'date_rule_what', $x ) );
+	for ( $y = 0; $y < $date_rules_count; $y++ ) {
+		$date_rule_what     = isset( $addon->get_option( 'date_rule_what', $x )[ $y ] ) ? $addon->get_option( 'date_rule_what', $x )[ $y ] : '';
+		$date_rule_days     = isset( $addon->get_option( 'date_rule_value_days', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_days', $x, '' )[ $y ] : '';
+		$date_rule_daysweek = isset( $addon->get_option( 'date_rule_value_daysweek', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_daysweek', $x, '' )[ $y ] : '';
+		$date_rule_months   = isset( $addon->get_option( 'date_rule_value_months', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_months', $x, '' )[ $y ] : '';
+		$date_rule_years    = isset( $addon->get_option( 'date_rule_value_years', $x, '' )[ $y ] ) ? $addon->get_option( 'date_rule_value_years', $x, '' )[ $y ] : '';
+		if ( 'days' === $date_rule_what ) {
+			$selected_items[ $date_rule_what ][] = $date_rule_days;
+
+			if ( 'firstavl' === $default_date && ( date( 'j-n-Y', strtotime( $date_rule_days ) ) >= date( 'j-n-Y' ) ) ) {
+				$default_date = date( $date_format, strtotime( $date_rule_days ) );
 			}
-		}
-	} elseif ( 'months' === $date_rule_what ) {
-		$yyear = date( 'Y' );
-		foreach ( $date_rule_months as $key => $month ) {
-			for ( $day = 1; $day < 32; $day++ ) {
-				$selected_days .= '"' . $day . '-' . $month . '-' . $yyear . '", ';
-				if ( 'firstavl' === $default_date && ( strtotime( date( 'j-n-Y', strtotime( $day . '-' . $month . '-' . $yyear ) ) ) >= strtotime( date( 'j-n-Y' ) ) ) ) {
-					$default_date = date( $date_format, strtotime( $day . '-' . $month . '-' . $yyear ) );
+		} elseif ( 'daysweek' === $date_rule_what ) {
+			$selected_items[ $date_rule_what ][] = $date_rule_daysweek;
+
+			$yyear = date( 'Y' );
+			for ( $days = 0; $days < 100; $days++ ) {
+				$day_time         = strtotime( '+' . $days . ' days' );
+				$day_date         = date( 'j-n-Y', $day_time );
+				$day_week         = date( 'N', $day_time ) - 1;
+				$day_week_enabled = true;
+				if ( 'firstavl' === $default_date &&
+					(
+						strtotime( $day_date ) >= strtotime( date( 'j-n-Y' ) ) &&
+						(
+							( in_array( $day_week + 1, $date_rule_daysweek, true ) && 'enable' === $enable_disable_date_rules ) ||
+							( ! in_array( $day_week + 1, $date_rule_daysweek, true ) && 'disable' === $enable_disable_date_rules )
+						)
+					) ) {
+					$default_date = date( $date_format, $day_time );
+					break;
 				}
 			}
-		}
-	} elseif ( 'years' === $date_rule_what ) {
-		foreach ( $date_rule_years as $key => $yyear ) {
-			for ( $month = 1; $month < 13; $month++ ) {
+		} elseif ( 'months' === $date_rule_what ) {
+			$selected_items[ $date_rule_what ][] = $date_rule_months;
+
+			$yyear = date( 'Y' );
+			foreach ( $date_rule_months as $key => $month ) {
 				for ( $day = 1; $day < 32; $day++ ) {
-					$selected_days .= '"' . $day . '-' . $month . '-' . $yyear . '", ';
 					if ( 'firstavl' === $default_date && ( strtotime( date( 'j-n-Y', strtotime( $day . '-' . $month . '-' . $yyear ) ) ) >= strtotime( date( 'j-n-Y' ) ) ) ) {
 						$default_date = date( $date_format, strtotime( $day . '-' . $month . '-' . $yyear ) );
+					}
+				}
+			}
+		} elseif ( 'years' === $date_rule_what ) {
+			$selected_items[ $date_rule_what ][] = $date_rule_years;
+
+			foreach ( $date_rule_years as $key => $yyear ) {
+				for ( $month = 1; $month < 13; $month++ ) {
+					for ( $day = 1; $day < 32; $day++ ) {
+						if ( 'firstavl' === $default_date && ( strtotime( date( 'j-n-Y', strtotime( $day . '-' . $month . '-' . $yyear ) ) ) >= strtotime( date( 'j-n-Y' ) ) ) ) {
+							$default_date = date( $date_format, strtotime( $day . '-' . $month . '-' . $yyear ) );
+						}
 					}
 				}
 			}
@@ -140,13 +150,21 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 	}
 }
 
+if ( ! empty( $selected_items ) ) {
+	$selected_items = wp_json_encode( $selected_items );
+}
+
 ?>
 
 <div id="yith-wapo-option-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>" class="yith-wapo-option">
 
 	<?php if ( $addon->get_option( 'show_image', $x ) && $addon->get_option( 'image', $x ) !== '' && 'yes' !== $setting_hide_images ) : ?>
+		<?php
+			$post_id_image = attachment_url_to_postid( $addon->get_option( 'image', $x ) );
+			$alt_text_image = get_post_meta( $post_id_image, '_wp_attachment_image_alt', true );
+		?>
 		<div class="image position-<?php echo esc_attr( $addon_options_images_position ); ?>">
-			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>">
+			<img src="<?php echo esc_attr( $addon->get_option( 'image', $x ) ); ?>" alt="<?php echo esc_attr( $alt_text_image ) ?>">
 		</div>
 	<?php endif; ?>
 
@@ -165,7 +183,7 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 		class="yith_wapo_date datepicker"
 		name="yith_wapo[][<?php echo esc_attr( $addon->id . '-' . $x ); ?>]"
 		value="<?php echo esc_attr( $default_date ); ?>"
-		data-price="<?php echo esc_attr( $addon->get_option_price( $x ) ); ?>"
+		data-price="<?php echo esc_attr( $price ); ?>"
 		data-price-sale="<?php echo esc_attr( $price_sale ); ?>"
 		data-price-type="<?php echo esc_attr( $price_type ); ?>"
 		data-price-method="<?php echo esc_attr( $price_method ); ?>"
@@ -173,7 +191,9 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 		data-first-free-options="<?php echo esc_attr( $addon->get_setting( 'first_free_options', 0 ) ); ?>"
 		data-addon-id="<?php echo esc_attr( $addon->id ); ?>"
 		<?php echo $required ? 'required' : ''; ?>
-		style="<?php echo esc_attr( $options_width_css ); ?>">
+		style="<?php echo esc_attr( $options_width_css ); ?>"
+		readonly
+	>
 
 	<?php if ( $required ) : ?>
 		<small class="required-error" style="color: #f00; padding: 5px 0px; display: none;"><?php echo esc_html__( 'This option is required.', 'yith-woocommerce-product-add-ons' ); ?></small>
@@ -205,61 +225,77 @@ for ( $y = 0; $y < $date_rules_count; $y++ ) {
 				if ( $end_year > 0 ) :
 					?>
 					maxDate: new Date('<?php echo esc_attr( $end_year ); ?>-12-31'),<?php endif; ?>
-				  beforeShowDay: function(date){
-					  var selectableDays = [<?php echo wp_kses_post( $selectable_days ); ?>];
-					  var selectedDays = [<?php echo wp_kses_post( $selected_days ); ?>];
-					  var returnValue = true;
 
-					  <?php if ( '' !== $selectable_days ) : ?>
+				beforeShowDay: function( date ) {
+                var selectableDays = [<?php echo wp_kses_post( $selectable_days ); ?>];
+				var selectedItems = <?php echo ! empty( $selected_items ) ? wp_kses_post( $selected_items ) : "''"; ?>;
+				var enabled       = '<?php echo wp_kses_post( $enable_disable_date_rules ); ?>';
+				enabled           = ( 'enable' === enabled ) ? 1 : 0;
+				var returnValue   = true;
 
-					  for ( i = 0; i < selectableDays.length; i++ ) {
-						  var currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
-						  if ( jQuery.inArray( currentDate, selectableDays ) != -1 ) {
-							  returnValue = true;
-							  // return [true];
-						  } else {
-							  returnValue = false;
-							  // return [false];
-						  }
+				if ( enabled ) {
+					returnValue = false;
+				}
+
+                jQuery.each( selectableDays, function( i, item ) {
+                    let currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
+                    if ( -1 === jQuery.inArray( currentDate, selectableDays ) ) {
+                        returnValue = false;
+                        return false;
+                    }
+                });
+
+				jQuery.each( selectedItems, function( i, items ) {
+
+					if ( 'days' === i ) {
+						  let currentDate = new Date( date );
+						  jQuery.each( items, function ( i, item ) {
+							  let selectedDay = new Date( item );
+							  if (currentDate.toDateString() === selectedDay.toDateString()) {
+								  returnValue = ( enabled ) ? true : false;
+								  return false;
+							  }
+						  });
+					} else if ( 'daysweek' === i ) {
+						  let dayWeek = date.getDay();
+						  jQuery.each( items, function ( i, item ) {
+							  jQuery.each( item, function (e, day) {
+								  if (dayWeek == day) {
+									  returnValue = ( enabled ) ? true : false;
+									  return false;
+								  }
+							  });
+						  });
+					} else if ( 'months' === i ) {
+						  let dateMonth = date.getMonth();
+						  jQuery.each( items, function( i, item ) {
+							  jQuery.each( item, function( e, month ) {
+								  if ( dateMonth == month -1 ) {
+									  returnValue = ( enabled ) ? true : false;
+									  return false;
+								  }
+							  } );
+						  } );
+					} else if ( 'years' === i ) {
+						  let dateYear = date.getFullYear();
+						  jQuery.each( items, function( i, item ) {
+							  jQuery.each( item, function( e, year ) {
+								  if ( dateYear == year ) {
+									  returnValue = ( enabled ) ? true : false;
+									  return false;
+								  }
+							  } );
+						  } );
 					  }
-					  <?php endif; ?>
+				  });
 
-					  <?php if ( 'yes' === $enable_disable_days ) : ?>
-					  for ( i = 0; i < selectedDays.length; i++ ) {
-						  var currentDate = date.getDate() + '-' + ( date.getMonth() + 1 ) + '-' + date.getFullYear();
-						  if ( jQuery.inArray( currentDate, selectedDays ) != -1 ) {
-							  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'false' : 'true'; ?>;
-							  // return <?php echo 'disable' === $enable_disable_date_rules ? '[false]' : '[true]'; ?>;
-						  } else {
-							  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'true' : 'false'; ?>;
-							  // return <?php echo 'disable' === $enable_disable_date_rules ? '[true]' : '[false]'; ?>;
-						  }
-					  }
-					  <?php endif; ?>
-
-					  <?php if ( 'daysweek' === $date_rule_what ) : ?>
-
-					  if ( false ) {
-						  return [false];
-
-						  <?php foreach ( $date_rule_daysweek as $key => $dayweek ) : ?>
-					  } else if ( date.getDay() === <?php echo esc_attr( $dayweek ); ?> ) {
-						  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'false' : 'true'; ?>;
-						  // return <?php echo 'disable' === $enable_disable_date_rules ? '[false]' : '[true]'; ?>;
-						  <?php endforeach; ?>
-
-					  } else {
-						  returnValue = <?php echo 'disable' === $enable_disable_date_rules ? 'true' : 'false'; ?>;
-						  // return <?php echo 'disable' === $enable_disable_date_rules ? '[true]' : '[false]'; ?>;
-					  }
-					  <?php endif; ?>
-
-					  if ( returnValue ) { return [true]; }
-					  return [false];
+				  if ( returnValue ) { return [true]; }
+				  return [false];
 				  },
-				<?php
-				if ( 'yes' === $show_time_selector ) :
-					?>
+
+			<?php
+			if ( 'yes' === $show_time_selector ) :
+				?>
 					onSelect: function() {
 
 					var selectedDate = jQuery(this).val();

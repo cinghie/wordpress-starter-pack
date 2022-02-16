@@ -184,17 +184,35 @@ if ( ! class_exists( 'YITH_WCAN_Admin' ) ) {
 				'filter-preset' => _x( 'Filter presets', '[Admin] tab name', 'yith-woocommerce-ajax-navigation' ),
 				'general'       => _x( 'General settings', '[Admin] tab name', 'yith-woocommerce-ajax-navigation' ),
 				'seo'           => _x( 'SEO', '[Admin] tab name', 'yith-woocommerce-ajax-navigation' ),
-				'premium'       => _x( 'Premium Version', '[Admin] tab name', 'yith-woocommerce-ajax-navigation' ),
 			);
 
 			if ( isset( $_GET['tab'] ) && 'legacy' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				$admin_tabs['legacy'] = _x( 'Legacy', '[Admin] tab name', 'yith-woocommerce-ajax-navigation' );
 			}
 
+			$premium_tab = array(
+				'landing_page_url' => $this->get_premium_landing_uri(),
+				'premium_features' => array(
+					__( '<b>100% mobile friendly:</b> Show filters in a modal view which is purposely designed for users visiting your site by smartphones or tablets', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Show filters in the default layout or also in an <b>horizontal toolbar above products</b> (like Zalando)', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Allow customers to <b>filter for price ranges</b> (unlimited ranges and the last range can show: “& above”) or using the <b>price slider</b>
+', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Allow customers to <b>filter for review</b> and <b>for brand</b> (with the support to YITH WooCommerce Brands plugin)', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Allow users to <b>order products</b> (by popularity, date, price, date of publishing, average rating, etc) and see only 	products in stock/featured/on sale', 'yith-woocommerce-ajax-navigation' ),
+					__( '<b>Show the active filters</b> (with X to remove them) and choose their position (above products, above or under filters area)', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Create <b>color swatches with image support</b> (to better identify gradients, textures, patterns, etc.) and with 2 colors', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Show the options using <b>custom images or icons</b>', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Choose the <b>order of the options</b> (alphabetical, terms order, terms count, etc.), enable tooltips and show each set of filters in toggle', 'yith-woocommerce-ajax-navigation' ),
+					__( 'Choose how to manage terms not availables: hide them OR shown them in grey color and not clickables ', 'yith-woocommerce-ajax-navigation' ),
+					__( '<b>Regular updates, Translations and Premium Support</b>', 'yith-woocommerce-ajax-navigation' ),
+				),
+				'main_image_url'   => YITH_WCAN_ASSETS . 'images/get-premium-ajax-product-filter.jpg',
+			);
+
 			$args = array(
 				'create_menu_page'   => true,
 				'parent_slug'        => '',
-				'page_title'         => 'WooCommerce Ajax Product Filter',
+				'page_title'         => 'YITH WooCommerce Ajax Product Filter',
 				'menu_title'         => 'Ajax Product Filter',
 				'plugin_description' => _x( 'It allows your users to find the product they are looking for as quickly as possible.', '[Admin] Plugin description', 'yith-woocommerce-ajax-navigation' ),
 				'capability'         => apply_filters( 'yith_wcan_panel_capability', 'manage_woocommerce' ),
@@ -206,6 +224,7 @@ if ( ! class_exists( 'YITH_WCAN_Admin' ) ) {
 				'plugin_slug'        => YITH_WCAN_SLUG,
 				'plugin-url'         => YITH_WCAN_URL,
 				'page'               => $this->panel_page,
+				'premium_tab'        => $premium_tab,
 				'help_tab'           => array(
 					'main_video' => array(
 						'desc' => _x( 'Check this video to learn how to <b>create a filter preset and show it on the shop page:</b>', '[HELP TAB] Video title', 'yith-woocommerce-ajax-navigation' ),
@@ -223,6 +242,7 @@ if ( ! class_exists( 'YITH_WCAN_Admin' ) ) {
 					'hc_url'     => 'https://support.yithemes.com/hc/en-us/categories/360003474618-YITH-WOOCOMMERCE-AJAX-PRODUCT-FILTER',
 					'doc_url'    => 'https://docs.yithemes.com/yith-woocommerce-ajax-product-filter/',
 				),
+
 			);
 
 			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );

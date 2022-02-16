@@ -2,7 +2,8 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Icon, cart } from '@woocommerce/icons';
+import { cart } from '@woocommerce/icons';
+import { Icon } from '@wordpress/icons';
 import { registerExperimentalBlockType } from '@woocommerce/block-settings';
 
 /**
@@ -18,7 +19,7 @@ const settings = {
 	icon: {
 		src: (
 			<Icon
-				srcElement={ cart }
+				icon={ cart }
 				className="wc-block-editor-components-block-icon"
 			/>
 		),
@@ -35,9 +36,8 @@ const settings = {
 		multiple: false,
 		reusable: false,
 		inserter: false,
-		__experimentalExposeControlsToChildren: true,
 		color: {
-			text: false,
+			link: true,
 		},
 	},
 	attributes: {

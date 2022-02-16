@@ -227,7 +227,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 				$wpmr_variation_data = $class_data->get_own_variation_data( $product_id );
 
 				// Get correct variation data.
-				WPPFM_Variations::fill_product_data_with_variation_data( $product_data, $wc_product, $wpmr_variation_data, $this->_feed_data->language );
+				WPPFM_Variations::fill_product_data_with_variation_data( $product_data, $wc_product, $wpmr_variation_data, $this->_feed_data->language, $this->_feed_data->currency );
 			}
 
 			$row_category = $this->get_mapped_category( $product_parent_id, $this->_feed_data->mainCategory, json_decode( $this->_feed_data->categoryMapping ) );
@@ -254,6 +254,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 						$this->_channel_details['category_name'],
 						$row_category,
 						$this->_feed_data->language,
+						$this->_feed_data->currency,
 						$this->_relation_table
 					);
 

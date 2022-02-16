@@ -33,7 +33,7 @@ function wpo_cache($buffer, $flags) {
 	}
 
 	// Don't cache pages for logged in users.
-	if (!wpo_user_specific_cache_enabled() && (!function_exists('is_user_logged_in') || is_user_logged_in())) {
+	if (empty($GLOBALS['wpo_cache_config']['enable_user_specific_cache']) && (!function_exists('wpo_we_cache_per_role') || !wpo_we_cache_per_role()) && (!function_exists('is_user_logged_in') || (function_exists('wp_get_current_user') && is_user_logged_in()))) {
 		$no_cache_because[] = __('User is logged in', 'wp-optimize');
 	}
 
@@ -93,6 +93,12 @@ function wpo_cache($buffer, $flags) {
 	$last_error = error_get_last();
 	if (is_array($last_error) && E_ERROR == $last_error['type']) {
 		$no_cache_because[] = __('This page has a fatal error', 'wp-optimize');
+	}
+
+	if (http_response_code() >= 500) {
+		$no_cache_because[] = sprintf(__('This page has a critical error (HTTP code %s)', 'wp-optimize'), http_response_code());
+	} elseif (http_response_code() >= 400) {
+		$no_cache_because[] = sprintf(__('This page returned an HTTP unauthorised response code (%s)', 'wp-optimize'), http_response_code());
 	}
 
 	if (empty($no_cache_because)) {
@@ -179,6 +185,13 @@ function wpo_cache($buffer, $flags) {
 		$cache_filename = wpo_cache_filename($file_ext);
 		$cache_file = $path . '/' .$cache_filename;
 
+		if (defined('WPO_CACHE_FILENAME_DEBUG') && WPO_CACHE_FILENAME_DEBUG) {
+			$add_to_footer .= "\n<!-- WP Optimize page cache debug information -->\n";
+			if (!empty($GLOBALS['wpo_cache_filename_debug']) && is_array($GLOBALS['wpo_cache_filename_debug'])) {
+				$add_to_footer .= "<!-- \n" . join("\n", array_map('htmlspecialchars', $GLOBALS['wpo_cache_filename_debug'])) . "\n --->";
+			}
+		}
+
 		// if we can then cache gzipped content in .gz file.
 		if (function_exists('gzencode')) {
 			// Only replace inside the addition, not inside the main buffer (e.g. post content)
@@ -187,8 +200,19 @@ function wpo_cache($buffer, $flags) {
 
 		file_put_contents($cache_file, $buffer.$add_to_footer);
 
-		// delete cached information about cache size.
-		WP_Optimize()->get_page_cache()->delete_cache_size_information();
+		if (is_callable('WP_Optimize')) {
+			// delete cached information about cache size.
+			WP_Optimize()->get_page_cache()->delete_cache_size_information();
+		} else {
+			error_log('[WPO_CACHE] WP_Optimize() is not callable.');
+			$message = 'Please report this to WP-O support: ';
+			if (function_exists('wp_debug_backtrace_summary')) {
+				$message .= wp_debug_backtrace_summary();
+			} else {
+				$message .= wpo_debug_backtrace_summary();
+			}
+			error_log($message);
+		}
 
 		header('Cache-Control: no-cache'); // Check back every time to see if re-download is necessary.
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modified_time) . ' GMT');
@@ -267,7 +291,7 @@ function wpo_restricted_cache_page_type($restricted) {
  */
 if (!function_exists('wpo_cache_loggedin_users')) :
 function wpo_cache_loggedin_users() {
-	return !empty($GLOBALS['wpo_cache_config']['enable_user_caching']) || wpo_user_specific_cache_enabled();
+	return !empty($GLOBALS['wpo_cache_config']['enable_user_caching']) || !empty($GLOBALS['wpo_cache_config']['enable_user_specific_cache']) || (function_exists('wpo_we_cache_per_role') && wpo_we_cache_per_role());
 }
 endif;
 
@@ -290,6 +314,9 @@ endif;
  */
 if (!function_exists('wpo_cache_filename')) :
 function wpo_cache_filename($ext = '.html') {
+
+	$wpo_cache_filename_debug = array();
+
 	$filename = 'index';
 
 	if (wpo_cache_mobile_caching_enabled() && wpo_is_mobile()) {
@@ -312,6 +339,7 @@ function wpo_cache_filename($ext = '.html') {
 						$_cache_key = $cookie_key.'='.$_COOKIE[$key][$cookie_key];
 						$_cache_key = preg_replace('/[^a-z0-9_\-\=]/i', '-', $_cache_key);
 						$cache_key .= '-' . $_cache_key;
+						$wpo_cache_filename_debug[] = 'Cookie: name: ' . $key . '[' . $cookie_key . '], value: *** , cache_key:' . $_cache_key;
 					}
 				}
 				continue;
@@ -321,6 +349,7 @@ function wpo_cache_filename($ext = '.html') {
 				$_cache_key = $cookie_name.'='.$_COOKIE[$cookie_name];
 				$_cache_key = preg_replace('/[^a-z0-9_\-\=]/i', '-', $_cache_key);
 				$cache_key .= '-' . $_cache_key;
+				$wpo_cache_filename_debug[] = 'Cookie: name: ' . $cookie_name . ', value: *** , cache_key:' . $_cache_key;
 			}
 		}
 	}
@@ -336,16 +365,24 @@ function wpo_cache_filename($ext = '.html') {
 				$_cache_key = $variable.'='.$_GET[$variable];
 				$_cache_key = preg_replace('/[^a-z0-9_\-\=]/i', '-', $_cache_key);
 				$cache_key .= '-' . $_cache_key;
+				$wpo_cache_filename_debug[] = 'GET parameter: name: ' . $variable . ', value:' . htmlentities($_GET[$variable]) . ', cache_key:' . $_cache_key;
 			}
 		}
 	}
 
 	// add hash of queried cookies and variables to cache file name.
 	if ('' !== $cache_key) {
-		$filename .= '-' . md5($cache_key);
+		$hash = md5($cache_key);
+		$filename .= '-'.$hash;
+		$wpo_cache_filename_debug[] = 'Hash: ' . $hash;
 	}
 
 	$filename = apply_filters('wpo_cache_filename', $filename);
+
+	$wpo_cache_filename_debug[] = 'Extension: ' . $ext;
+	$wpo_cache_filename_debug[] = 'Filename: ' . $filename.$ext;
+
+	$GLOBALS['wpo_cache_filename_debug'] = $wpo_cache_filename_debug;
 
 	return $filename . $ext;
 }
@@ -1109,3 +1146,64 @@ if (!function_exists('wpo_feeds_caching_enabled')) :
 		return apply_filters('wpo_feeds_caching_enabled', true);
 	}
 endif;
+
+if (!function_exists('wpo_debug_backtrace_summary')) {
+	function wpo_debug_backtrace_summary($ignore_class = null, $skip_frames = 0, $pretty = true) {
+		static $truncate_paths;
+	 
+		$trace       = debug_backtrace(false);
+		$caller      = array();
+		$check_class = !is_null($ignore_class);
+		$skip_frames++; // Skip this function.
+	 
+		if (!isset($truncate_paths)) {
+			$truncate_paths = array(
+				wpo_normalize_path(WP_CONTENT_DIR),
+				wpo_normalize_path(ABSPATH),
+			);
+		}
+	 
+		foreach ($trace as $call) {
+			if ($skip_frames > 0) {
+				$skip_frames--;
+			} elseif (isset($call['class'])) {
+				if ($check_class && $ignore_class == $call['class']) {
+					continue; // Filter out calls.
+				}
+	 
+				$caller[] = "{$call['class']}{$call['type']}{$call['function']}";
+			} else {
+				if (in_array($call['function'], array('do_action', 'apply_filters', 'do_action_ref_array', 'apply_filters_ref_array'), true)) {
+					$caller[] = "{$call['function']}('{$call['args'][0]}')";
+				} elseif (in_array($call['function'], array('include', 'include_once', 'require', 'require_once'), true)) {
+					$filename = isset($call['args'][0]) ? $call['args'][0] : '';
+					$caller[] = $call['function'] . "('" . str_replace($truncate_paths, '', wpo_normalize_path($filename)) . "')";
+				} else {
+					$caller[] = $call['function'];
+				}
+			}
+		}
+		if ($pretty) {
+			return implode(', ', array_reverse($caller));
+		} else {
+			return $caller;
+		}
+	}
+}
+
+if (!function_exists('wpo_normalize_path')) {
+	function wpo_normalize_path($path) {
+		// Standardise all paths to use '/'.
+		$path = str_replace('\\', '/', $path);
+	 
+		// Replace multiple slashes down to a singular, allowing for network shares having two slashes.
+		$path = preg_replace('|(?<=.)/+|', '/', $path);
+	 
+		// Windows paths should uppercase the drive letter.
+		if (':' === substr($path, 1, 1)) {
+			$path = ucfirst($path);
+		}
+
+		return $path;
+	}
+}

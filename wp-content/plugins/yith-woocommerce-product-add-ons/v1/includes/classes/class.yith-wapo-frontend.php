@@ -961,7 +961,7 @@ if ( ! class_exists( 'YITH_WAPO_Frontend' ) ) {
 			}
 
 			// Disable add_to_cart_button class on shop page.
-			if ( is_ajax() && ! isset( $_REQUEST['yith_wapo_is_single'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( wp_doing_ajax() && ! isset( $_REQUEST['yith_wapo_is_single'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 				$product           = wc_get_product( $product_id );
 				$product_type_list = YITH_WAPO::getAllowedProductTypes();

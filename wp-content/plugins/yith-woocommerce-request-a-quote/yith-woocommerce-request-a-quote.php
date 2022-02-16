@@ -2,14 +2,14 @@
 /**
  * Plugin Name: YITH Request a Quote for WooCommerce
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-request-a-quote
- * Version: 2.5.0
+ * Version: 2.6.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Description: The <code><strong>YITH Request a Quote for WooCommerce</strong></code> plugin lets your customers ask for an estimate of a list of products they are interested into. It allows hiding add to cart button so that your customers can request a quote on every product page. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
  * Text Domain: yith-woocommerce-request-a-quote
  * Domain Path: /languages/
  * WC requires at least: 5.8
- * WC tested up to: 6.1
+ * WC tested up to: 6.2
  *
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.3

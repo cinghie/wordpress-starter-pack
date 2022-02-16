@@ -744,9 +744,9 @@ class GA extends Settings implements Pixel {
 			 * Analytic's Product Performance report.
 			 */
 			if ( isWooCommerceVersionGte( '3.0' ) ) {
-				$price = $line_item['total'] + $line_item['total_tax'];
+				$price = pys_round($line_item['total'] + $line_item['total_tax']);
 			} else {
-				$price = $line_item['line_total'] + $line_item['line_tax'];
+				$price = pys_round($line_item['line_total'] + $line_item['line_tax']);
 			}
 
 			$qty = $line_item['qty'];

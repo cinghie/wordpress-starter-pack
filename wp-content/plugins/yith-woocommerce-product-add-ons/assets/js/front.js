@@ -13,7 +13,7 @@ jQuery('body').on( 'change', '.yith-wapo-addon-type-checkbox input', function() 
 	// if ( ! optionWrapper.hasClass('yith-wapo-option') ) { optionWrapper = optionWrapper.parent(); }
 	if ( jQuery(this).is(':checked') ) {
 		optionWrapper.addClass('selected');
-		
+
 		// Single selection
 		if ( optionWrapper.hasClass('selection-single') ) {
 			// Disable all
@@ -138,20 +138,29 @@ jQuery('body').on( 'change', '.yith-wapo-addon-type-radio input', function() {
 // addon type (select)
 
 jQuery('body').on( 'change', '.yith-wapo-addon-type-select select', function() {
-	var optionWrapper = jQuery(this).parent();
-	var selectedOption = jQuery(this).find('option:selected');
+	let optionWrapper    = jQuery( this ).parent();
+	let selectedOption   = jQuery( this ).find('option:selected');
+  let optionImageBlock = optionWrapper.find('div.option-image');
 	// Proteo check
-	if ( ! optionWrapper.hasClass('yith-wapo-option') ) { optionWrapper = optionWrapper.parent(); }
+	if ( ! optionWrapper.hasClass('yith-wapo-option') ) {
+    optionWrapper = optionWrapper.parent();
+  }
 
 	// Description & Image.
 	var optionImage       = selectedOption.data( 'image' );
 	var optionDescription = selectedOption.data( 'description' );
 	var option_desc       = optionWrapper.find( 'p.option-description' );
 
-	if ( typeof optionImage !== 'undefined' ) {
+	if ( typeof optionImage !== 'undefined' && optionImage ) {
 		optionImage = '<img src="' + optionImage + '" style="max-width: 100%">';
-		optionWrapper.find('div.option-image').html( optionImage );
+    optionImageBlock.html( optionImage );
 	}
+
+  if ( 'default' === selectedOption.val() ){
+    optionImageBlock.hide();
+  } else {
+    optionImageBlock.fadeIn();
+  }
 
 	if ( 'undefined' === typeof optionDescription ) {
 		option_desc.empty();
@@ -173,13 +182,23 @@ jQuery('.yith-wapo-addon-type-select select').trigger('change');
 // toggle feature
 
 jQuery( document ).on( 'click', '.yith-wapo-addon.wapo-toggle .wapo-addon-title', function(){
-	jQuery(this).parent().find('.options').toggle('fast');
-	if ( jQuery(this).hasClass('toggle-open') ) {
-		jQuery(this).removeClass('toggle-open').addClass('toggle-closed');
+  let addon_title = jQuery( this );
+  let addon_el = addon_title.parents( '.yith-wapo-addon' );
+
+  if ( addon_el.hasClass('toggle-open') ) {
+    addon_el.removeClass('toggle-open').addClass('toggle-closed');
+  } else {
+    addon_el.removeClass('toggle-closed').addClass('toggle-open');
+  }
+	if ( addon_title.hasClass('toggle-open') ) {
+    addon_title.removeClass('toggle-open').addClass('toggle-closed');
 	} else {
-		jQuery(this).removeClass('toggle-closed').addClass('toggle-open');
+    addon_title.removeClass('toggle-closed').addClass('toggle-open');
 	}
-	jQuery(document).trigger('yith_proteo_inizialize_html_elements');
+
+  addon_title.parent().find('.options').toggle('fast');
+
+  jQuery(document).trigger('yith_proteo_inizialize_html_elements');
 });
 
 
@@ -190,12 +209,8 @@ jQuery( document ).on( 'click', '.yith-wapo-addon.wapo-toggle .wapo-addon-title'
 // function: replace image
 
 function yith_wapo_replace_image( optionWrapper, reset = false ) {
-	var defaultPath = '.woocommerce-product-gallery .woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image:first-child img';
-	defaultPath += ', .woocommerce-product-gallery .woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image:first-child source';
-	defaultPath += ', .yith_magnifier_zoom img, .yith_magnifier_zoom_magnifier';
-	defaultPath += ', .owl-carousel .woocommerce-main-image';
-	defaultPath += ', .woocommerce-product-gallery__image .wp-post-image';
-	defaultPath += ', .dt-sc-product-image-gallery-container .wp-post-image';
+
+  var defaultPath = yith_wapo.replace_image_path;
 	var zoomMagnifier = '.yith_magnifier_zoom_magnifier, .zoomWindowContainer .zoomWindow';
 
 	if ( typeof optionWrapper.data('replace-image') !== 'undefined' && optionWrapper.data('replace-image') != '' ) {
@@ -230,13 +245,15 @@ function yith_wapo_replace_image( optionWrapper, reset = false ) {
 // function: check_required_fields
 
 function yith_wapo_check_required_fields( action ) {
-	var isRequired = false;
-	var hideButton = false;
+	var isRequired    = false;
+	var hideButton    = false;
 	var buttonClasses = yith_wapo.dom.single_add_to_cart_button;
 	jQuery( 'form.cart .yith-wapo-addon:not(.hidden) input, form.cart .yith-wapo-addon:not(.hidden) select, form.cart .yith-wapo-addon:not(.hidden) textarea' ).each( function() {
-		let element = jQuery(this);
-		let parent  = element.parent();
-		let upload_el = parent.find( '.yith-wapo-ajax-uploader' );
+		let element            = jQuery( this );
+		let parent             = element.parent();
+    let toggle_addon       = element.parents( 'div.yith-wapo-addon.wapo-toggle' );
+    let toggle_addon_title = toggle_addon.find( 'h3.wapo-addon-title.toggle-closed' );
+		let upload_el          = parent.find( '.yith-wapo-ajax-uploader' );
 
 		if (
 			element.attr( 'required' ) && ( 'checkbox' === element.attr('type') || 'radio' === element.attr('type') ) && ! element.parents( '.yith-wapo-option' ).hasClass( 'selected' )
@@ -254,6 +271,10 @@ function yith_wapo_check_required_fields( action ) {
 				}
 
 				parent.find( '.required-error' ).css( 'display', 'block' );
+
+        if ( toggle_addon_title ) {
+          toggle_addon_title.click();
+        }
 			}
 
 			hideButton = true;
@@ -293,7 +314,7 @@ function yith_wapo_conditional_logic_check() {
 
 			// variation check
 			if ( ruleAddonSplit[0] == 'v' ) {
-				
+
 				if ( jQuery('.variation_id').val() == ruleAddonSplit[2] ) {
 					anySelected = true;
 				}
@@ -354,7 +375,7 @@ function yith_wapo_conditional_logic_check() {
 
 // ajax reload addons
 
-jQuery('form.cart').on( 'yith-wapo-reload-addons', function( event, productPrice = '' ) {
+jQuery( this ).on( 'yith-wapo-reload-addons', function( event, productPrice = '' ) {
 	jQuery('#yith-wapo-container').css('opacity', '0.5');
 	var addons = jQuery('form.cart').serializeArray();
 	var data = {
@@ -365,7 +386,7 @@ jQuery('form.cart').on( 'yith-wapo-reload-addons', function( event, productPrice
 		data.price = productPrice;
 	}
 	jQuery.ajax( {
-		url : ajaxurl,
+		url : yith_wapo.ajaxurl,
 		type : 'post',
 		data : data,
 		success : function( response ) {
@@ -377,9 +398,19 @@ jQuery('form.cart').on( 'yith-wapo-reload-addons', function( event, productPrice
 	return false;
 });
 
+function updateContainerProductPrice( variation ) {
+  let container = jQuery( '#yith-wapo-container' );
+  let new_product_price = 0;
+  if ( typeof( variation.display_price ) !== 'undefined' ) {
+    new_product_price = variation.display_price;
+  }
+  container.attr( 'data-product-price', new_product_price );
+}
+
 // reload after variation change
-jQuery('form.cart').on( 'change', '.variations', function() {
-	jQuery('form.cart').trigger( 'yith-wapo-reload-addons');
+jQuery( this ).on('found_variation', function ( event, variation ) {
+  updateContainerProductPrice( variation );
+  jQuery( this ).trigger( 'yith-wapo-reload-addons');
 });
 
 // WooCommerce Measurement Price Calculator (compatibility)
@@ -387,12 +418,6 @@ jQuery('form.cart').on( 'change', '#price_calculator', function() {
 	var price = jQuery('#price_calculator .product_price .amount').text().replace( ',', '.' );
 	price = price.replace(/[^0-9\.-]+/g,'');
 	jQuery('form.cart').trigger( 'yith-wapo-reload-addons', [ price ] );
-});
-
-// YITH ROLE BASED PRICES compatibility
-jQuery('form.cart').on('change','.variation_id',function(){
-
-	jQuery('form.cart').trigger( 'yith-wapo-reload-addons');
 });
 
 /*
@@ -437,10 +462,10 @@ jQuery('.yith-wapo-ajax-uploader').on('drop', function (e) {
 	data.append( 'action', 'upload_file' );
 	data.append( 'file', file );
 
-	if ( wapo_upload_allowed_file_types.includes( file.name.split('.').pop().toLowerCase() ) ) {
-		if ( file.size <= wapo_upload_max_file_size * 1024 * 1024 ) {
-			yith_wapo_ajax_upload_file( data, file, input );	
-		} else { alert('Error: max file size ' + wapo_upload_max_file_size + ' MB!') }
+	if ( yith_wapo.upload_allowed_file_types.includes( file.name.split('.').pop().toLowerCase() ) ) {
+		if ( file.size <= yith_wapo.upload_max_file_size * 1024 * 1024 ) {
+			yith_wapo_ajax_upload_file( data, file, input );
+		} else { alert('Error: max file size ' + yith_wapo.upload_max_file_size + ' MB!') }
 	} else { alert('Error: not supported extension!') }
 });
 
@@ -452,17 +477,17 @@ jQuery('#yith-wapo-container').on('click', '.yith-wapo-ajax-uploader .button, .y
 // upload on click
 jQuery('#yith-wapo-container').on('change', '.yith-wapo-addon-type-file input.file', function() {
 	var input = jQuery(this);
-	var file = jQuery(this)[0].files[0];		
+	var file = jQuery(this)[0].files[0];
 	var data = new FormData();
 	data.append( 'action', 'upload_file' );
 	data.append( 'file', file );
 
-	if ( wapo_upload_allowed_file_types.includes( file.name.split('.').pop().toLowerCase() ) ) {
-		if ( file.size <= wapo_upload_max_file_size * 1024 * 1024 ) {
-			yith_wapo_ajax_upload_file( data, file, input );	
-		} else { alert('Error: max file size ' + wapo_upload_max_file_size + ' MB!') }
+	if ( yith_wapo.upload_allowed_file_types.includes( file.name.split('.').pop().toLowerCase() ) ) {
+		if ( file.size <= yith_wapo.upload_max_file_size * 1024 * 1024 ) {
+			yith_wapo_ajax_upload_file( data, file, input );
+		} else { alert('Error: max file size ' + yith_wapo.upload_max_file_size + ' MB!') }
 	} else { alert('Error: not supported extension!') }
-	
+
 });
 
 // remove
@@ -474,11 +499,11 @@ jQuery('#yith-wapo-container').on('click', '.yith-wapo-uploaded-file .remove', f
 });
 
 function yith_wapo_ajax_upload_file( data, file, input ) {
-
+  let exactSize = calculate_exact_file_size( file );
 	input.parent().find('.yith-wapo-ajax-uploader').append('<div class="loader"></div>');
 
 	jQuery.ajax( {
-		url			: ajaxurl,
+		url			: yith_wapo.ajaxurl,
 		type		: 'POST',
 		contentType	: false,
 		processData	: false,
@@ -490,10 +515,9 @@ function yith_wapo_ajax_upload_file( data, file, input ) {
 			wapo_option.find('.yith-wapo-ajax-uploader').hide();
 			//jQuery('.yith-wapo-ajax-uploader').html( 'Drop file to upload or <a href="' + response + '" target="_blank">browse</a>' );
 
-			var file_size = parseFloat( file.size / 1024 / 1024 ).toFixed(2) + ' MB';
 			var file_name = response.replace(/^.*[\\\/]/, '');
 
-			wapo_option.find('.yith-wapo-uploaded-file .info').html( file_name + '<br />' + file_size );
+			wapo_option.find('.yith-wapo-uploaded-file .info').html( file_name + '<br />' + exactSize );
 			wapo_option.find('.yith-wapo-uploaded-file').fadeIn();
 			wapo_option.find('input.option').val( response ).change();
 		},
@@ -504,6 +528,19 @@ function yith_wapo_ajax_upload_file( data, file, input ) {
 	return false;
 }
 
+function calculate_exact_file_size( file ) {
+  let exactSize  = 0;
+  let file_size  = file.size;
+  let file_types = ['Bytes', 'KB', 'MB', 'GB'],
+    i = 0;
+  while( file_size > 900 ) {
+    file_size /= 1024;
+    i++;
+  }
+  exactSize = ( Math.round(file_size * 100 ) / 100 ) + ' ' + file_types[i];
+
+  return exactSize;
+}
 
 
 
@@ -573,9 +610,11 @@ function yith_wapo_check_min_max( addon, submit = false ) {
 	var minValue = addon.data('min');
 	var maxValue = addon.data('max');
 	var exaValue = addon.data('exa');
-	var numberOfChecked = addon.find('input:checkbox:checked, input:radio:checked, option:not([value=""]):selected').length;
+	var numberOfChecked = addon.find('input:checkbox:checked, input:radio:checked, option:not([value=""]):not([value="default"]):selected').length;
 
-	if ( exaValue > 0 ) {
+  let toggle_addon_title = addon.find( 'h3.wapo-addon-title.toggle-closed' );
+
+  if ( exaValue > 0 ) {
 
 		var optionsToSelect = 0;
 		if ( exaValue == numberOfChecked ) {
@@ -590,12 +629,15 @@ function yith_wapo_check_min_max( addon, submit = false ) {
 				addon.find( '.min-error' ).show();
 				if ( optionsToSelect == 1 ) {
 					addon.find( '.min-error-an, .min-error-option' ).show();
-					addon.find( '.min-error-qty, .min-error-option' ).hide();
+					addon.find( '.min-error-qty' ).hide();
 				} else {
 					addon.find( '.min-error-an, .min-error-option' ).hide();
 					addon.find( '.min-error-qty, .min-error-options' ).show();
 					addon.find( '.min-error-qty' ).text( optionsToSelect );
 				}
+        if ( toggle_addon_title ) {
+          toggle_addon_title.click();
+        }
 			}
 			// addon.find('input:checkbox').attr( 'required', true );
 			addon.find('input:checkbox').not(':checked').attr( 'disabled', false );
@@ -631,6 +673,9 @@ function yith_wapo_check_min_max( addon, submit = false ) {
 						addon.find( '.min-error-qty, .min-error-options' ).show();
 						addon.find( '.min-error-qty' ).text( optionsToSelect );
 					}
+          if ( toggle_addon_title ) {
+            toggle_addon_title.click();
+          }
 				}
 				// addon.find('input:checkbox').attr( 'required', true );
 			}
@@ -643,25 +688,39 @@ function yith_wapo_check_min_max( addon, submit = false ) {
 
 // multiplied by value price
 
-jQuery( 'body' ).on( 'change', '.yith-wapo-addon-type-number input', function() {
+jQuery( 'body' ).on( 'change keyup', '.yith-wapo-addon-type-number input', function() {
 	yith_wapo_check_multiplied_price( jQuery( this ) );
 });
 
 function yith_wapo_check_multiplied_price( addon ) {
-	var price = addon.data('price');
-	var defaultPrice = addon.data('default-price');
+	let price        = addon.data( 'price' );
+	let sale_price   = addon.data( 'price-sale' );
+	let defaultPrice = addon.data( 'default-price' );
+	let priceType    = addon.data( 'price-type' );
+	let priceMethod  = addon.data( 'price-method' );
+	let default_attr = 'price';
+  let final_price  = 0;
+  let addon_value  = addon.val();
+
 	if ( ! defaultPrice > 0 ) {
+		if ( sale_price > 0 && ( 'number' !== addon.attr( 'type' ) && 'multiplied' === priceType ) ) {
+			price        = sale_price;
+			default_attr = 'price-sale';
+		}
 		defaultPrice = price;
-		addon.data('default-price', defaultPrice);
+		addon.data( 'default-price', defaultPrice );
 	}
-	var priceType = addon.data('price-type');
-	var priceMethod = addon.data('price-method');
 	if ( priceMethod == 'value_x_product' ) {
-		var productPrice = parseFloat( jQuery('#yith-wapo-container').data('product-price') );
-		addon.data( 'price', addon.val() * productPrice );
+		var productPrice = parseFloat( jQuery( '#yith-wapo-container' ).data( 'product-price' ) );
+    final_price = addon_value * productPrice;
 	} else if ( priceType == 'multiplied' ) {
-		addon.data( 'price', addon.val() * defaultPrice );
+    final_price = addon_value * defaultPrice;
 	}
+
+  if ( final_price > 0 ) {
+    addon.data( default_attr, final_price );
+  }
+
 }
 
 // multiplied by length

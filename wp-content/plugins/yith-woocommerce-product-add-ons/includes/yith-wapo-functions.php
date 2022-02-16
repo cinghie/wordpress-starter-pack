@@ -116,6 +116,41 @@ if ( ! function_exists( 'yith_wapo_get_option_info' ) ) {
 	}
 }
 
+if ( ! function_exists( 'yith_wapo_get_option_label' ) ) {
+	/**
+	 * Get Option Label
+	 *
+	 * @param int $addon_id Addon ID.
+	 * @param int $option_id Option ID.
+	 * @return string
+	 */
+	function yith_wapo_get_option_label( $addon_id, $option_id ) {
+
+		$label = '';
+		$info = yith_wapo_get_option_info( $addon_id, $option_id );
+
+		if ( ! empty( $info ) && is_array( $info ) ) {
+			if ( in_array( $info['addon_type'], array(
+				'checkbox',
+				'radio',
+				'color',
+				'select',
+				'label',
+				'file',
+				'product'
+			), true ) ) {
+				$label = isset( $info['addon_label'] ) && ! empty( $info['addon_label'] ) ? $info['addon_label'] : __( 'Option', 'yith-woocommerce-product-add-ons' );
+			} else {
+				$label = isset( $info['label'] ) && ! empty( $info['label'] ) ? $info['label'] : __( 'Option', 'yith-woocommerce-product-add-ons' );
+			}
+		}
+
+		return $label;
+	}
+}
+
+
+
 if ( ! function_exists( 'yith_wapo_get_option_price' ) ) {
 	/**
 	 * Get Option Price
@@ -136,7 +171,7 @@ if ( ! function_exists( 'yith_wapo_get_option_price' ) ) {
 			if ( isset( $cart_item['pricing_item_meta_data']['_price'] ) ) {
 				$product_price = $cart_item['pricing_item_meta_data']['_price'];
 			} else {
-				$product_price = ( $_product instanceof WC_Product ) ? floatval( $_product->get_price() ) : 0; 
+				$product_price = ( $_product instanceof WC_Product ) ? floatval( $_product->get_price() ) : 0;
 			}
 			// end WooCommerce Measurement Price Calculator (compatibility).
 			$option_percentage      = floatval( $info['price'] );
@@ -165,7 +200,7 @@ if ( ! function_exists( 'yith_wapo_get_tax_rate' ) ) {
 	 */
 	function yith_wapo_get_tax_rate() {
 		$wc_tax_rate = false;
-		
+
 		if ( get_option( 'woocommerce_calc_taxes', 'no' ) === 'yes' ) {
 
 			$wc_tax_rates = WC_Tax::get_rates();

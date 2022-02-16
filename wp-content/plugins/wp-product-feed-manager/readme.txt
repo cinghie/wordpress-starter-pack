@@ -5,7 +5,7 @@ Tags: Google Merchant Export, Product feed, woocommerce, Google product feed exp
 Requires at least: 5.4
 Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 1.37.0
+Stable tag: 1.38.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -96,6 +96,13 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.38.0 - 23/01/2022 =
+* Fixed an issue that could cause incorrect price values when using specific third party plugins. 
+* Added the "Product Parent Description" source.
+* Fixed an issue where in some situations the image url's would not load.
+* Added support for the WooCommerce Currency Switcher plugin.
+* Tested on WooCommerce 6.1.
+
 = 1.37.0 - 20/12/2021 =
 * Added the "Regular Price With Tax", "Regular Price Without Tax", "Sale Price With Tax" and "Sale Price Without Tax" sources.
 * Fixed an issue that would cause a type error when opening the Edit Feed page.

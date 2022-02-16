@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Wishlist - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-12-24 10:42:13+0000\n"
+"PO-Revision-Date: 2022-01-12 21:11:05+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,76 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Wishlist - Stable (latest release)\n"
+
+#: plugin-fw/templates/panel/premium-tab.php:58
+msgctxt "Premium Tab"
+msgid "Get the premium version"
+msgstr "Ottieni la versione premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:53
+msgctxt "Premium Tab"
+msgid "Check the free vs premium features >"
+msgstr "Confronta le funzionalità della versione gratuita e della premium >"
+
+#: plugin-fw/templates/panel/premium-tab.php:51
+msgctxt "Premium Tab"
+msgid "And so much more!"
+msgstr "E molto altro!"
+
+#: plugin-fw/templates/panel/premium-tab.php:39
+msgctxt "Premium Tab"
+msgid "Plugin premium features images"
+msgstr "Immagini funzionalità premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:34
+msgctxt "Premium Tab"
+msgid "Get premium"
+msgstr "Diventa premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:30
+msgctxt "Premium Tab"
+msgid "Get the premium version to unlock advanced features"
+msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
+
+#: includes/class-yith-wcwl-admin.php:279
+msgid "Regular updates, Translations and Premium Support"
+msgstr "Aggiornamenti costanti, traduzioni e assistenza premium"
+
+#: includes/class-yith-wcwl-admin.php:278
+msgid "<b>Send an automatic email to the wishlist owner</b> whenever a product in the list is back in stock or on sale"
+msgstr "<b>Invia un'email automatica a chi ha la lista dei desideri </b> quando uno dei prodotti aggiunti è di nuovo disponibile o in offerta"
+
+#: includes/class-yith-wcwl-admin.php:277
+msgid "View the most popular products added to the wishlist by your customers and <b>send promotional emails to users</b> who have added specific products to their wishlist"
+msgstr "Visualizza i prodotti più popolari aggiunti dagli utenti alle liste dei desideri e <b>invia email promozionali</b> a coloro che hanno aggiunto dei prodotti specifici"
+
+#: includes/class-yith-wcwl-admin.php:276
+msgid "<b>Show a wishlist widget</b> that lists all the products in the wishlists (available also with \"mini-cart\" style for the header)"
+msgstr "<b>Mostra un widget per la lista dei desideri</b> con l'elenco di tutti i prodotti aggiunti (disponibile anche con stile \"mini-carrello\" per l'header)"
+
+#: includes/class-yith-wcwl-admin.php:275
+msgid "Enable an <b>\"Ask for an estimate\" button</b> to let customers send the content of their wishlist to the admin and get a custom quote"
+msgstr "Abilita un <b>pulsante \"Richiedi un preventivo\" </b> per permettere agli utenti di inviare all'amministratore il contenuto della loro lista dei desideri ed ottenere un preventivo personalizzato"
+
+#: includes/class-yith-wcwl-admin.php:274
+msgid "<b>Allow users to manage their wishlists:</b> rename and delete wishlists, move a product from one wishlist to another, change order of items, quantity, etc."
+msgstr "<b>Permetti agli utenti di gestire le proprie liste dei desideri:</b> rinominare ed eliminare, spostare un prodotto da una lista all'altra, cambiare l'ordinamento degli elementi, quantità, ecc."
+
+#: includes/class-yith-wcwl-admin.php:273
+msgid "Choose between <b>different layouts</b> for the wishlist page and for the wishlist content"
+msgstr "Scegli tra <b>diversi layout</b> per la pagina Lista dei desideri e per il suo contenuto"
+
+#: includes/class-yith-wcwl-admin.php:272
+msgid "Allow users to set <b>visibility options for each wishlist</b>, by making them either public (visible to everyone), private or shared (visible only to people it has been shared with)"
+msgstr "Permetti agli utenti di impostare le <b>opzioni di visibilità per ogni lista dei desideri</b> rendendole pubbliche (visibili a chiunque), private o condivise (visibili solo alle persone con cui le hanno condivise)"
+
+#: includes/class-yith-wcwl-admin.php:271
+msgid "Allow users to create <b>multiple wishlists</b> (Ex: Christmas, Birthday, etc.) <br>Users can choose the wishlist from a dropdown menu when they click on \"Add to wishlist\""
+msgstr "Permetti agli utenti di creare <b>liste dei desideri multiple</b> (Es: Natale, Compleanno, ecc.) <br>Gli utenti possono scegliere la lista da un menu a discesa facendo clic su \"Aggiungi alla lista\""
+
+#: includes/class-yith-wcwl-admin.php:270
+msgid "Enable the wishlist feature for all users or <b>only for registered users</b>"
+msgstr "Abilita la funzionalità lista dei desideri per tutti gli utenti o <b>solo per gli utenti registrati</b>"
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:853
 msgctxt "Premium tab name"
@@ -175,7 +245,7 @@ msgstr "Sì, sposta nel cestino"
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
-#: includes/class-yith-wcwl-admin.php:261
+#: includes/class-yith-wcwl-admin.php:259
 msgctxt "[HELP TAB] Video title"
 msgid "Check this video to learn how to <b>configure wishlist and customize options:</b>"
 msgstr "Guarda questo video per scoprire come <b>configurare Wishlist e le sue opzioni:</b>"
@@ -265,13 +335,11 @@ msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
-#. translators: %s is the title of the post object.
 #: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1913
 #: plugin-fw/yit-functions.php:2073
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
-#. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
 #: plugin-fw/yit-functions.php:1913 plugin-fw/yit-functions.php:2073
 msgid "Are you sure you want to delete \"%s\"?"
@@ -332,7 +400,6 @@ msgstr "Anteprima:"
 msgid "From now on, you can find the option panel of YITH plugins in YITH menu. Every time one of our plugins is added, a new entry will be added to this menu. For example, after the update, plugin options (such as for YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) will be moved from previous location to YITH menu."
 msgstr "D'ora in poi troverai il pannello opzioni dei plugin YITH nel menu YITH. Ogni volta che viene aggiunto uno dei nostri plugin comparirà una voce in questo menu. Ad esempio, dopo l'aggiornamento, le opzioni del plugin (come per YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) verranno spostate dalla posizione precedente al menu YITH."
 
-#. translators: 1. YITH site link; 2. WordPress site link.
 #. translators: 1. YITH site link; 2. WordPress site link.
 #: plugin-fw/includes/class-yit-pointers.php:84
 #: plugin-fw/includes/class-yit-pointers.php:100
@@ -495,7 +562,7 @@ msgstr "La mia lista dei desideri"
 msgid "Close"
 msgstr "Chiudi"
 
-#: includes/class-yith-wcwl-admin.php:126
+#: includes/class-yith-wcwl-admin.php:125
 msgid "Wishlist Page"
 msgstr "Pagina Lista dei desideri"
 
@@ -644,91 +711,6 @@ msgstr "Vedi &rsaquo;"
 msgid "or"
 msgstr "oppure"
 
-#: templates/admin/wishlist-panel-premium.php:302
-msgid "We took inspiration from one of the most interesting features of Amazon product pages: from now on, users can realise what’s the best time to buy a product and how much they can save when there’s a promotion running or a discount on the product they’ve added to the wishlist."
-msgstr "Abbiamo tratto ispirazione da una delle funzionalità più interessanti delle pagine prodotto di Amazon: d'ora in poi gli utenti possono decidere qual è il momento migliore per acquistare un prodotto e quanto possono risparmiare quando è in corso una promozione sul prodotto che hanno aggiunto alla lista dei desideri. "
-
-#: templates/admin/wishlist-panel-premium.php:300
-msgid "Allow users to monitor the price of the products in their wishlist"
-msgstr "Permetti agli utenti di monitorare il prezzo dei prodotti nella loro lista dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:286
-msgid "Increase the wishlist visibility through our modern widgets that you can use in the header, in the sidebars, wherever you want."
-msgstr "Aumenta la visibilità della lista dei desideri tramite i nostri moderni widget che puoi utilizzare nell'header, nelle barre laterali, dove vuoi."
-
-#: templates/admin/wishlist-panel-premium.php:284
-msgid "Wishlist widgets for the header and sidebars"
-msgstr "Widget della lista dei desideri per header e barre laterali"
-
-#: templates/admin/wishlist-panel-premium.php:273
-msgid "The wishlist is one of the most used functionalities in an ecommerce store but often the page layout is not enhanced enough and looks unattractive to the user. With our plugin, you can choose among some alternative layouts and offer an even more interesting experience to users who creates a wishlist on your website."
-msgstr "La lista dei desideri è una delle funzionalità più usate in un e-commerce ma spesso il layout della pagina non è abbastanza potenziato e appare poco attraente all'utente. Con il nostro plugin puoi scegliere tra layout diversi ed offrire agli utenti un'esperienza ancora più interessante per creare una lista dei desideri sul tuo sito. "
-
-#: templates/admin/wishlist-panel-premium.php:271
-msgid "Choose a charming layout for your wishlist page"
-msgstr "Scegli un layout piacevole per la tua pagina Lista dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:260
-msgid "Let them move products from one wishlist to the cart in one click, keeping also the information about the size, colour or quantity selected when added to the wishlist."
-msgstr "Permetti di spostare i prodotti da una lista dei desideri al carrello con un solo clic, mantenendo anche i dati riguardo taglia, colore o quantità selezionati quando sono stati aggiunti alla lista. "
-
-#: templates/admin/wishlist-panel-premium.php:258
-msgid "Let users buy the product right from the wishlist page"
-msgstr "Permetti agli utenti di acquistare il prodotto direttamente dalla pagina Lista dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:250
-msgid "Just three clicks to send promotional emails with discount coupons to customers who have added specific products to their wishlist and push them to buy."
-msgstr "Solo 3 clic per inviare email promozionali con codici sconto ai clienti che hanno aggiunto determinati prodotti alla loro lista dei desideri ed incoraggiarli ad acquistare. "
-
-#: templates/admin/wishlist-panel-premium.php:248
-msgid "Send promotional emails for products in wishlists to push customers to buy"
-msgstr "Invia email promozionali per i prodotti nelle liste dei desideri per incoraggiare i clienti all'acquisto"
-
-#: templates/admin/wishlist-panel-premium.php:234
-msgid "You can see your customers’ wishlists, gain insight into the products they are more interested in and plan targeted marketing strategies."
-msgstr "Puoi vedere le liste dei desideri dei tuoi clienti, avere sott'occhio i prodotti a cui sono più interessati e programmare strategie di marketing mirate. "
-
-#: templates/admin/wishlist-panel-premium.php:232
-msgid "Monitor your customers’ wishlists and the popular products"
-msgstr "Monitorizza le liste dei desideri dei tuoi clienti e i prodotti popolari"
-
-#: templates/admin/wishlist-panel-premium.php:224
-msgid "Your customers can sort the products in the wishlist thanks to the drag&drop option, move products from one wishlist to another, manage product quantity, download the wishlist content to a .pdf file, share the wishlist on their social networks, and much more!"
-msgstr "Grazie all'opzione drag&drop i tuoi clienti possono ordinare i prodotti nella lista dei desideri, spostarli da una lista all'altra, gestire la quantità del prodotto, scaricare il contenuto della lista in un file PDF, condividere sui loro social network e molto altro!"
-
-#: templates/admin/wishlist-panel-premium.php:222
-msgid "An advanced and more versatile management of the wishlist"
-msgstr "Una gestione avanzata e più versatile della lista dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:208
-msgid "And give only registered users the privilege to use the wishlist functionalities."
-msgstr "E offrire il privilegio delle funzionalità della lista dei desideri solo agli utenti registrati. "
-
-#: templates/admin/wishlist-panel-premium.php:206
-msgid "Allow your customers to ask for an estimate, directly from their wishlist page"
-msgstr "Permetti ai tuoi clienti di richiedere un preventivo direttamente dalla pagina Lista dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:198
-msgid "Your customers can set a privacy option for each wishlist and choose whether sharing the wishlist or making it private."
-msgstr "I tuoi clienti possono impostare un'opzione per la privacy per ogni lista dei desideri e scegliere se condividerla o renderla privata. "
-
-#: templates/admin/wishlist-panel-premium.php:196
-msgid "A transparent privacy management"
-msgstr "Una gestione della privacy trasparente"
-
-#: templates/admin/wishlist-panel-premium.php:182
-msgid "Christmas, Birthday... users will be able to create and manage multiple wishlists, in case they prefer to keep the products sorted by category or other parameters."
-msgstr "Natale, compleanno...gli utenti potranno creare e gestire liste dei desideri multiple nel caso preferiscano ordinare i prodotti per categoria o altri parametri. "
-
-#: templates/admin/wishlist-panel-premium.php:180
-msgid "Allow your customers to create multiple wishlists"
-msgstr "Permetti ai tuoi clienti di creare liste dei desideri multiple"
-
-#: templates/admin/wishlist-panel-premium.php:170
-#: templates/admin/wishlist-panel-premium.php:311
-msgid "Upgrade"
-msgstr "Aggiorna"
-
 #: templates/wishlist-view-mobile.php:233 templates/wishlist-view.php:283
 msgid "Move to another list &rsaquo;"
 msgstr "Sposta in un'altra lista &rsaquo;"
@@ -756,7 +738,6 @@ msgstr "Aggiorna"
 msgid "Apply"
 msgstr "Applica"
 
-#. translators: 1. Wishlist formatted name.
 #. translators: 1. Wishlist formatted name.
 #: templates/wishlist-view-footer-mobile.php:67
 #: templates/wishlist-view-footer.php:67
@@ -1383,19 +1364,19 @@ msgid_plural "%d users"
 msgstr[0] "%d utente"
 msgstr[1] "%d utenti"
 
-#: includes/class-yith-wcwl-admin.php:251
+#: includes/class-yith-wcwl-admin.php:249
 msgid "Allows your customers to create and share lists of products that they want to purchase on your e-commerce."
 msgstr "Permette ai tuoi clienti di creare e condividere delle liste di prodotti che desiderano acquistare sul tuo e-commerce."
 
-#: includes/class-yith-wcwl-admin.php:150
+#: includes/class-yith-wcwl-admin.php:149
 msgid "Wishlist page options"
 msgstr "Opzioni pagina Lista dei desideri"
 
-#: includes/class-yith-wcwl-admin.php:149
+#: includes/class-yith-wcwl-admin.php:148
 msgid "Add to wishlist options"
 msgstr "Opzioni Aggiungi alla lista"
 
-#: includes/class-yith-wcwl-admin.php:148
+#: includes/class-yith-wcwl-admin.php:147
 msgid "General settings"
 msgstr "Impostazioni generali"
 
@@ -1439,7 +1420,6 @@ msgstr "(Ora"
 msgid "Iconv Module"
 msgstr "Iconv Module"
 
-#. translators: 1. user display name; 2. user ID; 3. user email.
 #. translators: 1. user display name; 2. user ID; 3. user email.
 #: plugin-fw/templates/fields/ajax-customers.php:68
 #: plugin-fw/templates/fields/ajax-customers.php:79
@@ -1517,7 +1497,6 @@ msgstr "Versione WordPress"
 msgid "System Status"
 msgstr "Stato del sistema"
 
-#. translators: %1$s opening link tag, %2$s closing link tag
 #. translators: %1$s opening link tag, %2$s closing link tag
 #: plugin-fw/includes/class-yith-system-status.php:577
 #: plugin-fw/includes/class-yith-system-status.php:600
@@ -1857,55 +1836,6 @@ msgstr "Come installare la versione premium"
 #: plugin-fw/templates/fields/upload.php:39
 msgid "Reset"
 msgstr "Ripristina"
-
-#: templates/admin/wishlist-panel-premium.php:296
-msgid "FUNCTIONALITIES"
-msgstr "FUNZIONALITÀ"
-
-#: templates/admin/wishlist-panel-premium.php:289
-msgid "POPULAR TABLE"
-msgstr "TABELLA POPOLARI"
-
-#: templates/admin/wishlist-panel-premium.php:276
-msgid "UNLOGGED USERS"
-msgstr "UTENTI NON COLLEGATI"
-
-#: templates/admin/wishlist-panel-premium.php:263
-msgid "DISABLE WISHLIST"
-msgstr "DISABILITA WISHLIST"
-
-#: templates/admin/wishlist-panel-premium.php:244
-msgid "'ADD TO CART'"
-msgstr "AGGIUNGI AL CARRELLO"
-
-#: templates/admin/wishlist-panel-premium.php:237
-msgid "Search Wishlists"
-msgstr "Cerca liste dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:218
-msgid "Admin Panel"
-msgstr "Pannello amministrazione"
-
-#: templates/admin/wishlist-panel-premium.php:211
-msgid "Estimate Cost"
-msgstr "Preventivo"
-
-#: templates/admin/wishlist-panel-premium.php:192
-msgid "Wishlist Private"
-msgstr "Lista dei desideri privata"
-
-#: templates/admin/wishlist-panel-premium.php:185
-msgid "Multiple Wishlist"
-msgstr "Molteplici liste dei desideri"
-
-#: templates/admin/wishlist-panel-premium.php:176
-msgid "Premium Features"
-msgstr "Funzionalità premium"
-
-#: templates/admin/wishlist-panel-premium.php:168
-#: templates/admin/wishlist-panel-premium.php:309
-msgid "Upgrade to the %1$spremium version%2$s%3$sof %1$sYITH WooCommerce Wishlist%2$s to benefit from all features!"
-msgstr "Aggiorna alla %1$sversione premium%2$s %3$s di%1$sYITH WooCommerce Wishlist%2$s per usufruire di tutte le sue funzionalità!"
 
 #. Author URI of the plugin
 msgid "https://yithemes.com/"
@@ -2397,15 +2327,10 @@ msgstr "YITH WooCommerce Wishlist"
 msgid "Wishlist page"
 msgstr "Pagina Lista dei desideri"
 
-#: includes/class-yith-wcwl-admin.php:151
-msgid "Premium Version"
-msgstr "Versione premium"
-
 #: plugin-fw/includes/class-yit-plugin-panel.php:84
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: includes/class-yith-wcwl-admin.php:249
 #: includes/class-yith-wcwl-install.php:342
 msgid "Wishlist"
 msgstr "Wishlist"

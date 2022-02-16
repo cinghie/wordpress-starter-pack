@@ -19,10 +19,10 @@ class EventsManager {
 
 
     public function __construct() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueueScripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueueScripts' ),10 );
+        add_action( 'wp_enqueue_scripts', array( $this, 'setupEventsParams' ),14 );
+        add_action( 'wp_enqueue_scripts', array( $this, 'outputData' ),15 );
 
-		add_action( 'wp_head', array( $this, 'setupEventsParams' ), 3 );
-		add_action( 'wp_head', array( $this, 'outputData' ), 4 );
 		add_action( 'wp_footer', array( $this, 'outputNoScriptData' ), 10 );
 
 	}
@@ -348,18 +348,23 @@ class EventsManager {
     public function setupWooLoopProductData()
     {
         global $product;
+
         $this->setupWooProductData($product);
     }
 
     public function setupWooBlocksProductData($html, $data, $product)
     {
+
         $this->setupWooProductData($product);
         return $html;
     }
 
     public function setupWooProductData($product) {
 
-		if ( wooProductIsType( $product, 'variable' ) || wooProductIsType( $product, 'grouped' ) ) {
+		if (  !is_a($product,"WC_Product")
+            || wooProductIsType( $product, 'variable' )
+            || wooProductIsType( $product, 'grouped' )
+        ) {
 			return; // skip variable products
 		}
 
@@ -404,7 +409,7 @@ class EventsManager {
 	public static function setupWooSingleProductData() {
 		global $product;
 
-        if($product == null) return;
+        if($product == null || !is_a($product,"WC_Product")) return;
 
 		/** @var \WC_Product $product */
 		if ( isWooCommerceVersionGte( '2.6' ) ) {

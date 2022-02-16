@@ -5,6 +5,20 @@
 
 ( function ( $ ) {
 
+  $( '#option-price-type' ).on('change', checkAddonConditions );
+
+  function checkAddonConditions( ) {
+    let selectedElement = $( this );
+    let parentElement   = selectedElement.parents( '.option-cost' );
+    let saleElement     = parentElement.find( 'div.option-price-sale' );
+
+    if ( 'multiplied' === selectedElement.val() ) {
+      saleElement.fadeOut();
+    } else{
+      saleElement.fadeIn();
+    }
+  }
+
 	/*
 	 *
 	 *	enable/disable
@@ -110,6 +124,13 @@
 			});
 		}
 	});
+
+  $( '#addon_options' ).sortable({
+    helper: fixWidthHelper,
+    revert: true,
+    axis: 'y',
+  });
+
 	$( 'ul, li, tbody, tr, td' ).disableSelection();
 	function fixWidthHelper( e, ui ) {
 		ui.children().each(function() { $(this).width( $(this).width() ); });
@@ -372,5 +393,12 @@
 	$('.time-slots').on( 'click' , '.delete-slot', function() {
 		$(this).parent().remove();
 	});
-
+	/*
+	 *
+	 *	Conditional logic
+	 *
+	 * * * * * * * * * * * * * * * * * * * */
+	$( document ).on( 'select2:open', function ( e ) {
+		$( '.select2-results' ).closest( '.select2-container' ).addClass( 'yith-addons-select2-container' );
+	} );
 } )( jQuery );

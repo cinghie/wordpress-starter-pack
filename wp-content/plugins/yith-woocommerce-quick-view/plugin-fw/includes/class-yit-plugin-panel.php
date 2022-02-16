@@ -332,7 +332,6 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 
 				wp_enqueue_style( 'yith-plugin-fw-fields' );
 				wp_enqueue_style( 'jquery-ui-style' );
-				wp_enqueue_style( 'raleway-font' );
 
 				wp_enqueue_script( 'jquery-ui' );
 				wp_enqueue_script( 'jquery-ui-core' );
@@ -770,8 +769,9 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 		 * @return bool Whether panel has help tab or no.
 		 */
 		public function has_help_tab() {
-			return ! empty( $this->settings['help_tab'] ) && ( ! $this->is_free() || ! empty( $this->settings['help_tab']['show_on_free'] ) );
+			return ! empty( $this->settings['help_tab'] ) && apply_filters( 'yith_plugin_fw_panel_has_help_tab', true, $this ) && ( ! $this->is_free() || ! empty( $this->settings['help_tab']['show_on_free'] ) );
 		}
+
 
 		/**
 		 * Checks whether current tab is special Help Tab
@@ -1516,7 +1516,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 				?>
 				<h1 class="notice-container"></h1>
 				<div class="yith-plugin-fw-banner">
-					<h1><?php echo esc_html( $this->settings['page_title'] ); ?></h1>
+					<h1 translate="no"><?php echo esc_html( $this->settings['page_title'] ); ?></h1>
 				</div>
 				<div class="yith-plugin-fw-rate">
 					<?php
@@ -1533,7 +1533,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 			<?php else : ?>
 				<h1 class="notice-container"></h1>
 				<div class="yith-plugin-fw-banner">
-					<h1><?php echo esc_html( $this->settings['page_title'] ); ?></h1>
+					<h1 translate="no"><?php echo esc_html( $this->settings['page_title'] ); ?></h1>
 				</div>
 			<?php endif ?>
 			<?php
@@ -1667,7 +1667,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 		 * @author   Leanza Francesco <leanzafrancesco@gmail.com>
 		 */
 		public function print_panel_tabs_in_wp_pages() {
-			if ( self::$panel_tabs_in_wp_pages ) {
+			if ( self::$panel_tabs_in_wp_pages && 'all_admin_notices' === current_action() ) {
 				global $pagenow;
 
 				wp_enqueue_style( 'yit-plugin-style' );

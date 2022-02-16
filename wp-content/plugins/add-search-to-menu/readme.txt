@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 5.9
 Requires PHP: 5.2.4
-Stable tag: 5.4.1
+Stable tag: 5.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,14 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 5.4.2 =
+* Improved - Compatibility with Weglot plugin.
+* Improved - Compatibility with TablePress plugin.
+* Fixed - Warning: trim() expects parameter 1 to be string, array given.
+* Fixed - Notice: Undefined index: s
+* Fixed - Media search in admin area was not working.
+* Fixed - Google analytics search was working on all pages.
 
 = 5.4.1 =
 * Fixed - PHP 5 issue 'Default value for parameters with a class type hint can only be NULL'.

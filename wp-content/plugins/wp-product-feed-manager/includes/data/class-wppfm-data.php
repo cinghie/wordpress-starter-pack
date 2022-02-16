@@ -577,6 +577,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			$feed->feedTypeId        = $data['feed_type_id'];
 			$feed->updateSchedule    = $data['schedule'];
 			$feed->language          = $data['language'] !== null ? $data['language'] : '';
+			$feed->currency          = $data['currency'] !== null ? $data['currency'] : ''; // @since 2.28.0
 
 			return $feed;
 		}

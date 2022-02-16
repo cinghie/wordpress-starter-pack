@@ -107,8 +107,6 @@ class MiniCart extends AbstractBlock {
 
 		// Hydrate the following data depending on admin or frontend context.
 		if ( ! is_admin() && ! WC()->is_rest_api_request() ) {
-			$this->hydrate_from_api();
-
 			$label_info = $this->get_tax_label();
 
 			$this->tax_label                         = $label_info['tax_label'];
@@ -178,7 +176,7 @@ class MiniCart extends AbstractBlock {
 			function_exists( 'wp_is_block_theme' ) &&
 			wp_is_block_theme()
 		) {
-			$theme_slug      = BlockTemplateUtils::theme_has_template_part( 'mini-cart' ) ? wp_get_theme()->get_stylesheet() : 'woocommerce';
+			$theme_slug      = BlockTemplateUtils::theme_has_template_part( 'mini-cart' ) ? wp_get_theme()->get_stylesheet() : BlockTemplateUtils::PLUGIN_SLUG;
 			$site_editor_uri = admin_url( 'site-editor.php' );
 
 			if ( version_compare( get_bloginfo( 'version' ), '5.9', '<' ) ) {
@@ -207,13 +205,6 @@ class MiniCart extends AbstractBlock {
 		 * Fires after cart block data is registered.
 		 */
 		do_action( 'woocommerce_blocks_cart_enqueue_data' );
-	}
-
-	/**
-	 * Hydrate the cart block with data from the API.
-	 */
-	protected function hydrate_from_api() {
-		$this->asset_data_registry->hydrate_api_request( '/wc/store/cart' );
 	}
 
 	/**
@@ -378,16 +369,16 @@ class MiniCart extends AbstractBlock {
 		}
 
 		$template_part_contents = '';
-		if ( function_exists( 'gutenberg_get_block_template' ) ) {
-			$template_part = gutenberg_get_block_template( get_stylesheet() . '//mini-cart', 'wp_template_part' );
-			if ( $template_part && ! empty( $template_part->content ) ) {
-				$template_part_contents = do_blocks( $template_part->content );
-			}
+		$template_part          = BlockTemplateUtils::get_block_template( get_stylesheet() . '//mini-cart', 'wp_template_part' );
+
+		if ( $template_part && ! empty( $template_part->content ) ) {
+			$template_part_contents = do_blocks( $template_part->content );
 		}
+
 		if ( '' === $template_part_contents ) {
 			$template_part_contents = do_blocks(
 				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-				file_get_contents( Package::get_path() . 'templates/block-template-parts/mini-cart.html' )
+				file_get_contents( Package::get_path() . 'templates/' . BlockTemplateUtils::DIRECTORY_NAMES['TEMPLATE_PARTS'] . '/mini-cart.html' )
 			);
 		}
 
@@ -454,5 +445,17 @@ class MiniCart extends AbstractBlock {
 			'tax_label'                         => '',
 			'display_cart_prices_including_tax' => false,
 		);
+	}
+
+	/**
+	 * Get the supports array for this block type.
+	 *
+	 * @see $this->register_block_type()
+	 * @return string;
+	 */
+	protected function get_block_type_supports() {
+		return [
+			'__experimentalSelector' => '.wc-block-mini-cart__button, .wc-block-mini-cart__badge',
+		];
 	}
 }

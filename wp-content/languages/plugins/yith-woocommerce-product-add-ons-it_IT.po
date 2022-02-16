@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-12-20 15:57:58+0000\n"
+"PO-Revision-Date: 2022-02-07 15:23:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,14 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release)\n"
+
+#: plugin-options/settings-options.php:219
+msgid "Enable to show the titles of the blocks in the cart page."
+msgstr "Abilita per mostrare i titoli dei blocchi nella pagina carrello."
+
+#: plugin-options/settings-options.php:218
+msgid "Show block titles in the cart page"
+msgstr "Mostra titoli dei blocchi nella pagina carrello"
 
 #: plugin-fw/templates/panel/premium-tab.php:58
 msgctxt "Premium Tab"
@@ -46,7 +54,7 @@ msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
 
-#: templates/admin/option-common-fields.php:217
+#: templates/admin/option-common-fields.php:219
 msgid "Value multiplied by product price"
 msgstr "Valore moltiplicato per il prezzo del prodotto"
 
@@ -98,35 +106,35 @@ msgstr "Quantità minima prodotto"
 msgid "Excluded Products"
 msgstr "Prodotti esclusi"
 
-#: templates/front/addons/date.php:441
+#: templates/front/addons/date.php:477
 msgid "Set time"
 msgstr "Seleziona orario"
 
-#: templates/admin/addons/date.php:353
+#: templates/admin/addons/date.php:356
 msgid "Sunday"
 msgstr "Domenica"
 
-#: templates/admin/addons/date.php:352
+#: templates/admin/addons/date.php:355
 msgid "Saturday"
 msgstr "Sabato"
 
-#: templates/admin/addons/date.php:351
+#: templates/admin/addons/date.php:354
 msgid "Friday"
 msgstr "Venerdì"
 
-#: templates/admin/addons/date.php:350
+#: templates/admin/addons/date.php:353
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: templates/admin/addons/date.php:349
+#: templates/admin/addons/date.php:352
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: templates/admin/addons/date.php:348
+#: templates/admin/addons/date.php:351
 msgid "Tuesday"
 msgstr "Martedì"
 
-#: templates/admin/addons/date.php:347
+#: templates/admin/addons/date.php:350
 msgid "Monday"
 msgstr "Lunedì"
 
@@ -187,16 +195,16 @@ msgstr "caricato da %s"
 msgid "YITH Plugin Framework Version"
 msgstr "YITH Plugin Framework Version"
 
-#: includes/class-yith-wapo-admin.php:268
+#: includes/class-yith-wapo-admin.php:269
 msgctxt "[HELP TAB] Video title"
 msgid "Check this video to learn how to <b>create an options block and show it in a product page:</b>"
 msgstr "Guarda questo video per scoprire come <b>creare un blocco opzioni e mostrarlo in una pagina prodotto:</b>"
 
-#: templates/front/block.php:50
+#: templates/front/block.php:52
 msgid "No title"
 msgstr "Nessun titolo"
 
-#: templates/front/addons/product.php:104
+#: templates/front/addons/product.php:110
 msgid "In stock"
 msgstr "In stock"
 
@@ -204,7 +212,7 @@ msgstr "In stock"
 msgid "Only to guest users"
 msgstr "Solo a utenti ospite"
 
-#: templates/admin/addons/date.php:665
+#: templates/admin/addons/date.php:668
 msgid "Add time slot"
 msgstr "Aggiungi fascia oraria"
 
@@ -228,74 +236,75 @@ msgstr "Abilita per mostrare lo SKU."
 msgid "Show SKU label"
 msgstr "Mostra SKU"
 
-#: includes/class-yith-wapo-cart.php:451 includes/class-yith-wapo-cart.php:569
+#: includes/class-yith-wapo-cart.php:487 includes/class-yith-wapo-cart.php:608
+#: includes/yith-wapo-functions.php:142 includes/yith-wapo-functions.php:144
 msgid "Option"
 msgstr "Opzione"
 
-#: templates/admin/addons/date.php:736
+#: templates/admin/addons/date.php:739
 msgid "Hours"
 msgstr "Ore"
 
-#: templates/admin/addons/date.php:735
+#: templates/admin/addons/date.php:738
 msgid "Minutes"
 msgstr "Minuti"
 
-#: templates/admin/addons/date.php:734
+#: templates/admin/addons/date.php:737
 msgid "Seconds"
 msgstr "Secondi"
 
-#: templates/admin/addons/date.php:674
+#: templates/admin/addons/date.php:677
 msgid "Time interval"
 msgstr "Intervallo di tempo"
 
-#: templates/admin/addons/date.php:579
+#: templates/admin/addons/date.php:582
 msgid "to"
 msgstr "alle"
 
-#: templates/admin/addons/date.php:507
+#: templates/admin/addons/date.php:510
 msgid "from"
 msgstr "dalle"
 
-#: templates/admin/addons/date.php:498
+#: templates/admin/addons/date.php:501
 msgid "these time slots:"
 msgstr "queste fasce orarie:"
 
-#: templates/admin/addons/date.php:458
+#: templates/admin/addons/date.php:461
 msgid "Enable / disable time slots"
 msgstr "Abilita/disabilita fasce orarie"
 
-#: templates/admin/addons/date.php:438
+#: templates/admin/addons/date.php:441
 msgid "Show time selector"
 msgstr "Mostra selezione fasce orarie"
 
-#: templates/front/block.php:219
+#: templates/front/block.php:234
 msgid "an"
 msgstr "una"
 
-#: templates/front/block.php:218
+#: templates/front/block.php:233
 msgid "Please select"
 msgstr "Per favore seleziona"
 
-#: templates/front/addons/product.php:108
+#: templates/front/addons/product.php:114
 msgid "Out of stock"
 msgstr "Esaurito"
 
-#: templates/front/addons/product.php:102
+#: templates/front/addons/product.php:108
 msgid "in stock"
 msgstr "in stock"
 
-#: templates/front/addons/file.php:58
+#: templates/front/addons/file.php:62
 msgid "UPLOAD"
 msgstr "CARICA"
 
-#: templates/front/addons/file.php:56
+#: templates/front/addons/file.php:60
 msgid "browse"
 msgstr "sfoglia"
 
 #: templates/front/addons/checkbox.php:64 templates/front/addons/color.php:67
-#: templates/front/addons/date.php:179 templates/front/addons/file.php:67
-#: templates/front/addons/label.php:142 templates/front/addons/number.php:60
-#: templates/front/addons/text.php:61 templates/front/addons/textarea.php:57
+#: templates/front/addons/date.php:199 templates/front/addons/file.php:71
+#: templates/front/addons/label.php:164 templates/front/addons/number.php:76
+#: templates/front/addons/text.php:65 templates/front/addons/textarea.php:61
 msgid "This option is required."
 msgstr "L'opzione è obbligatoria."
 
@@ -547,101 +556,101 @@ msgstr "Aggiorna"
 msgid "Upgrade to the %1$spremium version%2$s%3$sof %1$sYITH WooCommerce Product Add-ons & Extra Options%2$s to benefit from all features!"
 msgstr "Aggoirna alla %1$sversione premium%2$s%3$sdi%1$sYITH WooCommerce Product Add-ons & Extra Options%2$s per usufruire di tutte le funzionalità!"
 
-#: templates/admin/option-common-fields.php:294
+#: templates/admin/option-common-fields.php:296
 msgid "Selected by default"
 msgstr "Selezionato di default"
 
-#: templates/admin/option-common-fields.php:267
+#: templates/admin/option-common-fields.php:269
 msgid "Percentage"
 msgstr "Percentuale"
 
-#: templates/admin/option-common-fields.php:260
+#: templates/admin/option-common-fields.php:262
 msgid "SALE"
 msgstr "OFFERTA"
 
-#: templates/admin/option-common-fields.php:255
+#: templates/admin/option-common-fields.php:257
 msgid "DISCOUNT"
 msgstr "SCONTO"
 
-#: templates/admin/option-common-fields.php:252
+#: templates/admin/option-common-fields.php:254
 msgid "REGULAR"
 msgstr "LISTINO"
 
-#: templates/admin/option-common-fields.php:249
+#: templates/admin/option-common-fields.php:251
 msgid "Option cost"
 msgstr "Costo opzione"
 
-#: templates/admin/option-common-fields.php:227
+#: templates/admin/option-common-fields.php:229
 msgid "Discount price of linked product"
 msgstr "Sconta il prezzo del prodotto collegato"
 
-#: templates/admin/option-common-fields.php:226
+#: templates/admin/option-common-fields.php:228
 msgid "Use price of linked product"
 msgstr "Usa prezzo del prodotto collegato"
+
+#: templates/admin/option-common-fields.php:212
+#: templates/admin/option-common-fields.php:218
+#: templates/admin/option-common-fields.php:227
+msgid "Discount the main product price"
+msgstr "Sconta il prezzo del prodotto principale"
+
+#: templates/admin/option-common-fields.php:211
+#: templates/admin/option-common-fields.php:217
+#: templates/admin/option-common-fields.php:226
+msgid "Increase the main product price"
+msgstr "Aumenta il prezzo del prodotto principale"
 
 #: templates/admin/option-common-fields.php:210
 #: templates/admin/option-common-fields.php:216
 #: templates/admin/option-common-fields.php:225
-msgid "Discount the main product price"
-msgstr "Sconta il prezzo del prodotto principale"
-
-#: templates/admin/option-common-fields.php:209
-#: templates/admin/option-common-fields.php:215
-#: templates/admin/option-common-fields.php:224
-msgid "Increase the main product price"
-msgstr "Aumenta il prezzo del prodotto principale"
-
-#: templates/admin/option-common-fields.php:208
-#: templates/admin/option-common-fields.php:214
-#: templates/admin/option-common-fields.php:223
 msgid "Product price doesn't change - set option as free"
 msgstr "Prezzo prodotto invariato (opzione gratuita)"
 
-#: templates/admin/option-common-fields.php:166
+#: templates/admin/option-common-fields.php:168
 msgid "You can use this image to <b>replace the default product image</b> (enabling the option in Display Settings tab)."
 msgstr "Per utilizzare questa immagine per <b>sostituire quella predefinita nel prodotto</b> abilita l'opzione nella tab Opzioni di visualizzazione."
 
-#: templates/admin/option-common-fields.php:163
+#: templates/admin/option-common-fields.php:165
 msgid "Enable to upload an image for this option."
 msgstr "Abilita per caricare un'immagine per questa opzione."
 
-#: templates/admin/option-common-fields.php:148
+#: templates/admin/option-common-fields.php:150
 msgid "Add image"
 msgstr "Aggiungi immagine"
 
-#: templates/admin/option-common-fields.php:39
+#: templates/admin/option-common-fields.php:41
 msgid "Image swatch"
 msgstr "Immagine"
 
-#: templates/admin/option-common-fields.php:38
+#: templates/admin/option-common-fields.php:40
 msgid "Double color swatch"
 msgstr "Bicolore"
 
-#: templates/admin/option-common-fields.php:37
+#: templates/admin/option-common-fields.php:39
 msgid "Single color swatch"
 msgstr "Colore singolo"
 
-#: templates/admin/option-common-fields.php:25
+#: templates/admin/option-common-fields.php:27
 msgid "Show as"
 msgstr "Mostra come"
 
-#: templates/admin/blocks-table.php:236
+#: templates/admin/blocks-table.php:239
 msgid "Switch to the 1.x version"
 msgstr "Passa alla versione 1.x"
 
-#: templates/admin/blocks-table.php:227
+#: templates/admin/blocks-table.php:230
 msgid "Now build your first block!"
 msgstr "Ora crea il tuo primo blocco!"
 
-#: templates/admin/blocks-table.php:226
+#: templates/admin/blocks-table.php:229
 msgid "You have no options blocks created yet."
 msgstr "Non hai ancora creato blocchi di opzioni."
 
-#: templates/admin/blocks-table.php:193
+#: templates/admin/blocks-table.php:196
 msgid "Move"
 msgstr "Sposta"
 
-#: templates/admin/blocks-table.php:187
+#: templates/admin/blocks-table.php:190
 msgid "Are you sure to delete this block?"
 msgstr "Sei sicuro di voler eliminare questo blocco?"
 
@@ -665,7 +674,7 @@ msgstr "Mostra nelle categorie:"
 msgid "Show on products:"
 msgstr "Mostra nei prodotti:"
 
-#: templates/admin/blocks-table.php:27 templates/admin/blocks-table.php:229
+#: templates/admin/blocks-table.php:27 templates/admin/blocks-table.php:232
 msgid "Add block"
 msgstr "Aggiungi blocco"
 
@@ -761,11 +770,11 @@ msgstr "Tutti i prodotti"
 msgid "Show this block of options in"
 msgstr "Mostra questo blocco di opzioni su"
 
-#: templates/admin/block-editor.php:135
+#: templates/admin/block-editor.php:137
 msgid "Start to add your options to this block!"
 msgstr "Inizia ad aggiungere opzioni a questo blocco!"
 
-#: templates/admin/block-editor.php:92 templates/front/block.php:221
+#: templates/admin/block-editor.php:93 templates/front/block.php:236
 msgid "option"
 msgstr "opzione"
 
@@ -933,51 +942,51 @@ msgstr "Testo intestazione"
 msgid "UPLOAD FILE"
 msgstr "CARICA FILE"
 
-#: templates/admin/addons/date.php:383
+#: templates/admin/addons/date.php:386
 msgid "December"
 msgstr "Dicembre"
 
-#: templates/admin/addons/date.php:382
+#: templates/admin/addons/date.php:385
 msgid "November"
 msgstr "Novembre"
 
-#: templates/admin/addons/date.php:381
+#: templates/admin/addons/date.php:384
 msgid "October"
 msgstr "Ottobre"
 
-#: templates/admin/addons/date.php:380
+#: templates/admin/addons/date.php:383
 msgid "September"
 msgstr "Settembre"
 
-#: templates/admin/addons/date.php:379
+#: templates/admin/addons/date.php:382
 msgid "August"
 msgstr "Agosto"
 
-#: templates/admin/addons/date.php:378
+#: templates/admin/addons/date.php:381
 msgid "July"
 msgstr "Luglio"
 
-#: templates/admin/addons/date.php:377
+#: templates/admin/addons/date.php:380
 msgid "June"
 msgstr "Giugno"
 
-#: templates/admin/addons/date.php:376
+#: templates/admin/addons/date.php:379
 msgid "May"
 msgstr "Maggio"
 
-#: templates/admin/addons/date.php:375
+#: templates/admin/addons/date.php:378
 msgid "April"
 msgstr "Aprile"
 
-#: templates/admin/addons/date.php:374
+#: templates/admin/addons/date.php:377
 msgid "March"
 msgstr "Marzo"
 
-#: templates/admin/addons/date.php:373
+#: templates/admin/addons/date.php:376
 msgid "February"
 msgstr "Febbraio"
 
-#: templates/admin/addons/date.php:372
+#: templates/admin/addons/date.php:375
 msgid "January"
 msgstr "Gennaio"
 
@@ -985,15 +994,15 @@ msgstr "Gennaio"
 msgid "these dates in calendar"
 msgstr "queste date nel calendario"
 
-#: templates/admin/addons/date.php:286 templates/admin/addons/date.php:491
+#: templates/admin/addons/date.php:286 templates/admin/addons/date.php:494
 msgid "Disable"
 msgstr "Disabilita"
 
-#: templates/admin/addons/date.php:285 templates/admin/addons/date.php:490
+#: templates/admin/addons/date.php:285 templates/admin/addons/date.php:493
 msgid "Enable"
 msgstr "Abilita"
 
-#: templates/admin/addons/date.php:273 templates/admin/addons/date.php:478
+#: templates/admin/addons/date.php:273 templates/admin/addons/date.php:481
 msgid "Rule type"
 msgstr "Tipo regola"
 
@@ -1117,19 +1126,19 @@ msgstr "CAMPIONE COLORE"
 msgid "CHECKBOX"
 msgstr "CHECKBOX"
 
-#: templates/admin/addon-style-settings.php:77
+#: templates/admin/addon-style-settings.php:78
 msgid "Right"
 msgstr "A destra"
 
-#: templates/admin/addon-style-settings.php:76
+#: templates/admin/addon-style-settings.php:77
 msgid "Center"
 msgstr "Al centro"
 
-#: templates/admin/addon-style-settings.php:75
+#: templates/admin/addon-style-settings.php:76
 msgid "Left"
 msgstr "A sinistra"
 
-#: templates/admin/addon-style-settings.php:65
+#: templates/admin/addon-style-settings.php:66
 msgid "Content alignment"
 msgstr "Allineamento contenuto"
 
@@ -1137,24 +1146,24 @@ msgstr "Allineamento contenuto"
 msgid "Override default style for this set of labels"
 msgstr "Sovrascrivi stile di default per questo set di etichette"
 
-#: templates/admin/addon-editor.php:195
+#: templates/admin/addon-editor.php:197
 msgid "Add option for the user"
 msgstr "Aggiungi opzione per l'utente"
 
-#: templates/admin/addon-editor.php:185
+#: templates/admin/addon-editor.php:187
 msgid "Add HTML element"
 msgstr "Aggiungi elemento HTML"
 
-#: templates/admin/addon-editor.php:176 templates/admin/block-editor.php:160
-#: templates/front/addons/date.php:442
+#: templates/admin/addon-editor.php:178 templates/admin/block-editor.php:162
+#: templates/front/addons/date.php:478
 msgid "Save"
 msgstr "Salva"
 
-#: templates/admin/addon-editor.php:122
+#: templates/admin/addon-editor.php:124
 msgid "Add a new option"
 msgstr "Aggiungi una nuova opzione"
 
-#: templates/admin/addon-editor.php:110 templates/admin/addon-editor.php:137
+#: templates/admin/addon-editor.php:111 templates/admin/addon-editor.php:139
 msgid "Are you sure to delete this option?"
 msgstr "Sei sicuro di voler eliminare questa opzione?"
 
@@ -1316,65 +1325,65 @@ msgstr "Abilita per mostrare un'immagine aggiuntiva o un'icona vicino al titolo.
 msgid "Show an image for this add-on"
 msgstr "Mostra immagine per questo add-on"
 
-#: templates/admin/addon-conditional-logic.php:175
+#: templates/admin/addon-conditional-logic.php:179
 msgid "Not empty"
 msgstr "Non vuoto"
 
-#: templates/admin/addon-conditional-logic.php:174
+#: templates/admin/addon-conditional-logic.php:178
 msgid "Empty"
 msgstr "Vuoto"
 
-#: templates/admin/addon-conditional-logic.php:173
+#: templates/admin/addon-conditional-logic.php:177
 msgid "Not selected"
 msgstr "Non selezionato"
 
-#: templates/admin/addon-conditional-logic.php:162
+#: templates/admin/addon-conditional-logic.php:165
 msgid "is"
 msgstr "è"
 
-#: templates/admin/addon-conditional-logic.php:137
+#: templates/admin/addon-conditional-logic.php:140
 msgid "match"
 msgstr "combaciano"
 
-#: templates/admin/addon-conditional-logic.php:131
+#: templates/admin/addon-conditional-logic.php:134
 msgid "Any of these rules"
 msgstr "Alcune di queste regole"
 
-#: templates/admin/addon-conditional-logic.php:130
+#: templates/admin/addon-conditional-logic.php:133
 msgid "All of these rules"
 msgstr "Tutte queste regole"
 
-#: templates/admin/addon-conditional-logic.php:121
+#: templates/admin/addon-conditional-logic.php:124
 msgid "this set of options if"
 msgstr "questo set di opzioni se"
 
-#: templates/admin/addon-conditional-logic.php:115
+#: templates/admin/addon-conditional-logic.php:118
 msgid "Hide"
 msgstr "Nascondi"
 
-#: templates/admin/addon-conditional-logic.php:114
+#: templates/admin/addon-conditional-logic.php:117
 msgid "Show"
 msgstr "Mostra"
 
-#: templates/admin/addon-conditional-logic.php:102
+#: templates/admin/addon-conditional-logic.php:105
 msgid "Display rules"
 msgstr "Regole visualizzazione"
 
-#: templates/admin/addon-conditional-logic.php:94
+#: templates/admin/addon-conditional-logic.php:97
 msgid "Enable to set rules to hide or show the options."
 msgstr "Abilita per impostare le regole per nascondere o mostrare le opzioni."
 
-#: templates/admin/addon-conditional-logic.php:79
+#: templates/admin/addon-conditional-logic.php:82
 msgid "Set conditions to show or hide this set of options"
 msgstr "Imposta le condizioni per mostrare o nascondere questo set di opzioni."
 
-#: templates/admin/addon-conditional-logic.php:58
+#: templates/admin/addon-conditional-logic.php:61
 msgid "Variation"
 msgstr "Variazione"
 
 #: templates/admin/addon-advanced-settings.php:163
-#: templates/admin/addon-conditional-logic.php:184
-#: templates/admin/addons/date.php:429
+#: templates/admin/addon-conditional-logic.php:188
+#: templates/admin/addons/date.php:432
 msgid "Add rule"
 msgstr "Aggiungi regola"
 
@@ -1492,39 +1501,39 @@ msgid "Show tooltips"
 msgstr "Mostra tooltip"
 
 #: plugin-options/style-options.php:284
-#: templates/admin/addon-style-settings.php:175
+#: templates/admin/addon-style-settings.php:176
 msgid "Padding"
 msgstr "Padding"
 
 #: plugin-options/style-options.php:273
-#: templates/admin/addon-style-settings.php:152
+#: templates/admin/addon-style-settings.php:153
 msgid "Description position"
 msgstr "Posizione descrizione"
 
 #: plugin-options/style-options.php:267 plugin-options/style-options.php:278
-#: templates/admin/addon-style-settings.php:140
-#: templates/admin/addon-style-settings.php:163
+#: templates/admin/addon-style-settings.php:141
+#: templates/admin/addon-style-settings.php:164
 msgid "Outside borders"
 msgstr "Bordi esterni"
 
 #: plugin-options/style-options.php:266 plugin-options/style-options.php:277
-#: templates/admin/addon-style-settings.php:139
-#: templates/admin/addon-style-settings.php:162
+#: templates/admin/addon-style-settings.php:140
+#: templates/admin/addon-style-settings.php:163
 msgid "Inside borders"
 msgstr "Bordi interni"
 
 #: plugin-options/style-options.php:262
-#: templates/admin/addon-style-settings.php:129
+#: templates/admin/addon-style-settings.php:130
 msgid "Label position"
 msgstr "Posizione etichetta"
 
 #: plugin-options/style-options.php:249
-#: templates/admin/addon-style-settings.php:109
+#: templates/admin/addon-style-settings.php:110
 msgid "Image heights"
 msgstr "Altezza immagini"
 
 #: plugin-options/style-options.php:241
-#: templates/admin/addon-style-settings.php:89
+#: templates/admin/addon-style-settings.php:90
 msgid "Force image equal heights"
 msgstr "Adatta immagini alla stessa altezza"
 
@@ -1672,19 +1681,19 @@ msgstr "Titoli blocchi"
 msgid "Style Options"
 msgstr "Opzioni stile"
 
-#: plugin-options/settings-options.php:228
+#: plugin-options/settings-options.php:237
 msgid "Enable to hide the options in the order email."
 msgstr "Abilita per nascondere le opzioni nell'email dell'ordine."
 
-#: plugin-options/settings-options.php:227
+#: plugin-options/settings-options.php:236
 msgid "Hide options in the order email"
 msgstr "Nascondi opzioni nelle email dell'ordine"
 
-#: plugin-options/settings-options.php:219
+#: plugin-options/settings-options.php:228
 msgid "Enable to replace the product image with the option image in the cart."
 msgstr "Abilita per sostituire l'immagine del prodotto nel carrello con quella dell'opzione."
 
-#: plugin-options/settings-options.php:218
+#: plugin-options/settings-options.php:227
 msgid "Show the replacement image in the cart"
 msgstr "Mostra sostituzione immagine nel carrello"
 
@@ -1884,27 +1893,27 @@ msgstr "Separatore"
 msgid "Heading"
 msgstr "Intestazione"
 
-#: includes/class-yith-wapo-front.php:376
+#: includes/class-yith-wapo-front.php:396
 msgid "Order total"
 msgstr "Totale ordine"
 
-#: includes/class-yith-wapo-front.php:372
+#: includes/class-yith-wapo-front.php:391
 msgid "Total options"
 msgstr "Totale opzioni"
 
-#: includes/class-yith-wapo-admin.php:244
+#: includes/class-yith-wapo-admin.php:245
 msgid "Debug"
 msgstr "Debug"
 
-#: includes/class-yith-wapo-admin.php:241 templates/admin/addon-editor.php:50
+#: includes/class-yith-wapo-admin.php:242 templates/admin/addon-editor.php:50
 msgid "Style"
 msgstr "Stile"
 
-#: includes/class-yith-wapo-admin.php:240
+#: includes/class-yith-wapo-admin.php:241
 msgid "General Settings"
 msgstr "Impostazioni generali"
 
-#: includes/class-yith-wapo-admin.php:237
+#: includes/class-yith-wapo-admin.php:238
 msgid "Options Blocks"
 msgstr "Blocchi opzioni"
 
@@ -2012,16 +2021,16 @@ msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:492
+#: plugin-fw/includes/class-yit-plugin-panel.php:491
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
 
-#: plugin-fw/includes/class-yit-assets.php:151
+#: plugin-fw/includes/class-yit-assets.php:149
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Se sicuro di voler eliminare gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:147
+#: plugin-fw/includes/class-yit-assets.php:145
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
@@ -2029,7 +2038,7 @@ msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 msgid "There was an error with your request; please try again later."
 msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1982
+#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1982
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
@@ -2059,16 +2068,16 @@ msgstr "Visualizza"
 msgid "Further actions"
 msgstr "Ulteriori azioni"
 
-#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:2000
-#: plugin-fw/yit-functions.php:2127 templates/admin/addon-editor.php:111
-#: templates/admin/addon-editor.php:138 templates/admin/blocks-table.php:188
+#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2000
+#: plugin-fw/yit-functions.php:2127 templates/admin/addon-editor.php:112
+#: templates/admin/addon-editor.php:140 templates/admin/blocks-table.php:191
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:1997
-#: plugin-fw/yit-functions.php:2125 templates/admin/addon-editor.php:109
-#: templates/admin/addon-editor.php:136 templates/admin/blocks-table.php:186
+#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1997
+#: plugin-fw/yit-functions.php:2125 templates/admin/addon-editor.php:110
+#: templates/admin/addon-editor.php:138 templates/admin/blocks-table.php:189
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
@@ -2077,7 +2086,7 @@ msgctxt "Post action"
 msgid "Delete Permanently"
 msgstr "Elimina definitivamente"
 
-#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1979
+#: plugin-fw/includes/class-yit-assets.php:144 plugin-fw/yit-functions.php:1979
 msgid "Confirm trash"
 msgstr "Conferma"
 
@@ -2112,13 +2121,11 @@ msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
-#. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1913
+#: plugin-fw/includes/class-yit-assets.php:149 plugin-fw/yit-functions.php:1913
 #: plugin-fw/yit-functions.php:2073
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
-#. translators: %s is the title of the post object.
 #. translators: %s is the title of the post object.
 #: plugin-fw/yit-functions.php:1913 plugin-fw/yit-functions.php:2073
 msgid "Are you sure you want to delete \"%s\"?"
@@ -2141,12 +2148,12 @@ msgstr "Torna alla lista "
 msgid "Back to \"%s\""
 msgstr "Torna a \"%s\""
 
-#: plugin-fw/includes/class-yit-assets.php:135
+#: plugin-fw/includes/class-yit-assets.php:133
 msgctxt "Button text"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: plugin-fw/includes/class-yit-assets.php:134
+#: plugin-fw/includes/class-yit-assets.php:132
 msgctxt "Button text"
 msgid "Confirm"
 msgstr "Conferma"
@@ -2188,7 +2195,6 @@ msgstr "Anteprima:"
 msgid "From now on, you can find the option panel of YITH plugins in YITH menu. Every time one of our plugins is added, a new entry will be added to this menu. For example, after the update, plugin options (such as for YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) will be moved from previous location to YITH menu."
 msgstr "D'ora in poi troverai il pannello opzioni dei plugin YITH nel menu YITH. Ogni volta che viene aggiunto uno dei nostri plugin comparirà una voce in questo menu. Ad esempio, dopo l'aggiornamento, le opzioni del plugin (come per YITH WooCommerce Wishlist, YITH WooCommerce Ajax Search, etc.) verranno spostate dalla posizione precedente al menu YITH."
 
-#. translators: 1. YITH site link; 2. WordPress site link.
 #. translators: 1. YITH site link; 2. WordPress site link.
 #: plugin-fw/includes/class-yit-pointers.php:84
 #: plugin-fw/includes/class-yit-pointers.php:100
@@ -2273,8 +2279,8 @@ msgstr "Singole variazioni"
 msgid "External object cache"
 msgstr "External object cache"
 
-#: plugin-fw/includes/class-yit-assets.php:149
-#: plugin-fw/includes/class-yit-assets.php:153
+#: plugin-fw/includes/class-yit-assets.php:147
+#: plugin-fw/includes/class-yit-assets.php:151
 #: plugin-fw/templates/sysinfo/tabs/main.php:42
 #: plugin-fw/templates/sysinfo/tabs/main.php:50
 #: plugin-fw/yit-functions.php:1981 plugin-fw/yit-functions.php:1999
@@ -2360,19 +2366,19 @@ msgstr "per continuare ad aggiornare e a migliorare il plugin."
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
-#: plugin-fw/includes/class-yit-assets.php:169
+#: plugin-fw/includes/class-yit-assets.php:167
 msgid "Color value"
 msgstr "Valore del colore"
 
-#: plugin-fw/includes/class-yit-assets.php:168
+#: plugin-fw/includes/class-yit-assets.php:166
 msgid "Select Color"
 msgstr "Seleziona colore"
 
-#: plugin-fw/includes/class-yit-assets.php:167
+#: plugin-fw/includes/class-yit-assets.php:165
 msgid "Select default color"
 msgstr "Seleziona il colore predefinito"
 
-#: plugin-fw/includes/class-yit-assets.php:165
+#: plugin-fw/includes/class-yit-assets.php:163
 msgid "Clear color"
 msgstr "Rimuovi colore"
 
@@ -2400,7 +2406,6 @@ msgstr "Abilita questa opzione se gli add-on non vengono mostrati nella pagina p
 msgid "7up themes"
 msgstr "Temi 7up"
 
-#. translators: %1$s opening link tag, %2$s closing link tag
 #. translators: %1$s opening link tag, %2$s closing link tag
 #: plugin-fw/includes/class-yith-system-status.php:577
 #: plugin-fw/includes/class-yith-system-status.php:600
@@ -2457,7 +2462,6 @@ msgstr "Attivato"
 msgid "YITH System Information"
 msgstr "YITH System Information"
 
-#. translators: 1. user display name; 2. user ID; 3. user email.
 #. translators: 1. user display name; 2. user ID; 3. user email.
 #: plugin-fw/templates/fields/ajax-customers.php:68
 #: plugin-fw/templates/fields/ajax-customers.php:79
@@ -2556,7 +2560,7 @@ msgstr "Aggiungi tutto"
 msgid "Description for product attributes."
 msgstr "Descrizione per attributi prodotto."
 
-#: v1/templates/frontend/yith-wapo-group-container.php:68
+#: v1/templates/frontend/yith-wapo-group-container.php:70
 msgid " including VAT "
 msgstr "IVA inclusa"
 
@@ -2662,8 +2666,8 @@ msgstr "Galleria immagini variazioni"
 msgid "YITH"
 msgstr "YITH"
 
-#: includes/class-yith-wapo-front.php:367
-#: v1/templates/frontend/yith-wapo-group-container.php:73
+#: includes/class-yith-wapo-front.php:386
+#: v1/templates/frontend/yith-wapo-group-container.php:75
 msgid "Product price"
 msgstr "Prezzo prodotto"
 
@@ -2685,12 +2689,12 @@ msgstr "Scegli un'opzione"
 msgid "Product attribute description."
 msgstr "Descrizione attributo prodotto"
 
-#: templates/admin/option-common-fields.php:273
+#: templates/admin/option-common-fields.php:275
 #: v1/templates/admin/yith-wapo-new-option.php:46
 msgid "Price multiplied by string length"
 msgstr "Prezzo moltiplicato per lunghezza della stringa"
 
-#: templates/admin/option-common-fields.php:270
+#: templates/admin/option-common-fields.php:272
 #: v1/templates/admin/yith-wapo-new-option.php:45
 msgid "Price multiplied by value"
 msgstr "Prezzo moltiplicato per valore"
@@ -2742,7 +2746,7 @@ msgstr "Salva questo componente aggiuntivo"
 msgid "Add new option"
 msgstr "Aggiungi nuova opzione"
 
-#: templates/admin/blocks-table.php:159
+#: templates/admin/blocks-table.php:162
 #: v1/templates/admin/yith-wapo-form-option-type.php:379
 #: v1/templates/admin/yith-wapo-group-addons.php:112
 #: v1/templates/admin/yith-wapo-groups.php:176
@@ -2806,7 +2810,7 @@ msgid "Change product-image on hover"
 msgstr "Cambia immagine prodotto all'hover"
 
 #: plugin-options/variations-options.php:114
-#: templates/front/addons/product.php:125
+#: templates/front/addons/product.php:131
 msgid "Add to cart"
 msgstr "Aggiungi al carrello"
 
@@ -2993,13 +2997,13 @@ msgstr "YITH Plugins"
 msgid "YITH Product Add-ons"
 msgstr "YITH Product Add-ons"
 
-#: templates/admin/option-common-fields.php:52
+#: templates/admin/option-common-fields.php:54
 #: v1/includes/functions/yith-wccl.php:75
 msgid "Label"
 msgstr "Etichetta"
 
-#: templates/admin/option-common-fields.php:115
-#: templates/admin/option-common-fields.php:175
+#: templates/admin/option-common-fields.php:117
+#: templates/admin/option-common-fields.php:177
 #: v1/includes/functions/yith-wccl.php:74
 #: v1/templates/admin/yith-wapo-form-option-type.php:100
 #: v1/templates/admin/yith-wapo-form-option-type.php:196
@@ -3078,8 +3082,8 @@ msgstr "Etichette"
 msgid "Date"
 msgstr "Data"
 
-#: templates/admin/option-common-fields.php:75
-#: templates/admin/option-common-fields.php:95
+#: templates/admin/option-common-fields.php:77
+#: templates/admin/option-common-fields.php:97
 #: v1/includes/classes/class.yith-wapo-premium.php:49
 msgid "Color"
 msgstr "Colore"
@@ -3097,7 +3101,7 @@ msgctxt "notice on admin order item meta"
 msgid "* Sold individually"
 msgstr "Venduto singolarmente"
 
-#: includes/class-yith-wapo-front.php:757
+#: includes/class-yith-wapo-front.php:818
 #: v1/includes/classes/class.yith-wapo-frontend.php:289
 #: v1/includes/integrations/class.divi-et-builder_module.php:49
 msgid "This is not a product page!"
@@ -3299,19 +3303,19 @@ msgstr "Variazioni"
 msgid "https://yithemes.com/"
 msgstr "https://yithemes.com/"
 
-#: templates/front/block.php:148
+#: templates/front/block.php:154
 msgid "Select an option"
 msgstr "Seleziona un'opzione"
 
-#: v1/templates/frontend/yith-wapo-group-container.php:81
+#: v1/templates/frontend/yith-wapo-group-container.php:83
 msgid "Order total:"
 msgstr "Totale ordine:"
 
-#: v1/templates/frontend/yith-wapo-group-container.php:77
+#: v1/templates/frontend/yith-wapo-group-container.php:79
 msgid "Additional options total:"
 msgstr "Totale opzioni aggiuntive:"
 
-#: templates/admin/blocks-table.php:147
+#: templates/admin/blocks-table.php:150
 #: v1/templates/admin/yith-wapo-groups.php:170
 msgid "Edit"
 msgstr "Modifica"
@@ -3348,7 +3352,7 @@ msgid "Save group"
 msgstr "Salva gruppo"
 
 #: templates/admin/addon-advanced-settings.php:158
-#: templates/admin/block-editor.php:92 templates/front/block.php:222
+#: templates/admin/block-editor.php:93 templates/front/block.php:237
 #: v1/templates/admin/yith-wapo-group-addons.php:81
 msgid "options"
 msgstr "opzioni"
@@ -3409,13 +3413,13 @@ msgstr "Nuovo gruppo"
 msgid "Group"
 msgstr "Gruppo"
 
-#: templates/admin/addon-editor.php:175
+#: templates/admin/addon-editor.php:177
 #: v1/includes/classes/class.yith-wapo-type.php:1157
 #: v1/templates/admin/yith-wapo-form-option-type.php:413
 msgid "Cancel"
 msgstr "Annulla"
 
-#: templates/admin/option-common-fields.php:266
+#: templates/admin/option-common-fields.php:268
 #: v1/templates/admin/yith-wapo-new-option.php:43
 msgid "Fixed amount"
 msgstr "Importo fisso"
@@ -3430,7 +3434,7 @@ msgstr "Max"
 msgid "Min"
 msgstr "Min"
 
-#: templates/admin/option-common-fields.php:203
+#: templates/admin/option-common-fields.php:205
 #: v1/templates/admin/yith-wapo-form-option-type.php:303
 #: v1/templates/admin/yith-wapo-new-option.php:37
 msgid "Price"
@@ -3443,7 +3447,7 @@ msgid "Option Label"
 msgstr "Etichetta opzione"
 
 #: templates/admin/addon-editor.php:90
-#: templates/admin/option-common-fields.php:61
+#: templates/admin/option-common-fields.php:63
 #: v1/templates/admin/description-field.php:19
 #: v1/templates/admin/description-field.php:34
 #: v1/templates/admin/yith-wapo-form-option-type.php:156
@@ -3557,7 +3561,7 @@ msgid "Enable tooltip"
 msgstr "Abilita tooltip"
 
 #: plugin-options/general-options.php:172 plugin-options/style-options.php:309
-#: templates/admin/option-common-fields.php:136
+#: templates/admin/option-common-fields.php:138
 #: v1/includes/classes/class.yith-wccl-admin.php:497
 #: v1/includes/classes/class.yith-wccl-admin.php:529
 #: v1/includes/classes/class.yith-wccl-admin.php:841
@@ -3645,8 +3649,8 @@ msgid "Left sidebar"
 msgstr "Barra laterale sinistra"
 
 #: plugin-fw/templates/fields/image-gallery.php:41
-#: templates/admin/addon-editor.php:104 templates/admin/addon-editor.php:132
-#: templates/admin/blocks-table.php:173
+#: templates/admin/addon-editor.php:105 templates/admin/addon-editor.php:134
+#: templates/admin/blocks-table.php:176
 #: v1/templates/admin/yith-wapo-form-option-type.php:383
 #: v1/templates/admin/yith-wapo-group-addons.php:116
 #: v1/templates/admin/yith-wapo-groups.php:179
@@ -3708,8 +3712,8 @@ msgstr "Larghezza"
 msgid "Upload"
 msgstr "Carica"
 
-#: templates/admin/addons/date.php:750
-#: templates/admin/option-common-fields.php:317
+#: templates/admin/addons/date.php:753
+#: templates/admin/option-common-fields.php:319
 #: v1/includes/classes/class.yith-wapo-admin.php:544
 #: v1/includes/classes/class.yith-wapo-frontend.php:642
 #: v1/includes/classes/class.yith-wapo-premium.php:176
@@ -3722,11 +3726,11 @@ msgstr "Carica"
 msgid "Required"
 msgstr "Obbligatorio"
 
-#: templates/admin/addon-conditional-logic.php:172
+#: templates/admin/addon-conditional-logic.php:176
 msgid "Selected"
 msgstr "Selezionato"
 
-#: templates/admin/block-editor.php:137
+#: templates/admin/block-editor.php:139
 msgid "Add options"
 msgstr "Aggiungi opzioni"
 
@@ -3814,31 +3818,31 @@ msgstr "Impostazioni salvate"
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:664
+#: plugin-fw/includes/class-yit-plugin-panel.php:663
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 #: v1/includes/classes/class.yith-wapo-admin.php:429
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:668
+#: plugin-fw/includes/class-yit-plugin-panel.php:667
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:139
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:664
+#: plugin-fw/includes/class-yit-plugin-panel.php:663
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:136
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:659
+#: plugin-fw/includes/class-yit-plugin-panel.php:658
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:132
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:455
-#: plugin-fw/includes/class-yit-plugin-panel.php:458
+#: plugin-fw/includes/class-yit-plugin-panel.php:454
+#: plugin-fw/includes/class-yit-plugin-panel.php:457
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -3850,7 +3854,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:430
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:429
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -3888,7 +3892,7 @@ msgstr "Cerca categorie"
 msgid "Uploading error: extension not allowed"
 msgstr "Errore caricamento: estensione non consentita"
 
-#: includes/class-yith-wapo-cart.php:328
+#: includes/class-yith-wapo-cart.php:345
 #: v1/includes/classes/class.yith-wapo-frontend.php:1245
 msgid "Base price"
 msgstr "Prezzo base"
@@ -3901,12 +3905,12 @@ msgstr "Colore corrente"
 msgid "Select color"
 msgstr "Seleziona colore"
 
-#: plugin-fw/includes/class-yit-assets.php:166
+#: plugin-fw/includes/class-yit-assets.php:164
 #: v1/includes/classes/class.yith-wapo-frontend.php:374
 msgid "Default"
 msgstr "Predefinito"
 
-#: plugin-fw/includes/class-yit-assets.php:164
+#: plugin-fw/includes/class-yit-assets.php:162
 #: v1/includes/classes/class.yith-wapo-frontend.php:373
 msgid "Clear"
 msgstr "Rimuovi"
@@ -3920,12 +3924,12 @@ msgstr "Seleziona opzioni"
 msgid "Manage all groups"
 msgstr "Gestisci tutti i gruppi"
 
-#: includes/class-yith-wapo-admin.php:541
+#: includes/class-yith-wapo-admin.php:559
 #: v1/includes/classes/class.yith-wapo-admin.php:647
 msgid "Check this box if you want to disable global groups and use only the above ones!"
 msgstr "Seleziona questo box se vuoi disabilitare i gruppi globali e utilizzare solo quelli sopra!"
 
-#: includes/class-yith-wapo-admin.php:540
+#: includes/class-yith-wapo-admin.php:558
 #: v1/includes/classes/class.yith-wapo-admin.php:646
 msgid "Disable Globals"
 msgstr "Disabilita opzioni globali"
@@ -3944,14 +3948,14 @@ msgstr "Piattaforma di supporto"
 msgid "Plugin Documentation"
 msgstr "Documentazione plugin"
 
-#: includes/class-yith-wapo-admin.php:518
+#: includes/class-yith-wapo-admin.php:535
 #: v1/includes/classes/class.yith-wapo-admin.php:177
 #: v1/includes/classes/class.yith-wapo-admin.php:178
 #: v1/includes/classes/class.yith-wapo-admin.php:583
 msgid "Product Add-Ons"
 msgstr "Product Add-Ons"
 
-#: includes/class-yith-wapo-admin.php:248
+#: includes/class-yith-wapo-admin.php:249
 #: v1/includes/classes/class.yith-wapo-admin.php:168
 msgid "Premium Version"
 msgstr "Versione premium"

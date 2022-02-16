@@ -36,7 +36,9 @@ if ( $price_display_sufix && ( strpos( $price_display_sufix, '{price_including_t
 
 	<?php
 
+    if ( count( $types_list ) > 0 ) {
 		do_action( 'yith_wapo_start_addon_list' );
+    }
 
 	foreach ( $types_list as $single_type ) {
 		$yith_wapo_frontend->print_single_group_type( $product, $single_type );

@@ -1,11 +1,11 @@
-=== Product Feed PRO for WooCommerce  ===
+=== Product Feed PRO for WooCommerce - Google Shopping, Facebook and many more  ===
 Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, WooCommerce Product Feed, Facebook Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Facebook Pixel, Facebook Conversion API
 Requires at least: 4.5
-Tested up to: 5.8
-Stable tag: 11.1.3
+Tested up to: 5.9
+Stable tag: 11.2.9
 
 == Description ==
 
@@ -336,6 +336,56 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.2.9 (2022-02-14) =
+* Solved a Call to a member function addChild() on null issue
+
+= 11.2.8 (2022-02-12) =
+* Solved an array_key_exists error
+
+= 11.2.7 (2022-02-10) =
+* Fixed some minor CSS issues for the category mapping autosuggest
+* Changed plugin title in readme.txt file
+
+= 11.2.6 (2022-02-09) =
+* Tested for WooCommerce 6.2
+
+= 11.2.5 (2022-02-07) =
+* Solved an UTF8-encoding issue that broke XML feeds
+
+= 11.2.4 (2022-02-02) =
+* Added rawurldecode for some fields
+
+= 11.2.3 (2022-02-01) =
+* Fixed a XSS vulnerability issue
+
+= 11.2.2 (2022-01-31) =
+* Fixed a XSS vulnerability issue
+
+= 11.2.1 (2022-01-30) =
+* Fixed an issue for individually priced bundled products that had a discount configured, it was not adding the VAT to those prices.
+
+= 11.2.0 (2022-01-26) =
+* Fixed an issue where the plugin crached on Skroutz feeds when simple products were changed into variable products or the other way around
+
+= 11.1.9 (2022-01-26) =
+* Confirmed compatibility with Wordpress 5.9
+
+= 11.1.8 (2022-01-21) =
+* Added support for up to 5 additional images for Mall.sk feeds
+
+= 11.1.7 (2022-01-20) =
+* Bolder element changed the table rate shipping name method. This causes the integration to no longer work. This issue has been fixed now.
+
+= 11.1.6 (2022-01-20) =
+* Solved this error for Skroutz feed: Call to undefined method WC_Product_Simple::get_available_variations()
+
+= 11.1.5 (2022-01-20) =
+* Added support for the Mall.sk media (image) URL field
+
+= 11.1.4 (2022-01-14) =
+* Tested for compatibility with WC 6.1
+* Changed Skroutz template so it meets the new Skroutz color requirements
 
 = 11.1.3 (2022-01-09) =
 * Removed htaccess feature as it seems to be conflicting for some users
@@ -3555,6 +3605,56 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.2.9 =
+Solved a Call to a member function addChild() on null issue
+
+= 11.2.8 =
+Solved an array_key_exists error
+
+= 11.2.7 =
+Fixed some minor CSS issues for the category mapping autosuggest
+Changed plugin title in readme.txt file
+
+= 11.2.6 =
+Tested for WooCommerce 6.2
+
+= 11.2.5 =
+Solved an UTF8-encoding issue that broke XML feeds
+
+= 11.2.4 =
+Added rawurldecode for some fields
+
+= 11.2.3 =
+Fixed a XSS vulnerability issue
+
+= 11.2.2 =
+Fixed a XSS vulnerability issue
+
+= 11.2.1 =
+Fixed an issue for individually priced bundled products that had a discount configured, it was not adding the VAT to those prices.
+
+= 11.2.0 =
+Fixed an issue where the plugin crached on Skroutz feeds when simple products were changed into variable products or the other way around
+
+= 11.1.9 =
+Confirmed compatibility with Wordpress 5.9
+
+= 11.1.8 =
+Added support for up to 5 additional images for Mall.sk feeds
+
+= 11.1.7 =
+Bolder element changed the table rate shipping name method. This causes the integration to no longer work. This issue has been fixed now.
+
+= 11.1.6 =
+Solved this error for Skroutz feed: Call to undefined method WC_Product_Simple::get_available_variations()
+
+= 11.1.5 =
+Added support for the Mall.sk media (image) URL field
+
+= 11.1.4 =
+Tested for compatibility with WC 6.1
+Changed Skroutz template so it meets the new Skroutz color requirements
 
 = 11.1.3 =
 Removed htaccess feature as it seems to be conflicting for some users
