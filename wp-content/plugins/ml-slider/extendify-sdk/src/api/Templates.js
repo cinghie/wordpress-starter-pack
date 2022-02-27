@@ -1,5 +1,6 @@
+import { useTemplatesStore } from '@extendify/state/Templates'
+import { useUserStore } from '@extendify/state/User'
 import { Axios as api } from './axios'
-import { useUserStore } from '../state/User'
 
 let count = 0
 
@@ -22,7 +23,8 @@ export const Templates = {
                 offset: '',
                 initial: count === 1,
                 request_count: count,
-                sdk_partner: useUserStore.getState()?.sdkPartner ?? '',
+                group: useUserStore.getState()?.group ?? 0,
+                sdk_partner: useUserStore.getState().sdkPartner ?? '',
             },
             options,
         )
@@ -31,23 +33,33 @@ export const Templates = {
 
     // TODO: Refactor this later to combine the following three
     maybeImport(template) {
+        const categories =
+            useTemplatesStore.getState()?.searchParams?.taxonomies ?? []
         return api.post(`templates/${template.id}`, {
             template_id: template?.id,
+            categories,
             maybe_import: true,
             type: template.fields?.type,
+            sdk_partner: useUserStore.getState().sdkPartner ?? '',
+            group: useUserStore.getState()?.group ?? 0,
             pageSize: '1',
             template_name: template.fields?.title,
         })
     },
     import(template) {
+        const categories =
+            useTemplatesStore.getState()?.searchParams?.taxonomies ?? []
         return api.post(`templates/${template.id}`, {
             template_id: template.id,
+            categories,
             imported: true,
             basePattern:
                 template.fields?.basePattern ??
                 template.fields?.baseLayout ??
                 '',
             type: template.fields.type,
+            sdk_partner: useUserStore.getState().sdkPartner ?? '',
+            group: useUserStore.getState()?.group ?? 0,
             pageSize: '1',
             template_name: template.fields?.title,
         })

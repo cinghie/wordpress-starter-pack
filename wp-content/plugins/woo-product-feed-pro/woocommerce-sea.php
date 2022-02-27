@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.2.9
+ * Version:     11.3.6
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.2.9' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.3.6' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -2050,6 +2050,9 @@ function woosea_project_cancel(){
                      	// Set processing status on ready
                       	$feed_config[$key]['running'] = "stopped";
                       	$feed_config[$key]['last_updated'] = date("d M Y H:i");
+			
+			// Delete processed product array for preventing duplicates
+                     	delete_option('woosea_duplicates');
 
                    	// In 1 minute from now check the amount of products in the feed and update the history count
 			wp_schedule_single_event( time() + 60, 'woosea_update_project_stats', array($val['project_hash']) );
@@ -4543,10 +4546,10 @@ function woosea_last_updated($project_hash){
 function woosea_continue_batch($project_hash){
 	$batch_project = "batch_project_".$project_hash;
 	$val = get_option( $batch_project );
-	
+
 	if ((!empty($val)) AND (is_array($val))){
 		$line = new WooSEA_Get_Products;
-       		$final_creation = $line->woosea_get_products( $val );
+		$final_creation = $line->woosea_get_products( $val );
         	$last_updated = woosea_last_updated( $val['project_hash'] );
 
 		// Clean up the single event project configuration

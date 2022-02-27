@@ -336,6 +336,10 @@
                         $( '.is-ajax-search-result .is-ajax-search-post a' ).on( 'click', function( e ) {
                             $( '#is-popup-wrapper, .is-ajax-search-result, .is-ajax-search-details' ).fadeOut('slow');
                         });
+
+                        $( '.is-ajax-woocommerce-actions .qty' ).on( 'change', function() {
+                            $( this ).parent().next().find( '.add_to_cart_button' ).attr( 'data-quantity', $( this ).val() );
+                        });
 					},
                                         error: function( XMLHttpRequest, textStatus, errorThrown ) {
                                             console.log(XMLHttpRequest.statusText);

@@ -25,10 +25,11 @@ $versions = array (
 );
 
 // Get the sales from created product feeds
-global $wpdb;
-$charset_collate = $wpdb->get_charset_collate();
-$table_name = $wpdb->prefix . 'adtribes_my_conversions';
-$order_rows = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
+//global $wpdb;
+//$charset_collate = $wpdb->get_charset_collate();
+//$table_name = $wpdb->prefix . 'adtribes_my_conversions';
+//$order_rows = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
+$order_rows = "";
 
 /**
  * Change default footer text, asking to review our plugin
@@ -105,7 +106,14 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
                                 delete_option( 'woosea_getelite_notification' );
                                 delete_option( 'woosea_license_notification_closed' );
                                 wp_clear_scheduled_hook( 'woosea_cron_hook' );
-                                wp_clear_scheduled_hook( 'woosea_check_license' );
+				wp_clear_scheduled_hook( 'woosea_check_license' );
+			} elseif (array_key_exists('force-deduplication', $_GET)){
+				// Force deduplication
+				foreach($cron_projects as $key => $value){
+					$channel_hash = $cron_projects[$key]['channel_hash'];
+					$channel_duplicates = "woosea_duplicates_".$channel_hash;
+					delete_option($channel_duplicates);
+				}
 			} else {
                                 // Set default notification to show
                                 $getelite_notice = get_option('woosea_getelite_notification');

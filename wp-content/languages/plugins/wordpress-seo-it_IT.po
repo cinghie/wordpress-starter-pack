@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-04 14:16:16+0000\n"
+"PO-Revision-Date: 2022-02-26 22:04:11+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,22 @@ msgstr ""
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Yoast SEO - Stable (latest release)\n"
+
+#: src/integrations/admin/import-integration.php:199
+msgid "Import failed with the following error:"
+msgstr "L'importazione è fallita con il seguente errore:"
+
+#: src/integrations/admin/import-integration.php:111
+msgid "No data found from other SEO plugins."
+msgstr "Non è stato trovato alcun dato dagli altri plugin SEO."
+
+#: src/integrations/admin/import-integration.php:110
+msgid "Select SEO plugin"
+msgstr "Seleziona il plugin SEO"
+
+#: src/integrations/admin/import-integration.php:106
+msgid "The import can take a long time depending on your site's size."
+msgstr "L'importazione può richiedere molto tempo a seconda delle dimensioni del tuo sito"
 
 #: src/integrations/admin/installation-success-integration.php:101
 msgid "Installation Successful"
@@ -1518,7 +1534,7 @@ msgstr "Rimuovi la frase chiave"
 msgid "%s is a required feature toggle argument."
 msgstr "%s è un argomento della funzionalità di attivazione obbligatorio."
 
-#: admin/views/sidebar.php:29 js/dist/externals-components.js:11
+#: admin/views/sidebar.php:29 js/dist/externals-components.js:7
 msgid "Rank better with synonyms & related keyphrases"
 msgstr "Posizionati meglio con i sinonimi e le frasi chiave correlate"
 
@@ -1548,9 +1564,9 @@ msgstr "Cancella l'immagine"
 #: src/deprecated/admin/add-keyword-modal.php:47
 #: src/deprecated/admin/keyword-synonyms-modal.php:47
 #: src/deprecated/admin/multiple-keywords-modal.php:47
-#: js/dist/externals-components.js:19 js/dist/externals-components.js:29
+#: js/dist/externals-components.js:15 js/dist/externals-components.js:25
+#: js/dist/externals-components.js:27 js/dist/externals-components.js:29
 #: js/dist/externals-components.js:31 js/dist/externals-components.js:33
-#: js/dist/externals-components.js:35 js/dist/externals-components.js:37
 msgid "Get %s"
 msgstr "Passa a %s"
 
@@ -1581,7 +1597,7 @@ msgstr "Blocchi di Dati Strutturati di %1$s"
 #: src/deprecated/admin/add-keyword-modal.php:35
 #: src/deprecated/admin/keyword-synonyms-modal.php:35
 #: src/deprecated/admin/multiple-keywords-modal.php:35
-#: js/dist/externals-components.js:21
+#: js/dist/externals-components.js:17
 msgid "Great news: you can, with %s!"
 msgstr "Ottime notizie: puoi con %s!"
 
@@ -1646,7 +1662,7 @@ msgid "Not all required fields are given. Missing field %1$s"
 msgstr "Non sono stati riempiti tutti i campi obbligatori. Manca il campo %1$s"
 
 #: src/deprecated/admin/keyword-synonyms-modal.php:32
-#: js/dist/externals-components.js:33
+#: js/dist/externals-components.js:29
 msgid "Would you like to add keyphrase synonyms?"
 msgstr "Vuoi aggiungere dei sinonimi della frase chiave?"
 
@@ -1937,7 +1953,7 @@ msgid "Get real-time suggestions for internal links"
 msgstr "Ottieni in tempo reale suggerimenti per i link interni"
 
 #: admin/class-premium-upsell-admin-block.php:58 admin/views/sidebar.php:38
-#: js/dist/externals-components.js:15 js/dist/externals-components.js:25
+#: js/dist/externals-components.js:11 js/dist/externals-components.js:21
 msgid "24/7 email support"
 msgstr "Supporto 24/7 via email"
 
@@ -2216,7 +2232,7 @@ msgid "Enable this feature if you want Twitter to display a preview with images 
 msgstr "Abilita questa funzione se vuoi che Twitter mostri un'anteprima con le immagini ed un riassunto del testo quando un link del tuo sito viene condiviso."
 
 #: admin/views/class-yoast-feature-toggles.php:74
-#: js/dist/externals-components.js:37
+#: js/dist/externals-components.js:33
 msgid "SEO analysis"
 msgstr "Analisi SEO"
 
@@ -2476,18 +2492,18 @@ msgstr "Punteggio di leggibilità"
 #: src/deprecated/admin/add-keyword-modal.php:41
 #: src/deprecated/admin/keyword-synonyms-modal.php:41
 #: src/deprecated/admin/multiple-keywords-modal.php:41
-#: js/dist/externals-components.js:17 js/dist/externals-components.js:27
+#: js/dist/externals-components.js:13 js/dist/externals-components.js:23
 msgid "Other benefits of %s for you:"
 msgstr "Altri benefici da %s per te:"
 
 #: admin/filters/class-cornerstone-filter.php:87
 #: admin/views/class-yoast-feature-toggles.php:90
-#: js/dist/externals-components.js:5
+#: js/dist/externals-components.js:1
 msgid "Cornerstone content"
 msgstr "Contenuto Cornerstone (contenuto centrale)"
 
 #: admin/class-premium-upsell-admin-block.php:56
-#: js/dist/externals-components.js:13 js/dist/externals-components.js:23
+#: js/dist/externals-components.js:9 js/dist/externals-components.js:19
 msgid "Superfast internal linking suggestions"
 msgstr "Suggerimenti super veloci di link interni"
 
@@ -2507,12 +2523,12 @@ msgstr "Il plugin %2$s modifica l'aspetto del tuo sito differenziando il contenu
 #: src/deprecated/admin/add-keyword-modal.php:50
 #: src/deprecated/admin/keyword-synonyms-modal.php:50
 #: src/deprecated/admin/multiple-keywords-modal.php:50
-#: js/dist/externals-components.js:19 js/dist/externals-components.js:29
+#: js/dist/externals-components.js:15 js/dist/externals-components.js:25
 msgid "1 year free support and updates included!"
 msgstr "1 anno di aggiornamenti e supporto personalizzato inclusi!"
 
 #: admin/class-premium-upsell-admin-block.php:59 admin/views/sidebar.php:39
-#: js/dist/externals-components.js:15 js/dist/externals-components.js:25
+#: js/dist/externals-components.js:11 js/dist/externals-components.js:21
 msgid "No ads!"
 msgstr "Nessuna pubblicità!"
 
@@ -2886,7 +2902,7 @@ msgid "Readability"
 msgstr "Leggibilità"
 
 #: admin/views/class-yoast-feature-toggles.php:82
-#: js/dist/externals-components.js:5
+#: js/dist/externals-components.js:1
 msgid "Readability analysis"
 msgstr "Analisi leggibilità"
 
@@ -2900,7 +2916,7 @@ msgstr "Disabilita l'analisi della leggibilità"
 #: inc/class-wpseo-rank.php:140 inc/class-wpseo-rank.php:163
 #: inc/class-wpseo-rank.php:195 js/dist/block-editor.js:1
 #: js/dist/block-editor.js:63 js/dist/editor-modules.js:1
-#: js/dist/externals-components.js:1 js/dist/externals/analysis.js:356
+#: js/dist/externals-components.js:33 js/dist/externals/analysis.js:356
 #: js/dist/post-edit.js:1 js/dist/term-edit.js:1
 msgid "Needs improvement"
 msgstr "Da migliorare"
@@ -3207,7 +3223,7 @@ msgstr "%s non sembra essere una string di verifica valida %s. Correggi e riprov
 #: inc/class-wpseo-rank.php:142 inc/class-wpseo-rank.php:173
 #: inc/class-wpseo-rank.php:205 js/dist/block-editor.js:1
 #: js/dist/block-editor.js:63 js/dist/editor-modules.js:1
-#: js/dist/externals-components.js:1 js/dist/externals/analysis.js:356
+#: js/dist/externals-components.js:33 js/dist/externals/analysis.js:356
 #: js/dist/post-edit.js:1 js/dist/term-edit.js:1
 msgid "Good"
 msgstr "Buona"
@@ -3520,6 +3536,10 @@ msgstr "È possibile utilizzare le seguenti variabili all'interno del contenuto,
 msgid "You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the \"wpseo_replacements\" filter instead to adjust the replacement value."
 msgstr "Non puoi sovrascrivere una variabile di sostituzione standard di WPSEO registrando una variabile con lo stesso nome. Utilizza piuttosto il filtro \"wpseo_replacements\" per aggiustare il valore di sostituzione."
 
+#: src/integrations/admin/import-integration.php:128
+msgid "Default settings"
+msgstr "Impostazioni standard"
+
 #: admin/views/tabs/metas/paper-content/rss-content.php:39
 msgid "A link to the archive for the post author, with the authors name as anchor text."
 msgstr "Un link all'archivio dell'autore dell'articolo, con il nome dell'autore come testo di ancoraggio."
@@ -3628,10 +3648,6 @@ msgstr "Tassonomia da mostrare nei breadcrumbs per i post type"
 #: admin/pages/tools.php:31
 msgid "This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file."
 msgstr "Questo strumento consente di modificare rapidamente file importanti per la SEO, come il vostro robots.txt e, se ne avete uno, il file .htaccess."
-
-#: admin/pages/tools.php:25
-msgid "Import settings from other SEO plugins and export your settings for re-use on (another) blog."
-msgstr "Importa le impostazioni da altri plugin per la SEO ed esportale per riutilizzarle su un altro blog."
 
 #: inc/class-wpseo-replace-vars.php:1481
 msgid "Replaced with the posts focus keyphrase"
@@ -3889,7 +3905,7 @@ msgid "Archives"
 msgstr "Archivi"
 
 #: admin/google_search_console/views/gsc-redirect-nopremium.php:27
-#: js/dist/externals-components.js:29 js/dist/externals/componentsNew.js:1
+#: js/dist/externals-components.js:25 js/dist/externals/componentsNew.js:1
 msgid "Close"
 msgstr "Chiudi"
 
@@ -3911,7 +3927,7 @@ msgstr "Desc. meta"
 #: admin/statistics/class-statistics-service.php:222
 #: inc/class-wpseo-rank.php:141 inc/class-wpseo-rank.php:168
 #: inc/class-wpseo-rank.php:200 js/dist/block-editor.js:1
-#: js/dist/editor-modules.js:1 js/dist/externals-components.js:1
+#: js/dist/editor-modules.js:1 js/dist/externals-components.js:33
 #: js/dist/externals/analysis.js:356 js/dist/post-edit.js:1
 #: js/dist/term-edit.js:1
 msgid "OK"
@@ -3960,14 +3976,6 @@ msgstr "Sia %1$s sia %2$s generano dei meta tag OpenGraph, che potrebbero causar
 #: src/services/health-check/default-tagline-runner.php:31
 msgid "Just another WordPress site"
 msgstr "Solo un altro sito WordPress"
-
-#. translators: %s expands to the number of posts in localized format.
-#: admin/class-bulk-editor-list-table.php:288
-msgctxt "posts"
-msgid "All <span class=\"count\">(%s)</span>"
-msgid_plural "All <span class=\"count\">(%s)</span>"
-msgstr[0] "Tutto <span class=\"count\">(%s)</span>"
-msgstr[1] "Tutto <span class=\"count\">(%s)</span>"
 
 #. translators: %s expands to the number of trashed posts in localized format.
 #: admin/class-bulk-editor-list-table.php:337
@@ -4253,3 +4261,11 @@ msgstr "L'URL canonico a cui questa pagina dovrebbe puntare. Lascia in bianco pe
 #: admin/metabox/class-metabox.php:209
 msgid "The URL that this page should redirect to."
 msgstr "L'URL al quale questa pagina deve reindirizzare."
+
+#. translators: %s expands to the number of posts in localized format.
+#: admin/class-bulk-editor-list-table.php:288
+msgctxt "posts"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Tutti <span class=\"count\">(%s)</span>"
+msgstr[1] "Tutti <span class=\"count\">(%s)</span>"

@@ -2382,6 +2382,18 @@ class WooSEA_Get_Products {
                    	$logger->add('Product Feed Pro by AdTribes.io','<!-- START new QUERY -->');
              	}
 
+                // Make sure we do not process duplicate products that are already feed
+                // $channel_hash = $project_config['channel_hash'];
+                // $channel_duplicates = "woosea_duplicates_".$channel_hash;
+
+                // $prevent_duplicates = get_option($channel_duplicates);
+                // if(empty($prevent_duplicates)){
+                //        $prevent_duplicates = array();
+                //        $fake_id = 99999999;
+                //        array_push($prevent_duplicates, $fake_id);
+                //        update_option($channel_duplicates, $prevent_duplicates, 'no');
+                //}
+
 	        while ($prods->have_posts()) : $prods->the_post(); 
 			global $product;
 			$attr_line = "";
@@ -2399,7 +2411,15 @@ class WooSEA_Get_Products {
 			if($status != "publish") { continue; }
 
 			$product_data['id'] = get_the_ID();
-		
+
+			// Add to the prevent duplication array
+			// if(!in_array($product_data['id'], $prevent_duplicates)){
+			//	array_push($prevent_duplicates, $product_data['id']);
+			//} else {
+			//	// duplicate product, do not add
+			//	continue;
+			//}
+
 			// Only products that have been sold are allowed to go through
                 	if(isset($project_config['total_product_orders_lookback'])){
                         	if($project_config['total_product_orders_lookback'] > 0){
@@ -2917,10 +2937,14 @@ class WooSEA_Get_Products {
                         			$product_data['price'] = get_post_meta($product_data['id'], '_price', true);
                         			$product_data['sale_price'] = get_post_meta($product_data['id'], '_sale_price', true);
 						
-						if(is_numeric($tax_rates[1]['rate'])){	
-                    		    			$product_data['price'] = round(get_post_meta($product_data['id'], '_price', true) * (100+$tax_rates[1]['rate'])/100,2);
-                    		    			$product_data['sale_price'] = round(get_post_meta($product_data['id'], '_sale_price', true) * (100+$tax_rates[1]['rate'])/100,2);
-							$product_data['regular_price'] = round(get_post_meta($product_data['id'], '_regular_price', true) * (100+$tax_rates[1]['rate'])/100,2);
+						if(is_numeric($tax_rates[1]['rate'])){
+							$rounded_price = floatval(get_post_meta($product_data['id'], '_price', true));
+							$rounded_sale_price = floatval(get_post_meta($product_data['id'], '_sale_price', true));
+							$rounded_regular_price = floatval(get_post_meta($product_data['id'], '_regular_price', true));
+
+                    		    			$product_data['price'] = round($rounded_price * (100+$tax_rates[1]['rate'])/100,2);
+                    		    			$product_data['sale_price'] = round($rounded_sale_price * (100+$tax_rates[1]['rate'])/100,2);
+							$product_data['regular_price'] = round($rounded_regular_price * (100+$tax_rates[1]['rate'])/100,2);
 						} else {
                     		    			$product_data['price_forced'] = $product_data['price'];
                     		    			$product_data['regular_price'] = $product_data['price'];
@@ -3342,6 +3366,9 @@ class WooSEA_Get_Products {
 	                        	$product_data['vivino_price'] = $product_data['price'];
                         		$product_data['vivino_sale_price'] = $product_data['sale_price'];
                         		$product_data['vivino_regular_price'] = $product_data['regular_price'];
+		                        $product_data['vivino_net_price'] = $product_data['net_price'];
+                        		$product_data['vivino_net_sale_price'] = $product_data['net_sale_price'];
+                        		$product_data['vivino_net_regular_price'] = $product_data['net_regular_price'];
 				}
 			}
 
@@ -3350,6 +3377,11 @@ class WooSEA_Get_Products {
 			$product_data['vivino_regular_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['regular_price'])));
 			if($product_data['sale_price'] > 0){
 				$product_data['vivino_sale_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['sale_price'])));
+				$product_data['vivino_net_sale_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['net_sale_price'])));
+			}
+			$product_data['vivino_net_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['net_price'])));
+			if(isset($product_data['net_regular_price'])){
+				$product_data['vivino_net_regular_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['net_regular_price'])));
 			}
 
 			$product_data['installment'] = $this->woosea_get_installment($project_config, $product_data['id']);
@@ -4072,14 +4104,6 @@ class WooSEA_Get_Products {
                         $product_data['title_lc'] = ucfirst(strtolower($product_data['title']));
                         $product_data['title_lcw'] = ucwords(strtolower($product_data['title']));
 
-			// Add CDATA to title and descriptions	
-			//$add_woosea_cdata = get_option ('add_woosea_cdata');
-                	//if($add_woosea_cdata == "yes"){
-                        //	$product_data['title'] = $this->woosea_append_cdata ( $product_data['title'] );
-                        //	$product_data['description'] = $this->woosea_append_cdata ( $product_data['description'] );
-                        //	$product_data['short_description'] = $this->woosea_append_cdata ( $product_data['short_description'] );
-			//}
-
 			/**
                         * Get product reviews for Google Product Review Feeds
 			*/
@@ -4778,10 +4802,10 @@ class WooSEA_Get_Products {
 		endwhile;
 		wp_reset_query();
 
-		/**
-		 * Update processing status of project
-		 */
-		//$project_updated = $this->woosea_project_update($project_config['project_hash'], $offset_step_size, $xml_piece);
+                // Add processed products to array
+                //if(get_option('woosea_duplicates')){
+                //        update_option($channel_duplicates, $prevent_duplicates, 'no');
+                //}
 
 		/**
 		 * Write row to CSV/TXT or XML file
@@ -4839,12 +4863,11 @@ class WooSEA_Get_Products {
 
                 // Get the sales from created product feeds
 		global $wpdb;
-                $charset_collate = $wpdb->get_charset_collate();
-                $table_name = $wpdb->prefix . 'adtribes_my_conversions';
-                $order_rows = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
-
-        //     	$notifications_obj = new WooSEA_Get_Admin_Notifications;
-        //      $external_debug_file = $notifications_obj->woosea_debug_informations ($versions, $product_numbers, $order_rows, $feed_config);
+//              $charset_collate = $wpdb->get_charset_collate();
+//              $table_name = $wpdb->prefix . 'adtribes_my_conversions';
+//              $order_rows = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
+//     		$notifications_obj = new WooSEA_Get_Admin_Notifications;
+//      	$external_debug_file = $notifications_obj->woosea_debug_informations ($versions, $product_numbers, $order_rows, $feed_config);
 		// End information for debug log
 
 		foreach ( $feed_config as $key => $val ) {
@@ -4894,12 +4917,21 @@ class WooSEA_Get_Products {
 						// Feed should only refresh when product details have changed
                                         	update_option('woosea_allow_update', 'no');
 
+                                                // Delete processed product array for preventing duplicates
+                                                // $channel_duplicates = "woosea_duplicates_".$project_hash;
+                                                // delete_option($channel_duplicates);
+
 						// In 2 minutes from now check the amount of products in the feed and update the history count
 						wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 					} else {
 						$feed_config[$key]['nr_products_processed'] = $nr_prods_processed;
 						$feed_config[$key]['running'] = "processing";
 						$feed_config[$key]['nr_products'] = $published_products;
+
+						// Update current processing status and numbers
+						$val['nr_products_processed'] = $nr_prods_processed;
+						$val['running'] = "processing";
+						$val['nr_products'] = $published_products;
 
 						// Set new scheduled event for next batch in 2 seconds
 						if($offset_step_size < $published_products){
@@ -4938,7 +4970,11 @@ class WooSEA_Get_Products {
                                                 	// Make sure this option is set to no again
                                                 	// Feed should only refresh when product details have changed
                                                 	update_option('woosea_allow_update', 'no');
-	
+
+                                                	// Delete processed product array for preventing duplicates
+                                                	// $channel_duplicates = "woosea_duplicates_".$project_hash;
+                                                	// delete_option($channel_duplicates);
+
 							// In 2 minutes from now check the amount of products in the feed and update the history count
 							wp_schedule_single_event( time() + 120, 'woosea_update_project_stats', array($val['project_hash']) );
 						}

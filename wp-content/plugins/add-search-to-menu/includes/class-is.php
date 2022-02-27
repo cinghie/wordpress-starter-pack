@@ -60,10 +60,10 @@ class IS_Loader {
 
 			$this->admin_public_hooks();
 
-			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'is_ajax_load_posts' == $_POST['action'] ) ) {
+			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && 'is_ajax_load_posts' == $_POST['action'] ) ) {
 				$this->admin_hooks();
 			} 
-            if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'is_ajax_load_posts' == $_POST['action'] ) ) {
+            if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && 'is_ajax_load_posts' == $_POST['action'] ) ) {
 				$this->public_hooks();
 			}
         }

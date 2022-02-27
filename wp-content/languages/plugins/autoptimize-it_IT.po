@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Autoptimize - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-01-18 23:40:35+0000\n"
+"PO-Revision-Date: 2022-02-17 11:06:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,6 +26,34 @@ msgstr "Sito web attuale:"
 #: classes/autoptimizeExitSurvey.php:92
 msgid "Uninstall reason"
 msgstr "Motivo della disinstallazione"
+
+#: classes/autoptimizeExitSurvey.php:67
+msgid "I'm just disabling temporarily."
+msgstr "È una disattivazione temporanea."
+
+#: classes/autoptimizeExitSurvey.php:62
+msgid "I found a better solution."
+msgstr "Ho trovato una soluzione migliore."
+
+#: classes/autoptimizeExitSurvey.php:72
+msgid "Other (please specify below)"
+msgstr "Altro (specifica qui sotto)"
+
+#: classes/autoptimizeExitSurvey.php:85
+msgid "What info do we collect?"
+msgstr "Quali informazioni raccogliamo?"
+
+#: classes/autoptimizeConfig.php:676 classes/autoptimizeToolbar.php:82
+msgid "Autoptimize Pro"
+msgstr "Autoptimize Pro"
+
+#: classes/autoptimizeToolbar.php:112
+msgid "Clear CSS/ JS Cache"
+msgstr "Pulisci la cache CSS/JS"
+
+#: classes/autoptimizeToolbar.php:93
+msgid "CSS/ JS Cache Info"
+msgstr "Informazioni sulla cache CSS/JS"
 
 #: classes/autoptimizeConfig.php:910
 msgid "JS, CSS  &amp; HTML"
@@ -66,6 +94,10 @@ msgstr "Immagini lazy-load?"
 #: classes/autoptimizeConfig.php:450
 msgid "When aggregating JS or CSS, excluded files that are not minified (based on filename) are by default minified by Autoptimize despite being excluded. Uncheck this option if anything breaks despite excluding."
 msgstr "Quando si aggregano JS o CSS, i file esclusi che non sono minificati (basandosi sul nome file), vengono minificati in modo predefinito da Autoptimize, nonostante siano esclusi. Deseleziona questa opzione, se qualcosa non funziona nonostante l’esclusione."
+
+#: classes/autoptimizeImages.php:1205
+msgid "Load AVIF in supported browsers?"
+msgstr "Caricare AVIF nei browser supportati?"
 
 #: classes/autoptimizeImages.php:1293
 msgid "based on status at "
@@ -495,3 +527,7 @@ msgstr "Abilita questa opzione per includere immagini di background (background-
 #: classes/autoptimizeConfig.php:347
 msgid "A comma-separated list of CSS you want to exclude from being optimized."
 msgstr "Una lista di stili CSS separati da virgola che vuoi escludere dall'ottimizzazione."
+
+#: classes/autoptimizeMain.php:692
+msgid "Thank you for installing and activating Autoptimize. Please configure it under %sSettings -> Autoptimize%s to start improving your site's performance."
+msgstr "Grazie per aver installato e attivato Autoptimize. Per iniziare a migliorare le prestazioni del tuo sito puoi configurarlo in %sImpostazioni -> Autoptimize%s."

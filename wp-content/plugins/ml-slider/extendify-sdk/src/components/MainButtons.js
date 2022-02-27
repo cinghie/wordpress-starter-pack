@@ -1,12 +1,13 @@
 import { Button } from '@wordpress/components'
 import { useState, useEffect, useRef } from '@wordpress/element'
-import { Icon } from '@wordpress/icons'
-import { brandMark } from './icons'
 import { __ } from '@wordpress/i18n'
-import { openModal } from '../util/general'
-import { useUserStore } from '../state/User'
-import { useGlobalStore } from '../state/GlobalState'
-import { General } from '../api/General'
+import { Icon } from '@wordpress/icons'
+import { General } from '@extendify/api/General'
+import { useTestGroup } from '@extendify/hooks/useTestGroup'
+import { useGlobalStore } from '@extendify/state/GlobalState'
+import { useUserStore } from '@extendify/state/User'
+import { openModal } from '@extendify/util/general'
+import { brandMark } from './icons'
 import { NewImportsPopover } from './popovers/NewImportsPopover'
 
 export const MainButton = () => {
@@ -19,6 +20,7 @@ export const MainButton = () => {
     const hasPendingNewImports = useUserStore(
         (state) => state.allowedImports === 0,
     )
+    const buttonText = useTestGroup('main-button-text', ['A', 'B', 'C'])
 
     const handleTooltipClose = async () => {
         await General.ping('mb-tooltip-closed')
@@ -29,6 +31,17 @@ export const MainButton = () => {
         useUserStore.setState({
             allowedImports: -1,
         })
+    }
+    const libraryButtonText = () => {
+        switch (buttonText) {
+            // case 'A' is the default
+            case 'B':
+                return __('Add section', 'extendify')
+            case 'C':
+                return __('Add template', 'extendify')
+            default:
+                return __('Library', 'extendify')
+        }
     }
 
     useEffect(() => {
@@ -57,7 +70,7 @@ export const MainButton = () => {
                         size={24}
                     />
                 }>
-                {__('Library', 'extendify')}
+                {libraryButtonText()}
             </Button>
 
             {showTooltip && (

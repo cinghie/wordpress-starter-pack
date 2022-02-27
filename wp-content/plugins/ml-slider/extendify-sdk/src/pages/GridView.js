@@ -1,4 +1,4 @@
-import Masonry from 'react-masonry-css'
+import { Spinner, Button } from '@wordpress/components'
 import {
     useEffect,
     useState,
@@ -6,14 +6,15 @@ import {
     useRef,
     memo,
 } from '@wordpress/element'
-import { Spinner, Button } from '@wordpress/components'
 import { __, sprintf } from '@wordpress/i18n'
-import { useTemplatesStore } from '../state/Templates'
-import { Templates as TemplatesApi } from '../api/Templates'
 import { useInView } from 'react-intersection-observer'
-import { useIsMounted } from '../hooks/helpers'
-import { ImportTemplateBlock } from '../components/ImportTemplateBlock'
-import { useGlobalStore } from '../state/GlobalState'
+import Masonry from 'react-masonry-css'
+import { Templates as TemplatesApi } from '@extendify/api/Templates'
+import { ImportTemplateBlock } from '@extendify/components/ImportTemplateBlock'
+import { useIsMounted } from '@extendify/hooks/helpers'
+import { useGlobalStore } from '@extendify/state/GlobalState'
+import { useTaxonomyStore } from '@extendify/state/Taxonomies'
+import { useTemplatesStore } from '@extendify/state/Templates'
 
 export const GridView = memo(function GridView() {
     const isMounted = useIsMounted()
@@ -26,6 +27,12 @@ export const GridView = memo(function GridView() {
     const searchParamsRaw = useTemplatesStore((state) => state.searchParams)
     const currentType = useGlobalStore((state) => state.currentType)
     const resetTemplates = useTemplatesStore((state) => state.resetTemplates)
+    const open = useGlobalStore((state) => state.open)
+    const taxonomies = useTaxonomyStore((state) => state.taxonomies)
+    const updateType = useTemplatesStore((state) => state.updateType)
+    const updateTaxonomies = useTemplatesStore(
+        (state) => state.updateTaxonomies,
+    )
 
     // Store the next page in case we have pagination
     const nextPage = useRef(useTemplatesStore.getState().nextPage)
@@ -37,14 +44,14 @@ export const GridView = memo(function GridView() {
     // Subscribing to the store will keep these values updates synchronously
     useEffect(() => {
         return useTemplatesStore.subscribe(
-            (n) => (nextPage.current = n),
             (state) => state.nextPage,
+            (n) => (nextPage.current = n),
         )
     }, [])
     useEffect(() => {
         return useTemplatesStore.subscribe(
-            (s) => (searchParams.current = s),
             (state) => state.searchParams,
+            (s) => (searchParams.current = s),
         )
     }, [])
 
@@ -70,7 +77,7 @@ export const GridView = memo(function GridView() {
                 }
                 if (
                     searchParamsRaw === searchParams.current &&
-                    response?.records.length
+                    response?.records?.length
                 ) {
                     useTemplatesStore.setState({
                         nextPage: response?.offset ?? '',
@@ -87,17 +94,38 @@ export const GridView = memo(function GridView() {
     }, [appendTemplates, isMounted, searchParamsRaw])
 
     useEffect(() => {
-        if (templates.length === 0) {
+        if (templates?.length === 0) {
             setLoading(true)
             return
         }
-    }, [templates.length, searchParamsRaw])
+    }, [templates?.length, searchParamsRaw])
+
+    useEffect(() => {
+        // This will check the URL for a pattern type and set that and remove it
+        // TODO: possibly refactor this if we exapnd it to support layouts
+        if (!open || !taxonomies?.patternType?.length) return
+        const search = new URLSearchParams(window.location.search)
+        if (!search.has('ext-patternType')) return
+        const term = search.get('ext-patternType')
+        // Delete it right away
+        search.delete('ext-patternType')
+        window.history.replaceState(
+            null,
+            null,
+            window.location.pathname + '?' + search.toString(),
+        )
+        // Search the slug in patternTypes
+        const tax = taxonomies.patternType.find((t) => t.slug === term)
+        if (!tax) return
+        updateTaxonomies({ patternType: tax })
+        updateType('pattern')
+    }, [open, taxonomies, updateType, updateTaxonomies])
 
     // This is the main driver for loading templates
     // This loads the initial batch of templates. But if we don't yet have taxonomies.
     // There's also an option to skip loading on first mount
     useEffect(() => {
-        if (!Object.keys(searchParams.current.taxonomies).length) {
+        if (!Object.keys(searchParams.current?.taxonomies)?.length) {
             return
         }
 
@@ -111,7 +139,8 @@ export const GridView = memo(function GridView() {
             return
         }
         fetchTemplates()
-    }, [fetchTemplates, searchParams])
+        return () => resetTemplates()
+    }, [fetchTemplates, searchParams, resetTemplates])
 
     // Fetches when the load more is in view
     useEffect(() => {
@@ -123,7 +152,7 @@ export const GridView = memo(function GridView() {
             <div className="text-left">
                 <h2 className="text-left">{__('Server error', 'extendify')}</h2>
                 <code
-                    className="block max-w-xl p-4 mb-4"
+                    className="mb-4 block max-w-xl p-4"
                     style={{ minHeight: '10rem' }}>
                     {serverError}
                 </code>
@@ -138,8 +167,8 @@ export const GridView = memo(function GridView() {
 
     if (nothingFound) {
         return (
-            <div className="flex h-full items-center justify-center w-full -mt-2 sm:mt-0">
-                <h2 className="text-sm text-extendify-gray font-normal">
+            <div className="-mt-2 flex h-full w-full items-center justify-center sm:mt-0">
+                <h2 className="text-sm font-normal text-extendify-gray">
                     {sprintf(
                         searchParams.current.type === 'template'
                             ? __(
@@ -160,7 +189,7 @@ export const GridView = memo(function GridView() {
     return (
         <>
             {loading && (
-                <div className="flex h-full items-center justify-center w-full -mt-2 sm:mt-0">
+                <div className="-mt-2 flex h-full w-full items-center justify-center sm:mt-0">
                     <Spinner />
                 </div>
             )}
@@ -186,7 +215,7 @@ export const GridView = memo(function GridView() {
                     </div>
                     {/* This is a large div that, when in view, will trigger more patterns to load */}
                     <div
-                        className="-translate-y-full flex flex-col items-end justify-end relative transform"
+                        className="relative flex -translate-y-full transform flex-col items-end justify-end"
                         ref={loadMoreRef}
                         style={{
                             zIndex: -1,
@@ -207,7 +236,7 @@ const Grid = ({ type, children }) => {
         case 'template':
             return (
                 <div
-                    className={`grid lg:grid-cols-2 gap-6 md:gap-8 ${sharedClasses}`}>
+                    className={`grid gap-6 md:gap-8 lg:grid-cols-2 ${sharedClasses}`}>
                     {children}
                 </div>
             )
@@ -222,7 +251,7 @@ const Grid = ({ type, children }) => {
     return (
         <Masonry
             breakpointCols={breakpointColumnsObj}
-            className={`flex -ml-6 md:-ml-8 w-auto px-0.5 ${sharedClasses}`}
+            className={`-ml-6 flex w-auto px-0.5 md:-ml-8 ${sharedClasses}`}
             columnClassName="pl-6 md:pl-8 bg-clip-padding space-y-6 md:space-y-8">
             {children}
         </Masonry>

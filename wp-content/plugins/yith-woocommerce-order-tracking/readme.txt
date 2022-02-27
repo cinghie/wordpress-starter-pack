@@ -1,10 +1,10 @@
-=== YITH WooCommerce Order Tracking ===
+=== YITH WooCommerce Order & Shipment Tracking ===
 
 Contributors: yithemes
 Tags: carrier, tracking, delivery, shipping, woocommerce, yith
 Requires at least: 5.7
 Tested up to: 5.9
-Stable tag: 1.8.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,69 +12,70 @@ Add an easy tool to manage order shipping information of your shop and to notifi
 
 == Description ==
 
-YITH Woocommerce Order Tracking is a WordPress plugin that allows you to manage easily shipping information concerning your orders and that lets your customers be notified about their order shipping.
-Just put yourself in your customers' shoes: you make an order on a WooCommerce watch store and you can't wait for your watch to be delivered to you. WooCommerce plugin allows you to place orders, to let you pay, but after that?
-The seller can give you information about how long will your product take to be delivered, but you are not sure about where it is until it arrives. What you need is something informing you about the packet, a tracking tool, that WooCommerce unfortunately does not adds automatically to a shop. This is exactly what YITH WooCommerce Order Tracking allows you to do, tracking the delivery of your watches, clothes, books or whatever WooCommerce product you have ordered.
-This is a very useful tool to make your WooCommerce shop as complete as possible and offer your customers the best service, they feel you care of them and they feel safe: this will certainly make sales in your WooCommerce shop increase dramatically.
+Usability research revealed that 97% of customers expect to be able to monitor every step of the shipping process for the products they have purchased online.
 
-= Save precious time and feel free to focus only on your business activity =
+Thanks to the free plugin YITH WooCommerce Order & Shipment Tracking, you can add the shipping information (carrier's name, delivery date, tracking code, carrier's site URL to track the order in real time, etc.) to every order and show the same data on your customers' accounts (both in the orders list and order details).
 
-Moreover, it is a great advantage for you too, because with a plugin such as YITH WooCommerce Order Tracking you do not have to spend your precious time to manage telephone calls and emails from your customers, who want to know if their WooCommerce order has been shipped.
-Devote yourself and your time to more profitable activities for your WooCommerce shop and make communication with your customers be managed automatically each time one of your orders is set as "shipped".
+Giving users a tool to monitor the product shipping will simplify the sale process, will strengthen their trust in your shop, and will reduce the workload (phone calls, emails, etc.) of your customer service.
 
-= Main features of YITH WooCommerce Order Tracking =
+= Free options =
 
-* Do you ship your WooCommerce orders always or mainly with the same carrier? You don't have to add this information each time: every shipping will be arranged with the default carrier.
-* Customize the message you want to show to your users in details of your WooCommerce orders.
-* Use some placeholders to fill automatically carrier's details, the tracking code and the shipping date for your WooCommerce orders.
-* Choose the place in order detail page where showing the tracking message to your WooCommerce users: you can place it before or after order content.
-* Manage easily tracking details of the shipping from the related page in WooCommerce back end.
-* Identify smoothly which WooCommerce orders have been shipped and which are pending from "Orders" page created in WooCommerce back end.
+* Set a default carrier for your shippings
+* Enter the tracking number, carrier’s name, and pickup date in the order detail page
+* Show the tracking info on the user’s Orders page
+* Show the tracking info on the Order details page
+* Choose the position of the tracking info text on the Order details page (above or below the products table)
+* Show a button to redirect customers to the carrier’s page containing details of the shipping
 
-For a more detailed list of options and features of the plugin, please read the [official documentation](http://yithemes.com/docs-plugins/yith-woocommerce-order-tracking/ "Yith WooCommerce Order Tracking official documentation").
+= Features of the premium version =
 
-Discover all the features of YITH WooCommerce Order Tracking and install it in your theme: the result will be extremely satisfying.
+The free version of our plugin works like a charm, but the premium one is even more interesting.
 
-= Compatibility with WooCommerce plugins =
+By upgrading to the premium version, you can:
 
-YITH WooCommerce Order Tracking has been tested and compatibility is certain with the following WooCommerce plugins that you can add to your site:
+* Get a list of 480+ supported carriers to automatically share the tracking URL with your customers
+* Also enter the estimated date of delivery
+* Save time by importing tracking info from a CSV file
+* Share the tracking info via email with customers when the order is completed
+* Choose the position of the tracking info text in the email (above or below the products table)
+* Choose to automatically complete the order when inserting the tracking data
+* Use the shortcode to create a custom order tracking page on your shop
+* Enable an extra column in the orders list with the orders tracking info
+* Insert the tracking data into the packing slips generated with the premium version of YITH WooCommerce PDF Invoices & Packing Slips
+* Integration with the premium version of YITH WooCommerce Custom Order Status to show order tracking data in Custom Order Status emails
+* Integration with YITH Frontend Manager for WooCommerce
+* Use the plugin's shortcode in the Elementor panel
 
-* [YITH WooCommerce PDF Invoice and Shipping List](https://wordpress.org/plugins/yith-woocommerce-pdf-invoice/ "Generate and send PDF invoices and shipping list documents for WooCommerce orders via email.")
-* [YITH WooCommerce Bulk Product Editing](https://wordpress.org/plugins/yith-woocommerce-bulk-product-editing/ "YITH WooCommerce Bulk Product Editing allows you to edit the prices of different prod")
-* [YITH WooCommerce Product Bundles](https://wordpress.org/plugins/yith-woocommerce-product-bundles/ "YITH WooCommerce Product Bundles allows you to bundle WooCommerce products and sell them with a unique price.")
-
-= An essential kit for your WooCommerce site? =
-
-YITH WooCommerce Order Tracking is available in combination with many other plugins in [**YITH Essential Kit for WooCommerce #1**](https://wordpress.org/plugins/yith-essential-kit-for-woocommerce-1/ "YITH Essential Kit for WooCommerce"), a bundle of indispensable tools to make your WooCommerce site look more professional and be more user-friendly. Learn more about all WooCommerce plugins included and boost your WooCommerce site with a simple click!
-
-And if you want more, you can consider the premium version of YITH WooCommerce Order Tracking, with many more additional features.
-
-= Premium features of YITH WooCommerce Order Tracking =
-
-* Send tracking data via email to customers as soon as the WooCommerce order is set as completed
-* Tracking of the shipping available for a comprehensive and always updated list of carriers for your WooCommerce store
-* Show a button in WooCommerce “My orders” page that takes customers automatically to carrier’s page and where they can find details of the shipping
+[Check the Live Demo of the Premium Version >](https://plugins.yithemes.com/yith-woocommerce-order-tracking/)
 
 == Installation ==
-Important: First of all, you have to download and activate WooCommerce plugin, which is essential for YITH WooCommerce Order Tracking to be work.
 
 1. Download and unzip the downloaded file.
 2. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
-3. Activate `YITH WooCommerce Order Tracking` from "Plugins" page.
+3. Activate `YITH WooCommerce Order & Shipment Tracking` from "Plugins" page.
 
 = Configuration =
 
-YITH WooCommerce Order Tracking will add a new tab called "Order tracking" in "YIT Plugins" menu item. There, you will find all Yithemes plugins with quick access to plugin setting page.
+YITH WooCommerce Order & Shipment Tracking will add a new tab called "Order & Shipment Tracking" in "YITH" menu. There, you will find all YITH plugins with quick access to plugin setting page.
 
 == Screenshots ==
 
-1. This is the setting page for the YITH wooCommerce Order Tracking. You can find it in "YIT Plugins" menu. You can configure a default carrier name and customize the message that will be shown in WooCommerce order details page.
-2. From admin WooCommerce order page, you can see if the order has already been picked up by the carrier.
-3. From admin WooCommerce order detail page, you can set details about carrier name, track number and date of shipping.
-4. In customer "Orders" page, a button will appear to show tracking of WooCommerce orders that have been shipped.
-5. In customer "Orders" page, you will find details about the shipment of your WooCommerce order.
+1. General options: enter the default carrier name and customize the text to show in the user's My Account Page. Placeholders will be automatically replaced with the Carrier's name, Pickup date, Tracking code and Carrier's link inserted in the order.
+2. Order editing: enter the tracking info in the order. You can set the Carrier Name and website URL, the tracking code and the date when the order item(s) have been picked up by the carrier.
+3. Admin view in orders table: the admin can view the shipping info of each order directly in WooCommerce's orders list.
+4. Customer view in orders list: the customers can view the shipping info of each order directly in the list of orders, inside the My Account page. By clicking on the button, they will be redirected to the Carrier's website (the URL entered by the admin in the order).
+5. Customer view in order details: the customers can view the shipping info in the order details page, in the My Account section.
 
 == Changelog ==
+
+= Version 2.0.0 - Released on 23 February 2022 =
+
+* New: support for WooCommerce 6.3
+* New: added new field to set the carrier website URL in the order metabox
+* Tweak: improved panel style and UX
+* Tweak: improved metabox style and UX in the order edit page
+* Update: YITH plugin framework
+* Update: language files
 
 = Version 1.8.0 - Released on 27 Jan 2022 =
 
@@ -344,11 +345,11 @@ YITH WooCommerce Order Tracking will add a new tab called "Order tracking" in "Y
 
 = I always use the same carrier to ship my WooCommerce orders, may I set it as default carrier? =
 
-Yes, sure, you can set the carrier name in the settings of YITH WooCommerce Order Tracking and for each new WooCommerce order you will find the field "carrier name" automatically filled with your default carrier.
+Yes, sure, you can set the carrier name in the settings of YITH WooCommerce Order & Shipment Tracking and for each new WooCommerce order you will find the field "carrier name" automatically filled with your default carrier.
 
 = Can I customise the message I want to send to customers? =
 
-You can set your own text for your WooCommerce orders using the specific option available in YITH WooCommerce Order Tracking. You can also use some optional placeholders to specify carrier's name, tracking code and shipping date.
+You can set your own text for your WooCommerce orders using the specific option available in YITH WooCommerce Order & Shipment Tracking. You can also use some optional placeholders to specify carrier's name, tracking code and shipping date.
 
 = Is it compatible with all WordPress themes? =
 
@@ -366,21 +367,23 @@ If you have problems with our plugins or something is not working as it should, 
 If none of the previous listed actions helps you solve the problem, then, submit a ticket in the forum and describe your problem accurately, specify WordPress and WooCommerce versions you are using and any other information that might help us solve your problem as quickly as possible. Thanks!
 
 = How can I get more features for my WooCommerce plugin? =
-You can get more features with the premium version of YITH WooCommerce Order Tracking, available on [YIThemes page](https://yithemes.com/themes/plugins/yith-woocommerce-order-tracking/ "YITH order traking WooCommerce plugin"). Here you can read more about the premium features of the plugin and make it give it its best shot!
+You can get more features with the premium version of YITH WooCommerce Order & Shipment Tracking, available on [YIThemes page](https://yithemes.com/themes/plugins/yith-woocommerce-order-tracking/ "YITH order traking WooCommerce plugin"). Here you can read more about the premium features of the plugin and make it give it its best shot!
 
 = How can I try the full-featured plugin? =
 
-If you want to see a demonstration version of the premium version of YITH WooCommerce Order Tracking, you can see that in [this page](http://plugins.yithemes.com/yith-woocommerce-order-tracking/ "WooCommerce plugin"). Browse it and try all options available so that you can see how your plugin looks like.
+If you want to see a demonstration version of the premium version of YITH WooCommerce Order & Shipment Tracking, you can see that in [this page](http://plugins.yithemes.com/yith-woocommerce-order-tracking/ "WooCommerce plugin"). Browse it and try all options available so that you can see how your plugin looks like.
 
 
 == Suggestions ==
 
-If you have suggestions about how to improve YITH WooCommerce Order Tracking, you can [write us](mailto:plugins@yithemes.com "Your Inspiration Themes") so we can bundle them into YITH WooCommerce Order Tracking.
+If you have suggestions about how to improve YITH WooCommerce Order & Shipment Tracking, you can [write us](mailto:plugins@yithemes.com "Your Inspiration Themes") so we can bundle them into YITH WooCommerce Order & Shipment Tracking.
 
 == Translators ==
 
 = Available Languages =
 * English
+* Italian
+* Spanish
 
 If you have created your own language pack, or have an update for an existing one, you can send [gettext PO and MO file](http://codex.wordpress.org/Translating_WordPress "Translating WordPress")
-[use](http://yithemes.com/contact/ "Your Inspiration Themes") so we can bundle it into YITH WooCommerce Order Tracking languages.
+[use](http://yithemes.com/contact/ "Your Inspiration Themes") so we can bundle it into YITH WooCommerce Order & Shipment Tracking languages.

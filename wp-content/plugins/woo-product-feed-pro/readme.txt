@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, WooCommerce Product Feed, Facebook Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Facebook Pixel, Facebook Conversion API
 Requires at least: 4.5
 Tested up to: 5.9
-Stable tag: 11.2.9
+Stable tag: 11.3.6
 
 == Description ==
 
@@ -336,6 +336,29 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.3.6 (2022-02-24) =
+* Fixed a floatval issue that occured when calculating prices for bundled products
+
+= 11.3.5 (2022-02-23) =
+* Fixed an issue with the deduplication counters
+
+= 11.3.4 (2022-02-22) =
+* Fixed an error, the _my_conversions table is being queried but did not always exist
+* Added an option to forcefully clean the dulication options
+
+= 11.3.3 (2022-02-21) =
+* Fixed a VAT issue for the Pinterest / Vivino / TikTok price attributes
+
+= 11.3.2 (2022-02-21) =
+* Fixed an issue that resulted in empty feeds when multiple feeds were configured and all at once were processing
+
+= 11.3.1 (2022-02-20) =
+* Added three Pinterest / Vivino / TikTok price attributes excluding VAT
+
+= 11.3.0 (2022-02-17) =
+* Considerable performance increase of the plugin. For WooCommerce shops with less than 750 processing speed doubled
+* Build-in a check that prevents duplicate products from being added to feeds
 
 = 11.2.9 (2022-02-14) =
 * Solved a Call to a member function addChild() on null issue
@@ -3605,6 +3628,29 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.3.6 =
+Fixed a floatval issue that occured when calculating prices for bundled products
+
+= 11.3.5 =
+Fixed an issue with the deduplication counters
+
+= 11.3.4 =
+Fixed an error, the _my_conversions table is being queried but did not always exist
+Added an option to forcefully clean the dulication options
+
+= 11.3.3 =
+Fixed a VAT issue for the Pinterest / Vivino / TikTok price attributes
+
+= 11.3.2 =
+Fixed an issue that resulted in empty feeds when multiple feeds were configured and all at once were processing
+
+= 11.3.1 =
+Added three Pinterest / Vivino / TikTok price attributes excluding VAT
+
+= 11.3.0 =
+Considerable performance increase of the plugin. For WooCommerce shops with less than 750 processing speed doubled
+Build-in a check that prevents duplicate products from being added to feeds
 
 = 11.2.9 =
 Solved a Call to a member function addChild() on null issue

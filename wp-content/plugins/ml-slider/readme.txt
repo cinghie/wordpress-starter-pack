@@ -2,7 +2,7 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.26.0
+Stable tag: 3.27.1
 Requires PHP: 5.2
 Tested up to: 5.9
 License: GPLv2 or later
@@ -285,6 +285,13 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Integrates directly in Gutenberg
 
 == Changelog ==
+
+= 3.27.1 - 2022/Feb/22 =
+* Fixed version number display bug
+* Fixed bug where high post ids took time to save - thanks @fschatz
+* Removed slide data  from local storage when the user has high slide count
+* Added animation back to slide previews, but only on hover
+* Added rel and alt tags o nivo slider
 
 = 3.26.0 - 2022/Feb/08 =
 * Update Extendify library

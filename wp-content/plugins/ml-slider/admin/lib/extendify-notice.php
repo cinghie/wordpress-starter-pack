@@ -15,7 +15,7 @@ add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $exte
     }
     ob_start(); ?>
 <p>
-    <?php esc_html_e('We\'re excited to announce that MetaSlider is integrating the Extendify library of Gutenberg patterns and templates to bring the power of WordPress 5.9 to the most popular WordPress slider plugin! Receive the latest and most powerful Gutenberg library features by installing the standalone Extendify plugin.', 'ml-slider') ?>
+    <?php esc_html_e('MetaSlider users have been asking for easier options to create and edit their sites using the new block editor and to make their sliders stand out. We\'re excited to announce that MetaSlider has partnered with the Extendify library of Gutenberg patterns and templates to bring the power of WordPress 5.9 to the most popular WordPress slider plugin!  By clicking “Install & Activate Extendify” you will get access to 10 free monthly imports of patterns and templates. Installing Extendify is optional, and MetaSlider will continue to work if you decide to not install Extendify.', 'ml-slider') ?>
 </p>
 
 <button id="extendify-install-button" type="button" class="button-primary" style="margin-bottom: 0.3rem;margin-top: 0.5rem;"><?php _e('Install & Activate Extendify', 'ml-slider'); ?></button>
@@ -38,7 +38,7 @@ add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $exte
         });
     });
 </script>
-<p style="max-width:850px;"><small>
+<p><small>
     <?php
     // translators: %s surrounding the word 'here' and is wrapped with <a>.
     printf(esc_html__('Learn more at %sextendify.com%s. ', 'ml-slider'), '<a target="_blank" href="https://extendify.com?utm_source=metaslider&utm_medium=notice&utm_campaign=library_intro">', '</a>');
@@ -58,13 +58,13 @@ add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $exte
         </div>
         <div>
             <h3 style="margin-bottom:0.25rem;">
-                <?php esc_html_e('Complete MetaSlider Setup', 'ml-slider'); ?></h3>
-            <div style="max-width:850px;">
+                <?php printf(esc_html__('MetaSlider + Gutenberg = %s', 'ml-slider'), '🚀'); ?></h3>
+            <div>
                 <?php echo $extendifysdk_ms_notices_content; ?>
             </div>
         </div>
     </div>
-    <div style="margin:5px -5px 0 0;">
+    <div style="margin:5px -5px 0 0;flex-shrink: 0;">
         <button
             style="max-width:15px;border:0;background:0;color: #7b7b7b;white-space:nowrap;cursor: pointer;padding: 0"
             title="<?php esc_attr_e('Dismiss notice', 'ml-slider') ?>"
