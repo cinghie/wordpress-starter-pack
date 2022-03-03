@@ -626,7 +626,7 @@ function seedprod_lite_save_lpage() {
 			$html = str_replace( 'function(e,n,r,i){return fn(t,e,n,r,i,!0)}', '', $html );
 			// remove sp-theme-template id
 			require_once SEEDPROD_PLUGIN_PATH . 'app/includes/simple_html_dom.php';
-			$phtml                   = str_get_html( $html );
+			$phtml                   = seedprod_str_get_html( $html );
 			$sp_theme_templates_divs = $phtml->find( '#sp-theme-template' );
 			foreach ( $sp_theme_templates_divs as $k => $v ) {
 				$html = $v->innertext;
@@ -677,6 +677,8 @@ function seedprod_lite_save_lpage() {
 				$status            = 'autosave';
 			} else {
 
+				// remove action so they don't conflict with the save. Yoast SEO was trying to analytize this content.
+				remove_all_actions( 'wp_insert_post' );
 				wp_update_post( $update );
 				$status = 'updated';
 
@@ -848,7 +850,9 @@ function seedprod_lite_save_template() {
 			if ( 99999 != $template_id ) {
 				unset( $settings['document'] );
 				$template_code_merge = json_decode( $template_code, true );
-				$settings            = $settings + $template_code_merge;
+				if ( is_array( $template_code_merge ) ) {
+					$settings = $settings + $template_code_merge;
+				}
 			}
 			// TODO pull in current pages content if any exists, make sure sections is empty before adding
 			if ( ! empty( $_POST['lpage_type'] ) && 'post' == $_POST['lpage_type'] ) {

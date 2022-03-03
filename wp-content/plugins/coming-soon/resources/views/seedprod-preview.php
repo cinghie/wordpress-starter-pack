@@ -312,7 +312,8 @@ if ( ! empty( $settings ) ) {
 	$server_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	$actual_link        = rawurlencode( ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . "://$server_http_host$server_request_uri" );
 	$content            = str_replace( 'the_link', $actual_link, $content );
-	echo do_shortcode( $content );
+	$content = do_shortcode( $content );
+	echo apply_filters( 'seedprod_lpage_content', $content );
 	?>
 
 

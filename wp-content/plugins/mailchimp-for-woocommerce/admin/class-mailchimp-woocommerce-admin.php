@@ -129,7 +129,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
             if ($label == '') $label = __('Subscribe to our newsletter', 'mailchimp-for-woocommerce');
 			$options = get_option($this->plugin_name, array());
 			$checkbox_default_settings = (array_key_exists('mailchimp_checkbox_defaults', $options) && !is_null($options['mailchimp_checkbox_defaults'])) ? $options['mailchimp_checkbox_defaults'] : 'check';
-			wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mailchimp-woocommerce-admin.js', array( 'jquery', 'swal' ), $this->version.'.21', false );
+			wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mailchimp-woocommerce-admin.js', array( 'jquery', 'swal' ), $this->version.'.05', false );
 			wp_localize_script(
 				$this->plugin_name,
 				'phpVars',
@@ -267,7 +267,7 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
                 if (!is_array($GDPRfields)) {
                     try {
                         $GDPRfields = mailchimp_get_api()->getGDPRFields($list_id);
-                        set_site_transient($transient, $GDPRfields, 0);
+                        set_site_transient($transient, $GDPRfields, 600);
                     } catch (\Exception $e) {
                         set_site_transient($transient, array(), 60);
                     }
@@ -1071,11 +1071,13 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
 			'mailchimp_list' => isset($input['mailchimp_list']) ? $input['mailchimp_list'] : $this->getOption('mailchimp_list', ''),
 			'newsletter_label' => (isset($input['newsletter_label'])) ? wp_kses($input['newsletter_label'], $allowed_html) : $this->getOption('newsletter_label', __('Subscribe to our newsletter', 'mailchimp-for-woocommerce')),
 			'mailchimp_auto_subscribe' => isset($input['mailchimp_auto_subscribe']) ? (bool) $input['mailchimp_auto_subscribe'] : false,
-			'mailchimp_checkbox_defaults' => $checkbox,
+			'mailchimp_ongoing_sync_status' => isset($input['mailchimp_ongoing_sync_status']) ? (bool) $input['mailchimp_ongoing_sync_status'] : false,
+            'mailchimp_checkbox_defaults' => $checkbox,
 			'mailchimp_checkbox_action' => isset($input['mailchimp_checkbox_action']) ? $input['mailchimp_checkbox_action'] : $this->getOption('mailchimp_checkbox_action', 'woocommerce_after_checkout_billing_form'),
 			'mailchimp_user_tags' => isset($input['mailchimp_user_tags']) ? implode(",",$sanitized_tags) : $this->getOption('mailchimp_user_tags'),
 			'mailchimp_product_image_key' => isset($input['mailchimp_product_image_key']) ? $input['mailchimp_product_image_key'] : 'medium',
-			'campaign_from_name' => isset($input['campaign_from_name']) ? $input['campaign_from_name'] : false,
+            'mailchimp_cart_tracking' => isset($input['mailchimp_cart_tracking']) ? $input['mailchimp_cart_tracking'] : 'all',
+            'campaign_from_name' => isset($input['campaign_from_name']) ? $input['campaign_from_name'] : false,
 			'campaign_from_email' => isset($input['campaign_from_email']) && is_email($input['campaign_from_email']) ? $input['campaign_from_email'] : false,
 			'campaign_subject' => isset($input['campaign_subject']) ? $input['campaign_subject'] : get_option('blogname'),
 			'campaign_language' => isset($input['campaign_language']) ? $input['campaign_language'] : 'en',
@@ -1489,6 +1491,19 @@ class MailChimp_WooCommerce_Admin extends MailChimp_WooCommerce_Options {
             }
 
 			$this->setData('errors.mailchimp_list', false);
+
+            try {
+                if (!empty($list_id)) {
+                    $transient = "mailchimp-woocommerce-gdpr-fields.{$list_id}";
+                    $GDPRfields = mailchimp_get_api()->getGDPRFields($list_id);
+                    set_site_transient($transient, $GDPRfields, 0);
+                    mailchimp_log('admin', 'updated GDPR fields', array(
+                        'fields' => $GDPRfields,
+                    ));
+                }
+            } catch (\Exception $e) {
+                set_site_transient($transient, array(), 60);
+            }
 
 			return $list_id;
 

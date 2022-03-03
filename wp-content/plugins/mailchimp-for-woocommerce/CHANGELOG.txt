@@ -1,4 +1,7 @@
 == Changelog ==
+= 2.6 =
+* adds support for selectively syncing subscribers only 
+* updates to action scheduler dependency 
 = 2.5.4 =
 * enhanced api error parsing
 * adds site transient for tracking cart

@@ -222,6 +222,12 @@ function countdown(type, ts, id, action, redirect) {
       if (action == "2") {
         jQuery("#sp-countdown-" + id + " .sp-countdown-group").hide();
         window.location.href = redirect;
+      } // restart
+
+
+      if (action == "3") {
+        console.log('remove' + id);
+        seedprodCookies.remove('seedprod_enddate_' + id);
       }
     }
   }, 1000);

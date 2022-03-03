@@ -1,7 +1,7 @@
 (function( $ ) {
 	'use strict';
 
-	$( window ).load(function() {
+	$(window).on('load', function() {
 
 		// show/hide optional settings
 		var optionalSettings = false;
@@ -666,6 +666,25 @@
 					break;
 			}
 		}
+		var ongoing_subscribed = $('#ongoing_sync_subscribed');
+		var ongoing_all = $('#ongoing_sync_all');
+		var cart_track_all = $('#cart_track_all');
+
+		if (ongoing_subscribed.prop('checked')) {
+			cart_track_all.attr('disabled', true);
+			cart_track_all.parent().css({opacity: '.5'});
+		}
+
+		ongoing_subscribed.click(function() {
+			$('#cart_track_subscribed').prop('checked', true).trigger('click');
+			cart_track_all.attr('disabled', true);
+			cart_track_all.parent().css({opacity: '.5'});
+		});
+
+		ongoing_all.click(function() {
+			cart_track_all.attr('disabled', false);
+			cart_track_all.parent().css({opacity: '1'});
+		});
 	});
 })( jQuery );
 
