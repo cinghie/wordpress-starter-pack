@@ -1,13 +1,11 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Routes\V1;
+namespace Automattic\WooCommerce\StoreApi\Routes\V1;
 
 use WP_Comment_Query;
-use Automattic\WooCommerce\Blocks\StoreApi\Utilities\Pagination;
+use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 
 /**
  * ProductReviews class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class ProductReviews extends AbstractRoute {
 	/**

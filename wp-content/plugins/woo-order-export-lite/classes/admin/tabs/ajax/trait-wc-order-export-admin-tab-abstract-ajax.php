@@ -18,10 +18,14 @@ trait WC_Order_Export_Admin_Tab_Abstract_Ajax {
 		    }
 		});
 		*/
+                $error = '';
+                try {
+                    $id = WC_Order_Export_Manage::save_export_settings( $_POST['mode'], (int) $_POST['id'], $settings );
+                } catch (Exception $ex) {
+                    $error = $ex->getMessage();
+                }
 
-		$id = WC_Order_Export_Manage::save_export_settings( $_POST['mode'], (int) $_POST['id'], $settings );
-
-		echo json_encode( array( 'id' => $id ) );
+		echo json_encode( $error ? array('error' => $error) : array( 'id' => $id ) );
 	}
 
 	public function ajax_reset_profile() {

@@ -82,7 +82,7 @@ if ( ! class_exists( 'YITH_WCAN_Elementor_Reset_Button' ) ) {
 		 * @since  1.0.0
 		 * @access protected
 		 */
-		protected function _register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
+		protected function register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
 			$this->start_controls_section(
 				'fields_section',
 				array(
@@ -128,7 +128,7 @@ if ( ! class_exists( 'YITH_WCAN_Elementor_Reset_Button' ) ) {
 		 * @since  1.0.0
 		 * @access protected
 		 */
-		protected function _content_template() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
+		protected function content_template() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
 			$frontend = new YITH_WCAN_Frontend();
 
 			$_GET['min_price']     = 10;

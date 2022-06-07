@@ -50,13 +50,13 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload
   public function frontend_scripts()
   {
 
-    if (is_account_page() || !empty( is_wc_endpoint_url('order-received'))) {
+    if (is_account_page() || !empty(is_wc_endpoint_url('order-received'))) {
 
       WOOCCM()->register_scripts();
 
       wp_enqueue_style('wooccm');
       wp_enqueue_style('dashicons');
-       wp_enqueue_script('wooccm-order-upload');
+      wp_enqueue_script('wooccm-order-upload');
     }
   }
 
@@ -253,7 +253,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload
   {
     global $current_section;
 ?>
-    <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=order'); ?>" class="<?php echo ($current_section == 'order' ? 'current' : ''); ?>"><?php esc_html_e('Order', 'woocommerce-checkout-manager'); ?></a> | </li>
+    <li><a href="<?php echo esc_url( admin_url('admin.php?page=wc-settings&tab=wooccm&section=order') ); ?>" class="<?php echo ($current_section == 'order' ? 'current' : ''); ?>"><?php esc_html_e('Order', 'woocommerce-checkout-manager'); ?></a> | </li>
 <?php
   }
 

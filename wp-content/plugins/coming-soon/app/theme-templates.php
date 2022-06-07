@@ -776,6 +776,7 @@ function seedprod_lite_import_theme_request() {
 		}
 		$id = absint( $_REQUEST['id'] );
 		seedprod_lite_theme_import( $id );
+		update_option( 'seedprod_theme_id', $id );
 		wp_send_json( true );
 	}
 }
@@ -792,7 +793,7 @@ function seedprod_lite_theme_import( $id = null ) {
 
 	$apikey = get_option( 'seedprod_api_token' );
 
-	$url = SEEDPROD_API_URL . 'themes?id=' . $id . '&filter=theme_code&api_token=' . $apikey;
+	$url = SEEDPROD_API_URL . 'themes?plugin_version='.SEEDPROD_VERSION.'&id=' . $id . '&filter=theme_code&api_token=' . $apikey;
 
 	$response = wp_remote_get( $url );
 
@@ -806,6 +807,16 @@ function seedprod_lite_theme_import( $id = null ) {
 			$code = __( "<br><br>Please enter a valid license key to access the themes. You can still proceed to create a page with the default theme.<br> <a class='seedprod_no_themes' href='?theme=0'>Click to continue &#8594;</a>", 'coming-soon' );
 		}
 	}
+
+	// see if it's a zip file or code, if zip call new import method and bail.
+	$str = $code;
+	$test = ".zip";
+	if ( substr_compare($str, $test, strlen($str)-strlen($test), strlen($test)) === 0 ) {
+		seedprod_lite_import_theme_by_url($code);
+		return true;
+	}
+
+	// else process code if legacy import
 
 	$full_code = json_decode( $code );
 
@@ -903,6 +914,33 @@ function seedprod_lite_theme_import( $id = null ) {
 			update_post_meta( $id, '_seedprod_css', $code['css'] );
 			update_post_meta( $id, '_seedprod_html', $code['html'] );
 			seedprod_lite_generate_css_file( $id, $code['css'] );
+
+			// process conditon to see if we need to create a placeholder page.
+			$conditions = $meta->_seedprod_theme_template_condition[0];
+
+			if ( ! empty( $conditions ) ) {
+
+				$conditions = json_decode( $conditions );
+				if (is_array($conditions)) {
+					if (1 === count($conditions) && 'include' === $conditions[0]->condition && 'is_page(x)' === $conditions[0]->type && ! empty($conditions[0]->value) && ! is_numeric($conditions[0]->value)) {
+						// check if slug exists.
+						$slug_tablename  = $wpdb->prefix . 'posts';
+						$sql             = "SELECT id FROM $slug_tablename WHERE post_name = %s AND post_type = 'page'";
+						$safe_sql        = $wpdb->prepare($sql, $conditions[0]->value); // phpcs:ignore
+					$this_slug_exist = $wpdb->get_var($safe_sql);// phpcs:ignore
+					if (empty($this_slug_exist)) {
+						$page_details = array(
+							'post_title'   => $v1['post_title'],
+							'post_name'    => $conditions[0]->value,
+							'post_content' => __('This page was auto-generated and is a placeholder page for the SeedProd theme. To manage the contents of this page please visit SeedProd > Theme Builder in the left menu in WordPress. ', 'coming-soon'),
+							'post_status'  => 'publish',
+							'post_type'    => 'page',
+						);
+						wp_insert_post($page_details);
+					}
+					}
+				}
+			}
 		}
 	}
 
@@ -1068,3 +1106,6 @@ function seedprod_lite_new_page_to_seedprod() {
 	}
 }
 add_action( 'admin_init', 'seedprod_lite_new_page_to_seedprod' );
+
+
+

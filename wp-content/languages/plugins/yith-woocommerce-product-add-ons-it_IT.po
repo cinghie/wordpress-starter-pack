@@ -2,14 +2,36 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-07 15:23:28+0000\n"
+"PO-Revision-Date: 2022-04-22 15:18:35+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Product Add-Ons - Stable (latest release)\n"
+
+#: plugin-fw/templates/fields/ajax-terms.php:41
+msgid "Search for a category..."
+msgstr "Cerca una categoria..."
+
+#: plugin-fw/templates/fields/ajax-posts.php:41
+msgid "Search for a post..."
+msgstr "Cerca un articolo..."
+
+#: plugin-fw/templates/fields/ajax-customers.php:41
+msgid "Search for a customer..."
+msgstr "Cerca un cliente..."
+
+#: plugin-fw/templates/panel/help-tab.php:140
+msgctxt "Help tab Watch video tutorials link"
+msgid "to see some helpful use cases."
+msgstr "per vedere dei casi d'utilizzo utili."
+
+#: plugin-fw/templates/panel/help-tab.php:127
+msgctxt "Help tab Read Documentation link"
+msgid "to learn how the plugin works from the basics."
+msgstr "per scoprire dalle basi come funziona il plugin."
 
 #: plugin-options/settings-options.php:219
 msgid "Enable to show the titles of the blocks in the cart page."
@@ -49,7 +71,7 @@ msgctxt "Premium Tab"
 msgid "Get the premium version to unlock advanced features"
 msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:853
+#: plugin-fw/includes/class-yit-plugin-panel.php:857
 msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
@@ -236,7 +258,7 @@ msgstr "Abilita per mostrare lo SKU."
 msgid "Show SKU label"
 msgstr "Mostra SKU"
 
-#: includes/class-yith-wapo-cart.php:487 includes/class-yith-wapo-cart.php:608
+#: includes/class-yith-wapo-cart.php:492 includes/class-yith-wapo-cart.php:613
 #: includes/yith-wapo-functions.php:142 includes/yith-wapo-functions.php:144
 msgid "Option"
 msgstr "Opzione"
@@ -1893,11 +1915,11 @@ msgstr "Separatore"
 msgid "Heading"
 msgstr "Intestazione"
 
-#: includes/class-yith-wapo-front.php:396
+#: includes/class-yith-wapo-front.php:399
 msgid "Order total"
 msgstr "Totale ordine"
 
-#: includes/class-yith-wapo-front.php:391
+#: includes/class-yith-wapo-front.php:394
 msgid "Total options"
 msgstr "Totale opzioni"
 
@@ -1950,7 +1972,7 @@ msgstr "Invia un ticket"
 
 #: plugin-fw/templates/panel/help-tab.php:195
 msgctxt "Help tab submit ticket description"
-msgid "If you are experiencing some technical issue ask help to our developers. Submit a ticket in our support desk and we will help you as soon as possible."
+msgid "If you are experiencing any technical issues, ask for help from our developers. Submit a ticket through our support desk and we will help you as soon as possible."
 msgstr "Se stai riscontrando problemi tecnici chiedi aiuto ai nostri sviluppatori. Invia un ticket dalla nostra piattaforma di supporto e ti daremo assistenza il più presto possibile."
 
 #: plugin-fw/templates/panel/help-tab.php:192
@@ -1970,28 +1992,18 @@ msgstr "Ultime FAQ nel nostro Centro Assistenza"
 
 #: plugin-fw/templates/panel/help-tab.php:153
 msgctxt "Help tab view FAQs link"
-msgid "to find answers to your doubts"
-msgstr "per trovare le risposte ai tuoi dubbi"
+msgid "to find answers to your doubts."
+msgstr "per trovare le risposte ai tuoi dubbi."
 
 #: plugin-fw/templates/panel/help-tab.php:150
 msgctxt "Help tab view FAQs link"
 msgid "Check the FAQs"
 msgstr "Controlla le FAQ"
 
-#: plugin-fw/templates/panel/help-tab.php:140
-msgctxt "Help tab Watch Videotutorials link"
-msgid "We show you some use cases"
-msgstr "Ti mostriamo alcuni casi d'uso"
-
 #: plugin-fw/templates/panel/help-tab.php:137
-msgctxt "Help tab Watch Videotutorials link"
-msgid "Watch our videotutorials"
+msgctxt "Help tab Watch video tutorials link"
+msgid "Watch our video tutorials"
 msgstr "Guarda i nostri video tutorial"
-
-#: plugin-fw/templates/panel/help-tab.php:127
-msgctxt "Help tab Read Documentation link"
-msgid "to learn from basics how it works"
-msgstr "per imparare dalle basi come funziona"
 
 #: plugin-fw/templates/panel/help-tab.php:124
 msgctxt "Help tab Read Documentation link"
@@ -2010,13 +2022,13 @@ msgid "Check the full <a href=\"%s\" target=\"_blank\">Playlist on Youtube</a> t
 msgstr "Per saperne di più, vedi la <a href=\"%s\" target=\"_blank\">Playlist completa su Youtube</a>>"
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:806
+#: plugin-fw/includes/class-yit-plugin-panel.php:810
 msgctxt "Help tab default description"
-msgid "We want to help you to enjoy a wonderful experience with all our products."
+msgid "We want to help you enjoy a wonderful experience with all of our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:805
+#: plugin-fw/includes/class-yit-plugin-panel.php:809
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
@@ -2038,101 +2050,101 @@ msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 msgid "There was an error with your request; please try again later."
 msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 
-#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1982
+#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1983
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
 
-#: plugin-fw/yit-functions.php:2118
+#: plugin-fw/yit-functions.php:2119
 msgctxt "Term action"
 msgid "Delete"
 msgstr "Elimina"
 
-#: plugin-fw/yit-functions.php:2105
+#: plugin-fw/yit-functions.php:2106
 msgctxt "Term action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:2097
+#: plugin-fw/yit-functions.php:2098
 msgctxt "Term action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:2087
+#: plugin-fw/yit-functions.php:2088
 msgctxt "Term action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:2011 plugin-fw/yit-functions.php:2019
-#: plugin-fw/yit-functions.php:2136
+#: plugin-fw/yit-functions.php:2012 plugin-fw/yit-functions.php:2020
+#: plugin-fw/yit-functions.php:2137
 msgid "Further actions"
 msgstr "Ulteriori azioni"
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2000
-#: plugin-fw/yit-functions.php:2127 templates/admin/addon-editor.php:112
+#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2001
+#: plugin-fw/yit-functions.php:2128 templates/admin/addon-editor.php:112
 #: templates/admin/addon-editor.php:140 templates/admin/blocks-table.php:191
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1997
-#: plugin-fw/yit-functions.php:2125 templates/admin/addon-editor.php:110
+#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1998
+#: plugin-fw/yit-functions.php:2126 templates/admin/addon-editor.php:110
 #: templates/admin/addon-editor.php:138 templates/admin/blocks-table.php:189
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/yit-functions.php:1990
+#: plugin-fw/yit-functions.php:1991
 msgctxt "Post action"
 msgid "Delete Permanently"
 msgstr "Elimina definitivamente"
 
-#: plugin-fw/includes/class-yit-assets.php:144 plugin-fw/yit-functions.php:1979
+#: plugin-fw/includes/class-yit-assets.php:144 plugin-fw/yit-functions.php:1980
 msgid "Confirm trash"
 msgstr "Conferma"
 
-#: plugin-fw/yit-functions.php:1973
+#: plugin-fw/yit-functions.php:1974
 msgctxt "Post action"
 msgid "Trash"
 msgstr "Cestina"
 
-#: plugin-fw/yit-functions.php:1965
+#: plugin-fw/yit-functions.php:1966
 msgctxt "Post action"
 msgid "Restore"
 msgstr "Ripristina"
 
-#: plugin-fw/yit-functions.php:1953
+#: plugin-fw/yit-functions.php:1954
 msgctxt "Post action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:1945
+#: plugin-fw/yit-functions.php:1946
 msgctxt "Post action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:1934
+#: plugin-fw/yit-functions.php:1935
 msgctxt "Post action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:1925
+#: plugin-fw/yit-functions.php:1926
 msgctxt "Post action"
 msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:149 plugin-fw/yit-functions.php:1913
-#: plugin-fw/yit-functions.php:2073
+#: plugin-fw/includes/class-yit-assets.php:149 plugin-fw/yit-functions.php:1914
+#: plugin-fw/yit-functions.php:2074
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1913 plugin-fw/yit-functions.php:2073
+#: plugin-fw/yit-functions.php:1914 plugin-fw/yit-functions.php:2074
 msgid "Are you sure you want to delete \"%s\"?"
 msgstr "Vuoi davvero eliminare \"%s\"?"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1911
+#: plugin-fw/yit-functions.php:1912
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Sei sicuro di voler spostare \"%s\" nel cestino?"
 
@@ -2158,16 +2170,16 @@ msgctxt "Button text"
 msgid "Confirm"
 msgstr "Conferma"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:32
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:33
 msgid "Options Saved"
 msgstr "Opzioni salvate"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:28
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:32
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:29
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:33
 msgid "Save Options"
 msgstr "Salva opzioni "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1528
+#: plugin-fw/includes/class-yit-plugin-panel.php:1532
 msgid "help us by leaving a good review"
 msgstr "aiutaci lasciando una recensione positiva"
 
@@ -2283,7 +2295,7 @@ msgstr "External object cache"
 #: plugin-fw/includes/class-yit-assets.php:151
 #: plugin-fw/templates/sysinfo/tabs/main.php:42
 #: plugin-fw/templates/sysinfo/tabs/main.php:50
-#: plugin-fw/yit-functions.php:1981 plugin-fw/yit-functions.php:1999
+#: plugin-fw/yit-functions.php:1982 plugin-fw/yit-functions.php:2000
 #: templates/admin/addon-display-settings.php:128
 msgid "No"
 msgstr "No"
@@ -2354,15 +2366,15 @@ msgstr "Non è stato possibile determinare quale versione di %1$s è installata 
 msgid "Contact your hosting company in order to install it."
 msgstr "Per attivarlo contatta il tuo servizio hosting. "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1529
+#: plugin-fw/includes/class-yit-plugin-panel.php:1533
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1526
+#: plugin-fw/includes/class-yit-plugin-panel.php:1530
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1525
+#: plugin-fw/includes/class-yit-plugin-panel.php:1529
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
@@ -2467,10 +2479,6 @@ msgstr "YITH System Information"
 #: plugin-fw/templates/fields/ajax-customers.php:79
 msgid "%1$s (#%2$s &ndash; %3$s)"
 msgstr "%1$s (#%2$s &ndash; %3$s)"
-
-#: plugin-fw/templates/fields/ajax-customers.php:41
-msgid "Search Customers"
-msgstr "Cerca clienti"
 
 #. translators: %1$s open link tag, %2$s open link tag
 #: plugin-fw/includes/class-yith-system-status.php:346
@@ -2666,7 +2674,7 @@ msgstr "Galleria immagini variazioni"
 msgid "YITH"
 msgstr "YITH"
 
-#: includes/class-yith-wapo-front.php:386
+#: includes/class-yith-wapo-front.php:389
 #: v1/templates/frontend/yith-wapo-group-container.php:75
 msgid "Product price"
 msgstr "Prezzo prodotto"
@@ -2955,14 +2963,6 @@ msgstr "Live Demo"
 msgid "Set Default"
 msgstr "Ripristina impostazioni iniziali"
 
-#: plugin-fw/templates/fields/ajax-products.php:14
-msgid "Search Product"
-msgstr "Cerca un prodotto"
-
-#: plugin-fw/templates/fields/ajax-posts.php:41
-msgid "Search Posts"
-msgstr "Cerca articoli"
-
 #: plugin-fw/includes/privacy/class-yith-privacy.php:106
 msgctxt "Privacy Policy Content"
 msgid "Payments"
@@ -3101,7 +3101,7 @@ msgctxt "notice on admin order item meta"
 msgid "* Sold individually"
 msgstr "Venduto singolarmente"
 
-#: includes/class-yith-wapo-front.php:818
+#: includes/class-yith-wapo-front.php:824
 #: v1/includes/classes/class.yith-wapo-frontend.php:289
 #: v1/includes/integrations/class.divi-et-builder_module.php:49
 msgid "This is not a product page!"
@@ -3614,7 +3614,7 @@ msgstr "Prima del pulsante \"Aggiungi al carrello\""
 msgid "Show add-ons"
 msgstr "Mostra add-on"
 
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:38
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:43
 msgid "Reset Defaults"
 msgstr "Ripristina impostazioni iniziali"
 
@@ -3769,6 +3769,10 @@ msgstr "Select"
 msgid "Checkbox"
 msgstr "Checkbox"
 
+#: plugin-fw/templates/fields/ajax-products.php:16
+msgid "Search for a product..."
+msgstr "Cerca un prodotto..."
+
 #: plugin-fw/includes/class-yit-pointers.php:96
 msgid "Plugins Upgraded"
 msgstr "Plugin aggiornati"
@@ -3777,67 +3781,67 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1057
+#: plugin-fw/includes/class-yit-plugin-panel.php:1061
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1056
+#: plugin-fw/includes/class-yit-plugin-panel.php:1060
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1055
+#: plugin-fw/includes/class-yit-plugin-panel.php:1059
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1054
+#: plugin-fw/includes/class-yit-plugin-panel.php:1058
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1053
+#: plugin-fw/includes/class-yit-plugin-panel.php:1057
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1051
-#: plugin-fw/includes/class-yit-plugin-panel.php:1052
+#: plugin-fw/includes/class-yit-plugin-panel.php:1055
+#: plugin-fw/includes/class-yit-plugin-panel.php:1056
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1050
+#: plugin-fw/includes/class-yit-plugin-panel.php:1054
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1049
+#: plugin-fw/includes/class-yit-plugin-panel.php:1053
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1048
+#: plugin-fw/includes/class-yit-plugin-panel.php:1052
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1047
+#: plugin-fw/includes/class-yit-plugin-panel.php:1051
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:663
-#: plugin-fw/includes/class-yit-plugin-subpanel.php:136
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/includes/class-yit-plugin-panel.php:667
+#: plugin-fw/includes/class-yit-plugin-subpanel.php:140
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 #: v1/includes/classes/class.yith-wapo-admin.php:429
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:667
-#: plugin-fw/includes/class-yit-plugin-subpanel.php:139
+#: plugin-fw/includes/class-yit-plugin-panel.php:671
+#: plugin-fw/includes/class-yit-plugin-subpanel.php:143
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:663
-#: plugin-fw/includes/class-yit-plugin-subpanel.php:136
-#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:14
+#: plugin-fw/includes/class-yit-plugin-panel.php:667
+#: plugin-fw/includes/class-yit-plugin-subpanel.php:140
+#: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:658
-#: plugin-fw/includes/class-yit-plugin-subpanel.php:132
+#: plugin-fw/includes/class-yit-plugin-panel.php:659
+#: plugin-fw/includes/class-yit-plugin-subpanel.php:133
 msgid "Save Changes"
 msgstr "Salva modifiche"
 
@@ -3883,16 +3887,12 @@ msgstr "Impostazioni"
 msgid "Categories"
 msgstr "Categorie"
 
-#: plugin-fw/templates/fields/ajax-terms.php:41
-msgid "Search Categories"
-msgstr "Cerca categorie"
-
 #: v1/includes/classes/class.yith-wapo-type.php:932
 #: v1/includes/classes/class.yith-wapo-type.php:1009
 msgid "Uploading error: extension not allowed"
 msgstr "Errore caricamento: estensione non consentita"
 
-#: includes/class-yith-wapo-cart.php:345
+#: includes/class-yith-wapo-cart.php:347
 #: v1/includes/classes/class.yith-wapo-frontend.php:1245
 msgid "Base price"
 msgstr "Prezzo base"
@@ -3915,6 +3915,7 @@ msgstr "Predefinito"
 msgid "Clear"
 msgstr "Rimuovi"
 
+#: includes/class-yith-wapo-cart.php:654
 #: v1/includes/classes/class.yith-wapo-frontend.php:144
 #: v1/includes/classes/class.yith-wapo-frontend.php:904
 msgid "Select options"

@@ -84,7 +84,7 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 	public function start( $data = '' ) {
 		parent::start();
 
-		if ( $this->mode == 'preview' ) {	
+		if ( $this->mode == 'preview' AND $this->settings['display_column_names'] ) {
 			$data = $this->make_header( $data );
 			$data = apply_filters( "woe_{$this->format}_header_filter", $data );
 
@@ -155,14 +155,23 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 	}
 
 	public function finish() {
+		$settings = $this->settings['global_job_settings'];
+		if ( preg_match('/setup_field_/i', $settings['sort']) ) {
+			add_filter('woe_storage_sort_by_field', function () use ($settings) {
+				return [preg_replace('/setup_field_(.+?)_/i', '', $settings['sort']), $settings['sort_direction'], preg_match('/setup_field_(.+?)_/i', $settings['sort'], $matches) ? $matches[1] : 'string'];
+			});
+		}
+	
 		if ( $this->mode === 'preview' ) {
 			if($this->summary_report_products || $this->summary_report_customers) {
 				$this->rows = $this->storage->processDataForPreview($this->rows);
-			}
+			}	
 			$this->rows = apply_filters( "woe_{$this->format}_preview_rows", $this->rows );
+			if ( has_filter( 'woe_storage_sort_by_field') )
+				$this->sort_by_custom_field();
 
 			$image_preview_multiply = 5;
-
+			$summary_row = array();
 			fwrite( $this->handle, '<table>' );
 			if ( $this->settings['display_column_names'] && count( $this->rows ) < 2 || count( $this->rows ) < 1 ) {
 				$this->rows[] = array( '<td colspan=10><b>' . __( 'No results', 'woo-order-export-lite' ) . '</b></td>' );
@@ -178,10 +187,12 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 							$cell,
 							$this->settings['row_images_width'] * $image_preview_multiply,
 							$this->settings['row_images_height'] * $image_preview_multiply );
-						
+
 							$cell = $html ? $html : "";
 					}
 				}
+				unset($cell);//required or 2nd foreach will be broken!
+
 
 				if ( $row_index == 0 AND ! empty( $this->settings['display_column_names'] ) ) {
 					fwrite( $this->handle,
@@ -189,7 +200,25 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 				} else {
 					fwrite( $this->handle, '<tr><td>' . join( '</td><td>', $row ) . "</td><tr>\n" );
 				}
+				foreach ( $row as $column => &$cell ) {
+					foreach($this->settings['global_job_settings']['order_fields'] as $order_field) {
+						if ( isset($order_field['key']) && ($column === $order_field['key'] || $order_field['key'] === 'plain_orders_'. $column)) {
+							if (!empty ($order_field['sum'])) {
+								$summary_row[$column] = (isset($summary_row[$column]) ? $summary_row[$column] : 0) + floatval(str_replace(',', '.', $cell));
+							} else {
+								$summary_row[$column] = '';
+							}
+						}
+					}
+				}
 			}
+
+			if (!empty( array_keys($summary_row) ) && array_filter($summary_row, function ($row) { return $row !== ''; })) {
+				$summary_row[array_keys($summary_row)[apply_filters("woe_summary_row_title_pos",0)]] = $this->settings['global_job_settings']['summary_row_title'];
+				fwrite( $this->handle,
+					'<tr style="font-weight:bold"><td>' . join( '</td><td>', $summary_row ) . "</td><tr>\n" );
+			}
+
 			fwrite( $this->handle, '</table>' );
 		}
 
@@ -201,14 +230,19 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 			if ( apply_filters( 'woe_pdf_output', false, $this->settings, str_replace( '.csv', '.pdf', $this->filename ) ) ) {
 			    return;
 			}
-			
+
 			if ( has_filter( 'woe_storage_sort_by_field') ) {
-				$this->storage->loadFull();
-				$this->storage->sortRowsByColumn( apply_filters( 'woe_storage_sort_by_field',"plain_products_name") );
-				$this->storage->forceSave();
-				$this->storage->close();
+				if( $this->summary_report_products || $this->summary_report_customers ) {
+					$this->storage->sortRowsByColumn( apply_filters( 'woe_storage_sort_by_field',["plain_products_name", "asc", "string"]) );
+				} else { 
+					// plain export
+					$this->storage->loadFull();
+					$this->storage->sortRowsByColumn( apply_filters( 'woe_storage_sort_by_field',["plain_products_name", "asc", "string"]) );
+					$this->storage->forceSave();
+					$this->storage->close();
+				}	
 			}
-			
+
 			$this->pdf = new WOE_PDF_MC_Table( $this->orientation, 'mm', $this->page_size );
 
 			$this->storage->initRowIterator();
@@ -295,11 +329,18 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 			$row          = apply_filters( 'woe_row_before_format_pdf', $row );
 
 			if ( ! empty( $this->settings['display_column_names'] ) ) {
+                if ($this->storage instanceof WOE_Formatter_Storage_Summary_Session) {
+                    if ($this->storage->isSummaryProducts()) {
+                        $row = apply_filters('woe_summary_products_headers', $row);
+                    } elseif ($this->storage->isSummaryCustomers()) {
+                        $row = apply_filters('woe_summary_customers_headers', $row);
+                    }
+                }
 				$row  = apply_filters( 'woe_pdf_prepare_header', $row );
 				if( $row ) {
 					$this->pdf->addTableHeader( $row );
 					do_action("woe_pdf_below_header", $this->pdf, $this);
-				}	
+				}
 			}
 
 			$pageBreakOrderLines = wc_string_to_bool( $this->settings['row_dont_page_break_order_lines'] );
@@ -307,7 +348,8 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 			// both are only for option 'row_dont_page_break_order_lines'
 			$orderRows = array();
 			$orderId = null;
-
+            $summary_row = array();
+			
 			while ( $rowObj = $this->storage->getNextRow() ) {
 				$row = $rowObj->getData();
 
@@ -338,6 +380,16 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 							'type' => 'link',
 							'link' => $source,
 						);
+					}
+
+					foreach($this->settings['global_job_settings']['order_fields'] as $order_field) {
+						if (isset($order_field['key']) && ($key === $order_field['key'] || $order_field['key'] === 'plain_orders_'. $key)) {
+							if (!empty ($order_field['sum'])) {
+								$summary_row[$key] = (isset($summary_row[$key]) ? $summary_row[$key] : 0) + floatval(str_replace(',', '.', $item));
+							} else {
+								$summary_row[$key] = '';
+							}
+						}
 					}
 				}
 
@@ -375,6 +427,15 @@ class WOE_Formatter_PDF extends WOE_Formatter_Plain_Format {
 					$this->pdf->addRow( $row, null, $row_height, $row_style );
 				}
 			}
+
+                        if (!empty( array_keys($summary_row) ) && array_filter($summary_row, function ($row) { return $row !== ''; })) {
+                            $summary_row[array_keys($summary_row)[0]] = $this->settings['global_job_settings']['summary_row_title'];
+                            if ( $pageBreakOrderLines ) {
+                                $orderRows[] = array( array_values($summary_row), $row_style, $row_height );
+                            } else {
+                                $this->pdf->addRow( array_values($summary_row), null, $row_height, $row_style );
+                            }
+                        }
 
 			if ( count( $orderRows ) ) {
 				$rows = array_map( function ( $orderRow ) {

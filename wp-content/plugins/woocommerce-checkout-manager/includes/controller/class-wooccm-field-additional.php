@@ -9,7 +9,7 @@ class WOOCCM_Field_Controller_Additional extends WOOCCM_Field_Controller
   public function __construct()
   {
 
-    include_once(WOOCCM_PLUGIN_DIR . 'includes/model/class-wooccm-field-additional.php');
+    include_once( WOOCCM_PLUGIN_DIR . 'includes/model/class-wooccm-field-additional.php' );
 
     add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'add_order_data'));
     add_action('woocommerce_checkout_update_order_meta', array($this, 'save_order_data'), 10, 2);
@@ -150,7 +150,7 @@ class WOOCCM_Field_Controller_Additional extends WOOCCM_Field_Controller
           ?>
               <p id="<?php echo esc_attr($field['key']); ?>" class="form-field form-field-wide form-field-type-<?php echo esc_attr($field['type']); ?>">
                 <strong title="<?php echo esc_attr(sprintf(esc_html__('ID: %s | Field Type: %s', 'woocommerce-checkout-manager'), $key, esc_html__('Generic', 'woocommerce-checkout-manager'))); ?>">
-                  <?php printf('%s', $field['label'] ? esc_html($field['label']) : sprintf(esc_html__('Field %s', 'woocommerce-checkout-manager'), $field_id)); ?>
+                  <?php printf('%s', esc_html( $field['label'] ) ? esc_html( $field['label'] ) : sprintf(esc_html__('Field %s', 'woocommerce-checkout-manager'), esc_html( $field_id ) ) ); ?>
                 </strong>
                 <?php echo esc_html($value); ?>
               </p>
@@ -207,7 +207,7 @@ class WOOCCM_Field_Controller_Additional extends WOOCCM_Field_Controller
   {
     global $current_section;
       ?>
-      <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=additional'); ?>" class="<?php echo ($current_section == 'additional' ? 'current' : ''); ?>"><?php esc_html_e('Additional', 'woocommerce-checkout-manager'); ?></a> | </li>
+      <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=wooccm&section=additional' ) ); ?>" class="<?php echo ($current_section == 'additional' ? 'current' : ''); ?>"><?php esc_html_e('Additional', 'woocommerce-checkout-manager'); ?></a> | </li>
   <?php
   }
 

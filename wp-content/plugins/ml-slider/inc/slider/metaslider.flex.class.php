@@ -152,7 +152,7 @@ class MetaFlexSlider extends MetaSlider {
         parent::enqueue_scripts();
 
         if ( $this->get_setting( 'printJs' ) == 'true' && ( $this->get_setting( 'effect' ) == 'slide' || $this->get_setting( 'carouselMode' ) == 'true' ) ) {
-            wp_enqueue_script( 'metaslider-easing', METASLIDER_ASSETS_URL . 'easing/jQuery.easing.min.js', array( 'jquery' ), METASLIDER_VERSION );
+            wp_enqueue_script( 'metaslider-easing', METASLIDER_ASSETS_URL . 'easing/jQuery.easing.min.js', array( 'jquery' ), METASLIDER_ASSETS_VERSION );
         }
     }
 

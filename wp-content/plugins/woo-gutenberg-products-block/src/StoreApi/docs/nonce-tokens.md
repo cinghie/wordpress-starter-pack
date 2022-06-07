@@ -13,15 +13,15 @@ POST requests to the `/cart` endpoints and all requests to the `/checkout` endpo
 
 ## Sending Nonce Tokens with requests
 
-Nonce tokens are included with the request headers. Create a request header named `X-WC-Store-API-Nonce`. This will be validated by the API.
+Nonce tokens are included with the request headers. Create a request header named `Nonce`. This will be validated by the API.
 
 **Example:**
 
 ```sh
-curl --header "X-WC-Store-API-Nonce: 12345" --request GET https://example-store.com/wp-json/wc/store/v1/checkout
+curl --header "Nonce: 12345" --request GET https://example-store.com/wp-json/wc/store/v1/checkout
 ```
 
-After making a successful request, an updated `X-WC-Store-API-Nonce` header will be sent back--this needs to be stored and updated by the client to make subsequent requests.
+After making a successful request, an updated `Nonce` header will be sent back--this needs to be stored and updated by the client to make subsequent requests.
 
 ## Generating security nonces from WordPress
 

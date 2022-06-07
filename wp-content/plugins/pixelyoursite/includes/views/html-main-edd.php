@@ -12,6 +12,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <!-- Enable EDD -->
 <div class="card card-static">
+    <div class="card-body">
+        <div  class="row">
+            <div class="col">
+                <?php renderDummySwitcher( false); ?>
+                <h4 class="switcher-label">Facebook auto-renewals purchase tracking</h4><?php renderProBadge(); ?>
+            </div>
+        </div>
+        <div  class="row">
+            <div class="col">
+                <?php renderDummySwitcher( false); ?>
+                <h4 class="switcher-label">Google Analytics auto-renewals purchase tracking</h4><?php renderProBadge(); ?>
+            </div>
+        </div>
+        <p class="small">
+            The plugin will send a purchase event using Facebook and Google Analytics API when auto-renewals take place. This feature is not yet supported for GA4 properties.
+        </p>
+    </div>
+</div>
+<div class="card card-static">
     <div class="card-header">
         General
     </div>
@@ -56,8 +75,38 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
     </div>
 </div>
-
-
+<!-- video -->
+<div class="card card-static">
+    <div class="card-header">
+        Recommended Videos:
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p>Enhanced Conversions for Google Ads with PixelYourSite (9:14) - <a href="https://www.youtube.com/watch?v=0uuTiOnVw80" target="_blank">watch now</a></p>
+                <p>Track Facebook (META) Ads results with Google Analytics 4 (GA4) using UTMs (10:13) - <a href="https://www.youtube.com/watch?v=v3TfmX5H1Ts" target="_blank">watch now</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Transaction ID -->
+<div class="card ">
+    <div class="card-header">
+        Transaction ID <?php renderProBadge(); ?> <?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-5 form-inline">
+                <label>Prefix: </label><?php renderDummyTextInput("Prefix");?>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <p>Consider adding a prefix for transactions IDs if you use the same tags on multiple websites.</p>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- AddToCart -->
 <div class="card">
     <div class="card-header">
@@ -237,6 +286,8 @@ e&utm_campaign=pro-feature' ); ?>
         </div>
     </div>
 <?php endif; ?>
+
+
 <hr>
 <!-- Google Dynamic Remarketing Vertical -->
 <div class="card  card-disabled">
@@ -1039,8 +1090,30 @@ e&utm_campaign=pro-feature' ); ?>
         </div>
         <div class="row">
             <div class="col">
-                <?php PYS()->render_switcher_input( 'enable_edd_product_price_param' ); ?>
-                <h4 class="switcher-label">product_price</h4>
+                <?php PYS()->render_switcher_input( 'enable_edd_tags_param' ); ?>
+                <h4 class="switcher-label">tags</h4>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">total (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">tax (PRO)</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">coupon (PRO)</h4>
                 <hr>
             </div>
         </div>

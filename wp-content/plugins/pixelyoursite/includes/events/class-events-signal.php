@@ -38,7 +38,12 @@ class EventsSignal extends EventsFactory {
     }
 
     private function __construct() {
+        add_filter("pys_event_factory",[$this,"register"]);
+    }
 
+    function register($list) {
+        $list[] = $this;
+        return $list;
     }
     function getEvents() {
         return $this->events;

@@ -1,8 +1,10 @@
 <?php
 
-class WOOCCM_Install {
+class WOOCCM_Install
+{
 
-  public static function install() {
+  public static function install()
+  {
 
     // Check if we are not already running this routine.
     if ('yes' === get_transient('wooccm_installing')) {
@@ -16,7 +18,8 @@ class WOOCCM_Install {
     //wooccm_install();
   }
 
-  public static function update() {
+  public static function update()
+  {
 
     if (!get_option('wooccm_billing', false)) {
       update_option(WOOCCM()->billing->get_fields());
@@ -31,7 +34,8 @@ class WOOCCM_Install {
     }
   }
 
-  public static function old_panel_compatibility($field_id, $field = array()) {
+  public static function old_panel_compatibility($field_id, $field = array())
+  {
 
     $field = $this->get_old_args($field);
 
@@ -88,5 +92,4 @@ class WOOCCM_Install {
 
     return array_intersect_key($field, array_flip($this->old_args));
   }
-
 }

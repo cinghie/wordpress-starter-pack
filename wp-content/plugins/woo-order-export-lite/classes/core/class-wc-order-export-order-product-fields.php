@@ -258,9 +258,12 @@ class WC_Order_Export_Order_Product_Fields {
 		} elseif ( $field == 'non_variation_product_attributes' ) {
 			$attributes = array();
 			if ( $this->product ) {
-				foreach ( $this->product->get_attributes() as $attribute ) {
+				//variation uses parent attributes
+				$product_attributes = $this->parent_product_id ? $this->product->parent->get_attributes() : $this->product->get_attributes();
+				foreach ($product_attributes  as $attribute ) {
 					/** @var WC_Product_Attribute $attribute */
-					if ( $attribute instanceof WC_Product_Attribute && ! $attribute->get_variation() ) {
+					// attribute is not marked"used fro varation" OR it's simple product 
+					if ( $attribute instanceof WC_Product_Attribute && (! $attribute->get_variation()  OR !$this->parent_product_id)  ) {
 						if ( $attribute->get_taxonomy() ) {
 							$taxObject = $attribute->get_taxonomy_object();
 							if ( isset( $taxObject, $taxObject->attribute_label ) ) {
@@ -276,7 +279,7 @@ class WC_Order_Export_Order_Product_Fields {
 				}
 			}
 
-			$field_value = join( PHP_EOL, $attributes );
+			$field_value = join( apply_filters( 'woe_fetch_item_meta_lines_delimiter', ' | ' ), $attributes );
 		} elseif ( isset( $this->static_vals[ $field ] ) ) {
 			$field_value = $this->static_vals[ $field ];
 		} elseif ( isset( $this->item_meta[ $field ] ) ) {    //meta from order

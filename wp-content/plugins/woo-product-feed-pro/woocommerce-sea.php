@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.3.6
+ * Version:     11.6.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
- * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Facebook, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
+ * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
  * Plugin URI:  https://wwww.adtribes.io/pro-vs-elite/
  * Author URI:  https://www.adtribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 6.2
+ * WC tested up to: 6.4
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.3.6' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.6.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -167,8 +167,12 @@ function woosea_plugin_action_links($links, $file) {
  
     	// check to make sure we are on the correct plugin
     	if ($file == $this_plugin) {
-		// link to what ever you want
-		$host = $_SERVER['HTTP_HOST'];
+		$host = '';
+		if (!empty($_SERVER['HTTP_HOST'])) {
+  			$host = $_SERVER['HTTP_HOST'];
+		}
+
+		$host = sanitize_text_field($_SERVER['HTTP_HOST']);
         	$plugin_links[] = '<a href="https://adtribes.io/support/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=support" target="_blank">Support</a>';
         	$plugin_links[] = '<a href="https://adtribes.io/tutorials/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=tutorials" target="_blank">Tutorials</a>';
         	$plugin_links[] = '<a href="https://adtribes.io/pro-vs-elite/?utm_source='.$host.'&utm_medium=pluginpage&utm_campaign=go elite" target="_blank" style="color:green;"><b>Go Elite</b></a>';
@@ -253,9 +257,9 @@ function woosea_add_facebook_pixel( $product = null ){
 			$fb_capi_data["event_time"] = time();
 			$fb_capi_data["event_id"] = $event_id;
 			$fb_capi_data["user_data"]["client_ip_address"] = WC_Geolocation::get_ip_address();
-			$fb_capi_data["user_data"]["client_user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+			$fb_capi_data["user_data"]["client_user_agent"] = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
 			$fb_capi_data["action_source"] = "website";	
-			$fb_capi_data["event_source_url"] = home_url($_SERVER['REQUEST_URI']);
+			$fb_capi_data["event_source_url"] = sanitize_text_field(home_url($_SERVER['REQUEST_URI']));
 
 			if ($fb_pagetype == "product"){
 				if (!empty($product->get_price())) {
@@ -629,7 +633,7 @@ function woosea_add_remarketing_tags( $product = null ){
 			unset($adwords_conversion_id);
 		}
 
-		if($adwords_conversion_id > 0){
+		if(!empty($adwords_conversion_id)){
 		?>
 	        	<!-- Global site tag (gtag.js) - Google Ads: <?php echo htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?> - Added by the Product Feed Pro plugin from AdTribes.io  -->
                 	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-<?php echo htmlentities($adwords_conversion_id, ENT_QUOTES, 'UTF-8');?>"></script>
@@ -857,7 +861,7 @@ function woosea_request_review(){
 		$current_time = time();
 		$show_after = 604800; // Show only after one week
 		$is_active = $current_time-$first_activation;
-		$page = basename($_SERVER['REQUEST_URI']);
+		$page = sanitize_text_field(basename($_SERVER['REQUEST_URI']));
 
 		if(($nr_projects > 0) AND ($is_active > $show_after) AND ($notification_interaction != "yes")){
 			echo '<div class="notice notice-info review-notification">';
@@ -872,8 +876,9 @@ add_action('admin_notices', 'woosea_request_review');
  * Add some JS and mark-up code on every front-end page in order to get the conversion tracking to work
  */
 function woosea_hook_header() {
-	$marker = sprintf('<!-- This website runs the Product Feed PRO for WooCommerce by AdTribes.io plugin -->');
-	echo "\n${marker}\n";
+	$marker = sprintf('<!-- This website runs the Product Feed PRO for WooCommerce by AdTribes.io plugin - version ' . WOOCOMMERCESEA_PLUGIN_VERSION .' -->');
+	$allowed_tags = array('<!--' => array(), '-->' => array());
+	echo wp_kses("\n${marker}\n",$allowed_tags);
 }
 add_action('wp_head','woosea_hook_header');
 
@@ -1132,8 +1137,6 @@ function woosea_add_cat_mapping() {
 	$map_to_category = sanitize_text_field($_POST['map_to_category']);
 	$project_hash = sanitize_text_field($_POST['project_hash']);
 	$criteria = sanitize_text_field($_POST['criteria']);
-
-	//$criteria = $_POST['criteria'];
 	$status_mapping = "false";
 	$project = WooSEA_Update_Project::get_project_data(sanitize_text_field($project_hash));	
 
@@ -1222,9 +1225,9 @@ function woosea_product_delete_meta_price( $product = null ) {
 	// Here append the common URL characters. 
 	$link .= "://"; 
 	// Append the host(domain name, ip) to the URL. 
-	$link .= $_SERVER['HTTP_HOST']; 
+	$link .= sanitize_text_field($_SERVER['HTTP_HOST']); 
 	// Append the requested resource location to the URL 
-	$link .= $_SERVER['REQUEST_URI']; 
+	$link .= sanitize_text_field($_SERVER['REQUEST_URI']); 
      
 	if($structured_data_fix == "yes"){
 
@@ -1266,9 +1269,14 @@ function woosea_product_delete_meta_price( $product = null ) {
                              	   		$product_variations = new WC_Product_Variation( $child_val );
                                 		$variations = array_filter($product_variations->get_variation_attributes());
 						$from_url = str_replace("\\","",sanitize_text_field($_GET),$i);
-						$intersect = array_intersect($from_url, $variations);
-						if($variations == $intersect){
-							$variation_id = $child_val;
+
+						if(is_array($from_url)){
+							$intersect = @array_intersect($from_url, $variations);
+							if($variations == $intersect){
+								$variation_id = $child_val;
+							}
+						} else {
+							$variation_id = $mother_id;	
 						}
 					}
 
@@ -1408,8 +1416,12 @@ function woosea_product_delete_meta_price( $product = null ) {
 					// This is a variation product page but no variation has been selected. WooCommerce always shows the price of the lowest priced
 					// variation product. That is why we also put this in the JSON
 					// When there are no parameters in the URL (so for normal users, not coming via Google Shopping URL's) show the old WooCommwerce JSON
-					$product_price = round(wc_get_price_to_display($product),2);
-                        		$price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
+					$product_price = wc_get_price_to_display($product);
+					if(!is_string($product_price)){
+						$product_price = round($product_price,2);
+					}
+					
+					$price_valid_until = date( 'Y-12-31', current_time( 'timestamp', true ) + YEAR_IN_SECONDS );
                         		
 					$markup_offer += array(
                                 		'@type'         	=> 'Offer',
@@ -1580,9 +1592,9 @@ function woosea_product_fix_structured_data( $product = null ) {
         // Here append the common URL characters. 
         $link .= "://";
         // Append the host(domain name, ip) to the URL. 
-        $link .= $_SERVER['HTTP_HOST'];
+        $link .= sanitize_text_field($_SERVER['HTTP_HOST']);
         // Append the requested resource location to the URL 
-        $link .= $_SERVER['REQUEST_URI'];
+        $link .= sanitize_text_field($_SERVER['REQUEST_URI']);
 
         $structured_data_fix = get_option ('structured_data_fix');
 
@@ -1599,18 +1611,15 @@ function woosea_product_fix_structured_data( $product = null ) {
               		$children_ids = $product->get_children();
                         $prod_type = $product->get_type();
 
-			if($prod_type == "variable"){
-            			foreach ($children_ids as &$child_val) {
-                			$product_variations = new WC_Product_Variation( $child_val );
-                     			$variations = array_filter($product_variations->get_variation_attributes());
-                     			$from_url = str_replace("\\","",sanitize_text_field($_GET),$i);
-					$intersect = @array_intersect($from_url, $variations);
-                     			if($variations == $intersect){
-                        			$variation_id = $child_val;
-                       			}
-             			}
-			}
-
+                     	foreach ($children_ids as &$child_val) {
+                        	$product_variations = new WC_Product_Variation( $child_val );
+                             	$variations = array_filter($product_variations->get_variation_attributes());
+				$from_url = str_replace("\\","",sanitize_text_field($_GET),$i);
+                            	$intersect = array_intersect($from_url, $variations);
+                              	if($variations == $intersect){
+                                	$variation_id = $child_val;
+                             	}
+                    	}
 
             		if(isset($variation_id )){
                 		$variable_product = wc_get_product($variation_id);
@@ -4331,7 +4340,7 @@ function woosea_generate_pages(){
 	} elseif ($generate_step == 101){
 		/**
          	 * Update project configuration 
-         	 */
+		 */
         	$project_data = WooSEA_Update_Project::update_project($from_post);
 
         	/**

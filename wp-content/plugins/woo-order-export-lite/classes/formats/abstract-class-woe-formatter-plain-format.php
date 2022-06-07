@@ -43,6 +43,9 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		if ( isset( $this->settings['add_utf8_bom'] ) && $this->settings['add_utf8_bom'] ) {
 			$this->encoding = "UTF-8";
 		}
+
+		if ( $this->mode == 'preview' )
+			$this->rows = array();
 	}
 	
 	// calculate max columns based on order items
@@ -63,6 +66,7 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		}
 	}
 
+	// XLS/PDF doesn't use this method!
 	public function output( $rec ) {
 		//don't output orders in summary mode!
 		if ( $this->summary_report_products AND ! $this->summary_processing ) {
@@ -153,6 +157,37 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		}
 
 		return ( $new_rows );
+	}
+
+	protected function sort_by_custom_field(){
+		$sort = apply_filters('woe_storage_sort_by_field', ["plain_products_name", "asc", "string"]);
+		$sortCallback = function($a,$b) use($sort){
+			$field      = !is_array($sort) ? $sort : (isset($sort[0]) ? $sort[0] : '');
+			$direction  = !is_array($sort) ? 'asc' : (isset($sort[1]) ?  strtolower($sort[1]) : 'asc');
+			$type       = !is_array($sort) ? 'string' : (isset($sort[2]) ? $sort[2] : 'string');
+
+            if (!isset($a[$field]) || !isset($b[$field])) {
+                return 0;
+            }
+
+			if ($type === 'money' || $type === 'number') {
+				return $direction === 'asc' ? $a[$field] - $b[$field] : $b[$field] - $a[$field];
+			}
+
+			if ($type === 'date') {
+				return $direction === 'asc' ? strtotime($a[$field]) - strtotime($b[$field]) : strtotime($b[$field]) - strtotime($a[$field]);
+			}
+
+			return $direction === 'asc' ? strcmp($a[$field],$b[$field]) : (-1) * strcmp($a[$field],$b[$field]);
+		};
+
+		if($this->settings['display_column_names']) {    // preserve header
+			$columnsTitle = array_slice($this->rows, 0, 1, true);
+			$this->rows = array_slice($this->rows, 1, null, true);
+			usort($this->rows, $sortCallback);
+			$this->rows = array_merge($columnsTitle, $this->rows);
+		} else // just sort
+			usort($this->rows, $sortCallback);
 	}
 
 
@@ -273,6 +308,7 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		return apply_filters( 'woe_summary_products_headers', $header );
 	}
 
+	// the function used by CSV/TAB/HTML formats
 	private function try_fill_summary_report_products_fields( $row ) {
 		$order = false;
 
@@ -331,6 +367,10 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_qty'] += $product_item->get_quantity();
 			}
 			
+			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_qty_minus_refund'] ) ) {
+				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_qty_minus_refund'] += ( $product_item->get_quantity() - abs( $order->get_qty_refunded_for_item($item_id) ) );
+			}
+			
 			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_weight'] ) AND $product ) { // only if product exists! 
 				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_weight'] += $product_item->get_quantity() * (float)$product->get_weight();
 			}
@@ -339,6 +379,13 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 				$total                                                                   = method_exists( $product_item,
 					'get_total' ) ? $product_item->get_total() : $product_item['line_total'];
 				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_amount'] += wc_round_tax_total( $total );
+			}
+			
+			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_amount_minus_refund'] ) ) {
+				$total                                                                   = method_exists( $product_item,
+					'get_total' ) ? $product_item->get_total() : $product_item['line_total'];
+				$refunded = $order->get_total_refunded_for_item($item_id);
+				$_SESSION['woe_summary_products'][ $key ]['summary_report_total_amount_minus_refund'] += wc_round_tax_total( $total ) - wc_round_tax_total( $refunded );
 			}
 
 			if ( isset( $_SESSION['woe_summary_products'][ $key ]['summary_report_total_discount'] ) ) {
@@ -451,6 +498,7 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		return apply_filters( 'woe_summary_customers_headers', $header );
 	}
 
+	// the function used by CSV/TAB/HTML formats
 	private function try_fill_summary_report_customers_fields( $row, $order_id ) {
 
 		$order = new WC_Order( $order_id );
@@ -726,6 +774,10 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 				$storageData['summary_report_total_qty'] += $product_item->get_quantity();
 			}
 			
+			if ( isset( $storageData['summary_report_total_qty_minus_refund'] ) ) {
+				$storageData['summary_report_total_qty_minus_refund'] += ($product_item->get_quantity() -  abs( $order->get_qty_refunded_for_item($item_id) ) );
+			}
+			
 			if ( isset( $storageData['summary_report_total_weight'] ) AND $product ) { // only if product exists! 
 				$storageData['summary_report_total_weight'] += $product_item->get_quantity() * (float)$product->get_weight();
 			}
@@ -734,6 +786,20 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 				$total                                                                   = method_exists( $product_item,
 					'get_total' ) ? $product_item->get_total() : $product_item['line_total'];
 				$storageData['summary_report_total_amount'] += wc_round_tax_total( $total );
+			}
+			
+			if ( isset( $storageData['summary_report_total_amount_minus_refund'] ) ) {
+				$total                                                                   = method_exists( $product_item,
+					'get_total' ) ? $product_item->get_total() : $product_item['line_total'];
+				$refunded = $order->get_total_refunded_for_item($item_id);
+				$storageData['summary_report_total_amount_minus_refund'] += wc_round_tax_total( $total ) - wc_round_tax_total( $refunded );
+			}
+			
+			if ( isset( $storageData['summary_report_total_amount_inc_tax'] ) ) {
+				$total                                                                   = method_exists( $product_item,'get_total' ) ? 
+					wc_round_tax_total($product_item->get_total()) + wc_round_tax_total($product_item->get_total_tax()) : 
+					wc_round_tax_total($product_item['line_total']) + wc_round_tax_total($product_item['line_tax']);
+				$storageData['summary_report_total_amount_inc_tax'] += $total;
 			}
 
 			if ( isset( $storageData['summary_report_total_discount'] ) ) {
@@ -888,7 +954,7 @@ abstract class WOE_Formatter_Plain_Format extends WOE_Formatter {
 		$row = reset($rows);
 		if ($this->summary_report_products) {
 			$products_row = self::get_array_from_array($row, 'products');
-			$product_row = reset($products_row);
+			$product_row = count($products_row) > 0 ? reset($products_row) : [];
 			$product_labels = $this->labels['products']->get_labels();
 			$row = array_filter($product_row, function($field_key) use ($product_labels) {
 				foreach ( $product_labels as $label_data ) {

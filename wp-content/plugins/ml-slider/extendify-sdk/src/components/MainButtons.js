@@ -10,7 +10,7 @@ import { openModal } from '@extendify/util/general'
 import { brandMark } from './icons'
 import { NewImportsPopover } from './popovers/NewImportsPopover'
 
-export const MainButton = () => {
+export const MainButtonWrapper = () => {
     const [showTooltip, setShowTooltip] = useState(false)
     const once = useRef(false)
     const buttonRef = useRef()
@@ -20,7 +20,9 @@ export const MainButton = () => {
     const hasPendingNewImports = useUserStore(
         (state) => state.allowedImports === 0,
     )
-    const buttonText = useTestGroup('main-button-text', ['A', 'B', 'C'])
+    const uuid = useUserStore((state) => state.uuid)
+    const buttonText = useTestGroup('main-button-text2', ['A', 'B'], true)
+    const [libraryButtonText, setLibraryButtonText] = useState()
 
     const handleTooltipClose = async () => {
         await General.ping('mb-tooltip-closed')
@@ -32,17 +34,18 @@ export const MainButton = () => {
             allowedImports: -1,
         })
     }
-    const libraryButtonText = () => {
-        switch (buttonText) {
-            // case 'A' is the default
-            case 'B':
-                return __('Add section', 'extendify')
-            case 'C':
-                return __('Add template', 'extendify')
-            default:
-                return __('Library', 'extendify')
+    useEffect(() => {
+        if (!uuid) return
+        const text = () => {
+            switch (buttonText) {
+                case 'A':
+                    return __('Add template', 'extendify')
+                case 'B':
+                    return __('Design Library', 'extendify')
+            }
         }
-    }
+        setLibraryButtonText(text())
+    }, [buttonText, uuid])
 
     useEffect(() => {
         if (open) {
@@ -57,22 +60,7 @@ export const MainButton = () => {
 
     return (
         <>
-            <Button
-                isPrimary
-                ref={buttonRef}
-                style={{ padding: '12px' }}
-                onClick={() => openModal('main-button')}
-                id="extendify-templates-inserter-btn"
-                icon={
-                    <Icon
-                        style={{ marginRight: '4px' }}
-                        icon={brandMark}
-                        size={24}
-                    />
-                }>
-                {libraryButtonText()}
-            </Button>
-
+            <MainButton buttonRef={buttonRef} text={libraryButtonText} />
             {showTooltip && (
                 <NewImportsPopover
                     anchorRef={buttonRef}
@@ -86,7 +74,27 @@ export const MainButton = () => {
         </>
     )
 }
-
+const MainButton = ({ buttonRef, text }) => {
+    return (
+        <div className="extendify">
+            <Button
+                isPrimary
+                ref={buttonRef}
+                className="h-8 xs:h-9 px-1 min-w-0 xs:pl-2 xs:pr-3 sm:ml-2"
+                onClick={() => openModal('main-button')}
+                id="extendify-templates-inserter-btn"
+                icon={
+                    <Icon
+                        icon={brandMark}
+                        size={24}
+                        style={{ marginRight: 0 }}
+                    />
+                }>
+                <span className="hidden xs:inline ml-1">{text}</span>
+            </Button>
+        </div>
+    )
+}
 export const CtaButton = () => {
     return (
         <Button

@@ -53,7 +53,6 @@ class WooSEA_Update_Project {
 	 * Update individual project configuration
 	 */
 	public static function update_project_data($project) {
-
 		if(get_option( 'cron_projects' )){
 			$cron_projects = get_option( 'cron_projects' );
 	
@@ -69,16 +68,6 @@ class WooSEA_Update_Project {
 	}
 
 	public static function update_project($project_data){
-
-       		// Log some information to the WooCommerce logs
-            	$add_woosea_logging = get_option ('add_woosea_logging');
-            	if($add_woosea_logging == "yes"){
-               		$logger = new WC_Logger();
-                    	$logger->add('Product Feed Pro by AdTribes.io','<!-- Start processing new product -->');
-                      	$logger->add('Product Feed Pro by AdTribes.io','In update_project function');
-                     	$logger->add('Product Feed Pro by AdTribes.io','<!-- End processing product -->');
-             	}
-
 		if(!array_key_exists('project_hash', $project_data)){
                 	$upload_dir = wp_upload_dir();
                 	$external_base = $upload_dir['baseurl'];
@@ -100,15 +89,6 @@ class WooSEA_Update_Project {
         						$pieces []= $keyspace[random_int(0, $max)];
     						}
     						$project_fill['project_hash'] = implode('', $pieces);
-
-						//$project_fill['project_hash'] = bin2hex(openssl_random_pseudo_bytes(16));
-
-				            	if($add_woosea_logging == "yes"){
-               						$logger = new WC_Logger();
-                    					$logger->add('Product Feed Pro by AdTribes.io','<!-- Start processing new product -->');
-                      					$logger->add('Product Feed Pro by AdTribes.io',$project_fill['project_hash']);
-                     					$logger->add('Product Feed Pro by AdTribes.io','<!-- End processing product -->');
-             					}
 						$project_fill['filename'] = $project_fill['project_hash'];
 						$project_fill['external_file'] = $external_path . "/" . sanitize_file_name($project_fill['filename']) . "." . $project_fill['fileformat'];
 						$project_fill['query_log'] = $external_base . "/woo-product-feed-pro/logs/query.log";

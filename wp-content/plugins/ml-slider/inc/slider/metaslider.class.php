@@ -161,7 +161,7 @@ class MetaSlider {
 		$args = apply_filters('metaslider_populate_slides_args', $args, $slideshow_id, $slideshow_settings);
 
 		$the_query = new WP_Query($args);
-		
+
 		// Filter to alter the query itself if needed
 		return apply_filters('metaslider_get_slides_query', $the_query, $slideshow_id, $slideshow_settings);
     }
@@ -270,7 +270,7 @@ class MetaSlider {
         // when passed in the shortcode, the attribute names are lowercased.
         if ('false' != $this->get_setting('cssclass')) {
             $class .= " " . $this->get_setting('cssclass');
-        }        
+        }
 
         // handle any custom classes
         $class = apply_filters('metaslider_css_classes', $class, $this->id, $this->settings);
@@ -363,7 +363,7 @@ class MetaSlider {
         $type = $this->get_setting('type');
         $javascript = "";
 
-		// theme/plugin conflict avoidance 
+		// theme/plugin conflict avoidance
         if ('true' === $this->get_setting('noConflict') && 'flex' === $type) {
             $javascript = "$('#metaslider_{$this->id}').addClass('flexslider');";
         }
@@ -376,7 +376,7 @@ class MetaSlider {
 
     /**
      * Custom Javascript to execute immediately after the slideshow is initialized
-	 * 
+	 *
 	 * @return string
      */
     private function get_custom_javascript_after() {
@@ -454,13 +454,13 @@ class MetaSlider {
 	public function enqueue_scripts() {
 		if (filter_var($this->get_setting('printJs'), FILTER_VALIDATE_BOOLEAN)) {
 			$handle = 'metaslider-' . $this->get_setting('type') . '-slider';
-			wp_enqueue_script($handle, METASLIDER_ASSETS_URL . $this->js_path, array('jquery'), METASLIDER_VERSION);
+			wp_enqueue_script($handle, METASLIDER_ASSETS_URL . $this->js_path, array('jquery'), METASLIDER_ASSETS_VERSION);
 			$this->wp_add_inline_script($handle, $this->get_inline_javascript());
 		}
 
 		if (filter_var($this->get_setting('printCss'), FILTER_VALIDATE_BOOLEAN)) {
-			wp_enqueue_style('metaslider-' . $this->get_setting('type') . '-slider', METASLIDER_ASSETS_URL . $this->css_path, false, METASLIDER_VERSION);
-			wp_enqueue_style('metaslider-public', METASLIDER_ASSETS_URL . 'metaslider/public.css', false, METASLIDER_VERSION);
+			wp_enqueue_style('metaslider-' . $this->get_setting('type') . '-slider', METASLIDER_ASSETS_URL . $this->css_path, false, METASLIDER_ASSETS_VERSION);
+			wp_enqueue_style('metaslider-public', METASLIDER_ASSETS_URL . 'metaslider/public.css', false, METASLIDER_ASSETS_VERSION);
 
 			$extra_css = apply_filters("metaslider_css", "", $this->settings, $this->id);
 			wp_add_inline_style('metaslider-public', $extra_css);

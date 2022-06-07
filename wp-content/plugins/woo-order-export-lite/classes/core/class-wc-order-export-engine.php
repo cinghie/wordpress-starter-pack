@@ -49,11 +49,25 @@ class WC_Order_Export_Engine {
 		return apply_filters( 'woe_make_filename', strtr( $mask, $subst ) );
 	}
 
-	public static function kill_buffers() {
-		while ( ob_get_level() ) {
-			ob_end_clean();
-		}
-	}
+    /**
+     * ERR_CONTENT_DECODING_FAILED for export/preview only
+     *
+     * @see https://github.com/php/php-src/issues/8218#issuecomment-1096786045
+     *
+     * @return void
+     */
+    protected static function _ob_end_clean()
+    {
+        ob_end_clean();
+        header_remove("Content-Encoding");
+    }
+
+    public static function kill_buffers()
+    {
+        while (ob_get_level()) {
+            self::_ob_end_clean();
+        }
+    }
 
 	public static function tempnam( $folder, $prefix ) {
 		$filename = @tempnam( $folder, $prefix );
@@ -315,7 +329,7 @@ class WC_Order_Export_Engine {
 		}
 
 		if ( $settings['cleanup_phone'] ) {
-			foreach ( array( "billing_phone", "USER_billing_phone" ) as $field ) {
+			foreach ( array( "billing_phone", "USER_billing_phone", "shipping_phone", "USER_shipping_phone" ) as $field ) {
 				add_filter( 'woe_get_order_value_' . $field, function ( $value, $order, $fieldname ) {
 					$value = preg_replace( "#[^\d]+#", "", $value );
 
@@ -439,15 +453,24 @@ class WC_Order_Export_Engine {
 
 		//get IDs
 		$sql = WC_Order_Export_Data_Extractor::sql_get_order_ids( $settings );//backtrace
+                $sort_field = $settings['sort'];
 		$settings = self::replace_sort_field( $settings );
 		if ( $make_mode == 'estimate' OR $make_mode =='estimate_preview' ) { //if estimate return total count
 			return $wpdb->get_var( str_replace( 'ID AS order_id', 'COUNT(ID) AS order_count', $sql ) );
 		} elseif ( $make_mode == 'preview' ) {
-			$sql .= apply_filters( "woe_sql_get_order_ids_order_by",
+                        if (preg_match('/setup_field_/i', $sort_field)) {
+                            $sql .= apply_filters( "woe_sql_get_order_ids_order_by",
+					" ORDER BY order_id DESC" ) . " LIMIT " . ( $limit !== false ? $limit : 1 );
+                        } else {
+                            $sql .= apply_filters( "woe_sql_get_order_ids_order_by",
 					" ORDER BY " . $settings['sort'] . " " . $settings['sort_direction'] ) . " LIMIT " . ( $limit !== false ? $limit : 1 );
+                        }
+
 		} elseif ( $make_mode == 'partial' ) {
-			$sql     .= apply_filters( "woe_sql_get_order_ids_order_by",
-				" ORDER BY " . $settings['sort'] . " " . $settings['sort_direction'] );
+                        if (!preg_match('/setup_field_/i', $sort_field)) {
+                            $sql     .= apply_filters( "woe_sql_get_order_ids_order_by",
+                                    " ORDER BY " . $settings['sort'] . " " . $settings['sort_direction'] );
+                        }
 			$startat = ( $settings['mark_exported_orders'] && $settings['export_unmarked_orders'] ) ? 0 : intval( $offset );
 			$limit   = intval( $limit );
 			$sql     .= " LIMIT $startat,$limit";

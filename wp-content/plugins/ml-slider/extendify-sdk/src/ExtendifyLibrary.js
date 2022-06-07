@@ -41,7 +41,10 @@ export default function ExtendifyLibrary({ show = false }) {
     }, [userHasHydrated, taxonomiesReady, initTemplateData, setReady])
 
     useEffect(() => {
-        show && setOpen(true)
+        const search = new URLSearchParams(window.location.search)
+        if (show || search.has('ext-open')) {
+            setOpen(true)
+        }
     }, [show, setOpen])
 
     useEffect(() => {

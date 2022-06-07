@@ -40,11 +40,11 @@
 	<?php
 	if ( ! empty( $raq_data['raq_content'] ) ) :
 		foreach ( $raq_data['raq_content'] as $item ) :
-			if ( isset( $item['variation_id'] ) ) {
-				$_product = wc_get_product( $item['variation_id'] );
-			} else {
-				$_product = wc_get_product( $item['product_id'] );
+			$_product = isset( $item['variation_id'] ) ? wc_get_product( $item['variation_id'] ) : wc_get_product( $item['product_id'] );
+			if ( ! $_product ) {
+				continue;
 			}
+
 			$product_admin_link = '';
 			$posttype_object    = get_post_type_object( get_post( $_product->get_id() )->post_type );
 			if ( ( $posttype_object ) && ( $posttype_object->_edit_link ) ) {
@@ -56,7 +56,7 @@
 				 <?php if ( isset( $item['variations'] ) ) : ?>
 						<small><?php echo wp_kses_post( yith_ywraq_get_product_meta( $item ) ); ?></small><?php endif ?></td>
 				<td scope="col" style="text-align:left;"><?php echo esc_html( $item['quantity'] ); ?></td>
-				<td scope="col" style="text-align:left;"><?php echo wp_kses_post( WC()->cart->get_product_subtotal( $_product, $item['quantity'] ) ); ?></td>
+				<td scope="col" style="text-align:left;"><?php echo wp_kses_post( WC()->cart->get_product_subtotal( $_product, (int) $item['quantity'] ) ); ?></td>
 			</tr>
 			<?php
 		endforeach;

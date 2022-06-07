@@ -2,18 +2,9 @@
 /**
  * Main class
  *
- * @author  Your Inspiration Themes
- * @package YITH WooCommerce Brands
+ * @author  YITH
+ * @package YITH\Brands\Classes
  * @version 1.0.0
- */
-
-/*
- * This file belongs to the YIT Framework.
- *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
 if ( ! defined( 'YITH_WCBR' ) ) {
@@ -22,7 +13,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 
 if ( ! class_exists( 'YITH_WCBR' ) ) {
 	/**
-	 * WooCommerce Brands
+	 * YITH_WCBR class
 	 *
 	 * @since 1.0.0
 	 */
@@ -52,21 +43,40 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		public static $brands_rewrite = 'product-brands';
 
 		/**
-		 * Constructor.
+		 * Returns single instance of the class
 		 *
 		 * @return \YITH_WCBR
 		 * @since 1.0.0
 		 */
+		public static function get_instance() {
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
+			}
+
+			return self::$instance;
+		}
+
+		/**
+		 * Constructor.
+		 *
+		 * @since 1.0.0
+		 */
 		public function __construct() {
+
 			// load plugin-fw.
 			add_action( 'plugins_loaded', array( $this, 'plugin_fw_loader' ), 15 );
 
-			// register new image dimensions.
-			add_action( 'after_setup_theme', array( $this, 'register_image_size' ) );
-
 			// register brand taxonomy.
 			add_action( 'init', array( $this, 'register_taxonomy' ) );
+
+			// enqueue styles.
+			add_action( 'init', array( $this, 'register_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
 			add_filter( 'yith_wcan_product_taxonomy_type', array( $this, 'add_ajax_navigation_taxonomy' ) );
+
+			// register new image dimensions.
+			add_action( 'after_setup_theme', array( $this, 'register_image_size' ) );
 
 			// register shortcodes.
 			add_action( 'init', array( 'YITH_WCBR_Shortcode', 'init' ), 5 );
@@ -77,10 +87,6 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			// add description to archive page.
 			add_action( 'woocommerce_archive_description', array( $this, 'add_archive_brand_template' ), 7 );
 			add_action( 'yith_before_shop_page_meta', array( $this, 'add_archive_brand_template' ), 7 );
-
-			// enqueue styles.
-			add_action( 'init', array( $this, 'register_scripts' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 			// register taxonomy as product taxonomy for YIT Layout.
 			add_filter( 'yit_layout_option_is_product_tax', array( $this, 'register_layout' ) );
@@ -124,17 +130,18 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 			$taxonomy_labels = array(
 				'name'                       => apply_filters( 'yith_wcbr_taxonomy_label_name', __( 'Brands', 'yith-woocommerce-brands-add-on' ) ),
 				'singular_name'              => __( 'Brand', 'yith-woocommerce-brands-add-on' ),
-				'all_items'                  => __( 'All Brands', 'yith-woocommerce-brands-add-on' ),
-				'edit_item'                  => __( 'Edit Brand', 'yith-woocommerce-brands-add-on' ),
-				'view_item'                  => __( 'View Brand', 'yith-woocommerce-brands-add-on' ),
-				'update_item'                => __( 'Update Brand', 'yith-woocommerce-brands-add-on' ),
-				'add_new_item'               => __( 'Add New Brand', 'yith-woocommerce-brands-add-on' ),
-				'new_item_name'              => __( 'New Brand Name', 'yith-woocommerce-brands-add-on' ),
-				'parent_item'                => __( 'Parent Brand', 'yith-woocommerce-brands-add-on' ),
-				'parent_item_colon'          => __( 'Parent Brand:', 'yith-woocommerce-brands-add-on' ),
-				'search_items'               => __( 'Search Brands', 'yith-woocommerce-brands-add-on' ),
+				'all_items'                  => __( 'All brands', 'yith-woocommerce-brands-add-on' ),
+				'edit_item'                  => __( 'Edit brand', 'yith-woocommerce-brands-add-on' ),
+				'view_item'                  => __( 'View brand', 'yith-woocommerce-brands-add-on' ),
+				'update_item'                => __( 'Update brand', 'yith-woocommerce-brands-add-on' ),
+				'add_new_item'               => __( 'Add new brand', 'yith-woocommerce-brands-add-on' ),
+				'new_item_name'              => __( 'New brand name', 'yith-woocommerce-brands-add-on' ),
+				'parent_item'                => __( 'Parent brand', 'yith-woocommerce-brands-add-on' ),
+				'parent_item_colon'          => __( 'Parent brand:', 'yith-woocommerce-brands-add-on' ),
+				'search_items'               => __( 'Search brands', 'yith-woocommerce-brands-add-on' ),
 				'separate_items_with_commas' => __( 'Separate brands with commas', 'yith-woocommerce-brands-add-on' ),
-				'not_found'                  => __( 'No Brands Found', 'yith-woocommerce-brands-add-on' ),
+				'not_found'                  => __( 'No brands found', 'yith-woocommerce-brands-add-on' ),
+				'back_to_items'              => __( '&larr; Go to brands', 'yith-woocommerce-brands-add-on' ),
 			);
 
 			$taxonomy_args = apply_filters(
@@ -144,6 +151,8 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 					'labels'                => apply_filters( 'yith_wcbr_taxonomy_labels', $taxonomy_labels ),
 					'public'                => true,
 					'show_admin_column'     => true,
+					'show_in_menu'          => false,
+					'show_ui'               => true,
 					'hierarchical'          => apply_filters( 'yith_wcbr_taxonomy_hierarchical', true ),
 					'rewrite'               => array(
 						'slug'         => apply_filters( 'yith_wcbr_taxonomy_rewrite', self::$brands_rewrite ),
@@ -175,37 +184,6 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 				register_taxonomy_for_object_type( self::$brands_taxonomy, $object_type );
 			}
 		}
-
-		/**
-		 * Register brand taxonomy to change term counts depending on product visibility
-		 *
-		 * @param array $taxonomies Array of registered taxonomies.
-		 *
-		 * @return array Filtered array of registered taxonomies
-		 * @since 1.1.2
-		 */
-		public function change_term_counts( $taxonomies ) {
-			$taxonomies[] = self::$brands_taxonomy;
-
-			return $taxonomies;
-		}
-
-		/**
-		 * Add compatibility to Ajax Navigation, forcing widget to display on brands archive pages
-		 *
-		 * @param array $tax Valid product taxonomies where to show ajax navigation widget.
-		 *
-		 * @return array Filtered array
-		 * @since 1.0.0
-		 */
-		public function add_ajax_navigation_taxonomy( $tax ) {
-			return array_merge(
-				$tax,
-				array( self::$brands_taxonomy )
-			);
-		}
-
-		/* === FRONTEND METHODS === */
 
 		/**
 		 * Register frontend scripts
@@ -248,6 +226,23 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		}
 
 		/**
+		 * Add compatibility to Ajax Navigation, forcing widget to display on brands archive pages
+		 *
+		 * @param array $tax Valid product taxonomies where to show ajax navigation widget.
+		 *
+		 * @return array Filtered array
+		 * @since 1.0.0
+		 */
+		public function add_ajax_navigation_taxonomy( $tax ) {
+			return array_merge(
+				$tax,
+				array( self::$brands_taxonomy )
+			);
+		}
+
+		/* === FRONTEND METHODS === */
+
+		/**
 		 * Register thumb size for brand logo on single product page
 		 *
 		 * @return void
@@ -255,8 +250,8 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		 */
 		public function register_image_size() {
 			$default_values = array(
-				'width'  => 0,
-				'height' => 30,
+				'width'  => 500,
+				'height' => 100,
 				'crop'   => true,
 			);
 			$stored_values  = get_option( 'yith_wcbr_single_product_brands_size', $default_values );
@@ -334,7 +329,6 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		 */
 		public function add_archive_brand_template() {
 			if ( is_tax( self::$brands_taxonomy ) && 0 === (int) get_query_var( 'paged' ) ) {
-
 				/**
 				 * From WC 2.7, WooCommerce adds description for each product taxonomy
 				 * We remove default WooCommerce action, to keep using our template
@@ -388,6 +382,20 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 
 
 		/**
+		 * Register brand taxonomy to change term counts depending on product visibility
+		 *
+		 * @param array $taxonomies Array of registered taxonomies.
+		 *
+		 * @return array Filtered array of registered taxonomies
+		 * @since 1.1.2
+		 */
+		public function change_term_counts( $taxonomies ) {
+			$taxonomies[] = self::$brands_taxonomy;
+
+			return $taxonomies;
+		}
+
+		/**
 		 * Set brands for duplicated product
 		 *
 		 * @param WC_Product $duplicate Duplicated.
@@ -396,26 +404,14 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		public function woocommerce_product_duplicate( $duplicate, $product ) {
 			$brands     = wp_get_object_terms( $product->get_id(), self::$brands_taxonomy );
 			$brands_ids = array();
+
 			if ( count( $brands ) > 0 ) {
 				foreach ( $brands as $brand ) {
 					$brands_ids[] = $brand->term_id;
 				}
+
 				wp_set_object_terms( $duplicate->get_id(), $brands_ids, self::$brands_taxonomy );
 			}
-		}
-
-		/**
-		 * Returns single instance of the class
-		 *
-		 * @return \YITH_WCBR
-		 * @since 1.0.0
-		 */
-		public static function get_instance() {
-			if ( is_null( self::$instance ) ) {
-				self::$instance = new self();
-			}
-
-			return self::$instance;
 		}
 	}
 }

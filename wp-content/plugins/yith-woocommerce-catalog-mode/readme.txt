@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: woocommerce catalog mode plugin, woocommerce catalog only, woocommerce, products, themes, yit, yith, yithemes, e-commerce, shop, catalog mode, catalogue mode, remove add to cart, ask for price, ask price, asking for price, asking price, button remove, call, call for price, call me, call us, contact, email, hide add to cart, hide price
-Requires at least: 5.7
-Tested up to: 5.9
-Stable tag: 2.7.0
+Requires at least: 5.8
+Tested up to: 6.0
+Stable tag: 2.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,22 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 3. This image shows WooCommerce product detail page as it appears when WooCommerce "Add to Cart" button is hidden and WooCommerce Cart and Checkout page are deactivated.
 
 == Changelog ==
+
+= Version 2.10.0 - Released: 16 May 2022 =
+
+* New: support for WordPress 6.0
+* New: support for WooCommerce 6.5
+* Update: YITH plugin framework
+
+= Version 2.9.0 - Released: 07 April 2022 =
+
+* New: support for WooCommerce 6.4
+* Update: YITH plugin framework
+
+= Version 2.8.0 - Released: 10 March 2022 =
+
+* New: support for WooCommerce 6.3
+* Update: YITH plugin framework
 
 = Version 2.7.0 - Released: 15 February 2022 =
 
@@ -475,7 +491,7 @@ yith-woocommerce-catalog-mode-<WORDPRESS LOCALE >.mo
 
 == Upgrade Notice ==
 
-Last Stable Tag 2.7.0
+Last Stable Tag 2.10.0
 
 == Suggestions ==
 

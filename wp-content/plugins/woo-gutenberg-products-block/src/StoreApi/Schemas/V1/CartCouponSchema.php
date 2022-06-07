@@ -1,14 +1,10 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Schemas\V1;
+namespace Automattic\WooCommerce\StoreApi\Schemas\V1;
 
-use Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController;
+use Automattic\WooCommerce\StoreApi\Utilities\CartController;
 
 /**
  * CartCouponSchema class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
- * @since 2.5.0
- * @since 3.9.0 Coupon type (`discount_type`) added.
  */
 class CartCouponSchema extends AbstractSchema {
 	/**

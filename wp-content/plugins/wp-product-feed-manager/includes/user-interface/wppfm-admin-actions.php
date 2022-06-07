@@ -82,11 +82,14 @@ function initiate_background_process() {
 	}
 
 	if ( 'product-review-feed' === $active_tab ) {
-		if ( ! class_exists( 'WPPRFM_Review_Feed_Processor' ) ) {
-			require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/classes/class-wpprfm-review-feed-processor.php';
+		if ( ! class_exists( 'WPPRFM_Review_Feed_Processor' ) && function_exists( 'wpprfm_include_background_classes' ) ) {
+			wpprfm_include_background_classes();
 		}
 
-		$background_process = new WPPRFM_Review_Feed_Processor();
+		// @since 2.29.0 to prevent a PHP fatal error when a review feed fails and the user deactivates the plugin.
+		if ( class_exists( 'WPPRFM_Review_Feed_Processor' ) ) {
+			$background_process = new WPPRFM_Review_Feed_Processor();
+		}
 	}
 }
 

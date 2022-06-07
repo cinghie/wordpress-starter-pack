@@ -446,6 +446,9 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 				if ( '_sale_price_dates_from' === $row->meta_key || '_sale_price_dates_to' === $row->meta_key ) {
 					$row->meta_value = wppfm_convert_price_date_to_feed_format( $row->meta_value );
 				}
+
+				// @since 2.29.0.
+				$row->meta_value = apply_filters( "wppfm{$row->meta_key}_value", $row->meta_value, $main_post_id );
 			}
 		}
 

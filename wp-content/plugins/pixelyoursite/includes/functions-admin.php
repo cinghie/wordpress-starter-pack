@@ -124,8 +124,8 @@ function getAdminSecondaryNavTabs() {
     
 }
 
-function cardCollapseBtn() {
-    echo '<span class="card-collapse"><i class="fa fa-sliders" aria-hidden="true"></i></span>';
+function cardCollapseBtn($attr = "") {
+    echo '<span class="card-collapse" '.$attr.'><i class="fa fa-sliders" aria-hidden="true"></i></span>';
 }
 
 /**

@@ -47,7 +47,7 @@ class WooSEA_Get_Products {
     		$string = str_replace("\r", '', $string);    // --- replace with empty space
     		$string = str_replace("\n", ' ', $string);   // --- replace with space
     		$string = str_replace("\t", ' ', $string);   // --- replace with space
-		$string = str_replace("%", ' ', $string);   // --- replace with space
+		$string = str_replace("%", '%25', $string);   // --- replace with space
 
     		// ----- remove multiple spaces ----- 
     		$string = trim(preg_replace('/ {2,}/', ' ', $string));
@@ -164,7 +164,7 @@ class WooSEA_Get_Products {
 		
 		# Create Array of Google Analytics UTM codes				
 		$utm = array (
-			'adTribesID' => $adtribesConvId,
+//			'adTribesID' => $adtribesConvId,
 			'utm_source' => $feed_config['utm_source'],
 			'utm_campaign' => $feed_config['utm_campaign'],
 			'utm_medium' => $feed_config['utm_medium'],
@@ -834,9 +834,11 @@ class WooSEA_Get_Products {
 												if(isset($zone_details['postal_code'])){
                                                                                                         WC()->customer->set_shipping_postcode(wc_clean( $zone_details['postal_code'] ));
                                                                                                 }
-                                                                                		
-												WC()->cart->add_to_cart( $product_id, $quantity );
-                                                                                
+
+												if(is_numeric($product_id)){	
+													WC()->cart->add_to_cart( $product_id, $quantity );
+												}
+
                                                         	                        	// Read cart and get schipping costs
 	                                            	                                	foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 													$total_cost = WC()->cart->get_total();
@@ -1422,6 +1424,12 @@ class WooSEA_Get_Products {
 				} elseif ($feed_config['name'] == "Glami.gr") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
 					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Glami.sk") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
+					$xml->asXML($file);
+				} elseif ($feed_config['name'] == "Glami.cz") {
+					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><SHOP></SHOP>');	
+					$xml->asXML($file);
 				} elseif ($feed_config['name'] == "Vivino") {
 					$xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><vivino-product-list></vivino-product-list>');	
 					$xml->asXML($file);
@@ -1727,7 +1735,7 @@ class WooSEA_Get_Products {
 						if ((is_array ( $value )) and (!empty( $value ))) {
 							if ($feed_config['name'] == "Yandex") {
 								$product = $xml->shop->offers->addChild('offer');
-							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Heureka.sk" || $feed_config['name'] == "Zbozi.cz" || $feed_config['name'] == "Glami.gr") {
+							} elseif ($feed_config['name'] == "Heureka.cz" || $feed_config['name'] == "Heureka.sk" || $feed_config['name'] == "Zbozi.cz" || $feed_config['name'] == "Glami.gr" || $feed_config['name'] == "Glami.sk" || $feed_config['name'] == "Glami.cz") {
 								$product = $xml->addChild('SHOPITEM');
 							} elseif ($feed_config['name'] == "Zap.co.il") {
 								$product = $xml->PRODUCTS->addChild('PRODUCT');
@@ -1822,7 +1830,9 @@ class WooSEA_Get_Products {
 										}
 									}
 								} elseif (preg_match('/^additionalimage/',$k)){
-                                                               		$additional_image_link = $product->addChild('additionalimage',$v);
+									$additional_image_link = $product->addChild('additionalimage',$v);
+								} elseif (preg_match('/^additional_imageurl/',$k)){ 
+									$additional_image_link = $product->addChild('additional_imageurl',$v);
 								} elseif ($k == "shipping"){
 									$expl = "||";
 									if(strpos($v, $expl)) {
@@ -1901,7 +1911,7 @@ class WooSEA_Get_Products {
                                                                  		*/
 										$zbozi_nodes = "PARAM_";
 
-                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Mall.sk") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Heureka.cz") OR ($feed_config['name'] == "Heureka.sk")) AND (preg_match("/$zbozi_nodes/i",$k))){
+                                                                		if((($feed_config['name'] == "Zbozi.cz") OR ($feed_config['name'] == "Mall.sk") OR ($feed_config['name'] == "Glami.gr") OR ($feed_config['name'] == "Glami.sk") OR ($feed_config['name'] == "Glami.cz") OR ($feed_config['name'] == "Heureka.cz") OR ($feed_config['name'] == "Heureka.sk")) AND (preg_match("/$zbozi_nodes/i",$k))){
 											$pieces = explode ("_", $k);
 											$productp = $product->addChild('PARAM');
 											if($feed_config['name'] == "Mall.sk"){
@@ -2867,10 +2877,38 @@ class WooSEA_Get_Products {
 			// Get product prices
 			$product_data['price'] = wc_get_price_including_tax($product, array('price'=> $product->get_price()));
 			$product_data['price'] = wc_format_decimal($product_data['price'],2);
+
+                        $args = array(
+                                        'ex_tax_label'       => false,
+                                        'currency'           => '',
+                                        'decimal_separator'  => wc_get_price_decimal_separator(),
+                                        'thousand_separator' => wc_get_price_thousand_separator(),
+                                        'decimals'           => wc_get_price_decimals(),
+                                        'price_format'       => get_woocommerce_price_format(),
+                                );
+
+                        $dec_price = wc_price($product_data['price'], $args);
+                        preg_match('/<bdi>(.*?)&nbsp;/',$dec_price, $matches);
+			if(isset($matches[1])){
+				$product_data['separator_price'] = $matches[1];
+			}
+
 			$product_data['sale_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_sale_price()));
 			$product_data['sale_price'] = wc_format_decimal($product_data['sale_price'],2);
 			$product_data['regular_price'] = wc_get_price_including_tax($product, array('price'=> $product->get_regular_price()));
 			$product_data['regular_price'] = wc_format_decimal($product_data['regular_price'],2);
+
+			$dec_regular_price = wc_price($product_data['regular_price'], $args);
+                        preg_match('/<bdi>(.*?)&nbsp;/',$dec_regular_price, $matches_reg);
+			if(isset($matches_reg[1])){
+				$product_data['separator_regular_price'] = $matches_reg[1];
+			}
+
+			$dec_sale_price = wc_price($product_data['sale_price'], $args);
+                        preg_match('/<bdi>(.*?)&nbsp;/',$dec_sale_price, $matches_sale);
+			if(isset($matches_sale[1])){
+				$product_data['separator_sale_price'] = $matches_sale[1];
+			}
 
                         // Untouched raw system pricing - DO NOT CHANGE THESE
                         $float_system_net_price = floatval(wc_get_price_excluding_tax( $product ));
@@ -2928,23 +2966,39 @@ class WooSEA_Get_Products {
 
 			$fullrate = 100+$tax_rates[1]['rate'];
 
+
 			// Override price when bundled or composite product
 			if(($product->get_type() == "bundle") OR ($product->get_type() == "composite")){
 				$meta = get_post_meta($product_data['id']);
 				
 				if($product->get_type() == "bundle"){
 		                        if ($this->woosea_is_plugin_active('woocommerce-product-bundles/woocommerce-product-bundles.php')){
-                        			$product_data['price'] = get_post_meta($product_data['id'], '_price', true);
+						$product_data['price'] = get_post_meta($product_data['id'], '_price', true);
+						$product_data['regular_price'] = get_post_meta($product_data['id'], '_regular_price', true);
                         			$product_data['sale_price'] = get_post_meta($product_data['id'], '_sale_price', true);
-						
+
+						// make float when prices are strings
+						$type = gettype($product_data['regular_price']);
+						if($type == "string"){
+							$product_data['price'] = floatval($product_data['price']);
+							$product_data['regular_price'] = floatval($product_data['regular_price']);
+							$product_data['sale_price'] = floatval($product_data['sale_price']);
+						}
+
+						if(is_float($product_data['regular_price'])){
+							$product_data['price'] = round($product_data['price'],2);
+							$product_data['regular_price'] = round($product_data['regular_price'],2);
+							$product_data['sale_price'] = round($product_data['sale_price'],2);
+						}
+
 						if(is_numeric($tax_rates[1]['rate'])){
 							$rounded_price = floatval(get_post_meta($product_data['id'], '_price', true));
 							$rounded_sale_price = floatval(get_post_meta($product_data['id'], '_sale_price', true));
 							$rounded_regular_price = floatval(get_post_meta($product_data['id'], '_regular_price', true));
 
-                    		    			$product_data['price'] = round($rounded_price * (100+$tax_rates[1]['rate'])/100,2);
-                    		    			$product_data['sale_price'] = round($rounded_sale_price * (100+$tax_rates[1]['rate'])/100,2);
-							$product_data['regular_price'] = round($rounded_regular_price * (100+$tax_rates[1]['rate'])/100,2);
+                    		    			$product_data['price_forced'] = round($rounded_price * (100+$tax_rates[1]['rate'])/100,2);
+                    		    			$product_data['sale_price_forced'] = round($rounded_sale_price * (100+$tax_rates[1]['rate'])/100,2);
+							$product_data['regular_price_forced'] = round($rounded_regular_price * (100+$tax_rates[1]['rate'])/100,2);
 						} else {
                     		    			$product_data['price_forced'] = $product_data['price'];
                     		    			$product_data['regular_price'] = $product_data['price'];
@@ -2964,11 +3018,16 @@ class WooSEA_Get_Products {
                  	   				$product_data['price_forced'] = $product->get_composite_price_including_tax();
 							$product_data['regular_price'] = $product->get_composite_regular_price();
 							$product_data['regular_price_forced'] = $product->get_composite_regular_price_including_tax();
-                			
+
 							if($product_data['price'] != $product_data['regular_price']){
                                 				$product_data['sale_price'] = $product->get_composite_price();
 								$product_data['sale_price_forced'] = $product->get_composite_price_including_tax();
-                					}
+							}
+
+							// Unset sale price when it is 0.00	
+							if($product_data['sale_price'] == "0.00"){
+								unset($product_data['sale_price']);
+							}
 						}
 					}
 				}
@@ -3071,6 +3130,16 @@ class WooSEA_Get_Products {
 					} else {
 						$product_data['net_sale_price'] = $discount;
 						$product_data['sale_price_forced'] = round($discount*($fullrate/100),2);
+					}
+
+					$thousand_separator = wc_get_price_thousand_separator();
+					if($thousand_separator != ','){
+						$replaceWith = '';
+						$product_data['price'] = preg_replace('/,/', $replaceWith, $product_data['price'], 1);
+						$product_data['regular_price'] = preg_replace('/,/', $replaceWith, $product_data['regular_price'], 1);
+						if($product_data['sale_price'] > 0){
+							$product_data['sale_price'] = preg_replace('/,/', $replaceWith, $product_data['sale_price'], 1);
+						}
 					}
 				}
 			}
@@ -3198,7 +3267,7 @@ class WooSEA_Get_Products {
 			}
                         if($product->get_regular_price()){
 				$product_data['regular_price_forced'] = wc_format_localized_price($product_data['regular_price_forced']);
-                                //$product_data['regular_price_forced'] = (float)$product_data['regular_price_forced'];
+				//$product_data['regular_price_forced'] = (float)$product_data['regular_price_forced'];
 	                        //$product_data['regular_price_forced_rounded'] = round($product_data['regular_price_forced'],0);
 			}
 			if($product->get_sale_price()){
@@ -3377,7 +3446,9 @@ class WooSEA_Get_Products {
 			$product_data['vivino_regular_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['regular_price'])));
 			if($product_data['sale_price'] > 0){
 				$product_data['vivino_sale_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['sale_price'])));
-				$product_data['vivino_net_sale_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['net_sale_price'])));
+				if(isset($product_data['net_sale_price'])){
+					$product_data['vivino_net_sale_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['net_sale_price'])));
+				}	
 			}
 			$product_data['vivino_net_price'] = floatval(str_replace(',', '.', str_replace(',', '.', $product_data['net_price'])));
 			if(isset($product_data['net_regular_price'])){
@@ -4068,6 +4139,8 @@ class WooSEA_Get_Products {
 					if(!array_key_exists($custom_kk_m, $product_data)){
 						$custom_value_m = get_post_meta( $product_data['item_group_id'], $custom_kk_m, true );
 						$new_key_m ="custom_attributes_" . $custom_kk_m;
+
+error_log($custom_kk_m);
 						
 						if(!is_array($custom_value_m)){
 							// In order to make the mapping work again, replace var by product
@@ -4076,6 +4149,7 @@ class WooSEA_Get_Products {
 								if(is_array($custom_value_m)){
 									// determine what to do with this later	
 								} else {
+									error_log("1111" . $custom_value_m);
 									$product_data[$new_key_m] = $custom_value_m;
 								}
 							}
@@ -4089,6 +4163,7 @@ class WooSEA_Get_Products {
 									}
 								}
 							}
+							error_log(print_r($arr_value, TRUE));
 							$arr_value = rtrim($arr_value, ",");
 							$product_data[$new_key_m] = $arr_value;
 						}
@@ -4301,8 +4376,12 @@ class WooSEA_Get_Products {
 								$quantity_variation = 0;
 
 								foreach($variations_id as $var_id){
-									$clr_variation = get_post_meta( $var_id, "attribute_".$clr_attribute, true );
-								
+									if(isset($clr_attribute)){
+										$clr_variation = get_post_meta( $var_id, "attribute_".$clr_attribute, true );
+									} else {
+										$clr_variation = "";
+									}
+
 									// Sum quantity of variations
 									$quantity_variation = $this->get_attribute_value( $var_id, "_stock" );
 									if(!empty($quantity_variation)){
@@ -4332,13 +4411,12 @@ class WooSEA_Get_Products {
 												$size_variation_new = $size_variation.",";
 												if ($sz_attribute) {
 													$product_data[$sz_attribute] = str_replace($size_variation,$size_variation_new,$product_data[$sz_attribute]);
+													$product_data[$sz_attribute] = str_replace(' ',',',$product_data[$sz_attribute]);
 													$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
 													$product_data['availability'] = "in stock";
 												}
 											}
-									
 										}
-								
 									}
 								}
 							}	
@@ -5319,7 +5397,6 @@ class WooSEA_Get_Products {
                                                         $pd_value = strtr($pd_value, ',', '.');
                                                 }
 
-
                                                 // Make sure the price or sale price is numeric
                                                 if(($pr_array['attribute'] == "sale_price") OR ($pr_array['attribute'] == "price")){
                                                         settype($pd_value, "double");
@@ -5378,20 +5455,28 @@ class WooSEA_Get_Products {
                                                                                 }
                                                                         }
                                                                         break;
-                                                                case($pr_array['condition'] = "multiply"):
+								case($pr_array['condition'] = "multiply"):
                                                                         $pr_array['criteria'] = strtr($pr_array['criteria'], ',', '.');
                                                                         $convert_back = "false";
                                                                         $pos = strpos($pd_value, ',');
                                                                         if($pos !== false){
-                                                                                $convert_back = "true";
+									 	$convert_back = "true";
                                                                         }
                                                                         $pd_value = strtr($pd_value, ',', '.');
                                                                         $newvalue = $pd_value*$pr_array['criteria'];
                                                                         $newvalue = round($newvalue, 2);
-                                                                        if($convert_back == "true"){
+									if($convert_back == "true"){
                                                                                 $newvalue = strtr($newvalue, '.',',');
-                                                                        }
-                                                                        $product_data[$pr_array['attribute']] = $newvalue;
+									}
+
+									$decimal_separator = wc_get_price_decimal_separator();
+									$price_array = array("price", "regular_price", "sale_price");
+									if(in_array($pr_array['attribute'], $price_array, TRUE)){
+										if($decimal_separator == ","){
+											$newvalue = strtr($newvalue, '.', ',');
+										}
+									}
+									$product_data[$pr_array['attribute']] = $newvalue;
                                                                         break;
                                                                 case($pr_array['condition'] = "divide"):
                                                                         $newvalue = ($pd_value / $pr_array['criteria']);

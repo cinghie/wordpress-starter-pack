@@ -4,8 +4,8 @@ Donate link: https://paypal.me/ipprokaev/0usd
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 5.8
-Stable tag: 3.2.2
+Tested up to: 6.0
+Stable tag: 3.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,9 @@ This button processes only first 5 orders by default, so you should run the expo
 = Is it compatible with "WooCommerce Custom Orders Table" plugin (by Liquid Web) ? =
 No, as we provide a lot of filters which can not be implemented using WooCommerce classes. So we use direct access to database/tables.
 
+= Where does free version save files? = 
+Free version doesn't save generated file on your webserver, you can only download it using browser.
+
 = Can I request any new feature ? =
 Yes, you can email a request to aprokaev@gmail.com. We intensively develop this plugin.
 
@@ -116,6 +119,23 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 3.3.1 - 2021-05-23 =
+* Fixed critical bug - mode "Add coupons as X columns" exported empty product data
+
+= 3.3.0 - 2022-05-18 =
+* Allow to sort by any field, for XLS/PDF formats only
+* Output summary row, for XLS/PDF formats only
+* Added fields "Phone (Shipping)", "Currency Symbol", "Subscription Relationship"
+* Added fields "Qty-Refund","Amount-Refund", "Total Amount (inc. tax)" for "Summary report by products"
+* Fixed bug - added workaround for last versions of PHP 8.0 and 8.1, they have bug for ob_clean() 
+* Fixed bug - option "Remove emojis" damaged last product in export
+* Fixed bug - field type "Link" ignored for XLS format
+* Fixed bug - long text (for some languages) breaks layout for section Setup Fields
+* Fixed bug - can't correctly export custom attribute if it was unused in variations
+* Fixed bug - wrong fee amount exported , in rare cases
+* Fixed bug - incorrect export for mode "Add products as XX columns", rare case too
+* Fixed bug - page was not loaded if website has 10,000+ coupons
 
 = 3.2.2 - 2021-12-14 =
 * Fixed bug - PHP8 compatibility issues (deprecation warnings for XLS format)

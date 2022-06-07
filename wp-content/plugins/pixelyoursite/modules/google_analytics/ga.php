@@ -145,6 +145,30 @@ class GA extends Settings implements Pixel {
         }
         $isActive = false;
         switch ($event->getId()) {
+        //Automatic events
+
+            case 'automatic_event_signup' : {
+                $event->addPayload(["name" => "sign_up"]);
+                $isActive = $this->getOption($event->getId().'_enabled');
+            } break;
+            case 'automatic_event_login' :{
+                $event->addPayload(["name" => "login"]);
+                $isActive = $this->getOption($event->getId().'_enabled');
+            } break;
+            case 'automatic_event_search' :{
+                $event->addPayload(["name" => "search"]);
+                $event->addParams(["search_term" =>  empty( $_GET['s'] ) ? null : $_GET['s']]);
+                $isActive = $this->getOption($event->getId().'_enabled');
+            } break;
+
+            case 'automatic_event_form' :
+            case 'automatic_event_download' :
+            case 'automatic_event_comment' :
+            case 'automatic_event_scroll' :
+            case 'automatic_event_time_on_page' : {
+                $isActive = $this->getOption($event->getId().'_enabled');
+            }break;
+
             case "signal_page_scroll":
             case "signal_time_on_page":
             case "signal_form":
@@ -161,14 +185,7 @@ class GA extends Settings implements Pixel {
                         $this->addDataToEvent($eventData, $event);
                     }
             } break;
-            case 'search_event': {
-                $eventData =  $this->getSearchEventData();
-                if ($eventData) {
-                    $isActive = true;
-                    $this->addDataToEvent($eventData, $event);
-                }
 
-            }break;
 
             case 'custom_event': {
                 $eventData = $this->getCustomEventData($event->args);
@@ -392,27 +409,6 @@ class GA extends Settings implements Pixel {
 
 	}
 
-	private function getSearchEventData() {
-
-		if ( ! $this->getOption( 'search_event_enabled' ) ) {
-			return false;
-		}
-
-		$params['event_category'] = 'WordPress Search';
-		$params['search_term']    = empty( $_GET['s'] ) ? null : $_GET['s'];
-
-		if ( isWooCommerceActive() && isset( $_GET['post_type'] ) && $_GET['post_type'] == 'product' ) {
-			$params['event_category'] = 'WooCommerce Search';
-		}
-
-		$params['non_interaction'] = $this->getOption( 'search_event_non_interactive' );
-
-		return array(
-			'name'  => 'search',
-			'data'  => $params,
-		);
-
-	}
 
 	/**
 	 * @param CustomEvent $event
@@ -943,7 +939,7 @@ class GA extends Settings implements Pixel {
 				$item_options = $cart_item['options'];
 			}
 
-			if ( ! empty( $item_options ) && $item_options['price_id'] !== 0 ) {
+			if ( ! empty( $item_options ) && !empty($item_options['price_id'])) {
 				$price_index = $item_options['price_id'];
 			} else {
 				$price_index = null;

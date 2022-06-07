@@ -107,8 +107,8 @@ class MetaSlider_Callout
         update_user_option(get_current_user_id(), 'metaslider_user_saw_callout_' . $this->key, true);
 
         // Add all the necessary scripts and styles
-        wp_enqueue_script('metaslider-tether-js-callout', METASLIDER_ADMIN_URL . 'assets/tether/dist/js/tether.min.js', METASLIDER_VERSION, true);
-        wp_enqueue_script('metaslider-shepherd-js-callout', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/js/shepherd.min.js', array('metaslider-tether-js-callout'), METASLIDER_VERSION, true);
+        wp_enqueue_script('metaslider-tether-js-callout', METASLIDER_ADMIN_URL . 'assets/tether/dist/js/tether.min.js', METASLIDER_ASSETS_VERSION, true);
+        wp_enqueue_script('metaslider-shepherd-js-callout', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/js/shepherd.min.js', array('metaslider-tether-js-callout'), METASLIDER_ASSETS_VERSION, true);
         $this->wp_add_inline_script('metaslider-shepherd-js-callout', "
 			try {
 				window.jQuery(function($) {
@@ -133,7 +133,7 @@ class MetaSlider_Callout
 			}
 		");
 
-        wp_enqueue_style('metaslider-shepherd-css-callout', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/css/shepherd-theme-arrows.css', false, METASLIDER_VERSION);
+        wp_enqueue_style('metaslider-shepherd-css-callout', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/css/shepherd-theme-arrows.css', false, METASLIDER_ASSETS_VERSION);
         wp_add_inline_style('metaslider-shepherd-css-callout', "
 			.metaslider-callout-tip {
 				z-index: 999999;

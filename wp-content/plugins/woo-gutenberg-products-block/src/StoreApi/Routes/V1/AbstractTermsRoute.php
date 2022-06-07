@@ -1,13 +1,11 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Routes\V1;
+namespace Automattic\WooCommerce\StoreApi\Routes\V1;
 
-use Automattic\WooCommerce\Blocks\StoreApi\Utilities\Pagination;
+use Automattic\WooCommerce\StoreApi\Utilities\Pagination;
 use WP_Term_Query;
 
 /**
  * AbstractTermsRoute class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 abstract class AbstractTermsRoute extends AbstractRoute {
 	/**

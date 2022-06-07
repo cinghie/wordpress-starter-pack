@@ -189,13 +189,25 @@ class WOE_Formatter_Storage_Csv implements WOE_Formatter_Storage {
 
 		fclose( $handle );
 	}
-	
-	public function sortRowsByColumn($field) {
-		return $this->sortRows( function($a,$b) use($field){ 
-				return strcmp($a->getDataItem($field),$b->getDataItem($field)); 
+
+	public function sortRowsByColumn($sort) {
+		return $this->sortRows( function($a,$b) use($sort){
+                    $field      = !is_array($sort) ? $sort : (isset($sort[0]) ? $sort[0] : '');
+                    $direction  = !is_array($sort) ? 'asc' : (isset($sort[1]) ?  strtolower($sort[1]) : 'asc');
+                    $type       = !is_array($sort) ? 'string' : (isset($sort[2]) ? $sort[2] : 'string');
+
+                    if ($type === 'money' || $type === 'number') {
+                        return $direction === 'asc' ? $a->getDataItem($field) - $b->getDataItem($field) : $b->getDataItem($field) - $a->getDataItem($field);
+                    }
+
+                    if ($type === 'date') {
+                        return $direction === 'asc' ? strtotime($a->getDataItem($field)) - strtotime($b->getDataItem($field)) : strtotime($b->getDataItem($field)) - strtotime($a->getDataItem($field));
+                    }
+
+                    return $direction === 'asc' ? strcmp($a->getDataItem($field),$b->getDataItem($field)) : (-1) * strcmp($a->getDataItem($field),$b->getDataItem($field));
 		} );
 	}
-	
+
 	public function sortRows($callback) {
 		usort($this->rowsBuffer,$callback);
 	}

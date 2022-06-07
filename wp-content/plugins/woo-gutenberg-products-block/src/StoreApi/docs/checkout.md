@@ -20,7 +20,7 @@ GET /wc/store/v1/checkout
 There are no parameters required for this endpoint.
 
 ```sh
-curl --header "X-WC-Store-API-Nonce: 12345" --request GET https://example-store.com/wp-json/wc/store/v1/checkout
+curl --header "Nonce: 12345" --request GET https://example-store.com/wp-json/wc/store/v1/checkout
 ```
 
 **Example response:**
@@ -85,7 +85,7 @@ POST /wc/store/v1/checkout
 | `payment_data`     | array   |    No    | Data to pass through to the payment method when processing payment. |
 
 ```sh
-curl --header "X-WC-Store-API-Nonce: 12345" --request POST https://example-store.com/wp-json/wc/store/v1/checkout?payment_method=paypal&payment_data[0][key]=test-key&payment_data[0][value]=test-value
+curl --header "Nonce: 12345" --request POST https://example-store.com/wp-json/wc/store/v1/checkout?payment_method=paypal&payment_data[0][key]=test-key&payment_data[0][value]=test-value
 ```
 
 **Example response:**

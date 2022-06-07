@@ -82,7 +82,7 @@ class WOOCCM_Field_Admin
     wp_register_script('jquery-serializejson', plugins_url('/assets/backend/jquery-serializejson/jquery-serializejson' . WOOCCM::is_min() . '.js', WOOCCM_PLUGIN_FILE), array('jquery'), WOOCCM_PLUGIN_VERSION, true);
 
     wp_register_script('wooccm-admin', plugins_url('/assets/backend/js/admin.js', WOOCCM_PLUGIN_FILE), $admin['dependencies'], $admin['version'], true);
-    
+
     if ((isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) || in_array($screen->id, array(/* 'product', 'edit-product', */'shop_order', 'edit-shop_order'))) {
       wp_enqueue_style('wooccm-admin');
       wp_enqueue_script('wooccm-admin');

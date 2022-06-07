@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2022-01-23 08:55+0100\n"
-"PO-Revision-Date: 2022-01-23 08:55+0100\n"
+"POT-Creation-Date: 2022-03-06 09:12+0100\n"
+"PO-Revision-Date: 2022-03-06 09:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -322,13 +322,14 @@ msgstr ""
 "in \"Enregistreur du gestionnaire de flux de produits WooCommerce\" de votre "
 "page Plugins."
 
-#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
-msgid "-- Select the WOOCS currency for the feed --"
-msgstr "-- Sélectionnez la devise WOOCS pour le flux --"
-
+#: includes/packages/pll/includes/wppfm-pll-functions.php:16
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
 msgid "-- Select the language of the feed --"
 msgstr "-- Sélectionnez la langue du flux --"
+
+#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
+msgid "-- Select the WOOCS currency for the feed --"
+msgstr "-- Sélectionnez la devise WOOCS pour le flux --"
 
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:136
 msgid ""
@@ -1243,9 +1244,13 @@ msgid "Notice recipient"
 msgstr "Destinataire de l'avis"
 
 #: includes/user-interface/class-wppfm-options-page.php:137
+#, fuzzy
+#| msgid ""
+#| "Enter the email address of the person you want to be notified when a feed "
+#| "fails during an automatic feed update."
 msgid ""
 "Enter the email address of the person you want to be notified when a feed "
-"fails during an automatic feed update."
+"fails during an automatic feed update (requires PHP mail to be enabled)."
 msgstr ""
 "Saisissez l'adresse e-mail de la personne que vous souhaitez notifier "
 "lorsqu'un flux échoue lors d'une mise à jour automatique des flux."
@@ -1475,7 +1480,7 @@ msgstr ""
 "flux, supprimer toutes vos sauvegardes et en créer une nouvelle."
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-actions.php:209
+#: includes/user-interface/wppfm-admin-actions.php:212
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
@@ -1484,7 +1489,7 @@ msgstr ""
 "2121 - L'activation de votre licence a échoué. Veuillez ouvrir un ticket "
 "d'assistance sur %s pour obtenir de l'aide à ce sujet."
 
-#: includes/user-interface/wppfm-admin-actions.php:228
+#: includes/user-interface/wppfm-admin-actions.php:231
 #, php-format
 msgid ""
 "An error has occurred. It is possible that the wpmarketingrobot website is "
@@ -1499,7 +1504,7 @@ msgstr ""
 "n'est pas le cas, ou si cette erreur se produit, veuillez contacter \n"
 "\t\t\t\tauke@wpmarketingrobot.com. Message d'erreur : %s"
 
-#: includes/user-interface/wppfm-admin-actions.php:278
+#: includes/user-interface/wppfm-admin-actions.php:281
 #, php-format
 msgid ""
 "You have an invalid or expired license key for your %1$s plugin.\n"
@@ -1517,7 +1522,7 @@ msgstr ""
 "pour que le plugin continue à fonctionner et que les flux de votre produit "
 "soient valides."
 
-#: includes/user-interface/wppfm-admin-actions.php:295
+#: includes/user-interface/wppfm-admin-actions.php:298
 #, php-format
 msgid ""
 "The license key for your %1$s plugin is expiring soon. If you wish you can "

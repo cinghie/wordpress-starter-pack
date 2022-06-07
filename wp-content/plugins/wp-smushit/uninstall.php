@@ -165,7 +165,7 @@ if ( is_multisite() ) {
 	delete_metadata( $meta_type, null, 'wp-smush-pngjpg_savings', '', $delete_all );
 }
 // Delete Directory smush table.
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}smush_dir_images" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}smush_dir_images" );
 
 // Delete directory scan data.
 delete_option( 'wp-smush-scan-step' );

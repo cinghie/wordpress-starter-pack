@@ -144,6 +144,20 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 			$fields[ $id ] = $args;
 
+			if ( array_key_exists( 'custom_dropdown_options_source', $args ) && function_exists( $args['custom_dropdown_options_source'] ) ) {
+				$allowed_callbacks = UM()->options()->get( 'allowed_choice_callbacks' );
+				if ( ! empty( $allowed_callbacks ) ) {
+					$allowed_callbacks = array_map( 'rtrim', explode( "\n", $allowed_callbacks ) );
+					$allowed_callbacks[] = $args['custom_dropdown_options_source'];
+				} else {
+					$allowed_callbacks = array( $args['custom_dropdown_options_source'] );
+				}
+				$allowed_callbacks = array_unique( $allowed_callbacks );
+				$allowed_callbacks = implode( "\r\n", $allowed_callbacks );
+
+				UM()->options()->update( 'allowed_choice_callbacks', $allowed_callbacks );
+			}
+
 			unset( $fields[ $id ]['in_row'] );
 			unset( $fields[ $id ]['in_sub_row'] );
 			unset( $fields[ $id ]['in_column'] );
@@ -184,6 +198,20 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			}
 
 			$fields[ $id ] = $args;
+
+			if ( array_key_exists( 'custom_dropdown_options_source', $args ) && function_exists( $args['custom_dropdown_options_source'] ) ) {
+				$allowed_callbacks = UM()->options()->get( 'allowed_choice_callbacks' );
+				if ( ! empty( $allowed_callbacks ) ) {
+					$allowed_callbacks = array_map( 'rtrim', explode( "\n", $allowed_callbacks ) );
+					$allowed_callbacks[] = $args['custom_dropdown_options_source'];
+				} else {
+					$allowed_callbacks = array( $args['custom_dropdown_options_source'] );
+				}
+				$allowed_callbacks = array_unique( $allowed_callbacks );
+				$allowed_callbacks = implode( "\r\n", $allowed_callbacks );
+
+				UM()->options()->update( 'allowed_choice_callbacks', $allowed_callbacks );
+			}
 
 			// for group field only
 			if ( $args['type'] == 'group' ) {
@@ -4203,6 +4231,12 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 							$res = stripslashes( $res );
 						}
 						if ( 'description' === $data['metakey'] ) {
+							if ( UM()->options()->get( 'profile_show_html_bio' ) ) {
+								$res = make_clickable( wpautop( wp_kses_post( $res ) ) );
+							} else {
+								$res = esc_html( $res );
+							}
+
 							$res = nl2br( $res );
 						}
 

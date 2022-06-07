@@ -10,6 +10,7 @@ class WOE_Formatter_Storage_Summary_Session implements WOE_Formatter_Storage {
     private $summaryProducts = false;
     private $summaryCustomers = false;
     private $summaryKey;
+    private $rows_already_sorted = false;
 
 	/**
 	 * @var array<int, WOE_Formatter_Storage_Column>
@@ -73,14 +74,15 @@ class WOE_Formatter_Storage_Summary_Session implements WOE_Formatter_Storage {
     public function delete() {}
 
     public function initRowIterator() {
-		$this->sortByName();
+		if( !$this->rows_already_sorted )
+			$this->sortByName();
 		do_action('woe_summary_before_output');
         reset($_SESSION[$this->summaryKey]);
     }
 
     public function getNextRow() {
         $row = current($_SESSION[$this->summaryKey]);
-		if (!$row) { //all rows were returned
+		if ($row === false) { //all rows were returned
 			unset($_SESSION[$this->summaryKey . '_header']);
 			unset($_SESSION[$this->summaryKey]);
 			return $row;
@@ -154,11 +156,47 @@ class WOE_Formatter_Storage_Summary_Session implements WOE_Formatter_Storage {
     {
         if (isset($_SESSION[$this->summaryKey . '_header'])) {
             $first_row = array_column($_SESSION[$this->summaryKey . '_header'], 'key');
-            if (in_array('name', $first_row)) {
-                uasort($_SESSION[$this->summaryKey], function ($a, $b) {
-                    return strcasecmp($a['name'], $b['name']);
+	    $possible_sort_columns = array("name","product_name","product_name_main");
+	    foreach($possible_sort_columns as $key) {
+                if ( !in_array($key, $first_row) ) continue;
+                uasort($_SESSION[$this->summaryKey], function ($a, $b) use($key) {
+                    return strcasecmp($a[$key], $b[$key]);
                 });
+                break;
             }
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function isSummaryProducts() {
+        return $this->summaryProducts;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSummaryCustomers() {
+        return $this->summaryCustomers;
+    }
+    
+	public function sortRowsByColumn($sort) {
+		uasort($_SESSION[$this->summaryKey], function($a,$b) use($sort){
+			$field      = !is_array($sort) ? $sort : (isset($sort[0]) ? str_replace("plain_products_","",$sort[0]) : '');
+			$direction  = !is_array($sort) ? 'asc' : (isset($sort[1]) ?  strtolower($sort[1]) : 'asc');
+			$type       = !is_array($sort) ? 'string' : (isset($sort[2]) ? $sort[2] : 'string');
+			if ($type === 'money' || $type === 'number') {
+				return $direction === 'asc' ? $a[$field] - $b[$field] : $b[$field] - [$field];
+			}
+
+			if ($type === 'date') {
+				return $direction === 'asc' ? strtotime($a[$field]) - strtotime($b[$field]) : strtotime($b[$field]) - strtotime($a[$field]);
+			}
+
+			return $direction === 'asc' ? strcmp($a[$field],$b[$field]) : (-1) * strcmp($a[$field],$b[$field]);
+		} );
+		$this->rows_already_sorted = true;
+	}
+    
 }

@@ -84,14 +84,14 @@ class MetaNivoSlider extends MetaSlider {
      */
     public function enqueue_scripts() {
 		parent::enqueue_scripts();
-		
+
 		// If a theme is set then we need to load the default Nivo theme
 		$theme = get_post_meta($this->id, 'metaslider_slideshow_theme', true);
         if ('true' === $this->get_setting('printCss') || $theme) {
-			wp_enqueue_style('metaslider-' . $this->get_setting('type') . '-slider-default', METASLIDER_ASSETS_URL . "sliders/nivoslider/themes/default/default.css", false, METASLIDER_VERSION);
+			wp_enqueue_style('metaslider-' . $this->get_setting('type') . '-slider-default', METASLIDER_ASSETS_URL . "sliders/nivoslider/themes/default/default.css", false, METASLIDER_ASSETS_VERSION);
         }
 	}
-	
+
     /**
      * Build the HTML for a slider.
      *

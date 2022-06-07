@@ -94,8 +94,16 @@ class EventsManager {
 			'cookie_law_info_integration_enabled' => isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' ),
 		);
 
-        $options['edd'] = EventsEdd()->getOptions();
-        $options['woo'] = EventsWoo()->getOptions();
+        /**
+         * @var EventsFactory[] $eventsFactory
+         */
+        $eventsFactory = apply_filters("pys_event_factory",[]);
+        foreach ($eventsFactory as $factory) {
+            $opt =  $factory->getOptions();
+            if(!empty($opt)) {
+                $options[$factory::getSlug()] = $factory->getOptions();
+            }
+        }
 
 
         $data = array_merge( $data, $options );
@@ -141,23 +149,12 @@ class EventsManager {
                 $this->addStaticEvent( $event,$pixel,"" );
             }
         }
-        // search event
-        if ( PYS()->getOption('search_event_enabled' ) && is_search() ) {
-            $searchEvent = new SingleEvent('search_event', EventTypes::$STATIC,'');
 
-            foreach (PYS()->getRegisteredPixels() as $pixel) {
-                $events = $pixel->generateEvents( $searchEvent );
-                foreach ($events as $event) {
-                    $event->addParams($this->standardParams);
-                    $this->addStaticEvent( $event,$pixel,"" );
-                }
-            }
-        }
 
         /**
          * @var EventsFactory[] $eventsFactory
          **/
-        $eventsFactory = array(EventsFdp(),EventsEdd(),EventsCustom(),EventsSignal(),EventsWoo());
+        $eventsFactory = apply_filters("pys_event_factory",[]);
 
         foreach ($eventsFactory as $factory) {
             if(!$factory->isEnabled())  continue;
@@ -190,21 +187,14 @@ class EventsManager {
         if(count($this->facebookServerEvents)>0 && Facebook()->enabled()) {
             FacebookServer()->sendEventsAsync($this->facebookServerEvents);
         }
-	}
 
-    /**
-     * Always returns empty customer LTV-related values to make plugin compatible with PRO version.
-     * Used by Pinterest add-on.
-     *
-     * @return array
-     */
-    public function getWooCustomerTotals() {
-        return [
-            'ltv' => null,
-            'avg_order_value' => null,
-            'orders_count' => null,
-        ];
-    }
+        // remove new user mark
+        if($user_id = get_current_user_id()) {
+            if ( get_user_meta( $user_id, 'pys_complete_registration', true ) ) {
+                delete_user_meta( $user_id, 'pys_complete_registration' );
+            }
+        }
+	}
 
 	public function getStaticEvents( $context ) {
 	    return isset( $this->staticEvents[ $context ] ) ? $this->staticEvents[ $context ] : array();
@@ -310,8 +300,8 @@ class EventsManager {
                 unset($data['params']['num_items']);
             }
 
-            if(!PYS()->getOption("enable_woo_product_price_param")) {
-                unset($data['params']['product_price']);
+            if(!PYS()->getOption("enable_woo_tags_param")) {
+                unset($data['params']['tags']);
             }
 
         }
@@ -324,8 +314,8 @@ class EventsManager {
                 unset($data['params']['num_items']);
             }
 
-            if(!PYS()->getOption("enable_edd_product_price_param")) {
-                unset($data['params']['product_price']);
+            if(!PYS()->getOption("enable_edd_tags_param")) {
+                unset($data['params']['tags']);
             }
         }
 
@@ -423,20 +413,7 @@ class EventsManager {
 
 		// variations ids
 		if ( wooProductIsType( $product, 'variable' ) ) {
-
-			/** @var \WC_Product_Variable $variation */
-			foreach ( $product->get_available_variations() as $variation ) {
-
-				$variation = wc_get_product( $variation['variation_id'] );
-                if(!$variation) continue;
-				if ( isWooCommerceVersionGte( '2.6' ) ) {
-					$product_ids[] = $variation->get_id();
-				} else {
-					$product_ids[] = $variation->post->ID;
-				}
-
-			}
-
+            $product_ids = array_merge($product_ids, $product->get_children());
 		}
 
 		$params = array();

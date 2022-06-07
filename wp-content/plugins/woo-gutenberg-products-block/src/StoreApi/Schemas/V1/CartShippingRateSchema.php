@@ -1,12 +1,10 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Schemas\V1;
+namespace Automattic\WooCommerce\StoreApi\Schemas\V1;
 
 use WC_Shipping_Rate as ShippingRate;
 
 /**
  * CartShippingRateSchema class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class CartShippingRateSchema extends AbstractSchema {
 	/**

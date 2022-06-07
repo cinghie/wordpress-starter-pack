@@ -12,7 +12,6 @@ export const General = {
         return api.post('simple-ping', {
             action,
             categories,
-            group: useUserStore.getState()?.group ?? 0,
             sdk_partner: useUserStore.getState()?.sdkPartner ?? '',
         })
     },

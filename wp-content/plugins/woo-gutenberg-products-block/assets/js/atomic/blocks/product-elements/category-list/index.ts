@@ -5,7 +5,7 @@ import {
 	isFeaturePluginBuild,
 	registerExperimentalBlockType,
 } from '@woocommerce/block-settings';
-import { BlockConfiguration } from '@wordpress/blocks';
+import type { BlockConfiguration } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -37,6 +37,9 @@ const blockConfig: BlockConfiguration = {
 			},
 			typography: {
 				fontSize: true,
+				lineHeight: true,
+				__experimentalFontStyle: true,
+				__experimentalFontWeight: true,
 				__experimentalSkipSerialization: true,
 			},
 			__experimentalSelector:

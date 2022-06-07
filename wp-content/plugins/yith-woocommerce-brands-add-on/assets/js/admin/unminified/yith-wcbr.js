@@ -1,22 +1,17 @@
 /*
- * This file belongs to the YIT Framework.
- *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
+ * Admin JS
  */
 
 jQuery( function( $ ){
-    var file_frame = [],
-        brands_taxonomy = $( '#yith_wcbr_brands_taxonomy' ),
-        brands_taxonomy_rewrite = $( '#yith_wcbr_brands_taxonomy_rewrite' ),
-        use_logo_default = $( '#yith_wcbr_use_logo_default' ),
-        logo_default = $( '#yith_wcbr_logo_default' ),
+    var file_frame                     = [],
+        brands_taxonomy                = $( '#yith_wcbr_brands_taxonomy' ),
+        brands_taxonomy_rewrite        = $( '#yith_wcbr_brands_taxonomy_rewrite' ),
+        use_logo_default               = $( '#yith_wcbr_use_logo_default' ),
+        logo_default                   = $( '#yith_wcbr_logo_default' ),
         single_product_brands_position = $( '#yith_wcbr_single_product_brands_position' ),
-        single_product_brands_content = $( '#yith_wcbr_single_product_brands_content' ),
-        loop_product_brands_position = $( '#yith_wcbr_loop_product_brands_position' ),
-        loop_product_brands_content = $( '#yith_wcbr_loop_product_brands_content' );
+        single_product_brands_content  = $( '#yith_wcbr_single_product_brands_content' ),
+        loop_product_brands_position   = $( '#yith_wcbr_loop_product_brands_position' ),
+        loop_product_brands_content    = $( '#yith_wcbr_loop_product_brands_content' );
 
     // handles upload image
     $( '.yith_wcbr_upload_image_button').on( 'click', function( event ){
@@ -121,4 +116,37 @@ jQuery( function( $ ){
 
     // remove duplicated product_cat thumbnail form
     $( '#product_cat_thumbnail').parents('.form-field').remove();
+
+	if ( 'edit-tags-php' === adminpage && 'edit-yith_product_brand' === pagenow ) {
+		// Services List Table.
+		var form       = $( '#addtag' ),
+			submit_btn = form.find( '#submit' );
+
+		var blankState      = $( '.yith-plugin-fw__list-table-blank-state' ),
+			blankStateStyle = $( '#yith-wcbr-blank-state-style' ),
+			tableBody       = $( '#posts-filter .wp-list-table #the-list' );
+
+		if ( blankState.length && blankStateStyle.length && tableBody.length ) {
+			if ( typeof MutationObserver !== 'undefined' ) {
+				var removeBlankState = function () {
+						blankState.remove();
+						blankStateStyle.remove();
+						observer.disconnect();
+					},
+					observer = new MutationObserver( removeBlankState );
+
+				observer.observe( tableBody.get( 0 ), { childList: true } );
+			} else {
+				var removed = false;
+				submit_btn.on( 'click', function () {
+					if ( !removed ) {
+						blankState.remove();
+						blankStateStyle.remove();
+						removed = true;
+					}
+				} );
+			}
+		}
+	}
+
 } );

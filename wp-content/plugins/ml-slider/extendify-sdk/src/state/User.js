@@ -16,9 +16,7 @@ const isGlobalLibraryEnabled = () =>
 // Keep track of active tests as some might be active
 // but never rendered.
 const activeTests = {
-    ['notice-position']: '0001',
-    ['main-button-text']: '0002',
-    ['import-counter-color']: '0003',
+    ['main-button-text2']: '0007',
 }
 
 export const useUserStore = create(
@@ -29,7 +27,6 @@ export const useUserStore = create(
             email: '',
             apiKey: '',
             uuid: '',
-            group: 0,
             sdkPartner: '',
             noticesDismissedAt: {},
             modalNoticesDismissedAt: {},
@@ -46,9 +43,6 @@ export const useUserStore = create(
                 taxonomies: {},
                 type: '',
                 search: '',
-            },
-            preferredOptionsHistory: {
-                siteType: [],
             },
             incrementImports: () => {
                 // If the user has freebie imports, use those first
@@ -74,9 +68,8 @@ export const useUserStore = create(
                 )
             },
             testGroup(testKey, groupOptions) {
-                if (!get().uuid) return
                 if (!Object.keys(activeTests).includes(testKey)) return
-                const groups = get().participatingTestsGroups
+                let groups = get().participatingTestsGroups
                 // If the test is already in the group, don't add it again
                 if (!groups[testKey]) {
                     set({
@@ -85,6 +78,7 @@ export const useUserStore = create(
                         }),
                     })
                 }
+                groups = get().participatingTestsGroups
                 return groups[testKey]
             },
             activeTestGroups() {
@@ -114,7 +108,7 @@ export const useUserStore = create(
                     Number(get().totalAvailableImports()) -
                     Number(get().runningImports)
                 // If they have no allowed imports, this might be a first load
-                // where it's just fetching templates (and/or their max alllowed)
+                // where it's just fetching templates (and/or their max allowed)
                 if (!get().allowedImports) {
                     return null
                 }
@@ -122,20 +116,6 @@ export const useUserStore = create(
             },
             updatePreferredSiteType: (value) => {
                 get().updatePreferredOption('siteType', value)
-                if (!value?.slug || value.slug === 'unknown') return
-                const current = get().preferredOptionsHistory?.siteType ?? []
-
-                // If the site type isn't already included, prepend it
-                if (!current.find((t) => t.slug === value.slug)) {
-                    const siteType = [value, ...current]
-                    set({
-                        preferredOptionsHistory: Object.assign(
-                            {},
-                            get().preferredOptionsHistory,
-                            { siteType: siteType.slice(0, 3) },
-                        ),
-                    })
-                }
             },
             updatePreferredOption: (option, value) => {
                 // If the option doesn't exist, assume it's a taxonomy

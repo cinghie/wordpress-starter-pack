@@ -67,7 +67,7 @@ msgid "YITH Product Brand"
 msgstr "Marka nadrzędna"
 
 #: includes/class.yith-wcbr-shortcode.php:60
-msgid "Adds brand name and logo for a specific product, wherever you want"
+msgid "Adds the brand name and logo for a specific product anywhere you want."
 msgstr ""
 
 #: includes/class.yith-wcbr-shortcode.php:66
@@ -138,7 +138,7 @@ msgstr "Nie znaleziono żadnej marki."
 
 #: includes/class.yith-wcbr-shortcode.php:124
 msgctxt "[gutenberg]: block description"
-msgid "Adds brand name and logo for a specific product, wherever you want"
+msgid "Adds the brand name and logo for a specific product anywhere you want."
 msgstr ""
 
 #: includes/class.yith-wcbr-shortcode.php:134

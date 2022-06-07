@@ -3,10 +3,10 @@ Contributors: quadlayers
 Donate link: https://quadlayers.com/
 Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
 Requires at least: 3.4
-Tested up to: 5.9
-Stable tag: 5.5.4
+Tested up to: 6.0
+Stable tag: 5.5.8
 WC requires at least: 3.1.0
-WC tested up to: 6.1
+WC tested up to: 6.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -106,6 +106,19 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+= 5.5.8 = 
+* Fix: Escaping output functions
+* Fix: Input number min and max
+
+= 5.5.7 = 
+* Fix: WooCommerce upload files checkout
+
+= 5.5.6 = 
+* Fix: WooCommerce compatibility
+
+= 5.5.5 = 
+* Fix: WordPress compatibility
 
 = 5.5.4 = 
 * Fix: WordPress compatibility

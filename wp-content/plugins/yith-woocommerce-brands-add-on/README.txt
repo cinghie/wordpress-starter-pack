@@ -1,10 +1,10 @@
 === YITH WooCommerce Brands Add-On ===
 
 Contributors: yithemes
-Tags: brand, brands, logo, manufacturer, yit, e-commerce, ecommerce, shop, supplier, woocommerce brand, woocommerce filter, filter, brand filter, woocommerce manufacturer, woocommerce supplier, brands for woocommerce, brands for wc, product brands, brands for products
-Requires at least: 5.7
-Tested up to: 5.9
-Stable tag: 1.11.0
+Tags: brand, brands, logo, manufacturer, yith, e-commerce, ecommerce, shop, supplier, woocommerce brand, woocommerce filter, filter, brand filter, woocommerce manufacturer, woocommerce supplier, brands for woocommerce, brands for wc, product brands, brands for products
+Requires at least: 5.8
+Tested up to: 6.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,16 +13,43 @@ YITH WooCommerce Brands Add-on allows you to show brands in your store that are 
 
 == Description ==
 
-Showing known brands in your shop has many advantages both for you and for your customers, especially in an online store, where quality cannot be "touched" and a product might be easily under- or overestimated. Not only do well known brands attract customers and grant you more visibility, but your customers will feel much more confident when buying, because the brand itself is a guarantee of quality. Leaving aside the possibility to keep prices high and all other benefits that we cannot list here, now you can add this simple but powerful feature to your shop wiht YITH WooCommerce Brands Add-On.
+71% of users that buy online say that it is essential for them to recognize a brand before making a purchase. 
 
-= Free Features =
+Showing known brands in your shop has many advantages both for you and for your customers, especially in an online store, where quality cannot be “touched” and a product might be easily under- or overestimated. Not only do well-known brands attract customers and grant more visibility, but they will make your customers feel much more confident when buying, because the brand itself is a guarantee of quality.
 
-* Tassonomy “Brands” will be added to WooCommerce products
-* You can create a brand, assign a logo, a name and a description
-* You can manage brands hierarchically
-* You can assign one or more brands to each product
-* You can view brands of a product in single product page
-* You can view archive page for each brand
+With this plugin you can create unlimited brands, upload logos and show them in product pages to help customers easily find products of their favorite brands.
+
+
+= Free version features =
+
+* Create unlimited brands
+* Set a name and a description for each brand
+* Upload a logo or an image for each brand
+* Manage brands hierarchically
+* Assign one or more brands to each product
+* Show brands on the product detail page
+
+= Need more? Discover the premium features =
+
+* Set a default image to apply to brands without a logo
+* Upload a banner image to customize the brand archive page 
+* Set a custom URL for each brand 
+* Set other product taxonomies available as “brands” (i.e. categories, tags, and attributes) 
+* Show brands on the Shop page 
+* Choose brand position on the Shop and on the product detail page
+* Choose the content to show on the Shop page (brand name, brand logo or both) 
+* Set the brand logo size on Shop page and on the product detail page 
+* 5 widgets to show a list of brands, brand logos, sliders, etc. in a widgetized area 
+* 9 shortcodes to highlight brands in different ways 
+* Compatibility with Yoast SEO: brand name can be dynamically inserted in the product "title" 
+* Add the brand name to the product URL in a dynamic way  
+* Add and/or exclude brands from usage restrictions for WooCommerce coupons 
+* Compatibility with WooCommerce Importer/Exporter  
+* Import product-brand connections to be associated to related products  
+* Integration with YITH WooCommerce AJAX Product Filter to show a “Filter by brand” 
+* Integration with YITH WooCommerce Dynamic Pricing and Discounts to create offers, discount rules and promotions only for products of specific brands
+
+[Live demo of the premium version >](https://plugins.yithemes.com/yith-woocommerce-brands-add-on/)
 
 == Installation ==
 
@@ -36,11 +63,26 @@ YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YIT
 
 1. Single product page with brands
 2. Brand archive page
-3. Brand taxonomy page
-4. Edit brand page
-5. Brands option panel
+3. Brands option panel
 
 == Changelog ==
+
+= 2.0.0 - Released on 10 May 2022 =
+
+* New: support for WordPress 6.0
+* New: support for WooCommerce 6.5
+* Tweak: improved panel style and UX
+* Update: YITH plugin framework
+
+= 1.13.0 - Released on 31 March 2022 =
+
+* New: support for WooCommerce 6.4
+* Update: YITH Plugin Framework
+
+= 1.12.0 - Released on 08 March 2022 =
+
+* New: support for WooCommerce 6.3
+* Update: YITH Plugin Framework
 
 = 1.11.0 - Released on 27 January 2022 =
 
@@ -51,7 +93,6 @@ YITH WooCommerce Brands Add-on will add a new submenu called "Brands" under "YIT
 
 * New: support for WooCommerce 6.1
 * Update: YITH Plugin Framework
-
 
 = 1.9.0 - Released on 14 December 2021 =
 
@@ -359,7 +400,7 @@ If you have suggestions about how to improve YITH WooCommerce Brands Add-On, you
 
 = Available Languages =
 * English - UNITED KINGDOM (Default)
-* Dutch - NETHERLANDS
+* Dutch   - NETHERLANDS
 * Italian - ITALY
 * Spanish - SPAIN
 

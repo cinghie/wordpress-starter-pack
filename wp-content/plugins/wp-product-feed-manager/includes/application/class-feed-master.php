@@ -574,12 +574,19 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				if ( $attribute->isActive && 'category_mapping' !== $attribute->fieldName ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					$push = false;
 
-					if ( '1' === $attribute->fieldLevel ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+					if ( '1' === $attribute->fieldLevel || 1 === $attribute->fieldLevel ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 						$push = true;
 					} else {
 						$value_object = property_exists( $attribute, 'value' ) ? json_decode( $attribute->value ) : new stdClass();
 
-						if ( ! empty( $attribute->value ) && property_exists( $value_object, 'm' ) && property_exists( $value_object->m[0], 's' ) ) {
+						if ( empty( $value_object ) ) {
+							continue;
+						}
+
+						if ( ! empty( $attribute->value )
+						     && property_exists( $value_object, 'm' )
+						     && ! empty( $value_object->m[0] )
+						     && property_exists( $value_object->m[0], 's' ) ) {
 							$push = true;
 						} elseif ( ! empty( $attribute->advisedSource ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							$push = true;

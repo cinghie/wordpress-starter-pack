@@ -20,18 +20,19 @@ import ProductSaleBadge from './../sale-badge/block';
 import './style.scss';
 import {
 	useBorderProps,
+	useSpacingProps,
 	useTypographyProps,
 } from '../../../../hooks/style-attributes';
 
 /**
  * Product Image Block Component.
  *
- * @param {Object} props                  Incoming props.
- * @param {string} [props.className]      CSS Class name for the component.
- * @param {string} [props.imageSizing]    Size of image to use.
- * @param {boolean} [props.showProductLink]   Whether or not to display a link to the product page.
- * @param {boolean} [props.showSaleBadge] Whether or not to display the on sale badge.
- * @param {string} [props.saleBadgeAlign] How should the sale badge be aligned if displayed.
+ * @param {Object}  props                   Incoming props.
+ * @param {string}  [props.className]       CSS Class name for the component.
+ * @param {string}  [props.imageSizing]     Size of image to use.
+ * @param {boolean} [props.showProductLink] Whether or not to display a link to the product page.
+ * @param {boolean} [props.showSaleBadge]   Whether or not to display the on sale badge.
+ * @param {string}  [props.saleBadgeAlign]  How should the sale badge be aligned if displayed.
  * @return {*} The component.
  */
 export const Block = ( props ) => {
@@ -50,6 +51,7 @@ export const Block = ( props ) => {
 
 	const typographyProps = useTypographyProps( props );
 	const borderProps = useBorderProps( props );
+	const spacingProps = useSpacingProps( props );
 
 	if ( ! product.id ) {
 		return (
@@ -57,11 +59,16 @@ export const Block = ( props ) => {
 				className={ classnames(
 					className,
 					'wc-block-components-product-image',
-					'wc-block-components-product-image--placeholder',
 					{
 						[ `${ parentClassName }__product-image` ]: parentClassName,
-					}
+					},
+					borderProps.className
 				) }
+				style={ {
+					...typographyProps.style,
+					...borderProps.style,
+					...spacingProps.style,
+				} }
 			>
 				<ImagePlaceholder />
 			</div>
@@ -77,7 +84,6 @@ export const Block = ( props ) => {
 	);
 	const anchorProps = {
 		href: product.permalink,
-		rel: 'nofollow',
 		...( ! hasProductImages && { 'aria-label': anchorLabel } ),
 		onClick: () => {
 			dispatchStoreEvent( 'product-view-link', {
@@ -96,7 +102,11 @@ export const Block = ( props ) => {
 				},
 				borderProps.className
 			) }
-			style={ { ...typographyProps.style, ...borderProps.style } }
+			style={ {
+				...typographyProps.style,
+				...borderProps.style,
+				...spacingProps.style,
+			} }
 		>
 			<ParentComponent { ...( showProductLink && anchorProps ) }>
 				{ !! showSaleBadge && (

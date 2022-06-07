@@ -54,7 +54,7 @@ class WOOCCM_Field_Controller_Billing extends WOOCCM_Field_Controller
     {
         global $current_section;
 ?>
-        <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=billing'); ?>" class="<?php echo ($current_section == 'billing' ? 'current' : ''); ?>"><?php esc_html_e('Billing', 'woocommerce-checkout-manager'); ?></a> | </li>
+        <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=wooccm&section=billing' ) ); ?>" class="<?php echo ($current_section == 'billing' ? 'current' : ''); ?>"><?php esc_html_e('Billing', 'woocommerce-checkout-manager'); ?></a> | </li>
 <?php
     }
 

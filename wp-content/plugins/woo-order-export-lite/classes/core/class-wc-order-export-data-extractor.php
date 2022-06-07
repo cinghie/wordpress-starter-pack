@@ -23,6 +23,7 @@ class WC_Order_Export_Data_Extractor {
 	const  HUGE_SHOP_ORDERS    = 1000;// more than 1000 orders
 	const  HUGE_SHOP_PRODUCTS  = 1000;// more than 1000 products
 	const  HUGE_SHOP_CUSTOMERS = 1000;// more than 1000 users
+	const  HUGE_SHOP_COUPONS   = 1000;// more than 1000 coupons
 
 	//Common
 
@@ -1335,6 +1336,16 @@ class WC_Order_Export_Data_Extractor {
 
 				$from_date = sprintf( '%s %s', $year_start, '00:00:00' );
 				break;
+			// =========== Modified By Hayato ==========
+			case "last_year":
+				$_date = date('Y-m-d',$_time);
+				$last_year = strtotime($_date . " -1 year");
+				$last_year_start = date('Y-01-01',$last_year);
+				$last_year_end = date('Y-12-31',$last_year);
+				$from_date = sprintf('%s %s',$last_year_start, '00:00:00');
+				$to_date = sprintf('%s %s',$last_year_end, '23:59:59');
+				break;
+			// =========================================
 			case "custom":
 				$export_rule_custom = isset( $settings['export_rule_custom'] ) ? $settings['export_rule_custom'] : '';
 				if ( isset( $export_rule_custom ) AND $export_rule_custom ) {

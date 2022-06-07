@@ -305,6 +305,9 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 						}
 					}
 
+
+					$included_product_check = apply_filters( 'yith_wapo_included_products_check' , $included_product_check, $block );
+
 					// Vendor.
 					if ( $vendor_check ) {
 						// Include.
@@ -406,6 +409,9 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
                             jQuery( 'form.cart .yith-wapo-addon-type-number input[type="number"], form.cart .yith-wapo-addon-type-text input[type="text"]' ).on( 'keyup', (function () {
                                 yith_wapo_calculate_total_price();
                             } ) );
+							jQuery( 'form.cart .qty' ).on( 'change', function () {
+								yith_wapo_calculate_total_price();
+							} );
 							jQuery( function () {
 								yith_wapo_calculate_total_price();
 							} );
@@ -469,7 +475,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
 														price = parseFloat( option.data( 'price' ) );
 													}
 
-                                                    if ( 'percentage' === price_type && ( 'product' === addon_type && 'discount' !== price_method ) ) {
+                                                    if ( 'percentage' === price_type ) {
                                                         price = ( price * defaultProductPrice ) / 100;
                                                     }
 

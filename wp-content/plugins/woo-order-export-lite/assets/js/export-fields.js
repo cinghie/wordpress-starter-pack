@@ -10,6 +10,8 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
 	jQuery( "#fields .fields-control-block" ).addClass( 'hidden' );
 	jQuery( "#order_fields" ).addClass( 'non_flat_height' );
 
+        jQuery('.summary-row-title').addClass('hide');
+
 	/*
 	Clone elements for using in create_modal_fields ($old_format_order_fields) and
 	before insert fields in 'order_fields' element ($old_format_modal_content) for
@@ -92,6 +94,15 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
 			var label_prefix = '';
 			var index_api = index;
 
+			if (['money', 'number'].indexOf(value.format) > -1 && ['XLS', 'PDF'].indexOf(format) > -1) {
+				var sum_btn = '<div class="mapping_col_3 mapping_row-sum_field_block"><a href="" class="mapping_row-sum_field '+ (typeof value.sum !== 'undefined' && +value.sum ? 'active' : '') +'"><span><label title="'+localize_settings_form.sum_symbol_tooltip+'"><input type="checkbox" name="orders[][sum]" value="1" '+ (typeof value.sum !== 'undefined' && +value.sum ? 'checked' : '') +'>Σ</label></span></a></div>';
+				if (typeof value.sum !== 'undefined' && +value.sum) {
+					jQuery('.summary-row-title').removeClass('hide');
+				}
+			} else {
+				var sum_btn = '';
+			}
+
 			if ( index.indexOf( 'static_field' ) >= 0 ) {
 				value_part = '<div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[][value]" value="' + value.value + '"></div>';
 			}
@@ -115,7 +126,7 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
                                     <input type=hidden name="orders[][format]"  value="' + value.format + '">\
                             </div>\
                             <div class="mapping_col_2" title="' + index_api + '">' + '<span class="field-prefix">' + label_prefix + '</span>' + value.label + label_part + '</div>\
-                            <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[][colname]" value="' + colname + '"></div> ' + value_part + delete_btn + '\
+                            <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="orders[][colname]" value="' + colname + '"></div> ' + value_part + sum_btn + delete_btn + '\
                         </li>\
                         ';
 		}
@@ -125,6 +136,10 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
 	} );
 
 	jQuery( "#order_fields" ).html( html );
+
+	if(jQuery('#summary_report_by_products_checkbox').is(":checked")){
+		jQuery('#order_fields').find('.mapping_col_3.mapping_row-sum_field_block').hide();
+	}
 
 	if ( ! jQuery( "#fields .fields-control-block" ).html() ) {
 		fields_control_block_elements.forEach( function ( currentValue ) {
@@ -141,8 +156,8 @@ function woe_create_selected_fields( old_output_format, format, format_changed )
 	woe_add_bind_for_custom_fields( 'product_items', output_format, jQuery( "#order_fields" ) );
 	woe_add_bind_for_custom_fields( 'coupons', output_format, jQuery( "#order_fields" ) );
 
-	jQuery( "#sortable_products" ).sortable();
-	jQuery( "#sortable_coupons" ).sortable();
+	jQuery( "#sortable_products" ).sortable({stop: function ( event, ui ) { woe_add_setup_fields_to_sort(); }});
+	jQuery( "#sortable_coupons" ).sortable({stop: function ( event, ui ) { woe_add_setup_fields_to_sort(); }});
 
 	woe_check_sortable_groups();
 
@@ -178,6 +193,12 @@ function woe_create_group_fields( format, index_p, format_changed ) {
 		var label_part = '';
 		var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
 
+                if (['money', 'number'].indexOf(value.format) > -1) {
+                    var sum_btn = '<div class="mapping_col_3 mapping_row-sum_field_block"><a href="" class="mapping_row-sum_field"><span><label title="'+localize_settings_form.sum_symbol_tooltip+'"><input type="checkbox" name="'+ index_p +'[][sum]" value="1">Σ</label></span></a></div>';
+                } else {
+                    var sum_btn = '';
+                }
+
 		if ( index.indexOf( 'static_field' ) >= 0 ) {
 			value_part = '<div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[][value]" value="' + value.value + '"></div>';
 		}
@@ -190,7 +211,7 @@ function woe_create_group_fields( format, index_p, format_changed ) {
                         <input type=hidden name="' + index_p + '[][format]"  value="' + value.format + '">\
                     </div>\
                     <div class="mapping_col_2" title="' + index + '">' + value.label + label_part + '</div>\
-                    <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[][colname]" value="' + colname + '"></div> ' + value_part + delete_btn + '\
+                    <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + index_p + '[][colname]" value="' + colname + '"></div> ' + value_part + sum_btn + delete_btn + '\
             </li>\
             ';
 
@@ -350,7 +371,7 @@ function woe_create_unselected_fields( old_output_format, format, format_changed
 	}
 
 	jQuery.each( window['all_fields'], function ( segment, fields ) {
-		
+
 			fields.forEach( function ( value ) {
 
 				var $unselected_field_segment = jQuery( '#' + woe_sprintf( $unselected_segment_id, segment ) );
@@ -463,6 +484,12 @@ function woe_make_unselected_field( $index, $field_data, $format, $format_change
 	}
 	var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
 
+        if (['money', 'number'].indexOf($field_data.format) > -1) {
+            var sum_btn = '<div class="mapping_col_3 mapping_row-sum_field_block"><a href="" class="mapping_row-sum_field"><span><label title="'+localize_settings_form.sum_symbol_tooltip+'"><input type="checkbox" name="'+ (! woe_is_flat_format( $format ) && ['products', 'coupons'].indexOf( $segment ) > - 1 ? $segment : 'orders') + '[][sum]" value="1">Σ</label></span></a></div>';
+        } else {
+            var sum_btn = '';
+        }
+
 	$mapping_col_2.append( '<span class="field-prefix">' + label_prefix + '</span>' + $field_data.label + label_part );
 
 	if ( $index.charAt( 0 ) === '_' || $index.substr( 0, 3 ) === 'pa_' || ! $field_data.default || $index.indexOf( 'static_field' ) > - 1 ) {
@@ -476,6 +503,7 @@ function woe_make_unselected_field( $index, $field_data, $format, $format_change
 		.append( $mapping_col_2 )
 		.append( $mapping_col_3 )
 		.append( value_part )
+		.append( sum_btn )
 		.append( delete_btn );
 
 	$field.find( 'input' ).prop( 'disabled', 'disabled' );
@@ -560,6 +588,7 @@ function woe_activate_draggable_field( el, segment, format ) {
 			    var field_key = moving_copy_original_el.find('input[name="orders[][key]"]').val();
 			    moving_copy_original_el.find('input[name="orders[][key]"]').val('orders__' + field_key);
 			}
+                        woe_add_setup_fields_to_sort();
 
 			if ( woe_is_flat_format( format ) || move_to_sortable_group || [
 				                                                               'products',
@@ -893,6 +922,12 @@ function woe_add_custom_field( to, index_p, format, colname, value, segment, for
 
 	var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
 
+        if (['money', 'number'].indexOf(format_field) > -1) {
+            var sum_btn = '<div class="mapping_col_3 mapping_row-sum_field_block"><a href="" class="mapping_row-sum_field"><span><label title="'+localize_settings_form.sum_symbol_tooltip+'"><input type="checkbox" name="'+ _index_p +'[sum]" value="1">Σ</label></span></a></div>';
+        } else {
+            var sum_btn = '';
+        }
+
 //    console.log( to, index_p, format, colname, value );
 	var row = jQuery( '<li class="mapping_row segment_field segment_' + segment + '">\
                     <div class="mapping_col_1" style="width: 10px">\
@@ -905,7 +940,7 @@ function woe_add_custom_field( to, index_p, format, colname, value, segment, for
                     </div>\
                     <div class="mapping_col_2" title="' + field_key + '">' + '<span class="field-prefix">' + label_prefix + '</span>' + colname + '<a href="#" onclick="return woe_remove_custom_field(this);" class="mapping_row-delete_custom_field" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a></div>\
                     <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + _index_p + '[colname]" value="' + colname + '"></div>\
-                    <div class="mapping_col_3 custom-field-value"><input class="mapping_fieldname" type=input name="' + _index_p + '[value]" value="' + value + '"></div>' + delete_btn + '\
+                    <div class="mapping_col_3 custom-field-value"><input class="mapping_fieldname" type=input name="' + _index_p + '[value]" value="' + value + '"></div>' + sum_btn + delete_btn + '\
             </li>\
                         ' );
 
@@ -969,6 +1004,12 @@ function woe_add_custom_meta( to, index_p, format, label, colname, segment, form
 
 	var delete_btn = '<div class="mapping_col_3 mapping_row-delete_field_block"><a href="#" class="mapping_row-delete_field"><span class="dashicons dashicons-trash"></span></a></div>';
 
+        if (['money', 'number'].indexOf(format_field) > -1) {
+            var sum_btn = '<div class="mapping_col_3 mapping_row-sum_field_block"><a href="" class="mapping_row-sum_field"><span><label title="'+localize_settings_form.sum_symbol_tooltip+'"><input type="checkbox" name="'+ _index_p +'[][sum]" value="1">Σ</label></span></a></div>';
+        } else {
+            var sum_btn = '';
+        }
+
 	var row = jQuery( '<li class="mapping_row segment_field segment_' + segment + '">\
         <div class="mapping_col_1" style="width: 10px">\
                 <input class="mapping_fieldname" type=hidden name="' + _index_p + '[segment]" value="' + (
@@ -979,7 +1020,7 @@ function woe_add_custom_meta( to, index_p, format, label, colname, segment, form
                 <input class="mapping_fieldname" type=hidden name="' + _index_p + '[format]" value="' + format_field + '">\
         </div>\
         <div class="mapping_col_2" title="' + label + '">' + '<span class="field-prefix">' + label_prefix + '</span>' + label + '<a href="#" onclick="return woe_remove_custom_field(this);" class="mapping_row-delete_custom_field" style="float: right;"><span class="ui-icon ui-icon-trash"></span></a></div>\
-        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + _index_p + '[colname]" value="' + colname + '"></div>' + delete_btn + '\
+        <div class="mapping_col_3"><input class="mapping_fieldname" type=input name="' + _index_p + '[colname]" value="' + colname + '"></div>' + sum_btn + delete_btn + '\
 </li>\
                         ' );
 
@@ -1039,6 +1080,41 @@ function woe_escape_str( str ) {
 	} );
 }
 
+function woe_check_setup_fields_to_sort() {
+    if (['XLS', 'PDF'].indexOf(output_format) > -1) {
+        jQuery('select[name="settings[sort]"] option[value^="setup_field_"]').show();
+    } else {
+        jQuery('select[name="settings[sort]"] option[value^="setup_field_"]').hide();
+    }
+
+    if ( jQuery( 'select[name="settings[sort]"] option[value="'+ jQuery( 'select[name="settings[sort]"]').val() +'"]').css('display') == 'none') {
+        jQuery( 'select[name="settings[sort]"]').val(jQuery( 'select[name="settings[sort]"] option').first().attr('value'));
+    }
+}
+
+function woe_add_setup_fields_to_sort() {
+
+    var value = jQuery( 'select[name="settings[sort]"]').val();
+
+    jQuery( 'select[name="settings[sort]"] option[value*="setup_field_"]').remove();
+
+    var options = '';
+
+    jQuery('#order_fields .mapping_col_1').each(function () {
+        var label = jQuery(this).find('input[name*="[label]"]').val();
+        if (jQuery(this).find('input[name*="[key]"]').val() !== 'products' && jQuery(this).find('input[name*="[key]"]').val() !== 'coupons' && !jQuery( 'select[name="settings[sort]"] option').filter(function () { return jQuery(this).html().toLowerCase() === label.toLowerCase(); }).length) {
+            options += '<option value="setup_field_'+ jQuery(this).find('input[name*="[format]"]').val() +'_' + jQuery(this).find('input[name*="[key]"]').val() +'">'+ jQuery(this).find('input[name*="[label]"]').val()  +'</option>';
+        }
+    });
+
+    jQuery( 'select[name="settings[sort]"] option[value="post_status"]' ).after(options);
+    woe_check_setup_fields_to_sort();
+
+    if (['XLS', 'PDF'].indexOf(output_format) > -1 && value.indexOf('setup_field_') > -1) {
+        jQuery( 'select[name="settings[sort]"]').val(value);
+    }
+}
+
 jQuery( document ).ready( function ( $ ) {
 
 	$( '#clear_selected_fields' ).click( function () {
@@ -1052,7 +1128,7 @@ jQuery( document ).ready( function ( $ ) {
 	$( '.segment_choice' ).click( function () {
 
 		var segment = $( this ).data( 'segment' );
-	
+
 		$('.tab-actions-buttons').hide();
 
 		if ($('.tab-actions-buttons.' + segment + '-actions-buttons').length) {
@@ -1102,8 +1178,8 @@ jQuery( document ).ready( function ( $ ) {
 
 	setTimeout( function () {
 
-	    jQuery( "#sort_products" ).sortable()/*.disableSelection()*/;
-	    jQuery( "#sort_coupons" ).sortable()/*.disableSelection()*/;
+	    jQuery( "#sort_products" ).sortable({stop: function ( event, ui ) { woe_add_setup_fields_to_sort(); }})/*.disableSelection()*/;
+	    jQuery( "#sort_coupons" ).sortable({stop: function ( event, ui ) { woe_add_setup_fields_to_sort(); }})/*.disableSelection()*/;
 
 	    jQuery( "#order_fields" ).sortable( {
 		    scroll: true,
@@ -1111,6 +1187,7 @@ jQuery( document ).ready( function ( $ ) {
 		    scrollSpeed: 100,
 		    stop: function ( event, ui ) {
 			    woe_moving_products_and_coupons_group_blocks_to_first_item( jQuery( '.output_format:checked' ).val() );
+                            woe_add_setup_fields_to_sort();
 		    }
 	    } );
 	}, 0);
@@ -1139,8 +1216,27 @@ jQuery( document ).ready( function ( $ ) {
 
 		woe_check_sortable_groups();
 
+                woe_add_setup_fields_to_sort();
+
 		return false;
 	} );
+
+        jQuery( '#order_fields' ).on( 'click', '.mapping_row-sum_field', function (e) {
+            if ($( this ).find( 'input' ).prop('checked')) {
+                $( this ).addClass('active');
+            } else {
+                $( this ).removeClass('active');
+            }
+            if (jQuery('.mapping_row-sum_field input:checked').length) {
+                jQuery('.summary-row-title').removeClass('hide');
+            } else {
+                jQuery('.summary-row-title').addClass('hide');
+            }
+        } );
+
+        jQuery( '#order_fields' ).on( 'change', '.mapping_fieldname', function () {
+            woe_add_setup_fields_to_sort();
+        } );
 
 	jQuery( '.tab-controls .tab-actions-buttons .add-meta' ).on( 'click', function () {
 
@@ -1666,13 +1762,18 @@ jQuery( document ).ready( function ( $ ) {
 		}
 
 		woe_check_sortable_groups();
+
+                woe_check_setup_fields_to_sort();
 	} );
+
+        woe_check_setup_fields_to_sort();
 
 	jQuery( '#summary_report_by_products_checkbox' ).add('#summary_report_by_customers_checkbox').change( function( e ) {
 		if ( jQuery( '#summary_report_by_products_checkbox' ).is( ":checked" ) || jQuery( '#summary_report_by_customers_checkbox' ).is( ":checked" ) ) {
 			jQuery('#woe_common_tips').hide();
 		} else {
 			jQuery('#woe_common_tips').show();
+			jQuery('#order_fields').find('.mapping_col_3.mapping_row-sum_field_block').show();
 		}
 	} );
 
@@ -1681,7 +1782,10 @@ jQuery( document ).ready( function ( $ ) {
 
 		var summary_report_fields = [];
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_qty"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_qty_minus_refund"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_amount"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_amount_minus_refund"]' ).parents( 'li' ) );
+		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_amount_inc_tax"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_weight"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_discount"]' ).parents( 'li' ) );
 		summary_report_fields.push( $( '#products_unselected_segment input[value="plain_products_summary_report_total_refund_count"]' ).parents( 'li' ) );
@@ -1709,7 +1813,10 @@ jQuery( document ).ready( function ( $ ) {
 			if ( 'onstart' !== action ) {
 				// purge summary report fields before insert
 				$( '#order_fields input[value="plain_products_summary_report_total_qty"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields input[value="plain_products_summary_report_total_qty_minus_refund"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields input[value="plain_products_summary_report_total_amount_minus_refund"]' ).closest( '.mapping_row' ).remove();
+				$( '#order_fields input[value="plain_products_summary_report_total_amount_inc_tax"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_weight"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 				$( '#order_fields input[value="plain_products_summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
@@ -1727,6 +1834,9 @@ jQuery( document ).ready( function ( $ ) {
 
 					jQuery( '#manage_fields #order_fields' ).append( $field_to_copy );
 				} );
+
+                                jQuery('.mapping_row-sum_field').addClass('hide');
+                                jQuery('.summary-row-title').addClass('hide');
 			}
 
 		} else {
@@ -1746,7 +1856,10 @@ jQuery( document ).ready( function ( $ ) {
 
 			// purge summary report fields
 			$( '#order_fields input[value="plain_products_summary_report_total_qty"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields input[value="plain_products_summary_report_total_qty_minus_refund"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_amount"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields input[value="plain_products_summary_report_total_amount_minus_refund"]' ).closest( '.mapping_row' ).remove();
+			$( '#order_fields input[value="plain_products_summary_report_total_amount_inc_tax"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_weight"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_discount"]' ).closest( '.mapping_row' ).remove();
 			$( '#order_fields input[value="plain_products_summary_report_total_refund_count"]' ).closest( '.mapping_row' ).remove();
@@ -1755,6 +1868,14 @@ jQuery( document ).ready( function ( $ ) {
 			jQuery.each( summary_report_fields, function ( i, value ) {
 				$( value ).hide();
 			} );
+
+                        jQuery('.mapping_row-sum_field').removeClass('hide');
+
+                        if (jQuery('.mapping_row-sum_field input:checked').length) {
+                            jQuery('.summary-row-title').removeClass('hide');
+                        } else {
+                            jQuery('.summary-row-title').addClass('hide');
+                        }
 		}
 
 		$( '#unselected_fields .segment_choice[data-segment="' + segment + '"]' ).addClass( 'active' );
@@ -1818,6 +1939,9 @@ jQuery( document ).ready( function ( $ ) {
 
 					jQuery( '#manage_fields #order_fields' ).append( $field_to_copy );
 				} );
+
+                                jQuery('.mapping_row-sum_field').addClass('hide');
+                                jQuery('.summary-row-title').addClass('hide');
 			}
 
 			$( '#unselected_fields .segment_choice[data-segment="' + segment + '"]' ).addClass( 'active' );
@@ -1843,6 +1967,14 @@ jQuery( document ).ready( function ( $ ) {
 			jQuery.each( summary_report_fields, function ( i, value ) {
 				$( value ).hide();
 			} );
+
+                        jQuery('.mapping_row-sum_field').removeClass('hide');
+
+                        if (jQuery('.mapping_row-sum_field input:checked').length) {
+                            jQuery('.summary-row-title').removeClass('hide');
+                        } else {
+                            jQuery('.summary-row-title').addClass('hide');
+                        }
 		}
 
 		$( '#unselected_fields .segment_choice[data-segment="' + segment + '"]' ).addClass( 'active' );

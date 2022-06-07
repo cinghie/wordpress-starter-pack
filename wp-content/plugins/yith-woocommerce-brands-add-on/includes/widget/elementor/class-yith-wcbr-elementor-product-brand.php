@@ -2,10 +2,10 @@
 /**
  * Product Brand widget for Elementor
  *
- * @author Your Inspiration Themes
+ * @author YITH
  *
  * @class YITH_WCBR_Elementor_Product_Brand
- * @package YITH\WooCommerce_Brands_Add-on\Classes
+ * @package YITH\Brands\Classes
  * @version 1.3.8
  */
 
@@ -17,7 +17,7 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 	/**
 	 * Product Brand widget for Elementor
 	 *
-	 * @author Your Inspiration Themes
+	 * @author YITH
 	 * @version 1.3.8
 	 */
 	class YITH_WCBR_Elementor_Product_Brand extends \Elementor\Widget_Base {
@@ -45,7 +45,7 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 		 * @access public
 		 */
 		public function get_title() {
-			return _x( 'YITH Product Brand', 'Elementor widget name', 'yith-woocommerce-brands-add-on' );
+			return __( 'YITH Product Brand', 'yith-woocommerce-brands-add-on' );
 		}
 
 		/**
@@ -82,12 +82,11 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 		 * @since  1.0.0
 		 * @access protected
 		 */
-		protected function _register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
-
+		protected function register_controls() {
 			$this->start_controls_section(
 				'general_section',
 				array(
-					'label' => _x( 'General', 'Elementor section title', 'yith-woocommerce-brands-add-on' ),
+					'label' => __( 'General', 'yith-woocommerce-brands-add-on' ),
 					'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 				)
 			);
@@ -95,7 +94,7 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 			$this->add_control(
 				'title',
 				array(
-					'label'       => _x( 'Title', 'Elementor control label', 'yith-woocommerce-brands-add-on' ),
+					'label'       => __( 'Title', 'yith-woocommerce-brands-add-on' ),
 					'type'        => \Elementor\Controls_Manager::TEXT,
 					'input_type'  => 'text',
 					'placeholder' => '',
@@ -105,7 +104,7 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 			$this->add_control(
 				'product_id',
 				array(
-					'label'       => _x( 'Product ID', 'Elementor control label', 'yith-woocommerce-brands-add-on' ),
+					'label'       => __( 'Product ID:', 'yith-woocommerce-brands-add-on' ),
 					'type'        => \Elementor\Controls_Manager::NUMBER,
 					'input_type'  => 'text',
 					'placeholder' => '123',
@@ -117,7 +116,7 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 			$this->start_controls_section(
 				'appearance_section',
 				array(
-					'label' => _x( 'Appearance', 'Elementor section title', 'yith-woocommerce-brands-add-on' ),
+					'label' => __( 'Appearance', 'yith-woocommerce-brands-add-on' ),
 					'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 				)
 			);
@@ -125,11 +124,11 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 			$this->add_control(
 				'show_logo',
 				array(
-					'label'   => _x( 'Show logo', 'Elementor control label', 'yith-woocommerce-brands-add-on' ),
+					'label'   => __( 'Show logo', 'yith-woocommerce-brands-add-on' ),
 					'type'    => \Elementor\Controls_Manager::SELECT,
 					'options' => array(
-						'yes' => __( 'Show Logo', 'yith-woocommerce-brands-add-on' ),
-						'no'  => __( 'Do not show Logo', 'yith-woocommerce-brands-add-on' ),
+						'yes' => __( 'Show logo', 'yith-woocommerce-brands-add-on' ),
+						'no'  => __( 'Hide logo', 'yith-woocommerce-brands-add-on' ),
 					),
 					'default' => 'no',
 				)
@@ -138,18 +137,17 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 			$this->add_control(
 				'show_title',
 				array(
-					'label'   => _x( 'Show Title', 'Elementor control label', 'yith-woocommerce-brands-add-on' ),
+					'label'   => __( 'Show title', 'yith-woocommerce-brands-add-on' ),
 					'type'    => \Elementor\Controls_Manager::SELECT,
 					'options' => array(
-						'yes' => __( 'Show Title', 'yith-woocommerce-brands-add-on' ),
-						'no'  => __( 'Do not show Title', 'yith-woocommerce-brands-add-on' ),
+						'yes' => __( 'Show title', 'yith-woocommerce-brands-add-on' ),
+						'no'  => __( 'Hide title', 'yith-woocommerce-brands-add-on' ),
 					),
 					'default' => 'no',
 				)
 			);
 
 			$this->end_controls_section();
-
 		}
 
 		/**
@@ -159,7 +157,6 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 		 * @access protected
 		 */
 		protected function render() {
-
 			$attribute_string = '';
 			$settings         = $this->get_settings_for_display();
 
@@ -167,11 +164,11 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 				if ( empty( $value ) || ! is_scalar( $value ) ) {
 					continue;
 				}
+
 				$attribute_string .= " {$key}=\"{$value}\"";
 			}
 
 			echo do_shortcode( "[yith_wcbr_product_brand {$attribute_string}]" );
 		}
-
 	}
 }

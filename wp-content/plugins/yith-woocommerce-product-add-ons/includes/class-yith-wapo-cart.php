@@ -341,10 +341,13 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 
 				$price_html = wc_price( $price );
 
-				$cart_data[] = array(
-					'name'  => __( 'Base price', 'yith-woocommerce-product-add-ons' ),
-					'value' => $price_html,
-				);
+				$cart_data[] = apply_filters(
+                    'yith_wapo_base_price_cart_data',
+                    array(
+					    'name'  => __( 'Base price', 'yith-woocommerce-product-add-ons' ),
+					    'value' => $price_html,
+				    )
+                );
 			}
 
 			if ( ! empty( $cart_item['yith_wapo_options'] ) ) {
@@ -461,6 +464,8 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							}
 
 							$option_price = '' !== $option_price ? $option_price : 0;
+
+							$option_price = yith_wapo_calculate_price_depending_on_tax( $option_price );
 
 							$option_price = apply_filters( 'yith_wapo_addon_prices_on_cart', $option_price );
 
@@ -646,7 +651,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 		public function add_to_cart_text( string $text = '' ) {
 			global $product, $post;
 			if ( is_object( $product ) && ! is_single( $post ) && yith_wapo_product_has_blocks( $product->get_id() ) ) {
-				return get_option( 'yith_wapo_select_options_label', 'Select options' );
+				return get_option( 'yith_wapo_select_options_label', esc_html__( 'Select options', 'yith-woocommerce-product-add-ons' ) );
 			}
 
 			return $text;

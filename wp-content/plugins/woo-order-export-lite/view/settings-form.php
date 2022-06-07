@@ -810,6 +810,11 @@ function remove_time_from_date( $datetime ) {
 				'post_modified' => __( 'Modification Date', 'woo-order-export-lite' ),
 				'post_status'   => __( 'Order status', 'woo-order-export-lite' ),
 			);
+                        foreach ( $settings['order_fields'] as $field ) {
+                                if ($field['key'] !== 'products' && $field['key'] !== 'coupons' && !in_array(strtolower($field['label']), array_map('strtolower', $sort))) {
+                                    $sort['setup_field_'. (isset($field['format']) ? $field['format'] : '') . '_' . $field['key']] = $field['label'];
+                                }
+			}
 			foreach ( WC_Order_Export_Data_Extractor_UI::get_order_custom_fields() as $field ) {
 				$sort[$field] = $field;
 			}
@@ -841,7 +846,7 @@ function remove_time_from_date( $datetime ) {
 			?>
         </div>
         <br>
-        
+
         <?php if ( ! isset( $woe_order_post_type ) || $woe_order_post_type != 'shop_subscription' ) { ?>
 		    <?php if ( $mode === WC_Order_Export_Manage::EXPORT_SCHEDULE || $mode === WC_Order_Export_Manage::EXPORT_PROFILE ) { ?>
         <div id="my-change-status" class="my-block">
@@ -1542,7 +1547,7 @@ function remove_time_from_date( $datetime ) {
 							<option>&gt;=</option>
 							<option>&lt;</option>
 							<option>&lt;=</option>
-                            
+
                         </select>
                         <input type="text" id="text_order_itemmetadata" disabled class="like-input" style="display: none;">
                         <button id="add_item_metadata" class="button-secondary"><span
@@ -1580,7 +1585,10 @@ function remove_time_from_date( $datetime ) {
                 <div id='fields' style='display:none;'>
 
                     <div class="fields-control-block"></div>
-                    <br>
+                    <div class="summary-row-title hide">
+                        <?php _e( 'Title for summary row', 'woo-order-export-lite' ) ?> <input name="settings[summary_row_title]" value="<?php echo isset($settings['summary_row_title']) ? $settings['summary_row_title'] : __( 'Total', 'woo-order-export-lite' ); ?>">
+                    <hr>
+                    </div>
                     <div class="fields-control">
                         <div style="display: inline-block; float: left">
                             <label style="font-size: medium;">
@@ -2072,7 +2080,7 @@ function remove_time_from_date( $datetime ) {
                         </div>
                         <?php foreach ( $segment_hints as $key => $hint ): ?>
                                 <div class="woe_segment_tips" id="woe_tips_<?php echo $key ?>">
-                                    <?php echo $hint; ?> 
+                                    <?php echo $hint; ?>
                                 </div>
                         <?php endforeach; ?>
                     </div>
@@ -2144,6 +2152,8 @@ function remove_time_from_date( $datetime ) {
     <div id=Settings_updated
          style='display:none;color:green;font-size: 120%;'><?php _e( "Settings were successfully updated!",
 			'woo-order-export-lite' ) ?></div>
+    <div id=Settings_error
+         style='display:none;color:red;font-size: 120%;'></div>
 
 	<?php if ( $show['export_button'] OR $show['export_button_plain'] ) { ?>
         <div id="progress_div" style="display: none;">

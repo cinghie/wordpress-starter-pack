@@ -1,15 +1,13 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Schemas\V1;
+namespace Automattic\WooCommerce\StoreApi\Schemas\V1;
 
-use Automattic\WooCommerce\Blocks\StoreApi\SchemaController;
-use Automattic\WooCommerce\Blocks\Payments\PaymentResult;
-use Automattic\WooCommerce\Blocks\Domain\Services\ExtendRestApi;
+use Automattic\WooCommerce\StoreApi\SchemaController;
+use Automattic\WooCommerce\StoreApi\Payments\PaymentResult;
+use Automattic\WooCommerce\StoreApi\Schemas\ExtendSchema;
 
 
 /**
  * CheckoutSchema class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class CheckoutSchema extends AbstractSchema {
 	/**
@@ -43,10 +41,10 @@ class CheckoutSchema extends AbstractSchema {
 	/**
 	 * Constructor.
 	 *
-	 * @param ExtendRestApi    $extend Rest Extending instance.
+	 * @param ExtendSchema     $extend Rest Extending instance.
 	 * @param SchemaController $controller Schema Controller instance.
 	 */
-	public function __construct( ExtendRestApi $extend, SchemaController $controller ) {
+	public function __construct( ExtendSchema $extend, SchemaController $controller ) {
 		parent::__construct( $extend, $controller );
 		$this->billing_address_schema  = $this->controller->get( BillingAddressSchema::IDENTIFIER );
 		$this->shipping_address_schema = $this->controller->get( BillingAddressSchema::IDENTIFIER );
@@ -109,7 +107,6 @@ class CheckoutSchema extends AbstractSchema {
 					'sanitize_callback' => [ $this->shipping_address_schema, 'sanitize_callback' ],
 					'validate_callback' => [ $this->shipping_address_schema, 'validate_callback' ],
 				],
-				'required'    => true,
 			],
 			'payment_method'    => [
 				'description' => __( 'The ID of the payment method being used to process the payment.', 'woo-gutenberg-products-block' ),

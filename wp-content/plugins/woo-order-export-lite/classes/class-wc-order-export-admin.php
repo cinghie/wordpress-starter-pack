@@ -311,7 +311,7 @@ class WC_Order_Export_Admin {
 				),
 				'remove_all_fields_confirm' => __( 'Remove all fields?', 'woo-order-export-lite' ),
 				'reset_profile_confirm'     => __( 'This action will reset filters, settings and fields to default state. Are you sure?', 'woo-order-export-lite' ),
-
+				'sum_symbol_tooltip' => esc_attr__( 'Show total amount for this column', 'woo-order-export-lite' ),
 			);
 			$settings = WC_Order_Export_Main_Settings::get_settings();
 

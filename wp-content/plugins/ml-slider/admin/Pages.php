@@ -42,8 +42,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_overlay()
     {
-        wp_enqueue_style('metaslider-colorbox-styles', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/colorbox.css', false, METASLIDER_VERSION);
-        wp_enqueue_script('metaslider-colorbox', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/jquery.colorbox-min.js', array('jquery'), METASLIDER_VERSION, true);
+        wp_enqueue_style('metaslider-colorbox-styles', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/colorbox.css', false, METASLIDER_ASSETS_VERSION);
+        wp_enqueue_script('metaslider-colorbox', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/jquery.colorbox-min.js', array('jquery'), METASLIDER_ASSETS_VERSION, true);
     }
 
     /**
@@ -51,8 +51,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_tooltips()
     {
-        wp_enqueue_style('metaslider-tipsy-styles', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/tipsy.css', false, METASLIDER_VERSION);
-        wp_enqueue_script('metaslider-tipsy', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/jquery.tipsy.js', array('jquery'), METASLIDER_VERSION, true);
+        wp_enqueue_style('metaslider-tipsy-styles', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/tipsy.css', false, METASLIDER_ASSETS_VERSION);
+        wp_enqueue_script('metaslider-tipsy', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/jquery.tipsy.js', array('jquery'), METASLIDER_ASSETS_VERSION, true);
     }
 
     /**
@@ -64,7 +64,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
         wp_enqueue_script('jquery-ui-core');
         wp_enqueue_script('jquery-ui-sortable');
 
-        wp_register_script('metaslider-admin-script', METASLIDER_ADMIN_URL . 'assets/dist/js/admin.js', array('jquery'), METASLIDER_VERSION, true);
+        wp_register_script('metaslider-admin-script', METASLIDER_ADMIN_URL . 'assets/dist/js/admin.js', array('jquery'), METASLIDER_ASSETS_VERSION, true);
         wp_localize_script('metaslider-admin-script', 'metaslider', array(
             'url' => __("URL", "ml-slider"),
             'caption' => __("Caption", "ml-slider"),
@@ -91,10 +91,12 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
         // Register components and add support for the REST API / Admin AJAX
         do_action('metaslider_register_admin_components');
         $dev = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG;
-        wp_register_script('metaslider-admin-components', METASLIDER_ADMIN_URL . 'assets/dist/js/app' . ($dev ? '' : '.min') . '.js', array(), METASLIDER_VERSION, true);
+        wp_register_script('metaslider-admin-components', METASLIDER_ADMIN_URL . 'assets/dist/js/app' . ($dev ? '' : '.min') . '.js', array(), METASLIDER_ASSETS_VERSION, true);
 
         // Check if rest is available
         $is_rest_enabled = $this->is_rest_enabled();
+
+        $extendify_path = defined('EXTENDIFY_PATH') ? basename(EXTENDIFY_PATH) . '/extendify.php' : 'extendify/extendify.php';
 
         wp_localize_script('metaslider-admin-components', 'metaslider_api', array(
             'root' => $is_rest_enabled ? esc_url_raw(rest_url("metaslider/v1/")) : false,
@@ -102,6 +104,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             'ajaxurl' => admin_url('admin-ajax.php'),
             'proUser' => metaslider_pro_is_active(),
             'hoplink' => metaslider_get_upgrade_link(),
+            'privacy_link' => metaslider_get_privacy_link(),
             'metaslider_admin_assets' => METASLIDER_ADMIN_ASSETS_URL,
             'metaslider_page' => admin_url('admin.php?page=metaslider'),
             'theme_editor_link' => admin_url('admin.php?page=metaslider-theme-editor'),
@@ -109,7 +112,9 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             'supports_rest' => $is_rest_enabled,
             'locale' => $this->gutenberg_get_jed_locale_data('ml-slider'),
             'default_locale' => $this->gutenberg_get_jed_locale_data('default'),
-            'current_server_time' => current_time('mysql')
+            'current_server_time' => current_time('mysql'),
+            'extendify_plugin_active' => is_plugin_active($extendify_path),
+            'deactivate_extendify_url' => wp_nonce_url('plugins.php?s=extendify&amp;plugin_status=all'),
         ));
         wp_enqueue_script('metaslider-admin-components');
     }
@@ -120,7 +125,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
     public function load_upgrade_page_assets()
     {
         if ('upgrade-metaslider' == $this->current_page) {
-            wp_enqueue_style('metaslider-upgrade-styles', METASLIDER_ADMIN_URL . 'assets/css/upgrade.css', false, METASLIDER_VERSION);
+            wp_enqueue_style('metaslider-upgrade-styles', METASLIDER_ADMIN_URL . 'assets/css/upgrade.css', false, METASLIDER_ASSETS_VERSION);
         }
     }
 
@@ -129,8 +134,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_styles()
     {
-        wp_enqueue_style('metaslider-shepherd-css', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/css/shepherd-theme-arrows.css', false, METASLIDER_VERSION);
-        wp_enqueue_style('metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/dist/css/admin.css', false, METASLIDER_VERSION);
+        wp_enqueue_style('metaslider-shepherd-css', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/css/shepherd-theme-arrows.css', false, METASLIDER_ASSETS_VERSION);
+        wp_enqueue_style('metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/dist/css/admin.css', false, METASLIDER_ASSETS_VERSION);
 
         // Hook to load more styles and scripts (from pro)
         do_action('metaslider_register_admin_styles');
@@ -141,7 +146,6 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function fix_conflicts()
     {
-
         // WP Posts Filter Fix (Advanced Settings not toggling)
         wp_dequeue_script('link');
 

@@ -38,7 +38,7 @@
 .editor-styles-wrapper .wc-block-grid__product-title,
 .wc-block-grid__product-title {
 	font-family: inherit;
-	line-height: 1.2em;
+	line-height: 1.2;
 	font-weight: 700;
 	padding: 0;
 	color: inherit;
@@ -167,7 +167,8 @@
 
 // Element spacing.
 .wc-block-grid__product {
-	.wc-block-grid__product-image,
+	// Not operator necessary for avoid this problem: https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/5925/files#r814043454
+	.wc-block-grid__product-image:not(.wc-block-components-product-image),
 	.wc-block-grid__product-title {
 		margin: 0 0 $gap-small;
 	}

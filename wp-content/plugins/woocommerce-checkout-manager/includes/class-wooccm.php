@@ -107,7 +107,7 @@ final class WOOCCM
 
     // Admin
     // -------------------------------------------------------------------------
-    
+
     $upload = include(WOOCCM_PLUGIN_DIR . 'assets/frontend/js/order-upload.asset.php');
 
     wp_register_script('wooccm-order-upload', plugins_url('assets/frontend/js/order-upload.js', WOOCCM_PLUGIN_FILE), $upload['dependencies'], $upload['version'], true);

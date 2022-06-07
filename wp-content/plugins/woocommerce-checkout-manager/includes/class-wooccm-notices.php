@@ -43,11 +43,11 @@ class WOOCCM_Notices
       <div class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-beta-notice">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
           <div class="notice-image">
-            <img style="border-radius:50%;max-width: 90px;" src="<?php echo plugins_url('/assets/backend/img/logo.jpg', WOOCCM_PLUGIN_FILE); ?>" alt="<?php echo esc_html(WOOCCM_PLUGIN_NAME); ?>>">
+            <img style="border-radius:50%;max-width: 90px;" src="<?php echo esc_url( plugins_url( '/assets/backend/img/logo.jpg', WOOCCM_PLUGIN_FILE ) ); ?>" alt="<?php echo esc_html( WOOCCM_PLUGIN_NAME ); ?>>">
           </div>
           <div class="notice-content" style="margin-left: 15px;">
             <p>
-              <h3>Hello! the new admin panel is here!</h3>
+            <h3>Hello! the new admin panel is here!</h3>
             </p>
             <p>
               As you know, we've recently acquired this plugin and we've been working very hard to bring you a quality product.
@@ -87,11 +87,11 @@ class WOOCCM_Notices
       <div class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-user-rating">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
           <div class="notice-image">
-            <img style="border-radius:50%;max-width: 90px;" src="<?php echo plugins_url('/assets/backend/img/logo.jpg', WOOCCM_PLUGIN_FILE); ?>" alt="<?php echo esc_html(WOOCCM_PLUGIN_NAME); ?>>">
+            <img style="border-radius:50%;max-width: 90px;" src="<?php echo esc_url( plugins_url( '/assets/backend/img/logo.jpg', WOOCCM_PLUGIN_FILE ) ); ?>" alt="<?php echo esc_html(WOOCCM_PLUGIN_NAME); ?>>">
           </div>
           <div class="notice-content" style="margin-left: 15px;">
             <p>
-              <?php printf(esc_html__('Hello! We\'ve recently acquired this plugin!', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?>
+              <?php printf(esc_html__('Hello! We\'ve recently acquired this plugin!', 'woocommerce-checkout-manager'), esc_html( WOOCCM_PLUGIN_NAME ) ); ?>
               <br />
               <?php esc_html_e('We will do our best to improve it and include new features gradually. Please be patient and let us know about the issues and improvements that you want to see in this plugin.', 'woocommerce-checkout-manager'); ?>
             </p>
@@ -111,18 +111,18 @@ class WOOCCM_Notices
       <div id="wooccm-update-5" class="wooccm-notice notice is-dismissible" data-notice_id="wooccm-update-5">
         <div class="notice-container" style="padding-top: 10px; padding-bottom: 10px; display: flex; justify-content: left; align-items: center;">
           <div class="notice-image">
-            <img style="border-radius:50%;max-width: 90px;" src="<?php echo plugins_url('/assets/backend/img/logo.jpg', WOOCCM_PLUGIN_FILE); ?>" alt="<?php echo esc_html(WOOCCM_PLUGIN_NAME); ?>>">
+            <img style="border-radius:50%;max-width: 90px;" src="<?php echo esc_url( plugins_url( '/assets/backend/img/logo.jpg', WOOCCM_PLUGIN_FILE ) ); ?>" alt="<?php echo esc_html(WOOCCM_PLUGIN_NAME); ?>>">
           </div>
           <div class="notice-content" style="margin-left: 15px;">
             <p>
-              <b><?php printf(esc_html__('Important! Manual update is required.', 'woocommerce-checkout-manager'), WOOCCM_PLUGIN_NAME); ?></b>
+              <b><?php printf(esc_html__('Important! Manual update is required.', 'woocommerce-checkout-manager'), esc_html( WOOCCM_PLUGIN_NAME ) ); ?></b>
               <br />
               <?php esc_html_e('Due to the recent WooCommerce 4.0 changes it is necessary to reconfigure conditional fields. If you have conditional fields, please go to the billing, shipping and advanced sections and set conditionals relationships again.', 'woocommerce-checkout-manager'); ?>
             </p>
-            <a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm'); ?>" class="button-primary" target="_blank">
+            <a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=wooccm' ) ); ?>" class="button-primary" target="_blank">
               <?php esc_html_e('Settings', 'woocommerce-checkout-manager'); ?>
             </a>
-            <a href="<?php echo str_replace('/?utm_source=wooccm_admin', '/conditional/?utm_source=wooccm_admin', WOOCCM_DOCUMENTATION_URL); ?>" class="button-secondary" target="_blank">
+            <a href="<?php echo esc_url( str_replace( '/?utm_source=wooccm_admin', '/conditional/?utm_source=wooccm_admin', WOOCCM_DOCUMENTATION_URL ) ); ?>" class="button-secondary" target="_blank">
               <?php esc_html_e('Documentation', 'woocommerce-checkout-manager'); ?>
             </a>
           </div>
@@ -142,9 +142,9 @@ class WOOCCM_Notices
             data: {
               notice_id: notice_id,
               action: 'wooccm_dismiss_notice',
-              nonce: '<?php echo wp_create_nonce('wooccm_dismiss_notice'); ?>'
+              nonce: '<?php echo esc_attr( wp_create_nonce( 'wooccm_dismiss_notice' ) ); ?>'
             },
-            success: function(response) {
+              success: function(response) {
               console.log(response);
             },
           });

@@ -90,8 +90,8 @@ function wppfm_show_wp_message( $message, $type, $dismissible, $permanent_dismis
  * @return string html
  */
 function wppfm_handle_wp_errors_response( $response, $message ) {
-	$error_messages = method_exists( $response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
-	$error_message  = method_exists( $response, 'get_error_message' ) ? $response->get_error_message() : 'Error unknown';
+	$error_messages = method_exists( (object)$response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
+	$error_message  = method_exists( (object)$response, 'get_error_message' ) ? $response->get_error_message() : 'Error unknown';
 	$error_text     = ! empty( $error_messages ) ? implode( ' :: ', $error_messages ) : 'error unknown!';
 
 	wppfm_write_log_file( $message . ' ' . $error_text );

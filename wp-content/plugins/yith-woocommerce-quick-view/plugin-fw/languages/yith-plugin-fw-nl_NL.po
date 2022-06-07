@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH Framework\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2022-02-14 12:14:32+00:00\n"
+"POT-Creation-Date: 2022-04-13 12:14:07+00:00\n"
 "PO-Revision-Date: 2021-12-13 12:45:02+0000\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/3.0.0-alpha.2\n"
 
-#: includes/class-yit-assets.php:144 yit-functions.php:1979
+#: includes/class-yit-assets.php:144 yit-functions.php:1980
 msgid "Confirm trash"
 msgstr "Verplaatsen naar prullenbak bevestigen"
 
@@ -25,12 +25,12 @@ msgstr ""
 
 #: includes/class-yit-assets.php:147 includes/class-yit-assets.php:151
 #: templates/sysinfo/tabs/main.php:42 templates/sysinfo/tabs/main.php:50
-#: yit-functions.php:1981 yit-functions.php:1999
+#: yit-functions.php:1982 yit-functions.php:2000
 msgid "No"
 msgstr "Nee"
 
-#: includes/class-yit-assets.php:148 yit-functions.php:1997
-#: yit-functions.php:2125
+#: includes/class-yit-assets.php:148 yit-functions.php:1998
+#: yit-functions.php:2126
 msgid "Confirm delete"
 msgstr "Verwijderen bevestigen"
 
@@ -38,8 +38,8 @@ msgstr "Verwijderen bevestigen"
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Weet je zeker dat je de geselecteerde items wilt verwijderen?"
 
-#: includes/class-yit-assets.php:149 yit-functions.php:1913
-#: yit-functions.php:2073
+#: includes/class-yit-assets.php:149 yit-functions.php:1914
+#: yit-functions.php:2074
 msgid ""
 "This action cannot be undone and you will not be able to recover this data."
 msgstr ""
@@ -410,8 +410,8 @@ msgstr ""
 "vanwege een verbindingsprobleem tussen je site en onze server."
 
 #: templates/fields/ajax-customers.php:41
-msgid "Search Customers"
-msgstr "Klanten zoeken"
+msgid "Search for a customer..."
+msgstr ""
 
 #. translators: 1. user display name; 2. user ID; 3. user email.
 #: templates/fields/ajax-customers.php:68
@@ -420,16 +420,16 @@ msgid "%1$s (#%2$s &ndash; %3$s)"
 msgstr "%1$s (#%2$s &ndash; %3$s)"
 
 #: templates/fields/ajax-posts.php:41
-msgid "Search Posts"
-msgstr "Posts zoeken"
+msgid "Search for a post..."
+msgstr ""
 
-#: templates/fields/ajax-products.php:14
-msgid "Search Product"
-msgstr "Zoek Product"
+#: templates/fields/ajax-products.php:16
+msgid "Search for a product..."
+msgstr ""
 
 #: templates/fields/ajax-terms.php:41
-msgid "Search Categories"
-msgstr "Zoek categorieën"
+msgid "Search for a category..."
+msgstr ""
 
 #: templates/fields/customtabs.php:17
 msgid "Close all"
@@ -673,16 +673,16 @@ msgid "Data: %1$.2fMB | Index: %2$.2fMB | Free: %3$.2fMB | Engine: %4$s"
 msgstr "Data: %1$.2fMB | Index: %2$.2fMB | Free: %3$.2fMB | Engine: %4$s"
 
 #. translators: %s is the title of the post object.
-#: yit-functions.php:1911
+#: yit-functions.php:1912
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Weet je zeker dat je \"%s\" naar de prullenbak wilt verplaatsen?"
 
 #. translators: %s is the title of the post object.
-#: yit-functions.php:1913 yit-functions.php:2073
+#: yit-functions.php:1914 yit-functions.php:2074
 msgid "Are you sure you want to delete \"%s\"?"
 msgstr "Weet je zeker dat je \"%s\" wilt verwijderen?"
 
-#: yit-functions.php:2011 yit-functions.php:2019 yit-functions.php:2136
+#: yit-functions.php:2012 yit-functions.php:2020 yit-functions.php:2137
 msgid "Further actions"
 msgstr "Verdere acties"
 
@@ -715,13 +715,13 @@ msgctxt "Button text"
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: includes/class-yit-assets.php:146 yit-functions.php:1982
+#: includes/class-yit-assets.php:146 yit-functions.php:1983
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Ja, verplaatsen naar prullenbak"
 
-#: includes/class-yit-assets.php:150 yit-functions.php:2000
-#: yit-functions.php:2127
+#: includes/class-yit-assets.php:150 yit-functions.php:2001
+#: yit-functions.php:2128
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Ja, verwijderen"
@@ -740,10 +740,8 @@ msgstr "Bedankt voor het kopen van %s!"
 #: includes/class-yit-plugin-panel.php:806
 msgctxt "Help tab default description"
 msgid ""
-"We want to help you to enjoy a wonderful experience with all our products."
+"We want to help you enjoy a wonderful experience with all of our products."
 msgstr ""
-"We willen je helpen om te genieten van de geweldige ervaringen met al onze "
-"producten."
 
 #: includes/class-yit-plugin-panel.php:853
 msgctxt "Premium tab name"
@@ -877,16 +875,6 @@ msgctxt "Help tab Watch Videotutorials link"
 msgid "Videos are also available in:"
 msgstr "Videos zijn ook beschikbaar in:"
 
-#: templates/panel/help-tab.php:137
-msgctxt "Help tab Watch Videotutorials link"
-msgid "Watch our videotutorials"
-msgstr "Bekijk onze video uitleg"
-
-#: templates/panel/help-tab.php:140
-msgctxt "Help tab Watch Videotutorials link"
-msgid "We show you some use cases"
-msgstr "We tonen je enkele gebruikscasussen"
-
 #: templates/panel/help-tab.php:124
 msgctxt "Help tab Read Documentation link"
 msgid "Read the documentation"
@@ -894,8 +882,18 @@ msgstr "Lees de documentatie"
 
 #: templates/panel/help-tab.php:127
 msgctxt "Help tab Read Documentation link"
-msgid "to learn from basics how it works"
-msgstr "om vanaf de basis te leren hoe het werkt"
+msgid "to learn how the plugin works from the basics."
+msgstr ""
+
+#: templates/panel/help-tab.php:137
+msgctxt "Help tab Watch video tutorials link"
+msgid "Watch our video tutorials"
+msgstr ""
+
+#: templates/panel/help-tab.php:140
+msgctxt "Help tab Watch video tutorials link"
+msgid "to see some helpful use cases."
+msgstr ""
 
 #: templates/panel/help-tab.php:150
 msgctxt "Help tab view FAQs link"
@@ -904,8 +902,8 @@ msgstr "Check de FAQs"
 
 #: templates/panel/help-tab.php:153
 msgctxt "Help tab view FAQs link"
-msgid "to find answers to your doubts"
-msgstr "om je twijfels te beantwoorden"
+msgid "to find answers to your doubts."
+msgstr ""
 
 #: templates/panel/help-tab.php:169
 msgctxt "Help tab FAQ title"
@@ -925,12 +923,10 @@ msgstr "Hulp nodig?"
 #: templates/panel/help-tab.php:195
 msgctxt "Help tab submit ticket description"
 msgid ""
-"If you are experiencing some technical issue ask help to our developers. "
-"Submit a ticket in our support desk and we will help you as soon as possible."
+"If you are experiencing any technical issues, ask for help from our "
+"developers. Submit a ticket through our support desk and we will help you as "
+"soon as possible."
 msgstr ""
-"Als je een technisch probleem ondervindt, vraag dan hulp aan onze "
-"developers. Je kunt een ticket indienen bij onze supportdesk en we helpen je "
-"zo snel mogelijk verder."
 
 #: templates/panel/help-tab.php:203
 msgctxt "Help tab submit ticket button"
@@ -968,57 +964,57 @@ msgctxt "Premium Tab"
 msgid "Get the premium version"
 msgstr "Krijg de premium versie"
 
-#: yit-functions.php:1925
+#: yit-functions.php:1926
 msgctxt "Post action"
 msgid "Preview"
 msgstr "Voorbeeld"
 
-#: yit-functions.php:1934
+#: yit-functions.php:1935
 msgctxt "Post action"
 msgid "View"
 msgstr "Bekijken"
 
-#: yit-functions.php:1945
+#: yit-functions.php:1946
 msgctxt "Post action"
 msgid "Edit"
 msgstr "Bewerken"
 
-#: yit-functions.php:1953
+#: yit-functions.php:1954
 msgctxt "Post action"
 msgid "Duplicate"
 msgstr "Dupliceren"
 
-#: yit-functions.php:1965
+#: yit-functions.php:1966
 msgctxt "Post action"
 msgid "Restore"
 msgstr "Herstellen"
 
-#: yit-functions.php:1973
+#: yit-functions.php:1974
 msgctxt "Post action"
 msgid "Trash"
 msgstr "Prullenbak"
 
-#: yit-functions.php:1990
+#: yit-functions.php:1991
 msgctxt "Post action"
 msgid "Delete Permanently"
 msgstr "Permanent verijwderen"
 
-#: yit-functions.php:2087
+#: yit-functions.php:2088
 msgctxt "Term action"
 msgid "View"
 msgstr "Bekijken"
 
-#: yit-functions.php:2097
+#: yit-functions.php:2098
 msgctxt "Term action"
 msgid "Edit"
 msgstr "Bewerken"
 
-#: yit-functions.php:2105
+#: yit-functions.php:2106
 msgctxt "Term action"
 msgid "Duplicate"
 msgstr "Dupliceren"
 
-#: yit-functions.php:2118
+#: yit-functions.php:2119
 msgctxt "Term action"
 msgid "Delete"
 msgstr "Verwijderen"

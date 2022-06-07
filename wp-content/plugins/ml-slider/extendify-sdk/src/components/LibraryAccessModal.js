@@ -12,10 +12,10 @@ const LibraryAccessModal = () => {
     )
 
     const [libraryforMyself, setLibraryforMyself] = useState(
-        useUserStore((store) => store.enabled),
+        useUserStore.getState().enabled,
     )
     const [libraryforEveryone, setLibraryforEveryone] = useState(
-        useSiteSettingsStore((store) => store.enabled),
+        useSiteSettingsStore.getState().enabled,
     )
 
     const closeModal = () => {
@@ -33,9 +33,9 @@ const LibraryAccessModal = () => {
         )
         if (!button) return
         if (state) {
-            button.classList.add('invisible')
+            button.classList.add('hidden')
         } else {
-            button.classList.remove('invisible')
+            button.classList.remove('hidden')
         }
     }
 

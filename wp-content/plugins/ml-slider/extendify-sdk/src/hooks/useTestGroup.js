@@ -1,16 +1,22 @@
 import { useState, useLayoutEffect } from '@wordpress/element'
-import { useUserStore } from '@extendify/state/User'
+import { useGlobalStore } from '@extendify/state/GlobalState'
+import { useUserStore as user } from '@extendify/state/User'
 
-export const useTestGroup = (key, options) => {
+export const useTestGroup = (key, options, override) => {
     const [group, setGroup] = useState()
-    const testGroup = useUserStore((state) => state.testGroup)
+    const ready = useGlobalStore((state) => state.ready)
 
     useLayoutEffect(() => {
-        // Let the devbuild reset this
-        if (!group || window.extendifyData.devbuild) {
-            setGroup(testGroup(key, options))
+        if (
+            override ||
+            (ready && !group) ||
+            // Let the devbuild reset this
+            window.extendifyData._canRehydrate
+        ) {
+            const testGroup = user.getState().testGroup(key, options)
+            setGroup(testGroup)
         }
-    }, [key, options, group, testGroup])
+    }, [key, options, group, ready, override])
 
     return group
 }

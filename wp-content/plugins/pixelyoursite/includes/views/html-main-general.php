@@ -146,7 +146,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <input type="checkbox" class="custom-control-input" name="pys[ga][is_enable_debug_mode][-1]" value="0" checked />
                             <?php GA()->render_checkbox_input_array("is_enable_debug_mode","Enable Analytics Debug mode for this property");?>
                         </div>
-
+                        <p>
+                            Learn how to get the Google Analytics 4 tag ID and how to test it:
+                            <a href="https://www.youtube.com/watch?v=fwegcsO-yrc" target="_blank">watch video</a>
+                        </p>
                         <p class="mt-3 ">Add multiple Google Analytics tags with the <a href="https://www.pixelyoursite.com/?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
                                                                                         target="_blank">pro version</a>.</p>
                         <p>
@@ -184,6 +187,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                     Learn how to install the Google Ads Tag:
                     <a href="https://www.youtube.com/watch?v=plkv_v4nz8I" target="_blank">watch video</a>
                 </div>
+                <div class="mt-3">
+                    How to configure Google Ads Conversions:
+                    <a href="https://www.youtube.com/watch?v=x1VvVDa5L7c" target="_blank">watch video</a>
+                </div>
+                <div class="mt-3">
+                    Lear how to use Enhanced Conversions:
+                    <a href="https://www.youtube.com/watch?v=0uuTiOnVw80" target="_blank">watch video</a>
+                </div>
             </div>
         </div>
         <hr>
@@ -197,7 +208,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         target="_blank">pro version</a>.
                 <div class="small">TikTok Tag integration is in beta.</div>
                 <div class="mt-3">
-                    How to install the TikTok tag and how to get the ID: <a href="https://www.youtube.com/watch?v=vWRZc66eaPo" target="_blank">watch video</a>
+                    How to install the TikTok tag and how to get the ID: <a href="https://www.youtube.com/watch?v=zkb67djRnd0" target="_blank">watch video</a>
                 </div>
             </div>
         </div>
@@ -240,6 +251,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <p><a href="https://www.youtube.com/watch?v=JUuss5sewxg" target="_blank">Multiple Google Analytics properties on WordPress and WooCommerce (6:17) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=vWRZc66eaPo" target="_blank">How to install the TikTok Tag on WordPress with PixelYourSite - WooCommerce Support (9:11) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=3soI_Fl0JQw" target="_blank">Facebook Event Matching and EMQ: How to IMPROVE it</a></p>
+                <p><a href="https://www.youtube.com/watch?v=zkb67djRnd0" target="_blank">FIX IT: PixelYourSite high number of admin-ajax requests (9:04) - watch now</a></p>
+
             </div>
         </div>
         <div class="row">
@@ -394,73 +407,255 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     </div>
 </div>
-
-<!-- Search -->
+<!-- Global Events -->
 <div class="card">
     <div class="card-header has_switch">
-        <?php PYS()->render_switcher_input('search_event_enabled');?> Track Searches <?php cardCollapseBtn(); ?>
+        <?php PYS()->render_switcher_input('automatic_events_enabled'); ?>Track key actions with the automatic
+        events
+        <?php
+        if(!PYS()->getOption('automatic_events_enabled')) {
+            cardCollapseBtn('style="display:none"');
+        } else {
+            cardCollapseBtn();
+        } ?>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-11">
-                <p>This event will be fired when a search is performed on your website.</p>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_form_enabled'); ?>Track Forms <?php cardCollapseBtn(); ?>
             </div>
-            <div class="col-1">
-                <?php renderPopoverButton( 'search_event' ); ?>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_form_enabled', true, true, true, true, true, true);
+                ?>
+                <br/>
+                <p>Fires when the website visitor clicks form submit buttons.</p>
+                <p><strong>Event name: </strong>Form</p>
+                <p><strong>Event name on TikTok: </strong>FormSubmit</p>
+                <p><strong>Specific parameters: </strong><i>text, from_class, form_id</i></p>
             </div>
         </div>
 
-        <?php if ( Facebook()->enabled() ) : ?>
-            <div class="row">
-                <div class="col">
-                    <?php Facebook()->render_switcher_input( 'search_event_enabled' ); ?>
-                    <h4 class="switcher-label">Enable the Search event on Facebook</h4>
-                </div>
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_signup_enabled'); ?>Track user signup <?php cardCollapseBtn(); ?>
             </div>
-        <?php endif; ?>
+            <div class="card-body">
+                <?php if ( Facebook()->enabled()) : ?>
+                    <div class="row">
+                        <div class="col">
+                            <?php if(isWooCommerceActive()
+                                &&  Facebook()->getOption("woo_complete_registration_fire_every_time")
+                            ) :
+                                Facebook()->render_switcher_input('automatic_event_signup_enabled_disable',false,true);
+                                ?>
+                                <h4 class="switcher-label">Enable on Facebook</h4>
+                                <div class="small ml-2">
+                                    Facebook CompleteReservation is fired every time a WooCommerce takes place.<br/>
+                                    You can change this from the WooCommerce events
+                                    <a href="<?=buildAdminUrl( 'pixelyoursite', 'woo' )?>" target="_blank">
+                                        settings
+                                    </a>
+                                </div>
+                            <?php else: ?>
+                                <?php Facebook()->render_switcher_input('automatic_event_signup_enabled'); ?>
+                                <h4 class="switcher-label">Enable on Facebook</h4>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if ( GA()->enabled()) : ?>
+                    <div class="row">
+                        <div class="col">
+                            <?php GA()->render_switcher_input('automatic_event_signup_enabled'); ?>
+                            <h4 class="switcher-label">Enable on Google Analytics</h4>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
-        <?php if ( GA()->enabled() ) : ?>
-            <div class="row mb-1">
-                <div class="col">
-                    <?php GA()->render_switcher_input( 'search_event_enabled' ); ?>
-                    <h4 class="switcher-label">Enable the search event on Google Analytics</h4>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col col-offset-left">
-                    <?php GA()->render_checkbox_input( 'search_event_non_interactive',
-                        'Non-interactive event' ); ?>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <div class="row">
-            <div class="col">
-                <?php renderDummySwitcher(); ?>
-                <h4 class="switcher-label">Enable the search event on Google Ads</h4>
-                <?php renderProBadge('https://www.pixelyoursite.com/google-ads-tag/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature') ?>
+                <?php if ( Bing()->enabled()) : ?>
+                    <div class="row">
+                        <div class="col">
+                            <?php Bing()->render_switcher_input('automatic_event_signup_enabled'); ?>
+                            <h4 class="switcher-label">Enable on Bing</h4>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if ( Pinterest()->enabled()) : ?>
+                    <div class="row">
+                        <div class="col">
+                            <?php Pinterest()->render_switcher_input('automatic_event_signup_enabled'); ?>
+                            <h4 class="switcher-label">Enable on Pinterest</h4>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <br/>
+                <p>Fires when the website visitor signup for a WordPress account.</p>
+                <p><strong>Event name: </strong></p>
+                <p>
+                    On Google Analytics the event is called sign_up (standard event).<br/>
+                    On Google Ads the event is called sign_up (custom event)<br/>
+                    On Facebook the event is called CompleteRegistration (standard event).<br/>
+                    On Pinterest the event is called Signup (standard event).<br/>
+                    On Bing the event is called sign_up (custom event)
+                </p>
             </div>
         </div>
 
-        <?php if ( Bing()->enabled() ) : ?>
-            <div class="row">
-                <div class="col">
-                    <?php Bing()->render_switcher_input( 'search_event_enabled' ); ?>
-                    <h4 class="switcher-label">Enable the Search event on Bing</h4>
-                    <?php Bing()->renderAddonNotice(); ?>
-                </div>
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_login_enabled'); ?>Track user login <?php cardCollapseBtn(); ?>
             </div>
-        <?php endif; ?>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_login_enabled', true, true, true, true, false, true);
+                ?>
+                <br/>
+                <p>Fires when the website visitor logins a WordPress account.</p>
+                <p><strong>Event name: </strong></p>
+                <p>On Google Analytics the event is called login (standard event).<br/>
+                    On Google Ads the event is called login (custom event)<br/>
+                    On Facebook, Pinterest and Bing, the event is called Login (custom event).</p>
+            </div>
+        </div>
 
-        <?php if ( Pinterest()->enabled() ) : ?>
-            <div class="row">
-                <div class="col">
-                    <?php Pinterest()->render_switcher_input( 'search_event_enabled' ); ?>
-                    <h4 class="switcher-label">Enable the Search event on Pinterest</h4>
-                    <?php Pinterest()->renderAddonNotice(); ?>
-                </div>
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_download_enabled'); ?>Track Downloads <?php cardCollapseBtn(); ?>
             </div>
-        <?php endif; ?>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_download_enabled', true, true, true, true, true, true);
+                ?>
+                <br/>
+                <div>Extension of files to track as downloads:</div>
+                <?php PYS()->render_tags_select_input('automatic_event_download_extensions'); ?>
+
+                <p class="mt-2">Fires when the website visitor open files with the designated format.</p>
+                <p><strong>Event name: </strong>Download</p>
+                <p><strong>Specific parameters: </strong><i>download_type, download_name, download_url</i></p>
+                <p class="small">
+                    *Google Analytics 4 automatically tracks this action with an event called "file_download". If you want,
+                    you can disable this event for Google Analytics
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_comment_enabled'); ?>Track comments <?php cardCollapseBtn(); ?>
+            </div>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_comment_enabled', true, true, true, true, false, true);
+                ?>
+                <br/>
+                <p>Fires when the website visitor ads a comment.</p>
+                <p><strong>Event name: </strong>Comment</p>
+            </div>
+        </div>
+
+
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_scroll_enabled'); ?>Track page scroll <?php cardCollapseBtn(); ?>
+            </div>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_scroll_enabled', true, true, true, true, false, true);
+                ?>
+                <br/>
+                <div class="mb-2 form-inline">
+                    <label>Trigger for scroll value</label>
+                    <?php PYS()->render_number_input('automatic_event_scroll_value', '', false, 100); ?>
+                    <div>%</div>
+                </div>
+
+                <p>Fires when the website visitor scrolls the page.</p>
+                <p><strong>Event name: </strong>PageScroll</p>
+                <p class="small">*Google Analytics 4 automatically tracks 90% page scroll with an event called "scroll".
+                    If you want, you can disable this event for Google Analytics</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_time_on_page_enabled'); ?>Track time on page <?php cardCollapseBtn(); ?>
+            </div>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_time_on_page_enabled', true, true, true, true, false, true);
+                ?>
+                <br/>
+                <div class="mb-2 form-inline">
+                    <label>Trigger for time</label>
+                    <?php PYS()->render_number_input('automatic_event_time_on_page_value', '', false, 100); ?>
+                    <div>seconds</div>
+                </div>
+                <p><strong>Event name: </strong>TimeOnPage</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php PYS()->render_switcher_input('automatic_event_search_enabled'); ?>Track searches <?php cardCollapseBtn(); ?>
+            </div>
+            <div class="card-body">
+                <?php
+                enableEventForEachPixel('automatic_event_search_enabled', true, true, true, true, true, true);
+                ?>
+                <br/>
+                <p><strong>Event name: </strong></p>
+                <p>
+                    On Google Analytics the event is called search (standard event).<br/>
+                    On Google Ads the event is called search (custom event)<br/>
+                    On Facebook, Pinterest called Search (standard event).<br/>
+                    On Bing the event is called search (custom event).<br/>
+                    On TikTok the event is called Search (standard event).
+                </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php renderDummySwitcher(); ?>Track AdSense <?php renderProBadge(); ?>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php renderDummySwitcher(); ?>Track internal
+                links <?php renderProBadge(); ?>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php renderDummySwitcher(); ?>Track outbound
+                links <?php renderProBadge(); ?>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php renderDummySwitcher(); ?>Track embedded YouTube or
+                Vimeo video views <?php renderProBadge(); ?>
+            </div>
+
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php renderDummySwitcher(); ?>Track tel links <?php renderProBadge(); ?>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header has_switch">
+                <?php renderDummySwitcher(); ?>Track email links <?php renderProBadge(); ?>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -604,10 +799,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         if($signalEvents > 0) {
             $signalEvents = 1;
-        }
-
-        if(PYS()->getOption('search_event_enabled')) {
-            $signalEvents++;
         }
 
         $total = $customCount + $signalEvents + $wooEvents + $eddEvents;
@@ -867,3 +1058,42 @@ if ( ! defined( 'ABSPATH' ) ) {
         <button class="btn btn-block btn-save">Save Settings</button>
     </div>
 </div>
+    <?php function enableEventForEachPixel($event, $fb = true, $ga = true, $ads = true, $bi = true, $tic = true, $pin = true)
+{ ?>
+    <?php if ($fb && Facebook()->enabled()) : ?>
+    <div class="row">
+        <div class="col">
+            <?php Facebook()->render_switcher_input($event); ?>
+            <h4 class="switcher-label">Enable on Facebook</h4>
+        </div>
+    </div>
+<?php endif; ?>
+    <?php if ($ga && GA()->enabled()) : ?>
+    <div class="row">
+        <div class="col">
+            <?php GA()->render_switcher_input($event); ?>
+            <h4 class="switcher-label">Enable on Google Analytics</h4>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+    <?php if ($bi && Bing()->enabled()) : ?>
+    <div class="row">
+        <div class="col">
+            <?php Bing()->render_switcher_input($event); ?>
+            <h4 class="switcher-label">Enable on Bing</h4>
+        </div>
+    </div>
+<?php endif; ?>
+    <?php if ($pin && Pinterest()->enabled()) : ?>
+    <div class="row">
+        <div class="col">
+            <?php Pinterest()->render_switcher_input($event); ?>
+            <h4 class="switcher-label">Enable on Pinterest</h4>
+        </div>
+    </div>
+<?php endif; ?>
+
+    <?php
+}

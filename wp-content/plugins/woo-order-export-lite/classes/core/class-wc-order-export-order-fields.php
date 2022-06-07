@@ -163,7 +163,7 @@ class WC_Order_Export_Order_Fields {
 			INNER JOIN
 				{$wpdb->prefix}woocommerce_order_itemmeta itemmeta
 			ON
-				items.order_item_id = itemmeta.order_item_id AND itemmeta.meta_key = '_fee_amount'
+				items.order_item_id = itemmeta.order_item_id AND itemmeta.meta_key = '_line_total'
 			WHERE
 				items.order_id = %s AND items.order_item_type = 'fee' AND items.order_item_name = %s",
 			$this->order_id,
@@ -424,8 +424,21 @@ class WC_Order_Export_Order_Fields {
 				get_edit_post_link($this->order_id),
 				__( 'Edit order', 'woo-order-export-lite' )
 			);
+		} elseif ( $field == 'subscription_relationship' AND function_exists("wcs_order_contains_subscription")) {
+			//copied logic from class WC_Subscriptions_Order
+			if ( wcs_order_contains_subscription( $this->post->ID, 'renewal' ) ) {
+				$row[$field] = __( 'Renewal Order', 'woocommerce-subscriptions' );
+			} elseif ( wcs_order_contains_subscription( $this->post->ID, 'resubscribe' ) ) {
+				$row[$field] = __( 'Resubscribe Order', 'woocommerce-subscriptions' );
+			} elseif ( wcs_order_contains_subscription( $this->post->ID, 'parent' ) ) {
+				$row[$field] = __( 'Parent Order', 'woocommerce-subscriptions' );
+			} else {
+				$row[$field] = "";
+			}
 		} elseif ( $field == 'order_currency' ) {
 			$row[$field] = $this->order->get_currency();
+		} elseif( $field == 'order_currency_symbol' ){
+			$row[$field] = get_woocommerce_currency_symbol( $this->order->get_currency() );
 		} elseif( method_exists( $this->order, 'get_' . $field ) ) {  // order_date...		
 				if ( $this->post->post_type == 'shop_order_refund' AND $this->parent_order )
 					$row[$field] = $this->parent_order->{'get_' . $field}(); //use main order details for refund

@@ -66,6 +66,11 @@ trait WPPFM_Feed_Processor_Functions {
 			$product_data = apply_filters( 'wpml_translation', $product_data, $this->_feed_data->language );
 		}
 
+		// Polylang support.
+		if ( has_filter( 'pll_translation' ) ) {
+			$product_data = apply_filters( 'pll_translation', $product_data, $this->_feed_data->language );
+		}
+
 		// Parent ids are required to get the main data from product variations.
 		$meta_parent_ids = 0 !== $parent_product_id ? array( $parent_product_id ) : $this->get_meta_parent_ids( $product_id );
 
@@ -95,7 +100,9 @@ trait WPPFM_Feed_Processor_Functions {
 			$product_data->{$third_party_field} = $this->get_third_party_custom_field_data( $product_data->ID, $parent_product_id, $third_party_field );
 		}
 
-		$this->add_procedural_data( $product_data, $this->_pre_data['column_names'], $this->_feed_data->language, $this->_feed_data->currency, $this->_feed_data->feedId );
+		if ( $this->_feed_data ) { // @since 2.29.0 to not start this function when using the WooCommerce Google Review Feed Manager plugin.
+			$this->add_procedural_data( $product_data, $this->_pre_data['column_names'], $this->_feed_data->language, $this->_feed_data->currency, $this->_feed_data->feedId );
+		}
 
 		return $product_data;
 	}

@@ -67,7 +67,10 @@ final class PYS extends Settings implements Plugin {
 
         // run Events Manager
         add_action( 'template_redirect', array( $this, 'managePixels' ) );
-
+        // track user login event
+        add_action('wp_login', [$this,'userLogin'], 10, 2);
+        // track user registrations
+        add_action( 'user_register', array( $this, 'userRegisterHandler' ) );
 	    // "admin_permission" option custom sanitization function
 	    add_filter( 'pys_core_settings_sanitize_admin_permissions_field', function( $value ) {
 
@@ -164,6 +167,26 @@ final class PYS extends Settings implements Plugin {
 	 */
     public function registerPixel( &$pixel ) {
 	    $this->registeredPixels[ $pixel->getSlug() ] = $pixel;
+    }
+
+    /**
+     * Hook
+     * @param String $user_login
+     * @param \WP_User $user
+     */
+    function userLogin($user_login, $user) {
+        add_user_meta($user->ID,'pys_just_login',true);
+    }
+
+    public function userRegisterHandler( $user_id ) {
+
+        if ( PYS()->getOption( 'signal_user_signup_enabled' )
+            || PYS()->getOption( 'woo_complete_registration_enabled' )
+            || PYS()->getOption( 'automatic_event_signup_enabled' )
+        ) {
+            update_user_meta( $user_id, 'pys_complete_registration', true );
+        }
+
     }
 
 	/**

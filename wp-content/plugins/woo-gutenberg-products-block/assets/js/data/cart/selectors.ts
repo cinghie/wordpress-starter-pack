@@ -1,7 +1,13 @@
 /**
  * External dependencies
  */
-import type { Cart, CartTotals, CartMeta, CartItem } from '@woocommerce/types';
+import type {
+	Cart,
+	CartTotals,
+	CartMeta,
+	CartItem,
+	CartShippingRate,
+} from '@woocommerce/types';
 import { BillingAddress, ShippingAddress } from '@woocommerce/settings';
 
 /**
@@ -30,6 +36,36 @@ export const getCustomerData = (
 		shippingAddress: state.cartData.shippingAddress,
 		billingData: state.cartData.billingAddress,
 	};
+};
+
+/**
+ * Retrieves shipping rates from state.
+ *
+ * @param { CartState } state The current state.
+ * @return { CartShippingRate[] } The shipping rates on the cart.
+ */
+export const getShippingRates = ( state: CartState ): CartShippingRate[] => {
+	return state.cartData.shippingRates;
+};
+
+/**
+ * Retrieves whether the cart needs shipping.
+ *
+ * @param { CartState } state The current state.
+ * @return { boolean } True if the cart needs shipping.
+ */
+export const getNeedsShipping = ( state: CartState ): boolean => {
+	return state.cartData.needsShipping;
+};
+
+/**
+ * Retrieves whether the cart shipping has been calculated.
+ *
+ * @param { CartState } state The current state.
+ * @return { boolean } True if the shipping has been calculated.
+ */
+export const getHasCalculatedShipping = ( state: CartState ): boolean => {
+	return state.cartData.hasCalculatedShipping;
 };
 
 /**
@@ -115,8 +151,8 @@ export const getCouponBeingRemoved = ( state: CartState ): string => {
 /**
  * Returns cart item matching specified key.
  *
- * @param {CartState} state The current state.
- * @param {string} cartItemKey Key for a cart item.
+ * @param {CartState} state       The current state.
+ * @param {string}    cartItemKey Key for a cart item.
  * @return {CartItem | void} Cart item object, or undefined if not found.
  */
 export const getCartItem = (
@@ -131,8 +167,8 @@ export const getCartItem = (
 /**
  * Returns true if the specified cart item quantity is being updated.
  *
- * @param {CartState} state The current state.
- * @param {string} cartItemKey Key for a cart item.
+ * @param {CartState} state       The current state.
+ * @param {string}    cartItemKey Key for a cart item.
  * @return {boolean} True if a item has a pending request to be updated.
  */
 export const isItemPendingQuantity = (
@@ -145,8 +181,8 @@ export const isItemPendingQuantity = (
 /**
  * Returns true if the specified cart item quantity is being updated.
  *
- * @param {CartState} state The current state.
- * @param {string} cartItemKey Key for a cart item.
+ * @param {CartState} state       The current state.
+ * @param {string}    cartItemKey Key for a cart item.
  * @return {boolean} True if a item has a pending request to be updated.
  */
 export const isItemPendingDelete = (

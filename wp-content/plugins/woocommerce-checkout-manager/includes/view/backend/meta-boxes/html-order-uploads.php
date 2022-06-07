@@ -17,7 +17,7 @@
           $image_attributes2 = wp_get_attachment_image_src($attachment_id);
           $filename = basename($image_attributes);
           $wp_filetype = wp_check_filetype($filename);
-          ?>
+      ?>
           <tr class="image">
             <td class="thumb">
               <div class="wc-order-item-thumbnail">
@@ -30,18 +30,18 @@
               if ($image_attributes2[1] == '') {
                 echo '-';
               } else {
-                echo $image_attributes2[1] . ' x ' . $image_attributes2[2];
+                echo esc_html( $image_attributes2[1] ) . ' x ' . esc_html( $image_attributes2[2] );
               }
               ?>
             </td>
-            <td><?php echo strtoupper($wp_filetype['ext']); ?></td>
+            <td><?php echo esc_html( strtoupper( $wp_filetype['ext'] ) ); ?></td>
             <td class="column-actions" nowrap>
               <!--<a href="<?php echo esc_url($image_attributes2[0]); ?>" target="_blank" class="button"><?php esc_html_e('Download', 'woocommerce-checkout-manager'); ?></a>-->
               <a class="button wooccm_delete_attachment" data-attachment_id="<?php echo esc_attr($attachment_id); ?>" data-tip="<?php esc_html_e('Delete', 'woocommerce-checkout-manager'); ?>"><?php esc_html_e('Delete', 'woocommerce-checkout-manager'); ?></a>
             </td>
           </tr>
         <?php endforeach; ?>
-      <?php else: ?>
+      <?php else : ?>
         <tr>
           <td colspan="6" style="text-align:left;"><?php esc_html_e('No files have been uploaded to this order.', 'woocommerce-checkout-manager'); ?></td>
         </tr>

@@ -42,7 +42,7 @@
 		text-transform: none;
 		background: none;
 		border: none;
-		text-align: center;
+		text-align: left;
 	}
 
 	.section p {
@@ -50,7 +50,7 @@
 		font-size: 15px;
 		line-height: 28px;
 		font-weight: 300;
-		text-align: center;
+		text-align: left;
 	}
 
 	.section ul li {
@@ -163,7 +163,28 @@
 		font-weight: 500;
 	}
 
+    .label {
+        padding: .3em .9em .4em;
+        font-weight: 600;
+        display: inline;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25em;
+        margin-bottom:20px;
+    }
 
+    .label.new {
+        background-color: #bb6c15
+    }
+
+    .label-wrapper{
+        margin-bottom:15px;
+    }
 	@media (max-width: 768px) {
 		.landing-container {
 			display: block;
@@ -521,14 +542,15 @@ Edit the product prices and add shipping fees, extra costs or coupon codes to th
 		<div class="landing-container">
 
 			<div class="col-1">
-				<img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL ); ?>/images/019.jpg" alt="Feature 16"/>
+				<img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL ); ?>/images/0023.webp" alt="Feature 16"/>
 			</div>
 			<div class="col-2">
 				<div class="section-title">
-					<h2><?php esc_html_e( 'Customize the details and design of the PDF quote', 'yith-woocommerce-request-a-quote' ); ?></h2>
+                    <div class="label-wrapper"><span class="label new">New</span></div>
+					<h2><?php esc_html_e( 'Use the advanced Gutenberg builder to customize the Quote PDF', 'yith-woocommerce-request-a-quote' ); ?></h2>
 				</div>
 				<p>
-					<?php esc_html_e( 'Upload your site logo and add some custom texts to personalize the PDF quote based on your needs.', 'yith-woocommerce-request-a-quote' ); ?>
+					<?php esc_html_e( 'Choose between 9 different layouts and customize the PDF Quote through the new advanced Gutenberg editor. You can add text blocks, images and customize the colors to create beautiful custom quotes to send to your customers.', 'yith-woocommerce-request-a-quote' ); ?>
 				</p>
 			</div>
 		</div>
@@ -602,7 +624,38 @@ Thanks to the “Quotes” section in My Account page, users will be able to mon
 			</div>
 		</div>
 	</div>
-
+    <div class="eleven section section-odd clear">
+        <div class="landing-container">
+            <div class="col-2">
+                <div class="section-title">
+                    <div class="label-wrapper"><span class="label new">New</span></div>
+                    <h2><?php esc_html_e( 'Let customers convert their cart into a quote request', 'yith-woocommerce-request-a-quote' ); ?></h2>
+                </div>
+                <p>
+					<?php esc_html_e( 'Show an “Ask for a quote” button on the cart page to allow customers to convert their cart content into a quote request. The button will open a modal window with the same form shown on the request a quote page.', 'yith-woocommerce-request-a-quote' ); ?>
+                </p>
+            </div>
+            <div class="col-1">
+                <img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL ); ?>/images/024.jpeg" alt="Feature 21"/>
+            </div>
+        </div>
+    </div>
+    <div class="section section-even clear">
+        <div class="landing-container">
+            <div class="col-1">
+                <img src="<?php echo esc_url( YITH_YWRAQ_ASSETS_URL ); ?>/images/025.jpeg" alt="Feature 22"/>
+            </div>
+            <div class="col-2">
+                <div class="section-title">
+                    <div class="label-wrapper"><span class="label new">New</span></div>
+                    <h2><?php esc_html_e( 'Send follow-up emails to remind customers about the quote', 'yith-woocommerce-request-a-quote' ); ?></h2>
+                </div>
+                <p>
+					<?php esc_html_e( 'The plugin includes two different follow-up emails: one can be sent to customers X days after the quote creation, and the other one X days before the quote expiration. With these emails, you can recover pending quotes, and remind your customers about your proposals.', 'yith-woocommerce-request-a-quote' ); ?>
+                </p>
+            </div>
+        </div>
+    </div>
 	<div class="section section-cta section-odd">
 		<div class="landing-container">
 			<div class="premium-cta">

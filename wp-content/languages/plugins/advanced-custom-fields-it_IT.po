@@ -2,14 +2,26 @@
 # This file is distributed under the same license as the Plugins - Advanced Custom Fields - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-11-14 14:30:34+0000\n"
+"PO-Revision-Date: 2022-05-17 14:16:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Advanced Custom Fields - Stable (latest release)\n"
+
+#: acf.php:497
+msgid "Advanced Custom Fields and Advanced Custom Fields PRO should not be active at the same time. We've automatically deactivated Advanced Custom Fields PRO."
+msgstr "Advanced Custom Fields e Advanced Custom Fields PRO non dovrebbero essere attivi contemporaneamente. Abbiamo automaticamente disattivato Advanced Custom Fields PRO."
+
+#: acf.php:495
+msgid "Advanced Custom Fields and Advanced Custom Fields PRO should not be active at the same time. We've automatically deactivated Advanced Custom Fields."
+msgstr "Advanced Custom Fields e Advanced Custom Fields PRO non dovrebbero essere attivi contemporaneamente. Abbiamo automaticamente disattivato Advanced Custom Fields."
+
+#: includes/acf-value-functions.php:374
+msgid "<strong>%1$s</strong> - We've detected one or more calls to retrieve ACF field values before ACF has been initialized. This is not supported and can result in malformed or missing data. <a href=\"%2$s\" target=\"_blank\">Learn how to fix this</a>."
+msgstr "<strong>%1$s</strong> - Sono state rilevate una o più chiamate per recuperare valori di campi ACF prima che ACF fosse inizializzato. Questo non è supportato e può causare dati non corretti o mancanti. <a href=\"%2$s\" target=\"_blank\">Scopri come correggere questo problema</a>."
 
 #: includes/fields/class-acf-field-user.php:526
 msgid "%1$s must have a user with the %2$s role."
@@ -284,7 +296,7 @@ msgstr "Il tipo di posizione \"%s\" è già registrato."
 msgid "Class \"%s\" does not exist."
 msgstr "La classe \"%s\" non esiste."
 
-#: acf.php:437 includes/admin/admin-field-group.php:385
+#: acf.php:440 includes/admin/admin-field-group.php:385
 #: includes/admin/admin-field-groups.php:230
 msgctxt "post status"
 msgid "Disabled"
@@ -1260,7 +1272,7 @@ msgstr "Modifica"
 msgid "The changes you made will be lost if you navigate away from this page"
 msgstr "Le modifiche effettuate verranno cancellate se esci da questa pagina"
 
-#: includes/api/api-helpers.php:3423
+#: includes/api/api-helpers.php:3413
 msgid "File type must be %s."
 msgstr "La tipologia del file deve essere %s."
 
@@ -1269,34 +1281,34 @@ msgstr "La tipologia del file deve essere %s."
 #: includes/admin/views/field-group-field-conditional-logic.php:170
 #: includes/admin/views/field-group-locations.php:36
 #: includes/admin/views/html-location-group.php:3
-#: includes/api/api-helpers.php:3419 assets/build/js/acf-field-group.js:447
+#: includes/api/api-helpers.php:3409 assets/build/js/acf-field-group.js:447
 #: assets/build/js/acf-field-group.js:1727
 #: assets/build/js/acf-field-group.js:538
 #: assets/build/js/acf-field-group.js:2055
 msgid "or"
 msgstr "oppure"
 
-#: includes/api/api-helpers.php:3392
+#: includes/api/api-helpers.php:3382
 msgid "File size must not exceed %s."
 msgstr "La dimensione del file non deve superare %s."
 
-#: includes/api/api-helpers.php:3387
+#: includes/api/api-helpers.php:3377
 msgid "File size must be at least %s."
 msgstr "La dimensione del file deve essere di almeno %s."
 
-#: includes/api/api-helpers.php:3372
+#: includes/api/api-helpers.php:3362
 msgid "Image height must not exceed %dpx."
 msgstr "L'altezza dell'immagine non deve superare i %dpx."
 
-#: includes/api/api-helpers.php:3367
+#: includes/api/api-helpers.php:3357
 msgid "Image height must be at least %dpx."
 msgstr "L'altezza dell'immagine deve essere di almeno %dpx."
 
-#: includes/api/api-helpers.php:3353
+#: includes/api/api-helpers.php:3343
 msgid "Image width must not exceed %dpx."
 msgstr "La larghezza dell'immagine non deve superare i %dpx."
 
-#: includes/api/api-helpers.php:3348
+#: includes/api/api-helpers.php:3338
 msgid "Image width must be at least %dpx."
 msgstr "La larghezza dell'immagine deve essere di almeno %dpx."
 
@@ -2628,86 +2640,86 @@ msgstr "Formato di visualizzazione"
 msgid "Time Picker"
 msgstr "Selettore orario"
 
-#: acf.php:442
+#: acf.php:445
 msgid "Disabled <span class=\"count\">(%s)</span>"
 msgid_plural "Disabled <span class=\"count\">(%s)</span>"
 msgstr[0] "Disabilitato <span class=\"count\">(%s)</span>"
 msgstr[1] "Disabilitati <span class=\"count\">(%s)</span>"
 
-#: acf.php:399
+#: acf.php:402
 msgid "No Fields found in Trash"
 msgstr "Nessun campo trovato nel cestino"
 
-#: acf.php:398
+#: acf.php:401
 msgid "No Fields found"
 msgstr "Nessun campo trovato"
 
-#: acf.php:397
+#: acf.php:400
 msgid "Search Fields"
 msgstr "Cerca campi"
 
-#: acf.php:396
+#: acf.php:399
 msgid "View Field"
 msgstr "Visualizza campo"
 
-#: acf.php:395 includes/admin/views/field-group-fields.php:56
+#: acf.php:398 includes/admin/views/field-group-fields.php:56
 msgid "New Field"
 msgstr "Nuovo campo"
 
-#: acf.php:394
+#: acf.php:397
 msgid "Edit Field"
 msgstr "Modifica campo"
 
-#: acf.php:393
+#: acf.php:396
 msgid "Add New Field"
 msgstr "Aggiungi nuovo campo"
 
-#: acf.php:391
+#: acf.php:394
 msgid "Field"
 msgstr "Campo"
 
-#: acf.php:390 includes/admin/admin-field-group.php:233
+#: acf.php:393 includes/admin/admin-field-group.php:233
 #: includes/admin/admin-field-groups.php:266
 msgid "Fields"
 msgstr "Campi"
 
-#: acf.php:365
+#: acf.php:368
 msgid "No Field Groups found in Trash"
 msgstr "Nessun gruppo di campi trovato nel cestino"
 
-#: acf.php:364
+#: acf.php:367
 msgid "No Field Groups found"
 msgstr "Nessun gruppo di campi trovato"
 
-#: acf.php:363
+#: acf.php:366
 msgid "Search Field Groups"
 msgstr "Cerca gruppi di campi"
 
-#: acf.php:362
+#: acf.php:365
 msgid "View Field Group"
 msgstr "Visualizza gruppo di campi"
 
-#: acf.php:361
+#: acf.php:364
 msgid "New Field Group"
 msgstr "Nuovo gruppo di campi"
 
-#: acf.php:360
+#: acf.php:363
 msgid "Edit Field Group"
 msgstr "Modifica gruppo di campi"
 
-#: acf.php:359
+#: acf.php:362
 msgid "Add New Field Group"
 msgstr "Aggiungi nuovo gruppo di campi"
 
-#: acf.php:358 acf.php:392 includes/admin/admin.php:51
+#: acf.php:361 acf.php:395 includes/admin/admin.php:51
 msgid "Add New"
 msgstr "Aggiungi nuovo"
 
-#: acf.php:357
+#: acf.php:360
 msgid "Field Group"
 msgstr "Gruppo di campi"
 
-#: acf.php:356 includes/admin/admin.php:50
+#: acf.php:359 includes/admin/admin.php:50
 msgid "Field Groups"
 msgstr "Gruppi di campi"
 

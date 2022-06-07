@@ -1,18 +1,18 @@
 <?php
 /**
- * Plugin Name: YITH WooCommerce Brands Add-on
+ * Plugin Name: YITH WooCommerce Brands Add-On
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-brands-add-on/
- * Description: <code><strong>YITH WooCommerce Brands Add-on</strong></code> allows organizing products by brand and improve your shop user experience and your visibility on serach engines. Let your customers browse your shop based on their favourite brands and just with a few clicks. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce on <strong>YITH</strong></a>
- * Version: 1.11.0
+ * Description: <code><strong>YITH WooCommerce Brands Add-On</strong></code> allows organizing products by brand and improves your shop user experience and your visibility on search engines. Let your customers browse your shop based on their favourite brands with only a few clicks. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce on <strong>YITH</strong></a>
+ * Version: 2.0.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-brands-add-on
  * Domain Path: /languages/
- * WC requires at least: 6.0
- * WC tested up to: 6.2
+ * WC requires at least: 6.3
+ * WC tested up to: 6.5
  *
- * @author Your Inspiration Themes
- * @package YITH WooCommerce Brands Add-on
+ * @author YITH
+ * @package YITH\Brands
  * @version 1.0.0
  */
 
@@ -47,7 +47,7 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 }
 
 if ( ! defined( 'YITH_WCBR_VERSION' ) ) {
-	define( 'YITH_WCBR_VERSION', '1.11.0' );
+	define( 'YITH_WCBR_VERSION', '2.0.0' );
 }
 
 if ( ! defined( 'YITH_WCBR_URL' ) ) {
@@ -74,6 +74,15 @@ if ( ! defined( 'YITH_WCBR_FREE_INIT' ) ) {
 	define( 'YITH_WCBR_FREE_INIT', plugin_basename( __FILE__ ) );
 }
 
+if ( ! defined( 'YITH_WCBR_VIEWS' ) ) {
+	define( 'YITH_WCBR_VIEWS', YITH_WCBR_DIR . 'views/' );
+}
+
+if ( ! defined( 'YITH_WCBR_ASSETS_URL' ) ) {
+	define( 'YITH_WCBR_ASSETS_URL', YITH_WCBR_URL . 'assets' );
+}
+
+
 /* Plugin Framework Version Check */
 if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_WCBR_DIR . 'plugin-fw/init.php' ) ) {
 	require_once YITH_WCBR_DIR . 'plugin-fw/init.php';
@@ -81,6 +90,9 @@ if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_WCBR
 yit_maybe_plugin_fw_loader( YITH_WCBR_DIR );
 
 if ( ! function_exists( 'yith_brands_constructor' ) ) {
+	/**
+	 * Plugin constructor.
+	 */
 	function yith_brands_constructor() {
 		load_plugin_textdomain( 'yith-woocommerce-brands-add-on', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
@@ -88,7 +100,7 @@ if ( ! function_exists( 'yith_brands_constructor' ) ) {
 		require_once YITH_WCBR_INC . 'class-yith-wcbr.php';
 		require_once YITH_WCBR_INC . 'class-yith-wcbr-shortcode.php';
 
-		// Let's start the game
+		// Let's start the game.
 		YITH_WCBR();
 
 		if ( is_admin() ) {
@@ -101,8 +113,10 @@ if ( ! function_exists( 'yith_brands_constructor' ) ) {
 add_action( 'yith_wcbr_init', 'yith_brands_constructor' );
 
 if ( ! function_exists( 'yith_brands_install' ) ) {
+	/**
+	 * Plugin install.
+	 */
 	function yith_brands_install() {
-
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -127,7 +141,7 @@ if ( ! function_exists( 'yith_wcbr_install_woocommerce_admin_notice' ) ) {
 		?>
 		<div class="error">
 			<?php /* translators: %s: plugin name */ ?>
-			<p><?php echo sprintf( esc_html__( '%s is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-brands-add-on' ), 'YITH WooCommerce Brands Add-on' ); ?></p>
+			<p><?php echo sprintf( esc_html__( '%s is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-brands-add-on' ), 'YITH WooCommerce Brands Add-On' ); ?></p>
 		</div>
 		<?php
 	}
@@ -141,7 +155,7 @@ if ( ! function_exists( 'yith_wcbr_install_free_admin_notice' ) ) {
 		?>
 		<div class="error">
 			<?php /* translators: %s: plugin name */ ?>
-			<p><?php echo sprintf( esc_html__( 'You can\'t activate the free version of %s while you are using the premium one.', 'yith-woocommerce-brands-add-on' ), 'YITH WooCommerce Brands Add-on' ); ?></p>
+			<p><?php echo sprintf( esc_html__( 'You can\'t activate the free version of %s while you are using the premium one.', 'yith-woocommerce-brands-add-on' ), 'YITH WooCommerce Brands Add-On' ); ?></p>
 		</div>
 		<?php
 	}

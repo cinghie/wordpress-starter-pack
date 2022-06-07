@@ -332,7 +332,6 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 
 				wp_enqueue_style( 'yith-plugin-fw-fields' );
 				wp_enqueue_style( 'jquery-ui-style' );
-				wp_enqueue_style( 'raleway-font' );
 
 				wp_enqueue_script( 'jquery-ui' );
 				wp_enqueue_script( 'jquery-ui-core' );
@@ -642,14 +641,15 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 					return;
 				}
 
-				$panel_content_class = apply_filters( 'yit_admin_panel_content_class', 'yit-admin-panel-content-wrap' );
+				$form_method         = apply_filters( 'yit_admin_panel_form_method', 'POST', $option_key );
+				$panel_content_class = apply_filters( 'yit_admin_panel_content_class', 'yit-admin-panel-content-wrap', $option_key );
 				?>
 				<div id="wrap" class="yith-plugin-fw plugin-option yit-admin-panel-container">
 					<?php $this->message(); ?>
 					<div class="<?php echo esc_attr( $panel_content_class ); ?>">
 						<h2><?php echo wp_kses_post( $this->get_tab_title() ); ?></h2>
 						<?php if ( $this->is_show_form() ) : ?>
-							<form id="yith-plugin-fw-panel" method="post" action="options.php">
+							<form id="yith-plugin-fw-panel" method="<?php echo esc_attr( $form_method ); ?>" action="options.php">
 								<?php do_settings_sections( 'yit' ); ?>
 								<p>&nbsp;</p>
 								<?php settings_fields( 'yit_' . $this->settings['parent'] . '_options' ); ?>
@@ -658,6 +658,9 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 								<input type="submit" class="button-primary"
 										value="<?php esc_attr_e( 'Save Changes', 'yith-plugin-fw' ); ?>"
 										style="float:left;margin-right:10px;"/>
+								<input type="hidden" name="page" value="<?php echo esc_attr( $this->settings['page'] ); ?>"/>
+								<input type="hidden" name="tab" value="<?php echo esc_attr( $this->get_current_tab() ); ?>"/>
+								<input type="hidden" name="sub_tab" value="<?php echo esc_attr( $this->get_current_sub_tab() ); ?>"/>
 							</form>
 							<form method="post">
 								<?php
@@ -804,7 +807,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 				array(
 					// translators: 1. Plugin name.
 					'title'              => sprintf( _x( 'Thank you for purchasing %s!', 'Help tab default title', 'yith-plugin-fw' ), $plugin_title ),
-					'description'        => _x( 'We want to help you to enjoy a wonderful experience with all our products.', 'Help tab default description', 'yith-plugin-fw' ),
+					'description'        => _x( 'We want to help you enjoy a wonderful experience with all of our products.', 'Help tab default description', 'yith-plugin-fw' ),
 					'main_video'         => false,
 					'playlists'          => array(),
 					'hc_url'             => 'https://support.yithemes.com/hc/',
@@ -1668,7 +1671,7 @@ if ( ! class_exists( 'YIT_Plugin_Panel' ) ) {
 		 * @author   Leanza Francesco <leanzafrancesco@gmail.com>
 		 */
 		public function print_panel_tabs_in_wp_pages() {
-			if ( self::$panel_tabs_in_wp_pages ) {
+			if ( self::$panel_tabs_in_wp_pages && 'all_admin_notices' === current_action() ) {
 				global $pagenow;
 
 				wp_enqueue_style( 'yit-plugin-style' );

@@ -1,13 +1,11 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Routes\V1;
+namespace Automattic\WooCommerce\StoreApi\Routes\V1;
 
-use Automattic\WooCommerce\Blocks\StoreApi\Utilities\DraftOrderTrait;
-use Automattic\WooCommerce\Blocks\StoreApi\Exceptions\RouteException;
+use Automattic\WooCommerce\StoreApi\Utilities\DraftOrderTrait;
+use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
 
 /**
  * CartRemoveItem class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class CartRemoveItem extends AbstractCartRoute {
 	use DraftOrderTrait;

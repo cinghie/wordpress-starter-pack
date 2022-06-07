@@ -13,6 +13,11 @@ add_action('admin_notices', function () use ($extendifysdk_ms_notices_key, $exte
     if (!$current_page || !in_array($current_page->base, array('plugins'))) {
         return;
     }
+
+    $delay_in_days_have_passed = get_option('ms_was_installed_on') < strtotime('-' . MetaSliderPlugin::EXTENDIFY_NOTICE_DELAY_IN_DAYS . ' days');
+    if (! $delay_in_days_have_passed) {
+        return;
+    }
     ob_start(); ?>
 <p>
     <?php esc_html_e('MetaSlider users have been asking for easier options to create and edit their sites using the new block editor and to make their sliders stand out. We\'re excited to announce that MetaSlider has partnered with the Extendify library of Gutenberg patterns and templates to bring the power of WordPress 5.9 to the most popular WordPress slider plugin!  By clicking “Install & Activate Extendify” you will get access to 10 free monthly imports of patterns and templates. Installing Extendify is optional, and MetaSlider will continue to work if you decide to not install Extendify.', 'ml-slider') ?>
@@ -96,15 +101,24 @@ add_action('wp_ajax_handle_extendify_install', function () use ($extendifysdk_ms
             'message' => esc_html__('The security check failed. Please refresh the page and try again.', 'ml-slider')
         ), 401);
     }
-    update_user_option(get_current_user_id(), $extendifysdk_ms_notices_key, time());
+
     if (method_exists('Extendify\Library\Plugin', 'install_and_activate_plugin')) {
         try {
-            Extendify\Library\Plugin::install_and_activate_plugin('extendify');
+            $installed = Extendify\Library\Plugin::install_and_activate_plugin('extendify');
+
+            if (true === $installed) {
+                update_user_option(get_current_user_id(), $extendifysdk_ms_notices_key, time());
+            }
+
+            wp_send_json_success();
         } catch (Exception $e) {
             wp_send_json_error(array(
                 'message' => $e->getMessage()
             ), 500);
         }
+    } else {
+        wp_send_json_error(array(
+            'message' => __('The Extendify SDK is not loaded.', 'ml-slider')
+        ), 500);
     }
-    wp_send_json_success();
 });

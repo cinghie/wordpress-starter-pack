@@ -64,7 +64,7 @@ class WOOCCM_Fields_Register
           // when country field is visible default state is set via javascript
           if (in_array("{$load_address}_country", $keys)) {
             unset($fields[$field_id]['country']);
-          }          
+          }
           $fields[$field_id]['value'] = get_user_meta(get_current_user_id(), $field['key'], true);
         }
       }

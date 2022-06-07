@@ -6,8 +6,12 @@ $vendorDir = dirname(__DIR__);
 $baseDir   = dirname($vendorDir);
 
 return array(
-	'7635ac0ea22cbb41e04480349a48b4aa' => array(
-		'version' => '7.1.0.0',
-		'path'    => $baseDir . '/src/deprecated.php'
+	'fcd5d7d87e03ff4f5b5a66c2b8968671' => array(
+		'version' => '7.8.0.0',
+		'path'    => $baseDir . '/src/StoreApi/deprecated.php'
+	),
+	'd0f16a186498c2ba04f1d0064fecf9cf' => array(
+		'version' => '7.8.0.0',
+		'path'    => $baseDir . '/src/StoreApi/functions.php'
 	),
 );

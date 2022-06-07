@@ -200,11 +200,11 @@ class WOOCCM_Fields_Handler
     }
 
     // Number
-    if ($field['type'] == 'number') {
-      if ($field['max']) {
+    if ($field['type'] == 'number' ) {
+      if ($field['max'] ||  $field['max'] == 0) {
         $field['custom_attributes']['max'] = (int) $field['max'];
       }
-      if ($field['min']) {
+      if ($field['min'] || $field['min'] == 0) {
         $field['custom_attributes']['min'] = (int) $field['min'];
       }
     }
@@ -298,7 +298,7 @@ class WOOCCM_Fields_Handler
         'state',
         'postcode',
       ))) {
-        
+
         $field['class'][] = 'address-field';
 
         if ($key == 'country') {

@@ -111,8 +111,8 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 		if ( $this->has_output_filter ) {
 			$xml = apply_filters( "woe_xml_output_filter", $xml, $rec, $this );
 		}
-		
-		if( $xml )
+
+		if($xml)
 			fwrite( $this->handle, $xml . $this->linebreak );
 	}
 

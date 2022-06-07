@@ -1,8 +1,8 @@
 <?php
-$domain = $_SERVER['HTTP_HOST'];
+$domain = sanitize_text_field($_SERVER['HTTP_HOST']);
 $plugin_settings = get_option( 'plugin_settings' );
 $license_information = get_option( 'license_information' );
-$host = $_SERVER['HTTP_HOST'];
+$host = sanitize_text_field($_SERVER['HTTP_HOST']);
 $directory_perm_xml = "";
 $directory_perm_csv = "";
 $directory_perm_txt = "";
@@ -727,7 +727,8 @@ if(isset($_GET["tab"])) {
                                                                 <li><strong>5.</strong> <?php _e( 'WPML support', 'woo-product-feed-pro' );?></li>
                                                                 <li><strong>6.</strong> <?php _e( 'Aelia currency switcher support', 'woo-product-feed-pro');?></li>
                                                                 <li><strong>7.</strong> <?php _e( 'Facebook pixel feature', 'woo-product-feed-pro');?></li>
-                                                                <li><strong>8.</strong> <?php _e( 'Polylang support', 'woo-product-feed-pro');?></li>
+								<li><strong>8.</strong> <?php _e( 'Polylang support', 'woo-product-feed-pro');?></li>
+								<li><strong>9.</strong> <?php _e( 'TranslatePress support', 'woo-product-feed-pro');?></li>
 							</ul>
                                                         <strong>
                                                         <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-settings&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!', 'woo-product-feed-pro' );?></a>

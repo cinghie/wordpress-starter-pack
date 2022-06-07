@@ -77,6 +77,14 @@ class WOE_Formatter_Html extends WOE_Formatter_Plain_Format {
 
 				do_action( "woe_{$this->format}_print_header", $this->handle, $data, $this );
 			}
+		} else {
+			if ( $this->mode !== 'preview' ) {
+				if ( $this->settings['header_text'] ) {
+				    fwrite( $this->handle, '<div class="header">' . $this->settings['header_text'] . '</div>' );
+				}
+
+				fwrite( $this->handle, '<table>' );
+			}
 		}
 	}
 

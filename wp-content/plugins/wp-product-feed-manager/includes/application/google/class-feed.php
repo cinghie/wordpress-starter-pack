@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 21.0
+ * @version 24.0
  */
 
 // Prevent direct access
@@ -18,10 +18,14 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '21.0';
+		private $_version = '24.0';
 
 		public function __construct() {
 			parent::__construct();
+
+			add_filter( 'wppfm_feed_price_decimal_separator', array( $this, 'wppfm_set_price_decimal_separator_from_google_feed' ), 10, 1  );
+			add_filter( 'wppfm_feed_price_thousands_separator', array( $this, 'wppfm_remove_price_thousands_separator_from_google_feed' ), 10, 1 );
+			add_filter( 'wppfm_feed_price_decimals', array( $this, 'wppfm_set_price_decimals_from_google_feed' ), 10, 1 );
 		}
 
 		public function get_version() {
@@ -206,6 +210,21 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 		protected function footer() {
 			return '</channel></rss>';
+		}
+
+		// As of 13th June 2022 the thousands' separator for Google feeds needs to be empty.
+		public function wppfm_remove_price_thousands_separator_from_google_feed( $separator ) {
+			return '';
+		}
+
+		// As of 13th June 2022 the decimal separator for Google feeds needs to be a period.
+		public function wppfm_set_price_decimal_separator_from_google_feed( $separator ) {
+			return '.';
+		}
+
+		// As of 13th June 2022 the price decimals for Google feeds needs to be 2.
+		public function wppfm_set_price_decimals_from_google_feed( $decimals ) {
+			return '2';
 		}
 	}
 

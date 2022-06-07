@@ -1,5 +1,4 @@
 #fields, #unselected_fields {
-    height: 800px;
     /*overflow: scroll;*/
     padding: 20px;
     border-color: rgb(187, 180, 180);
@@ -920,5 +919,30 @@ input[type=number] {
     .widefat .column-actions .button-secondary {
         padding: 0 3px !important;
     }
+}
+
+.mapping_row-sum_field_block .mapping_row-sum_field {
+    color: grey;
+    text-decoration: none;
+}
+
+.mapping_row-sum_field_block .mapping_row-sum_field.active {
+    color: red;
+    text-decoration: none;
+}
+
+#order_fields .mapping_row .mapping_row-sum_field_block {
+    position: absolute;
+    top: 0px;
+    right: 75px;
+    font-size: 16px;
+}
+
+#order_fields .mapping_row .mapping_row-sum_field_block input {
+    display: none;
+}
+
+#fields .summary-row-title {
+    margin-bottom: 10px;
 }
 

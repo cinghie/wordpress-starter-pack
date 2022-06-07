@@ -1,11 +1,8 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Schemas\V1;
+namespace Automattic\WooCommerce\StoreApi\Schemas\V1;
 
 /**
  * ProductAttributeSchema class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
- * @since 2.5.0
  */
 class ProductAttributeSchema extends AbstractSchema {
 	/**

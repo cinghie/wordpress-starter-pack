@@ -152,7 +152,8 @@ class WOE_Formatter_sv_crlf_filter extends php_user_filter {
 	public static function set_linebreak( $linebreak ) {
 		self::$linebreak = $linebreak;
 	}
-
+	
+	#[\ReturnTypeWillChange]
 	function filter( $in, $out, &$consumed, $closing ) {
 		while ( $bucket = stream_bucket_make_writeable( $in ) ) {
 			// make sure the line endings aren't already CRLF

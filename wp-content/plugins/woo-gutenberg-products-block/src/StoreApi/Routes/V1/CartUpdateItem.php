@@ -1,10 +1,8 @@
 <?php
-namespace Automattic\WooCommerce\Blocks\StoreApi\Routes\V1;
+namespace Automattic\WooCommerce\StoreApi\Routes\V1;
 
 /**
  * CartUpdateItem class.
- *
- * @internal This API is used internally by Blocks--it is still in flux and may be subject to revisions.
  */
 class CartUpdateItem extends AbstractCartRoute {
 	/**

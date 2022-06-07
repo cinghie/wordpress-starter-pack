@@ -983,7 +983,7 @@ class IS_Public
                         }
                         // @TODO: Cells are not evaluated here, so math formulas are searched.
                         
-                        if ( '1' == $fuzzy_match && preg_match( "/\\b{$search_term}\\b/i", $table_cell ) || '2' == $fuzzy_match && (preg_match( "/\\b{$search_term}/i", $table_cell ) || preg_match( "/{$search_term}\\b/i", $table_cell )) || '3' == $fuzzy_match && false !== stripos( $table_cell, $search_term ) ) {
+                        if ( '1' == $fuzzy_match && preg_match( "/\\b{$search_term}\\b/iu", $table_cell ) || '2' == $fuzzy_match && (preg_match( "/\\b{$search_term}/iu", $table_cell ) || preg_match( "/{$search_term}\\b/iu", $table_cell )) || '3' == $fuzzy_match && false !== stripos( $table_cell, $search_term ) ) {
                             $found_term_count++;
                             
                             if ( 'OR' == $terms_relation || $found_term_count == sizeof( $search_terms ) ) {

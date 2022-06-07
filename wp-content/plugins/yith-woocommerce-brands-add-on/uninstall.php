@@ -2,8 +2,8 @@
 /**
  * Uninstall plugin
  *
- * @author Your Inspiration Themes
- * @package YITH WooCommerce Brands Add-On
+ * @author YITH
+ * @package YITH\Brands
  * @version 1.0.0
  */
 

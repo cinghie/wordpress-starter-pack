@@ -55,4 +55,5 @@ export function getTaxonomyName(key) {
         case 'layoutType':
             return 'Page Types'
     }
+    return key
 }

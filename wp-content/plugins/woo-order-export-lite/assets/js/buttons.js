@@ -393,9 +393,15 @@ jQuery( document ).ready( function ( $ ) {
 		data = data + "&action=order_exporter&method=save_settings&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
 		$( '#Settings_updated' ).hide();
+		$( '#Settings_error' ).hide();
 
 		$.post( ajaxurl, data, function ( response ) {
-			$( '#Settings_updated' ).show().delay( 5000 ).fadeOut();
+                        if (response.error) {
+                            $( '#Settings_error' ).html(response.error);
+                            $( '#Settings_error' ).show().delay( 5000 ).fadeOut();
+                        } else {
+                            $( '#Settings_updated' ).show().delay( 5000 ).fadeOut();
+                        }
 		}, "json" );
 
 		return false;
@@ -416,7 +422,12 @@ jQuery( document ).ready( function ( $ ) {
 		data = data + "&action=order_exporter&method=save_settings&mode=" + mode + "&id=" + job_id + '&woe_nonce=' + settings_form.woe_nonce + '&tab=' + settings_form.woe_active_tab;
 
 		$.post( ajaxurl, data, function ( response ) {
+                    if (response.error) {
+                        $( '#Settings_error' ).html(response.error);
+                        $( '#Settings_error' ).show().delay( 5000 ).fadeOut();
+                    } else {
 			document.location = settings_form.save_settings_url;
+                    }
 		}, "json" );
 
 		return false;

@@ -76,7 +76,6 @@
   "signal_download_enabled": "checkbox",
   "signal_comment_enabled": "checkbox",
 
-  "search_event_enabled": "checkbox",
   "fdp_enabled": "checkbox",
   "edd_purchase_enabled":"checkbox",
   "edd_initiate_checkout_enabled":"checkbox",
@@ -103,11 +102,26 @@
 
   "enable_woo_category_name_param": "checkbox",
   "enable_woo_num_items_param": "checkbox",
-  "enable_woo_product_price_param":"checkbox",
+  "enable_woo_tags_param":"checkbox",
   "enable_edd_category_name_param": "checkbox",
   "enable_edd_num_items_param": "checkbox",
-  "enable_edd_product_price_param": "checkbox",
+  "enable_edd_tags_param": "checkbox",
   "enable_remove_download_url_param":  "checkbox",
   "pys_logs_enable": "checkbox",
-  "woo_add_to_cart_catch_method": "select"
+  "woo_add_to_cart_catch_method": "select",
+
+  "automatic_events_enabled":  "checkbox",
+
+  "automatic_event_form_enabled":  "checkbox",
+  "automatic_event_signup_enabled":  "checkbox",
+  "automatic_event_login_enabled":  "checkbox",
+  "automatic_event_download_enabled":  "checkbox",
+  "automatic_event_comment_enabled":  "checkbox",
+  "automatic_event_scroll_enabled":  "checkbox",
+  "automatic_event_time_on_page_enabled":  "checkbox",
+  "automatic_event_search_enabled":  "checkbox",
+
+  "automatic_event_download_extensions": "tag_select",
+  "automatic_event_scroll_value": "number",
+  "automatic_event_time_on_page_value": "number"
 }

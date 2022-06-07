@@ -60,6 +60,8 @@ if ( ! class_exists( 'WPPFM_Variations' ) ) :
 		}
 
 		private static function variation_conversion_table( $variation_data, $main_permalink, $feed_language, $feed_currency ) {
+			$attachment_url = wp_get_attachment_url( get_post_thumbnail_id( $variation_data->get_id() ) );
+
 			return array(
 				'ID'                     => (string) $variation_data->get_id(),
 				'_downloadable'          => $variation_data->get_downloadable( 'feed' ),
@@ -78,7 +80,7 @@ if ( ! class_exists( 'WPPFM_Variations' ) ) :
 				'_sale_price'            => wppfm_prep_money_values( $variation_data->get_sale_price( 'feed' ), $feed_language, $feed_currency ),
 				'_sale_price_dates_from' => $variation_data->get_date_on_sale_from( 'feed' ) && ( $date = $variation_data->get_date_on_sale_from( 'feed' )->getTimestamp() ) ? wppfm_convert_price_date_to_feed_format( $date ) : '',
 				'_sale_price_dates_to'   => $variation_data->get_date_on_sale_to( 'feed' ) && ( $date = $variation_data->get_date_on_sale_to( 'feed' )->getTimestamp() ) ? wppfm_convert_price_date_to_feed_format( $date ) : '',
-				'attachment_url'         => wp_get_attachment_url( get_post_thumbnail_id( $variation_data->get_id() ) ),
+				'attachment_url'         => has_filter( 'wppfm_get_wpml_permalink' ) ? apply_filters( 'wppfm_get_wpml_permalink', $attachment_url, $feed_language ) : $attachment_url,
 				'permalink'              => $main_permalink,
 			);
 		}

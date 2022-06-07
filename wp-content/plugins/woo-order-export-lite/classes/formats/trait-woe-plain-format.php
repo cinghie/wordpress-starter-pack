@@ -94,8 +94,11 @@ trait WOE_Order_Export_Plain_Format {
 				continue;
 			}
 
-			$previous_field_segment = $current_field_segment;
+			if ( ( $key == "products" || $key == "coupons" ) && in_array( $key, $repeat_as_cols ) ) {
+				continue;
+			} // skip main tags for nested sections
 
+			$previous_field_segment = $current_field_segment;
 			if ( preg_match( $mask, $key, $m ) AND in_array( $m[1], $repeat_as_cols ) ) {
 				$type                   = $m[1];
 				$field_group[ $type ][] = $original_key;

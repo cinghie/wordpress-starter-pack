@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2022-01-23 08:56+0100\n"
-"PO-Revision-Date: 2022-01-23 08:57+0100\n"
+"POT-Creation-Date: 2022-03-06 09:18+0100\n"
+"PO-Revision-Date: 2022-03-06 09:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl_NL\n"
@@ -316,13 +316,14 @@ msgstr ""
 "Om conflicten te voorkomen, deactiveer en verwijder de \"WooCommerce Product "
 "Feed Manager Logger\" plugin via uw Plugins pagina."
 
-#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
-msgid "-- Select the WOOCS currency for the feed --"
-msgstr "-- Selecteer de WOOCS munteenheid van de feed --"
-
+#: includes/packages/pll/includes/wppfm-pll-functions.php:16
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
 msgid "-- Select the language of the feed --"
 msgstr "-- Selecteer de taal van de feed --"
+
+#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
+msgid "-- Select the WOOCS currency for the feed --"
+msgstr "-- Selecteer de WOOCS munteenheid van de feed --"
 
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:136
 msgid ""
@@ -1223,10 +1224,11 @@ msgstr "Notificatie ontvanger"
 #: includes/user-interface/class-wppfm-options-page.php:137
 msgid ""
 "Enter the email address of the person you want to be notified when a feed "
-"fails during an automatic feed update."
+"fails during an automatic feed update (requires an SMTP server for "
+"WordPress)."
 msgstr ""
 "Voer een email adres in van de persoon die gewaarschuwd moet worden als een "
-"automatische feed update fout gaat."
+"automatische feed update fout gaat (benodigd een SMTP server voor WordPress)."
 
 #: includes/user-interface/class-wppfm-options-page.php:141
 #: includes/user-interface/class-wppfm-options-page.php:144
@@ -1452,7 +1454,7 @@ msgstr ""
 "verwijder uw oude back-ups en maak een nieuwe."
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-actions.php:209
+#: includes/user-interface/wppfm-admin-actions.php:212
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
@@ -1461,7 +1463,7 @@ msgstr ""
 "2121-Het activeren van uw licentie is mislukt. Open een support ticket op %s "
 "voor ondersteuning op dit punt."
 
-#: includes/user-interface/wppfm-admin-actions.php:228
+#: includes/user-interface/wppfm-admin-actions.php:231
 #, php-format
 msgid ""
 "An error has occurred. It is possible that the wpmarketingrobot website is "
@@ -1476,7 +1478,7 @@ msgstr ""
 "deze fout blijft bestaan, neem dan contact op met auke@wpmarketingrobot.com. "
 "Foutbericht: %s"
 
-#: includes/user-interface/wppfm-admin-actions.php:278
+#: includes/user-interface/wppfm-admin-actions.php:281
 #, php-format
 msgid ""
 "You have an invalid or expired license key for your %1$s plugin.\n"
@@ -1491,7 +1493,7 @@ msgstr ""
 "admin&utm_medium=renewal_link&utm_campaign=license_expired\"> Klik hier om "
 "uw licenties te beheren</a> en uw datafeeds actueel te houden."
 
-#: includes/user-interface/wppfm-admin-actions.php:295
+#: includes/user-interface/wppfm-admin-actions.php:298
 #, php-format
 msgid ""
 "The license key for your %1$s plugin is expiring soon. If you wish you can "

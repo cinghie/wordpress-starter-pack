@@ -192,7 +192,7 @@ export default {
 			this.notifyInfo(
 				'metaslider-exporting-slideshows',
 				this.sprintf(this.__('Exporting %s slideshows...', 'ml-slider'), this.slideshowsToExport.length), true)
-			
+
 			Slideshow.export(this.slideshowsToExport).then(response => {
 				const site = window.location.hostname.replace('.', '-')
 				const time = new Date().toJSON()

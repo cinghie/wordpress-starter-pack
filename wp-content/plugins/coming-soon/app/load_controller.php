@@ -11,6 +11,7 @@ require_once SEEDPROD_PLUGIN_PATH . 'app/functions-wpforms.php';
 require_once SEEDPROD_PLUGIN_PATH . 'app/functions-rafflepress.php';
 
 require_once SEEDPROD_PLUGIN_PATH . 'app/render-lp.php';
+
 require_once SEEDPROD_PLUGIN_PATH . 'app/render-csp-mm.php';
 
 require_once SEEDPROD_PLUGIN_PATH . 'app/nestednavmenu.php';

@@ -270,6 +270,15 @@ class FacebookServer {
 
             $api = Api::init(null, null, $this->access_token[$pixel_Id],false);
 
+            /**
+             * filter pys_before_send_fb_server_event
+             * Help add custom options or get data from event before send
+             * FacebookAds\Object\ServerSide\Event $event
+             * String $pixel_Id
+             * String EventId
+             */
+            $event = apply_filters("pys_before_send_fb_server_event",$event,$pixel_Id,$event->getEventId());
+
             $request = (new EventRequest($pixel_Id))->setEvents([$event]);
             $request->setPartnerAgent("dvpixelyoursite");
             if(!empty($this->testCode[$pixel_Id])) {

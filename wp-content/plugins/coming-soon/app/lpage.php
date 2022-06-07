@@ -612,7 +612,7 @@ function seedprod_lite_save_lpage() {
 		$sp_post               = $_POST;
 		$sp_post['lpage_html'] = stripslashes_deep( $sp_post['lpage_html'] );
 
-		// remove uneeded code
+		// remove unneeded code
 		$html = $sp_post['lpage_html'];
 		if ( ! empty( $html ) ) {
 			$html = preg_replace( "'<span class=\"sp-hidden\">START-REMOVE</span>[\s\S]+?<span class=\"sp-hidden\">END-REMOVE</span>'", '', $html );
@@ -681,7 +681,12 @@ function seedprod_lite_save_lpage() {
 				remove_all_actions( 'wp_insert_post' );
 				wp_update_post( $update );
 				$status = 'updated';
+			}
 
+			if ( class_exists( 'SeedProd_Tracking' ) ) {
+				$tracking         = new SeedProd_Tracking();
+				$block_usage_data = $tracking->get_block_data( $check_post_type->document->sections );
+				update_post_meta( $lpage_id, '_seedprod_block_usage', $block_usage_data );
 			}
 		}
 

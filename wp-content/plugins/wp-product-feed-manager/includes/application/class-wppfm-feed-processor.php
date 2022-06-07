@@ -195,6 +195,10 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 				return false;
 			}
 
+			if ( $wc_product instanceof WC_Product_Grouped ) {
+				return 'product added'; // Skip grouped products.
+			}
+
 			do_action( 'wppfm_started_product_processing', $this->_feed_data->feedId, $product_id );
 
 			$class_data = new WPPFM_Data();
@@ -291,7 +295,11 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 				// with all the data that goes into the feed, with the items name as key.
 				$product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id );
 
-				return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );
+				if ( $product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id ) ) {
+					return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );
+				} else {
+					return false;
+				}
 			} else {
 				return false;
 			}

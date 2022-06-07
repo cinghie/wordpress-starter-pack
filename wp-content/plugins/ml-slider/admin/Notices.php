@@ -66,7 +66,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
      */
     public function add_notice_assets()
     {
-        wp_enqueue_style('ml-slider-notices-css', METASLIDER_ADMIN_URL . 'assets/css/notices.css', false, METASLIDER_VERSION);
+        wp_enqueue_style('ml-slider-notices-css', METASLIDER_ADMIN_URL . 'assets/css/notices.css', false, METASLIDER_ASSETS_VERSION);
         wp_register_script('metaslider-notices-extra-js', '');
         wp_enqueue_script('metaslider-notices-extra-js');
         $nonce = wp_create_nonce('metaslider_handle_notices_nonce');
@@ -175,7 +175,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
         $coupons = json_decode(file_get_contents(METASLIDER_PATH .'seasonal-discounts.json'), true);
         $coupon_object =  array(
             'blackfriday' => array(
-                'title' => _x('Black Friday — Get 60% off the MetaSlider Add-on Pack until November 30th!', 'Keep the phrase "MetaSlider Add-on Pack" when possible. Also, "Black Friday" is the name of an event in the United States', 'ml-slider'),
+                'title' => _x('Black Friday — Get 50% off the MetaSlider Add-on Pack until November 30th!', 'Keep the phrase "MetaSlider Add-on Pack" when possible. Also, "Black Friday" is the name of an event in the United States', 'ml-slider'),
                 'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/black_friday.png',
                 'button_link' => 'metaslider',
@@ -184,7 +184,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'christmas' => array(
-                'title' => _x('Christmas sale - 60% off the MetaSlider Add-on Pack until December 25th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
+                'title' => _x('Christmas sale - 50% off the MetaSlider Add-on Pack until December 25th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
                 'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/christmas.png',
                 'button_link' => 'metaslider',
@@ -193,7 +193,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'newyear' => array(
-                'title' => _x('Happy New Year - 60% off the MetaSlider Add-on Pack until January 14th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
+                'title' => _x('Happy New Year - 50% off the MetaSlider Add-on Pack until January 14th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
                 'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/new_year.png',
                 'button_link' => 'metaslider',
@@ -202,7 +202,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'spring' => array(
-                'title' => _x('Spring sale - 20% off the MetaSlider Add-on Pack until April 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
+                'title' => _x('Spring sale - 50% off the MetaSlider Add-on Pack until April 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
                 'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/spring.png',
                 'button_link' => 'metaslider',
@@ -211,7 +211,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
                 'supported_positions' => array('header', 'dashboard'),
             ),
             'summer' => array(
-                'title' => _x('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
+                'title' => _x('Summer sale - 50% off the MetaSlider Add-on Pack until July 31st', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
                 'text' => __('With discount code:', 'ml-slider').' ',
                 'image' => 'seasonal/summer.png',
                 'button_link' => 'metaslider',

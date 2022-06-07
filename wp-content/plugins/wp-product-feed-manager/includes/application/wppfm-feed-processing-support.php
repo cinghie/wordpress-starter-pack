@@ -390,7 +390,7 @@ trait WPPFM_Processing_Support {
 	}
 
 	protected function get_filter_status( $filter, $product_data ) {
-		if ( property_exists( $filter, 'c' ) ) {
+		if ( ! empty( $filter ) && property_exists( $filter, 'c' ) ) {
 			// check if the query is true for this field
 			return $this->filter_result( $filter->c, $product_data );
 		} else {
@@ -478,7 +478,7 @@ trait WPPFM_Processing_Support {
 	protected function get_row_source_data( $filter, $product_data, $advised_source ) {
 		$row_source_data = '';
 
-		if ( property_exists( $filter, 's' ) ) {
+		if ( ! empty( $filter ) && property_exists( $filter, 's' ) ) {
 			if ( property_exists( $filter->s, 'static' ) ) {
 				$row_source_data = $filter->s->static;
 			} elseif ( property_exists( $filter->s, 'source' ) ) {
@@ -771,7 +771,9 @@ trait WPPFM_Processing_Support {
 		if ( ! empty( $value_string ) ) {
 			$value_object = json_decode( $value_string );
 
-			if ( property_exists( $value_object, 'm' ) && property_exists( $value_object->m[0], 's' ) ) {
+			if ( property_exists( $value_object, 'm' )
+			     && ! empty( $value_object->m[0] )
+			     && property_exists( $value_object->m[0], 's' ) ) {
 				$source_string = wp_json_encode( $value_object->m[0]->s );
 			}
 		}
@@ -1296,6 +1298,7 @@ trait WPPFM_Processing_Support {
 	 * @param object $product
 	 * @param array $active_field_names
 	 * @param string $selected_language
+	 * @param string $selected_currency
 	 * @param string $feed_id
 	 *
 	 * @return bool
@@ -1336,8 +1339,14 @@ trait WPPFM_Processing_Support {
 			}
 
 			// WPML support
-			$product->permalink = has_filter( 'wppfm_get_wpml_permalink' )
+			$permalink = has_filter( 'wppfm_get_wpml_permalink' )
 				? apply_filters( 'wppfm_get_wpml_permalink', $permalink, $selected_language ) : $permalink;
+
+			// WOOCS support since @2.29.0
+			$permalink = has_filter( 'wppfm_get_woocs_currency' )
+				? apply_filters( 'wppfm_woocs_product_permalink', $permalink, $selected_currency ) : $permalink;
+
+			$product->permalink = $permalink;
 		}
 
 		if ( in_array( 'attachment_url', $active_field_names ) ) {

@@ -21,15 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function wppfm_convert_price_date_to_feed_format( $date_stamp ) {
 	if ( $date_stamp ) {
-		// register the date
-		$feed_string = date( 'Y-m-d', $date_stamp );
-
-		// if set, add the time
-		if ( date( 'H', $date_stamp ) !== '00' || date( 'i', $date_stamp ) !== '00' || date( 's', $date_stamp ) !== '00' ) {
-			$feed_string .= 'T' . date( 'H:i:s', $date_stamp );
-		}
-
-		return $feed_string;
+		return date( 'Y-m-d\TH:iO', $date_stamp );
 	} else {
 		return '';
 	}
@@ -98,11 +90,12 @@ function wppfm_meta_key_is_money( $key ) {
  * @since 1.9.0 added WPML support
  * @since 2.28.0 Switched to the formal wc functions to get the separator and number of decimals values.
  * @since 2.28.0 Added support for the WooCommerce Currency Switcher plugin.
+ * @since 2.31.0 Added the wppfm_feed_price_thousands_separator, wppfm_feed_price_decimal_separator and wppfm_feed_price_decimals filters.
  *
  * @since 1.1.0
  */
 function wppfm_prep_money_values( $money_value, $feed_language = '', $feed_currency = '' ) {
-	$thousand_separator = wc_get_price_thousand_separator();
+	$thousand_separator = apply_filters( 'wppfm_feed_price_thousands_separator', wc_get_price_thousand_separator() );
 
 	if ( ! is_float( $money_value ) ) {
 		$val         = wppfm_number_format_parse( $money_value );
@@ -116,8 +109,8 @@ function wppfm_prep_money_values( $money_value, $feed_language = '', $feed_curre
 	if ( has_filter( 'wppfm_wpml_exchange_money_values' ) ) { // WPML Support.
 		return apply_filters( 'wppfm_wpml_exchange_money_values', $money_value, $feed_language );
 	} else {
-		$decimal_point   = wc_get_price_decimal_separator();
-		$number_decimals = wc_get_price_decimals();
+		$decimal_point   = apply_filters( 'wppfm_feed_price_decimal_separator', wc_get_price_decimal_separator() );
+		$number_decimals = apply_filters( 'wppfm_feed_price_decimals', wc_get_price_decimals() );
 
 		// To prevent Google Merchant Centre to interpret a thousand separator as a decimal separator we need to remove
 		// the thousand separator if the decimals setting in WC is 0 and a period is used as decimal separator. Eg 1.452 would be interpreted by Google as 1,452.

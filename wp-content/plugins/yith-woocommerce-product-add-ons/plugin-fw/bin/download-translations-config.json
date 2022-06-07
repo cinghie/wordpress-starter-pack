@@ -22,6 +22,11 @@
       "id": "el",
       "name": "Greek",
       "slug": "el"
+    },
+    {
+      "id": "ru",
+      "name": "Russian",
+      "slug": "ru_RU"
     }
   ]
 }

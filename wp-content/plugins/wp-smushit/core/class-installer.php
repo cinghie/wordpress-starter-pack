@@ -36,6 +36,7 @@ class Installer {
 		}
 
 		Modules\CDN::unschedule_cron();
+		Settings::get_instance()->delete_setting( 'wp-smush-cdn_status' );
 
 		if ( is_multisite() && is_network_admin() ) {
 			/**
@@ -45,6 +46,8 @@ class Installer {
 			 */
 			update_site_option( 'wp-smush-networkwide', 1 );
 		}
+
+		delete_site_option( 'wp_smush_api_auth' );
 	}
 
 	/**
@@ -145,6 +148,10 @@ class Installer {
 				delete_site_option( 'wp-smush-show-black-friday' );
 			}
 
+			if ( version_compare( $version, '3.9.10', '<' ) ) {
+				self::dir_smush_set_primary_key();
+			}
+
 			// Create/upgrade directory smush table.
 			self::directory_smush_table();
 
@@ -182,6 +189,28 @@ class Installer {
 
 		// Create/upgrade directory smush table.
 		WP_Smush::get_instance()->core()->mod->dir->create_table();
+	}
+
+	/**
+	 * Set primary key for directory smush table on upgrade to 3.9.10.
+	 *
+	 * @since 3.9.10
+	 */
+	private static function dir_smush_set_primary_key() {
+		global $wpdb;
+
+		// Only call it after creating table smush_dir_images. If the table doesn't exist, returns.
+		if ( ! Modules\Dir::table_exist() ) {
+			return;
+		}
+
+		// If the table is already set the primary key, return.
+		if ( $wpdb->query( $wpdb->prepare( "SHOW INDEXES FROM {$wpdb->base_prefix}smush_dir_images WHERE Key_name = %s;", 'PRIMARY' ) ) ) {
+			return;
+		}
+
+		// Set column ID as a primary key.
+		$wpdb->query( "ALTER TABLE {$wpdb->base_prefix}smush_dir_images ADD PRIMARY KEY (id);" );
 	}
 
 	/**

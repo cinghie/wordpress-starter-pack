@@ -1,18 +1,18 @@
-=== Product Feed PRO for WooCommerce - Google Shopping, Facebook and many more  ===
+=== Product Feed PRO for WooCommerce ===
 Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: Google Shopping Feed, WooCommerce Product Feed, Facebook Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Facebook Pixel, Facebook Conversion API
+Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
-Tested up to: 5.9
-Stable tag: 11.3.6
+Tested up to: 6.0
+Stable tag: 11.6.3
 
 == Description ==
 
-Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook Remarketing, Bing Ads, Billiger.de, Pricerunner, Skroutz and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
+Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook, Remarketing, Bing Ads, Billiger.de, Pricerunner, Skroutz and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
 
 = Why choose this plugin? =
-Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support. Next to creating product feeds this plugin also add's the Facebook pixel, Facebook Conversion API (CAPI) and Google Dynamic Remarketing pixel to your website and makes sure they are aligned with your feeds.
+Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support. Next to creating product feeds this plugin also add's pixels and conversion API (CAPI) and Google Dynamic Remarketing pixel to your website and makes sure they are aligned with your feeds.
 
 = Our mission =
 Offer free and advanced, intuitive, tooling and plugins for website owners and marketers to easily set-up and manage their online marketing campaigns.
@@ -55,6 +55,9 @@ Some marketing channels require you to map your categories to theirs (such as Go
 = Google Shopping =
 Our plugin offers added and advanced features for creating the best possible product feed for Google Shopping. Feeds created by our plugin have a high approval rate on products in Google's Merchant center. Also, because of a WooCommerce bug in the structured data of variable products all of these products would normally be disapproved in Google's merchant center. Our plugin fixes this bug and enables you to advertise on all of your products in Google Shopping.
 
+= Facebook Feed/Catalog and remarketing =
+Our plugin offers added and advanced features for creating the best possible product feed for your Facebook catalog and Facebook shop. Our plugin also includes the Facebook pixel and CAPI support. 
+
 = Google Analytics support =
 This plugin enables you to add and configure Google Analytics UTM tracking-codes to your product URL’s so you can measure the effectiveness of your marketing channels in Google Analytics. 
 
@@ -70,9 +73,9 @@ Our plugin supports the WooCommerce Shipping Table Rate plugin created by Bolder
 = Product variations / Variables =
 This plugin supports product variables so all your variations make it to product feeds as individual products too.
 
-= Facebook Pixel =
-This plugin adds the Facebook pixel code on your websites and makes sure it matches the content of your Facebook catalogue product feed
-Our plugin add's the following Facebook pixel events:
+= Pixel =
+This plugin adds the pixel code on your websites and makes sure it matches the content of your catalogue product feed
+Our plugin add's the following pixel events:
 * on your product pages, both for simple, variable and variations pages
 * on your category pages (ViewCategory event)
 * on your search result pages (Search event)
@@ -80,8 +83,8 @@ Our plugin add's the following Facebook pixel events:
 * on the checkout page (initiateCheckout event)
 * on the order thank you page (PurChase event)
 
-= Facebook Conversion API (CAPI) =
-This plugin connects to the Facebook Conversion API so all your website conversions are being tracked properly
+= Conversion API (CAPI) =
+This plugin connects to the Conversion API so all your website conversions are being tracked properly
 
 = Google Dynamic Remarketing Pixel =
 This plugin adds the Google Dynamic Remarketing pixel code on your website.
@@ -104,10 +107,13 @@ Our plugin supports the Aelia Currency Switcher
 = Polylang support (Elite version) =
 Our plugin supports Polylang
 
+= TranslatePress support (Elite version) =
+Our plugin supports TranslatePress - beta
+
 = Google Shopping product feed tutorial =
 [youtube https://www.youtube.com/watch?v=2XzxwKDufGw]
 
-= Facebook Dynamic Ads / Remarketing feed tutorial =
+= Dynamic Ads / Remarketing feed tutorial =
 [youtube https://www.youtube.com/watch?v=Ld-2Kj-_Dow]
 
 == Available features ==
@@ -120,6 +126,7 @@ Our plugin supports Polylang
 * Supports WCML, WooCommerce Multilingual
 * Supports Aelia Currency Switcher
 * Supports Polylang
+* Supports TranslatePress
 * Intuitive interface;
 * Supports product variations / variables;
 * Scheduled product feed refreshes: daily, twice-daily or every hour;
@@ -131,7 +138,6 @@ Our plugin supports Polylang
 * Create custom field names: create your own field names and fill them with static or dynamic values;
 * Add static field values to your product feeds;
 * Google Analytics support: add Google Analytics UTM parameters to your product feed and individual products.
-* Supports the official Facebook for WooCommerce plugin (SKU_ID parameter)
 * Supports Yoasts primary category feature
 * Supports Rankmaths primary category feature
 * Supports the official "WooCommerce Brands" plugin
@@ -154,6 +160,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * WPML / WCML support
 * Aelia currency switcher support
 * Polylang support
+* TranslatePress support
 * Addition of the extra fields on your product edit pages
 * Data manipulation feature
 * WooCommerce structured data bug fix
@@ -168,6 +175,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Google Local Products
 * Google Local Products Inventory
 * Google Shopping Actions
+* Facebook shop
 * Facebook Dynamic Ad's / remarketing
 * Bing Shopping
 * Bing Shopping Promotions
@@ -301,7 +309,7 @@ Yes, it supports multiple. For example: Yoast's primary category feature and the
 = How do I set-up a product feed for Google Shopping? =
 Please check out our Youtube tutorial: [youtube https://www.youtube.com/watch?v=2XzxwKDufGw]
 
-= How do I set-up a product feed for Facebook Dynamic Ads? =
+= How do I set-up a product feed for Dynamic Ads? =
 Please check out our Youtube tutorial: [youtube https://www.youtube.com/watch?v=Ld-2Kj-_Dow] 
 
 = What file formats does this plugin support? =
@@ -311,7 +319,7 @@ This plugin outputs product feeds in the following file formats: TXT, CSV, XML a
 This plugin can refresh your product feeds daily, twicedaily or every hour.
 
 = What channels does this plugin support? =
-This plugin supports Google Shopping, Facebook, Bing, Yandex and over a 100 other channels.
+This plugin supports Google Shopping, Bing, price comparison sites and over a 100 other channels.
 
 = Does this plugin support Google shopping categories? =
 Yes, this plugin enables you to map your products and categories to Google Shopping categories using Google's official taxonomy.
@@ -336,6 +344,91 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.6.3 (2022-06-07) =
+* Fixed the inventory count field for Vivino feeds
+
+= 11.6.2 (2022-06-06) =
+* Solved a Undefined array key HTTP_HOST PHP warning
+
+= 11.6.1 (2022-06-01) =
+* Added some more sanitisation and escaping
+
+= 11.6.0 (2022-05-31) =
+* Added support for the new Skroutz additional_image requirements
+
+= 11.5.9 (2022-05-31) =
+* Fixed an issue where the thousand separator for discounted prices by Flycart was causing malformed prices
+
+= 11.5.8 (2022-05-31) =
+* Fixed issues with regards to missing sanitazion and validation
+
+= 11.5.7 (2022-05-29) =
+* Solved an issue with an undefined variable
+
+= 11.5.6 (2022-05-10) =
+* Fixed an issue with the Skroutz template, adding comma's inbetween size values 
+
+= 11.5.5 (2022-05-05) =
+* Fixed a PHP notice introduced in the previous release
+
+= 11.5.4 (2022-04-29) =
+* Added the alt text attribute for Pinterest feeds
+* Added price attributes with thousand and decimal separators in it (mainly for TikTok)
+
+= 11.5.3 (2022-04-22) =
+* Removed all Facebook references in the plugin title and description
+
+= 11.5.2 (2022-04-15) =
+* Tested for compatibility with WooCommerce 6.4
+
+= 11.5.1 (2022-04-07) =
+* Fixed a multiply issue for price, regular price and sale price attributes that used a komma as decimal separator
+
+= 11.5.0 (2022-04-04) =
+* Added the Glami templates for Slovakia and the Czech Republic
+
+= 11.4.9 (2022-03-30) =
+* Changed the wpdb::prepare query string  
+
+= 11.4.8 (2022-03-29) =
+* Implemented a rounding feature for WooCommerce bundled products
+
+= 11.4.7 (2022-03-28) =
+* Added two new fields to the Google Shopping template: Short title and Excluded countries for Shopping ads
+
+= 11.4.6 (2022-03-23) =
+* The WooCommerce Composite plugin returned sale prices of 0.00. When this happens our plugin removes that sale price from the feeds
+
+= 11.4.5 (2022-03-22) =
+* Reverting the rounding on two decimals for bundled products as WooCommerce is not always returning int|float values
+
+= 11.4.4 (2022-03-21) =
+* Added links to TranslatePress tutorial
+* Fixed an issue with the WooCommerce bundled product plugin that returned prices with more than 2 decimals
+
+= 11.4.3 (2022-03-17) =
+* Fixed an issue for bundled products where VAT was added twice
+
+= 11.4.2 (2022-03-16) =
+* Simplified the SQL query that retrieved custom attribute names so it uses less memory
+
+= 11.4.1 (2022-03-15) =
+* Added 4 new Google Shopping fields in the template: product height, product length, product width and product weight
+
+= 11.4.0 (2022-03-14) =
+* Added encoding for percentage characters
+* Fixed a rounding error which one does on strings instead of int|floats
+
+= 11.3.9 (2022-03-10) =
+* Checked for compatibility with WooCommerce 6.3
+* Fixed a rounding error which one does on strings instead of int|floats
+
+= 11.3.8 (2022-03-07) =
+* Added the new custom number fields to the Facebook / Instragram template
+
+= 11.3.7 (2022-03-06) =
+* Solved an issue with an undefined variable in the Google pixel feature
 
 = 11.3.6 (2022-02-24) =
 * Fixed a floatval issue that occured when calculating prices for bundled products
@@ -3628,6 +3721,91 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.6.3 =
+Fixed the inventory count field for Vivino feeds
+
+= 11.6.2 =
+Solved a Undefined array key HTTP_HOST PHP warning
+
+= 11.6.1 =
+Added some more sanitisation and escaping
+
+= 11.6.0 =
+Added support for the new Skroutz additional_image requirements
+
+= 11.5.9 =
+Fixed an issue where the thousand separator for discounted prices by Flycart was causing malformed prices
+
+= 11.5.8 =
+Fixed issues with regards to missing sanitazion and validation
+
+= 11.5.7 =
+Solved an issue with an undefined variable
+
+= 11.5.6 =
+Fixed an issue with the Skroutz template, adding comma's inbetween size values
+
+= 11.5.5 =
+Fixed a PHP notice introduced in the previous release
+
+= 11.5.4 =
+Added the alt text attribute for Pinterest feeds
+Added price attributes with thousand and decimal separators in it (mainly for TikTok)
+
+= 11.5.3 =
+Removed all Facebook references in the plugin title and description
+
+= 11.5.2 =
+Tested for compatibility with WooCommerce 6.4
+
+= 11.5.1 =
+Fixed a multiply issue for price, regular price and sale price attributes that used a komma as decimal separator
+
+= 11.5.0 =
+Added the Glami templates for Slovakia and the Czech Republic
+
+= 11.4.9 =
+Changed the wpdb::prepare query string
+
+= 11.4.8 =
+Implemented a rounding feature for WooCommerce bundled products
+
+= 11.4.7 =
+Added two new fields to the Google Shopping template: Short title and Excluded countries for Shopping ads
+
+= 11.4.6 =
+The WooCommerce Composite plugin returned sale prices of 0.00. When this happens our plugin removes that sale price from the feeds
+
+= 11.4.5 =
+Reverting the rounding on two decimals for bundled products as WooCommerce is not always returning int|float values
+
+= 11.4.4 =
+Added links to TranslatePress tutorial
+Fixed an issue with the WooCommerce bundled product plugin that returned prices with more than 2 decimals
+
+= 11.4.3 =
+Fixed an issue for bundled products where VAT was added twice
+
+= 11.4.2 =
+Simplified the SQL query that retrieved custom attribute names so it uses less memory
+
+= 11.4.1 =
+Added 4 new Google Shopping fields in the template: product height, product length, product width and product weight
+
+= 11.4.0 =
+Added encoding for percentage characters
+Fixed a rounding error which one does on strings instead of int|floats
+
+= 11.3.9 =
+Checked for compatibility with WooCommerce 6.3
+Fixed a rounding error which one does on strings instead of int|floats
+
+= 11.3.8 =
+Added the new custom number fields to the Facebook / Instragram template
+
+= 11.3.7 =
+Solved an issue with an undefined variable in the Google pixel feature
 
 = 11.3.6 =
 Fixed a floatval issue that occured when calculating prices for bundled products

@@ -61,7 +61,7 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_theme_templates_page'
 	);
 
-	if ( 'pro' === SEEDPROD_BUILD ) {
+	if ( 'lite' === SEEDPROD_BUILD ) {
 		add_submenu_page(
 			'seedprod_lite',
 			__( 'Templates', 'coming-soon' ),
@@ -117,15 +117,32 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_featurerequest_page'
 	);
 
-	if ( SEEDPROD_BUILD == 'lite' ) {
+	if ( 'pro' === SEEDPROD_BUILD ) {
 		add_submenu_page(
 			'seedprod_lite',
-			__( 'Get Pro', 'coming-soon' ),
-			'<span id="sp-lite-admin-menu__upgrade" style="color:#ff845b">' . __( 'Get Pro', 'coming-soon' ) . '</span>',
+			__( 'Import / Export', 'coming-soon' ),
+			__( 'Import / Export', 'coming-soon' ),
+			apply_filters( 'seedprod_theme_templates_menu_capability', 'edit_others_posts' ),
+			'seedprod_lite_export_import_tools',
+			'seedprod_lite_export_import_tools_page'
+		);
+	}
+
+	if ( 'lite' === SEEDPROD_BUILD ) {
+		add_submenu_page(
+			'seedprod_lite',
+			__( 'Upgrade to Pro', 'coming-soon' ),
+			'<span id="sp-lite-admin-menu__upgrade">' . __( 'Upgrade to Pro', 'coming-soon' ) . '</span>',
 			apply_filters( 'seedprod_gopro_menu_capability', 'edit_others_posts' ),
 			'seedprod_lite_get_pro',
 			'seedprod_lite_get_pro_page'
 		);
+		// add class
+		add_action( 'admin_footer', 'seedprod_lite_upgrade_link_class' );
+		function seedprod_lite_upgrade_link_class(){
+			echo "<script>jQuery(function($) { $('#sp-lite-admin-menu__upgrade').parent().parent().addClass('sp-lite-admin-menu__upgrade_wrapper')});</script>";
+		}
+
 	}
 
 	add_submenu_page(
@@ -233,6 +250,13 @@ function seedprod_lite_update_selected_page_in_submenu() {
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_templates']" ).parent().addClass('current');
 			}
+
+			// EXport Import Templates
+			if(location.hash.indexOf('#/exportimport-templates') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_export_import_tools']" ).parent().addClass('current');
+			}
+
 			// Subscribers
 			if(location.hash.indexOf('#/subscribers') >= 0){
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
@@ -298,6 +322,12 @@ function seedprod_lite_redirect_to_site() {
 		exit();
 	}
 
+	// export /  import  templates
+	if ( isset( $_GET['page'] ) && 'seedprod_lite_export_import_tools' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_safe_redirect( 'admin.php?page=seedprod_lite#/exportimport-templates' );
+		exit();
+	}
+
 	// growth tools page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_growth_tools' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		wp_safe_redirect( 'admin.php?page=seedprod_lite#/growth-tools' );
@@ -312,13 +342,13 @@ function seedprod_lite_redirect_to_site() {
 
 	// feature request page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_featurerequest' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		wp_redirect( 'https://www.seedprod.com/suggest-a-feature/?utm_source=wordpress&utm_medium=plugin-sidebar&utm_campaign=suggest-a-feature' );
+		wp_redirect( 'https://www.seedprod.com/suggest-a-feature/?utm_source=wordpress&utm_medium=plugin-sidebar&utm_campaign=suggest-a-feature' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit();
 	}
 
 	// getpro page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_get_pro' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		wp_redirect( seedprod_lite_upgrade_link( 'wp-sidebar-menu' ) );
+		wp_redirect( seedprod_lite_upgrade_link( 'wp-sidebar-menu' ) ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit();
 	}
 }

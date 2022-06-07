@@ -115,7 +115,10 @@ class Facebook extends Settings implements Pixel {
         if(count($pixelIds) > 0) {
             $pixelEvent = clone $event;
             if($this->addParamsToEvent($pixelEvent)) {
-                $pixelEvent->addPayload([ 'pixelIds' => $pixelIds ]);
+                $pixelEvent->addPayload([
+                    'pixelIds' => $pixelIds,
+                    'eventID' => EventIdGenerator::guidv4()
+                ]);
                 $pixelEvents[] = $pixelEvent;
             }
         }
@@ -143,6 +146,33 @@ class Facebook extends Settings implements Pixel {
         $isActive = false;
 
         switch ($event->getId()) {
+
+            //Automatic events
+            case 'automatic_event_signup' : {
+                if(isWooCommerceActive() &&  Facebook()->getOption("woo_complete_registration_fire_every_time")) {
+                    $isActive = false;
+                } else {
+                    $event->addPayload(["name" => "CompleteRegistration"]);
+                    $isActive = $this->getOption($event->getId().'_enabled');
+                }
+            } break;
+            case 'automatic_event_login' :{
+                $event->addPayload(["name" => "Login"]);
+                $isActive = $this->getOption($event->getId().'_enabled');
+            } break;
+            case 'automatic_event_search' :{
+                $event->addPayload(["name" => "Search"]);
+                $isActive = $this->getOption($event->getId().'_enabled');
+            } break;
+
+            case 'automatic_event_form' :
+            case 'automatic_event_download' :
+            case 'automatic_event_comment' :
+            case 'automatic_event_scroll' :
+            case 'automatic_event_time_on_page' : {
+                $isActive = $this->getOption($event->getId().'_enabled');
+            }break;
+
             //Signal events
             case "signal_page_scroll":
             case "signal_time_on_page":
@@ -160,13 +190,7 @@ class Facebook extends Settings implements Pixel {
                     $this->addDataToEvent($eventData,$event);
                 }
             } break;
-            case 'search_event':{
-                $eventData =  $this->getSearchEventParams();
-                if ($eventData) {
-                    $isActive = true;
-                    $this->addDataToEvent($eventData, $event);
-                }
-            }break;
+
 
             case 'custom_event':{
                 $eventData =  $this->getCustomEventParams( $event->args );
@@ -368,12 +392,7 @@ class Facebook extends Settings implements Pixel {
 
 
         }
-        if($isActive) {
 
-            if($this->isServerApiEnabled()) {
-                $event->payload['eventID'] = EventIdGenerator::guidv4();
-            }
-        }
         return $isActive;
     }
 	
@@ -463,35 +482,7 @@ class Facebook extends Settings implements Pixel {
 
 	}
 
-	private function getSearchEventParams() {
-		global $posts;
 
-		if ( ! $this->getOption( 'search_event_enabled' ) ) {
-			return false;
-		}
-
-		$params['search_string'] = empty( $_GET['s'] ) ? null : $_GET['s'];
-
-		if ( isWooCommerceActive() && isset( $_GET['post_type'] ) && $_GET['post_type'] == 'product' ) {
-
-			$limit = min( count( $posts ), 5 );
-			$post_ids = array();
-
-			for ( $i = 0; $i < $limit; $i ++ ) {
-				$post_ids = array_merge( Helpers\getFacebookWooProductContentId( $posts[ $i ]->ID ), $post_ids );
-			}
-
-			$params['content_type'] = 'product';
-			$params['content_ids']  =  $post_ids ;
-
-		}
-
-		return array(
-			'name'  => 'Search',
-			'data'  => $params,
-		);
-
-	}
 
     public function getFDPEvents() {
         $events = array();
@@ -1077,12 +1068,6 @@ class Facebook extends Settings implements Pixel {
 				$item_options = $cart_item['options'];
 			}
 
-			if ( ! empty( $item_options ) && $item_options['price_id'] !== 0 ) {
-				$price_index = $item_options['price_id'];
-			} else {
-				$price_index = null;
-			}
-
 			// calculate cart items total
 			if ( $value_enabled ) {
 
@@ -1098,7 +1083,6 @@ class Facebook extends Settings implements Pixel {
 			$contents[] = array(
 				'id'         => (string) $download_id,
 				'quantity'   => $cart_item['quantity'],
-				//'item_price' => getEddDownloadPriceToDisplay( $download_id, $price_index ),
 			);
 
 		}

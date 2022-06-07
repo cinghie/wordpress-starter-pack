@@ -113,12 +113,27 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 
 	public static function get_all_coupon_custom_meta_fields() {
 		global $wpdb;
+		$transient_key = 'woe_get_all_coupon_custom_meta_fields_result';
 
-		// WP internal table	, skip hidden and attributes
-		$fields = $wpdb->get_col( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} INNER JOIN {$wpdb->posts} ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.ID
+		$fields = get_transient( $transient_key );
+		if ( $fields === false ) {
+			$total_coupons = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts}  WHERE post_type = 'shop_coupon'" );
+			//small shop , take all orders
+			if ( $total_coupons < self::HUGE_SHOP_COUPONS ) {
+				// WP internal table	, skip hidden and attributes
+				$fields = $wpdb->get_col( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} INNER JOIN {$wpdb->posts} ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.ID
 											WHERE post_type = 'shop_coupon'" );
-		sort( $fields );
-
+			} else { // we have a lot of orders, take last good orders, upto 1000
+				$limit = self::HUGE_SHOP_COUPONS;
+				$coupon_ids   = $wpdb->get_col( "SELECT  ID FROM {$wpdb->posts} WHERE post_type = 'shop_coupon' ORDER BY post_date DESC LIMIT {$limit}" );
+				$coupon_ids[] = 0; // add fake zero
+				$coupon_ids   = join( ",", $coupon_ids );
+				$fields = $wpdb->get_col( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} INNER JOIN {$wpdb->posts} ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.ID
+											WHERE post_type = 'shop_coupon' AND post_id IN ($coupon_ids)" );
+			}
+			sort( $fields );
+			set_transient( $transient_key, $fields, 60 ); //valid for a minute
+		}
 		return apply_filters( 'woe_get_all_coupon_custom_meta_fields', $fields );
 	}
 
@@ -484,8 +499,23 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'number',
 			),
+			'summary_report_total_qty_minus_refund'    => array(
+				'label'   => __( 'Summary Report Total Quantity (-Refund)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'number',
+			),
 			'summary_report_total_amount' => array(
 				'label'   => __( 'Summary Report Total Amount', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'summary_report_total_amount_minus_refund' => array(
+				'label'   => __( 'Summary Report Total Amount (-Refund)', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'money',
+			),
+			'summary_report_total_amount_inc_tax' => array(
+				'label'   => __( 'Summary Report Total Amount (inc. tax)', 'woo-order-export-lite' ),
 				'checked' => 0,
 				'format'  => 'money',
 			),
@@ -594,7 +624,7 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 	}
 
 	public static function get_order_fields_common() {
-		return array(
+		$keys = array(
 			'line_number'       => array(
 				'label'   => __( 'Line number', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -640,6 +670,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'string',
 			),
+			'order_currency_symbol' => array(
+				'label'   => __( 'Currency Symbol', 'woo-order-export-lite'),
+				'checker' => 0,
+				'format'  => 'string',
+			),
 			'completed_date'    => array(
 				'label'   => __( 'Completed Date', 'woo-order-export-lite' ),
 				'checked' => 0,
@@ -671,6 +706,15 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'format'  => 'link',
 			),
 		);
+		// support Subscription plugin in core!
+		if( function_exists("wcs_order_contains_subscription") ) {
+			$keys["subscription_relationship"] = array(
+				'label'   => __( 'Subscription Relationship', 'woo-order-export-lite' ),
+				'checked' => 0,
+				'format'  => 'string',
+			);
+		}	
+		return $keys;
 	}
 
 	public static function get_order_fields_user() {
@@ -955,6 +999,11 @@ class WC_Order_Export_Data_Extractor_UI extends WC_Order_Export_Data_Extractor {
 				'checked' => 0,
 				'format'  => 'string',
 			),
+            'shipping_phone'           => array(
+                'label'   => __( 'Phone (Shipping)', 'woo-order-export-lite' ),
+                'checked' => 0,
+                'format'  => 'string',
+            )
 		);
 	}
 

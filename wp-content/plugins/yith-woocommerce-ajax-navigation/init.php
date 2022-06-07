@@ -3,14 +3,14 @@
  * Plugin Name: YITH WooCommerce Ajax Product Filter
  * Plugin URI: https://wordpress.org/plugins/yith-woocommerce-ajax-navigation/
  * Description: <code><strong>YITH WooCommerce AJAX Product Filter</strong></code> allows your users to find the product they are looking for as quickly as possible. Thanks to the plugin you will be able to set up one or more search filters for your WooCommerce products and improve the user experience of your shop. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
- * Version: 4.7.0
+ * Version: 4.10.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-ajax-navigation
  * Domain Path: /languages/
  *
- * WC requires at least: 6.0
- * WC tested up to: 6.2
+ * WC requires at least: 6.3
+ * WC tested up to: 6.5
  *
  * @author  YITH
  * @package YITH\AjaxProductFilter
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ! defined( 'YITH_WCAN_DIR' ) && define( 'YITH_WCAN_DIR', plugin_dir_path( __FILE__ ) );
 ! defined( 'YITH_WCAN_INC' ) && define( 'YITH_WCAN_INC', YITH_WCAN_DIR . 'includes/' );
 ! defined( 'YITH_WCAN_ASSETS' ) && define( 'YITH_WCAN_ASSETS', YITH_WCAN_URL . 'assets/' );
-! defined( 'YITH_WCAN_VERSION' ) && define( 'YITH_WCAN_VERSION', '4.7.0' );
+! defined( 'YITH_WCAN_VERSION' ) && define( 'YITH_WCAN_VERSION', '4.10.0' );
 ! defined( 'YITH_WCAN_FREE_INIT' ) && define( 'YITH_WCAN_FREE_INIT', plugin_basename( __FILE__ ) );
 ! defined( 'YITH_WCAN_FILE' ) && define( 'YITH_WCAN_FILE', __FILE__ );
 ! defined( 'YITH_WCAN_SLUG' ) && define( 'YITH_WCAN_SLUG', 'yith-woocommerce-ajax-navigation' );
@@ -109,7 +109,7 @@ if ( ! function_exists( 'yith_wcan_initialize' ) ) {
 	 */
 	function yith_wcan_initialize() {
 		// Load required classes and functions.
-		require_once( YITH_WCAN_INC . 'class-yith-wcan.php' );
+		require_once YITH_WCAN_INC . 'class-yith-wcan.php';
 
 		return YITH_WCAN();
 	}
@@ -127,7 +127,7 @@ if ( ! function_exists( 'yith_wcan_install_plugin_framework' ) ) {
 	function yith_wcan_install_plugin_framework() {
 		// plugin framework version check.
 		if ( ! function_exists( 'yit_maybe_plugin_fw_loader' ) && file_exists( YITH_WCAN_DIR . 'plugin-fw/init.php' ) ) {
-			require_once( YITH_WCAN_DIR . 'plugin-fw/init.php' );
+			require_once YITH_WCAN_DIR . 'plugin-fw/init.php';
 		}
 
 		yit_maybe_plugin_fw_loader( YITH_WCAN_DIR );

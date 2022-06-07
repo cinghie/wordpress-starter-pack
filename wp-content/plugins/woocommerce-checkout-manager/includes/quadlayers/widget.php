@@ -30,9 +30,9 @@ class QL_Widget
             <div>
                 <div style="margin-top: 11px;float: left;width: 70%;">
                     <?php esc_html_e('Hi! We are Quadlayers! Welcome to QuadLayers! We’re a team of international people who have been working in the WordPress sphere for the last ten years.', 'woocommerce-checkout-manager'); ?>
-                    <div style="margin-top: 11px; float: left; width: 70%;"><a href="<?php echo admin_url('admin.php?page=' . WOOCCM_PREFIX . '_suggestions'); ?>" target="_blank" class="button button-secondary"><?php esc_html_e('More products', 'woocommerce-checkout-manager'); ?></a></div>
+                    <div style="margin-top: 11px; float: left; width: 70%;"><a href="<?php echo esc_url(admin_url('admin.php?page=' . WOOCCM_PREFIX . '_suggestions')); ?>" target="_blank" class="button button-secondary"><?php esc_html_e('More products', 'woocommerce-checkout-manager'); ?></a></div>
                 </div>
-                <img style="width: 30%;margin-top: 11px;float: right; max-width: 95px;" src="<?php echo plugins_url('/assets/backend/img/quadlayers.jpg', WOOCCM_PLUGIN_FILE); ?>" />
+                <img style="width: 30%;margin-top: 11px;float: right; max-width: 95px;" src="<?php echo esc_url(plugins_url('/assets/backend/img/quadlayers.jpg', WOOCCM_PLUGIN_FILE)); ?>" />
             </div>
             <div style="clear: both;"></div>
         </div>
@@ -65,16 +65,16 @@ class QL_Widget
                         $author = $item['author'];
                         $author = ucfirst($author);
                         $author = ' <cite>' . esc_html(strip_tags($author)) . '</cite>';
-                        printf(__('<li><a href="%s" target="_blank">%s </a>%s%s%s</li>', 'woocommerce-checkout-manager'), $link, $title, $date, $summary, $author);
+                        printf(('<li><a href="%s" target="_blank">%s </a>%s%s%s</li>'), esc_url($link), esc_html($title), esc_html($date), esc_url($summary), esc_url($author));
                     }  ?>
                 <?php } else {
-                    printf(__('<li>%s</li>', 'woocommerce-checkout-manager'), $feed_items);
+                        printf(('<li>%s</li>'), wp_kses_post($feed_items));
                 } ?>
             </ul>
         </div>
         <div style="display: flex; justify-content: space-between;align-items: center;margin: 16px -12px 0;padding: 12px 12px 0; border-top: 1px solid #eee;">
-            <a href="<?php printf('https://quadlayers.com/blog/?utm_source=%s&utm_medium=software&utm_campaign=wordpress&utm_content=dashboard', WOOCCM_PREFIX); ?>" target="_blank"><?php esc_html_e('Read more like this on our blog', 'woocommerce-checkout-manager') ?></a>
-            <a class="button-primary" href="<?php printf('https://quadlayers.com/?utm_source=%s&utm_medium=software&utm_campaign=wordpress&utm_content=dashboard', WOOCCM_PREFIX); ?>" target="_blank"><?php esc_html_e('QuadLayers', 'woocommerce-checkout-manager') ?></a>
+            <a href="<?php printf('https://quadlayers.com/blog/?utm_source=%s&utm_medium=software&utm_campaign=wordpress&utm_content=dashboard', esc_attr(WOOCCM_PREFIX)); ?>" target="_blank"><?php esc_html_e('Read more like this on our blog', 'woocommerce-checkout-manager') ?></a>
+            <a class="button-primary" href="<?php printf('https://quadlayers.com/?utm_source=%s&utm_medium=software&utm_campaign=wordpress&utm_content=dashboard', esc_attr(WOOCCM_PREFIX)); ?>" target="_blank"><?php esc_html_e('QuadLayers', 'woocommerce-checkout-manager') ?></a>
         </div>
 <?php
     }

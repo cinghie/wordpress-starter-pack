@@ -2,18 +2,11 @@
 
 <div class="metaslider-start mt-16">
 	<div class="metaslider-welcome">
-		<div class="welcome-panel-content">
+		<div class="welcome-panel-content" style="min-height:270px;">
 			<h2><?php _e('Thank you for installing MetaSlider, the #1 WordPress slideshow plugin', 'ml-slider'); ?></h2>
 			<p class="about-description"><?php _e('To create your first slideshow, select one of the options below.', 'ml-slider'); ?></p>
 			<hr>
 			<div class="ms-panel-container">
-				<div class="metaslider-news">
-					<h3><?php _e('Gutenberg ready!', 'ml-slider'); ?></h3>
-					<p><?php _e('MetaSlider is compatible with Gutenberg, allowing you to select and preview your slideshows direcly in the editor.', 'ml-slider'); ?> <a target="_blank" href="https://www.metaslider.com/metaslider-introduces-slider-blocks-for-gutenberg/"><?php _e('Learn more', 'ml-slider'); ?></a></p>
-					<picture>
-						<img style="max-width:100%;display:block;padding-right:5rem" src="<?php echo METASLIDER_ADMIN_URL ?>assets/images/gutenberg-ms.png" alt="Screenshot from the Gutenberg interface with MetaSlider">
-					</picture>
-				</div>
 				<div class="">
 					<div>
 						<h3><?php _e('Quick start', 'ml-slider'); ?></h3>

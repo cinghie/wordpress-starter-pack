@@ -335,3 +335,23 @@ if ( ! function_exists( 'yith_wapo_wpml_register_string' ) ) {
 		do_action( 'wpml_register_single_string', $context, $name, $value );
 	}
 }
+
+if( !function_exists('yith_wapo_calculate_price_depending_on_tax') ) {
+	/**
+	 * Calculate the price with the tax included if necessary.
+	 *
+	 * @author Ivan Sosa
+	 * @param float $price The price added.
+	 * @return float
+	 */
+	function yith_wapo_calculate_price_depending_on_tax( $price ) {
+		if ( ! wc_tax_enabled() ) {
+			return $price;
+		}
+
+		if ( 0 !== $price && '' !== $price ) {
+			$price += floatval( $price ) * floatval( yith_wapo_get_tax_rate() / 100 );
+		}
+		return $price;
+	}
+}

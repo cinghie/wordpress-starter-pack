@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-23 08:52+0100\n"
-"PO-Revision-Date: 2022-01-23 08:54+0100\n"
+"POT-Creation-Date: 2022-03-06 09:16+0100\n"
+"PO-Revision-Date: 2022-03-06 09:17+0100\n"
 "Last-Translator: webgo-admin <nobody@localhost>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -329,13 +329,14 @@ msgstr ""
 "vermeiden, deaktivieren und entfernen Sie das Plugin \"WooCommerce Product "
 "Feed Manager Logger\" von Ihrer Plugins-Seite."
 
-#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
-msgid "-- Select the WOOCS currency for the feed --"
-msgstr "-- Wählen Sie die WOOCS Währung des Feeds --"
-
+#: includes/packages/pll/includes/wppfm-pll-functions.php:16
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
 msgid "-- Select the language of the feed --"
 msgstr "-- Wählen Sie die Sprache des Feeds --"
+
+#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
+msgid "-- Select the WOOCS currency for the feed --"
+msgstr "-- Wählen Sie die WOOCS Währung des Feeds --"
 
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:136
 msgid ""
@@ -1259,10 +1260,12 @@ msgstr "Hinweis Empfänger"
 #: includes/user-interface/class-wppfm-options-page.php:137
 msgid ""
 "Enter the email address of the person you want to be notified when a feed "
-"fails during an automatic feed update."
+"fails during an automatic feed update (requires an SMTP server for "
+"WordPress)."
 msgstr ""
-"Geben Sie die e-Mail-Adresse der Person ein, die Sie benachrichtigen "
-"möchten, wenn ein Feed während eines automatischen Feed-Updates ausfällt."
+"Geben Sie die E-Mail-Adresse der Person ein, die benachrichtigt werden soll, "
+"wenn ein Feed während einer automatischen Feedaktualisierung fehlschlägt "
+"(erfordert einen SMTP-Server für WordPress)."
 
 #: includes/user-interface/class-wppfm-options-page.php:141
 #: includes/user-interface/class-wppfm-options-page.php:144
@@ -1489,7 +1492,7 @@ msgstr ""
 "alle Ihre Backups und erstellen Sie ein neues."
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-actions.php:209
+#: includes/user-interface/wppfm-admin-actions.php:212
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
@@ -1498,7 +1501,7 @@ msgstr ""
 "2121 - Die Aktivierung Ihrer Lizenz ist fehlgeschlagen. Bitte öffnen Sie ein "
 "Support-Ticket unter %s für Support zu diesem Thema."
 
-#: includes/user-interface/wppfm-admin-actions.php:228
+#: includes/user-interface/wppfm-admin-actions.php:231
 #, php-format
 msgid ""
 "An error has occurred. It is possible that the wpmarketingrobot website is "
@@ -1513,7 +1516,7 @@ msgstr ""
 "nicht, oder wenn dieser Fehler vorliegt, wenden Sie sich bitte an \n"
 "\t\t\t\tauke@wpmarketingrobot.com. Fehlermeldung: %s"
 
-#: includes/user-interface/wppfm-admin-actions.php:278
+#: includes/user-interface/wppfm-admin-actions.php:281
 #, php-format
 msgid ""
 "You have an invalid or expired license key for your %1$s plugin.\n"
@@ -1530,7 +1533,7 @@ msgstr ""
 "\t\t\tKlicken Sie hier, um zur Seite Lizenzverlängerung zu gelangen</a>, "
 "damit das Plugin funktioniert und Ihre Produktfeeds gültig sind."
 
-#: includes/user-interface/wppfm-admin-actions.php:295
+#: includes/user-interface/wppfm-admin-actions.php:298
 #, php-format
 msgid ""
 "The license key for your %1$s plugin is expiring soon. If you wish you can "

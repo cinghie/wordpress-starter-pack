@@ -37,8 +37,4 @@
     "gulp-uglify": "^1.4.3",
     "gulp-wrap-umd": "^0.2.1"
   }
-
-,"_resolved": "https://registry.npmjs.org/tether/-/tether-1.4.7.tgz"
-,"_integrity": "sha512-Z0J1aExjoFU8pybVkQAo/vD2wfSO63r+XOPfWQMC5qtf1bI7IWqNk4MiyBcgvvnY8kqnY06dVdvwTK2S3PU/Fw=="
-,"_from": "tether@1.4.7"
 }

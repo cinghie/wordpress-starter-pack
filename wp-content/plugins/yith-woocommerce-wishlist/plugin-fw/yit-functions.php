@@ -1906,6 +1906,7 @@ if ( ! function_exists( 'yith_plugin_fw_get_default_post_actions' ) ) {
 			$defaults = array(
 				'more-menu'              => array(),
 				'more-menu-in-trash'     => false,
+				'delete-directly'        => false,
 				'duplicate-url'          => false,
 				// translators: %s is the title of the post object.
 				'confirm-trash-message'  => sprintf( __( 'Are you sure you want to move "%s" to trash?', 'yith-plugin-fw' ), '<strong>' . $title . '</strong>' ),
@@ -1967,7 +1968,7 @@ if ( ! function_exists( 'yith_plugin_fw_get_default_post_actions' ) ) {
 						'icon'   => 'reply',
 						'url'    => wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ),
 					);
-				} elseif ( EMPTY_TRASH_DAYS ) {
+				} elseif ( EMPTY_TRASH_DAYS && ! $args['delete-directly'] ) {
 					$actions['trash'] = array(
 						'type'   => 'action-button',
 						'title'  => _x( 'Trash', 'Post action', 'yith-plugin-fw' ),
@@ -1984,7 +1985,7 @@ if ( ! function_exists( 'yith_plugin_fw_get_default_post_actions' ) ) {
 						);
 					}
 				}
-				if ( 'trash' === $post->post_status || ! EMPTY_TRASH_DAYS ) {
+				if ( 'trash' === $post->post_status || ! EMPTY_TRASH_DAYS || $args['delete-directly'] ) {
 					$actions['delete'] = array(
 						'type'   => 'action-button',
 						'title'  => _x( 'Delete Permanently', 'Post action', 'yith-plugin-fw' ),

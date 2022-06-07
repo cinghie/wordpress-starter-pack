@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Product Feed Manager\n"
-"POT-Creation-Date: 2022-01-23 08:52+0100\n"
+"POT-Creation-Date: 2022-05-11 16:37+0200\n"
 "PO-Revision-Date: 2018-08-20 20:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -255,12 +255,13 @@ msgid ""
 "Manager Logger\" plugin from your Plugins page."
 msgstr ""
 
-#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
-msgid "-- Select the WOOCS currency for the feed --"
-msgstr ""
-
+#: includes/packages/pll/includes/wppfm-pll-functions.php:16
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:23
 msgid "-- Select the language of the feed --"
+msgstr ""
+
+#: includes/packages/woocs/includes/wppfm-woocs-functions.php:18
+msgid "-- Select the WOOCS currency for the feed --"
 msgstr ""
 
 #: includes/packages/wpml/includes/wppfm-wpml-functions.php:136
@@ -1083,7 +1084,8 @@ msgstr ""
 #: includes/user-interface/class-wppfm-options-page.php:137
 msgid ""
 "Enter the email address of the person you want to be notified when a feed "
-"fails during an automatic feed update."
+"fails during an automatic feed update (requires an SMTP server for "
+"WordPress)."
 msgstr ""
 
 #: includes/user-interface/class-wppfm-options-page.php:141
@@ -1293,14 +1295,14 @@ msgid ""
 msgstr ""
 
 #. translators: %s: link to the support page
-#: includes/user-interface/wppfm-admin-actions.php:209
+#: includes/user-interface/wppfm-admin-actions.php:212
 #, php-format
 msgid ""
 "2121 - Activating your license failed. Please open a support ticket at %s "
 "for support on this issue."
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-actions.php:228
+#: includes/user-interface/wppfm-admin-actions.php:231
 #, php-format
 msgid ""
 "An error has occurred. It is possible that the wpmarketingrobot website is "
@@ -1310,7 +1312,7 @@ msgid ""
 "\t\t\t\t\t\tauke@wpmarketingrobot.com. Error Message: %s"
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-actions.php:278
+#: includes/user-interface/wppfm-admin-actions.php:281
 #, php-format
 msgid ""
 "You have an invalid or expired license key for your %1$s plugin.\n"
@@ -1321,7 +1323,7 @@ msgid ""
 "working and your product feeds valid."
 msgstr ""
 
-#: includes/user-interface/wppfm-admin-actions.php:295
+#: includes/user-interface/wppfm-admin-actions.php:298
 #, php-format
 msgid ""
 "The license key for your %1$s plugin is expiring soon. If you wish you can "

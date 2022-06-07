@@ -3,9 +3,11 @@
  * Bootstrap the application
  */
 
+use Extendify\Library\App;
 use Extendify\Library\Admin;
-use Extendify\Library\Frontend;
 use Extendify\Library\Shared;
+use Extendify\Library\Welcome;
+use Extendify\Library\Frontend;
 
 if (!defined('ABSPATH')) {
     die('No direct access.');
@@ -27,9 +29,11 @@ if (is_readable(EXTENDIFY_PATH . 'vendor/autoload.php')) {
     require EXTENDIFY_PATH . 'vendor/autoload.php';
 }
 
-$extendifyAdmin = new Admin();
-$extendifyFrontend = new Frontend();
-$extendifyShared = new Shared();
+new App();
+new Admin();
+new Frontend();
+new Shared();
+new Welcome();
 
 require EXTENDIFY_PATH . 'routes/api.php';
 require EXTENDIFY_PATH . 'editorplus/EditorPlus.php';

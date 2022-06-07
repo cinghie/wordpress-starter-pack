@@ -2,19 +2,19 @@
 /**
  * Brand in single product page.
  *
- * @author  Your Inspiration Themes
+ * @author  YITH
  *
- * @package YITH WooCommerce Brands
+ * @package YITH\Brands\Templates
  * @version 1.0.0
  */
 
 if ( ! defined( 'YITH_WCBR' ) ) {
 	exit;
 } // Exit if accessed directly
+
 ?>
 
 <?php if ( $product_has_brands ) : ?>
-
 	<?php if ( ! empty( $title ) ) : ?>
 		<h3><?php echo esc_html( $title ); ?></h3>
 	<?php endif; ?>
@@ -45,5 +45,4 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 			?>
 		</span>
 	<?php endif; ?>
-
 <?php endif; ?>

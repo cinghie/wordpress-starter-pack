@@ -2,18 +2,9 @@
 /**
  * Utility functions
  *
- * @author  Your Inspiration Themes
- * @package YITH WooCommerce Brands
+ * @author  YITH
+ * @package YITH\Brands\Classes
  * @version 1.0.0
- */
-
-/*
- * This file belongs to the YIT Framework.
- *
- * This source file is subject to the GNU GENERAL PUBLIC LICENSE (GPL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
 if ( ! defined( 'YITH_WCBR' ) ) {
@@ -31,7 +22,6 @@ if ( ! function_exists( 'yith_wcbr_is_valid_url' ) ) {
 	 * @since 1.0.7
 	 */
 	function yith_wcbr_is_valid_url( $url ) {
-
 		if ( function_exists( 'wc_is_valid_url' ) ) {
 			return wc_is_valid_url( $url );
 		}
@@ -64,6 +54,7 @@ if ( ! function_exists( 'yith_wcbr_get_terms' ) ) {
 	 */
 	function yith_wcbr_get_terms( $taxonomy, $args ) {
 		global $wp_version;
+
 		$terms = array();
 
 		// is no orderby param is set, user order.
@@ -224,5 +215,23 @@ if ( ! function_exists( '_yith_wcbr_remove_empty_terms' ) ) {
 		}
 
 		return $terms;
+	}
+}
+
+if ( ! function_exists( 'yith_wcbr_get_view' ) ) {
+	/**
+	 * Get the view
+	 *
+	 * @param string $view View name.
+	 * @param array  $args Parameters to include in the view.
+	 */
+	function yith_wcbr_get_view( $view, $args = array() ) {
+		$view_path = trailingslashit( YITH_WCBR_VIEWS ) . $view;
+
+		extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
+
+		if ( file_exists( $view_path ) ) {
+			include $view_path;
+		}
 	}
 }

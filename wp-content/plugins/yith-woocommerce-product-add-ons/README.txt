@@ -3,8 +3,8 @@
 Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 4.5
-Tested up to: 5.9
-Stable tag: 2.7.0
+Tested up to: 6.0
+Stable tag: 2.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,6 +120,31 @@ You must enable the dependency on the option you are interested in by inserting 
 3. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
 
 == Changelog ==
+
+= 2.10.0 – Released on 18 May 2022 =
+
+* New: support for WordPress 6.0
+* New: support for WooCommerce 6.5
+* Update: YITH plugin framework
+* Fix: calculate price if tax is added
+* Fix: percentage price calculation
+* Fix: minor bugs
+
+= 2.9.0 – Released on 20 Apr 2022 =
+
+* New: support for WooCommerce 6.4
+* Update: YITH plugin framework
+* Dev: new filter 'yith_wapo_included_products_check'
+* Fix: calculate add-on prices when quantity input changes
+* Fix: minor bugs
+
+= 2.8.0 – Released on 17 Mar 2022 =
+
+* New: support for WooCommerce 6.3
+* Update: YITH plugin framework
+* Dev: added new filter 'yith_wapo_base_price_cart_data'
+* Fix: translatable string "Select options"
+* Fix: minor bugs
 
 = 2.7.0 – Released on 16 Feb 2022 =
 

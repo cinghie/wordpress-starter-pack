@@ -296,7 +296,7 @@ class WOOCCM_Checkout_Controller
   {
     global $current_section;
     ?>
-    <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section'); ?>" class="<?php echo ($current_section == '' ? 'current' : ''); ?>"><?php esc_html_e('Checkout', 'woocommerce-checkout-manager'); ?></a> | </li>
+    <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=wooccm&section' ) ); ?>" class="<?php echo ($current_section == '' ? 'current' : ''); ?>"><?php esc_html_e('Checkout', 'woocommerce-checkout-manager'); ?></a> | </li>
 <?php
   }
 

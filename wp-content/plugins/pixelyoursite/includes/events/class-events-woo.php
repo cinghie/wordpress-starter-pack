@@ -58,7 +58,12 @@ class EventsWoo extends EventsFactory {
     }
 
     private function __construct() {
+        add_filter("pys_event_factory",[$this,"register"]);
+    }
 
+    function register($list) {
+        $list[] = $this;
+        return $list;
     }
 
     function getCount()
@@ -280,9 +285,18 @@ class EventsWoo extends EventsFactory {
         }
         return array_unique($fireForCategory);
     }
-
-    function getWooCustomerTotals(){
-        return PYS()->getEventsManager()->getWooCustomerTotals();
+    /**
+     * Always returns empty customer LTV-related values to make plugin compatible with PRO version.
+     * Used by Pinterest add-on.
+     *
+     * @return array
+     */
+    function getCustomerTotals($order_id = null){
+         return [
+            'ltv' => null,
+            'avg_order_value' => null,
+            'orders_count' => null,
+        ];
     }
 
     function getEvents() {

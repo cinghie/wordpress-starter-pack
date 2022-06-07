@@ -13,7 +13,6 @@ class WOOCCM_Field_Controller_Shipping extends WOOCCM_Field_Controller
     add_action('wooccm_sections_header', array($this, 'add_header'));
     add_action('woocommerce_sections_' . WOOCCM_PREFIX, array($this, 'add_section'), 99);
     add_filter('woocommerce_admin_shipping_fields', array($this, 'add_admin_shipping_fields'), 999);
-
   }
 
   public static function instance()
@@ -31,7 +30,7 @@ class WOOCCM_Field_Controller_Shipping extends WOOCCM_Field_Controller
   {
     global $current_section;
 ?>
-    <li><a href="<?php echo admin_url('admin.php?page=wc-settings&tab=wooccm&section=shipping'); ?>" class="<?php echo ($current_section == 'shipping' ? 'current' : ''); ?>"><?php esc_html_e('Shipping', 'woocommerce-checkout-manager'); ?></a> | </li>
+    <li><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=wooccm&section=shipping' ) ); ?>" class="<?php echo ($current_section == 'shipping' ? 'current' : ''); ?>"><?php esc_html_e('Shipping', 'woocommerce-checkout-manager'); ?></a> | </li>
 <?php
   }
 
@@ -95,7 +94,6 @@ class WOOCCM_Field_Controller_Shipping extends WOOCCM_Field_Controller
 
     return $shipping_fields;
   }
-  
 }
 
 WOOCCM_Field_Controller_Shipping::instance();

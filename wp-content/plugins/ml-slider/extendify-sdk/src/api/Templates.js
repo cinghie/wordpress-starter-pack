@@ -23,7 +23,6 @@ export const Templates = {
                 offset: '',
                 initial: count === 1,
                 request_count: count,
-                group: useUserStore.getState()?.group ?? 0,
                 sdk_partner: useUserStore.getState().sdkPartner ?? '',
             },
             options,
@@ -41,7 +40,6 @@ export const Templates = {
             maybe_import: true,
             type: template.fields?.type,
             sdk_partner: useUserStore.getState().sdkPartner ?? '',
-            group: useUserStore.getState()?.group ?? 0,
             pageSize: '1',
             template_name: template.fields?.title,
         })
@@ -59,7 +57,6 @@ export const Templates = {
                 '',
             type: template.fields.type,
             sdk_partner: useUserStore.getState().sdkPartner ?? '',
-            group: useUserStore.getState()?.group ?? 0,
             pageSize: '1',
             template_name: template.fields?.title,
         })
@@ -67,9 +64,7 @@ export const Templates = {
 }
 
 const prepareFilterFormula = ({ taxonomies }, type) => {
-    const siteType = taxonomies?.siteType?.slug?.length
-        ? taxonomies.siteType.slug
-        : 'default'
+    const siteType = taxonomies?.siteType?.slug
     const formula = [
         `{type}="${type.replace('Type', '')}"`,
         `{siteType}="${siteType}"`,

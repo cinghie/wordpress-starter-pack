@@ -12,13 +12,7 @@
 	<div class="h-full px-6">
 		<div class="flex items-center h-full -mx-4">
 			<a href="<?php echo admin_url('admin.php?page=metaslider') ?>" class="flex items-center h-full py-2 px-4">
-				<img style="height:2.3rem;width:2.3rem" width=40 height=40 class="mr-2 rtl:mr-0 rtl:ml-2" src="<?php echo METASLIDER_ADMIN_URL ?>images/metaslider_logo_large.png" alt="MetaSlider">
-				<span class="text-2xl font-sans font-thin text-orange leading-none">
-					<span class="font-normal">Meta</span>Slider
-					<span class="block font-semibold text-sm font-mono text-gray tracking-tight">
-						v<?php echo metaslider_pro_is_active() ?  metaslider_pro_version() . '<span class="ml-1">Premium</span>' : $this->version; ?>
-					</span>
-				</span>
+				<img style="height:46px;width:auto;" class="mr-2 rtl:mr-0 rtl:ml-2" src="<?php echo METASLIDER_ADMIN_URL ?>images/metaslider_logo3.png" alt="MetaSlider">
 			</a>
 		</div>
 	</div>

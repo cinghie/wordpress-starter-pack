@@ -1,8 +1,9 @@
 <?php
 
-require_once( ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.php' );
+require_once(ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.php');
 
-class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
+class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table
+{
 
   public $promote = array(
     'woocommerce-direct-checkout',
@@ -16,7 +17,8 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     'wp-tiktok-feed',
   );
 
-  private function remove_plugins($plugins) {
+  private function remove_plugins($plugins)
+  {
 
     $promote = array();
 
@@ -31,7 +33,8 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     return $promote;
   }
 
-  public function self_admin_url($url, $path) {
+  public function self_admin_url($url, $path)
+  {
 
     if (strpos($url, 'tab=plugin-information') !== false) {
       $url = network_admin_url($path);
@@ -40,7 +43,8 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     return $url;
   }
 
-  public function network_admin_url($url, $path) {
+  public function network_admin_url($url, $path)
+  {
 
     if (strpos($url, 'plugins.php') !== false) {
       $url = self_admin_url($path);
@@ -49,25 +53,28 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     return $url;
   }
 
-  public function display_rows() {
+  public function display_rows()
+  {
     add_filter('self_admin_url', array($this, 'self_admin_url'), 10, 2);
     add_filter('network_admin_url', array($this, 'network_admin_url'), 10, 2);
     parent::display_rows();
   }
 
-  public function is_connected() {
+  public function is_connected()
+  {
 
     global $wp_version;
 
     $http_args = array(
-        'timeout' => 15,
-        'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url('/'),
+      'timeout' => 15,
+      'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url('/'),
     );
 
     return is_wp_error(wp_remote_get('http://api.wordpress.org/plugins/info/1.2/', $http_args));
   }
 
-  public function get_plugins() {
+  public function get_plugins()
+  {
 
     $tk = WOOCCM_PREFIX . '_suggestions_plugins';
 
@@ -76,9 +83,9 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     if ($plugins === false) {
 
       $args = array(
-          'per_page' => 36,
-          'author' => 'quadlayers',
-          'locale' => get_user_locale(),
+        'per_page' => 36,
+        'author' => 'quadlayers',
+        'locale' => get_user_locale(),
       );
 
       $api = plugins_api('query_plugins', $args);
@@ -94,9 +101,10 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     return $plugins;
   }
 
-  public function prepare_items() {
+  public function prepare_items()
+  {
 
-    include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+    include_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
 
     global $tabs, $tab;
 
@@ -128,16 +136,19 @@ class WOOCCM_Suggestions_List_Table extends WP_Plugin_Install_List_Table {
     $nonmenu_tabs = apply_filters('install_plugins_nonmenu_tabs', $nonmenu_tabs);
 
     // If a non-valid menu tab has been selected, And it's not a non-menu action.
-    if (empty($tab) || (!isset($tabs[$tab]) && !in_array($tab, (array) $nonmenu_tabs) )) {
+    if (empty($tab) || (!isset($tabs[$tab]) && !in_array($tab, (array) $nonmenu_tabs))) {
       $tab = key($tabs);
     }
 
     $this->items = $this->get_plugins();
 
 
-    wp_localize_script('updates', '_wpUpdatesItemCounts', array(
-        'totals' => wp_get_update_data())
+    wp_localize_script(
+      'updates',
+      '_wpUpdatesItemCounts',
+      array(
+        'totals' => wp_get_update_data()
+      )
     );
   }
-
 }

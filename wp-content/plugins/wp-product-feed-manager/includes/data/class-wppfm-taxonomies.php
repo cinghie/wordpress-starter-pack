@@ -25,17 +25,25 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 		 * @param string $tax
 		 * @param string $separator
 		 *
+		 * @since 2.31.0 Update the function to include a primary category selection.
+		 *
 		 * @return string
 		 */
 		public static function make_shop_taxonomies_string( $product_id, $tax = 'product_cat', $separator = ' > ' ) {
-			$args = array(
-				'taxonomy' => $tax,
-				'orderby'  => 'parent',
-				'order'    => 'DESC',
-			);
+			$primary_category = self::get_primary_cat( $product_id);
 
-			// get the post term ordered with the last child cat first
-			$cats = wp_get_post_terms( $product_id, $tax, $args );
+			if ( $primary_category ) {
+				$cats = $primary_category;
+			} else {
+				$args = array(
+					'taxonomy' => $tax,
+					'orderby'  => 'parent',
+					'order'    => 'DESC',
+				);
+
+				// get the post term ordered with the last child cat first
+				$cats = wp_get_post_terms( $product_id, $tax, $args );
+			}
 
 			$result = array();
 
@@ -92,21 +100,21 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 		/**
 		 * Returns the product category that is selected as primary (only when Yoast SEO or RankMath plugin is installed)
 		 *
-		 * @param string $id
+		 * @param string $product_id
 		 *
 		 * @return array|boolean
 		 */
-		public static function get_primary_cat( $id ) {
+		public static function get_primary_cat( $product_id ) {
 			$primary_cat_id = '';
 
 			if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) || is_plugin_active_for_network( 'wordpress-seo/wp-seo.php' )
 			|| is_plugin_active( 'wordpress-seo-premium/wp-seo-premium.php' ) || is_plugin_active_for_network( 'wordpress-seo-premium/wp-seo-premium.php' ) ) {
-				$primary_cat_id = get_post_meta( $id, '_yoast_wpseo_primary_product_cat', true );
+				$primary_cat_id = get_post_meta( $product_id, '_yoast_wpseo_primary_product_cat', true );
 			}
 
 			if ( is_plugin_active( 'seo-by-rank-math/rank-math.php' ) || is_plugin_active_for_network( 'seo-by-rank-math/rank-math.php' )
 			|| is_plugin_active( 'seo-by-rank-math-pro/rank-math-pro.php' ) || is_plugin_active_for_network( 'seo-by-rank-math-pro/rank-math-pro.php' ) ) {
-				$primary_cat_id = get_post_meta( $id, 'rank_math_primary_product_cat', true );
+				$primary_cat_id = get_post_meta( $product_id, 'rank_math_primary_product_cat', true );
 			}
 
 			if ( $primary_cat_id ) {
