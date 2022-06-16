@@ -4,7 +4,7 @@ Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel 
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 6.0
-Stable tag: 9.0.0
+Stable tag: 9.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -462,6 +462,22 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 9.1.1 =
+
+* Fix for potential warning or fatal error related to pixelyoursite/includes/functions-migrate.php on line 24
+
+
+= PixelYourSite 9.1.0 =
+
+* Automated events are turned ON by default.
+
+* The legacy Signal event is removed.
+
+* Video links updated.
+
+* Code refactoring. 
 
 
 = PixelYourSite 9.0.0 =

@@ -6,16 +6,7 @@
   "general_event_on_tax_enabled": true,
   "general_event_on_woo_enabled": true,
   "general_event_on_edd_enabled": true,
-  "download_event_extensions": [
-    "doc",
-    "exe",
-    "js",
-    "pdf",
-    "ppt",
-    "tgz",
-    "zip",
-    "xls"
-  ],
+
 
   "debug_enabled": false,
   "do_not_track_user_roles": [],
@@ -77,15 +68,6 @@
   "woo_content_value_cog": "",
   "woo_add_to_cart_value_cog": "",
   "woo_initiate_checkout_value_cog": "",
-
-  "signal_events_enabled": true,
-  "signal_page_scroll_enabled": false,
-  "signal_page_scroll_value": 50,
-  "signal_time_on_page_enabled": false,
-  "signal_time_on_page_value" : 30,
-  "signal_form_enabled": true,
-  "signal_download_enabled": true,
-  "signal_comment_enabled": true,
 
   "fdp_enabled": false,
   "edd_purchase_enabled": true,

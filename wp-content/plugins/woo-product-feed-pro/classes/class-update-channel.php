@@ -60,7 +60,7 @@ class WooSEA_Update_Project {
 				if(!empty($val)){
 					if($val['project_hash'] === $project['project_hash']){
 						$cron_projects[$key] = $project;
-						update_option('cron_projects', $cron_projects);
+						update_option('cron_projects', $cron_projects, 'no');
 					}	
 				}
 			}

@@ -1,10 +1,7 @@
-# WDEV Free Notices Module #
+# WPMU DEV Free Notices module #
 
-WPMU DEV Free Notices module (short wpmu-free-notices) is used in our free plugins hosted on wordpress.org
-It will display,
-* A welcome message upon plugin activation that offers the user a 5-day introduction email course for the plugin.
-* After 7 days a message asking the user to rate the plugin on wordpress.org.
-* After 2 days a giveaway notice asking for email subscription.
+WPMU DEV Free Notices module (short wpmu-free-notice) is used in our free plugins hosted on WordPress.org
+It will display a welcome message upon plugin activation that offers the user a 5-day introduction email course for the plugin. After 7 days the module will display another message asking the user to rate the plugin on WordPress.org
 
 # How to use it #
 
@@ -12,75 +9,45 @@ It will display,
 
 2. Include the file `module.php` in your main plugin file.
 
-3. Call the action `wpmudev_register_notices` with the params mentioned below.
+3. Call the action `wdev_register_plugin` with the params mentioned below.
 
 4. Done!
 
+# Upgrading from 1.3.0 version #
 
-# Upgrading to v2.0
-
-The 2.0 release is backward incompatible with the 1.x versions. To accommodate new functionality and fix WordPress coding standards violations, a lot of the hooks/filters have been refactored.
+The 2.0.0 release is backward incompatible with the 1.x versions. To accommodate new functionality and fix WordPress coding standards violations, a lot of the hooks/filters have been refactored.
 Make sure to change the following:
 
-1. Update the `do_action` hook name from `wdev-register-plugin` to `wpmudev_register_notices`.
-2. Update the params to new format (See example below).
-3. Both `wdev-email-message-` and `wdev-rating-message-` filters have been changed to `wdev_email_title_`/`wdev_email_message_` and `wdev_rating_title_`/`wdev_rating_message_`
+1. Update the `do_action` hook name from `wdev-register-plugin` to `wdev_register_plugin`.
+2. Both `wdev-email-message-` and `wdev-rating-message-` filters have been changed to `wdev_email_title_`/`wdev_email_message_` and `wdev_rating_title_`/`wdev_rating_message_`
 
-
-## Code Example (from Smush) ##
+## Code Example (from Smush ) ##
 
 ```
 #!php
 
 <?php
-add_action( 'admin_init', 'mycustom_free_notices_init' );
+// Load the WPMU_Free_Notice module.
+include_once 'lib/wdev-frash/module.php';
 
-function mycustom_free_notices_init() {
-        // Load the notices module.
-        include_once 'external/free-notices/module.php';
-        
-        // Register the current plugin for notices.
-        do_action(
-            'wpmudev_register_notices',
-            'smush', // Required: plugin id. Get from the below list.
-            array(
-                'basename'     => WP_SMUSH_BASENAME, // Required: Plugin basename (for backward compat).
-                'title'        => 'Smush', // Plugin title.
-                'wp_slug'      => 'wp-smushit', // Plugin slug on wp.org
-                'cta_email'    => __( 'Get Fast!', 'ga_trans' ), // Email button CTA.
-                'mc_list_id'   => '4b14b58816', // Mailchimp list id for the plugin - e.g. 4b14b58816 is list id for Smush.
-                'installed_on' => time(), // Plugin installed time (timestamp). Default to current time.
-                'screens'      => array( // Screen IDs of plugin pages.
-                    'toplevel_page_smush',
-                    'smush_page_smush-bulk',
-                    'smush_page_smush-directory',
-                ),
-            )
-        );
-}
+// Register the current plugin.
+do_action(
+	'wdev_register_plugin',
+	/* 1             Plugin ID */ plugin_basename( __FILE__ ),
+	/* 2          Plugin Title */ 'Smush',            
+	/* 3 https://wordpress.org */ '/plugins/wp-smushit/',
+	/* 4      Email Button CTA */ __( 'Get Fast!', MYD_TEXT_DOMAIN ),  
+	/* 5  Mailchimp List id for the plugin - e.g. 4b14b58816 is list id for Smush */ '4b14b58816'
+);
+// All done!
 ```
 
-> IMPORTANT: Make sure to initialize this on a hook which is executed in admin-ajax requests too. The recommended hook is `admin_init`
+1. Always same, do not change
+2. The plugin title, same as in the plugin header (no translation!)
+3. The WordPress.org plugin-URL
+4. Optional: Title of the Email-subscription button. If empty no email message is displayed.
+5. Optional: Mailchimp List id for the plugin. If empty no email message is displayed
 
-## Plugins and IDs
-Only wp.org plugins are listed below.
-
-| Plugin      | ID          |
-|-------------|-------------|
-| Smush       | smush       |
-| Hummingbird | hummingbird |
-| Defender    | defender    |
-| SmartCrawl  | smartcrawl  |
-| Forminator  | forminator  |
-| Hustle      | hustle      |
-| Snapshot    | snapshot    |
-| Branda      | branda      |
-| Beehive     | beehive     |
-
-
-## Testing Notices
-
-To see the notices before the due time, you can fake the current time by appending `&wpmudev_notice_time=CUSTOMTIMESTAMP` to the url on a page where the notice should be visible. Please make sure you are using a timestamp after the due time.
 
 ## Optional: Customize the messages via filters ##
 
@@ -88,7 +55,7 @@ To see the notices before the due time, you can fake the current time by appendi
 <?php
 // The email message contains 1 variable: plugin-name
 add_filter(
-    'wdev_email_message_smush', // change plugin id.
+    'wdev_email_message_' . plugin_basename( __FILE__ ),
     'custom_email_message'
 );
 function custom_email_message( $message ) {
@@ -101,7 +68,7 @@ function custom_email_message( $message ) {
 <?php
 // The rating message contains 2 variables: user-name, plugin-name
 add_filter(
-    'wdev_rating_message_smush', // Change plugin id.
+    'wdev_rating_message_' . plugin_basename( __FILE__ ),
     'custom_rating_message'
 );
 function custom_rating_message( $message ) {
@@ -109,34 +76,3 @@ function custom_rating_message( $message ) {
     return $message;
 }
 ```
-
-# Development
-
-Do not commit anything directly to `master` branch. The `master` branch should always be production ready. All plugins will be using it as a submodule.
-
-## Build Tasks (npm)
-
-Everything should be handled by npm. Note that you don't need to interact with Gulp in a direct way.
-
-| Command              | Action                                                 |
-|----------------------|--------------------------------------------------------|
-| `npm run watch`      | Compiles and watch for changes.                        |
-| `npm run compile`    | Compile production ready assets.                       |
-| `npm run build`  | Build production ready submodule inside `/build/` folder |
-
-## Git Workflow
-
-- Create a new branch from `dev` branch: `git checkout -b branch-name`. Try to give it a descriptive name. For example:
-    -   `release/X.X.X` for next releases
-    -   `new/some-feature` for new features
-    -   `enhance/some-enhancement` for enhancements
-    -   `fix/some-bug` for bug fixing
-- Make your commits and push the new branch: `git push -u origin branch-name`
-- File the new Pull Request against `dev` branch
-- Assign somebody to review your code.
-- Once the PR is approved and finished, merge it in `dev` branch.
-- Checkout `dev` branch.
-- Run `npm run build` and copy all files and folders from the `build` folder.
-- Checkout `master` branch and replace all files and folders with copied content from the build folder.
-- Commit and push the `master` branch changes.
-- Inform all devs to update the submodule.

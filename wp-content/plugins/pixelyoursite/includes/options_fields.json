@@ -6,7 +6,7 @@
   "general_event_on_tax_enabled": "checkbox",
   "general_event_on_woo_enabled": "checkbox",
   "general_event_on_edd_enabled": "checkbox",
-  "download_event_extensions": "tag_select",
+
 
   "debug_enabled": "checkbox",
   "do_not_track_user_roles": "multi_select",
@@ -66,15 +66,6 @@
   "woo_content_value_cog": "radio",
   "woo_add_to_cart_value_cog": "radio",
   "woo_initiate_checkout_value_cog": "radio",
-
-  "signal_events_enabled": "checkbox",
-  "signal_page_scroll_enabled": "checkbox",
-  "signal_page_scroll_value": "number",
-  "signal_time_on_page_enabled": "checkbox",
-  "signal_time_on_page_value" : "number",
-  "signal_form_enabled": "checkbox",
-  "signal_download_enabled": "checkbox",
-  "signal_comment_enabled": "checkbox",
 
   "fdp_enabled": "checkbox",
   "edd_purchase_enabled":"checkbox",

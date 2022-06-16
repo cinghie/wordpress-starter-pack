@@ -652,7 +652,7 @@ class NextGen extends Abstract_Integration {
 		}
 
 		// Check Nonce.
-		if ( ! wp_verify_nonce( $_POST['_nonce'], 'wp-smush-resmush-' . $_POST['attachment_id'] ) ) {
+		if ( ! wp_verify_nonce( $_POST['_nonce'], 'wp-smush-resmush-' . (int) $_POST['attachment_id'] ) ) {
 			wp_send_json_error(
 				array(
 					'error_msg' => '<div class="wp-smush-error">' . esc_html__( "Image couldn't be smushed as the nonce verification failed, try reloading the page.", 'wp-smushit' ) . '</div>',

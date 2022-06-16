@@ -36,7 +36,6 @@ $smushit_keys = array(
 	'wp-smush-super_smushed_nextgen',
 	'wp-smush-settings_updated',
 	'wp-smush-hide_smush_welcome',
-	'wp-smush-hide_upgrade_notice',
 	'wp-smush-hide_update_info',
 	'wp-smush-install-type',
 	'wp-smush-version',

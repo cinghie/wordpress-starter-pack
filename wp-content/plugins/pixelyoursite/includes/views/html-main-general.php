@@ -239,20 +239,24 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <p><a href="https://www.youtube.com/watch?v=uXTpgFu2V-E" target="_blank">How to configure Facebook Conversion API (2:51 min) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=DZzFP4pSitU" target="_blank">Meta Pixel (formerly Facebook Pixel), CAPI, and PixelYourSite MUST WATCH (8:19) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=QqAIO1ONc0I" target="_blank">How to test Facebook Conversion API (10:16 min) - watch now</a></p>
-                <p><a href="https://www.youtube.com/watch?v=1W1yA9L-6F8" target="_blank">Meta Pixel (formerly Facebook Pixel) Events and Parameters (12:05 min) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=sM9yNkBK6Eg" target="_blank">Potentially Violating Personal Data Sent to Facebook (7:30 min) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=PsKdCkKNeLU" target="_blank">Facebook Conversion API and the Consent Problem (9:25 min) - watch now</a></p>
-
-                <p><a href="https://www.youtube.com/watch?v=jJlhnF_QNxk" target="_blank">What you MUST know about Facebook Attribution Settings (8:49) - watch now</a></p>
-                <p><a href="https://www.youtube.com/watch?v=hbecImCa9d0" target="_blank">Google Ads DATA-DRIVEN Attribution (8:14) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=kEp5BDg7dP0" target="_blank">How to fire EVENTS with PixelYourSite (22:28) - watch now</a></p>
-
-                <p><a href="https://www.youtube.com/watch?v=HM98mGZshvc" target="_blank">Multiple Meta Pixel (formerly Facebook Pixel)s with CAPI events for WordPress and WooCommerce (12:20) - watch now</a></p>
-                <p><a href="https://www.youtube.com/watch?v=JUuss5sewxg" target="_blank">Multiple Google Analytics properties on WordPress and WooCommerce (6:17) - watch now</a></p>
-                <p><a href="https://www.youtube.com/watch?v=vWRZc66eaPo" target="_blank">How to install the TikTok Tag on WordPress with PixelYourSite - WooCommerce Support (9:11) - watch now</a></p>
-                <p><a href="https://www.youtube.com/watch?v=3soI_Fl0JQw" target="_blank">Facebook Event Matching and EMQ: How to IMPROVE it</a></p>
                 <p><a href="https://www.youtube.com/watch?v=zkb67djRnd0" target="_blank">FIX IT: PixelYourSite high number of admin-ajax requests (9:04) - watch now</a></p>
-
+                <p><a href="https://www.youtube.com/watch?v=EvzGMAvBnbs" target="_blank">
+                        How to create Meta (Facebook) Custom Audiences & Lookalikes based on Events & Parameters (21:53) - watch now
+                    </a>
+                </p>
+                <p>
+                    <a href="https://www.youtube.com/watch?v=w97FATUy7ok" target="_blank">
+                        How to configure Custom Conversions on Meta (Facebook) based on Events & Parameters (11:03) - watch now
+                    </a>
+                </p>
+                <p>
+                    <a href="https://www.youtube.com/watch?v=a5jPcLbdgy0" target="_blank">
+                        How to run A/B tests with Google Optimize and GA4 (6:07)
+                    </a>
+                </p>
             </div>
         </div>
         <div class="row">
@@ -265,148 +269,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 </div>
 
-<!-- Signal Events -->
-<div class="card">
-    <div class="card-header has_switch">
-        <?php PYS()->render_switcher_input('signal_events_enabled');?>Track key actions with the Signal event <?php cardCollapseBtn(); ?>
-    </div>
-    <div class="card-body">
-        <?php if ( Facebook()->enabled() ) : ?>
-            <div class="row">
-                <div class="col">
-                    <?php Facebook()->render_switcher_input( 'signal_events_enabled' ); ?>
-                    <h4 class="switcher-label">Enable on Facebook</h4>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <?php if ( GA()->enabled() ) : ?>
-            <div class="row">
-                <div class="col">
-                    <?php GA()->render_switcher_input( 'signal_events_enabled' ); ?>
-                    <h4 class="switcher-label">Enable on Google Analytics</h4>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col col-offset-left">
-                    <?php GA()->render_checkbox_input( 'signal_events_non_interactive',
-                        'Non-interactive event' ); ?>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <?php if ( Bing()->enabled() ) : ?>
-            <div class="row">
-                <div class="col">
-                    <?php Bing()->render_switcher_input( 'signal_events_enabled' ); ?>
-                    <h4 class="switcher-label">Enable on Bing</h4>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <hr class="mb-2"/>
-
-        <h4 class="label">Actions:</h4>
-        <div class="row mt-4">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_click_enabled' ,"Internal Clicks/External Clicks",true); ?>
-                <?php renderProBadge(); ?>
-                <div  class="col-offset-left">
-                    <small> Specific parameters: <i>text, target_url</i></small>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_watch_video_enabled','Watch Video (YouTube and Vimeo embedded videos)',true ); ?>
-                <?php renderProBadge(); ?>
-                <div  class="col-offset-left">
-                    <small> Specific parameters: <i> video_type, video_title, video_id</i></small>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_tel_enabled',"Telephone links clicks",true ); ?>
-                <?php renderProBadge(); ?>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_email_enabled' ,"Email links clicks",true); ?>
-                <?php renderProBadge(); ?>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_form_enabled',"Forms" ); ?>
-                <div  class="col-offset-left">
-                    <small> Specific parameters: <i>text, from_class, form_id</i></small>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_user_signup_enabled',"User signups",true ); ?>
-                <?php renderProBadge(); ?>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_download_enabled' ,"Downloads"); ?>
-                <div  class="col-offset-left">
-                    <h4 class="label">Extension of files to track as downloads:</h4>
-                    <?php PYS()->render_tags_select_input( 'download_event_extensions' ); ?>
-                    <small> Specific parameters: <i>download_type, download_name, download_url</i></small>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_comment_enabled',"Comments" ); ?>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <?php PYS()->render_checkbox_input( 'signal_adsense_enabled',"AdSense click" ,true); ?>
-                <?php renderProBadge(); ?>
-                <div  class="col-offset-left">
-                    <small> Is not fired for Google, because Google has it's own support for AdSense</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-
-                <div  class=" form-inline">
-                    <?php PYS()->render_checkbox_input( 'signal_page_scroll_enabled',"trigger for scroll value:" ); ?>
-                    <?php PYS()->render_number_input( 'signal_page_scroll_value','',false,100 ); ?>
-                    <div>% (add %)</div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col">
-                <div  class="form-inline">
-                    <?php PYS()->render_checkbox_input( 'signal_time_on_page_enabled',"trigger for time on page value:" ); ?>
-                    <?php PYS()->render_number_input( 'signal_time_on_page_value' ); ?>
-                    <div> seconds (add seconds)</div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-</div>
 <!-- Global Events -->
 <div class="card">
     <div class="card-header has_switch">
@@ -470,6 +332,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div class="col">
                             <?php GA()->render_switcher_input('automatic_event_signup_enabled'); ?>
                             <h4 class="switcher-label">Enable on Google Analytics</h4>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col col-offset-left">
+                            <?php GA()->render_checkbox_input("automatic_event_signup_non_interactive_enabled",
+                                'Non-interactive event'); ?>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -793,7 +661,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php
         $customCount = EventsCustom()->getCount();
         //$customFdp = EventsFdp()->getCount();
-        $signalEvents = EventsSignal()->getCount();
+        $signalEvents = EventsAutomatic()->getCount();
         $wooEvents = EventsWoo()->getCount();
         $eddEvents = EventsEdd()->getCount();
 
@@ -839,7 +707,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <p>The Search event has the specific search parameter.</p>
 
-        <p>The Signal event has various specific parameters, depending on the action that fires the event.</p>
+        <p>The automatic events have various specific parameters, depending on the action that fires the event.</p>
     </div>
 </div>
 
@@ -1073,6 +941,13 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="col">
             <?php GA()->render_switcher_input($event); ?>
             <h4 class="switcher-label">Enable on Google Analytics</h4>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <?php $interactive = str_replace("_enabled","_non_interactive_enabled",$event)?>
+        <div class="col col-offset-left">
+            <?php GA()->render_checkbox_input($interactive,
+                'Non-interactive event'); ?>
         </div>
     </div>
 <?php endif; ?>

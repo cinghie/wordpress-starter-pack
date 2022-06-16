@@ -180,8 +180,7 @@ final class PYS extends Settings implements Plugin {
 
     public function userRegisterHandler( $user_id ) {
 
-        if ( PYS()->getOption( 'signal_user_signup_enabled' )
-            || PYS()->getOption( 'woo_complete_registration_enabled' )
+        if ( PYS()->getOption( 'woo_complete_registration_enabled' )
             || PYS()->getOption( 'automatic_event_signup_enabled' )
         ) {
             update_user_meta( $user_id, 'pys_complete_registration', true );

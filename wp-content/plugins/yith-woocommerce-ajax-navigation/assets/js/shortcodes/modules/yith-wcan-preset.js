@@ -227,6 +227,12 @@ export default class YITH_WCAN_Preset {
 		// init custom inputs
 		if ( this.$preset?.hasClass( 'custom-style' ) ) {
 			this._initCustomInput( $filter );
+			$filter.on( 'yith_wcan_dropdown_updated', function () {
+				const $dropdown = $( this ),
+					$current = $dropdown.closest( '.yith-wcan-filter' );
+
+				self._initCustomInput( $current );
+			} );
 		}
 	}
 
@@ -667,22 +673,25 @@ export default class YITH_WCAN_Preset {
 			?.done( () => {
 				let newPreset = $( this.preset );
 
-				if (
-					! this.isMobile &&
-					newPreset.length &&
-					yith_wcan_shortcodes.scroll_top
-				) {
+				if ( newPreset.length && yith_wcan_shortcodes.scroll_top ) {
+					// by default, scroll till top of first preset in the page.
 					let targetOffset = newPreset.offset().top;
 
 					if ( !! yith_wcan_shortcodes.scroll_target ) {
-						const scrollTarget = $(
+						// when we have a specific target, use that for the offset.
+						const $scrollTarget = $(
 							yith_wcan_shortcodes.scroll_target
 						);
 
-						targetOffset = scrollTarget.length
-							? scrollTarget.offset().top
+						targetOffset = $scrollTarget.length
+							? $scrollTarget.offset().top
 							: targetOffset;
+					} else if ( this.isMobile ) {
+						// otherwise, if we're on mobile, scroll to the top of the page
+						// (preset could be in an unexpected location).
+						targetOffset = 100;
 					}
+
 					$( 'body, html' ).animate( {
 						scrollTop: targetOffset - 100,
 					} );
@@ -696,6 +705,7 @@ export default class YITH_WCAN_Preset {
 		if ( this.isMobile ) {
 			this.$preset.removeClass( 'with-filter-button' );
 			this.modalElements.applyFiltersButton?.hide();
+			this.closeModal();
 		}
 	}
 
@@ -743,8 +753,9 @@ export default class YITH_WCAN_Preset {
 
 			// if we use type other than dropdown, fallthrough
 			case 'stock_sale':
-				active = $filter.find( '.filter-item' ).filter( '.active' )
-					.length;
+				active = $filter
+					.find( '.filter-item' )
+					.filter( '.active' ).length;
 				break;
 			case 'price_slider':
 				const step = parseFloat(
@@ -806,8 +817,9 @@ export default class YITH_WCAN_Preset {
 
 			// if we use type other than dropdown, fallthrough
 			case 'stock_sale':
-				count = $filter.find( '.filter-items' ).find( '.active' )
-					.length;
+				count = $filter
+					.find( '.filter-items' )
+					.find( '.active' ).length;
 				break;
 			case 'orderby':
 				if ( this.isFilterActive( $filter ) ) {
@@ -877,9 +889,8 @@ export default class YITH_WCAN_Preset {
 				}
 
 				if ( isAttr ) {
-					properties[
-						taxonomy.replace( 'filter_', 'query_type_' )
-					] = relation;
+					properties[ taxonomy.replace( 'filter_', 'query_type_' ) ] =
+						relation;
 				}
 
 				break;
@@ -1399,6 +1410,8 @@ export default class YITH_WCAN_Preset {
 		if ( doFilter ) {
 			this.filter();
 		}
+
+		return true;
 	}
 
 	// deactivate filters that matches a specific set of properties
@@ -1407,7 +1420,7 @@ export default class YITH_WCAN_Preset {
 			$filters = this.getFiltersByProperties( properties );
 
 		if ( ! $filters.length ) {
-			return;
+			return false;
 		}
 
 		$filters.each( function () {
@@ -1415,6 +1428,8 @@ export default class YITH_WCAN_Preset {
 
 			self.deactivateFilter( $filter, properties, doFilter );
 		} );
+
+		return true;
 	}
 
 	// open filters as a modal, when in mobile layout
@@ -1460,11 +1475,11 @@ export default class YITH_WCAN_Preset {
 	formatPrice( price ) {
 		if ( 'undefined' !== typeof accounting ) {
 			price = accounting.formatMoney( price, {
-				symbol: yith_wcan_shortcodes.currency_format.symbol,
-				decimal: yith_wcan_shortcodes.currency_format.decimal,
-				thousand: yith_wcan_shortcodes.currency_format.thousand,
+				symbol: yith_wcan_shortcodes.currency_format?.symbol,
+				decimal: yith_wcan_shortcodes.currency_format?.decimal,
+				thousand: yith_wcan_shortcodes.currency_format?.thousand,
 				precision: 0,
-				format: yith_wcan_shortcodes.currency_format.format,
+				format: yith_wcan_shortcodes.currency_format?.format,
 			} );
 		}
 

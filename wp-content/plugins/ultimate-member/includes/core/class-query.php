@@ -229,6 +229,7 @@ if ( ! class_exists( 'um\core\Query' ) ) {
 				foreach ( $users->results as $user ) {
 					update_user_meta( $user, 'account_status', 'approved' );
 				}
+				return 0;
 			} else {
 				$args['meta_query'][] = array(array('key' => 'account_status','value' => $status,'compare' => '='));
 			}
@@ -279,7 +280,20 @@ if ( ! class_exists( 'um\core\Query' ) ) {
 		 * @param $post_id
 		 * @param $new_value
 		 */
-		function update_attr( $key, $post_id, $new_value ){
+		function update_attr( $key, $post_id, $new_value ) {
+			/**
+			 * Post meta values are passed through the stripslashes() function upon being stored.
+			 * Function wp_slash() is added to compensate for the call to stripslashes().
+			 * @see https://developer.wordpress.org/reference/functions/update_post_meta/
+			 */
+			if ( is_array( $new_value ) ) {
+				foreach ( $new_value as $k => $val ) {
+					if ( is_array( $val ) && array_key_exists( 'custom_dropdown_options_source', $val ) ) {
+						$new_value[ $k ]['custom_dropdown_options_source'] = wp_slash( $val['custom_dropdown_options_source'] );
+					}
+				}
+			}
+
 			update_post_meta( $post_id, '_um_' . $key, $new_value );
 		}
 

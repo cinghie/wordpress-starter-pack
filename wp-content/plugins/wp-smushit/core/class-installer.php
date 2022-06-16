@@ -12,6 +12,7 @@
 
 namespace Smush\Core;
 
+use Smush\App\Abstract_Page;
 use WP_Smush;
 
 if ( ! defined( 'WPINC' ) ) {
@@ -152,6 +153,10 @@ class Installer {
 				self::dir_smush_set_primary_key();
 			}
 
+			if ( version_compare( $version, '3.10.0', '<' ) ) {
+				self::upgrade_3_10_0();
+			}
+
 			// Create/upgrade directory smush table.
 			self::directory_smush_table();
 
@@ -248,6 +253,35 @@ class Installer {
 		if ( '0' === $lazy['animation']['selected'] ) {
 			$lazy['animation']['selected'] = 'none';
 			Settings::get_instance()->set_setting( 'wp-smush-lazy_load', $lazy );
+		}
+	}
+
+	/**
+	 * Upgrade to 3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
+	 */
+	private static function upgrade_3_10_0() {
+		// Remove unused options.
+		delete_site_option( 'wp-smush-hide_pagespeed_suggestion' );
+		delete_site_option( 'wp-smush-hide_upgrade_notice' );
+
+		// Rename the default config.
+		$stored_configs = get_site_option( 'wp-smush-preset_configs', false );
+		if ( is_array( $stored_configs ) && isset( $stored_configs[0] ) && isset( $stored_configs[0]['name'] ) && 'Basic config' === $stored_configs[0]['name'] ) {
+			$stored_configs[0]['name'] = __( 'Default config', 'wp-smushit' );
+			update_site_option( 'wp-smush-preset_configs', $stored_configs );
+		}
+
+		// Show new features modal for free users.
+		if ( ! WP_Smush::is_pro() ) {
+			if ( is_multisite() && ! Abstract_Page::should_render( 'bulk' ) ) {
+				return;
+			}
+
+			add_site_option( 'wp-smush-show_upgrade_modal', true );
 		}
 	}
 }

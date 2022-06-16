@@ -149,15 +149,20 @@ class GA extends Settings implements Pixel {
 
             case 'automatic_event_signup' : {
                 $event->addPayload(["name" => "sign_up"]);
+                $event->addParams(array('non_interaction'=>$this->getOption($event->getId()."_non_interactive_enabled")));
                 $isActive = $this->getOption($event->getId().'_enabled');
             } break;
             case 'automatic_event_login' :{
                 $event->addPayload(["name" => "login"]);
+                $event->addParams(array('non_interaction'=>$this->getOption($event->getId()."_non_interactive_enabled")));
                 $isActive = $this->getOption($event->getId().'_enabled');
             } break;
             case 'automatic_event_search' :{
                 $event->addPayload(["name" => "search"]);
-                $event->addParams(["search_term" =>  empty( $_GET['s'] ) ? null : $_GET['s']]);
+                $event->addParams([
+                    "search_term"       =>  empty( $_GET['s'] ) ? null : $_GET['s'],
+                    'non_interaction'   =>  $this->getOption($event->getId()."_non_interactive_enabled")
+                ]);
                 $isActive = $this->getOption($event->getId().'_enabled');
             } break;
 
@@ -166,17 +171,10 @@ class GA extends Settings implements Pixel {
             case 'automatic_event_comment' :
             case 'automatic_event_scroll' :
             case 'automatic_event_time_on_page' : {
+                $event->addParams(array('non_interaction'=>$this->getOption($event->getId()."_non_interactive_enabled")));
                 $isActive = $this->getOption($event->getId().'_enabled');
             }break;
 
-            case "signal_page_scroll":
-            case "signal_time_on_page":
-            case "signal_form":
-            case "signal_download":
-            case "signal_comment": {
-                $isActive = $this->getOption('signal_events_enabled');
-                $event->addParams(array('non_interaction'=>$this->getOption("signal_events_non_interactive")));
-            }break;
 
             case 'init_event': {
                     $eventData = $this->getPageViewEventParams();

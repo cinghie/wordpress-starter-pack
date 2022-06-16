@@ -122,9 +122,6 @@ abstract class Abstract_Page {
 	public function add_action_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		//add_action( 'admin_notices', array( $this, 'smush_upgrade_notice' ) );
-		//add_action( 'network_admin_notices', array( $this, 'smush_upgrade_notice' ) );
-
 		// Notices.
 		add_action( 'admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'network_admin_notices', array( $this, 'smush_deactivated' ) );
@@ -190,74 +187,7 @@ abstract class Abstract_Page {
 	}
 
 	/**
-	 * Shows Notice for free users, displays a discount coupon
-	 */
-	public function smush_upgrade_notice() {
-		// Return, If a pro user, or not super admin, or don't have the admin privileges.
-		if ( WP_Smush::is_pro() || ! current_user_can( 'edit_others_posts' ) || ! is_super_admin() ) {
-			return;
-		}
-
-		// Return if notice is already dismissed.
-		if ( get_site_option( 'wp-smush-hide_upgrade_notice' ) ) {
-			return;
-		}
-
-		$core = WP_Smush::get_instance()->core();
-
-		$install_type = get_site_option( 'wp-smush-install-type', false );
-
-		if ( ! $install_type ) {
-			$install_type = $core->smushed_count > 0 ? 'existing' : 'new';
-			update_site_option( 'wp-smush-install-type', $install_type );
-		}
-
-		// Prepare notice.
-		if ( 'new' === $install_type ) {
-			/* translators: 1. opening 'strong' tag, 2. closing 'strong' tag. */
-			$message = __( 'Thanks for installing Smush! %1$sGet a free trial + 30%% OFF%2$s Smush Pro for a limited time - an exclusive welcome discount for free version users! Grab it while it lasts.', 'wp-smushit' );
-		} else {
-			/* translators: 1. opening 'strong' tag, 2. closing 'strong' tag. */
-			$message = __( 'Thanks for updating Smush! %1$sGet 30%% OFF Smush Pro + Free Trial%2$s - Did you know we now offer Smush Pro only plans? With a limited time intro discount! Grab it while it lasts.', 'wp-smushit' );
-		}
-
-		$upgrade_url = add_query_arg(
-			array(
-				'coupon'       => 'SMUSH30OFF',
-				'checkout'     => 0,
-				'utm_source'   => 'smush',
-				'utm_medium'   => 'plugin',
-				'utm_campaign' => 'smush_dashboard_upgrade_notice',
-			),
-			$this->upgrade_url
-		);
-		?>
-		<div class="notice smush-notice">
-			<div class="smush-notice-logo">
-				<img
-					src="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/incsub-logo.png' ); ?>"
-					srcset="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/incsub-logo@2x.png' ); ?> 2x"
-					alt="<?php esc_html_e( 'Smush CDN', 'wp-smushit' ); ?>"
-				>
-			</div>
-			<div class="smush-notice-message<?php echo 'new' === $install_type ? ' wp-smush-fresh' : ' wp-smush-existing'; ?>">
-				<?php printf( esc_html( $message ), '<strong>', '</strong>' ); ?><br/>
-				<small><?php esc_html_e( '*Only admin users can see this message', 'wp-smushit' ); ?></small>
-			</div>
-			<div class="smush-notice-cta">
-				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="smush-notice-act button-primary" target="_blank">
-					<?php esc_html_e( 'Try Smush Pro Free', 'wp-smushit' ); ?>
-				</a>
-				<button class="smush-notice-dismiss smush-dismiss-welcome" data-msg="<?php esc_html_e( 'Saving', 'wp-smushit' ); ?>">
-					<?php esc_html_e( 'Dismiss', 'wp-smushit' ); ?>
-				</button>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Display a admin notice about plugin deactivation.
+	 * Display an admin notice about plugin deactivation.
 	 */
 	public function smush_deactivated() {
 		// Display only in backend for administrators.
@@ -972,7 +902,7 @@ abstract class Abstract_Page {
 					'hubWelcome'   => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
 				),
 				'requestsData' => array(
-					'root'           => esc_url_raw( rest_url( 'wp-smush/v1/' . \Smush\Core\Configs::OPTION_NAME ) ),
+					'root'           => esc_url_raw( rest_url( 'wp-smush/v1/preset_configs' ) ),
 					'nonce'          => wp_create_nonce( 'wp_rest' ),
 					'apiKey'         => Helper::get_wpmudev_apikey(),
 					'hubBaseURL'     => defined( 'WPMUDEV_CUSTOM_API_SERVER' ) && WPMUDEV_CUSTOM_API_SERVER ? trailingslashit( WPMUDEV_CUSTOM_API_SERVER ) . 'api/hub/v1/package-configs' : null,

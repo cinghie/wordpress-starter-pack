@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.6.3
+Stable tag: 11.6.4
 
 == Description ==
 
@@ -344,6 +344,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.6.4 (2022-06-16) =
+* Checked for compatibility with WooCommerce 6.6.0
 
 = 11.6.3 (2022-06-07) =
 * Fixed the inventory count field for Vivino feeds
@@ -3721,6 +3724,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.6.4 =
+Checked for compatibility with WooCommerce 6.6.0
 
 = 11.6.3 =
 Fixed the inventory count field for Vivino feeds

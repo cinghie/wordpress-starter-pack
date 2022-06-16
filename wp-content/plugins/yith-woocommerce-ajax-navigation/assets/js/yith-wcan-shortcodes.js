@@ -1,6 +1,46 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
+
+// NAMESPACE OBJECT: ./assets/js/shortcodes/config.js
+var config_namespaceObject = {};
+__webpack_require__.r(config_namespaceObject);
+__webpack_require__.d(config_namespaceObject, {
+  "$": () => ($)
+});
 
 ;// CONCATENATED MODULE: ./assets/js/shortcodes/config.js
 
@@ -30,6 +70,7 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
   // flag set during ajax call handling
   // register original url search param
   // flag set once init has executed
+  // flag set when page has at least one active filter.
   // init object
   function YITH_WCAN_Filter() {
     _classCallCheck(this, YITH_WCAN_Filter);
@@ -42,15 +83,29 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
 
     _defineProperty(this, "initialized", false);
 
-    var head = $('head').html(),
-        pageTitle = document.title,
-        alternativeUrl = this.searchAlternativeUrl(head);
-    alternativeUrl && !this.doingAjax && !this.initialized && !yith_wcan_shortcodes.ajax_filters && this.pushUrlToHistory(alternativeUrl, pageTitle);
+    _defineProperty(this, "filtered", false);
+
+    this.initPopState();
     this.initialized = true;
-  } // execute call to filter products in current view
+  } // init page reload when popstate event alter filters
 
 
   _createClass(YITH_WCAN_Filter, [{
+    key: "initPopState",
+    value: function initPopState() {
+      this.pushUrlToHistory(window.location, document.title, null, true);
+      $(window).on('popstate', function () {
+        var _window$history$state;
+
+        if (!((_window$history$state = window.history.state) !== null && _window$history$state !== void 0 && _window$history$state._yithWcan)) {
+          return;
+        }
+
+        window.location.reload(true);
+      });
+    } // execute call to filter products in current view
+
+  }, {
     key: "doFilter",
     value: function doFilter(filters, target, preset) {
       var _this = this;
@@ -71,6 +126,7 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
       targetUrl = this.buildUrl(filters); // if no ajax, simply change page url
 
       if (!yith_wcan_shortcodes.ajax_filters) {
+        this.pushUrlToHistory(targetUrl, document.title, filters);
         window.location = targetUrl;
         return;
       } // start doing ajax
@@ -84,8 +140,9 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
 
         _this.refreshFragments(target, preset, response);
 
-        _this.pushUrlToHistory(targetUrl, response.pageTitle);
+        _this.pushUrlToHistory(targetUrl, response.pageTitle, filters);
 
+        _this.originalSearch = location.search;
         $target && _this.unblock($target);
 
         _this._afterFilter(response, filters);
@@ -106,13 +163,8 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
       $('.woocommerce-ordering').on('change', 'select.orderby', function () {
         $(this).closest('form').submit();
       });
-
-      if (filters && !!Object.keys(filters).length) {
-        $('body').addClass('filtered');
-      } else {
-        $('body').removeClass('filtered');
-      }
-
+      this.filtered = filters && !!Object.keys(filters).length;
+      this.filtered ? config_namespaceObject.$body.addClass('filtered') : config_namespaceObject.$body.removeClass('filtered');
       $(window).trigger('scroll');
       $(document).trigger('yith-wcan-ajax-filtered', [response, filters]).trigger('yith_wcwl_reload_fragments');
     } // build url to show
@@ -195,13 +247,21 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
 
   }, {
     key: "pushUrlToHistory",
-    value: function pushUrlToHistory(url, title) {
+    value: function pushUrlToHistory(url, title, filters, current) {
       if (!yith_wcan_shortcodes.change_browser_url || navigator.userAgent.match(/msie/i)) {
         return;
       }
 
-      window.history.pushState({
-        pageTitle: title
+      var method = 'pushState';
+
+      if (!!current) {
+        method = 'replaceState';
+      }
+
+      window.history[method]({
+        _yithWcan: true,
+        pageTitle: title,
+        filters: filters
       }, '', url);
     } // replaces elements in the page with refreshed ones
 
@@ -1215,6 +1275,13 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
 
       if ((_this$$preset = this.$preset) !== null && _this$$preset !== void 0 && _this$$preset.hasClass('custom-style')) {
         this._initCustomInput($filter);
+
+        $filter.on('yith_wcan_dropdown_updated', function () {
+          var $dropdown = $(this),
+              $current = $dropdown.closest('.yith-wcan-filter');
+
+          self._initCustomInput($current);
+        });
       }
     } // init tooltip
 
@@ -1626,12 +1693,18 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
       filter === null || filter === void 0 ? void 0 : (_filter$doFilter = filter.doFilter(this.getFiltersProperties(), this.target, this.preset)) === null || _filter$doFilter === void 0 ? void 0 : _filter$doFilter.done(function () {
         var newPreset = $(_this7.preset);
 
-        if (!_this7.isMobile && newPreset.length && yith_wcan_shortcodes.scroll_top) {
+        if (newPreset.length && yith_wcan_shortcodes.scroll_top) {
+          // by default, scroll till top of first preset in the page.
           var targetOffset = newPreset.offset().top;
 
           if (!!yith_wcan_shortcodes.scroll_target) {
-            var scrollTarget = $(yith_wcan_shortcodes.scroll_target);
-            targetOffset = scrollTarget.length ? scrollTarget.offset().top : targetOffset;
+            // when we have a specific target, use that for the offset.
+            var $scrollTarget = $(yith_wcan_shortcodes.scroll_target);
+            targetOffset = $scrollTarget.length ? $scrollTarget.offset().top : targetOffset;
+          } else if (_this7.isMobile) {
+            // otherwise, if we're on mobile, scroll to the top of the page
+            // (preset could be in an unexpected location).
+            targetOffset = 100;
           }
 
           $('body, html').animate({
@@ -1649,6 +1722,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
 
         this.$preset.removeClass('with-filter-button');
         (_this$modalElements$a2 = this.modalElements.applyFiltersButton) === null || _this$modalElements$a2 === void 0 ? void 0 : _this$modalElements$a2.hide();
+        this.closeModal();
       }
     } // get all filter nodes
 
@@ -2230,6 +2304,8 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
       if (doFilter) {
         this.filter();
       }
+
+      return true;
     } // deactivate filters that matches a specific set of properties
 
   }, {
@@ -2239,13 +2315,14 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
           $filters = this.getFiltersByProperties(properties);
 
       if (!$filters.length) {
-        return;
+        return false;
       }
 
       $filters.each(function () {
         var $filter = $(this);
         self.deactivateFilter($filter, properties, doFilter);
       });
+      return true;
     } // open filters as a modal, when in mobile layout
 
   }, {
@@ -2291,12 +2368,14 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
     key: "formatPrice",
     value: function formatPrice(price) {
       if ('undefined' !== typeof accounting) {
+        var _yith_wcan_shortcodes, _yith_wcan_shortcodes2, _yith_wcan_shortcodes3, _yith_wcan_shortcodes4;
+
         price = accounting.formatMoney(price, {
-          symbol: yith_wcan_shortcodes.currency_format.symbol,
-          decimal: yith_wcan_shortcodes.currency_format.decimal,
-          thousand: yith_wcan_shortcodes.currency_format.thousand,
+          symbol: (_yith_wcan_shortcodes = yith_wcan_shortcodes.currency_format) === null || _yith_wcan_shortcodes === void 0 ? void 0 : _yith_wcan_shortcodes.symbol,
+          decimal: (_yith_wcan_shortcodes2 = yith_wcan_shortcodes.currency_format) === null || _yith_wcan_shortcodes2 === void 0 ? void 0 : _yith_wcan_shortcodes2.decimal,
+          thousand: (_yith_wcan_shortcodes3 = yith_wcan_shortcodes.currency_format) === null || _yith_wcan_shortcodes3 === void 0 ? void 0 : _yith_wcan_shortcodes3.thousand,
           precision: 0,
-          format: yith_wcan_shortcodes.currency_format.format
+          format: (_yith_wcan_shortcodes4 = yith_wcan_shortcodes.currency_format) === null || _yith_wcan_shortcodes4 === void 0 ? void 0 : _yith_wcan_shortcodes4.format
         });
       }
 

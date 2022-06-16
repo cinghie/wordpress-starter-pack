@@ -1949,7 +1949,41 @@ class WooSEA_Get_Products {
                                                                         		$delivery = $product->addChild('DELIVERY');
                                                                         		$delivery_split = explode("##", $v);
                                                                         		$nr_split = count($delivery_split);
-											
+
+                                                                                        $zbozi_delivery_id = array (
+                                                                                                0 => "CESKA_POSTA_BALIKOVNA",
+                                                                                                1 => "CESKA_POSTA_NA_POSTU",
+                                                                                                2 => "DPD_PICKUP",
+                                                                                                3 => "GEIS_POINT",
+                                                                                                4 => "GLS_PARCELSHOP",
+                                                                                                5 => "PPL_PARCELSHOP",
+                                                                                                6 => "TOPTRANS_DEPO",
+                                                                                                7 => "WEDO_ULOZENKA",
+                                                                                                8 => "ZASILKOVNA",
+                                                                                                9 => "VLASTNI_VYDEJNI_MISTA",
+                                                                                                10 => "CESKA_POSTA",
+                                                                                                11 => "DB_SCHENKER",
+                                                                                                12 => "DPD",
+                                                                                                13 => "DHL",
+                                                                                                14 => "DSV",
+                                                                                                15 => "FOFR",
+                                                                                                16 => "GEBRUDER_WEISS",
+                                                                                                17 => "GEIS",
+                                                                                                18 => "GLS",
+                                                                                                19 => "HDS",
+                                                                                                20 => "WEDO_HOME",
+                                                                                                21 => "MESSENGER",
+                                                                                                22 => "PPL",
+                                                                                                23 => "TNT",
+                                                                                                24 => "TOPTRANS",
+                                                                                                25 => "UPS",
+                                                                                                26 => "FEDEX",
+                                                                                                27 => "RABEN_LOGISTICS",
+                                                                                                28 => "RHENUS",
+                                                                                                29 => "ZASILKOVNA_NA_ADRESU",
+                                                                                                30 => "VLASTNI_PREPRAVA"
+                                                                                        );
+
 											if($nr_split == 7){
 												$delivery_id_split = explode(" ", $delivery_split[2]);
 												$delivery_price_split = explode("||", $delivery_split[3]);
@@ -1959,8 +1993,16 @@ class WooSEA_Get_Products {
                                                                         			$delivery_price_cod = $delivery->addChild('DELIVERY_PRICE_COD', trim(htmlspecialchars($delivery_split[6])));
 											} else {
 												if($nr_split > 1){
+                                                                                                        $zbozi_split = explode(" ", $delivery_split[2]);
+                                                                                                        foreach ($zbozi_split as $zbozi_id) {
+                                                                                                                if(in_array($zbozi_id, $zbozi_delivery_id)){
+                                                                                                                        $delivery_split[2] = $zbozi_id;
+                                                                                                                }
+                                                                                                        }
+
 													$delivery_id = $delivery->addChild('DELIVERY_ID', htmlspecialchars($delivery_split[2]));
-                                                                        				$delivery_id = $delivery->addChild('DELIVERY_PRICE', trim(htmlspecialchars($delivery_split[3])));
+                                                                        				$del_price_split = explode(" ",trim($delivery_split[3]));
+													$delivery_id = $delivery->addChild('DELIVERY_PRICE', trim(htmlspecialchars($delivery_split[3])));
 												}
 											}
                                                                 		} elseif(($feed_config['name'] == "Yandex") AND (preg_match("/$zbozi_nodes/i",$k))){
@@ -5065,7 +5107,7 @@ error_log($custom_kk_m);
 		 * Only update the cron_project when no new project was created during the batched run otherwise the new project will be overwritten and deleted
 		 */
 		if ($nr_projects == $nr_projects_cron){
-        		update_option( 'cron_projects', $feed_config);
+        		update_option( 'cron_projects', $feed_config, 'no');
 		}
 	}
 

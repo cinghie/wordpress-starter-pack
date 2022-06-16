@@ -471,7 +471,6 @@ class S3 extends Abstract_Integration {
 			// When async uploading or the image is created from Gutenberg, activate smush mode.
 			&& empty( $new_meta['sizes'] )
 			&& ! empty( $image_meta['file'] )
-			// phpcs:ignore
 			&& ( isset( $_POST['post_id'] ) || isset( $_FILES['async-upload'] ) || ! Helper::is_non_rest_media() )
 			// If enabling auto-smush.
 			&& $this->settings->get( 'auto' )
@@ -504,36 +503,42 @@ class S3 extends Abstract_Integration {
 		// Release smush mode.
 		$this->release_smush_mode();
 
-		if ( WP_SMUSH_ASYNC && $this->settings->get( 'auto' ) && doing_filter( 'wp_async_wp_generate_attachment_metadata' ) && did_action( 'wp_smush_no_smushit' ) && ! Helper::file_in_progress( $attachment_id ) ) {
-			// Make sure all images will upload to cloud.
-			if ( ! did_action( 'wp_smush_before_update_attachment_metadata' ) ) {
-				global $as3cf;
-				// If the image is already uploaded, returns.
-				if ( ! $as3cf->get_setting( 'copy-to-s3' ) || $this->does_image_exists( $attachment_id, $this->get_raw_attached_file( $attachment_id, 'original' ) ) ) {
-					return;
-				}
-				// Make sure method exits.
-				if ( method_exists( $as3cf, 'upload_attachment' ) ) {
-					$as3cf->upload_attachment( $attachment_id, wp_get_attachment_metadata( $attachment_id ) );
-					return;
-				}
+		if ( ! WP_SMUSH_ASYNC || ! $this->settings->get( 'auto' ) || ! doing_filter( 'wp_async_wp_generate_attachment_metadata' ) || ! did_action( 'wp_smush_no_smushit' ) ) {
+			return;
+		}
 
-				$s3_filter_obj = $this->get_s3_filter_class();
-				if ( $s3_filter_obj && method_exists( $s3_filter_obj, 'wp_update_attachment_metadata' ) ) {
-					$s3_filter_obj->wp_update_attachment_metadata( wp_get_attachment_metadata( $attachment_id ), $attachment_id );
-					return;
-				}
+		if ( get_transient( 'smush-in-progress-' . $attachment_id ) || get_transient( 'wp-smush-restore-' . $attachment_id ) ) {
+			return;
+		}
 
-				// Log a warning.
-				Helper::logger()->integrations()->warning( 'S3 - the upload method does not exists, try to upload files via filter wp_update_attachment_metadata.' );
-
-				// Try to upload attachments via filter.
-				// Temporary disable our filters.
-				remove_filter( 'wp_update_attachment_metadata', array( $this, 'maybe_active_smush_mode' ), 1 );
-                apply_filters( 'wp_update_attachment_metadata', wp_get_attachment_metadata( $attachment_id ), $attachment_id );
-				// Restore our filters.
-				add_filter( 'wp_update_attachment_metadata', array( $this, 'maybe_active_smush_mode' ), 1, 2 );
+		// Make sure all images will upload to cloud.
+		if ( ! did_action( 'wp_smush_before_update_attachment_metadata' ) ) {
+			global $as3cf;
+			// If the image is already uploaded, returns.
+			if ( ! $as3cf->get_setting( 'copy-to-s3' ) || $this->does_image_exists( $attachment_id, $this->get_raw_attached_file( $attachment_id, 'original' ) ) ) {
+				return;
 			}
+			// Make sure method exits.
+			if ( method_exists( $as3cf, 'upload_attachment' ) ) {
+				$as3cf->upload_attachment( $attachment_id, wp_get_attachment_metadata( $attachment_id ) );
+				return;
+			}
+
+			$s3_filter_obj = $this->get_s3_filter_class();
+			if ( $s3_filter_obj && method_exists( $s3_filter_obj, 'wp_update_attachment_metadata' ) ) {
+				$s3_filter_obj->wp_update_attachment_metadata( wp_get_attachment_metadata( $attachment_id ), $attachment_id );
+				return;
+			}
+
+			// Log a warning.
+			Helper::logger()->integrations()->warning( 'S3 - the upload method does not exists, try to upload files via filter wp_update_attachment_metadata.' );
+
+			// Try to upload attachments via filter.
+			// Temporary disable our filters.
+			remove_filter( 'wp_update_attachment_metadata', array( $this, 'maybe_active_smush_mode' ), 1 );
+			apply_filters( 'wp_update_attachment_metadata', wp_get_attachment_metadata( $attachment_id ), $attachment_id );
+			// Restore our filters.
+			add_filter( 'wp_update_attachment_metadata', array( $this, 'maybe_active_smush_mode' ), 1, 2 );
 		}
 	}
 
@@ -1096,9 +1101,9 @@ class S3 extends Abstract_Integration {
 		// Maybe revert file filters.
 		if ( $this->list_file_filters ) {
 			global $wp_filter;
-			$wp_filter['get_attached_file'] = $this->list_file_filters['get_attached_file'];//phpcs:ignore
+			$wp_filter['get_attached_file'] = $this->list_file_filters['get_attached_file'];
 			if ( isset( $this->list_file_filters['wp_get_original_image_path'] ) ) {
-				$wp_filter['wp_get_original_image_path'] = $this->list_file_filters['wp_get_original_image_path'];//phpcs:ignore
+				$wp_filter['wp_get_original_image_path'] = $this->list_file_filters['wp_get_original_image_path'];
 			}
 		}
 	}
@@ -1242,7 +1247,7 @@ class S3 extends Abstract_Integration {
 		}
 
 		// Get s3 object for the file.
-		if ( ! $s3_object = $this->is_attachment_served_by_provider( $as3cf, $attachment_id ) ) {// phpcs:ignore
+		if ( ! $s3_object = $this->is_attachment_served_by_provider( $as3cf, $attachment_id ) ) {
 			return false;
 		}
 

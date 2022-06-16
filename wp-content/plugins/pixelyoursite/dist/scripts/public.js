@@ -1357,7 +1357,7 @@ if (!Array.prototype.includes) {
                         let params = {
                             event_category: "Key Actions",
                             event_action: name,
-                            //  non_interaction: param.non_interaction,
+                             non_interaction: param.non_interaction,
                         }
                         return params;
                     }
@@ -1365,7 +1365,7 @@ if (!Array.prototype.includes) {
                         let params = {
                             event_category: "Key Actions",
                             event_action: name,
-                            //  non_interaction: param.non_interaction,
+                            non_interaction: param.non_interaction,
                         }
                         var formClass = (typeof param.form_class != 'undefined') ? 'class: ' + param.form_class : '';
                         if(formClass != "") {
@@ -1378,7 +1378,7 @@ if (!Array.prototype.includes) {
                             event_category: "Key Actions",
                             event_action: name,
                             event_label: param.download_name,
-                            //  non_interaction: param.non_interaction,
+                              non_interaction: param.non_interaction,
                         }
                         return params;
                     }
@@ -1388,7 +1388,7 @@ if (!Array.prototype.includes) {
                             event_category: "Key Actions",
                             event_action: name,
                             event_label: document.title,
-                            //  non_interaction: param.non_interaction,
+                              non_interaction: param.non_interaction,
                         }
                         return params;
                     }
@@ -1397,108 +1397,9 @@ if (!Array.prototype.includes) {
                             event_category: "Key Actions",
                             event_action: name,
                             event_label: param.search_term,
-                            //  non_interaction: param.non_interaction,
+                              non_interaction: param.non_interaction,
                         }
                         return params;
-                    }
-
-                    case 'Signal': {
-                        switch (param.event_action) {
-                            case 'External Click':
-                            case 'Internal Click':
-                            case 'Tel':
-                            case 'Email': {
-                                let params = {
-                                    event_category: name,
-                                    event_action: param.event_action,
-                                    non_interaction: param.non_interaction,
-                                }
-                                if(options.trackTrafficSource) {
-                                    params['traffic_source'] = param.traffic_source
-                                }
-                                return params;
-                            }break;
-                            case 'Video': {
-                                let params = {
-                                    event_category: name,
-                                    event_action: param.event_action,
-                                    event_label: param.video_title,
-                                    non_interaction: param.non_interaction,
-                                }
-                                if(options.trackTrafficSource) {
-                                    params['traffic_source'] = param.traffic_source
-                                }
-                                return params;
-                            }break;
-                            case 'Comment': {
-                                let params = {
-                                    event_category: name,
-                                    event_action: param.event_action,
-                                    event_label: document.location.href,
-                                    non_interaction: param.non_interaction,
-                                }
-                                if(options.trackTrafficSource) {
-                                    params['traffic_source'] = param.traffic_source
-                                }
-                                return params;
-                            }break;
-                            case 'Form': {
-                                var params = {
-                                    event_category: name,
-                                    event_action: param.event_action,
-                                    non_interaction: param.non_interaction,
-                                };
-                                if(options.trackTrafficSource) {
-                                    params['traffic_source'] = param.traffic_source
-                                }
-                                var formClass = (typeof param.form_class != 'undefined') ? 'class: ' + param.form_class : '';
-                                if(formClass != "") {
-                                    params["event_label"] = formClass;
-                                }
-                                return params;
-                            }break;
-                            case 'Download': {
-                                return {
-                                    event_category: name,
-                                    event_action: param.event_action,
-                                    event_label: param.download_name,
-                                    non_interaction: param.non_interaction,
-                                }
-                            }break;
-                        }
-                        if(param.event_action.indexOf('Scroll') === 0){
-                            var scroll_percent = param.event_action.substring(
-                                param.event_action.indexOf(' ')+1,
-                                param.event_action.indexOf('%')
-                            );
-                            let params =  {
-                                event_category: name,
-                                event_action: param.event_action,
-                                event_label: scroll_percent,
-                                non_interaction: param.non_interaction,
-                            }
-                            if(options.trackTrafficSource) {
-                                params['traffic_source'] = param.traffic_source
-                            }
-                            return params;
-                        }
-                        if(param.event_action.indexOf('Time on page') === 0) {
-                            let time_on_page = param.event_action.substring(
-                                14,
-                                param.event_action.indexOf(' seconds')
-                            );
-                            let params = {
-                                event_category: name,
-                                event_action: param.event_action,
-                                event_label: time_on_page,
-                                non_interaction: param.non_interaction,
-
-                            };
-                            if(options.trackTrafficSource) {
-                                params['traffic_source'] = param.traffic_source
-                            }
-                            return params
-                        }
                     }
                 }
 
@@ -1784,8 +1685,7 @@ if (!Array.prototype.includes) {
 
         Utils.setupGdprCallbacks();
         // page scroll event
-        if (options.dynamicEvents.hasOwnProperty("signal_page_scroll")
-            || options.dynamicEvents.hasOwnProperty("automatic_event_scroll")
+        if ( options.dynamicEvents.hasOwnProperty("automatic_event_scroll")
         ) {
 
             var singlePageScroll = function () {
@@ -1793,19 +1693,7 @@ if (!Array.prototype.includes) {
 
                 var docHeight = $(document).height() - $(window).height();
                 var isFired = false;
-                if (options.dynamicEvents.hasOwnProperty("signal_page_scroll")) {
-                    var pixels = Object.keys(options.dynamicEvents.signal_page_scroll);
-                    for(var i = 0;i<pixels.length;i++) {
-                        var event = Utils.clone(options.dynamicEvents.signal_page_scroll[pixels[i]]);
-                        var scroll = Math.round(docHeight * event.scroll_percent / 100)// convert % to absolute positions
 
-                        if(scroll < $(window).scrollTop()) {
-                            Utils.copyProperties(Utils.getRequestParams(), event.params);
-                            getPixelBySlag(pixels[i]).onPageScroll(event);
-                            isFired = true
-                        }
-                    }
-                }
                 if (options.dynamicEvents.hasOwnProperty("automatic_event_scroll")) {
                     var pixels = Object.keys(options.dynamicEvents.automatic_event_scroll);
                     for(var i = 0;i<pixels.length;i++) {
@@ -1826,17 +1714,6 @@ if (!Array.prototype.includes) {
             $(document).on("scroll",singlePageScroll);
         }
 
-        if (options.dynamicEvents.hasOwnProperty("signal_time_on_page")) {
-            var pixels = Object.keys(options.dynamicEvents.signal_time_on_page);
-            var time = options.dynamicEvents.signal_time_on_page[pixels[0]].time_on_page; // the same for all pixel
-            setTimeout(function(){
-                for(var i = 0;i<pixels.length;i++) {
-                    var event = Utils.clone(options.dynamicEvents.signal_time_on_page[pixels[i]]);
-                    Utils.copyProperties(Utils.getRequestParams(), event.params);
-                    getPixelBySlag(pixels[i]).onTime(event);
-                }
-            },time*1000);
-        }
 
         if (options.dynamicEvents.hasOwnProperty("automatic_event_time_on_page")) {
             var pixels = Object.keys(options.dynamicEvents.automatic_event_time_on_page);
@@ -1851,17 +1728,14 @@ if (!Array.prototype.includes) {
         }
 
         // setup Click Event
-        if (options.dynamicEvents.hasOwnProperty("automatic_event_download") ||
-            options.dynamicEvents.hasOwnProperty("signal_download")) {
+        if (options.dynamicEvents.hasOwnProperty("automatic_event_download")) {
 
             $(document).onFirst('click', 'a, button, input[type="button"], input[type="submit"]', function (e) {
 
                 var $elem = $(this);
 
                 // Download
-                if(
-                    options.dynamicEvents.hasOwnProperty("signal_download")
-                    || options.dynamicEvents.hasOwnProperty("automatic_event_download")
+                if(options.dynamicEvents.hasOwnProperty("automatic_event_download")
                 ) {
                     var isFired = false;
                     if ($elem.is('a')) {
@@ -1874,24 +1748,7 @@ if (!Array.prototype.includes) {
                         var track_download = false;
 
                         if (extension.length > 0) {
-                            if(options.dynamicEvents.hasOwnProperty("signal_download") ) {
-                                var pixels = Object.keys(options.dynamicEvents.signal_download);
-                                for (var i = 0; i < pixels.length; i++) {
-                                    var event = Utils.clone(options.dynamicEvents.signal_download[pixels[i]]);
-                                    var extensions = event.extensions;
-                                    if (extensions.includes(extension)) {
-                                        if (options.enable_remove_download_url_param) {
-                                            href = href.split('?')[0];
-                                        }
-                                        event.params.download_url = href;
-                                        event.params.download_type = extension;
-                                        event.params.download_name = Utils.getLinkFilename(href);
 
-                                        getPixelBySlag(pixels[i]).onDownloadEvent(event);
-                                        isFired = true;
-                                    }
-                                }
-                            }
                             if(options.dynamicEvents.hasOwnProperty("automatic_event_download") ) {
                                 var pixels = Object.keys(options.dynamicEvents.automatic_event_download);
                                 for (var i = 0; i < pixels.length; i++) {
@@ -2160,13 +2017,13 @@ if (!Array.prototype.includes) {
                 $('form#edd_checkout_cart_form .edd_cart_remove_item_btn').on("click",function (e) {
 
                     var href = $(this).attr('href');
-                    var key = href.substring(href.indexOf('=') + 1).charAt(0);
-
-                    if (options.dynamicEvents.edd_remove_from_cart.hasOwnProperty(key)) {
-                        var events = options.dynamicEvents.edd_remove_from_cart[key];
-                        Utils.fireEventForAllPixel("onEddRemoveFromCartEvent",events)
+                    if(href) {
+                        var key = href.substring(href.indexOf('=') + 1).charAt(0);
+                        if (options.dynamicEvents.edd_remove_from_cart.hasOwnProperty(key)) {
+                            var events = options.dynamicEvents.edd_remove_from_cart[key];
+                            Utils.fireEventForAllPixel("onEddRemoveFromCartEvent",events)
+                        }
                     }
-
                 });
 
             }
@@ -2174,19 +2031,10 @@ if (!Array.prototype.includes) {
         }
 
         // setup Comment Event
-        if (options.dynamicEvents.hasOwnProperty("signal_comment")
-            || options.dynamicEvents.hasOwnProperty("automatic_event_comment")
+        if (options.dynamicEvents.hasOwnProperty("automatic_event_comment")
         ) {
 
             $('form.comment-form').on("submit",function () {
-                if (options.dynamicEvents.hasOwnProperty("signal_comment")) {
-                    var pixels = Object.keys(options.dynamicEvents.signal_comment);
-                    for (var i = 0; i < pixels.length; i++) {
-                        var event = Utils.clone(options.dynamicEvents.signal_comment[pixels[i]]);
-                        Utils.copyProperties(Utils.getRequestParams(), event.params);
-                        getPixelBySlag(pixels[i]).onCommentEvent(event);
-                    }
-                }
                 if (options.dynamicEvents.hasOwnProperty("automatic_event_comment")) {
                     var pixels = Object.keys(options.dynamicEvents.automatic_event_comment);
                     for (var i = 0; i < pixels.length; i++) {
@@ -2201,8 +2049,7 @@ if (!Array.prototype.includes) {
 
 
         // setup Form Event
-        if ( options.dynamicEvents.hasOwnProperty("signal_form")
-            || options.dynamicEvents.hasOwnProperty("automatic_event_form")) {
+        if ( options.dynamicEvents.hasOwnProperty("automatic_event_form")) {
 
             $(document).onFirst('submit', 'form', function (e) {
 
@@ -2230,16 +2077,7 @@ if (!Array.prototype.includes) {
                     text: $form.find('[type="submit"]').is('input') ?
                         $form.find('[type="submit"]').val() : $form.find('[type="submit"]').text()
                 };
-                if(options.dynamicEvents.hasOwnProperty("signal_form") ) {
-                    var pixels = Object.keys(options.dynamicEvents.signal_form);
-                    for (var i = 0; i < pixels.length; i++) {
-                        var event = Utils.clone(options.dynamicEvents.signal_form[pixels[i]]);
-                        Utils.copyProperties(params, event.params,)
-                        Utils.copyProperties(Utils.getRequestParams(), event.params);
-                        getPixelBySlag(pixels[i]).onFormEvent(event);
 
-                    }
-                }
                 if(options.dynamicEvents.hasOwnProperty("automatic_event_form") ) {
                     var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
                     for (var i = 0; i < pixels.length; i++) {
@@ -2262,15 +2100,7 @@ if (!Array.prototype.includes) {
                     form_id: $(formData.target).find('input[name="form_id"]').val(),
                     text: $(formData.target).find('.forminator-button-submit').text()
                 };
-                if(options.dynamicEvents.hasOwnProperty("signal_form") ) {
-                    var pixels = Object.keys(options.dynamicEvents.signal_form);
-                    for (var i = 0; i < pixels.length; i++) {
-                        var event = Utils.clone(options.dynamicEvents.signal_form[pixels[i]]);
-                        Utils.copyProperties(params, event.params)
-                        Utils.copyProperties(Utils.getRequestParams(), event.params);
-                        getPixelBySlag(pixels[i]).onFormEvent(event);
-                    }
-                }
+
                 if(options.dynamicEvents.hasOwnProperty("automatic_event_form") ) {
                     var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
                     for (var i = 0; i < pixels.length; i++) {
@@ -2289,15 +2119,7 @@ if (!Array.prototype.includes) {
                     form_id: data.response.data.form_id,
                     text: data.response.data.settings.title
                 };
-                if(options.dynamicEvents.hasOwnProperty("signal_form") ) {
-                    var pixels = Object.keys(options.dynamicEvents.signal_form);
-                    for(var i = 0;i<pixels.length;i++) {
-                        var event = options.dynamicEvents.signal_form[pixels[i]];
-                        Utils.copyProperties(params,event.params)
-                        Utils.copyProperties(Utils.getRequestParams(), event.params);
-                        getPixelBySlag(pixels[i]).onFormEvent(event);
-                    }
-                }
+
                 if(options.dynamicEvents.hasOwnProperty("automatic_event_form") ) {
                     var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
                     for(var i = 0;i<pixels.length;i++) {

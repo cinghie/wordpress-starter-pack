@@ -403,7 +403,7 @@ class Backup extends Abstract_Module {
 		$mod = WP_Smush::get_instance()->core()->mod;
 
 		// Set an option to avoid the smush-restore-smush loop.
-		Helper::lock_file_before_doing( 'restore', $attachment_id );
+		set_transient( 'wp-smush-restore-' . $attachment_id, 1, HOUR_IN_SECONDS );
 
 		/**
 		 * Delete WebP.
@@ -558,7 +558,7 @@ class Backup extends Abstract_Module {
 			$button_html = WP_Smush::get_instance()->library()->generate_markup( $attachment_id );
 
 			// Release the attachment after restoring.
-			Helper::release_file_after_doing( 'restore', $attachment_id );
+			delete_transient( 'wp-smush-restore-' . $attachment_id );
 
 			if ( ! $resp ) {
 				return true;
@@ -578,7 +578,7 @@ class Backup extends Abstract_Module {
 		}
 
 		// Release the attachment after restoring.
-		Helper::release_file_after_doing( 'restore', $attachment_id );
+		delete_transient( 'wp-smush-restore-' . $attachment_id );
 
 		if ( $resp ) {
 			wp_send_json_error( array( 'error_msg' => esc_html__( 'Unable to restore image', 'wp-smushit' ) ) );

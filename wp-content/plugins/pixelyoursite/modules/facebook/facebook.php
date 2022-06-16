@@ -173,16 +173,6 @@ class Facebook extends Settings implements Pixel {
                 $isActive = $this->getOption($event->getId().'_enabled');
             }break;
 
-            //Signal events
-            case "signal_page_scroll":
-            case "signal_time_on_page":
-            case "signal_form":
-            case "signal_download":
-            case "signal_comment": {
-                $isActive = $this->getOption('signal_events_enabled');
-            }break;
-
-
             case 'init_event':{
                 $eventData = $this->getPageViewEventParams();
                 if($eventData) {

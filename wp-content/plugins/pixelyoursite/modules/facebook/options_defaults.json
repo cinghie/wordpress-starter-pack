@@ -62,7 +62,6 @@
   "woo_complete_registration_custom_value_old": "",
   "woo_complete_registration_send_from_server": true,
 
-  "signal_events_enabled": true,
   "verify_meta_tag": "",
 
   "automatic_event_form_enabled": true,

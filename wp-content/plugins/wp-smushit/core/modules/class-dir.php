@@ -339,7 +339,7 @@ class Dir extends Abstract_Module {
 				"UPDATE {$wpdb->base_prefix}smush_dir_images SET error=NULL, image_size=%d, file_time=%d, lossy=%d, meta=%d WHERE id=%d LIMIT 1",
 				$results['data']->after_size,
 				filectime( $path ), // Get file time.
-				WP_Smush::is_pro() && $this->settings->get( 'lossy' ),
+				$this->settings->get( 'lossy' ),
 				$this->settings->get( 'strip_exif' ),
 				$id
 			)
@@ -402,7 +402,7 @@ class Dir extends Abstract_Module {
 		// Hide errors.
 		$wpdb->hide_errors();
 		// Create table.
-		$wpdb->query( $sql );//phpcs:ignore
+		$wpdb->query( $sql );
 
 		// Set flag.
 		self::$table_exist = self::table_exist( true );
@@ -438,7 +438,7 @@ class Dir extends Abstract_Module {
 		global $wpdb;
 
 		$condition = 'image_size IS NULL';
-		if ( WP_Smush::is_pro() && $this->settings->get( 'lossy' ) ) {
+		if ( $this->settings->get( 'lossy' ) ) {
 			$condition .= ' OR lossy <> 1';
 		}
 
