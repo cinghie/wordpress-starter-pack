@@ -44,6 +44,7 @@
 		<# } #>
 			<# if ( data.parent !=undefined && _.contains(<?php echo json_encode( $option ); ?>, data.parent.type) && _.isObject(data.parent.options)) { #>
 			<select class="wooccm-enhanced-select" name="conditional_parent_value">
+				<option value=""><?php esc_html_e( 'None', 'woocommerce-checkout-manager' ); ?></option>
 				<# _.each(data.parent.options, function (option, index) { #>
 				<option <# if ( option.label==data.conditional_parent_value ) { #>selected="selected"<# } #> value="{{option.label}}">{{option.label}}</option>
 				<# }); #>

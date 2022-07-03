@@ -679,7 +679,13 @@ function seedprod_lite_save_lpage() {
 
 				// remove action so they don't conflict with the save. Yoast SEO was trying to analytize this content.
 				remove_all_actions( 'wp_insert_post' );
-				wp_update_post( $update );
+				if ( is_multisite() ) {
+					kses_remove_filters();
+					wp_update_post( $update );
+					kses_init_filters();
+				}else{
+					wp_update_post( $update );
+				}
 				$status = 'updated';
 			}
 
@@ -816,7 +822,7 @@ function seedprod_lite_template_subscribe() {
 /**
  * Save/Update lpages Template.
  */
-function seedprod_lite_save_template() {
+function seedprod_lite_save_template() {  
 	// get template code and set name and slug
 	if ( check_ajax_referer( 'seedprod_nonce' ) ) {
 		if ( ! current_user_can( apply_filters( 'seedprod_lpage_capability', 'edit_others_posts' ) ) ) {
@@ -974,7 +980,8 @@ function seedprod_lite_get_namespaced_custom_css() {
 			require_once SEEDPROD_PLUGIN_PATH . 'app/includes/seedprod_lessc.inc.php';
 			$less  = new seedprod_lessc();
 			$style = $less->parse( '.sp-html {' . $css . '}' );
-			echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			//echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '';
 			exit();
 		}
 	}

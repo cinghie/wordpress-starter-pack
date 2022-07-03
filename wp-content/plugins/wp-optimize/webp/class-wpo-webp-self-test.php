@@ -12,7 +12,6 @@ class WPO_WebP_Self_Test {
 	 * @return bool
 	 */
 	public function get_webp_image() {
-		WP_Optimize()->log('Checking if we can get webp image');
 		$args = array(
 			'headers' => array(
 				'accept' => 'image/webp'

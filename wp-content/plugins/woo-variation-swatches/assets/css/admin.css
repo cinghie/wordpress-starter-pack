@@ -2,7 +2,7 @@
  * Variation Swatches for WooCommerce 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 6/16/2022, 4:46:07 PM
+ * Date: 6/26/2022, 5:23:57 PM
  * Released under the GPLv3 license.
  */
 .button.button-danger {
@@ -53,7 +53,8 @@
 .wvs-preview {
   width: 30px;
   height: 30px;
-  border: #000000 1px solid;
+  border: rgba(0, 0, 0, 0.2) 1px solid;
+  border-radius: 2px;
 }
 
 .woo-variation-swatches-pro_tab.pro-inactive a {

@@ -517,6 +517,8 @@ class WPO_Page_Cache {
 	 */
 	public function is_enabled() {
 
+		if (!$this->config->get_option('enable_page_caching')) return false;
+
 		if (!defined('WP_CACHE') || !WP_CACHE) {
 			$this->log("WP_CACHE constant is not present in wp-config.php");
 			return false;
@@ -1152,8 +1154,6 @@ EOF;
 	public function log($message) {
 		if (isset($this->logger)) {
 			$this->logger->log($message, 'error');
-		} else {
-			error_log($message);
 		}
 	}
 

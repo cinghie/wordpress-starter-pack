@@ -2480,6 +2480,7 @@ class WooSEA_Get_Products {
 			}
 			$product_data['title'] = $product->get_title();
 			$product_data['title'] = $this->woosea_utf8_for_xml( $product_data['title'] );
+			$product_data['title_slug'] = $product->get_slug();
 			$product_data['mother_title'] = $product->get_title();
                         $product_data['mother_title'] = $this->woosea_utf8_for_xml( $product_data['mother_title'] );
 			$product_data['title_hyphen'] = $product_data['title'];
@@ -4182,8 +4183,6 @@ class WooSEA_Get_Products {
 						$custom_value_m = get_post_meta( $product_data['item_group_id'], $custom_kk_m, true );
 						$new_key_m ="custom_attributes_" . $custom_kk_m;
 
-error_log($custom_kk_m);
-						
 						if(!is_array($custom_value_m)){
 							// In order to make the mapping work again, replace var by product
 			                      		$new_key_m = str_replace("var","product",$new_key_m);
@@ -4191,8 +4190,9 @@ error_log($custom_kk_m);
 								if(is_array($custom_value_m)){
 									// determine what to do with this later	
 								} else {
-									error_log("1111" . $custom_value_m);
-									$product_data[$new_key_m] = $custom_value_m;
+									if(is_string($new_key_m)){
+										$product_data[$new_key_m] = $custom_value_m;
+									}
 								}
 							}
 						} else {
@@ -4205,7 +4205,6 @@ error_log($custom_kk_m);
 									}
 								}
 							}
-							error_log(print_r($arr_value, TRUE));
 							$arr_value = rtrim($arr_value, ",");
 							$product_data[$new_key_m] = $arr_value;
 						}

@@ -87,7 +87,6 @@ class WP_Optimize_WebP {
 	 */
 	private function maybe_decide_webp_serve_method() {
 		$this->_should_use_webp = WP_Optimize()->get_options()->get_option('webp_conversion');
-		WP_Optimize()->log("Should we use webp? $this->_should_use_webp");
 		if ('true' === $this->_rewrite_status) {
 			if (!$this->_should_use_webp) {
 				$this->save_htaccess_rules(false);
@@ -127,11 +126,9 @@ class WP_Optimize_WebP {
 
 		if ($self_test->get_webp_image()) {
 			$this->save_htaccess_rules($this->_should_use_webp);
-			WP_Optimize()->log('Server can serve webp');
 			if ($self_test->is_webp_served()) return true;
 		}
 		$this->save_htaccess_rules();
-		WP_Optimize()->log('Could not serve webp');
 		return false;
 	}
 
@@ -141,7 +138,6 @@ class WP_Optimize_WebP {
 	 * @return bool
 	 */
 	private function is_browser_accepting_webp() {
-		WP_Optimize()->log('Requested URI: ' . $_SERVER['REQUEST_URI']);
 		return (isset($_SERVER['HTTP_ACCEPT']) && false !== strpos($_SERVER['HTTP_ACCEPT'], 'image/webp'));
 	}
 	
@@ -152,10 +148,8 @@ class WP_Optimize_WebP {
 	 */
 	private function is_alter_html_possible() {
 		if ($this->is_browser_accepting_webp()) {
-			WP_Optimize()->log('Browser is accepting WebP, So alter HTML is possible');
 			return true;
 		}
-		WP_Optimize()->log('Browser is NOT accepting WebP, So alter HTML is NOT possible');
 		return false;
 	}
 
@@ -174,7 +168,6 @@ class WP_Optimize_WebP {
 	 */
 	private function setup_htaccess_file() {
 		if (null !== $this->_htaccess) return;
-		WP_Optimize()->log('Setting up .htaccess file');
 		$wp_uploads = wp_get_upload_dir();
 		$htaccess_file = $wp_uploads['basedir'] . '/.htaccess';
 		if (!file_exists($htaccess_file)) {

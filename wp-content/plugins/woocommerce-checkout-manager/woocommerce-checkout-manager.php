@@ -3,14 +3,14 @@
 /**
  * Plugin Name: Checkout Fields Manager for WooCommerce
  * Plugin URI:  https://quadlayers.com/portfolio/woocommerce-checkout-manager/
- * Description: Manages WooCommerce Checkout, the advanced way.
- * Version:     5.5.9
+ * Description: Manage and customize WooCommerce Checkout fields (Add, Edit, Delete or re-order fields).
+ * Version:     6.0.7
  * Author:      QuadLayers
  * Author URI:  https://quadlayers.com
  * License: GPLv3
  * Text Domain: woocommerce-checkout-manager
  * WC requires at least: 3.1.0
- * WC tested up to: 6.5
+ * WC tested up to: 6.6.1
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
@@ -20,7 +20,7 @@ if ( ! defined( 'WOOCCM_PLUGIN_NAME' ) ) {
 	define( 'WOOCCM_PLUGIN_NAME', 'Checkout Fields Manager for WooCommerce' );
 }
 if ( ! defined( 'WOOCCM_PLUGIN_VERSION' ) ) {
-	define( 'WOOCCM_PLUGIN_VERSION', '5.5.9' );
+	define( 'WOOCCM_PLUGIN_VERSION', '6.0.7' );
 }
 if ( ! defined( 'WOOCCM_PLUGIN_FILE' ) ) {
 	define( 'WOOCCM_PLUGIN_FILE', __FILE__ );
@@ -60,9 +60,7 @@ if ( ! class_exists( 'WOOCCM', false ) ) {
 	include_once WOOCCM_PLUGIN_DIR . 'includes/class-wooccm.php';
 }
 
-if ( ! class_exists( 'QL_Widget' ) ) {
-	include_once WOOCCM_PLUGIN_DIR . 'includes/quadlayers/widget.php';
-}
+require_once WOOCCM_PLUGIN_DIR . 'includes/quadlayers/widget.php';
 
 function WOOCCM() {     // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	return WOOCCM::instance();

@@ -2,7 +2,7 @@
  * Variation Swatches for WooCommerce 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 6/16/2022, 4:46:07 PM
+ * Date: 6/26/2022, 5:23:57 PM
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -531,12 +531,16 @@ var PluginHelper = function ($) {
     }, {
       key: "ResetAfterTermCreate",
       value: function ResetAfterTermCreate() {
+        $(document.body).on('woo_variation_swatches_admin_term_meta_added', this.ClearImagePicker);
+        $(document.body).on('woo_variation_swatches_admin_term_meta_added', this.ClearColorPicker);
         $(document).ajaxComplete(function (event, request, settings) {
           try {
             var data = Object.fromEntries(new URLSearchParams(settings.data));
 
             if ('add-tag' === data.action && '' === $('#tag-name').val()) {
-              $(document.body).trigger('woo_variation_swatches_admin_term_meta_added', data);
+              _.delay(function () {
+                $(document.body).trigger('woo_variation_swatches_admin_term_meta_added', data);
+              }, 300);
             }
           } catch (err) {}
         });
@@ -546,9 +550,7 @@ var PluginHelper = function ($) {
       value: function ImageUploader() {
         $(document.body).off('click', 'button.wvs_upload_image_button');
         $(document.body).on('click', 'button.wvs_upload_image_button', this.AddImage);
-        $(document.body).on('click', 'button.wvs_remove_image_button', this.RemoveImage);
-        $(document.body).on('woo_variation_swatches_admin_term_meta_added', this.ClearImagePicker);
-        $(document.body).on('woo_variation_swatches_admin_term_meta_added', this.ClearColorPicker); // $(document.body).on('woo_variation_swatches_admin_term_meta_added', this.ResetTagForm);
+        $(document.body).on('click', 'button.wvs_remove_image_button', this.RemoveImage); // $(document.body).on('woo_variation_swatches_admin_term_meta_added', this.ResetTagForm);
       }
     }, {
       key: "AddImage",

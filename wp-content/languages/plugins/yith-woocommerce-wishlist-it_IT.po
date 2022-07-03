@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Wishlist - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-04-07 11:34:56+0000\n"
+"PO-Revision-Date: 2022-06-22 13:01:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,13 @@ msgstr ""
 "X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Wishlist - Stable (latest release)\n"
+
+#. translators: 1. Plugin(s) name(s).
+#: plugin-fw/yit-deactive-plugin.php:119
+msgid "%s was deactivated as you're running an higher tier version of the same plugin."
+msgid_plural "%s were deactivated as you're running higher tier versions of the same plugins."
+msgstr[0] "%s è stato disattivato poiché stai usando una versione superiore dello stesso plugin."
+msgstr[1] "%s sono stati disattivati poiché stai usando una versione superiore degli stessi plugin."
 
 #: plugin-fw/templates/fields/ajax-terms.php:41
 msgid "Search for a category..."
@@ -63,47 +70,47 @@ msgctxt "Premium Tab"
 msgid "Get the premium version to unlock advanced features"
 msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
 
-#: includes/class-yith-wcwl-admin.php:279
+#: includes/class-yith-wcwl-admin.php:289
 msgid "Regular updates, Translations and Premium Support"
 msgstr "Aggiornamenti costanti, traduzioni e assistenza premium"
 
-#: includes/class-yith-wcwl-admin.php:278
+#: includes/class-yith-wcwl-admin.php:288
 msgid "<b>Send an automatic email to the wishlist owner</b> whenever a product in the list is back in stock or on sale"
 msgstr "<b>Invia un'email automatica a chi ha la lista dei desideri </b> quando uno dei prodotti aggiunti è di nuovo disponibile o in offerta"
 
-#: includes/class-yith-wcwl-admin.php:277
+#: includes/class-yith-wcwl-admin.php:287
 msgid "View the most popular products added to the wishlist by your customers and <b>send promotional emails to users</b> who have added specific products to their wishlist"
 msgstr "Visualizza i prodotti più popolari aggiunti dagli utenti alle liste dei desideri e <b>invia email promozionali</b> a coloro che hanno aggiunto dei prodotti specifici"
 
-#: includes/class-yith-wcwl-admin.php:276
+#: includes/class-yith-wcwl-admin.php:286
 msgid "<b>Show a wishlist widget</b> that lists all the products in the wishlists (available also with \"mini-cart\" style for the header)"
 msgstr "<b>Mostra un widget per la lista dei desideri</b> con l'elenco di tutti i prodotti aggiunti (disponibile anche con stile \"mini-carrello\" per l'header)"
 
-#: includes/class-yith-wcwl-admin.php:275
+#: includes/class-yith-wcwl-admin.php:285
 msgid "Enable an <b>\"Ask for an estimate\" button</b> to let customers send the content of their wishlist to the admin and get a custom quote"
 msgstr "Abilita un <b>pulsante \"Richiedi un preventivo\" </b> per permettere agli utenti di inviare all'amministratore il contenuto della loro lista dei desideri ed ottenere un preventivo personalizzato"
 
-#: includes/class-yith-wcwl-admin.php:274
+#: includes/class-yith-wcwl-admin.php:284
 msgid "<b>Allow users to manage their wishlists:</b> rename and delete wishlists, move a product from one wishlist to another, change order of items, quantity, etc."
 msgstr "<b>Permetti agli utenti di gestire le proprie liste dei desideri:</b> rinominare ed eliminare, spostare un prodotto da una lista all'altra, cambiare l'ordinamento degli elementi, quantità, ecc."
 
-#: includes/class-yith-wcwl-admin.php:273
+#: includes/class-yith-wcwl-admin.php:283
 msgid "Choose between <b>different layouts</b> for the wishlist page and for the wishlist content"
 msgstr "Scegli tra <b>diversi layout</b> per la pagina Lista dei desideri e per il suo contenuto"
 
-#: includes/class-yith-wcwl-admin.php:272
+#: includes/class-yith-wcwl-admin.php:282
 msgid "Allow users to set <b>visibility options for each wishlist</b>, by making them either public (visible to everyone), private or shared (visible only to people it has been shared with)"
 msgstr "Permetti agli utenti di impostare le <b>opzioni di visibilità per ogni lista dei desideri</b> rendendole pubbliche (visibili a chiunque), private o condivise (visibili solo alle persone con cui le hanno condivise)"
 
-#: includes/class-yith-wcwl-admin.php:271
+#: includes/class-yith-wcwl-admin.php:281
 msgid "Allow users to create <b>multiple wishlists</b> (Ex: Christmas, Birthday, etc.) <br>Users can choose the wishlist from a dropdown menu when they click on \"Add to wishlist\""
 msgstr "Permetti agli utenti di creare <b>liste dei desideri multiple</b> (Es: Natale, Compleanno, ecc.) <br>Gli utenti possono scegliere la lista da un menu a discesa facendo clic su \"Aggiungi alla lista\""
 
-#: includes/class-yith-wcwl-admin.php:270
+#: includes/class-yith-wcwl-admin.php:280
 msgid "Enable the wishlist feature for all users or <b>only for registered users</b>"
 msgstr "Abilita la funzionalità lista dei desideri per tutti gli utenti o <b>solo per gli utenti registrati</b>"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:857
+#: plugin-fw/includes/class-yit-plugin-panel.php:853
 msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
@@ -224,18 +231,18 @@ msgid "Width"
 msgstr "Larghezza"
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:810
+#: plugin-fw/includes/class-yit-plugin-panel.php:806
 msgctxt "Help tab default description"
 msgid "We want to help you enjoy a wonderful experience with all of our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:809
+#: plugin-fw/includes/class-yit-plugin-panel.php:805
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:491
+#: plugin-fw/includes/class-yit-plugin-panel.php:865
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -248,7 +255,7 @@ msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Se sicuro di voler eliminare gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:1983
+#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:2009
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
@@ -271,94 +278,94 @@ msgstr "Opzioni salvate"
 msgid "Save Options"
 msgstr "Salva opzioni "
 
-#: plugin-fw/yit-functions.php:2119
+#: plugin-fw/yit-functions.php:2145
 msgctxt "Term action"
 msgid "Delete"
 msgstr "Elimina"
 
-#: plugin-fw/yit-functions.php:2106
+#: plugin-fw/yit-functions.php:2132
 msgctxt "Term action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:2098
+#: plugin-fw/yit-functions.php:2124
 msgctxt "Term action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:2088
+#: plugin-fw/yit-functions.php:2114
 msgctxt "Term action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:2012 plugin-fw/yit-functions.php:2020
-#: plugin-fw/yit-functions.php:2137
+#: plugin-fw/yit-functions.php:2038 plugin-fw/yit-functions.php:2046
+#: plugin-fw/yit-functions.php:2163
 msgid "Further actions"
 msgstr "Ulteriori azioni"
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2001
-#: plugin-fw/yit-functions.php:2128
+#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2027
+#: plugin-fw/yit-functions.php:2154
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:1998
-#: plugin-fw/yit-functions.php:2126
+#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:2024
+#: plugin-fw/yit-functions.php:2152
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/yit-functions.php:1991
+#: plugin-fw/yit-functions.php:2017
 msgctxt "Post action"
 msgid "Delete Permanently"
 msgstr "Elimina definitivamente"
 
-#: plugin-fw/includes/class-yit-assets.php:144 plugin-fw/yit-functions.php:1980
+#: plugin-fw/includes/class-yit-assets.php:144 plugin-fw/yit-functions.php:2006
 msgid "Confirm trash"
 msgstr "Conferma"
 
-#: plugin-fw/yit-functions.php:1974
+#: plugin-fw/yit-functions.php:2000
 msgctxt "Post action"
 msgid "Trash"
 msgstr "Cestina"
 
-#: plugin-fw/yit-functions.php:1966
+#: plugin-fw/yit-functions.php:1992
 msgctxt "Post action"
 msgid "Restore"
 msgstr "Ripristina"
 
-#: plugin-fw/yit-functions.php:1954
+#: plugin-fw/yit-functions.php:1980
 msgctxt "Post action"
 msgid "Duplicate"
 msgstr "Duplica"
 
-#: plugin-fw/yit-functions.php:1946
+#: plugin-fw/yit-functions.php:1972
 msgctxt "Post action"
 msgid "Edit"
 msgstr "Modifica"
 
-#: plugin-fw/yit-functions.php:1935
+#: plugin-fw/yit-functions.php:1961
 msgctxt "Post action"
 msgid "View"
 msgstr "Visualizza"
 
-#: plugin-fw/yit-functions.php:1926
+#: plugin-fw/yit-functions.php:1952
 msgctxt "Post action"
 msgid "Preview"
 msgstr "Anteprima"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:149 plugin-fw/yit-functions.php:1914
-#: plugin-fw/yit-functions.php:2074
+#: plugin-fw/includes/class-yit-assets.php:149 plugin-fw/yit-functions.php:1940
+#: plugin-fw/yit-functions.php:2100
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1914 plugin-fw/yit-functions.php:2074
+#: plugin-fw/yit-functions.php:1940 plugin-fw/yit-functions.php:2100
 msgid "Are you sure you want to delete \"%s\"?"
 msgstr "Vuoi davvero eliminare \"%s\"?"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/yit-functions.php:1912
+#: plugin-fw/yit-functions.php:1938
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Sei sicuro di voler spostare \"%s\" nel cestino?"
 
@@ -394,7 +401,7 @@ msgctxt "Copy-to-clipboard message"
 msgid "Copied!"
 msgstr "Copiato!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1532
+#: plugin-fw/includes/class-yit-plugin-panel.php:1561
 msgid "help us by leaving a good review"
 msgstr "aiutaci lasciando una recensione positiva"
 
@@ -468,7 +475,7 @@ msgstr "External object cache"
 #: plugin-fw/includes/class-yit-assets.php:151
 #: plugin-fw/templates/sysinfo/tabs/main.php:42
 #: plugin-fw/templates/sysinfo/tabs/main.php:50
-#: plugin-fw/yit-functions.php:1982 plugin-fw/yit-functions.php:2000
+#: plugin-fw/yit-functions.php:2008 plugin-fw/yit-functions.php:2026
 msgid "No"
 msgstr "No"
 
@@ -574,7 +581,7 @@ msgstr "La mia lista dei desideri"
 msgid "Close"
 msgstr "Chiudi"
 
-#: includes/class-yith-wcwl-admin.php:125
+#: includes/class-yith-wcwl-admin.php:124
 msgid "Wishlist Page"
 msgstr "Pagina Lista dei desideri"
 
@@ -685,31 +692,31 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1533
+#: plugin-fw/includes/class-yit-plugin-panel.php:1562
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1530
+#: plugin-fw/includes/class-yit-plugin-panel.php:1559
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin. "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1529
+#: plugin-fw/includes/class-yit-plugin-panel.php:1558
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
-#: templates/wishlist-view-mobile.php:189
+#: templates/wishlist-view-mobile.php:187
 msgid "Stock:"
 msgstr "Disponibilità in magazzino:"
 
-#: templates/wishlist-view-mobile.php:174
+#: templates/wishlist-view-mobile.php:172
 msgid "Quantity:"
 msgstr "Quantità:"
 
-#: templates/wishlist-view-mobile.php:147
+#: templates/wishlist-view-mobile.php:145
 msgid "Price:"
 msgstr "Prezzo:"
 
-#: templates/wishlist-view-mobile.php:136
+#: templates/wishlist-view-mobile.php:134
 msgid "Added on:"
 msgstr "Aggiunto il:"
 
@@ -723,7 +730,7 @@ msgstr "Vedi &rsaquo;"
 msgid "or"
 msgstr "oppure"
 
-#: templates/wishlist-view-mobile.php:233 templates/wishlist-view.php:283
+#: templates/wishlist-view-mobile.php:231 templates/wishlist-view.php:281
 msgid "Move to another list &rsaquo;"
 msgstr "Sposta in un'altra lista &rsaquo;"
 
@@ -1311,22 +1318,22 @@ msgid "URL of the wishlist page (leave empty to use the default settings)"
 msgstr "URL della pagina Lista dei desideri (lascia vuoto per utilizzare le impostazioni predefinite)"
 
 #. translators: 2: original product price.
-#: includes/class-yith-wcwl-wishlist-item.php:430
+#: includes/class-yith-wcwl-wishlist-item.php:437
 msgctxt "Part of the template that shows price variation since addition to list; placeholder will be replaced with a price"
 msgid "(Was %2$s when added  in list)"
 msgstr "(Era %2$s quando è stato aggiunto alla lista)"
 
 #. translators: 1. % of reduction/increase in price.
-#: includes/class-yith-wcwl-wishlist-item.php:428
+#: includes/class-yith-wcwl-wishlist-item.php:435
 msgctxt "Part of the template that shows price variation since addition to list; placeholder will be replaced with a percentage"
 msgid "Price is %1$s%%"
 msgstr "Il prezzo è %1$s%%"
 
-#: includes/class-yith-wcwl-frontend.php:462
+#: includes/class-yith-wcwl-frontend.php:553
 msgid "Product added to cart successfully"
 msgstr "Prodotto aggiunto al carrello con successo"
 
-#: includes/class-yith-wcwl-frontend.php:461
+#: includes/class-yith-wcwl-frontend.php:552
 msgid "We are sorry, but this feature is available only if cookies on your browser are enabled."
 msgstr "Questa funzionalità è disponibile solo se hai abilitato i cookie nel tuo browser."
 
@@ -1380,15 +1387,15 @@ msgstr[1] "%d utenti"
 msgid "Allows your customers to create and share lists of products that they want to purchase on your e-commerce."
 msgstr "Permette ai tuoi clienti di creare e condividere delle liste di prodotti che desiderano acquistare sul tuo e-commerce."
 
-#: includes/class-yith-wcwl-admin.php:149
+#: includes/class-yith-wcwl-admin.php:148
 msgid "Wishlist page options"
 msgstr "Opzioni pagina Lista dei desideri"
 
-#: includes/class-yith-wcwl-admin.php:148
+#: includes/class-yith-wcwl-admin.php:147
 msgid "Add to wishlist options"
 msgstr "Opzioni Aggiungi alla lista"
 
-#: includes/class-yith-wcwl-admin.php:147
+#: includes/class-yith-wcwl-admin.php:146
 msgid "General settings"
 msgstr "Impostazioni generali"
 
@@ -1688,11 +1695,11 @@ msgstr "<code><strong>YITH WooCommerce Wishlist</strong></code> offre ai tuoi ut
 msgid "YITH"
 msgstr "YITH"
 
-#: plugin-fw/yit-plugin.php:205
+#: plugin-fw/yit-plugin.php:213
 msgid "License"
 msgstr "Chiave di licenza"
 
-#: plugin-fw/yit-plugin.php:201
+#: plugin-fw/yit-plugin.php:209
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -1828,8 +1835,8 @@ msgstr "Mentre visiti il nostro sito, terremo traccia di:"
 msgid "Set Default"
 msgstr "Ripristina impostazioni iniziali"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:454
-#: plugin-fw/includes/class-yit-plugin-panel.php:457
+#: plugin-fw/includes/class-yit-plugin-panel.php:455
+#: plugin-fw/includes/class-yit-plugin-panel.php:458
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -1857,29 +1864,29 @@ msgstr "Privata"
 msgid "Shared"
 msgstr "Condivisa"
 
-#: templates/wishlist-view-mobile.php:212 templates/wishlist-view.php:262
+#: templates/wishlist-view-mobile.php:210 templates/wishlist-view.php:260
 msgid "Move"
 msgstr "Sposta"
 
 #. translators: date added label: 1 date added.
-#: templates/wishlist-view.php:243
+#: templates/wishlist-view.php:241
 msgid "Added on: %s"
 msgstr "Aggiunto il: %s"
 
-#: templates/wishlist-view-mobile.php:192 templates/wishlist-view.php:229
+#: templates/wishlist-view-mobile.php:190 templates/wishlist-view.php:227
 msgid "In Stock"
 msgstr "Disponibile"
 
-#: templates/wishlist-view-mobile.php:192 templates/wishlist-view.php:229
+#: templates/wishlist-view-mobile.php:190 templates/wishlist-view.php:227
 msgid "Out of stock"
 msgstr "Esaurito"
 
-#: includes/class-yith-wcwl-wishlist-item.php:189
+#: includes/class-yith-wcwl-wishlist-item.php:193
 msgid "Free!"
 msgstr "Gratuito!"
 
-#: templates/wishlist-view-mobile.php:241 templates/wishlist-view.php:157
-#: templates/wishlist-view.php:293
+#: templates/wishlist-view-mobile.php:239 templates/wishlist-view.php:155
+#: templates/wishlist-view.php:291
 msgid "Remove this product"
 msgstr "Rimuovi questo prodotto"
 
@@ -1982,7 +1989,7 @@ msgid "Upload"
 msgstr "Carica"
 
 #: plugin-fw/templates/fields/customtabs.php:25
-#: plugin-fw/templates/fields/customtabs.php:68 templates/wishlist-view.php:293
+#: plugin-fw/templates/fields/customtabs.php:68 templates/wishlist-view.php:291
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -2010,65 +2017,65 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1061
+#: plugin-fw/includes/class-yit-plugin-panel.php:1069
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1060
+#: plugin-fw/includes/class-yit-plugin-panel.php:1068
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1059
+#: plugin-fw/includes/class-yit-plugin-panel.php:1067
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1058
+#: plugin-fw/includes/class-yit-plugin-panel.php:1066
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1057
+#: plugin-fw/includes/class-yit-plugin-panel.php:1065
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1055
-#: plugin-fw/includes/class-yit-plugin-panel.php:1056
+#: plugin-fw/includes/class-yit-plugin-panel.php:1063
+#: plugin-fw/includes/class-yit-plugin-panel.php:1064
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1054
+#: plugin-fw/includes/class-yit-plugin-panel.php:1062
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1053
+#: plugin-fw/includes/class-yit-plugin-panel.php:1061
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1052
+#: plugin-fw/includes/class-yit-plugin-panel.php:1060
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1051
+#: plugin-fw/includes/class-yit-plugin-panel.php:1059
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:667
+#: plugin-fw/includes/class-yit-plugin-panel.php:663
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:140
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 msgid "Are you sure?"
 msgstr "Sei sicuro?"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:671
+#: plugin-fw/includes/class-yit-plugin-panel.php:667
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:143
 msgid "Reset to default"
 msgstr "Ripristina configurazione predefinita"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:667
+#: plugin-fw/includes/class-yit-plugin-panel.php:663
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:140
 #: plugin-fw/templates/panel/woocommerce/woocommerce-form.php:15
 msgid "If you continue with this action, you will reset all options in this page."
 msgstr "Se prosegui con questa azione, tutte le opzioni di questa pagina saranno reimpostate."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:659
+#: plugin-fw/includes/class-yit-plugin-panel.php:655
 #: plugin-fw/includes/class-yit-plugin-subpanel.php:133
 msgid "Save Changes"
 msgstr "Salva modifiche"
@@ -2081,7 +2088,7 @@ msgstr "YITH Plugins"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:429
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:430
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -2090,7 +2097,7 @@ msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 msgid "Name"
 msgstr "Nome"
 
-#: templates/wishlist-view-mobile.php:252 templates/wishlist-view.php:313
+#: templates/wishlist-view-mobile.php:250 templates/wishlist-view.php:311
 msgid "No products added to the wishlist"
 msgstr "Non è stato ancora aggiunto nessun prodotto alla lista"
 
@@ -2230,7 +2237,7 @@ msgstr "Icona 'Aggiungi alla lista'"
 msgid "Custom CSS"
 msgstr "CSS personalizzato"
 
-#: includes/class-yith-wcwl-frontend.php:725
+#: includes/class-yith-wcwl-frontend.php:816
 #: includes/class-yith-wcwl-shortcode.php:239
 #: plugin-options/wishlist_page-options.php:240
 #: templates/wishlist-view-footer-mobile.php:46

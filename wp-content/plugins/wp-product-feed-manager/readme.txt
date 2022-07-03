@@ -1,12 +1,12 @@
-﻿=== Woocommerce Google Feed Manager ===
+=== Woocommerce Google Feed Manager ===
 
 Contributors: WPMarketingRobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Donate link: https://www.wpmarketingrobot.com/
 Requires at least: 5.4
-Tested up to: 7.0
+Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.41.0
+Stable tag: 1.41.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,6 +97,9 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.41.1 - 26/06/2022 =
+* Patched an issue that prevented some attributes from writing the correct data in the feed.
+
 = 1.41.0 - 04/06/2022 =
 * Updated the make_shop_taxonomies_string() function to show the primary category when one is selected for a product.
 * Changed the position of the wppfm_feed_item_value filter such that if the is used to exclude a product from the feed, the product count of the feed stays correct.

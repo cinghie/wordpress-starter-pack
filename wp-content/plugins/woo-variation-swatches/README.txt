@@ -617,6 +617,16 @@ And your are ready to go.
 
 == Changelog ==
 
+= 2.0.3 - 26-06-2022 =
+
+* Fix: Out of Stock info
+
+= 2.0.2 - 23-06-2022 =
+
+* Add: Image type fallback if no attribute image added.
+* Fix: Archive add to cart issue
+* Add: Ajax Quick View / Load More support
+
 = 2.0.1 - 16-06-2022 =
 
 * Add: Hex to RGBA color conversion on migration

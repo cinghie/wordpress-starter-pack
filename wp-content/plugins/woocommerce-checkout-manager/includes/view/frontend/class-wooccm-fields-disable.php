@@ -1,222 +1,210 @@
 <?php
 
-class WOOCCM_Fields_Display
-{
+class WOOCCM_Fields_Display {
 
-  protected static $_instance;
 
-  public function __construct()
-  {
-    // Remove by product
-    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_product'));
-    // Remove by category
-    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_category'));
-    // Remove by role
-    add_filter('wooccm_checkout_field_filter', array($this, 'disable_by_role'));
-    // Fix country
-    add_filter('wooccm_checkout_field_filter', array($this, 'fix_country'));
-    // Fix email 
-    // make sure guest users include their email in order to download products
-    add_filter('wooccm_checkout_field_filter', array($this, 'fix_email'));
-  }
+	protected static $_instance;
 
-  public static function instance()
-  {
-    if (is_null(self::$_instance)) {
-      self::$_instance = new self();
-    }
-    return self::$_instance;
-  }
+	public function __construct() {
+		 // Remove by product
+		add_filter( 'wooccm_checkout_field_filter', array( $this, 'disable_by_product' ) );
+		// Remove by category
+		add_filter( 'wooccm_checkout_field_filter', array( $this, 'disable_by_category' ) );
+		// Remove by role
+		add_filter( 'wooccm_checkout_field_filter', array( $this, 'disable_by_role' ) );
+		// Fix country
+		add_filter( 'wooccm_checkout_field_filter', array( $this, 'fix_country' ) );
+		// Fix email
+		// make sure guest users include their email in order to download products
+		add_filter( 'wooccm_checkout_field_filter', array( $this, 'fix_email' ) );
+	}
 
-  function fix_country($field)
-  {
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 
-    if ($field['type'] == 'country' && $field['disabled'] == true) {
-      $field['disabled'] = false;
-      $field['required'] = false;
-      $field['type'] = 'hidden';
-      //$field['class'] = array('hidden');
-    }
+	function fix_country( $field ) {
+		if ( $field['type'] == 'country' && $field['disabled'] == true ) {
+			$field['disabled'] = false;
+			$field['required'] = false;
+			$field['type']     = 'hidden';
+			// $field['class'] = array('hidden');
+		}
 
-    return $field;
-  }
+		return $field;
+	}
 
-  function fix_email($field)
-  {
+	function fix_email( $field ) {
+		if ( $field['type'] == 'email' && ! is_user_logged_in() ) {
+			$field['disabled'] = false;
+			$field['required'] = true;
+		}
 
-    if ($field['type'] == 'email' && !is_user_logged_in()) {
-      $field['disabled'] = false;
-      $field['required'] = true;
-    }
+		return $field;
+	}
 
-    return $field;
-  }
+	function disable_by_role( $field ) {
+		global $current_user;
 
-  function disable_by_role($field)
-  {
+		$user_roles = (array) $current_user->roles;
 
-    global $current_user;
+		if ( ! empty( $field['hide_role'] ) ) {
 
-    $user_roles = (array) $current_user->roles;
+			if ( array_intersect( $user_roles, $field['hide_role'] ) ) {
+				$field['disabled'] = true;
+			} else {
+				$field['disabled'] = false;
+			}
+		}
 
-    if (!empty($field['hide_role'])) {
+		if ( ! empty( $field['show_role'] ) ) {
 
-      if (array_intersect($user_roles, $field['hide_role'])) {
-        $field['disabled'] = true;
-      } else {
-        $field['disabled'] = false;
-      }
-    }
+			if ( ! array_intersect( $user_roles, $field['show_role'] ) ) {
+				$field['disabled'] = true;
+			} else {
+				$field['disabled'] = false;
+			}
+		}
 
-    if (!empty($field['show_role'])) {
+		return $field;
+	}
 
-      if (!array_intersect($user_roles, $field['show_role'])) {
-        $field['disabled'] = true;
-      } else {
-        $field['disabled'] = false;
-      }
-    }
+	function disable_by_category( $field ) {
+		if ( empty( $field['disabled'] ) && ( ! empty( $field['hide_product_cat'] ) || ! empty( $field['show_product_cat'] ) ) ) {
 
-    return $field;
-  }
+			if ( is_object( WC()->cart ) && count( $cart_contents = WC()->cart->get_cart_contents() ) ) {
 
-  function disable_by_category($field)
-  {
+				$hide_cats_array = (array) $field['hide_product_cat'];
 
-    if (empty($field['disabled']) && (!empty($field['hide_product_cat']) || !empty($field['show_product_cat']))) {
+				$show_cats_array = (array) $field['show_product_cat'];
 
-      if (count($cart_contents = WC()->cart->get_cart_contents())) {
+				$more_product = empty( $field['more_product'] );
 
-        $hide_cats_array = (array) $field['hide_product_cat'];
+				$product_cats = array();
 
-        $show_cats_array = (array) $field['show_product_cat'];
+				foreach ( $cart_contents as $key => $values ) {
+					if ( $cats = wp_get_post_terms( $values['product_id'], 'product_cat', array( 'fields' => 'ids' ) ) ) {
+						$product_cats = array_merge( $product_cats, $cats );
+					}
+				}
 
-        $more_product = empty($field['more_product']);
+				// field without more
+				// -------------------------------------------------------------------
+				if ( $more_product && count( $cart_contents ) < 2 ) {
+					// hide field
+					// -----------------------------------------------------------------
+					if ( count( $hide_cats_array ) ) {
+						if ( array_intersect( $product_cats, $hide_cats_array ) ) {
+								$field['disabled'] = true;
+						}
+					}
 
-        $product_cats = array();
+					// show field
+					// -----------------------------------------------------------------
+					if ( count( $show_cats_array ) ) {
+						if ( ! array_intersect( $product_cats, $show_cats_array ) ) {
+							$field['disabled'] = true;
+						} else {
+							$field['disabled'] = false;
+						}
+					}
+				}
 
-        foreach ($cart_contents as $key => $values) {
-          if ($cats = wp_get_post_terms($values['product_id'], 'product_cat', array('fields' => 'ids'))) {
-            $product_cats = array_merge($product_cats, $cats);
-          }
-        }
+				// field with more
+				// -------------------------------------------------------------------
+				if ( ! $more_product ) {
 
-        // field without more
-        // -------------------------------------------------------------------
-        if ($more_product && count($cart_contents) < 2) {
-          // hide field
-          // -----------------------------------------------------------------
-          if (count($hide_cats_array)) {
-            if (array_intersect($product_cats, $hide_cats_array)) {
-              $field['disabled'] = true;
-            }
-          }
+					// hide field
+					// -------------------------------------------------------------
+					if ( count( $hide_cats_array ) ) {
+						if ( array_intersect( $product_cats, $hide_cats_array ) ) {
+								$field['disabled'] = true;
+						}
+					}
 
-          // show field
-          // -----------------------------------------------------------------
-          if (count($show_cats_array)) {
-            if (!array_intersect($product_cats, $show_cats_array)) {
-              $field['disabled'] = true;
-            } else {
-              $field['disabled'] = false;
-            }
-          }
-        }
+					// show field
+					// ---------------------------------------------------------------
+					if ( count( $show_cats_array ) ) {
 
-        // field with more
-        // -------------------------------------------------------------------
-        if (!$more_product) {
+						if ( ! array_intersect( $product_cats, $show_cats_array ) ) {
+							$field['disabled'] = true;
+						} else {
+							$field['disabled'] = false;
+						}
+					}
+				}
+			}
+		}
 
-          // hide field
-          // -------------------------------------------------------------
-          if (count($hide_cats_array)) {
-            if (array_intersect($product_cats, $hide_cats_array)) {
-              $field['disabled'] = true;
-            }
-          }
+		return $field;
+	}
 
-          // show field
-          // ---------------------------------------------------------------
-          if (count($show_cats_array)) {
+	function disable_by_product( $field ) {
+		if ( empty( $field['disabled'] ) && ( ! empty( $field['hide_product'] ) || ! empty( $field['show_product'] ) ) ) {
 
-            if (!array_intersect($product_cats, $show_cats_array)) {
-              $field['disabled'] = true;
-            } else {
-              $field['disabled'] = false;
-            }
-          }
-        }
-      }
-    }
+			if ( is_object( WC()->cart ) && count( $cart_contents = WC()->cart->get_cart_contents() ) ) {
 
-    return $field;
-  }
+				$hide_ids_array = (array) $field['hide_product'];
 
-  function disable_by_product($field)
-  {
+				$show_ids_array = (array) $field['show_product'];
 
-    if (empty($field['disabled']) && (!empty($field['hide_product']) || !empty($field['show_product']))) {
+				$more_product = empty( $field['more_product'] );
 
-      if (count($cart_contents = WC()->cart->get_cart_contents())) {
+				$product_ids = array_column( $cart_contents, 'product_id' );
 
-        $hide_ids_array = (array) $field['hide_product'];
+				// field without more
+				// -------------------------------------------------------------------
+				if ( $more_product && count( $cart_contents ) < 2 ) {
+					// hide field
+					// -----------------------------------------------------------------
+					if ( count( $hide_ids_array ) ) {
+						if ( array_intersect( $product_ids, $hide_ids_array ) ) {
+							$field['disabled'] = true;
+						}
+					}
 
-        $show_ids_array = (array) $field['show_product'];
+					// show field
+					// -----------------------------------------------------------------
+					if ( count( $show_ids_array ) ) {
+						if ( ! array_intersect( $product_ids, $show_ids_array ) ) {
+								$field['disabled'] = true;
+						} else {
+								$field['disabled'] = false;
+						}
+					}
+				}
 
-        $more_product = empty($field['more_product']);
+				// field with more
+				// -------------------------------------------------------------------
+				if ( ! $more_product ) {
 
-        $product_ids = array_column($cart_contents, 'product_id');
+					// hide field
+					// -------------------------------------------------------------
+					if ( count( $hide_ids_array ) ) {
 
-        // field without more
-        // -------------------------------------------------------------------
-        if ($more_product && count($cart_contents) < 2) {
-          // hide field
-          // -----------------------------------------------------------------
-          if (count($hide_ids_array)) {
-            if (array_intersect($product_ids, $hide_ids_array)) {
-              $field['disabled'] = true;
-            }
-          }
+						if ( array_intersect( $product_ids, $hide_ids_array ) ) {
+								$field['disabled'] = true;
+						}
+					}
 
-          // show field
-          // -----------------------------------------------------------------
-          if (count($show_ids_array)) {
-            if (!array_intersect($product_ids, $show_ids_array)) {
-              $field['disabled'] = true;
-            } else {
-              $field['disabled'] = false;
-            }
-          }
-        }
+					// show field
+					// ---------------------------------------------------------------
+					if ( count( $show_ids_array ) ) {
+						if ( ! array_intersect( $product_ids, $show_ids_array ) ) {
+							$field['disabled'] = true;
+						} else {
+							$field['disabled'] = false;
+						}
+					}
+				}
+			}
+		}
 
-        // field with more
-        // -------------------------------------------------------------------
-        if (!$more_product) {
-
-          // hide field
-          // -------------------------------------------------------------
-          if (count($hide_ids_array)) {
-
-            if (array_intersect($product_ids, $hide_ids_array)) {
-              $field['disabled'] = true;
-            }
-          }
-
-          // show field
-          // ---------------------------------------------------------------
-          if (count($show_ids_array)) {
-            if (!array_intersect($product_ids, $show_ids_array)) {
-              $field['disabled'] = true;
-            } else {
-              $field['disabled'] = false;
-            }
-          }
-        }
-      }
-    }
-
-    return $field;
-  }
+		return $field;
+	}
 }
 
 WOOCCM_Fields_Display::instance();

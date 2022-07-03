@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.6.4
+Stable tag: 11.6.9
 
 == Description ==
 
@@ -344,6 +344,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.6.9 (2022-06-30) =
+* Added the product title slug attribute
+
+= 11.6.8 (2022-06-30) =
+* Fixed an issues with the XML version of the Google Local Product Inventory feed where the g: was missing for the field names
+
+= 11.6.7 (2022-06-21) =
+* Fixed an issue when a non-string was added as a key to the product data array
+
+= 11.6.6 (2022-06-20) =
+* Removed some debugging code
+
+= 11.6.5 (2022-06-20) =
+* Added XML support for Google's Local Product Inventory feeds
 
 = 11.6.4 (2022-06-16) =
 * Checked for compatibility with WooCommerce 6.6.0
@@ -3724,6 +3739,21 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.6.9 =
+Added the product title slug attribute
+
+= 11.6.8 =
+Fixed an issues with the XML version of the Google Local Product Inventory feed where the g: was missing for the field names
+
+= 11.6.7 =
+Fixed an issue when a non-string was added as a key to the product data array
+
+= 11.6.6 =
+Removed some debugging code
+
+= 11.6.5 =
+Added XML support for Google's Local Product Inventory feeds
 
 = 11.6.4 =
 Checked for compatibility with WooCommerce 6.6.0

@@ -87,8 +87,9 @@ class WOOCCM_Fields_Filter
 
           $field .= ' <span class="woocommerce-radio-wrapper" ' . implode(' ', $custom_attributes) . '>';
 
-          foreach ($args['options'] as $option_key => $option_text) {
-            $field .= '<input type="radio" class="input-checkbox" value="' . esc_attr($option_text) . '" name="' . esc_attr($key) . '" id="' . esc_attr($key) . '_' . esc_attr($option_key) . '"' . checked($value, $option_text, false) . ' />';
+          foreach ($args['options'] as $option_key => $option_text) {					
+			$option_key = is_numeric($option_key) ? $option_text : $option_key;
+            $field .= '<input type="radio" class="input-checkbox" value="' . esc_attr($option_key) . '" name="' . esc_attr($key) . '" id="' . esc_attr($key) . '_' . esc_attr($option_key) . '"' . checked($value, $option_text, false) . ' />';
             $field .= '<label for="' . esc_attr($key) . '_' . esc_attr($option_key) . '" class="checkbox ' . implode(' ', $args['label_class']) . '">' . $option_text . '</label><br>';
           }
 
@@ -107,7 +108,8 @@ class WOOCCM_Fields_Filter
             $field .= '<option value="" disabled="disabled" selected="selected">' . esc_attr($args['placeholder']) . '</option>';
           }
           foreach ($args['options'] as $option_key => $option_text) {
-            $field .= '<option value="' . esc_attr($option_text) . '" ' . selected($value, $option_text, false) . '>' . esc_attr($option_text) . '</option>';
+			$option_key = is_numeric($option_key) ? $option_text : $option_key;
+            $field .= '<option value="' . esc_attr($option_key) . '" ' . selected($value, $option_text, false) . '>' . esc_attr($option_text) . '</option>';
           }
           $field .= '</select>';
         }
@@ -123,7 +125,8 @@ class WOOCCM_Fields_Filter
         if (!empty($args['options'])) {
           $field .= '<select name="' . esc_attr($key) . '[]" id="' . esc_attr($key) . '" class="select ' . esc_attr(implode(' ', $args['input_class'])) . '" multiple="multiple" ' . implode(' ', $custom_attributes) . '>';
           foreach ($args['options'] as $option_key => $option_text) {
-            $field .= '<option value="' . esc_attr($option_text) . '" ' . selected(in_array($option_text, $value), 1, false) . '>' . esc_attr($option_text) . '</option>';
+			$option_key = is_numeric($option_key) ? $option_text : $option_key;
+            $field .= '<option value="' . esc_attr($option_key) . '" ' . selected(in_array($option_text, $value), 1, false) . '>' . esc_attr($option_text) . '</option>';
           }
           $field .= ' </select>';
         }
@@ -140,9 +143,9 @@ class WOOCCM_Fields_Filter
 
           $field .= ' <span class="woocommerce-multicheckbox-wrapper" ' . implode(' ', $custom_attributes) . '>';
 
-          foreach ($args['options'] as $option_key => $option_text) {
-            //$field .='<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="1"' . checked(in_array($option_key, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
-            $field .= '<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="' . esc_attr($option_text) . '"' . checked(in_array($option_text, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
+          foreach ($args['options'] as $option_key => $option_text) {		
+			$option_key = is_numeric($option_key) ? $option_text : $option_key;
+            $field .= '<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="' . esc_attr($option_key) . '"' . checked(in_array($option_text, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
           }
 
           $field .= '</span>';

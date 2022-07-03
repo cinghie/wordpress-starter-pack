@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-14 16:28:38+0000\n"
+"PO-Revision-Date: 2022-06-22 13:54:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -240,6 +240,10 @@ msgstr "Non è stato possibile eseguire l'inizializzazione dell'API WC_Filesyste
 #: includes/class-wc-countries.php:1155
 msgid "PIN Code"
 msgstr "Codice PIN"
+
+#: src/Internal/Utilities/HtmlSanitizer.php:79
+msgid "String processors must be an array of valid callbacks."
+msgstr "String processors must be an array of valid callbacks."
 
 #: packages/woocommerce-blocks/assets/js/blocks/checkout/inner-blocks/checkout-order-summary-cart-items/block.json
 msgctxt "block description"
@@ -790,7 +794,7 @@ msgstr "Descrizione del suggerimento."
 msgid "Sorry, experiment_name is required."
 msgstr "Spiacenti, experiment_name è obbligatorio."
 
-#: packages/woocommerce-blocks/src/BlockTypes/MiniCart.php:515
+#: packages/woocommerce-blocks/src/BlockTypes/MiniCart.php:514
 msgid "Mini Cart Empty Cart Message"
 msgstr "Messaggio Carrello vuoto del mini-carrello"
 
@@ -2203,7 +2207,7 @@ msgstr "Se questo è un attributo predefinito"
 
 #. translators: %1$d is the number of products in the cart. %2$s is the cart
 #. total
-#: packages/woocommerce-blocks/src/BlockTypes/MiniCart.php:358
+#: packages/woocommerce-blocks/src/BlockTypes/MiniCart.php:357
 #: packages/woocommerce-blocks/build/mini-cart-component-frontend.js:5
 msgid "%1$d item in cart, total price of %2$s"
 msgid_plural "%1$d items in cart, total price of %2$s"
@@ -5655,7 +5659,7 @@ msgstr "Configura ulteriori fornitori di pagamento"
 msgid "Invalid admin note"
 msgstr "Nota dell'amministrazione non valida"
 
-#: packages/woocommerce-blocks/src/BlockTypes/MiniCart.php:517
+#: packages/woocommerce-blocks/src/BlockTypes/MiniCart.php:516
 #: packages/woocommerce-blocks/build/cart.js:42
 msgid "Your cart is currently empty!"
 msgstr "Il carrello è attualmente vuoto."
@@ -9758,7 +9762,7 @@ msgstr "Colonne"
 #: assets/client/admin/chunks/analytics-report-categories.js:1
 #: assets/client/admin/chunks/analytics-report-downloads.js:1
 #: assets/client/admin/chunks/analytics-report-products.js:1
-#: packages/woocommerce-blocks/assets/js/editor-components/grid-content-control/index.js:36
+#: packages/woocommerce-blocks/assets/js/editor-components/grid-content-control/index.js:41
 #: packages/woocommerce-blocks/build/handpicked-products.js:7
 #: packages/woocommerce-blocks/build/product-best-sellers.js:5
 #: packages/woocommerce-blocks/build/product-category.js:5
@@ -26419,7 +26423,7 @@ msgid "Parent product"
 msgstr "Prodotto genitore"
 
 #: includes/class-wc-post-types.php:335
-#: packages/woocommerce-blocks/assets/js/editor-components/grid-content-control/index.js:20
+#: packages/woocommerce-blocks/assets/js/editor-components/grid-content-control/index.js:23
 #: packages/woocommerce-blocks/build/handpicked-products.js:7
 #: packages/woocommerce-blocks/build/product-best-sellers.js:5
 #: packages/woocommerce-blocks/build/product-category.js:5

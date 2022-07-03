@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.27.5
+ * Version:     3.27.6
  * Author:      MetaSlider
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -16,13 +16,19 @@
  * Domain Path: /languages
  */
 
-use Extendify\Library\App;
-
 if (!defined('ABSPATH')) {
     die('No direct access.');
 }
 
 if (!class_exists('MetaSliderPlugin')) {
+    if (! defined('METASLIDER_COMPOSER_AUTOLOAD_LOADED')) {
+        if (is_readable(__DIR__ . '/vendor/autoload.php')) {
+            require_once __DIR__ . '/vendor/autoload.php';
+        }
+
+        define('METASLIDER_COMPOSER_AUTOLOAD_LOADED', true);
+    }
+
     /**
      * Register the plugin.
      *
@@ -40,7 +46,7 @@ if (!class_exists('MetaSliderPlugin')) {
          *
          * @var string
          */
-        public $version = '3.27.5';
+        public $version = '3.27.6';
 
         /**
          * Pro installed version number
@@ -410,7 +416,7 @@ if (!class_exists('MetaSliderPlugin')) {
             $this->admin->add_page(__('Settings & Help', 'default'), 'metaslider-settings', 'metaslider');
 
             if (metaslider_user_sees_upgrade_page()) {
-                $this->admin->add_page(__('Add-ons', 'ml-slider'), 'upgrade-metaslider', 'metaslider');
+                $this->admin->add_page(__('Upgrade to Pro', 'ml-slider'), 'upgrade-metaslider', 'metaslider');
             }
         }
 

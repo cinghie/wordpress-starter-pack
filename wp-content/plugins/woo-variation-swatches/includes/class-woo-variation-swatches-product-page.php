@@ -64,7 +64,7 @@
             }
             
             public function disable_out_of_stock_item( $default, $variation ) {
-                if ( ! $variation->is_in_stock() && wc_string_to_bool( woo_variation_swatches()->get_option( 'hide_out_of_stock_variation', 'yes' ) ) ) {
+                if ( woo_variation_swatches()->is_pro() && ! $variation->is_in_stock() && wc_string_to_bool( woo_variation_swatches()->get_option( 'hide_out_of_stock_variation', 'yes' ) ) ) {
                     return false;
                 }
                 
@@ -203,6 +203,10 @@
                     'is_mobile'                 => wp_is_mobile(),
                     'show_variation_stock'      => woo_variation_swatches()->is_pro() && wc_string_to_bool( woo_variation_swatches()->get_option( 'show_variation_stock_info', 'no' ) ),
                     'stock_label_threshold'     => absint( woo_variation_swatches()->get_option( 'stock_label_display_threshold', '5' ) ),
+                    'cart_redirect_after_add'   => get_option( 'woocommerce_cart_redirect_after_add', 'no' ),
+                    'enable_ajax_add_to_cart'   => get_option( 'woocommerce_enable_ajax_add_to_cart', 'yes' ),
+                    'cart_url'                  => apply_filters( 'woocommerce_add_to_cart_redirect', wc_get_cart_url(), null ),
+                    'is_cart'                   => is_cart(),
                 ) );
             }
             
@@ -414,6 +418,19 @@
                 return $assigned;
             }
             
+            public function get_image_attribute( $data, $attribute_type, $variation_data = array() ) {
+                if ( 'image' === $attribute_type ) {
+                    
+                    $term = $data[ 'item' ];
+                    
+                    // Global
+                    $attachment_id = apply_filters( 'woo_variation_swatches_global_product_attribute_image_id', absint( woo_variation_swatches()->get_frontend()->get_product_attribute_image( $term, $data ) ), $data );
+                    $image_size    = apply_filters( 'woo_variation_swatches_global_product_attribute_image_size', sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size', 'variation_swatches_image_size' ) ), $data );
+                    
+                    return wp_get_attachment_image_src( $attachment_id, $image_size );
+                }
+            }
+            
             public function color_attribute( $data, $attribute_type, $variation_data = array() ) {
                 // Color
                 if ( 'color' === $attribute_type ) {
@@ -431,16 +448,12 @@
                 
                 if ( 'image' === $attribute_type ) {
                     
-                    $term        = $data[ 'item' ];
                     $option_name = $data[ 'option_name' ];
                     
                     // Global
-                    $attachment_id = apply_filters( 'woo_variation_swatches_global_product_attribute_image_id', absint( woo_variation_swatches()->get_frontend()->get_product_attribute_image( $term, $data ) ), $data );
-                    $image_size    = apply_filters( 'woo_variation_swatches_global_product_attribute_image_size', sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size', 'variation_swatches_image_size' ) ), $data );
-                    $image         = wp_get_attachment_image_src( $attachment_id, $image_size );
+                    $image = $this->get_image_attribute( $data, $attribute_type, $variation_data );
                     
                     return sprintf( '<img class="variable-item-image" aria-hidden="true" alt="%s" src="%s" width="%d" height="%d" />', esc_attr( $option_name ), esc_url( $image[ 0 ] ), esc_attr( $image[ 1 ] ), esc_attr( $image[ 2 ] ) );
-                    
                 }
             }
             
@@ -707,6 +720,11 @@
                     $wrapper = $this->wrapper_start( $args, $attribute, $product, $attribute_type, $options );
                     
                     foreach ( $swatches_data as $data ) {
+                        
+                        // If attribute have no image we should convert attribute type image to attribute type button
+                        if ( 'image' === $attribute_type && ! is_array( $this->get_image_attribute( $data, $attribute_type ) ) ) {
+                            $attribute_type = 'button';
+                        }
                         
                         $item .= $this->item_start( $data, $attribute_type );
                         

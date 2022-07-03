@@ -26,11 +26,13 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 		 * @param string $separator
 		 *
 		 * @since 2.31.0 Update the function to include a primary category selection.
+		 * @since 2.31.1 Changed the make_shop_taxonomy_string() methode, so it returns the correct value for non category related attributes.
 		 *
 		 * @return string
 		 */
 		public static function make_shop_taxonomies_string( $product_id, $tax = 'product_cat', $separator = ' > ' ) {
-			$primary_category = self::get_primary_cat( $product_id);
+			// Only check the category if the attribute is a category attribute.
+			$primary_category = 'category' === $tax || 'product_cat' === $tax ? self::get_primary_cat( $product_id) : false;
 
 			if ( $primary_category ) {
 				$cats = $primary_category;

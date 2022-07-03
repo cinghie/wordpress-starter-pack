@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.0.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-03 18:08:00+0000\n"
+"PO-Revision-Date: 2022-07-02 14:44:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -284,6 +284,10 @@ msgstr "Gennaio"
 #, gp-priority: high
 msgid "Uncategorized"
 msgstr "Senza categoria"
+
+#: wp-includes/option.php:2230
+msgid "What to show on the front page"
+msgstr "Cosa mostrare nella pagina principale"
 
 #. translators: 1: PHP file name, 2: Version number.
 #: wp-includes/functions.php:5575
@@ -5227,7 +5231,7 @@ msgstr "In risposta a %s."
 msgid "Previous and next months"
 msgstr "Mesi precedenti e successivi"
 
-#: wp-includes/option.php:2322
+#: wp-includes/option.php:2353
 msgid "When registering an \"array\" setting to show in the REST API, you must specify the schema for each array item in \"show_in_rest.schema.items\"."
 msgstr "Quando si registra un'impostazione \"array\" da mostrare nell'API REST, è necessario specificare lo schema per ciascun elemento dell'array in \"show_in_rest.schema.items\"."
 
@@ -5783,7 +5787,7 @@ msgstr "Anteprima allegato"
 msgid "Your browser cannot upload files"
 msgstr "ll tuo browser non può caricare file"
 
-#: wp-includes/class-wp-xmlrpc-server.php:658 wp-includes/option.php:2247
+#: wp-includes/class-wp-xmlrpc-server.php:658 wp-includes/option.php:2278
 msgid "Allow people to submit comments on new posts."
 msgstr "Permetti di commentare i nuovi articoli."
 
@@ -8455,7 +8459,7 @@ msgid "Featured image"
 msgstr "Immagine in evidenza"
 
 #. translators: 1: $sanitize_callback, 2: register_setting()
-#: wp-includes/option.php:2440
+#: wp-includes/option.php:2471
 msgid "%1$s is deprecated. The callback from %2$s is used instead."
 msgstr "%1$s è deprecata. Viene utilizzata invece la callback da %2$s."
 
@@ -8577,7 +8581,7 @@ msgstr[1] "Il tuo tema ha altre %s aree widget, ma questa particolare pagina non
 msgid "Your theme has 1 other widget area, but this particular page does not display it."
 msgstr "Il tuo tema ha un'altra area widget, ma questa particolare pagina non la visualizza."
 
-#: wp-includes/option.php:2121
+#: wp-includes/option.php:2122
 msgid "This address is used for admin purposes, like new user notification."
 msgstr "Questo indirizzo è utilizzato per scopi amministrativi, come ad esempio la notifica dell'iscrizione di nuovi utenti."
 
@@ -8772,11 +8776,11 @@ msgstr "La descrizione dell'allegato. "
 msgid "The attachment caption."
 msgstr "La didascalia dell'allegato. "
 
-#: wp-includes/option.php:2198
+#: wp-includes/option.php:2199
 msgid "Default post category."
 msgstr "Categoria predefinita per gli articoli."
 
-#: wp-includes/option.php:2088
+#: wp-includes/option.php:2089
 msgid "Site tagline."
 msgstr "Motto del sito."
 
@@ -10073,50 +10077,50 @@ msgstr "%1$s %2$s, %3$s fa (%4$s)"
 
 #. translators: %s: misc
 #. translators: %s: privacy
-#: wp-includes/option.php:2335 wp-includes/option.php:2348
-#: wp-includes/option.php:2408 wp-includes/option.php:2421
+#: wp-includes/option.php:2366 wp-includes/option.php:2379
+#: wp-includes/option.php:2439 wp-includes/option.php:2452
 #: wp-admin/includes/template.php:1575 wp-admin/includes/template.php:1588
 #: wp-admin/includes/template.php:1646 wp-admin/includes/template.php:1659
 msgid "The \"%s\" options group has been removed. Use another settings group."
 msgstr "Il gruppo di opzioni \"%s\" è stato cancellato. Usa un altro gruppo di impostazioni."
 
-#: wp-includes/option.php:2233
+#: wp-includes/option.php:2264
 msgid "Allow link notifications from other blogs (pingbacks and trackbacks) on new articles."
 msgstr "Consenti notifiche di link da altri blog (pingback e trackback) sui nuovi articoli."
 
-#: wp-includes/option.php:2218
+#: wp-includes/option.php:2219
 msgid "Blog pages show at most."
 msgstr "Pagine del blog da mostrare al massimo."
 
-#: wp-includes/option.php:2208
+#: wp-includes/option.php:2209
 msgid "Default post format."
 msgstr "Formato dell'articolo predefinito."
 
-#: wp-includes/option.php:2187
+#: wp-includes/option.php:2188
 msgid "Convert emoticons like :-) and :-P to graphics on display."
 msgstr "Convertire in visualizzazione gli emoticon tipo :-) e :-P in simboli grafici."
 
-#: wp-includes/option.php:2176
+#: wp-includes/option.php:2177
 msgid "WordPress locale code."
 msgstr "Codice locale di WordPress."
 
-#: wp-includes/option.php:2164
+#: wp-includes/option.php:2165
 msgid "A day number of the week that the week should start on."
 msgstr "Il numero del giorno della settimana in cui la settimana dovrebbe cominciare."
 
-#: wp-includes/option.php:2154
+#: wp-includes/option.php:2155
 msgid "A time format for all time strings."
 msgstr "Un formato per tutte le stringhe che rappresentano un orario."
 
-#: wp-includes/option.php:2144
+#: wp-includes/option.php:2145
 msgid "A date format for all date strings."
 msgstr "Un formato per tutte le stringhe che rappresentano una data."
 
-#: wp-includes/option.php:2134
+#: wp-includes/option.php:2135
 msgid "A city in the same timezone as you."
 msgstr "Una città nel tuo stesso fuso orario."
 
-#: wp-includes/option.php:2076
+#: wp-includes/option.php:2077
 msgid "Site title."
 msgstr "Titolo del sito."
 
@@ -15769,7 +15773,7 @@ msgstr "Occorre avere la possibilità di modificare gli articoli di questo sito 
 msgid "Site Tagline"
 msgstr "Motto del sito"
 
-#: wp-includes/option.php:2104
+#: wp-includes/option.php:2105
 msgid "Site URL."
 msgstr "URL del sito."
 

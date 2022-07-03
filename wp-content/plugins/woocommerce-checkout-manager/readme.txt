@@ -1,33 +1,80 @@
-﻿=== Checkout Fields Manager for WooCommerce ===
+﻿=== Checkout Field Manager (Checkout Manager) for WooCommerce ===
 Contributors: quadlayers
 Donate link: https://quadlayers.com/
-Tags: woocommerce, woocommerce checkout, field manager, checkout editor, checkout field, shipping field, billing field, order field, additional field
-Requires at least: 3.4
-Tested up to: 6.0
-Stable tag: 5.5.9
+Tags: checkout field editor, woocommerce checkout field editor, checkout manager, woocommerce checkout manager, checkout field customizer, checkout form editor, checkout form customizer, checkout, WooCommerce checkout, checkout form designer, woocommerce checkout fields, woocommerce checkout addons
+Requires at least: 4.9
+Tested up to: 6.0.1
+Requires PHP: 5.6
+Stable tag: 6.0.7
 WC requires at least: 3.1.0
-WC tested up to: 6.5
+WC tested up to: 6.6.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-WooCommerce Checkout manager is the most advanced way to customize checkout, manage checkout editor.
+Checkout Field Manager (Checkout Manager) for WooCommerce is the best pluginn most advanced "Checkout Manager" to customize checkout fields on your WooCommerce checkout page.
 
 == Presentation ==
 
 [Premium](https://quadlayers.com/portfolio/woocommerce-checkout-manager/) | [Demo](https://quadlayers.com/woocommerce-checkout-manager/checkout/?add-to-cart=32) | [Documentation](https://quadlayers.com/documentation/woocommerce-checkout-manager/) | [Community](https://www.facebook.com/groups/quadlayers/)
 
-WooCommerce checkout manager is a plugin built to be the wizard of checkout pages. Helps to modify in an intuitive way, allows fields customization, to extend billing information and to create any field required at WooCommerce checkout.
+WooCommerce Checkout Manager is the best checkout form customizer and editor for WooCommerce. This plugin allows you to delete, change and re-order the WooCommerce checkout fields and create more than 20 custom fields inside the billing or shipping checkout forms.
 
 == Description ==
 
-WooCommerce Checkout Fields Manager customization and field's management alternatives:
+Checkout Field Manager (Checkout Manager) for WooCommerce  allows you to include custom fields to the checkout page, related to billing, Shipping or Additional fields sections.
+
+Our plugin allows to reorder, remove or change the field type of the WooCommerce core fields. You can choose between this field types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Multiselect, Multicheckbox, Heading, Colorpicker, File uploader.
+
+The field types supported to include in the checkout are:
+
+	*	Heading
+	*	Email
+	*	Phone
+	*	Message
+	*	Button
+	*	Text
+	*	Textarea
+	*	Password
+	*	Select
+	*	Radio
+	*	Checkbox
+	*	Timepicker
+	*	Datepicker
+	*	Number
+	*	Country
+	*	State
+	*	Multiselect
+	*	Multicheckbox
+	*	Colorpicker
+	*	File Upload
+
+== Formerly WooCommerce Checkout Manager ==
+
+This plugin was formerly known as "WooCommerce Checkout Manager". WordPress forced us on November 8, 2019 to change the name of the plugin due to use of the "WooCommerce" word in the name. We apologize for the problems that the downtime may have caused to you.
+
+== WooCommerce Checkout Fields ==
+
+Checkout Field Manager (Checkout Manager) for WooCommerce allows you to include custom fields to the checkout page, related to billing, Shipping or Additional fields sections.
+
+Our plugin allows to reorder, remove or change the field type of the WooCommerce core or custom fields.
+
 * Re-order fields.
 * Rename and higlight.
 * Hide or extend Checkout fields within the Billing, Shipping and Additional sections.
 
-== WooCommerce Checkout process==
+== WooCommerce Checkout Conditional Fields ==
 
-WooCommerce Checkout Fields Manager allows you to customize the checkout process, including or reducing order's fields collected. Our plugin is able to consider your billing data inside checkout page, and recovers all data required by your company process. 
+Checkout Field Manager (Checkout Manager) for WooCommerce  supports conditional checkout fields allowing you to show/hide the fields based on any value of its parent fields.
+
+Our system detects the parent field type and allows you to select the value based on the available options.
+
+== WooCommerce Checkout Upload Files ==
+
+You can include an unlimited number of files from different types into fields. Then offer the user an option to display the uploaded files in order. The user will be allowed to upload or delete fields through the order page.
+
+== WooCommerce Checkout Process ==
+
+Checkout Field Manager (Checkout Manager) for WooCommerce  allows you to customize the checkout process, including or reducing order's fields collected. Our plugin is able to consider your billing data inside checkout page, and recovers all data required by your company process. 
 
 = Force to include shipping address =
 This option allows you to remove the toggle checkbox to display the shipping fields. Shipping fields will be always displayed, and the user is forced to complete them.
@@ -41,21 +88,16 @@ This option allows you to remove the order notes in the checkout form.
 = Add message before checkout =
 This option allows you to include a custom message before or after the checkout form. This works as engagement action message to grateful your customers.
 
-== WooCommerce Checkout Fields ==
+== WooCommerce Checkout Manager Premium ==
 
-WooCommerce Checkout Fields Manager allows you to include custom fields to the checkout page, related to billing, Shipping or Additional fields sections.
+The premium version of Checkout Field Manager (Checkout Manager) plugin offer you a wide range of extra features that allows a full controll of the checkout fields.
 
-Our plugin allows to reorder, remove or change the field type of the WooCommerce core fields. You can choose between this field types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Multiselect, Multicheckbox, Heading, Colorpicker, File uploader.
-
-== WooCommerce Checkout Conditional Fields ==
-
-WooCommerce Checkout Fields Manager supports conditional checkout fields allowing you to show/hide the fields based on any value of its parent fields.
-
-Our system detects the parent field type and allows you to select the value based on the available options.
-
-== WooCommerce Checkout Upload Files ==
-
-You can include an unlimited number of files from different types into fields. Then offer the user an option to display the uploaded files in order. The user will be allowed to upload or delete fields through the order page.
+> * Filter checkout fields based on cart sub total
+> * Display/Hide checkbox fields in account, checkout, orders, emails or invoices
+> * Add price to the checkout total based in checkout field value
+> * Display checkout fields in orders admin table list and allow sort and filter
+> * Woocommerce Cart and Checkout on same page
+> * Woocommerce Upload File
 
 == Frequently Asked Questions ==
 
@@ -106,6 +148,30 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+=  6.0.7 
+* Fix. WooCommerce billing & shipping filters order to allow third party plugins hooks checkout fields 
+
+=  6.0.6 
+* New. QuadLayers dashboard widget
+
+= 6.0.5 = 
+* Fix: WooCommerce compatibility
+
+= 6.0.4 = 
+* Fix: First choice in checkout select conditional fields
+
+= 6.0.3 = 
+* Fix: Fix Call to a member function get_cart_contents() on null
+
+= 6.0.2 = 
+* Fix: Values changed to keys in select, multiselect, checkbox, multicheckbox, radio
+
+= 6.0.1 = 
+* Fix: Default show aditional checkout fields in order
+
+= 6.0.0 = 
+* Fix: WooCommerce compatibility
 
 = 5.5.9 = 
 * Fix: Escaping output functions

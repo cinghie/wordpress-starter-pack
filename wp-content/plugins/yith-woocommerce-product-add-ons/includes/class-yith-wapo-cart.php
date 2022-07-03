@@ -232,8 +232,11 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 										$option_price_sale = 0; // By default 0, since sale price doesn't exists.
 									}
 								}
-							} elseif ( 'free' === $info['price_method'] ) {
-								$option_price = 0;
+							}
+
+							if ( 'free' === $info['price_method'] ) {
+								$option_price      = 0;
+								$option_price_sale = 0;
 							}
 
 							// First X free options check.
@@ -270,7 +273,6 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 				}
 				$cart_item_price     = is_numeric( $cart_item['data']->get_price() ) ? ( $cart_item['data']->get_price() / $currency_rate ) : 0;
 				$total_options_price = $total_options_price / $currency_rate;
-
 				/* phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 				 * Multi Currency test
 				var_dump( $cart_item_price, $total_options_price );
@@ -457,10 +459,12 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 								$info['label']  = '<span class="yith-wapo-group-title"> ' . $info['addon_label'] . '</span>';
 								$cart_data_name = $info['addon_label'];
 								$value          = '';
-							} elseif ( 'free' === $info['price_method'] ) {
-								$option_price = 0;
-							}else {
+							} else {
 								$cart_data_name = $info['label'];
+							}
+
+							if ( 'free' === $info['price_method'] ) {
+								$option_price = 0;
 							}
 
 							$option_price = '' !== $option_price ? $option_price : 0;

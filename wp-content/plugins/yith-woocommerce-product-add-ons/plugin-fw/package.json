@@ -1,6 +1,6 @@
 {
   "name": "yith-plugin-framewowrk",
-  "version": "3.9.5",
+  "version": "3.9.7",
   "description": "YITH Plugin Framework",
   "main": "Gruntfile.js",
   "scripts": {
@@ -44,6 +44,7 @@
     "wait-on": "^5.2.1"
   },
   "dependencies": {
+    "classnames": "^2.3.1",
     "md5": "^2.3.0"
   }
 }

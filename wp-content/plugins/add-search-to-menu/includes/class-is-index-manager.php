@@ -222,7 +222,7 @@ class IS_Index_Manager extends IS_Base_Options {
 			$this->index_opt->save();
 
 			$redirect_to = add_query_arg( array( 'message' => 'index-reset' ) );
-			wp_safe_redirect( $redirect_to );
+			wp_safe_redirect( esc_url_raw( $redirect_to ) );
 			exit();
 		} else {
 			if ( ! empty( $_REQUEST['message'] )

@@ -38,7 +38,7 @@
 	<?php
 	printf(__('List conditional tags (e.g. %s) that should not be cached (one per line).', 'wp-optimize'), '<code>is_single</code>');
 	echo '&nbsp';
-	printf(__('You can find more details about condtional tags from %s here', 'wp-optimize'), '<a href="https://codex.wordpress.org/Conditional_Tags" target="_blank">');
+	printf(__('You can find more details about condtional tags from %1$shere%2$s', 'wp-optimize'), '<a href="https://codex.wordpress.org/Conditional_Tags" target="_blank">', '</a>');
 	?>
 		</label>
 		<textarea name="cache_exception_conditional_tags" id="cache_exception_conditional_tags" class="cache-settings" placeholder="is_single"><?php echo esc_textarea($cache_exception_conditional_tags); ?></textarea>

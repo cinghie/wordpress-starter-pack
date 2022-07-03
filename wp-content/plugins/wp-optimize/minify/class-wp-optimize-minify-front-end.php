@@ -576,6 +576,8 @@ class WP_Optimize_Minify_Front_End {
 			$nfonts = array();
 			if ($this->options['merge_google_fonts']) {
 				$nfonts[] = WP_Optimize_Minify_Fonts::concatenate_google_fonts($google_fonts);
+				// mark the google fonts as done so they don't get processed
+				$done = array_merge($done, array_keys($google_fonts));
 			} else {
 				foreach ($google_fonts as $h => $a) {
 					if (!empty($a)) {

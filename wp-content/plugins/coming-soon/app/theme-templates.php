@@ -769,9 +769,9 @@ function seedprod_lite_export_theme_parts_json( $data, $filename ) {
  *
  * @return JSON object.
  */
-function seedprod_lite_import_theme_request() {
+function seedprod_lite_import_theme_request() {  
 	if ( check_ajax_referer( 'seedprod_lite_import_theme_request' ) && ! empty( $_REQUEST['id'] ) ) {
-		if ( ! current_user_can( apply_filters( 'seedprod_import_theme_request', 'install_themes' ) ) ) {
+		if ( ! current_user_can( apply_filters( 'seedprod_import_theme_request', 'edit_others_posts' ) ) ) {
 			wp_send_json_error();
 		}
 		$id = absint( $_REQUEST['id'] );
@@ -793,7 +793,7 @@ function seedprod_lite_theme_import( $id = null ) {
 
 	$apikey = get_option( 'seedprod_api_token' );
 
-	$url = SEEDPROD_API_URL . 'themes?plugin_version='.SEEDPROD_VERSION.'&id=' . $id . '&filter=theme_code&api_token=' . $apikey;
+	$url = SEEDPROD_API_URL . 'themes?plugin_version='.SEEDPROD_VERSION.'&id=' . $id . '&filter=theme_code_zip&api_token=' . $apikey;
 
 	$response = wp_remote_get( $url );
 
@@ -808,18 +808,16 @@ function seedprod_lite_theme_import( $id = null ) {
 		}
 	}
 
+	$full_code = json_decode( $code );
+
 	// see if it's a zip file or code, if zip call new import method and bail.
-	$str = $code;
-	$test = ".zip";
-	if ( substr_compare($str, $test, strlen($str)-strlen($test), strlen($test)) === 0 ) {
-		seedprod_lite_import_theme_by_url($code);
+	if ( !empty($full_code->zipfile) ) {
+		seedprod_lite_import_theme_by_url($full_code->zipfile);
 		return true;
 	}
 
 	// else process code if legacy import
-
-	$full_code = json_decode( $code );
-
+	$full_code = $full_code->code;
 	$theme = $full_code->theme;
 
 	$shortcode_update = $full_code->mapped;
@@ -891,6 +889,7 @@ function seedprod_lite_theme_import( $id = null ) {
 			// find and replace url
 			$css         = str_replace( 'TO_BE_REPLACED', home_url(), $meta->_seedprod_css[0] );
 			$custom_css  = str_replace( 'TO_BE_REPLACED', home_url(), $meta->_seedprod_custom_css[0] );
+			$custom_css  = '';
 			$builder_css = str_replace( 'TO_BE_REPLACED', home_url(), $meta->_seedprod_builder_css[0] );
 
 			update_post_meta( $id, '_seedprod_css', $css );
@@ -946,46 +945,44 @@ function seedprod_lite_theme_import( $id = null ) {
 
 	// find and replace shortcodes
 	foreach ( $import_page_array as $t => $val ) {
+        if ($val['title'] != 'Global CSS') {
+            //$theme_page_content =
+            $post_content          = $val['post_content'];
+            $post_content_filtered = $val['post_content_filtered'];
+            $post_id               = $val['id'];
 
-		//$theme_page_content =
-		$post_content          = $val['post_content'];
-		$post_content_filtered = $val['post_content_filtered'];
-		$post_id               = $val['id'];
+            foreach ($shortcode_array as $k => $t) {
+                $shortcode_page_title = $shortcode_array[ $k ]['page_title'];
+                $fetch_shortcode_key  = array_search($shortcode_page_title, array_column($import_page_array, 'title'));
+                $fetch_shortcode_id   = $import_page_array[ $fetch_shortcode_key ]['id'];
 
-		foreach ( $shortcode_array as $k => $t ) {
+                $shortcode_page_sc = $shortcode_array[ $k ]['shortcode'];
+                $shortcode_page_sc = str_replace('[sp_template_part id="', '', $shortcode_page_sc);
+                $shortcode_page_sc = str_replace('"]', '', $shortcode_page_sc);
 
-			$shortcode_page_title = $shortcode_array[ $k ]['page_title'];
-			$fetch_shortcode_key  = array_search( $shortcode_page_title, array_column( $import_page_array, 'title' ) );
-			$fetch_shortcode_id   = $import_page_array[ $fetch_shortcode_key ]['id'];
+                if ($fetch_shortcode_id) {
+                    $shortcode_array[ $k ]['updated_shortcode'] = '[sp_template_part id="' . $fetch_shortcode_id . '"]';
+                    $post_content                               = str_replace($shortcode_array[ $k ]['shortcode'], $shortcode_array[ $k ]['updated_shortcode'], $post_content);
 
-			$shortcode_page_sc = $shortcode_array[ $k ]['shortcode'];
-			$shortcode_page_sc = str_replace( '[sp_template_part id="', '', $shortcode_page_sc );
-			$shortcode_page_sc = str_replace( '"]', '', $shortcode_page_sc );
+                    $shortcode_array[ $k ]['updated_shortcode_filtered'] = '"templateparts":"' . $fetch_shortcode_id . '"';
+                    $shortcode_array[ $k ]['shortcode_filtered_id']      = $shortcode_page_sc;
+                    $shortcode_array[ $k ]['shortcode_filtered']         = '"templateparts":"' . $shortcode_page_sc . '"';
 
-			if ( $fetch_shortcode_id ) {
-				$shortcode_array[ $k ]['updated_shortcode'] = '[sp_template_part id="' . $fetch_shortcode_id . '"]';
-				$post_content                               = str_replace( $shortcode_array[ $k ]['shortcode'], $shortcode_array[ $k ]['updated_shortcode'], $post_content );
+                    $post_content_filtered = str_replace($shortcode_array[ $k ]['shortcode_filtered'], $shortcode_array[ $k ]['updated_shortcode_filtered'], $post_content_filtered);
 
-				$shortcode_array[ $k ]['updated_shortcode_filtered'] = '"templateparts":"' . $fetch_shortcode_id . '"';
-				$shortcode_array[ $k ]['shortcode_filtered_id']      = $shortcode_page_sc;
-				$shortcode_array[ $k ]['shortcode_filtered']         = '"templateparts":"' . $shortcode_page_sc . '"';
+                    // update generated html
+                    $generate_html = get_post_meta($post_id, '_seedprod_html', true);
+                    $generate_html = str_replace($shortcode_array[ $k ]['shortcode'], $shortcode_array[ $k ]['updated_shortcode'], $generate_html);
+                    update_post_meta($post_id, '_seedprod_html', $generate_html);
+                }
+            }
 
-				$post_content_filtered = str_replace( $shortcode_array[ $k ]['shortcode_filtered'], $shortcode_array[ $k ]['updated_shortcode_filtered'], $post_content_filtered );
-
-				// update generated html
-				$generate_html = get_post_meta( $post_id, '_seedprod_html', true );
-				$generate_html = str_replace( $shortcode_array[ $k ]['shortcode'], $shortcode_array[ $k ]['updated_shortcode'], $generate_html );
-				update_post_meta( $post_id, '_seedprod_html', $generate_html );
-
-			}
-		}
-
-		global $wpdb;
-		$tablename     = $wpdb->prefix . 'posts';
-		$sql           = "UPDATE $tablename SET post_content_filtered = %s,post_content = %s WHERE id = %d";
-		$safe_sql      = $wpdb->prepare( $sql, $post_content_filtered, $post_content, $post_id ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		$update_result = $wpdb->get_var( $safe_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-
+            global $wpdb;
+            $tablename     = $wpdb->prefix . 'posts';
+            $sql           = "UPDATE $tablename SET post_content_filtered = %s,post_content = %s WHERE id = %d";
+            $safe_sql      = $wpdb->prepare($sql, $post_content_filtered, $post_content, $post_id); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        	$update_result = $wpdb->get_var($safe_sql); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        }
 	}
 
 }
@@ -1096,6 +1093,9 @@ function seedprod_lite_new_page_to_seedprod() {
 					),
 					array( '%d' )
 				);
+
+				update_post_meta( $lpage_id, '_seedprod_edited_with_seedprod', '1' );
+				delete_post_meta( $lpage_id, '_seedprod_page' );
 
 				// redirect to setup
 				$edit_url = admin_url() . 'admin.php?page=seedprod_lite_builder&id=' . $lpage_id . '#/setup/' . $lpage_id;

@@ -173,11 +173,15 @@ class WPO_Cache_Rules {
 	public function purge_archive_pages_on_post_update($post_id) {
 		$post_type = get_post_type($post_id);
 
+		if (false === $post_type) return;
+
 		if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || 'revision' === $post_type) {
 			return;
 		}
 
 		$post_obj = get_post_type_object($post_type);
+
+		if (null === $post_obj) return;
 
 		if ('post' == $post_type) {
 			// delete blog page cache

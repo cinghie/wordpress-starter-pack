@@ -61,6 +61,7 @@ class WP_Optimize_Admin {
 				"css" => __('CSS', 'wp-optimize').'<span class="menu-pill disabled hidden">'.__('Disabled', 'wp-optimize').'</span>',
 				"font" => __('Fonts', 'wp-optimize'),
 				"settings" => __('Settings', 'wp-optimize'),
+				"preload" => __('Preload', 'wp-optimize'),
 				"advanced" => __('Advanced', 'wp-optimize')
 			),
 			'wpo_settings' => array(
@@ -145,7 +146,7 @@ class WP_Optimize_Admin {
 
 		// if tabs defined then display
 		if (!empty($tabs)) {
-			WP_Optimize()->include_template('admin-page-header-tabs.php', false, array('page' => $page, 'active_tab' => $active_tab, 'tabs' => $tabs, 'wpo_is_premium' => WP_Optimize()::is_premium()));
+			WP_Optimize()->include_template('admin-page-header-tabs.php', false, array('page' => $page, 'active_tab' => $active_tab, 'tabs' => $tabs, 'wpo_is_premium' => WP_Optimize::is_premium()));
 		}
 
 		foreach ($tabs as $tab_id => $tab_description) {
@@ -212,7 +213,7 @@ class WP_Optimize_Admin {
 		add_action('wp_optimize_admin_page_wpo_support_support', array($this, 'output_dashboard_support_tab'), 20);
 		// Display Support page.
 
-		if (!WP_Optimize()::is_premium()) {
+		if (!WP_Optimize::is_premium()) {
 			/**
 			 * Add action for display Images > Unused images and sizes tab.
 			 */
@@ -404,7 +405,7 @@ class WP_Optimize_Admin {
 	 * Include Cloudflare settings template.
 	 */
 	public function output_cloudflare_settings() {
-		if (WP_Optimize()::is_premium() || !apply_filters('show_cloudflare_settings', $this->is_cloudflare_site())) return;
+		if (WP_Optimize::is_premium() || !apply_filters('show_cloudflare_settings', $this->is_cloudflare_site())) return;
 
 		WP_Optimize()->include_template('cache/page-cache-cloudflare-placeholder.php');
 	}

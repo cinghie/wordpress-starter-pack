@@ -2,7 +2,7 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82, andergmartins, htmgarcia
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.27.5
+Stable tag: 3.27.6
 Requires PHP: 5.2
 Tested up to: 6.0
 License: GPLv2 or later
@@ -323,6 +323,15 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 The format is based on [Keep a Changelog recomendations](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.27.6] - 27 Jun, 2022 =
+
+* CHANGED: Improved the promo banner, #141, #168, #166;
+* FIXED: Error "Cannot read properties of undefined" and "t.value is undefined" in the Export area, #142, #163;
+* FIXED: Thumbnails are not showing in the slideshow list, #98;
+* FIXED: Stop showing generic JS errors using toast messages, #162;
+* FIXED: Error PHP Warning: Illegal string offset 'dismiss_time' in on line 204, #174;
+* FIXED: Stop showing promo banners if Pro is installed, #170;
 
 = [3.27.5] - 12 May, 2022 =
 
@@ -1153,7 +1162,7 @@ UPGRADE NOTE: More info/Comments: http://www.metaslider.com/coming-soon-meta-sli
 * FIXED: Smart crop edge cases.
 * FIXED: Flexslider navigation overflow.
 
-= 2.0-betaX 17 Apr, 13 =
+= [2.0-betaX] 17 Apr, 13 =
 
 * CHANGED: Error messages exposed in admin is MetaSlider cannot load the slides.
 * CHANGED: Load default settings if original settings are corrupt/incomplete.
@@ -1163,7 +1172,7 @@ UPGRADE NOTE: More info/Comments: http://www.metaslider.com/coming-soon-meta-sli
 * FIXED: Double slash on jQuery easing path.
 * FIXED: Paragraph tags outputted in JavaScript (reported by and thanks to: CrimsonRaddish).
 
-= 2.0-beta =
+= [2.0-beta] =
 
 * ADDED: Preview slideshows in admin control panel.
 * ADDED: 'Easing' options added to flex slider.

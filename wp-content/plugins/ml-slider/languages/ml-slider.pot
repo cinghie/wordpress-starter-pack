@@ -1,5 +1,6 @@
 # Copyright (C) 2020 MetaSlider
 # This file is distributed under the same license as the MetaSlider plugin.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: MetaSlider\n"
@@ -9,9 +10,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-05-08T18:56:40+00:00\n"
+"POT-Creation-Date: 2022-06-20 15:56-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Domain: ml-slider\n"
 
 #. Plugin Name of the plugin
@@ -107,35 +108,32 @@ msgstr ""
 
 #: admin/Notices.php:207
 msgctxt "Keep the phrase \"MetaSlider Add-on Pack\" when possible. Also, \"Black Friday\" is the name of an event in the United States"
-msgid "Black Friday - 20% off the MetaSlider Add-on Pack until November 30th"
+msgid "Black Friday - 50% off the MetaSlider Add-on Pack until November 30th"
 msgstr ""
 
-#: admin/Notices.php:208
-#: admin/Notices.php:217
-#: admin/Notices.php:226
-#: admin/Notices.php:235
-#: admin/Notices.php:244
+#: admin/Notices.php:208 admin/Notices.php:217 admin/Notices.php:226
+#: admin/Notices.php:235 admin/Notices.php:244
 msgid "To benefit, use this discount code:"
 msgstr ""
 
 #: admin/Notices.php:216
 msgctxt "Keep the phrase \"MetaSlider Add-on Pack\" when possible"
-msgid "Christmas sale - 20% off the MetaSlider Add-on Pack until December 25th"
+msgid "Christmas sale - 50% off the MetaSlider Add-on Pack until December 25th"
 msgstr ""
 
 #: admin/Notices.php:225
 msgctxt "Keep the phrase \"MetaSlider Add-on Pack\" when possible"
-msgid "Happy New Year - 20% off the MetaSlider Add-on Pack until January 14th"
+msgid "Happy New Year - 50% off the MetaSlider Add-on Pack until January 14th"
 msgstr ""
 
 #: admin/Notices.php:234
 msgctxt "Keep the phrase \"MetaSlider Add-on Pack\" when possible"
-msgid "Spring sale - 20% off the MetaSlider Add-on Pack until April 30th"
+msgid "Spring sale - 50% off the MetaSlider Add-on Pack until April 30th"
 msgstr ""
 
 #: admin/Notices.php:243
 msgctxt "Keep the phrase \"MetaSlider Add-on Pack\" when possible"
-msgid "Summer sale - 20% off the MetaSlider Add-on Pack until July 31st"
+msgid "Summer sale - 50% off the MetaSlider Add-on Pack until July 31st"
 msgstr ""
 
 #: admin/Notices.php:277
@@ -156,8 +154,7 @@ msgstr ""
 msgid "simplifies backups and restoration. It is the world's highest ranking and most popular scheduled backup plugin, with over a million currently-active installs."
 msgstr ""
 
-#: admin/Notices.php:291
-#: admin/views/pages/upgrade.php:164
+#: admin/Notices.php:291 admin/views/pages/upgrade.php:164
 msgctxt "Keep the plugin name \"WP-Optimize\" when possible"
 msgid "WP-Optimize"
 msgstr ""
@@ -219,12 +216,9 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
-#: admin/Notices.php:550
-#: inc/slide/metaslide.class.php:125
+#: admin/Notices.php:550 inc/slide/metaslide.class.php:125
 #: inc/slide/metaslide.image.class.php:119
-#: inc/slide/metaslide.image.class.php:177
-#: ml-slider.php:605
-#: ml-slider.php:659
+#: inc/slide/metaslide.image.class.php:177 ml-slider.php:605 ml-slider.php:659
 msgid "The security check failed. Please refresh the page and try again."
 msgstr ""
 
@@ -244,8 +238,7 @@ msgstr ""
 msgid "The attempt to update the option failed."
 msgstr ""
 
-#: admin/Pages.php:63
-#: admin/views/slides/tabs/general.php:27
+#: admin/Pages.php:63 admin/views/slides/tabs/general.php:27
 msgid "URL"
 msgstr ""
 
@@ -273,8 +266,7 @@ msgstr ""
 msgid "Slide deleted"
 msgstr ""
 
-#: admin/Pages.php:70
-#: admin/assets/js/app/globals.js:103
+#: admin/Pages.php:70 admin/assets/js/app/globals.js:103
 msgid "Success"
 msgstr ""
 
@@ -302,8 +294,7 @@ msgstr ""
 msgid "The request format was not valid."
 msgstr ""
 
-#: admin/routes/api.php:330
-#: admin/routes/api.php:439
+#: admin/routes/api.php:330 admin/routes/api.php:439
 msgid "This slideshow is no longer available."
 msgstr ""
 
@@ -335,13 +326,11 @@ msgstr ""
 msgid "New Slideshow"
 msgstr ""
 
-#: admin/slideshows/Settings.php:75
-#: inc/slider/metaslider.class.php:109
+#: admin/slideshows/Settings.php:75 inc/slider/metaslider.class.php:109
 msgid "Previous"
 msgstr ""
 
-#: admin/slideshows/Settings.php:76
-#: inc/slider/metaslider.class.php:110
+#: admin/slideshows/Settings.php:76 inc/slider/metaslider.class.php:110
 msgid "Next"
 msgstr ""
 
@@ -523,8 +512,7 @@ msgstr ""
 msgid "Comparison Chart"
 msgstr ""
 
-#: admin/views/pages/upgrade.php:20
-#: admin/views/pages/upgrade.php:21
+#: admin/views/pages/upgrade.php:20 admin/views/pages/upgrade.php:21
 msgid "MetaSlider logo"
 msgstr ""
 
@@ -532,9 +520,7 @@ msgstr ""
 msgid "free"
 msgstr ""
 
-#: admin/views/pages/upgrade.php:21
-#: ml-slider.php:370
-#: ml-slider.php:1790
+#: admin/views/pages/upgrade.php:21 ml-slider.php:370 ml-slider.php:1790
 msgid "Add-ons"
 msgstr ""
 
@@ -542,13 +528,11 @@ msgstr ""
 msgid "pro"
 msgstr ""
 
-#: admin/views/pages/upgrade.php:27
-#: admin/views/pages/upgrade.php:119
+#: admin/views/pages/upgrade.php:27 admin/views/pages/upgrade.php:119
 msgid "Installed"
 msgstr ""
 
-#: admin/views/pages/upgrade.php:28
-#: admin/views/pages/upgrade.php:120
+#: admin/views/pages/upgrade.php:28 admin/views/pages/upgrade.php:120
 msgid "Upgrade now"
 msgstr ""
 
@@ -560,22 +544,14 @@ msgstr ""
 msgid "Create and manage as many slideshows as you need."
 msgstr ""
 
-#: admin/views/pages/upgrade.php:34
-#: admin/views/pages/upgrade.php:35
-#: admin/views/pages/upgrade.php:41
-#: admin/views/pages/upgrade.php:42
-#: admin/views/pages/upgrade.php:48
-#: admin/views/pages/upgrade.php:49
-#: admin/views/pages/upgrade.php:55
-#: admin/views/pages/upgrade.php:56
-#: admin/views/pages/upgrade.php:63
-#: admin/views/pages/upgrade.php:70
-#: admin/views/pages/upgrade.php:77
-#: admin/views/pages/upgrade.php:84
-#: admin/views/pages/upgrade.php:91
-#: admin/views/pages/upgrade.php:98
-#: admin/views/pages/upgrade.php:106
-#: admin/views/pages/upgrade.php:113
+#: admin/views/pages/upgrade.php:34 admin/views/pages/upgrade.php:35
+#: admin/views/pages/upgrade.php:41 admin/views/pages/upgrade.php:42
+#: admin/views/pages/upgrade.php:48 admin/views/pages/upgrade.php:49
+#: admin/views/pages/upgrade.php:55 admin/views/pages/upgrade.php:56
+#: admin/views/pages/upgrade.php:63 admin/views/pages/upgrade.php:70
+#: admin/views/pages/upgrade.php:77 admin/views/pages/upgrade.php:84
+#: admin/views/pages/upgrade.php:91 admin/views/pages/upgrade.php:98
+#: admin/views/pages/upgrade.php:106 admin/views/pages/upgrade.php:113
 msgid "Yes"
 msgstr ""
 
@@ -614,14 +590,10 @@ msgstr ""
 msgid "Easily allow users to navigate your slideshows by thumbnails."
 msgstr ""
 
-#: admin/views/pages/upgrade.php:62
-#: admin/views/pages/upgrade.php:69
-#: admin/views/pages/upgrade.php:76
-#: admin/views/pages/upgrade.php:83
-#: admin/views/pages/upgrade.php:90
-#: admin/views/pages/upgrade.php:97
-#: admin/views/pages/upgrade.php:105
-#: admin/views/pages/upgrade.php:112
+#: admin/views/pages/upgrade.php:62 admin/views/pages/upgrade.php:69
+#: admin/views/pages/upgrade.php:76 admin/views/pages/upgrade.php:83
+#: admin/views/pages/upgrade.php:90 admin/views/pages/upgrade.php:97
+#: admin/views/pages/upgrade.php:105 admin/views/pages/upgrade.php:112
 msgid "No"
 msgstr ""
 
@@ -713,8 +685,7 @@ msgctxt "Keep the plugin name \"UpdraftPlus\" when possible"
 msgid "With a long-standing reputation for excellence and outstanding reviews, it’s no wonder that UpdraftPlus is the world’s most popular WordPress backup plugin."
 msgstr ""
 
-#: admin/views/pages/upgrade.php:145
-#: admin/views/pages/upgrade.php:157
+#: admin/views/pages/upgrade.php:145 admin/views/pages/upgrade.php:157
 #: admin/views/pages/upgrade.php:174
 msgid "Try for free"
 msgstr ""
@@ -878,8 +849,7 @@ msgstr ""
 msgid "Select Slider:"
 msgstr ""
 
-#: inc/metaslider.widget.class.php:119
-#: ml-slider.php:1646
+#: inc/metaslider.widget.class.php:119 ml-slider.php:1646
 msgid "No slideshows found"
 msgstr ""
 
@@ -903,8 +873,7 @@ msgstr ""
 msgid "Delete slide"
 msgstr ""
 
-#: inc/slide/metaslide.class.php:374
-#: inc/slide/metaslide.image.class.php:267
+#: inc/slide/metaslide.class.php:374 inc/slide/metaslide.image.class.php:267
 msgid "Update slide image"
 msgstr ""
 
@@ -984,25 +953,20 @@ msgstr ""
 msgid "You are viewing slides that have been trashed, which will be automatically deleted in %s days. Click <a href=\"%s\">here</a> to view active slides."
 msgstr ""
 
-#: ml-slider.php:1178
-#: ml-slider.php:1424
+#: ml-slider.php:1178 ml-slider.php:1424
 msgid "Width"
 msgstr ""
 
-#: ml-slider.php:1180
-#: admin/assets/js/gutenberg/components/block-edit.js:61
+#: ml-slider.php:1180 admin/assets/js/gutenberg/components/block-edit.js:61
 #: admin/assets/js/gutenberg/components/block-edit.js:86
 msgid "Slideshow width"
 msgstr ""
 
-#: ml-slider.php:1181
-#: ml-slider.php:1194
-#: ml-slider.php:1343
+#: ml-slider.php:1181 ml-slider.php:1194 ml-slider.php:1343
 msgid "px"
 msgstr ""
 
-#: ml-slider.php:1191
-#: ml-slider.php:1437
+#: ml-slider.php:1191 ml-slider.php:1437
 msgid "Height"
 msgstr ""
 
@@ -1018,8 +982,7 @@ msgstr ""
 msgid "Slide transition effect"
 msgstr ""
 
-#: ml-slider.php:1204
-#: ml-slider.php:1356
+#: ml-slider.php:1204 ml-slider.php:1356
 msgid "Random"
 msgstr ""
 
@@ -1235,10 +1198,7 @@ msgstr ""
 msgid "How long to display each slide, in milliseconds"
 msgstr ""
 
-#: ml-slider.php:1388
-#: ml-slider.php:1401
-#: ml-slider.php:1414
-#: ml-slider.php:1490
+#: ml-slider.php:1388 ml-slider.php:1401 ml-slider.php:1414 ml-slider.php:1490
 #: ml-slider.php:1512
 msgctxt "Short for milliseconds"
 msgid "ms"
@@ -1252,15 +1212,11 @@ msgstr ""
 msgid "Set the speed of animations, in milliseconds"
 msgstr ""
 
-#: ml-slider.php:1411
-#: ml-slider.php:1413
+#: ml-slider.php:1411 ml-slider.php:1413
 msgid "Number of slices"
 msgstr ""
 
-#: ml-slider.php:1424
-#: ml-slider.php:1426
-#: ml-slider.php:1437
-#: ml-slider.php:1439
+#: ml-slider.php:1424 ml-slider.php:1426 ml-slider.php:1437 ml-slider.php:1439
 msgid "Number of squares"
 msgstr ""
 
@@ -1403,17 +1359,11 @@ msgstr ""
 msgid "Additional optimization and customization options including using a video as the slide background, and adjusting the padding and background color of each layer."
 msgstr ""
 
-#: ml-slider.php:1677
-#: ml-slider.php:1704
-#: ml-slider.php:1730
-#: ml-slider.php:1755
+#: ml-slider.php:1677 ml-slider.php:1704 ml-slider.php:1730 ml-slider.php:1755
 msgid "Find out more about all the features of the Add-on Pack here"
 msgstr ""
 
-#: ml-slider.php:1678
-#: ml-slider.php:1705
-#: ml-slider.php:1731
-#: ml-slider.php:1756
+#: ml-slider.php:1678 ml-slider.php:1705 ml-slider.php:1731 ml-slider.php:1756
 msgid "Opens in a new window"
 msgstr ""
 
@@ -1421,13 +1371,11 @@ msgstr ""
 msgid "Create a slideshow full of your favorite videos easily and quickly by simply adding a URL to a Vimeo slide."
 msgstr ""
 
-#: ml-slider.php:1702
-#: ml-slider.php:1728
+#: ml-slider.php:1702 ml-slider.php:1728
 msgid "Features include an automatic play/pause function, in which your slideshow will detect when you set a video to play and continue once the video has finished."
 msgstr ""
 
-#: ml-slider.php:1703
-#: ml-slider.php:1729
+#: ml-slider.php:1703 ml-slider.php:1729
 msgid "You could even have the slider autoplay a video, giving you a smooth, completely automatic presentation!"
 msgstr ""
 

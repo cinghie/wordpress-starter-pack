@@ -10,7 +10,7 @@
                 <tr>
                     <th></th>
                     <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="<?php esc_attr_e('MetaSlider logo', 'ml-slider');?>" width="80" height="80">MetaSlider<br><span><?php _e('free', 'ml-slider');?></span></th>
-                    <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="<?php esc_attr_e('MetaSlider logo', 'ml-slider');?>" width="80" height="80"><?php _e('Add-ons', 'ml-slider'); ?><br><span><?php _e('pro', 'ml-slider'); ?></span></th>
+                    <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="<?php esc_attr_e('MetaSlider logo', 'ml-slider');?>" width="80" height="80"><?php _e('MetaSlider', 'ml-slider'); ?><br><span><?php _e('pro', 'ml-slider'); ?></span></th>
                 </tr>
             </thead>
             <tbody>

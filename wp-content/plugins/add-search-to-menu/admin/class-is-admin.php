@@ -250,7 +250,7 @@ class IS_Admin
                 if ( strtotime( '-7 days' ) >= strtotime( $date ) ) {
                     global  $current_user ;
                     echo  '<div class="is-notice notice"><div class="is-notice-image"></div><div class="is-notice-body">' ;
-                    echo  '<a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '">' . esc_html__( 'Dismiss', 'add-search-to-menu' ) . '</a>' ;
+                    echo  '<a class="is-notice-dismiss" href="' . esc_url( add_query_arg( 'is_dismiss', 'notice_review' ) ) . '">' . esc_html__( 'Dismiss', 'add-search-to-menu' ) . '</a>' ;
                     echo  '<div class="is-notice-content">' ;
                     printf( __( "Hey %s, it's Vinod Dalvi from %s. You have used this free plugin for some time now, and I hope you like it!", 'add-search-to-menu' ), '<strong>' . $current_user->display_name . '</strong>', '<strong>Ivory Search</strong>' );
                     ?><br/><br/><?php 
@@ -258,7 +258,7 @@ class IS_Admin
                     echo  '</div>' ;
                     echo  '<div class="is-notice-links">' ;
                     echo  '<a href="' . esc_url( 'https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5' ) . '" class="button button-primary btn-highlight" target="_blank" >' . esc_html__( 'Review Ivory Search', 'add-search-to-menu' ) . '</a>' ;
-                    echo  '<a href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '" class="button button-primary">' . esc_html__( 'No, thanks', 'add-search-to-menu' ) . '</a>' ;
+                    echo  '<a href="' . esc_url( add_query_arg( 'is_dismiss', 'notice_review' ) ) . '" class="button button-primary">' . esc_html__( 'No, thanks', 'add-search-to-menu' ) . '</a>' ;
                     echo  '</div></div></div>' ;
                 }
             
@@ -347,7 +347,7 @@ class IS_Admin
                 $is_notices['is_notices']['review'] = 1;
             }
             update_option( 'is_notices', $is_notices );
-            wp_redirect( remove_query_arg( 'is_dismiss' ) );
+            wp_redirect( esc_url_raw( remove_query_arg( 'is_dismiss' ) ) );
         }
         
         
@@ -733,7 +733,7 @@ class IS_Admin
             }
             
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         
@@ -762,7 +762,7 @@ class IS_Admin
             }
             
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         
@@ -783,7 +783,7 @@ class IS_Admin
             }
             
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         
@@ -822,7 +822,7 @@ class IS_Admin
                 $query['message'] = 'deleted';
             }
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         

@@ -4,12 +4,8 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3b2020fb68057707b7973c91ef892a30
+class ComposerStaticInit0a57caae0cffafc974da45eba645dca2
 {
-    public static $files = array (
-        'ce89ac35a6c330c55f4710717db9ff78' => __DIR__ . '/..' . '/kriswallsmith/assetic/src/functions.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         't' => 
         array (
@@ -19,10 +15,6 @@ class ComposerStaticInit3b2020fb68057707b7973c91ef892a30
         array (
             'WebPConvert\\' => 12,
             'WebPConvertCloudService\\' => 24,
-        ),
-        'S' => 
-        array (
-            'Symfony\\Component\\Process\\' => 26,
         ),
         'P' => 
         array (
@@ -71,10 +63,6 @@ class ComposerStaticInit3b2020fb68057707b7973c91ef892a30
         'WebPConvertCloudService\\' => 
         array (
             0 => __DIR__ . '/..' . '/rosell-dk/webp-convert-cloud-service/src',
-        ),
-        'Symfony\\Component\\Process\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/process',
         ),
         'Psr\\Log\\' => 
         array (
@@ -145,20 +133,6 @@ class ComposerStaticInit3b2020fb68057707b7973c91ef892a30
                 0 => __DIR__ . '/..' . '/mrclay/jsmin-php/src',
             ),
         ),
-        'C' => 
-        array (
-            'ComponentInstaller' => 
-            array (
-                0 => __DIR__ . '/..' . '/robloach/component-installer/src',
-            ),
-        ),
-        'A' => 
-        array (
-            'Assetic' => 
-            array (
-                0 => __DIR__ . '/..' . '/kriswallsmith/assetic/src',
-            ),
-        ),
     );
 
     public static $classMap = array (
@@ -227,10 +201,10 @@ class ComposerStaticInit3b2020fb68057707b7973c91ef892a30
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3b2020fb68057707b7973c91ef892a30::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3b2020fb68057707b7973c91ef892a30::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit3b2020fb68057707b7973c91ef892a30::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit3b2020fb68057707b7973c91ef892a30::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0a57caae0cffafc974da45eba645dca2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0a57caae0cffafc974da45eba645dca2::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit0a57caae0cffafc974da45eba645dca2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit0a57caae0cffafc974da45eba645dca2::$classMap;
 
         }, null, ClassLoader::class);
     }

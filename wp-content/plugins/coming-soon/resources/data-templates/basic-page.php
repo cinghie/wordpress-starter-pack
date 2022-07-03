@@ -1182,6 +1182,8 @@ $seedprod_lite_block_templates = '
     },
     "contactform":{
       "formId":"",
+      "formTitle": "false",
+      "formDescription": "false",
       "textColor":"",
       "marginTop": "",
       "marginBottom": "",
