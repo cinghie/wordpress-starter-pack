@@ -72,7 +72,11 @@
 						<?php echo esc_html( $field['placeholder'] ); ?>
 						</td>
 						<td class="parent">
-						<?php echo esc_attr( $field['conditional_parent_key'] ); ?>
+						<?php
+						if ( ! empty( $field['conditional'] ) ) {
+							echo esc_attr( $field['conditional_parent_key'] );
+						}
+						?>
 						</td>
 						<td class="id">
 						<?php echo esc_html( $field['key'] ); ?>

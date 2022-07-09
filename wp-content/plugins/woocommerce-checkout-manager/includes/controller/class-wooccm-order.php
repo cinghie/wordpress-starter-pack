@@ -2,11 +2,10 @@
 
 class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
-
 	protected static $_instance;
 
 	public function __construct() {
-		 add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'wp_ajax_wooccm_order_attachment_upload', array( $this, 'ajax_order_attachment_upload' ) );
 		add_action( 'wp_ajax_nopriv_wooccm_order_attachment_upload', array( $this, 'ajax_order_attachment_upload' ) );

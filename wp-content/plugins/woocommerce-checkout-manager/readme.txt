@@ -5,7 +5,7 @@ Tags: checkout field editor, woocommerce checkout field editor, checkout manager
 Requires at least: 4.9
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 6.0.7
+Stable tag: 6.0.7.8
 WC requires at least: 3.1.0
 WC tested up to: 6.6.1
 License: GPLv3
@@ -149,7 +149,27 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 
 == Changelog ==
 
-=  6.0.7 
+=  6.0.7.8
+* Fix. WooCommerce Checkout conditional fields
+
+=  6.0.7.7
+* Fix. WooCommerce Checkout conditional fields
+
+=  6.0.7.6
+* Fix. WooCommerce Checkout conditional fields
+
+=  6.0.7.5
+* Fix. WooCommerce Checkout billing fields
+
+=  6.0.7.4
+* Fix. WooCommerce Checkout remove fields
+
+=  6.0.7.2
+* Fix. WooCommerce Checkout email settings save
+* Fix: WooCommerce Checkout Datepicker placeholder 
+* Fix: WooCommerce Checkout Address field conditional hidden 
+
+=  6.0.7
 * Fix. WooCommerce billing & shipping filters order to allow third party plugins hooks checkout fields 
 
 =  6.0.6 

@@ -36,7 +36,8 @@ final class WOOCCM
     $this->shipping = WOOCCM_Field_Shipping::instance();
     $this->additional = WOOCCM_Field_Additional::instance();
 
-    include_once(WOOCCM_PLUGIN_DIR . 'includes/class-wooccm-compatibility.php');
+	//1326
+    // include_once(WOOCCM_PLUGIN_DIR . 'includes/class-wooccm-compatibility.php');
   }
 
   public function includes()

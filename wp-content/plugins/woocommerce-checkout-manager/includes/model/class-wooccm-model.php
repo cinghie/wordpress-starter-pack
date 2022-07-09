@@ -1,152 +1,136 @@
 <?php
 
-class WOOCCM_Model
-{
-
-  protected $table = '';
-  private $cache = array();
+class WOOCCM_Model {
 
 
-  protected function get_args()
-  {
-    return array();
-  }
+	protected $table = '';
+	private $cache   = array();
 
-  protected function get_next_id()
-  {
 
-    $items = $this->get_items();
+	protected function get_args() {
+		 return array();
+	}
 
-    if (count($items)) {
-      return max(array_keys($items)) + 1;
-    }
+	protected function get_next_id() {
+		$items = $this->get_items();
 
-    return 0;
-  }
+		if ( count( $items ) ) {
+			return max( array_keys( $items ) ) + 1;
+		}
 
-  // Singular
-  protected function add_item($item_data)
-  {
-    $id = $this->get_next_id();
-    $item_data['id'] = $id;
+		return 0;
+	}
 
-    $items = $this->get_items();
+	// Singular
+	protected function add_item( $item_data ) {
+		 $id             = $this->get_next_id();
+		$item_data['id'] = $id;
 
-    $items[$id] = $item_data;
+		$items = $this->get_items();
 
-    return $this->save_items($items);
-  }
+		$items[ $id ] = $item_data;
 
-  protected function get_item($id = null)
-  {
+		return $this->save_items( $items );
+	}
 
-    $items = $this->get_items();
+	protected function get_item( $id = null ) {
+		$items = $this->get_items();
 
-    if (isset($items[$id])) {
-      return $items[$id];
-    }
-  }
+		if ( isset( $items[ $id ] ) ) {
+			return $items[ $id ];
+		}
+	}
 
-  protected function update_item($item_data = null)
-  {
+	protected function update_item( $item_data = null ) {
+		if ( ! isset( $item_data['id'] ) ) {
+			return false;
+		}
 
-    if (!isset($item_data['id'])) {
-      return false;
-    }
+		$items = $this->get_items();
 
-    $items = $this->get_items();
+		if ( ! isset( $items[ $item_data['id'] ] ) ) {
+			return false;
+		}
 
-    if (!isset($items[$item_data['id']])) {
-      return false;
-    }
+		$items = $this->get_items();
 
-    $items = $this->get_items();
+		$items[ $item_data['id'] ] = $item_data;
 
-    $items[$item_data['id']] = $item_data;
+		return $this->save_items( $items );
+	}
 
-    return $this->save_items($items);
-  }
+	protected function delete_item( $id = null ) {
+		$items = $this->get_items();
+		if ( $items ) {
+			if ( count( $items ) > 0 ) {
+				unset( $items[ $id ] );
+				return $this->save( $items );
+			}
+		}
+	}
 
-  protected function delete_item($id = null)
-  {
-    $items = $this->get_items();
-    if ($items) {
-      if (count($items) > 0) {
-        unset($items[$id]);
-        return $this->save($items);
-      }
-    }
-  }
+	// Plural
+	protected function get_items() {
+		$items = $this->get();
 
-  // Plural
-  protected function get_items()
-  {
+		// make sure each item has all values
+		if ( is_array( $items ) ) {
+			if ( count( $items ) ) {
+				foreach ( $items as $id => $item ) {
+					$items[ $id ] = array_replace_recursive( $this->get_args(), $item );
+				}
+				return $items;
+			}
+		}
 
-    $items = $this->get();
+		return array();
+	}
 
-    //make sure each item has all values
-    if (is_array($items)) {
-      if (count($items)) {
-        foreach ($items as $id => $item) {
-          $items[$id] = array_replace_recursive($this->get_args(), $item);
-        }
-        return $items;
-      }
-    }
+	protected function save_items( $items ) {
 
-    return array();
-  }
+		if ( is_array( $items ) ) {
 
-  protected function save_items($items)
-  {
+			foreach ( $items as $id => $item ) {
 
-    if (is_array($items)) {
+				if ( ! isset( $item['id'] ) ) {
+					unset( $items[ $id ] );
+				}
 
-      foreach ($items as $id => $item) {
+				$items[ $id ] = array_replace_recursive( $this->get_args(), $item );
+			}
 
-        if (!isset($item['id'])) {
-          unset($items[$id]);
-        }
+			return $this->save( $items );
+		}
+	}
 
-        $items[$id] = array_replace_recursive($this->get_args(), $item);
-      }
+	// Core
+	protected function save( $data = null ) {
+		if ( ! $this->table ) {
+			error_log( 'Model can\'t be accesed directly' );
+			die();
+		}
 
-      return $this->save($items);
-    }
-  }
+		$this->cache[ $this->table ] = $data;
 
-  // Core
-  protected function save($data = null)
-  {
+		return update_option( $this->table, $data );
+	}
 
-    if (!$this->table) {
-      error_log('Model can\'t be accesed directly');
-      die();
-    }
+	protected function get() {
+		if ( ! $this->table ) {
+			error_log( 'Model can\'t be accesed directly' );
+			die();
+		}
 
-    $this->cache[$this->table] = $data;
+		if ( ! isset( $this->cache[ $this->table ] ) ) {
+			$this->cache[ $this->table ] = get_option( $this->table, $this->get_defaults() );
 
-    return update_option($this->table, $data);
-  }
+		}
 
-  protected function get()
-  {
+		return $this->cache[ $this->table ];
+	}
 
-    if (!$this->table) {
-      error_log('Model can\'t be accesed directly');
-      die();
-    }
-
-    if (!isset($this->cache[$this->table])) {
-      $this->cache[$this->table] = get_option($this->table, $this->get_defaults());
-    }
-
-    return $this->cache[$this->table];
-  }
-
-  protected function delete()
-  {
-    delete_option($this->table);
-    //update_option($this->table, $this->get_defaults());
-  }
+	protected function delete() {
+		delete_option( $this->table );
+		// update_option($this->table, $this->get_defaults());
+	}
 }

@@ -340,23 +340,6 @@ __( "Validating address\\u2026", "woocommerce-services" ), // dist/chunks/a61c70
 __( "Invalid address", "woocommerce-services" ), // dist/chunks/a61c70f1000d54f51f34.min.js:1
 __( "You've edited the address, please revalidate it for accurate rates", "woocommerce-services" ), // dist/chunks/a61c70f1000d54f51f34.min.js:1
 __( "One of the address data has non-roman character(s) that might not be printed properly!", "woocommerce-services" ), // dist/chunks/a61c70f1000d54f51f34.min.js:1
-__( "Required", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Optional", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Dismiss", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "More", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "You have unsaved changes.", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "You have unsaved changes. Are you sure you want to leave this page?", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Your changes have been saved.", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "There was a problem with one or more entries. Please fix the errors below and try saving again.", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Save changes", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Saved Packages", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}.", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "All services selected", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-_n( "%(numSelected)d service selected", "%(numSelected)d services selected", 1, "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Expand Services", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Service", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Price adjustment", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
-__( "Increase the rates calculated by the carrier to account for packaging and handling costs. You can also add a negative amount to save your customers money.", "woocommerce-services" ), // dist/chunks/a923241b6d55f4bd306a.min.js:1
 __( "Required", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
 __( "Optional", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
 __( "Dismiss", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
@@ -397,6 +380,23 @@ __( "Request was made %s - check logs below or {{a}}edit service settings{{/a}}"
 __( "Edit service settings", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
 __( "Services", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
 __( "No services configured. {{a}}Add a shipping service{{/a}}", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
+__( "Required", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Optional", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Dismiss", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "More", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "You have unsaved changes.", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "You have unsaved changes. Are you sure you want to leave this page?", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Your changes have been saved.", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "There was a problem with one or more entries. Please fix the errors below and try saving again.", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Save changes", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Saved Packages", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}.", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "All services selected", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+_n( "%(numSelected)d service selected", "%(numSelected)d services selected", 1, "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Expand Services", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Service", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Price adjustment", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
+__( "Increase the rates calculated by the carrier to account for packaging and handling costs. You can also add a negative amount to save your customers money.", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
 __( "Dismiss", "woocommerce-services" ), // dist/chunks/df8d4449be16d374a102.min.js:1
 __( "Saving\\u2026", "woocommerce-services" ), // dist/chunks/df8d4449be16d374a102.min.js:1
 __( "Save Settings", "woocommerce-services" ), // dist/chunks/df8d4449be16d374a102.min.js:1

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: _s woocommerce-services\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-21T10:41:29.862Z\n"
+"POT-Creation-Date: 2022-07-04T09:48:17.990Z\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,8 +15,8 @@ msgstr ""
 #: dist/chunks/2b583d220b621842be20.min.js:1
 #: dist/chunks/974236d125990e927f4a.min.js:1
 #: dist/chunks/a61c70f1000d54f51f34.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
 #: dist/chunks/b30fed1adc892ef66643.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 #: dist/chunks/df8d4449be16d374a102.min.js:1
 msgid "Dismiss"
 msgstr ""
@@ -61,15 +61,15 @@ msgstr[1] ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
 #: dist/chunks/a61c70f1000d54f51f34.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
 #: dist/chunks/b30fed1adc892ef66643.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "Required"
 msgstr ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
 #: dist/chunks/a61c70f1000d54f51f34.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
 #: dist/chunks/b30fed1adc892ef66643.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "Optional"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
 #: dist/chunks/9b2603ac13d54778cf85.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "More"
 msgstr ""
 
@@ -97,12 +97,12 @@ msgid "Untitled"
 msgstr ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "You have unsaved changes."
 msgstr ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "You have unsaved changes. Are you sure you want to leave this page?"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr[1] ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
 #: dist/chunks/a61c70f1000d54f51f34.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "Expand Services"
 msgstr ""
 
@@ -243,7 +243,7 @@ msgid "Unable to save your shipping settings. Please try again."
 msgstr ""
 
 #: dist/chunks/974236d125990e927f4a.min.js:1
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
 msgid "Save changes"
 msgstr ""
 
@@ -1163,50 +1163,6 @@ msgid ""
 "properly!"
 msgstr ""
 
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid "Your changes have been saved."
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid ""
-"There was a problem with one or more entries. Please fix the errors below "
-"and try saving again."
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid "Saved Packages"
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}."
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid "All services selected"
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid "%(numSelected)d service selected"
-msgid_plural "%(numSelected)d services selected"
-msgstr[0] ""
-msgstr[1] ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-#: dist/chunks/f42899875f9b32e9101b.min.js:1
-msgid "Service"
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid "Price adjustment"
-msgstr ""
-
-#: dist/chunks/a923241b6d55f4bd306a.min.js:1
-msgid ""
-"Increase the rates calculated by the carrier to account for packaging and "
-"handling costs. You can also add a negative amount to save your customers "
-"money."
-msgstr ""
-
 #: dist/chunks/b30fed1adc892ef66643.min.js:1
 msgid "Debug"
 msgstr ""
@@ -1350,6 +1306,50 @@ msgstr ""
 
 #: dist/chunks/b30fed1adc892ef66643.min.js:1
 msgid "No services configured. {{a}}Add a shipping service{{/a}}"
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid "Your changes have been saved."
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid ""
+"There was a problem with one or more entries. Please fix the errors below "
+"and try saving again."
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid "Saved Packages"
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}."
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid "All services selected"
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid "%(numSelected)d service selected"
+msgid_plural "%(numSelected)d services selected"
+msgstr[0] ""
+msgstr[1] ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+#: dist/chunks/f42899875f9b32e9101b.min.js:1
+msgid "Service"
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid "Price adjustment"
+msgstr ""
+
+#: dist/chunks/da513d78f68f0e218ab6.min.js:1
+msgid ""
+"Increase the rates calculated by the carrier to account for packaging and "
+"handling costs. You can also add a negative amount to save your customers "
+"money."
 msgstr ""
 
 #: dist/chunks/f42899875f9b32e9101b.min.js:1

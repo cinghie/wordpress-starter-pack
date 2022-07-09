@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Product Gallery &amp; Image Zoom - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-16 09:34:05+0000\n"
+"PO-Revision-Date: 2022-07-04 14:07:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,36 @@ msgstr ""
 "X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Product Gallery &amp; Image Zoom - Stable (latest release)\n"
+
+#: plugin-fw/templates/panel/premium-tab.php:58
+msgctxt "Premium Tab"
+msgid "Get the premium version"
+msgstr "Ottieni la versione premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:53
+msgctxt "Premium Tab"
+msgid "Check the free vs premium features >"
+msgstr "Confronta le funzionalità della versione gratuita e della premium >"
+
+#: plugin-fw/templates/panel/premium-tab.php:51
+msgctxt "Premium Tab"
+msgid "And so much more!"
+msgstr "E molto altro!"
+
+#: plugin-fw/templates/panel/premium-tab.php:39
+msgctxt "Premium Tab"
+msgid "Plugin premium features images"
+msgstr "Immagini funzionalità premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:34
+msgctxt "Premium Tab"
+msgid "Get premium"
+msgstr "Diventa premium"
+
+#: plugin-fw/templates/panel/premium-tab.php:30
+msgctxt "Premium Tab"
+msgid "Get the premium version to unlock advanced features"
+msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
 
 #. translators: 1. Plugin(s) name(s).
 #: plugin-fw/yit-deactive-plugin.php:119

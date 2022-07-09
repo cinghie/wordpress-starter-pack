@@ -1794,8 +1794,10 @@ class WooSEA_Get_Products {
 
                                                                                 if (is_array ( $clp ) ) {
                                                                                         foreach ($clp as $kk => $vv){
-                                                                                                if(!empty($vv)){
-                                                                                                        $additional_color = $product->addChild('color',trim($vv));
+												if(!empty($vv)){
+													if(!is_null($product)){		
+														$additional_color = $product->addChild('color',trim($vv));
+													}
                                                                                                 }
                                                                                         }
                                                                                 }
@@ -2103,22 +2105,22 @@ class WooSEA_Get_Products {
 		}
 
 		// Check if htaccess exists, if not create one
-        	$htaccess_file = $path . "/" . ".htaccess";
-		if ( ! file_exists( $htaccess_file ) ) {
-			$line_ht = "# BEGIN NoCache for woo-product-feed-pro".PHP_EOL;
-			$line_ht .= "<FilesMatch \"\.(".$feed_config['fileformat'].")$\">".PHP_EOL;
-			$line_ht .= "  Header Set Pragma \"no-cache\"".PHP_EOL;
-			$line_ht .= "  Header Set Expires \"Thu, 1 Jan 1970 00:00:00 GMT\"".PHP_EOL;
-			$line_ht .= "  Header Set Cache-Control \"max-age=0, no-store, no-cache, must-revalidate\"".PHP_EOL;
-			$line_ht .= "  Header Unset ETag".PHP_EOL;
-			$line_ht .= "  FileETag None".PHP_EOL;
-			$line_ht .= "</FilesMatch>".PHP_EOL;
-			$line_ht .= "# END NoCache for woo-product-feed-pro XML".PHP_EOL;
-
-			$fp = fopen($htaccess_file, 'a+');
-			fwrite($fp, $line_ht);
-			fclose($fp);
-		}
+        	//$htaccess_file = $path . "/" . ".htaccess";
+		//if ( ! file_exists( $htaccess_file ) ) {
+		//	$line_ht = "# BEGIN NoCache for woo-product-feed-pro".PHP_EOL;
+		//	$line_ht .= "<FilesMatch \"\.(".$feed_config['fileformat'].")$\">".PHP_EOL;
+		//	$line_ht .= "  Header Set Pragma \"no-cache\"".PHP_EOL;
+		//	$line_ht .= "  Header Set Expires \"Thu, 1 Jan 1970 00:00:00 GMT\"".PHP_EOL;
+		//	$line_ht .= "  Header Set Cache-Control \"max-age=0, no-store, no-cache, must-revalidate\"".PHP_EOL;
+		//	$line_ht .= "  Header Unset ETag".PHP_EOL;
+		//	$line_ht .= "  FileETag None".PHP_EOL;
+		//	$line_ht .= "</FilesMatch>".PHP_EOL;
+		//	$line_ht .= "# END NoCache for woo-product-feed-pro XML".PHP_EOL;
+		//
+		//	$fp = fopen($htaccess_file, 'a+');
+		//	fwrite($fp, $line_ht);
+		//	fclose($fp);
+		//}
 
 		// Check if file exists, if it does: delete it first so we can create a new updated one
 		if ( (file_exists( $file )) AND ($feed_config['nr_products_processed'] == 0) AND ($header == "true") ) {

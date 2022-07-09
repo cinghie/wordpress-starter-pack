@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.6.9
+Stable tag: 11.7.1
 
 == Description ==
 
@@ -344,6 +344,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.7.1 (2022-07-05) =
+* Solved an Call to a member function addChild() on null for Skroutz feeds
+
+= 11.7.0 (2022-07-04) =
+* Removed the htaccess file for the TXT feed directory
 
 = 11.6.9 (2022-06-30) =
 * Added the product title slug attribute
@@ -3739,6 +3745,12 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.7.1 =
+Solved an Call to a member function addChild() on null for Skroutz feeds
+
+= 11.7.0 =
+Removed the htaccess file for the TXT feed directory
 
 = 11.6.9 =
 Added the product title slug attribute

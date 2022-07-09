@@ -11,7 +11,7 @@
 		<div class="options_group wooccm-premium">
 			<p class="form-field">
 			<label><?php esc_html_e( 'Date format', 'woocommerce-checkout-manager' ); ?></label>
-			<input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> class="short" type="text" placeholder="dd-mm-yy" name="date_format" value="{{data.date_format}}">
+			<input <# if ( !data.select2 ) { #>disabled="disabled"<# } #> class="short" type="text" placeholder="mm/dd/yy" name="date_format" value="{{data.date_format}}">
 				<span class="description"><a target="_blank" href="https://quadlayers.com/documentation/woocommerce-checkout-manager/fields/datepicker/?utm_source=wooccm_admin">Documentation on date and time formatting</a>.</span>
 				<span class="description premium">(<?php esc_html_e( 'This is a premium feature', 'woocommerce-checkout-manager' ); ?>)</span>
 			</p>

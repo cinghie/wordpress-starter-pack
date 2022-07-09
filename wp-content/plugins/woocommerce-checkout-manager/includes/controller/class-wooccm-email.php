@@ -117,7 +117,11 @@ class WOOCCM_Order_Email_Controller {
 	}
 
 	public function save_settings() {
-		woocommerce_update_options( $this->get_settings() );
+		global $current_section;
+
+		if ( 'email' == $current_section ) {
+			woocommerce_update_options( $this->get_settings() );
+		}
 	}
 }
 
