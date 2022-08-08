@@ -476,6 +476,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:mobile_pickup_link_template",
 					"format" => "optional",
 				),
+				"Link template" => array(
+					"name" => "link_template",
+					"feed_name" => "g:link_template",
+					"format" => "optional",
+				),
 				"Seller name" => array(
 					"name" => "seller_name",
 					"feed_name" => "g:seller_name",

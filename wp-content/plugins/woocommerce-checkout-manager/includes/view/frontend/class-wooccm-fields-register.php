@@ -14,23 +14,27 @@ class WOOCCM_Fields_Register {
 
 		// Billing fields
 		// -----------------------------------------------------------------------
-		// add_filter( 'woocommerce_billing_fields', array( $this, 'add_billing_fields' ), 999 );
 		add_filter( 'woocommerce_checkout_fields', array( $this, 'add_billing_fields_beta' ), 999 );
 
 		// Shipping fields
 		// -----------------------------------------------------------------------
-		// There is an issue when the Settings -> Shipping -> Hide shipping costs. Until an address is entered is activated
-		// add_filter( 'woocommerce_shipping_fields', array( $this, 'add_shipping_fields' ), 999 );
 		add_filter( 'woocommerce_checkout_fields', array( $this, 'add_shipping_fields_beta' ), 999 );
 
 		// Additional fields
 		// -----------------------------------------------------------------------
 		add_filter( 'woocommerce_checkout_fields', array( $this, 'add_additional_fields' ), 999 );
 
+		// Account beta
+		// -----------------------------------------------------------------------
+		add_filter( 'woocommerce_billing_fields', array( $this, 'add_account_billing_fields_beta' ), 999 );
+		add_filter( 'woocommerce_shipping_fields', array( $this, 'add_account_shipping_fields_beta' ), 999 );
+
 		// My account
+		/*
 		// woocommerce 4.2 issue, the shipping and billing fields not working on my account when required field is empty
 		// temporary fix excluding required fields in my account
-		// add_filter('woocommerce_address_to_edit', array($this, 'add_my_account_fields'), 10, 2);
+		add_filter('woocommerce_address_to_edit', array($this, 'add_my_account_fields'), 10, 2);
+		*/
 	}
 
 	public static function instance() {
@@ -39,11 +43,6 @@ class WOOCCM_Fields_Register {
 		}
 		return self::$_instance;
 	}
-
-	// public function add_billing_fields( $fields ) {
-	// $wooccm_fields = WOOCCM()->billing->get_fields();
-	// return array_merge( $fields, $wooccm_fields );
-	// }
 
 	public function add_billing_fields_beta( $fields ) {
 		if ( ! isset( $fields['billing'] ) ) {
@@ -64,11 +63,6 @@ class WOOCCM_Fields_Register {
 
 		return $fields;
 	}
-
-	// public function add_shipping_fields( $fields ) {
-	// $wooccm_fields = WOOCCM()->shipping->get_fields();
-	// return array_merge( $fields, $wooccm_fields );
-	// }
 
 	public function add_shipping_fields_beta( $fields ) {
 		if ( ! isset( $fields['shipping'] ) ) {
@@ -102,7 +96,8 @@ class WOOCCM_Fields_Register {
 		return $fields;
 	}
 
-	public function add_my_account_fields( $defaults, $load_address ) {
+	/*
+	 public function add_my_account_fields( $defaults, $load_address ) {
 
 		if ( isset( WOOCCM()->$load_address ) ) {
 
@@ -130,24 +125,33 @@ class WOOCCM_Fields_Register {
 		}
 
 		return $defaults;
+	} */
+
+	public function add_account_billing_fields_beta( $fields ) {
+		if ( ! is_account_page() ) {
+			return $fields;
+		}
+		$wooccm_fields = WOOCCM()->billing->get_fields();
+		return array_filter(
+			array_merge( $fields, $wooccm_fields ),
+			function ( $field ) {
+				return ( empty( $field['disabled'] ) );
+			}
+		);
 	}
 
-	// public function add_keys( $fields ) {
-	// $frontend_fields = array();
-
-	// foreach ( $fields as $field_id => $field ) {
-	// if ( ! empty( $field['key'] ) ) {
-	// $frontend_fields[ $field['key'] ] = $field;
-
-	// Preveser empty keys to revemo the core fields in the array_merge of the add_billing_fields|add_shipping_fields|add_additional_fields
-	// if ( ! empty( $field['disabled'] ) ) {
-	// $frontend_fields[ $field['key'] ] = null;
-	// }
-	// }
-	// }
-
-	// return $frontend_fields;
-	// }
+	public function add_account_shipping_fields_beta( $fields ) {
+		if ( ! is_account_page() ) {
+			return $fields;
+		}
+		$wooccm_fields = WOOCCM()->shipping->get_fields();
+		return array_filter(
+			array_merge( $fields, $wooccm_fields ),
+			function ( $field ) {
+				return ( empty( $field['disabled'] ) );
+			}
+		);
+	}
 
 	public function add_keys( $fields ) {
 		$frontend_fields = array();

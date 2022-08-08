@@ -30,3 +30,11 @@
 .autocomplete-suggestion:hover {
     background-color: #efefef;
 }
+
+form#yith-ajaxsearchform > div {
+    display: flex;
+    flex: auto;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    gap: 10px;
+}

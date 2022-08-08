@@ -3,14 +3,6 @@
 $i18nStrings = array(
 __( "Dismiss", "woocommerce-services" ), // dist/chunks/2b583d220b621842be20.min.js:1
 __( "No tracking information available at this time", "woocommerce-services" ), // dist/chunks/2b583d220b621842be20.min.js:1
-__( "Create shipping label", "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-_n( "Track Package", "Track Packages", 1, "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-__( "Create new label", "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-_n( "Track Package", "Track Packages", 1, "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-__( "Create shipping label", "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-__( "Connection error: unable to create label at this time", "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-_n( "%(itemCount)d item was fulfilled on {{span}}%(createdDate)s{{/span}}", "%(itemCount)d items were fulfilled on {{span}}%(createdDate)s{{/span}}", 1, "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
-_n( "%(itemCount)d item is ready to be fulfilled", "%(itemCount)d items are ready to be fulfilled", 1, "woocommerce-services" ), // dist/chunks/552b1dcf53ceaeafc215.min.js:1
 __( "Required", "woocommerce-services" ), // dist/chunks/974236d125990e927f4a.min.js:1
 __( "Optional", "woocommerce-services" ), // dist/chunks/974236d125990e927f4a.min.js:1
 __( "Dismiss", "woocommerce-services" ), // dist/chunks/974236d125990e927f4a.min.js:1
@@ -380,6 +372,14 @@ __( "Request was made %s - check logs below or {{a}}edit service settings{{/a}}"
 __( "Edit service settings", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
 __( "Services", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
 __( "No services configured. {{a}}Add a shipping service{{/a}}", "woocommerce-services" ), // dist/chunks/b30fed1adc892ef66643.min.js:1
+__( "Create shipping label", "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+_n( "Track Package", "Track Packages", 1, "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+__( "Create new label", "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+_n( "Track Package", "Track Packages", 1, "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+__( "Create shipping label", "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+__( "Connection error: unable to create label at this time", "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+_n( "%(itemCount)d item was fulfilled on {{span}}%(createdDate)s{{/span}}", "%(itemCount)d items were fulfilled on {{span}}%(createdDate)s{{/span}}", 1, "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
+_n( "%(itemCount)d item is ready to be fulfilled", "%(itemCount)d items are ready to be fulfilled", 1, "woocommerce-services" ), // dist/chunks/c9e4695c37cfbffe2aed.min.js:1
 __( "Required", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
 __( "Optional", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1
 __( "Dismiss", "woocommerce-services" ), // dist/chunks/da513d78f68f0e218ab6.min.js:1

@@ -15,7 +15,7 @@ $table = array(
 	'brands' => array(
 		'brands_list_table' => array(
 			'type'          => 'taxonomy',
-			'taxonomy'      => YITH_WCBR::$brands_taxonomy,
+			'taxonomy'      => YITH_WCBR::$default_taxonomy,
 			'wp-list-style' => 'classic',
 		),
 	),

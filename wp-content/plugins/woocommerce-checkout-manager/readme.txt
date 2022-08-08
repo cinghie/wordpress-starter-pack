@@ -5,9 +5,9 @@ Tags: checkout field editor, woocommerce checkout field editor, checkout manager
 Requires at least: 4.9
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 6.0.7.8
+Stable tag: 6.1.7
 WC requires at least: 3.1.0
-WC tested up to: 6.6.1
+WC tested up to: 6.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -149,6 +149,39 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 
 == Changelog ==
 
+=  6.1.7
+* Fix. WooCommerce Account fields remove
+
+=  6.1.6
+* Fix. WooCommerce Account fields
+
+=  6.1.5
+* Fix. WPML compatibility
+
+=  6.1.4
+* Fix. string translations
+
+=  6.1.3
+* Fix. WooCommerce Checkout fields filters
+* Fix. WooCommerce Checkout force shipping address checkbox
+
+=  6.1.2
+* Fix. WooCommerce Checkout force shipping address checkbox
+
+=  6.1.1
+* Fix. PHP erros
+
+=  6.1.0
+* Fix. WooCommerce Checkout force shipping address
+* Fix. WooCommerce Checkout WPML compatibility
+* New. WooCommerce Checkout Polylang compatibility
+
+=  6.0.9
+* Fix. WooCommerce Checkout required fields save
+
+=  6.0.8
+* Fix. WooCommerce Checkout force shipping address checkbox
+
 =  6.0.7.8
 * Fix. WooCommerce Checkout conditional fields
 
@@ -251,7 +284,7 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 * Fix: php error
 
 = 5.4.0 = 
-* Fix: WooCommerce compatbility
+* Fix: WooCommerce compatibility
 
 = 5.3.9 = 
 * Fix: address fields trigger shipping total change
@@ -264,7 +297,7 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 * Fix: shipping address forced label click disabled
 
 = 5.3.6 = 
-* Fix: WooCommerce compatbility
+* Fix: WooCommerce compatibility
 
 = 5.3.5 = 
 * Fix: select options order
@@ -325,10 +358,10 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 * Fix: php errors
 
 = 5.1.7 = 
-* Fix: premium compatbility
+* Fix: premium compatibility
 
 = 5.1.6 = 
-* Fix: premium compatbility
+* Fix: premium compatibility
 
 = 5.1.5 = 
 * Fix: undefined getDay
@@ -348,7 +381,7 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 
 = 5.1.0 = 
 * Fix: billing & shipping duplicated in order
-* Fix: php compatbility
+* Fix: php compatibility
 
 = 5.0.9 = 
 * Fix: woocommerce checkout manager edit billing & shipping
@@ -697,7 +730,7 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 * Changed: Cleaned up the code across the Plugin
 
 = 4.1.2.1 =
-* Fixed: WooCommerce 3.0 compatbility in wooccm_add_payment_method_to_new_order()
+* Fixed: WooCommerce 3.0 compatibility in wooccm_add_payment_method_to_new_order()
 
 = 4.1.2 =
 * Fixed: Show required indicator for Billing/Shipping Address 2

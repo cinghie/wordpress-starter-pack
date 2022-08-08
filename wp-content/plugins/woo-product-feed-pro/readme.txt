@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.7.1
+Stable tag: 11.7.8
 
 == Description ==
 
@@ -344,6 +344,27 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.7.8 (2022-08-05) =
+* Added additional field for the Pinterest template
+
+= 11.7.7 (2022-08-01) =
+* Removed currency from Zbozi shipping costs
+
+= 11.7.6 (2022-07-31) =
+* Added the link_template field for Google Shopping feeds
+
+= 11.7.5 (2022-07-23) =
+* Fixed an issue with VAT that was not being added for bundled products
+
+= 11.7.4 (2022-07-22) =
+* Checked for compatibility with WooCommerce 6.7.0
+
+= 11.7.3 (2022-07-15) =
+* Solved an issue with Uncaught TypeError: array_intersect()
+
+= 11.7.2 (2022-07-14) =
+* Replaced substr with mb_substr for the product descriptions
 
 = 11.7.1 (2022-07-05) =
 * Solved an Call to a member function addChild() on null for Skroutz feeds
@@ -3745,6 +3766,27 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.7.8 =
+Added additional field for the Pinterest template
+
+= 11.7.7 =
+Removed currency from Zbozi shipping costs
+
+= 11.7.6 =
+Added the link_template field for Google Shopping feeds
+
+= 11.7.5 =
+Fixed an issue with VAT that was not being added for bundled products
+
+= 11.7.4 =
+Checked for compatibility with WooCommerce 6.7.0
+
+= 11.7.3 =
+Solved an issue with Uncaught TypeError: array_intersect()
+
+= 11.7.2 =
+Replaced substr with mb_substr for the product descriptions
 
 = 11.7.1 =
 Solved an Call to a member function addChild() on null for Skroutz feeds

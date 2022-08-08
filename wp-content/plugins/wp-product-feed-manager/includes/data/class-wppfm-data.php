@@ -61,7 +61,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			return $this->_queries_class->read_sources();
 		}
 
-		public function get_country_id_from_short_code( $country_code ) {
+		private function get_country_id_from_short_code( $country_code ) {
 			if ( '0' !== $country_code && 0 !== $country_code ) {
 				return $this->_queries_class->get_country_id( $country_code );
 			} else {
@@ -389,6 +389,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 * @return array
 		 * @since 2.5.0
 		 *
+		 * @since 2.31.0 implemented a conversion to integer for %d value items.
 		 */
 		public function convert_ajax_feed_data_to_database_format( $feed_data ) {
 			$result = array();
@@ -400,7 +401,11 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 						$data_item->value = $this->verify_url( $data_item->value );
 					}
 
-					$result[ $data_item->name ] = $data_item->value;
+					if ( 'country_id' === $data_item->name ) {
+						$data_item->value = $this->get_country_id_from_short_code( $data_item->value )->country_id;
+					}
+
+					$result[ $data_item->name ] = '%d' != $data_item->type ? $data_item->value : intval( $data_item->value );
 				}
 			}
 

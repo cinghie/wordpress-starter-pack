@@ -71,19 +71,19 @@ msgstr "Borrar las tasas de impuestos de California"
 msgid "Enabling this option overrides any tax rates you have manually added."
 msgstr "Activando esta opción, se anula cualquier tasa de impuestos que hayas añadido manualmente."
 
-#: i18n/strings.php:384
+#: i18n/strings.php:367
 msgid "Automated taxes documentation"
 msgstr "Documentación sobre impuestos automáticos"
 
-#: i18n/strings.php:383
+#: i18n/strings.php:366
 msgid "Go to General settings"
 msgstr "Ir a los ajustes generales"
 
-#: i18n/strings.php:382
+#: i18n/strings.php:365
 msgid "Go to the Tax settings"
 msgstr "Ir a los ajustes de impuestos"
 
-#: i18n/strings.php:381
+#: i18n/strings.php:364
 msgid "Automated Taxes"
 msgstr "Impuestos automáticos"
 
@@ -147,7 +147,7 @@ msgstr "Muestra las tarifas en vivo directamente en tu tienda - nunca vuelvas a 
 msgid "Live rates at checkout"
 msgstr "Tarifas en vivo al finalizar la compra"
 
-#: i18n/strings.php:391
+#: i18n/strings.php:374
 msgid "Last updated %s."
 msgstr "Última actualización %s."
 
@@ -322,7 +322,7 @@ msgstr "%(carrierName)s no es compatible."
 msgid "Loading"
 msgstr "Cargando"
 
-#: i18n/strings.php:390
+#: i18n/strings.php:373
 msgid "WooCommerce Shipping & Tax Data"
 msgstr "WooCommerce Shipping & Tax Data"
 
@@ -1092,41 +1092,41 @@ msgstr "Alternar menú"
 msgid "Return to Order #%(orderId)s"
 msgstr "Volver al pedido #%(orderId)s"
 
-#: i18n/strings.php:377
+#: i18n/strings.php:360
 msgid "Our team is here for you. View our {{docsA}}support docs{{/docsA}} or {{ticketA}}open a support ticket{{/ticketA}}."
 msgstr "Nuestro equipo está aquí para ti. Ve nuestros {{docsA}}documentos de soporte{{/docsA}} o {{ticketA}}abre un ticket de soporte{{/ticketA}}."
 
-#: i18n/strings.php:368
+#: i18n/strings.php:351
 msgid "Logging"
 msgstr "Registro"
 
-#: i18n/strings.php:399
+#: i18n/strings.php:382
 msgid "No services configured. {{a}}Add a shipping service{{/a}}"
 msgstr "No hay configurado ningún servicio. {{a}}Añade un servicio de envío{{/a}}"
 
-#: i18n/strings.php:397
+#: i18n/strings.php:380
 msgid "Edit service settings"
 msgstr "Editar ajustes del servicio"
 
-#: i18n/strings.php:396
+#: i18n/strings.php:379
 msgid "Request was made %s - check logs below or {{a}}edit service settings{{/a}}"
 msgstr "La solicitud la hizo %s - revisa los registros abajo o {{a}}edita los ajustes del servicio{{/a}}"
 
-#: i18n/strings.php:395
+#: i18n/strings.php:378
 msgid "Copy for support"
 msgstr "Copiar para soporte"
 
-#: i18n/strings.php:394
+#: i18n/strings.php:377
 msgid "Last %s entry. {{a}}Show full log{{/a}}"
 msgid_plural "Last %s entries. {{a}}Show full log{{/a}}"
 msgstr[0] "Última %s entrada. {{a}}Mostrar registro completo{{/a}}"
 msgstr[1] "Últimas %s entradas. {{a}}Mostrar registro completo{{/a}}"
 
-#: i18n/strings.php:393
+#: i18n/strings.php:376
 msgid "Log tail copied to clipboard"
 msgstr "Cola del registro copiada al portapapeles"
 
-#: i18n/strings.php:22 i18n/strings.php:348
+#: i18n/strings.php:22 i18n/strings.php:388
 msgid "You have unsaved changes. Are you sure you want to leave this page?"
 msgstr "Tienes cambios sin guardar. ¿Estás seguro de querer abandonar esta página?"
 
@@ -1155,7 +1155,7 @@ msgid "USPS"
 msgstr "USPS"
 
 #: i18n/strings.php:15 i18n/strings.php:262 i18n/strings.php:297
-#: i18n/strings.php:344 i18n/strings.php:361
+#: i18n/strings.php:344 i18n/strings.php:384
 msgid "Optional"
 msgstr "Opcional"
 
@@ -1350,23 +1350,23 @@ msgstr "Año"
 msgid "Export CSV"
 msgstr "Exportar CSV"
 
-#: i18n/strings.php:374
+#: i18n/strings.php:357
 msgid "Other Log"
 msgstr "Otros registros"
 
-#: i18n/strings.php:373
+#: i18n/strings.php:356
 msgid "Taxes Log"
 msgstr "Registro de impuestos"
 
-#: i18n/strings.php:372
+#: i18n/strings.php:355
 msgid "Shipping Log"
 msgstr "Registro de envíos"
 
-#: i18n/strings.php:365
+#: i18n/strings.php:348
 msgid "Display troubleshooting information on the Cart and Checkout pages."
 msgstr "Muestra información para resolución de problemas en las páginas de carrito y finalizar compra."
 
-#: i18n/strings.php:369
+#: i18n/strings.php:352
 msgid "Write diagnostic messages to log files. Helpful when contacting support."
 msgstr "Escribe mensajes de diagnóstico en los archivos de registro. Útil al contactar con soporte."
 
@@ -1410,7 +1410,7 @@ msgstr "Para enviar reembolsos a través de PayPal Exprés tendrás que <a href=
 msgid "Link a PayPal account"
 msgstr "Enlaza a una cuenta PayPal"
 
-#: i18n/strings.php:392
+#: i18n/strings.php:375
 msgid "Refresh"
 msgstr "Recargar"
 
@@ -1510,7 +1510,7 @@ msgid "automated tax calculation and smoother payment setup"
 msgstr "cálculo automático de impuestos y configuración de pago más sencilla"
 
 #: classes/class-wc-connect-paypal-ec.php:323 i18n/strings.php:14
-#: i18n/strings.php:296 i18n/strings.php:343 i18n/strings.php:360
+#: i18n/strings.php:296 i18n/strings.php:343 i18n/strings.php:383
 msgid "Required"
 msgstr "Requerido"
 
@@ -1637,13 +1637,13 @@ msgstr[1] "%(selectedCount)d paquetes seleccionados"
 msgid "Unable to get your settings. Please refresh the page to try again."
 msgstr "No ha sido posible recuperar tus ajustes. Por favor, recarga la página para intentarlo de nuevo."
 
-#: i18n/strings.php:355
+#: i18n/strings.php:395
 msgid "%(numSelected)d service selected"
 msgid_plural "%(numSelected)d services selected"
 msgstr[0] "%(numSelected)d servicio seleccionado"
 msgstr[1] "%(numSelected)d servicios seleccionados"
 
-#: i18n/strings.php:353
+#: i18n/strings.php:393
 msgid "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}."
 msgstr "Añade y edita los paquetes guardados usando el {{a}}Gestor de paquetería{{/a}}."
 
@@ -1731,7 +1731,7 @@ msgstr "Mover"
 msgid "Move item"
 msgstr "Mover artículo"
 
-#: i18n/strings.php:359
+#: i18n/strings.php:399
 msgid "Increase the rates calculated by the carrier to account for packaging and handling costs. You can also add a negative amount to save your customers money."
 msgstr "Incrementa las tarifas calculadas por el transportista para tener en cuenta los costes de embalaje y manipulación. También puedes añadir una cantidad negativa para ahorrar dinero a tus clientes."
 
@@ -1800,11 +1800,11 @@ msgstr "Conectar"
 msgid "Save Settings"
 msgstr "Guardar ajustes"
 
-#: i18n/strings.php:349
+#: i18n/strings.php:389
 msgid "Your changes have been saved."
 msgstr "Tus cambios se han guardado."
 
-#: i18n/strings.php:350
+#: i18n/strings.php:390
 msgid "There was a problem with one or more entries. Please fix the errors below and try saving again."
 msgstr "Hubo un problema con una o más entradas. Por favor, soluciona los errores de abajo y trata de guardar de nuevo."
 
@@ -1813,11 +1813,11 @@ msgid "Expand"
 msgstr "Ampliar"
 
 #: i18n/strings.php:4 i18n/strings.php:16 i18n/strings.php:298
-#: i18n/strings.php:345 i18n/strings.php:362 i18n/strings.php:400
+#: i18n/strings.php:345 i18n/strings.php:385 i18n/strings.php:400
 msgid "Dismiss"
 msgstr "Descartar"
 
-#: i18n/strings.php:21 i18n/strings.php:347
+#: i18n/strings.php:21 i18n/strings.php:387
 msgid "You have unsaved changes."
 msgstr "Tienes cambios sin guardar."
 
@@ -1852,7 +1852,7 @@ msgstr "Este campo debe ser único"
 msgid "Unable to save your shipping packages. Please try again."
 msgstr "No se han podido guardar tus paquetes de envío. Por favor, inténtalo de nuevo."
 
-#: i18n/strings.php:52 i18n/strings.php:351
+#: i18n/strings.php:52 i18n/strings.php:391
 msgid "Save changes"
 msgstr "Guardar cambios"
 
@@ -1864,24 +1864,24 @@ msgstr "Sin título"
 msgid "Dimensions (L x W x H)"
 msgstr "Dimensiones (L x An x Al)"
 
-#: i18n/strings.php:354
+#: i18n/strings.php:394
 msgid "All services selected"
 msgstr "Seleccionados todos los servicios"
 
-#: i18n/strings.php:48 i18n/strings.php:328 i18n/strings.php:356
+#: i18n/strings.php:48 i18n/strings.php:328 i18n/strings.php:396
 msgid "Expand Services"
 msgstr "Expandir servicios"
 
-#: classes/class-wc-connect-label-reports.php:167 i18n/strings.php:357
+#: classes/class-wc-connect-label-reports.php:167 i18n/strings.php:397
 #: i18n/strings.php:440
 msgid "Service"
 msgstr "Servicio"
 
-#: i18n/strings.php:358
+#: i18n/strings.php:398
 msgid "Price adjustment"
 msgstr "Ajuste de precio"
 
-#: i18n/strings.php:352
+#: i18n/strings.php:392
 msgid "Saved Packages"
 msgstr "Paquetes guardados"
 
@@ -2004,7 +2004,7 @@ msgstr "Cancelar"
 msgid "N/A"
 msgstr "N/D"
 
-#: i18n/strings.php:19 i18n/strings.php:179 i18n/strings.php:346
+#: i18n/strings.php:19 i18n/strings.php:179 i18n/strings.php:386
 msgid "More"
 msgstr "Más"
 
@@ -2116,24 +2116,24 @@ msgctxt "A service with an unknown title and unknown method_title"
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: i18n/strings.php:375
+#: i18n/strings.php:358
 msgid "Support"
 msgstr "Soporte"
 
-#: i18n/strings.php:363 i18n/strings.php:364
+#: i18n/strings.php:346 i18n/strings.php:347
 msgid "Debug"
 msgstr "Depuración"
 
-#: i18n/strings.php:398
+#: i18n/strings.php:381
 msgid "Services"
 msgstr "Servicios"
 
-#: i18n/strings.php:378
+#: i18n/strings.php:361
 msgctxt "This section displays the overall health of WooCommerce Shipping & Tax and the things it depends on"
 msgid "Health"
 msgstr "Salud"
 
-#: i18n/strings.php:376
+#: i18n/strings.php:359
 msgid "Need help?"
 msgstr "¿Necesitas ayuda?"
 
@@ -2141,11 +2141,11 @@ msgstr "¿Necesitas ayuda?"
 msgid "Log is empty"
 msgstr "El registro está vacío"
 
-#: i18n/strings.php:367 i18n/strings.php:371
+#: i18n/strings.php:350 i18n/strings.php:354
 msgid "Disabled"
 msgstr "Desactivado"
 
-#: i18n/strings.php:366 i18n/strings.php:370
+#: i18n/strings.php:349 i18n/strings.php:353
 msgid "Enabled"
 msgstr "Activo"
 
@@ -2169,27 +2169,27 @@ msgstr "Aún no han hecho solicitudes de tarifas para este servicio"
 msgid "Setup for this service has not yet been completed"
 msgstr "La configuración de este servició aún no se ha completado"
 
-#: i18n/strings.php:387
+#: i18n/strings.php:370
 msgid "Service data is up-to-date"
 msgstr "Los datos del servicio están al día"
 
-#: i18n/strings.php:386
+#: i18n/strings.php:369
 msgid "Service data was found, but is more than one day old"
 msgstr "Se encontaron datos del servicio, pero son de hace más de un día"
 
-#: i18n/strings.php:385
+#: i18n/strings.php:368
 msgid "Service data was found, but is more than three days old"
 msgstr "Se encontraron datos del servicio, pero son de hace más de tres días"
 
-#: i18n/strings.php:388
+#: i18n/strings.php:371
 msgid "Service data found, but may be out of date"
 msgstr "Se han encontrado datos del servicio, pero podrían ser obsoletos"
 
-#: i18n/strings.php:389
+#: i18n/strings.php:372
 msgid "No service data available"
 msgstr "No hay disponibles datos del servicio"
 
-#: i18n/strings.php:380
+#: i18n/strings.php:363
 msgid "Jetpack"
 msgstr "Jetpack"
 
@@ -2214,7 +2214,7 @@ msgid "Please install and activate the Jetpack plugin, version %s or higher"
 msgstr "Por favor, instala y activa el plugin Jetpack, en su versión %s o superior"
 
 #. Author of the plugin
-#: i18n/strings.php:379
+#: i18n/strings.php:362
 msgid "WooCommerce"
 msgstr "WooCommerce"
 

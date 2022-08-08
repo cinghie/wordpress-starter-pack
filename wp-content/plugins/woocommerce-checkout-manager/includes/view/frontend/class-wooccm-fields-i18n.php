@@ -1,94 +1,169 @@
 <?php
 
-class WOOCCM_Fields_i18n
-{
+class WOOCCM_Fields_i18n {
 
-  protected static $_instance;
-  protected static $domain = 'woocommerce';
+	protected static $_instance;
 
-  public function __construct()
-  {
-    add_filter('wooccm_checkout_field_filter', array($this, 'translate_field'));
-  }
+	public function __construct() {
+		add_action( 'init', array( $this, 'init_polylang' ) );
+		add_action( 'admin_init', array( $this, 'init_wpml' ) );
+		add_filter( 'wooccm_checkout_field_filter', array( $this, 'translate_field' ) );
+	}
 
-  public static function instance()
-  {
-    if (is_null(self::$_instance)) {
-      self::$_instance = new self();
-    }
-    return self::$_instance;
-  }
+	function init_polylang() {
 
-  public function register_wpml_string($value)
-  {
+		if ( function_exists( 'pll_register_string' ) ) {
 
-    if (!empty($value) && function_exists('icl_register_string')) {
+			$billing_fields = WOOCCM()->billing->get_fields();
+			$billing_label  = esc_html__( 'Billing', 'woocommerce-checkout-manager' );
 
-      if (is_array($value)) {
+			$shipping_fields = WOOCCM()->shipping->get_fields();
+			$shipping_label  = esc_html__( 'Shipping', 'woocommerce-checkout-manager' );
 
-        foreach ($value as $key => $name) {
-          icl_register_string(WOOCCM_PLUGIN_NAME, $name, $name);
-        }
+			$additional_fields = WOOCCM()->additional->get_fields();
+			$additional_label  = esc_html__( 'Additional', 'woocommerce-checkout-manager' );
 
-        return $value;
-      }
+			$this->register_polylang_fields( $billing_fields, $billing_label );
+			$this->register_polylang_fields( $shipping_fields, $shipping_label );
+			$this->register_polylang_fields( $additional_fields, $additional_label );
+		}
+	}
 
-      if (is_string($value)) {
-        icl_register_string(WOOCCM_PLUGIN_NAME, $value, $value);
-        return $value;
-      }
-    }
+	function init_wpml() {
+		if ( function_exists( 'icl_register_string' ) ) {
 
-    return $value;
-  }
+			$billing_fields = WOOCCM()->billing->get_fields();
+			$billing_label  = esc_html__( 'Billing', 'woocommerce-checkout-manager' );
 
-  public function i18n($string)
-  {
+			$shipping_fields = WOOCCM()->shipping->get_fields();
+			$shipping_label  = esc_html__( 'Shipping', 'woocommerce-checkout-manager' );
 
-    if (function_exists('icl_t')) {
-      return icl_t(WOOCCM_PLUGIN_NAME, $string, $string);
-    }
+			$additional_fields = WOOCCM()->additional->get_fields();
+			$additional_label  = esc_html__( 'Additional', 'woocommerce-checkout-manager' );
 
-    return esc_html__($string, self::$domain);
-  }
+			$this->register_wpml_fields( $billing_fields, $billing_label );
+			$this->register_wpml_fields( $shipping_fields, $shipping_label );
+			$this->register_wpml_fields( $additional_fields, $additional_label );
+		}
+	}
 
-  public function translate($value)
-  {
+	function register_polylang_fields( $fields, $label ) {
 
-    if (!empty($value)) {
+		if ( function_exists( 'pll_register_string' ) ) {
 
-      if (is_array($value)) {
-        foreach ($value as $key => $name) {
-          if (is_string($name)) {
-            $value[$key] = $this->i18n($name);
-          }
-        }
-      }
+			if ( is_array( $fields ) ) {
 
-      if (is_string($value)) {
-        $value = $this->i18n($value);
-      }
-    }
+				$name = sprintf( 'WCM / %s', $label );
 
-    return $value;
-  }
+				foreach ( $fields as $field ) {
+					if ( isset( $field['label'] ) && $field['label'] != '' ) {
+						pll_register_string( $field['label'], $field['label'], $name );
+					}
+					if ( isset( $field['placeholder'] ) && $field['placeholder'] != '' ) {
+						pll_register_string( $field['placeholder'], $field['placeholder'], $name );
+					}
+					if ( isset( $field['description'] ) && $field['description'] != '' ) {
+						pll_register_string( $field['description'], $field['description'], $name );
+					}
 
-  public function translate_field($field)
-  {
+					if ( isset( $field['options'] ) ) {
+						foreach ( $field['options'] as $option_data ) {
+							if ( isset( $option_data['label'] ) ) {
+								pll_register_string( $option_data['label'], $option_data['label'], sprintf( '%s / %s', $name, $field['label'] ) );
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
-    // ii18n
-    // -----------------------------------------------------------------------
+	function register_wpml_fields( $fields, $label ) {
 
-    if (!empty($field['label'])) {
-      $field['label'] = $this->translate($field['label']);
-    }
+		if ( function_exists( 'icl_register_string' ) ) {
 
-    if (!empty($field['placeholder'])) {
-      $field['placeholder'] = $this->translate($field['placeholder']);
-    }
+			$icl_language_code = defined( 'ICL_LANGUAGE_CODE' ) ? ICL_LANGUAGE_CODE : get_bloginfo( 'language' );
 
-    return $field;
-  }
+			if ( is_array( $fields ) ) {
+
+				foreach ( $fields as $field ) {
+					if ( isset( $field['label'] ) && $field['label'] != '' ) {
+						icl_register_string( 'woocommerce-checkout-manager', $field['label'], $field['label'], false, $icl_language_code );
+					}
+					if ( isset( $field['placeholder'] ) && $field['placeholder'] != '' ) {
+						icl_register_string( 'woocommerce-checkout-manager', $field['placeholder'], $field['placeholder'], false, $icl_language_code );
+					}
+					if ( isset( $field['description'] ) && $field['description'] != '' ) {
+						icl_register_string( 'woocommerce-checkout-manager', $field['description'], $field['description'], false, $icl_language_code );
+					}
+					if ( isset( $field['options'] ) ) {
+						foreach ( $field['options'] as $option_data ) {
+							if ( isset( $option_data['label'] ) ) {
+								// 1326
+								icl_register_string( 'woocommerce-checkout-manager', $option_data['label'], $option_data['label'], false, $icl_language_code );
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
+	public function i18n( $string ) {
+
+		if ( function_exists( 'icl_t' ) ) {
+			return icl_t( 'woocommerce-checkout-manager', $string, $string );
+		} elseif ( function_exists( 'pll__' ) ) {
+			return pll__( $string );
+		}
+
+		return esc_html__( $string, 'woocommerce' );
+	}
+
+
+	public function translate( $value ) {
+		if ( ! empty( $value ) ) {
+
+			if ( is_array( $value ) ) {
+				foreach ( $value as $key => $name ) {
+					if ( is_string( $name ) ) {
+						$value[ $key ] = $this->i18n( $name );
+					}
+				}
+			}
+
+			if ( is_string( $value ) ) {
+				$value = $this->i18n( $value );
+			}
+		}
+
+		return $value;
+	}
+
+
+	public function translate_field( $field ) {
+		// ii18n
+		// -----------------------------------------------------------------------
+
+		if ( ! empty( $field['label'] ) ) {
+			$field['label'] = $this->translate( $field['label'] );
+		}
+
+		if ( ! empty( $field['placeholder'] ) ) {
+			$field['placeholder'] = $this->translate( $field['placeholder'] );
+		}
+
+		return $field;
+	}
+
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 }
 
 WOOCCM_Fields_i18n::instance();

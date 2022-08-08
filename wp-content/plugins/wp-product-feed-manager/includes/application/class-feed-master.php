@@ -293,9 +293,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 					$product_counter++;
 
-					if ( $product_counter > $sw_status_control ) {
+					 if ( $product_counter > $sw_status_control ) {
 						break;
-					}
+					 }
 				}
 			} while ( ! empty( $product_ids ) && $sw_status_control > $product_counter );
 

@@ -14,7 +14,7 @@ $title = get_option( 'wooccm_order_upload_files_title', esc_html__( 'Uploaded fi
 				<th><?php esc_html_e( 'File', 'woocommerce-checkout-manager' ); ?></th>
 				<th><?php esc_html_e( 'Filename', 'woocommerce-checkout-manager' ); ?></th>
 				<th><?php esc_html_e( 'Dimensions', 'woocommerce-checkout-manager' ); ?></th>
-				<th><?php esc_html_e( 'Extension', ' woocommerce-checkout-manager' ); ?></th>
+				<th><?php esc_html_e( 'Extension', 'woocommerce-checkout-manager' ); ?></th>
 				<th class="column-actions"><?php esc_html_e( 'Actions', 'woocommerce-checkout-manager' ); ?></th>
 			</tr>
 		</thead>

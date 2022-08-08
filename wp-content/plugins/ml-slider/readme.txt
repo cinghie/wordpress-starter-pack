@@ -2,8 +2,8 @@
 Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82, andergmartins, htmgarcia
 Tags: slideshow, slider, image slider, carousel, gallery, flexslider, wordpress slider, nivoslider, rotating banner, responsive slideshow, seo slideshow, unsplash
 Requires at least: 3.5
-Stable tag: 3.27.6
-Requires PHP: 5.2
+Stable tag: 3.27.8
+Requires PHP: 5.4
 Tested up to: 6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -323,6 +323,19 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 The format is based on [Keep a Changelog recomendations](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.27.8] - 18 Jul, 2022 =
+
+* CHANGED: Set Extendify SDK as disabled by default to fix support to WP 4.9, #197;
+* FIXED: Fix WP 4.9 support checking if function 'wp_set_script_translations' exists before calling it, #196;
+
+= [3.27.7] - 14 Jul, 2022 =
+
+* FIXED: Fix Italian language translation, #137;
+* FIXED: Fix issue with Docket Cache, #182;
+* FIXED: Fix translation of pages based on JS, #186;
+* FIXED: Fix language translation for the MetaGallery module, #138;
+* FIXED: Remove not needed `use` statement for the class `Extendify\Library\App`, #136;
 
 = [3.27.6] - 27 Jun, 2022 =
 

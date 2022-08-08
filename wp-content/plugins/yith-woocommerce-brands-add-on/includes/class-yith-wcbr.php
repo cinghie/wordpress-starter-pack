@@ -27,6 +27,14 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 		protected static $instance;
 
 		/**
+		 * Default taxonomy slug
+		 *
+		 * @var string
+		 * @since 1.0.0
+		 */
+		public static $default_taxonomy = 'yith_product_brand';
+
+		/**
 		 * Taxonomy slug
 		 *
 		 * @var string
@@ -151,7 +159,7 @@ if ( ! class_exists( 'YITH_WCBR' ) ) {
 					'labels'                => apply_filters( 'yith_wcbr_taxonomy_labels', $taxonomy_labels ),
 					'public'                => true,
 					'show_admin_column'     => true,
-					'show_in_menu'          => false,
+					'show_in_menu'          => apply_filters( 'yith_wcbr_show_taxonomy_in_menu', false ),
 					'show_ui'               => true,
 					'hierarchical'          => apply_filters( 'yith_wcbr_taxonomy_hierarchical', true ),
 					'rewrite'               => array(

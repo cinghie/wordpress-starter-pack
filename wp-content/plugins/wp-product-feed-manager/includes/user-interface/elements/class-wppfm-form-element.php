@@ -142,7 +142,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 					(object) [ 'feed' => 'currency', 'db' => 'currency', 'type' => '%s' ],
 					(object) [ 'feed' => 'includeVariations', 'db' => 'include_variations', 'type' => '%d' ],
 					(object) [ 'feed' => 'isAggregator', 'db' => 'is_aggregator', 'type' => '%d' ],
-					(object) [ 'feed' => 'country', 'db' => 'country_id', 'type' => '%s' ],
+					(object) [ 'feed' => 'country', 'db' => 'country_id', 'type' => '%d' ],
 					(object) [ 'feed' => 'dataSource', 'db' => 'source_id', 'type' => '%d' ],
 					(object) [ 'feed' => 'title', 'db' => 'title', 'type' => '%s' ],
 					(object) [ 'feed' => 'feedTitle', 'db' => 'feed_title', 'type' => '%s' ],

@@ -71,19 +71,19 @@ msgstr ""
 msgid "Enabling this option overrides any tax rates you have manually added."
 msgstr ""
 
-#: i18n/strings.php:384
+#: i18n/strings.php:367
 msgid "Automated taxes documentation"
 msgstr ""
 
-#: i18n/strings.php:383
+#: i18n/strings.php:366
 msgid "Go to General settings"
 msgstr ""
 
-#: i18n/strings.php:382
+#: i18n/strings.php:365
 msgid "Go to the Tax settings"
 msgstr ""
 
-#: i18n/strings.php:381
+#: i18n/strings.php:364
 msgid "Automated Taxes"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Live rates at checkout"
 msgstr ""
 
-#: i18n/strings.php:391
+#: i18n/strings.php:374
 msgid "Last updated %s."
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Loading"
 msgstr ""
 
-#: i18n/strings.php:390
+#: i18n/strings.php:373
 msgid "WooCommerce Shipping & Tax Data"
 msgstr ""
 
@@ -1092,41 +1092,41 @@ msgstr ""
 msgid "Return to Order #%(orderId)s"
 msgstr ""
 
-#: i18n/strings.php:377
+#: i18n/strings.php:360
 msgid "Our team is here for you. View our {{docsA}}support docs{{/docsA}} or {{ticketA}}open a support ticket{{/ticketA}}."
 msgstr ""
 
-#: i18n/strings.php:368
+#: i18n/strings.php:351
 msgid "Logging"
 msgstr ""
 
-#: i18n/strings.php:399
+#: i18n/strings.php:382
 msgid "No services configured. {{a}}Add a shipping service{{/a}}"
 msgstr ""
 
-#: i18n/strings.php:397
+#: i18n/strings.php:380
 msgid "Edit service settings"
 msgstr ""
 
-#: i18n/strings.php:396
+#: i18n/strings.php:379
 msgid "Request was made %s - check logs below or {{a}}edit service settings{{/a}}"
 msgstr ""
 
-#: i18n/strings.php:395
+#: i18n/strings.php:378
 msgid "Copy for support"
 msgstr ""
 
-#: i18n/strings.php:394
+#: i18n/strings.php:377
 msgid "Last %s entry. {{a}}Show full log{{/a}}"
 msgid_plural "Last %s entries. {{a}}Show full log{{/a}}"
 msgstr[0] ""
 msgstr[1] ""
 
-#: i18n/strings.php:393
+#: i18n/strings.php:376
 msgid "Log tail copied to clipboard"
 msgstr ""
 
-#: i18n/strings.php:22 i18n/strings.php:348
+#: i18n/strings.php:22 i18n/strings.php:388
 msgid "You have unsaved changes. Are you sure you want to leave this page?"
 msgstr ""
 
@@ -1155,7 +1155,7 @@ msgid "USPS"
 msgstr ""
 
 #: i18n/strings.php:15 i18n/strings.php:262 i18n/strings.php:297
-#: i18n/strings.php:344 i18n/strings.php:361
+#: i18n/strings.php:344 i18n/strings.php:384
 msgid "Optional"
 msgstr ""
 
@@ -1350,23 +1350,23 @@ msgstr ""
 msgid "Export CSV"
 msgstr ""
 
-#: i18n/strings.php:374
+#: i18n/strings.php:357
 msgid "Other Log"
 msgstr ""
 
-#: i18n/strings.php:373
+#: i18n/strings.php:356
 msgid "Taxes Log"
 msgstr ""
 
-#: i18n/strings.php:372
+#: i18n/strings.php:355
 msgid "Shipping Log"
 msgstr ""
 
-#: i18n/strings.php:365
+#: i18n/strings.php:348
 msgid "Display troubleshooting information on the Cart and Checkout pages."
 msgstr ""
 
-#: i18n/strings.php:369
+#: i18n/strings.php:352
 msgid "Write diagnostic messages to log files. Helpful when contacting support."
 msgstr ""
 
@@ -1410,7 +1410,7 @@ msgstr ""
 msgid "Link a PayPal account"
 msgstr ""
 
-#: i18n/strings.php:392
+#: i18n/strings.php:375
 msgid "Refresh"
 msgstr ""
 
@@ -1510,7 +1510,7 @@ msgid "automated tax calculation and smoother payment setup"
 msgstr ""
 
 #: classes/class-wc-connect-paypal-ec.php:323 i18n/strings.php:14
-#: i18n/strings.php:296 i18n/strings.php:343 i18n/strings.php:360
+#: i18n/strings.php:296 i18n/strings.php:343 i18n/strings.php:383
 msgid "Required"
 msgstr ""
 
@@ -1637,13 +1637,13 @@ msgstr[1] ""
 msgid "Unable to get your settings. Please refresh the page to try again."
 msgstr ""
 
-#: i18n/strings.php:355
+#: i18n/strings.php:395
 msgid "%(numSelected)d service selected"
 msgid_plural "%(numSelected)d services selected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: i18n/strings.php:353
+#: i18n/strings.php:393
 msgid "Add and edit saved packages using the {{a}}Packaging Manager{{/a}}."
 msgstr ""
 
@@ -1731,7 +1731,7 @@ msgstr ""
 msgid "Move item"
 msgstr ""
 
-#: i18n/strings.php:359
+#: i18n/strings.php:399
 msgid "Increase the rates calculated by the carrier to account for packaging and handling costs. You can also add a negative amount to save your customers money."
 msgstr ""
 
@@ -1800,11 +1800,11 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: i18n/strings.php:349
+#: i18n/strings.php:389
 msgid "Your changes have been saved."
 msgstr ""
 
-#: i18n/strings.php:350
+#: i18n/strings.php:390
 msgid "There was a problem with one or more entries. Please fix the errors below and try saving again."
 msgstr ""
 
@@ -1813,11 +1813,11 @@ msgid "Expand"
 msgstr ""
 
 #: i18n/strings.php:4 i18n/strings.php:16 i18n/strings.php:298
-#: i18n/strings.php:345 i18n/strings.php:362 i18n/strings.php:400
+#: i18n/strings.php:345 i18n/strings.php:385 i18n/strings.php:400
 msgid "Dismiss"
 msgstr ""
 
-#: i18n/strings.php:21 i18n/strings.php:347
+#: i18n/strings.php:21 i18n/strings.php:387
 msgid "You have unsaved changes."
 msgstr ""
 
@@ -1852,7 +1852,7 @@ msgstr ""
 msgid "Unable to save your shipping packages. Please try again."
 msgstr ""
 
-#: i18n/strings.php:52 i18n/strings.php:351
+#: i18n/strings.php:52 i18n/strings.php:391
 msgid "Save changes"
 msgstr ""
 
@@ -1864,24 +1864,24 @@ msgstr ""
 msgid "Dimensions (L x W x H)"
 msgstr ""
 
-#: i18n/strings.php:354
+#: i18n/strings.php:394
 msgid "All services selected"
 msgstr ""
 
-#: i18n/strings.php:48 i18n/strings.php:328 i18n/strings.php:356
+#: i18n/strings.php:48 i18n/strings.php:328 i18n/strings.php:396
 msgid "Expand Services"
 msgstr ""
 
-#: classes/class-wc-connect-label-reports.php:167 i18n/strings.php:357
+#: classes/class-wc-connect-label-reports.php:167 i18n/strings.php:397
 #: i18n/strings.php:440
 msgid "Service"
 msgstr ""
 
-#: i18n/strings.php:358
+#: i18n/strings.php:398
 msgid "Price adjustment"
 msgstr ""
 
-#: i18n/strings.php:352
+#: i18n/strings.php:392
 msgid "Saved Packages"
 msgstr ""
 
@@ -2004,7 +2004,7 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
-#: i18n/strings.php:19 i18n/strings.php:179 i18n/strings.php:346
+#: i18n/strings.php:19 i18n/strings.php:179 i18n/strings.php:386
 msgid "More"
 msgstr ""
 
@@ -2116,24 +2116,24 @@ msgctxt "A service with an unknown title and unknown method_title"
 msgid "Unknown"
 msgstr ""
 
-#: i18n/strings.php:375
+#: i18n/strings.php:358
 msgid "Support"
 msgstr ""
 
-#: i18n/strings.php:363 i18n/strings.php:364
+#: i18n/strings.php:346 i18n/strings.php:347
 msgid "Debug"
 msgstr ""
 
-#: i18n/strings.php:398
+#: i18n/strings.php:381
 msgid "Services"
 msgstr ""
 
-#: i18n/strings.php:378
+#: i18n/strings.php:361
 msgctxt "This section displays the overall health of WooCommerce Shipping & Tax and the things it depends on"
 msgid "Health"
 msgstr ""
 
-#: i18n/strings.php:376
+#: i18n/strings.php:359
 msgid "Need help?"
 msgstr ""
 
@@ -2141,11 +2141,11 @@ msgstr ""
 msgid "Log is empty"
 msgstr ""
 
-#: i18n/strings.php:367 i18n/strings.php:371
+#: i18n/strings.php:350 i18n/strings.php:354
 msgid "Disabled"
 msgstr ""
 
-#: i18n/strings.php:366 i18n/strings.php:370
+#: i18n/strings.php:349 i18n/strings.php:353
 msgid "Enabled"
 msgstr "Ativado"
 
@@ -2169,27 +2169,27 @@ msgstr ""
 msgid "Setup for this service has not yet been completed"
 msgstr ""
 
-#: i18n/strings.php:387
+#: i18n/strings.php:370
 msgid "Service data is up-to-date"
 msgstr ""
 
-#: i18n/strings.php:386
+#: i18n/strings.php:369
 msgid "Service data was found, but is more than one day old"
 msgstr ""
 
-#: i18n/strings.php:385
+#: i18n/strings.php:368
 msgid "Service data was found, but is more than three days old"
 msgstr ""
 
-#: i18n/strings.php:388
+#: i18n/strings.php:371
 msgid "Service data found, but may be out of date"
 msgstr ""
 
-#: i18n/strings.php:389
+#: i18n/strings.php:372
 msgid "No service data available"
 msgstr ""
 
-#: i18n/strings.php:380
+#: i18n/strings.php:363
 msgid "Jetpack"
 msgstr ""
 
@@ -2214,7 +2214,7 @@ msgid "Please install and activate the Jetpack plugin, version %s or higher"
 msgstr ""
 
 #. Author of the plugin
-#: i18n/strings.php:379
+#: i18n/strings.php:362
 msgid "WooCommerce"
 msgstr ""
 

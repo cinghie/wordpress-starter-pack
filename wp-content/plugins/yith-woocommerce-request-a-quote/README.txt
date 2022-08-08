@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: request a quote button, woocommerce request for quote, woocommerce request a quote shortcode, request a quote, quote, YITH, woocommerce, shop, ecommerce, e-commerce, quotations, request for quote, rfq, raq, proposal, ask an estimate, budget, email quote
 Requires at least: 5.8
 Tested up to: 6.0
-Stable tag: 2.11.0
+Stable tag: 2.12.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,6 +154,10 @@ During this transition step, .po and .mo files will be used as always, but in or
 6. "Quote request" email
 
 == Changelog ==
+= 2.12.0 - Released on 28 July 2022 =
+* New: support for WooCommerce 6.8
+* Update: YITH plugin framework
+
 = 2.11.0 - Released on 08 July 2022 =
 * New: support for WooCommerce 6.7
 * Update: YITH plugin framework

@@ -5,7 +5,7 @@
         <th><?php esc_html_e('Image', 'woocommerce-checkout-manager'); ?></th>
         <th><?php esc_html_e('Filename', 'woocommerce-checkout-manager'); ?></th>
         <th><?php esc_html_e('Dimensions', 'woocommerce-checkout-manager'); ?></th>
-        <th><?php esc_html_e('Extension', ' woocommerce-checkout-manager'); ?></th>
+        <th><?php esc_html_e('Extension', 'woocommerce-checkout-manager'); ?></th>
         <th class="column-actions"></th>
       </tr>
     </thead>

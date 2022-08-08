@@ -52,9 +52,13 @@ class WOOCCM_Model {
 			return false;
 		}
 
-		$items = $this->get_items();
-
-		$items[ $item_data['id'] ] = $item_data;
+		$current_data = $items[ $item_data['id'] ];
+		/**
+		 * Get saved data to prevent missing fields [required, order, clear, disabled]
+		 */
+		//TODO: 6.1.3
+		// $items[ $item_data['id'] ] = array_replace_recursive( (array) $current_data, $item_data );
+		$items[ $item_data['id'] ] = array_merge( (array) $current_data, $item_data );
 
 		return $this->save_items( $items );
 	}

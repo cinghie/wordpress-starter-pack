@@ -256,12 +256,12 @@ if ( ! function_exists( 'yith_ywraq_print_notices' ) ) {
 	 * @since 2.1
 	 */
 	function yith_ywraq_print_notices() {
+		$session = YITH_Request_Quote()->session_class;
 
-		if ( get_option( 'ywraq_activate_thank_you_page' ) === 'yes' ) {
+		if ( get_option( 'ywraq_activate_thank_you_page' ) === 'yes' || ! $session ) {
 			return '';
 		}
 
-		$session      = YITH_Request_Quote()->session_class;
 		$all_notices  = $session->get( 'yith_ywraq_notices', array() );
 		$notice_types = apply_filters( 'yith_ywraq_notice_types', array( 'error', 'success', 'notice' ) );
 

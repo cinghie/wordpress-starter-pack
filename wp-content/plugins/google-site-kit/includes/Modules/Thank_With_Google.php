@@ -21,8 +21,12 @@ use Google\Site_Kit\Core\Modules\Module_With_Settings;
 use Google\Site_Kit\Core\Modules\Module_With_Settings_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Owner;
 use Google\Site_Kit\Core\Modules\Module_With_Owner_Trait;
+use Google\Site_Kit\Core\Tags\Guards\Tag_Environment_Type_Guard;
+use Google\Site_Kit\Core\Tags\Guards\Tag_Verify_Guard;
 use Google\Site_Kit\Core\Util\Method_Proxy_Trait;
+use Google\Site_Kit\Core\REST_API\Data_Request;
 use Google\Site_Kit\Modules\Thank_With_Google\Settings;
+use Google\Site_Kit\Modules\Thank_With_Google\Web_Tag;
 
 /**
  * Class representing the Thank with Google module.
@@ -52,6 +56,8 @@ final class Thank_With_Google extends Module
 		if ( ! $this->is_connected() ) {
 			return;
 		}
+
+		add_action( 'template_redirect', $this->get_method_proxy( 'register_tag' ) );
 	}
 
 	/**
@@ -151,6 +157,68 @@ final class Thank_With_Google extends Module
 				)
 			),
 		);
+	}
+
+	/**
+	 * Gets map of datapoint to definition data for each.
+	 *
+	 * @since 1.79.0
+	 * @return array Map of datapoints to their definitions.
+	 */
+	protected function get_datapoint_definitions() {
+		return array(
+			'GET:publications' => array( 'service' => '' ),
+		);
+	}
+
+	/**
+	 * Creates a request object for the given datapoint.
+	 *
+	 * @since 1.79.0
+	 *
+	 * @param Data_Request $data Data request object.
+	 * @return RequestInterface|callable|WP_Error Request object or callable on success, or WP_Error on failure.
+	 *
+	 * @throws Invalid_Datapoint_Exception Thrown if the datapoint does not exist.
+	 */
+	protected function create_data_request( Data_Request $data ) {
+		switch ( "{$data->method}:{$data->datapoint}" ) {
+			case 'GET:publications':
+				return function () {
+					return array();
+				};
+		}
+
+		return parent::create_data_request( $data );
+	}
+
+	/**
+	 * Registers the Thank with Google tag.
+	 *
+	 * @since 1.80.0
+	 */
+	private function register_tag() {
+		if ( $this->context->is_amp() ) {
+			return;
+		}
+
+		$settings = $this->get_settings()->get();
+
+		$tag = new Web_Tag( $settings['publicationID'], self::MODULE_SLUG );
+
+		if ( $tag->is_tag_blocked() ) {
+			return;
+		}
+
+		$tag->use_guard( new Tag_Verify_Guard( $this->context->input() ) );
+		$tag->use_guard( new Tag_Environment_Type_Guard() );
+
+		if ( $tag->can_register() ) {
+			$tag->set_button_placement( $settings['buttonPlacement'] );
+			$tag->set_button_post_types( $settings['buttonPostTypes'] );
+
+			$tag->register();
+		}
 	}
 
 }

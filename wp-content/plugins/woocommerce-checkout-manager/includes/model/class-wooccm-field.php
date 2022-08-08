@@ -321,7 +321,7 @@ class WOOCCM_Field extends WOOCCM_Model {
 	}
 
 	public function delete_field( $field_id ) {
-		 return $this->delete_item( $field_id );
+		return $this->delete_item( $field_id );
 	}
 
 	// Sanitize

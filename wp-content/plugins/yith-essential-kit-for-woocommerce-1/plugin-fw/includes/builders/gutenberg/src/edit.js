@@ -7,32 +7,21 @@
 /**
  * External dependencies
  */
-import React                 from 'react';
+import React                                                                                                                               from 'react';
 
 /**
  * WordPress dependencies
  */
-import {
-	PanelBody,
-	ToggleControl,
-	SelectControl,
-	TextControl,
-	TextareaControl,
-	CheckboxControl,
-	RangeControl,
-	RadioControl
-}                            from '@wordpress/components';
-import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, BaseControl, ToggleControl, SelectControl, TextControl, TextareaControl, CheckboxControl, RangeControl, RadioControl } from '@wordpress/components';
+import { InspectorControls }                                                                                                               from '@wordpress/block-editor';
 
 /**
  * Internal dependencies
  */
-import { Shortcode }         from './components/shortcode';
-import { checkForDeps }      from './common';
-import ColorPickerControl    from './components/color-picker-control';
-import ColorPaletteControl   from './components/color-palette-control';
-import MultipleSelectControl from './components/multiple-select-control';
-import classNames            from 'classnames';
+import { Shortcode }                                                                                                                       from './components/shortcode';
+import { checkForDeps }                                                                                                                    from './common';
+import ColorPickerControl                                                                                                                  from './components/color-picker-control';
+import ColorPaletteControl                                                                                                                 from './components/color-palette-control';
 
 /**
  * Retrieve an help message from arguments.
@@ -49,140 +38,6 @@ const getHelpMessage = ( args, value ) => {
 		helpMessage = args.help;
 	}
 	return helpMessage;
-};
-
-const ComponentControl = ( { attributeName, attributeArgs, attributes, onChange, blockName } ) => {
-	const { controlType, label, wrapper_class } = attributeArgs;
-	const value                                 = attributes[ attributeName ];
-	const helpMessage                           = getHelpMessage( attributeArgs, value );
-	const show                                  = checkForDeps( attributeArgs, attributes );
-	const wrapperClass                          = classNames(
-		`${blockName}__${attributeName}-field-wrapper`,
-		wrapper_class
-	);
-
-	let componentControl = false;
-	if ( show ) {
-		switch ( controlType ) {
-			case 'select':
-				if ( !attributeArgs.multiple ) {
-					componentControl = <SelectControl
-						className={wrapperClass}
-						value={value}
-						label={label}
-						options={attributeArgs?.options ?? []}
-						help={helpMessage}
-						onChange={onChange}
-					/>;
-				} else {
-					componentControl = <MultipleSelectControl
-						className={wrapperClass}
-						value={value}
-						label={label}
-						options={attributeArgs?.options ?? []}
-						help={helpMessage}
-						onChange={onChange}
-						messages={attributeArgs?.messages ?? {}}
-					/>;
-				}
-				break;
-
-			case 'text':
-				componentControl = <TextControl
-					className={wrapperClass}
-					key={attributeName}
-					value={value}
-					label={label}
-					help={helpMessage}
-					onChange={onChange}
-				/>;
-				break;
-
-			case 'textarea':
-				componentControl = <TextareaControl
-					className={wrapperClass}
-					key={attributeName}
-					value={value}
-					label={label}
-					help={helpMessage}
-					onChange={onChange}
-				/>;
-				break;
-
-			case 'toggle':
-				componentControl = <ToggleControl
-					className={wrapperClass}
-					key={attributeName}
-					label={label}
-					help={helpMessage}
-					checked={value}
-					onChange={onChange}
-				/>;
-				break;
-
-			case 'checkbox':
-				componentControl = <CheckboxControl
-					className={wrapperClass}
-					key={attributeName}
-					label={label}
-					help={helpMessage}
-					checked={value}
-					onChange={onChange}
-				/>;
-				break;
-
-			case 'number':
-			case 'range':
-				componentControl = <RangeControl
-					className={wrapperClass}
-					key={attributeName}
-					value={value}
-					label={label}
-					help={helpMessage}
-					min={attributeArgs?.min}
-					max={attributeArgs?.max}
-					onChange={onChange}
-				/>;
-				break;
-
-			case 'color':
-			case 'colorpicker':
-				componentControl = <ColorPickerControl
-					className={wrapperClass}
-					key={attributeName}
-					label={label}
-					help={helpMessage}
-					value={value}
-					disableAlpha={attributeArgs?.disableAlpha ?? false}
-					onChange={onChange}/>;
-				break;
-
-			case 'color-palette':
-				componentControl = <ColorPaletteControl
-					className={wrapperClass}
-					key={attributeName}
-					label={label}
-					help={helpMessage}
-					value={value}
-					clearable={attributeArgs?.clearable ?? false}
-					onChange={onChange}/>;
-				break;
-
-			case 'radio':
-				componentControl = <RadioControl
-					key={attributeName}
-					label={label}
-					options={attributeArgs?.options ?? []}
-					selected={value}
-					help={helpMessage}
-					onChange={onChange}
-				/>;
-				break;
-			default:
-				componentControl = false;
-		}
-	}
-	return componentControl;
 }
 
 /**
@@ -195,17 +50,158 @@ const ComponentControl = ( { attributeName, attributeArgs, attributes, onChange,
 export const createEditFunction = ( blockName, blockArgs ) => {
 	return function ( { attributes, className, setAttributes } ) {
 
-		const onChangeHandler = ( updatedValue, attributeName, controlType ) => {
+		const onChangeHandler = ( new_value, attribute_name, controlType ) => {
 			if ( ['colorpicker', 'color'].includes( controlType ) ) {
-				if ( 'rgb' in updatedValue && 'hex' in updatedValue ) {
-					const { r, g, b, a } = updatedValue.rgb;
-					updatedValue         = a < 1 ? `rgba(${r}, ${g}, ${b}, ${a})` : updatedValue.hex;
-				} else {
-					updatedValue = updatedValue.color.getAlpha() < 1 ? updatedValue.color.toRgbString() : updatedValue.color.toHexString();
-				}
+				new_value = new_value.color.getAlpha() < 1 ? new_value.color.toRgbString() : new_value.color.toHexString();
 			}
 
-			setAttributes( { [ attributeName ]: updatedValue } );
+			let updatedAttributes               = {};
+			updatedAttributes[ attribute_name ] = new_value;
+			setAttributes( updatedAttributes );
+		}
+
+		const getComponentControl = ( attributeName, attributeArgs ) => {
+			const { controlType } = attributeArgs;
+			const value           = attributes[ attributeName ];
+			const helpMessage     = getHelpMessage( attributeArgs, value );
+			let wrapperClassName  = `${blockName}__${attributeName}-field-wrapper`;
+			const show            = checkForDeps( attributeArgs, attributes );
+
+			if ( attributeArgs.wrapper_class ) {
+				wrapperClassName += ' ' + attributeArgs.wrapper_class;
+			}
+
+
+			let componentControl = false;
+			if ( show ) {
+				switch ( controlType ) {
+					case 'select':
+						componentControl = <SelectControl
+							className={wrapperClassName}
+							key={attributeName}
+							value={value}
+							label={attributeArgs.label}
+							options={attributeArgs.options}
+							help={helpMessage}
+							multiple={!!attributeArgs.multiple}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+
+					case 'text':
+						componentControl = <TextControl
+							className={wrapperClassName}
+							key={attributeName}
+							value={value}
+							label={attributeArgs.label}
+							help={helpMessage}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+
+					case 'textarea':
+						componentControl = <TextareaControl
+							className={wrapperClassName}
+							key={attributeName}
+							value={value}
+							label={attributeArgs.label}
+							help={helpMessage}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+
+					case 'toggle':
+						componentControl = <ToggleControl
+							className={wrapperClassName}
+							key={attributeName}
+							label={attributeArgs.label}
+							help={helpMessage}
+							checked={value}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+
+					case 'checkbox':
+						componentControl = <CheckboxControl
+							className={wrapperClassName}
+							key={attributeName}
+							label={attributeArgs.label}
+							help={helpMessage}
+							checked={value}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+
+					case 'number':
+					case 'range':
+						componentControl = <RangeControl
+							className={wrapperClassName}
+							key={attributeName}
+							value={value}
+							label={attributeArgs.label}
+							help={helpMessage}
+							min={attributeArgs.min}
+							max={attributeArgs.max}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+
+					case 'color':
+					case 'colorpicker':
+						componentControl = <ColorPickerControl
+							className={wrapperClassName}
+							key={attributeName}
+							label={attributeArgs.label}
+							help={helpMessage}
+							value={value}
+							disableAlpha={attributeArgs.disableAlpha}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}/>;
+						break;
+
+					case 'color-palette':
+						componentControl = <ColorPaletteControl
+							className={wrapperClassName}
+							key={attributeName}
+							label={attributeArgs.label}
+							help={helpMessage}
+							value={value}
+							clearable={attributeArgs.clearable || false}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}/>;
+						break;
+
+					case 'radio':
+						componentControl = <RadioControl
+							key={attributeName}
+							label={attributeArgs.label}
+							options={attributeArgs.options}
+							selected={value}
+							help={helpMessage}
+							onChange={( newValue ) => {
+								onChangeHandler( newValue, attributeName, controlType )
+							}}
+						/>;
+						break;
+					default:
+						componentControl = false;
+				}
+			}
+			return componentControl;
 		}
 
 		return (
@@ -214,20 +210,18 @@ export const createEditFunction = ( blockName, blockArgs ) => {
 				 <InspectorControls>
 					 <PanelBody>
 						 {Object.entries( blockArgs.attributes ).map( ( [attributeName, attributeArgs] ) => {
-							 const { controlType } = attributeArgs;
-							 return <ComponentControl
-								 key={attributeName}
-								 attributeArgs={attributeArgs}
-								 attributeName={attributeName}
-								 attributes={attributes}
-								 blockName={blockName}
-								 onChange={_ => onChangeHandler( _, attributeName, controlType )}
-							 />
+							 const ComponentControl = getComponentControl( attributeName, attributeArgs );
+
+							 if ( ComponentControl ) {
+								 return ( ComponentControl );
+							 }
 						 } )}
 					 </PanelBody>
 				 </InspectorControls>
 				}
-				<Shortcode attributes={attributes} blockArgs={blockArgs}/>
+				{
+					<Shortcode attributes={attributes} blockArgs={blockArgs}/>
+				}
 			</>
 		);
 	}

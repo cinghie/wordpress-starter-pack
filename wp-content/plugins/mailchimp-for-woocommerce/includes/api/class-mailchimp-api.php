@@ -1890,7 +1890,8 @@ class MailChimp_WooCommerce_MailChimpApi
             if (is_array($domains) && isset($domains['value'])) {
                 return $domains['value'];
             }
-            $domains = json_decode(file_get_contents('https://tower.vextras.com/naughty-domains'), true);
+            $domains_response = wp_remote_get('https://tower.vextras.com/naughty-domains');
+            $domains = json_decode($domains_response['body'], true);
             mailchimp_set_transient('naughty_list_domains', $domains, 1440);
             return $domains;
         } catch (\Throwable $e) {
@@ -1947,6 +1948,7 @@ class MailChimp_WooCommerce_MailChimpApi
                 'body' => json_encode(array(
                     'store_id' => mailchimp_get_store_id(),
                     'list_id' => mailchimp_get_list_id(),
+                    'domain' => site_url(),
                     'email' => $email
                 )),
                 'timeout'     => 30,

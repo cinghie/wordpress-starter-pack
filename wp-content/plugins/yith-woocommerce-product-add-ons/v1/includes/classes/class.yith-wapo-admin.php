@@ -174,8 +174,8 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'parent_slug'      => '',
-				'page_title'       => __( 'Product Add-Ons', 'yith-woocommerce-product-add-ons' ),
-				'menu_title'       => __( 'Product Add-Ons', 'yith-woocommerce-product-add-ons' ),
+				'page_title'       => 'YITH WooCommerce Product Add-ons & Extra Options',
+				'menu_title'       => 'Product Add-ons & Extra Options',
 				'capability'       => 'manage_options',
 				'parent'           => '',
 				'parent_page'      => 'yit_plugin_panel',

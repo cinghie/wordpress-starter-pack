@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH Request a Quote for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-23 11:02:45+0000\n"
+"PO-Revision-Date: 2022-07-30 14:27:27+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,8 +11,52 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH Request a Quote for WooCommerce - Stable (latest release)\n"
 
+#: plugin-fw/templates/panel/premium-tab.php:53
+msgctxt "Premium Tab"
+msgid "Check the premium features >"
+msgstr "Dai un'occhiata alle caratteristiche premium > "
+
+#: plugin-fw/templates/panel/help-tab.php:241
+msgctxt "Help tab support"
+msgid "Yes, I need help"
+msgstr "Sì, mi serve aiuto"
+
+#: plugin-fw/templates/panel/help-tab.php:238
+msgctxt "Help tab support"
+msgid "Call or chat 24/7 with our support agents, or let our experts build your site."
+msgstr "Chiama o chatta 24/7 con i nostri operatori dell'assistenza o lascia creare il tuo sito ai nostri esperti."
+
+#: plugin-fw/templates/panel/help-tab.php:235
+msgctxt "Help tab support"
+msgid "From DIY to full-service help"
+msgstr "Dall'aiuto fai da te al servizio completo"
+
+#: plugin-fw/templates/panel/help-tab.php:231
+#: plugin-fw/templates/panel/help-tab.php:233
+msgctxt "Help tab support"
+msgid "Need some help?"
+msgstr "Hai bisogno di aiuto?"
+
+#: plugin-fw/templates/panel/help-tab.php:220
+msgctxt "Help tab documentation"
+msgid "to learn how it works from the basics."
+msgstr "per scoprire dalle basi come funziona."
+
+#: plugin-fw/templates/panel/help-tab.php:216
+#: plugin-fw/templates/panel/help-tab.php:218
+#: plugin-fw/templates/panel/help-tab.php:223
+msgctxt "Help tab documentation"
+msgid "Read the plugin documentation"
+msgstr "Consulta la documentazione del plugin"
+
+#. translators: 1. Plugin name.
+#: plugin-fw/includes/class-yit-plugin-panel.php:803
+msgctxt "Help tab default title"
+msgid "Thank you for using %s!"
+msgstr "Grazie per aver scelto %s!"
+
 #. translators: 1. Plugin(s) name(s).
-#: plugin-fw/yit-deactive-plugin.php:119
+#: plugin-fw/yit-plugin.php:271
 msgid "%s was deactivated as you're running an higher tier version of the same plugin."
 msgid_plural "%s were deactivated as you're running higher tier versions of the same plugins."
 msgstr[0] "%s è stato disattivato poiché stai usando una versione superiore dello stesso plugin."
@@ -54,27 +98,28 @@ msgstr "Cerca un articolo..."
 msgid "Search for a customer..."
 msgstr "Cerca un cliente..."
 
-#: plugin-fw/templates/panel/help-tab.php:140
+#: plugin-fw/templates/panel/help-tab.php:142
 msgctxt "Help tab Watch video tutorials link"
 msgid "to see some helpful use cases."
 msgstr "per vedere dei casi d'utilizzo utili."
 
-#: plugin-fw/templates/panel/help-tab.php:127
+#: plugin-fw/templates/panel/help-tab.php:129
 msgctxt "Help tab Read Documentation link"
 msgid "to learn how the plugin works from the basics."
 msgstr "per scoprire dalle basi come funziona il plugin."
 
-#: plugin-fw/templates/panel/premium-tab.php:58
+#: plugin-fw/templates/panel/premium-tab.php:65
 msgctxt "Premium Tab"
 msgid "Get the premium version"
 msgstr "Ottieni la versione premium"
 
-#: plugin-fw/templates/panel/premium-tab.php:53
+#: plugin-fw/templates/panel/premium-tab.php:60
 msgctxt "Premium Tab"
 msgid "Check the free vs premium features >"
 msgstr "Confronta le funzionalità della versione gratuita e della premium >"
 
 #: plugin-fw/templates/panel/premium-tab.php:51
+#: plugin-fw/templates/panel/premium-tab.php:58
 msgctxt "Premium Tab"
 msgid "And so much more!"
 msgstr "E molto altro!"
@@ -94,7 +139,7 @@ msgctxt "Premium Tab"
 msgid "Get the premium version to unlock advanced features"
 msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:853
+#: plugin-fw/includes/class-yit-plugin-panel.php:866
 msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
@@ -339,58 +384,58 @@ msgctxt "Admin title of tab"
 msgid "General options"
 msgstr "Opzioni generali"
 
-#: plugin-fw/templates/panel/help-tab.php:203
+#: plugin-fw/templates/panel/help-tab.php:204
 msgctxt "Help tab submit ticket button"
 msgid "Submit a ticket"
 msgstr "Invia un ticket"
 
-#: plugin-fw/templates/panel/help-tab.php:195
+#: plugin-fw/templates/panel/help-tab.php:196
 msgctxt "Help tab submit ticket description"
 msgid "If you are experiencing any technical issues, ask for help from our developers. Submit a ticket through our support desk and we will help you as soon as possible."
 msgstr "Se stai riscontrando problemi tecnici chiedi aiuto ai nostri sviluppatori. Invia un ticket dalla nostra piattaforma di supporto e ti daremo assistenza il più presto possibile."
 
-#: plugin-fw/templates/panel/help-tab.php:192
+#: plugin-fw/templates/panel/help-tab.php:193
 msgctxt "Help tab submit ticket title"
 msgid "Need help?"
 msgstr "Ti serve aiuto?"
 
-#: plugin-fw/templates/panel/help-tab.php:183
+#: plugin-fw/templates/panel/help-tab.php:184
 msgctxt "Help tab FAQ link"
 msgid "View all FAQs >"
 msgstr "Vedi tutte le FAQ"
 
-#: plugin-fw/templates/panel/help-tab.php:169
+#: plugin-fw/templates/panel/help-tab.php:170
 msgctxt "Help tab FAQ title"
 msgid "Last FAQs in our Help Center"
 msgstr "Ultime FAQ nel nostro Centro Assistenza"
 
-#: plugin-fw/templates/panel/help-tab.php:153
+#: plugin-fw/templates/panel/help-tab.php:155
 msgctxt "Help tab view FAQs link"
 msgid "to find answers to your doubts."
 msgstr "per trovare le risposte ai tuoi dubbi."
 
-#: plugin-fw/templates/panel/help-tab.php:150
+#: plugin-fw/templates/panel/help-tab.php:152
 msgctxt "Help tab view FAQs link"
 msgid "Check the FAQs"
 msgstr "Controlla le FAQ"
 
-#: plugin-fw/templates/panel/help-tab.php:137
+#: plugin-fw/templates/panel/help-tab.php:139
 msgctxt "Help tab Watch video tutorials link"
 msgid "Watch our video tutorials"
 msgstr "Guarda i nostri video tutorial"
 
-#: plugin-fw/templates/panel/help-tab.php:124
+#: plugin-fw/templates/panel/help-tab.php:126
 msgctxt "Help tab Read Documentation link"
 msgid "Read the documentation"
 msgstr "Consulta la documentazione"
 
-#: plugin-fw/templates/panel/help-tab.php:94
+#: plugin-fw/templates/panel/help-tab.php:96
 msgctxt "Help tab Watch Videotutorials link"
 msgid "Videos are also available in:"
 msgstr "I video sono disponibili anche in:"
 
 #. translators: 1. Url to EN playlist.
-#: plugin-fw/templates/panel/help-tab.php:87
+#: plugin-fw/templates/panel/help-tab.php:89
 msgctxt "Help tab view all video link"
 msgid "Check the full <a href=\"%s\" target=\"_blank\">Playlist on Youtube</a> to learn more >"
 msgstr "Per saperne di più, vedi la <a href=\"%s\" target=\"_blank\">Playlist completa su Youtube</a>>"
@@ -405,19 +450,18 @@ msgctxt "Image width field label"
 msgid "Width"
 msgstr "Larghezza"
 
-#. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:806
+#: plugin-fw/includes/class-yit-plugin-panel.php:815
 msgctxt "Help tab default description"
 msgid "We want to help you enjoy a wonderful experience with all of our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:805
+#: plugin-fw/includes/class-yit-plugin-panel.php:803
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:865
+#: plugin-fw/includes/class-yit-plugin-panel.php:878
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -600,7 +644,7 @@ msgstr "Non è possibile attivare la versione free di YITH Request a Quote for W
 msgid "Upgrade to %1$spremium version%2$s of %1$sYITH Request a Quote for WooCommerce%2$s to benefit from all features!"
 msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH Request a Quote for WooCommerce%2$s per usufruire di tutte le funzionalità!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1561
+#: plugin-fw/includes/class-yit-plugin-panel.php:1576
 msgid "help us by leaving a good review"
 msgstr "Puoi darci una mano lasciando una recensione positiva"
 
@@ -962,15 +1006,15 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1562
+#: plugin-fw/includes/class-yit-plugin-panel.php:1577
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1559
+#: plugin-fw/includes/class-yit-plugin-panel.php:1574
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per poter continuare ad aggiornare e migliorare il plugin."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1558
+#: plugin-fw/includes/class-yit-plugin-panel.php:1573
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo sostegno"
 
@@ -1199,11 +1243,11 @@ msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Live Demo"
 
-#: includes/class.yith-request-quote-admin.php:252 plugin-fw/yit-plugin.php:213
+#: includes/class.yith-request-quote-admin.php:252 plugin-fw/yit-plugin.php:232
 msgid "License"
 msgstr "Chiave di licenza"
 
-#: includes/class.yith-request-quote-admin.php:249 plugin-fw/yit-plugin.php:209
+#: includes/class.yith-request-quote-admin.php:249 plugin-fw/yit-plugin.php:228
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -1507,44 +1551,44 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1069
+#: plugin-fw/includes/class-yit-plugin-panel.php:1084
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1068
+#: plugin-fw/includes/class-yit-plugin-panel.php:1083
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1067
+#: plugin-fw/includes/class-yit-plugin-panel.php:1082
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1066
+#: plugin-fw/includes/class-yit-plugin-panel.php:1081
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1065
+#: plugin-fw/includes/class-yit-plugin-panel.php:1080
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1063
-#: plugin-fw/includes/class-yit-plugin-panel.php:1064
+#: plugin-fw/includes/class-yit-plugin-panel.php:1078
+#: plugin-fw/includes/class-yit-plugin-panel.php:1079
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1062
+#: plugin-fw/includes/class-yit-plugin-panel.php:1077
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1061
+#: plugin-fw/includes/class-yit-plugin-panel.php:1076
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1060
+#: plugin-fw/includes/class-yit-plugin-panel.php:1075
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1059
+#: plugin-fw/includes/class-yit-plugin-panel.php:1074
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 

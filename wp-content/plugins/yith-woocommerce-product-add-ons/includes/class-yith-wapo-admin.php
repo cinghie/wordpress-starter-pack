@@ -114,7 +114,6 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 			// Blocks Settings.
-			add_action( 'yith_wapo_show_block_tab', array( $this, 'show_block_tab' ) );
 			add_action( 'yith_wapo_show_blocks_tab', array( $this, 'show_blocks_tab' ) );
 			add_action( 'yith_wapo_impexp_tab', array( $this, 'show_impexp_tab' ) );
 
@@ -255,7 +254,7 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				'parent_slug'      => '',
 				'plugin_slug'      => YITH_WAPO_SLUG,
 				'page_title'       => 'YITH WooCommerce Product Add-ons & Extra Options',
-				'menu_title'       => 'Product Add-ons',
+				'menu_title'       => 'Product Add-ons & Extra Options',
 				'capability'       => apply_filters( 'yith_wapo_register_panel_capabilities', $capability ),
 				'parent'           => YITH_WAPO_SLUG,
 				'parent_page'      => $parent_page,
@@ -282,7 +281,8 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 				),
 			);
 
-			if ( class_exists( 'YITH_Vendors' ) && $vendor instanceof YITH_Vendor && $vendor->is_valid() ) {
+			//Todo: add the premium tab as $args['premium_tab']
+			if ( ( ! defined( 'YITH_WAPO_PREMIUM' ) || ! YITH_WAPO_PREMIUM ) || class_exists( 'YITH_Vendors' ) && $vendor instanceof YITH_Vendor && $vendor->is_valid() ) {
 				unset( $args['help_tab'] );
 			}
 
@@ -344,16 +344,6 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 					$shop_manager->add_cap( $cap );
 				}
 			}
-		}
-
-		/**
-		 * Show block tab
-		 *
-		 * @return  void
-		 */
-		public function show_block_tab() {
-			$template = YITH_WAPO_TEMPLATE_PATH . '/admin/block.php';
-			file_exists( $template ) && require $template;
 		}
 
 		/**

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Brands Add-On - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-06-16 09:30:48+0000\n"
+"PO-Revision-Date: 2022-08-04 14:56:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,8 +11,60 @@ msgstr ""
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Brands Add-On - Stable (latest release)\n"
 
+#: plugin-fw/templates/panel/premium-tab.php:53
+msgctxt "Premium Tab"
+msgid "Check the premium features >"
+msgstr "Dai un'occhiata alle caratteristiche premium > "
+
+#: plugin-fw/templates/panel/help-tab.php:241
+msgctxt "Help tab support"
+msgid "Yes, I need help"
+msgstr "Sì, mi serve aiuto"
+
+#: plugin-fw/templates/panel/help-tab.php:238
+msgctxt "Help tab support"
+msgid "Call or chat 24/7 with our support agents, or let our experts build your site."
+msgstr "Chiama o chatta 24/7 con i nostri operatori dell'assistenza o lascia creare il tuo sito ai nostri esperti."
+
+#: plugin-fw/templates/panel/help-tab.php:235
+msgctxt "Help tab support"
+msgid "From DIY to full-service help"
+msgstr "Dall'aiuto fai da te al servizio completo"
+
+#: plugin-fw/templates/panel/help-tab.php:231
+#: plugin-fw/templates/panel/help-tab.php:233
+msgctxt "Help tab support"
+msgid "Need some help?"
+msgstr "Hai bisogno di aiuto?"
+
+#: plugin-fw/templates/panel/help-tab.php:220
+msgctxt "Help tab documentation"
+msgid "to learn how it works from the basics."
+msgstr "per scoprire dalle basi come funziona."
+
+#: plugin-fw/templates/panel/help-tab.php:216
+#: plugin-fw/templates/panel/help-tab.php:218
+#: plugin-fw/templates/panel/help-tab.php:223
+msgctxt "Help tab documentation"
+msgid "Read the plugin documentation"
+msgstr "Consulta la documentazione del plugin"
+
+#: plugin-fw/templates/bh-onboarding/onboarding-tabs.php:63
+msgid "Save"
+msgstr "Salva"
+
+#: plugin-fw/includes/class-yith-bh-onboarding.php:85
+msgid "It is not possible save the options"
+msgstr "Impossibile salvare le opzioni"
+
+#. translators: 1. Plugin name.
+#: plugin-fw/includes/class-yit-plugin-panel.php:803
+msgctxt "Help tab default title"
+msgid "Thank you for using %s!"
+msgstr "Grazie per aver scelto %s!"
+
 #. translators: 1. Plugin(s) name(s).
-#: plugin-fw/yit-deactive-plugin.php:119
+#: plugin-fw/yit-plugin.php:272
 msgid "%s was deactivated as you're running an higher tier version of the same plugin."
 msgid_plural "%s were deactivated as you're running higher tier versions of the same plugins."
 msgstr[0] "%s è stato disattivato poiché stai usando una versione superiore dello stesso plugin."
@@ -30,7 +82,7 @@ msgstr "Aspetto"
 msgid "Product ID:"
 msgstr "ID prodotto:"
 
-#: includes/class-yith-wcbr.php:144
+#: includes/class-yith-wcbr.php:152
 msgid "&larr; Go to brands"
 msgstr "&larr; Vedi i brand"
 
@@ -46,71 +98,71 @@ msgstr "Nascondi il titolo"
 msgid "Hide logo"
 msgstr "Nascondi il logo"
 
-#: includes/class-yith-wcbr-admin.php:433
+#: includes/class-yith-wcbr-admin.php:435
 msgid "Brands deleted."
 msgstr "Brand eliminati."
 
-#: includes/class-yith-wcbr-admin.php:432
+#: includes/class-yith-wcbr-admin.php:434
 msgid "Brand not updated."
 msgstr "Brand non aggiornati."
 
-#: includes/class-yith-wcbr-admin.php:431
+#: includes/class-yith-wcbr-admin.php:433
 msgid "Brand not added."
 msgstr "Brand non aggiunti."
 
-#: includes/class-yith-wcbr-admin.php:430
+#: includes/class-yith-wcbr-admin.php:432
 msgid "Brand updated."
 msgstr "Brand aggiornato."
 
-#: includes/class-yith-wcbr-admin.php:429
+#: includes/class-yith-wcbr-admin.php:431
 msgid "Brand deleted."
 msgstr "Brand eliminato."
 
-#: includes/class-yith-wcbr-admin.php:428
+#: includes/class-yith-wcbr-admin.php:430
 msgid "Brand added."
 msgstr "Brand aggiunto."
 
-#: includes/class-yith-wcbr-admin.php:397
+#: includes/class-yith-wcbr-admin.php:382
 msgid "You have no Brands yet!"
 msgstr "Ancora nessun brand!"
 
-#: includes/class-yith-wcbr-admin.php:138
+#: includes/class-yith-wcbr-admin.php:140
 msgid "Regular updates, translations, and premium support"
 msgstr "Aggiornamenti regolari, traduzioni e assistenza premium"
 
-#: includes/class-yith-wcbr-admin.php:137
+#: includes/class-yith-wcbr-admin.php:139
 msgid "Integration with YITH WooCommerce Dynamic Pricing and Discounts to <b>create offers, discount rules and promotions only for products of specific brands</b>"
 msgstr "Integrazione con YITH WooCommerce Dynamic Pricing and Discounts per <b>creare offerte, regole di sconto e promozioni solo per prodotti di specifici brand</b>"
 
-#: includes/class-yith-wcbr-admin.php:136
+#: includes/class-yith-wcbr-admin.php:138
 msgid "Integration with YITH WooCommerce Ajax Product Filter to <b>show a \"Filter by brand\" on the Shop page</b>"
 msgstr "Integrazione con YITH WooCommerce Ajax Product Filter per <b>mostrare i \"Filtro per brand\" nella pagina del negozio</b>"
 
-#: includes/class-yith-wcbr-admin.php:135
+#: includes/class-yith-wcbr-admin.php:137
 msgid "<b>9 shortcodes</b> to highlight brands in different ways"
 msgstr "<b>9 shortcode</b> per dare risalto ai tuoi brand in molti modi diversi"
 
-#: includes/class-yith-wcbr-admin.php:134
+#: includes/class-yith-wcbr-admin.php:136
 msgid "<b>5 widgets</b> to show a list of brands, brand logos, sliders, etc. in a widgetized area"
 msgstr "<b>5 widget</b> per mostrare un elenco di brand, loghi, slider etc. in un'area widget"
 
-#: includes/class-yith-wcbr-admin.php:133
+#: includes/class-yith-wcbr-admin.php:135
 msgid "Show brands also on the Shop page and <b>customize the size and position</b>"
 msgstr "Mostra i brand anche nella pagina Shop e <b>personalizzane la dimensione e la posizione</b>"
 
-#: includes/class-yith-wcbr-admin.php:132
+#: includes/class-yith-wcbr-admin.php:134
 msgid "Set up other product taxonomies available as \"brands\" (i.e. categories, tags, and attributes)"
 msgstr "Scegli altre tassonomie prodotto per i tuoi brand (es. categories, tag e attributi)"
 
-#: includes/class-yith-wcbr-admin.php:131
+#: includes/class-yith-wcbr-admin.php:133
 msgid "Upload a <b>banner image</b> to customize the brand archive page"
 msgstr "Carica <b>un'immagine banner</b> per personalizzare la pagina di archivio del brand"
 
-#: includes/class-yith-wcbr-admin.php:130
+#: includes/class-yith-wcbr-admin.php:132
 msgid "Set a default image to apply to brands without a logo"
 msgstr "Imposta un’immagine predefinita da applicare ai brand senza logo"
 
-#: includes/class-yith-wcbr-admin.php:109
+#: includes/class-yith-wcbr-admin.php:108
 #: plugin-options/settings-options.php:17
 msgid "General Options"
 msgstr "Opzioni generali"
@@ -127,27 +179,28 @@ msgstr "Cerca un articolo..."
 msgid "Search for a customer..."
 msgstr "Cerca un cliente..."
 
-#: plugin-fw/templates/panel/help-tab.php:140
+#: plugin-fw/templates/panel/help-tab.php:142
 msgctxt "Help tab Watch video tutorials link"
 msgid "to see some helpful use cases."
 msgstr "per vedere dei casi d'utilizzo utili."
 
-#: plugin-fw/templates/panel/help-tab.php:127
+#: plugin-fw/templates/panel/help-tab.php:129
 msgctxt "Help tab Read Documentation link"
 msgid "to learn how the plugin works from the basics."
 msgstr "per scoprire dalle basi come funziona il plugin."
 
-#: plugin-fw/templates/panel/premium-tab.php:58
+#: plugin-fw/templates/panel/premium-tab.php:65
 msgctxt "Premium Tab"
 msgid "Get the premium version"
 msgstr "Ottieni la versione premium"
 
-#: plugin-fw/templates/panel/premium-tab.php:53
+#: plugin-fw/templates/panel/premium-tab.php:60
 msgctxt "Premium Tab"
 msgid "Check the free vs premium features >"
 msgstr "Confronta le funzionalità della versione gratuita e della premium >"
 
 #: plugin-fw/templates/panel/premium-tab.php:51
+#: plugin-fw/templates/panel/premium-tab.php:58
 msgctxt "Premium Tab"
 msgid "And so much more!"
 msgstr "E molto altro!"
@@ -167,7 +220,7 @@ msgctxt "Premium Tab"
 msgid "Get the premium version to unlock advanced features"
 msgstr "Ottieni la versione premium per sbloccare le funzionalità avanzate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:853
+#: plugin-fw/includes/class-yit-plugin-panel.php:866
 msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
@@ -300,58 +353,58 @@ msgstr "Opzioni salvate"
 msgid "Save Options"
 msgstr "Salva opzioni "
 
-#: plugin-fw/templates/panel/help-tab.php:203
+#: plugin-fw/templates/panel/help-tab.php:204
 msgctxt "Help tab submit ticket button"
 msgid "Submit a ticket"
 msgstr "Invia un ticket"
 
-#: plugin-fw/templates/panel/help-tab.php:195
+#: plugin-fw/templates/panel/help-tab.php:196
 msgctxt "Help tab submit ticket description"
 msgid "If you are experiencing any technical issues, ask for help from our developers. Submit a ticket through our support desk and we will help you as soon as possible."
 msgstr "Se stai riscontrando problemi tecnici chiedi aiuto ai nostri sviluppatori. Invia un ticket dalla nostra piattaforma di supporto e ti daremo assistenza il più presto possibile."
 
-#: plugin-fw/templates/panel/help-tab.php:192
+#: plugin-fw/templates/panel/help-tab.php:193
 msgctxt "Help tab submit ticket title"
 msgid "Need help?"
 msgstr "Ti serve aiuto?"
 
-#: plugin-fw/templates/panel/help-tab.php:183
+#: plugin-fw/templates/panel/help-tab.php:184
 msgctxt "Help tab FAQ link"
 msgid "View all FAQs >"
 msgstr "Vedi tutte le FAQ"
 
-#: plugin-fw/templates/panel/help-tab.php:169
+#: plugin-fw/templates/panel/help-tab.php:170
 msgctxt "Help tab FAQ title"
 msgid "Last FAQs in our Help Center"
 msgstr "Ultime FAQ nel nostro Centro Assistenza"
 
-#: plugin-fw/templates/panel/help-tab.php:153
+#: plugin-fw/templates/panel/help-tab.php:155
 msgctxt "Help tab view FAQs link"
 msgid "to find answers to your doubts."
 msgstr "per trovare le risposte ai tuoi dubbi."
 
-#: plugin-fw/templates/panel/help-tab.php:150
+#: plugin-fw/templates/panel/help-tab.php:152
 msgctxt "Help tab view FAQs link"
 msgid "Check the FAQs"
 msgstr "Controlla le FAQ"
 
-#: plugin-fw/templates/panel/help-tab.php:137
+#: plugin-fw/templates/panel/help-tab.php:139
 msgctxt "Help tab Watch video tutorials link"
 msgid "Watch our video tutorials"
 msgstr "Guarda i nostri video tutorial"
 
-#: plugin-fw/templates/panel/help-tab.php:124
+#: plugin-fw/templates/panel/help-tab.php:126
 msgctxt "Help tab Read Documentation link"
 msgid "Read the documentation"
 msgstr "Consulta la documentazione"
 
-#: plugin-fw/templates/panel/help-tab.php:94
+#: plugin-fw/templates/panel/help-tab.php:96
 msgctxt "Help tab Watch Videotutorials link"
 msgid "Videos are also available in:"
 msgstr "I video sono disponibili anche in:"
 
 #. translators: 1. Url to EN playlist.
-#: plugin-fw/templates/panel/help-tab.php:87
+#: plugin-fw/templates/panel/help-tab.php:89
 msgctxt "Help tab view all video link"
 msgid "Check the full <a href=\"%s\" target=\"_blank\">Playlist on Youtube</a> to learn more >"
 msgstr "Per saperne di più, vedi la <a href=\"%s\" target=\"_blank\">Playlist completa su Youtube</a>>"
@@ -378,19 +431,18 @@ msgstr "Torna alla lista "
 msgid "Back to \"%s\""
 msgstr "Torna a \"%s\""
 
-#. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:806
+#: plugin-fw/includes/class-yit-plugin-panel.php:815
 msgctxt "Help tab default description"
 msgid "We want to help you enjoy a wonderful experience with all of our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:805
+#: plugin-fw/includes/class-yit-plugin-panel.php:803
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:865
+#: plugin-fw/includes/class-yit-plugin-panel.php:878
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -399,46 +451,46 @@ msgstr "Help"
 msgid "There was an error with your request; please try again later."
 msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2027
+#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:2027
 #: plugin-fw/yit-functions.php:2154
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:149 plugin-fw/yit-functions.php:1940
+#: plugin-fw/includes/class-yit-assets.php:151 plugin-fw/yit-functions.php:1940
 #: plugin-fw/yit-functions.php:2100
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
-#: plugin-fw/includes/class-yit-assets.php:149
+#: plugin-fw/includes/class-yit-assets.php:151
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Se sicuro di voler eliminare gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:2024
+#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2024
 #: plugin-fw/yit-functions.php:2152
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:2009
+#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:2009
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
 
-#: plugin-fw/includes/class-yit-assets.php:145
+#: plugin-fw/includes/class-yit-assets.php:147
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:144 plugin-fw/yit-functions.php:2006
+#: plugin-fw/includes/class-yit-assets.php:146 plugin-fw/yit-functions.php:2006
 msgid "Confirm trash"
 msgstr "Conferma"
 
-#: plugin-fw/includes/class-yit-assets.php:133
+#: plugin-fw/includes/class-yit-assets.php:135
 msgctxt "Button text"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: plugin-fw/includes/class-yit-assets.php:132
+#: plugin-fw/includes/class-yit-assets.php:134
 msgctxt "Button text"
 msgid "Confirm"
 msgstr "Conferma"
@@ -453,7 +505,7 @@ msgctxt "Copy-to-clipboard message"
 msgid "Copied!"
 msgstr "Copiato!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1561
+#: plugin-fw/includes/class-yit-plugin-panel.php:1576
 msgid "help us by leaving a good review"
 msgstr "aiutaci lasciando una recensione positiva"
 
@@ -523,27 +575,27 @@ msgstr "Anteprima:"
 msgid "External object cache"
 msgstr "External object cache"
 
-#: plugin-fw/includes/class-yit-assets.php:167
+#: plugin-fw/includes/class-yit-assets.php:177
 msgid "Color value"
 msgstr "Valore del colore"
 
-#: plugin-fw/includes/class-yit-assets.php:166
+#: plugin-fw/includes/class-yit-assets.php:176
 msgid "Select Color"
 msgstr "Seleziona colore"
 
-#: plugin-fw/includes/class-yit-assets.php:165
+#: plugin-fw/includes/class-yit-assets.php:175
 msgid "Select default color"
 msgstr "Seleziona il colore predefinito"
 
-#: plugin-fw/includes/class-yit-assets.php:164
+#: plugin-fw/includes/class-yit-assets.php:174
 msgid "Default"
 msgstr "Predefinito"
 
-#: plugin-fw/includes/class-yit-assets.php:163
+#: plugin-fw/includes/class-yit-assets.php:173
 msgid "Clear color"
 msgstr "Rimuovi colore"
 
-#: plugin-fw/includes/class-yit-assets.php:162
+#: plugin-fw/includes/class-yit-assets.php:172
 msgid "Clear"
 msgstr "Cancella"
 
@@ -561,8 +613,8 @@ msgstr "Non è stato possibile determinare quale versione di %1$s è installata 
 msgid "Contact your hosting company in order to install it."
 msgstr "Contatta il tuo hosting per installarlo."
 
-#: plugin-fw/includes/class-yit-assets.php:147
-#: plugin-fw/includes/class-yit-assets.php:151
+#: plugin-fw/includes/class-yit-assets.php:149
+#: plugin-fw/includes/class-yit-assets.php:153
 #: plugin-fw/templates/sysinfo/tabs/main.php:42
 #: plugin-fw/templates/sysinfo/tabs/main.php:50
 #: plugin-fw/yit-functions.php:2008 plugin-fw/yit-functions.php:2026
@@ -621,15 +673,15 @@ msgctxt "YES/NO button: use MAX 4 characters!"
 msgid "NO"
 msgstr "NO"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1562
+#: plugin-fw/includes/class-yit-plugin-panel.php:1577
 msgid ":) Thanks!"
 msgstr ":) Grazie!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1559
+#: plugin-fw/includes/class-yit-plugin-panel.php:1574
 msgid "to keep updating and improving the plugin. Please,"
 msgstr "per continuare ad aggiornare e a migliorare il plugin."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1558
+#: plugin-fw/includes/class-yit-plugin-panel.php:1573
 msgid "We need your support"
 msgstr "Abbiamo bisogno del tuo supporto"
 
@@ -825,7 +877,7 @@ msgstr "Ultime novità dal blog YITH"
 msgid "YITH Latest Updates"
 msgstr "Ultimi aggiornamenti YITH"
 
-#: views/edit-brand-taxonomy-form.php:20
+#: views/edit-brand-taxonomy-form.php:23
 msgid "Product brand thumbnail"
 msgstr "Miniatura brand prodotto"
 
@@ -882,31 +934,31 @@ msgstr "YITH"
 msgid "<code><strong>YITH WooCommerce Brands Add-On</strong></code> allows organizing products by brand and improves your shop user experience and your visibility on search engines. Let your customers browse your shop based on their favourite brands with only a few clicks. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce on <strong>YITH</strong></a>"
 msgstr "<code><strong>YITH WooCommerce Brands Add-On</strong></code> ti permette di organizzare i prodotti del tuo shop per brand migliorando così l'esperienza utente e la tua visibilità nei motori di ricerca. Fa' sì che i tuoi clienti possano facilmente navigare nel tuo negozio online sfogliando i prodotti dei loro brand preferiti in pochi clic. <a href=\"https://yithemes.com/\" target=\"_blank\">Scopri molti altri plugin per il tuo e-commerce su <strong>YITH</strong></a>"
 
-#: plugin-fw/yit-plugin.php:213
+#: plugin-fw/yit-plugin.php:233
 msgid "License"
 msgstr "Chiave di licenza"
 
-#: plugin-fw/yit-plugin.php:209
+#: plugin-fw/yit-plugin.php:229
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: plugin-fw/yit-plugin.php:96
+#: plugin-fw/yit-plugin.php:97
 msgctxt "Plugin Row Meta"
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: plugin-fw/yit-plugin.php:92
+#: plugin-fw/yit-plugin.php:93
 msgctxt "Plugin Row Meta"
 msgid "Support"
 msgstr "Assistenza"
 
-#: plugin-fw/yit-plugin.php:88
+#: plugin-fw/yit-plugin.php:89
 msgctxt "Plugin Row Meta"
 msgid "Documentation"
 msgstr "Documentazione"
 
-#: plugin-fw/yit-plugin.php:84
+#: plugin-fw/yit-plugin.php:85
 msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Live Demo"
@@ -967,11 +1019,11 @@ msgstr "https://yithemes.com/themes/plugins/yith-woocommerce-brands-add-on/"
 msgid "YITH WooCommerce Brands Add-On"
 msgstr "YITH WooCommerce Brands Add-On"
 
-#: views/add-brand-taxonomy-form.php:23 views/edit-brand-taxonomy-form.php:24
+#: views/add-brand-taxonomy-form.php:25 views/edit-brand-taxonomy-form.php:28
 msgid "Remove image"
 msgstr "Rimuovi immagine"
 
-#: views/add-brand-taxonomy-form.php:22 views/edit-brand-taxonomy-form.php:23
+#: views/add-brand-taxonomy-form.php:24 views/edit-brand-taxonomy-form.php:27
 msgid "Upload/Add image"
 msgstr "Carica/Aggiungi immagine"
 
@@ -1090,44 +1142,44 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1069
+#: plugin-fw/includes/class-yit-plugin-panel.php:1084
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1068
+#: plugin-fw/includes/class-yit-plugin-panel.php:1083
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1067
+#: plugin-fw/includes/class-yit-plugin-panel.php:1082
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1066
+#: plugin-fw/includes/class-yit-plugin-panel.php:1081
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1065
+#: plugin-fw/includes/class-yit-plugin-panel.php:1080
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1063
-#: plugin-fw/includes/class-yit-plugin-panel.php:1064
+#: plugin-fw/includes/class-yit-plugin-panel.php:1078
+#: plugin-fw/includes/class-yit-plugin-panel.php:1079
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1062
+#: plugin-fw/includes/class-yit-plugin-panel.php:1077
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1061
+#: plugin-fw/includes/class-yit-plugin-panel.php:1076
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1060
+#: plugin-fw/includes/class-yit-plugin-panel.php:1075
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1059
+#: plugin-fw/includes/class-yit-plugin-panel.php:1074
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
@@ -1162,7 +1214,7 @@ msgstr "Come installare la versione premium"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:430
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:436
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -1171,74 +1223,74 @@ msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 msgid "Name"
 msgstr "Nome"
 
-#: includes/class-yith-wcbr.php:143
+#: includes/class-yith-wcbr.php:151
 msgid "No brands found"
 msgstr "Nessun brand trovato"
 
-#: includes/class-yith-wcbr.php:142
+#: includes/class-yith-wcbr.php:150
 msgid "Separate brands with commas"
 msgstr "Separa i brand con la virgola"
 
-#: includes/class-yith-wcbr.php:141
+#: includes/class-yith-wcbr.php:149
 msgid "Search brands"
 msgstr "Cerca brand"
 
-#: includes/class-yith-wcbr.php:140
+#: includes/class-yith-wcbr.php:148
 msgid "Parent brand:"
 msgstr "Brand genitore:"
 
-#: includes/class-yith-wcbr.php:139
+#: includes/class-yith-wcbr.php:147
 msgid "Parent brand"
 msgstr "Brand genitore"
 
-#: includes/class-yith-wcbr.php:138
+#: includes/class-yith-wcbr.php:146
 msgid "New brand name"
 msgstr "Nome nuovo brand"
 
-#: includes/class-yith-wcbr.php:137
+#: includes/class-yith-wcbr.php:145
 msgid "Add new brand"
 msgstr "Aggiungi nuovo brand"
 
-#: includes/class-yith-wcbr.php:136
+#: includes/class-yith-wcbr.php:144
 msgid "Update brand"
 msgstr "Aggiorna brand"
 
-#: includes/class-yith-wcbr.php:135
+#: includes/class-yith-wcbr.php:143
 msgid "View brand"
 msgstr "Visualizza brand"
 
-#: includes/class-yith-wcbr.php:134
+#: includes/class-yith-wcbr.php:142
 msgid "Edit brand"
 msgstr "Modifica brand"
 
-#: includes/class-yith-wcbr.php:133
+#: includes/class-yith-wcbr.php:141
 msgid "All brands"
 msgstr "Tutti i brand"
 
-#: includes/class-yith-wcbr.php:132
+#: includes/class-yith-wcbr.php:140
 msgid "Brand"
 msgstr "Brand"
 
-#: includes/class-yith-wcbr-admin.php:110
-#: includes/class-yith-wcbr-shortcode.php:53 includes/class-yith-wcbr.php:131
-#: includes/class-yith-wcbr.php:150
+#: includes/class-yith-wcbr-admin.php:109
+#: includes/class-yith-wcbr-shortcode.php:53 includes/class-yith-wcbr.php:139
+#: includes/class-yith-wcbr.php:158
 msgid "Brands"
 msgstr "Brand"
 
-#: includes/class-yith-wcbr-admin.php:354 views/add-brand-taxonomy-form.php:18
-#: views/edit-brand-taxonomy-form.php:18
+#: includes/class-yith-wcbr-admin.php:356 views/add-brand-taxonomy-form.php:19
+#: views/edit-brand-taxonomy-form.php:19
 msgid "Thumbnail"
 msgstr "Miniatura"
 
-#: includes/class-yith-wcbr-admin.php:323
+#: includes/class-yith-wcbr-admin.php:325
 msgid "Image"
 msgstr "Immagine"
 
-#: includes/class-yith-wcbr-admin.php:226
+#: includes/class-yith-wcbr-admin.php:228
 msgid "Use image"
 msgstr "Usa immagine"
 
-#: includes/class-yith-wcbr-admin.php:225
+#: includes/class-yith-wcbr-admin.php:227
 msgid "Choose an image"
 msgstr "Scegli un'immagine"
 

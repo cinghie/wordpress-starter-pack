@@ -214,6 +214,7 @@ export default {
 		modifiedAt(slideshow) {
 			return DateTime
 				.fromSQL(slideshow.modified_at_gmt, {zone: 'utc'})
+				.setLocale(metaslider.locale)
 				.toRelative()
 		},
 		toggleSlideshowsToExport(state) {

@@ -14,6 +14,7 @@ class WOOCCM_Field_Controller extends WOOCCM_Controller
     include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-billing.php');
     include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-shipping.php');
     include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-additional.php');
+	include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-i18n.php');
 
     if (!is_admin()) {
       include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-register.php');
@@ -21,7 +22,6 @@ class WOOCCM_Field_Controller extends WOOCCM_Controller
       include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-disable.php');
       include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-conditional.php');
       include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-handler.php');
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-i18n.php');
       include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-filters.php');
     }
 
@@ -323,12 +323,15 @@ class WOOCCM_Field_Controller extends WOOCCM_Controller
       if (isset(WOOCCM()->$section)) {
 
         $field_data = wp_parse_args($field_data, WOOCCM()->$section->get_args());
-
-        // don't override
-        //unset($field_data['order']);
-        //unset($field_data['required']);
-        //unset($field_data['position']);
-        //unset($field_data['disabled']);
+         
+		/**
+		 * Don't override this fields, they are handled trough the interface toggles.
+		*/
+        unset($field_data['order']);
+        unset($field_data['required']);
+        // unset($field_data['position']);
+        unset($field_data['clear']);
+        unset($field_data['disabled']);
 
         return WOOCCM()->$section->update_field($field_data);
       }

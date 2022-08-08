@@ -25,9 +25,6 @@ if ( ! class_exists( 'WPPFM_Feed_CRUD_Handler' ) ) :
 			$feed_data_to_store = $data_class->convert_ajax_feed_data_to_database_format( $feed_data );
 			$feed_data_types    = $data_class->get_types_from_feed_data( $feed_data_to_store, $feed_data );
 
-			// convert country code to country id
-			$feed_data_to_store['country_id'] = $data_class->get_country_id_from_short_code( $feed_data_to_store['country_id'] )->country_id;
-
 			self::add_fixed_data_fields( $feed_data_to_store, $feed_data_types, $feed_id );
 
 			// decode the meta data

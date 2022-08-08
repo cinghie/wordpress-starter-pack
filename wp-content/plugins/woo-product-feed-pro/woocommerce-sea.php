@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.7.1
+ * Version:     11.7.8
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 6.6
+ * WC tested up to: 6.7
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.7.1' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.7.8' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -1614,10 +1614,12 @@ function woosea_product_fix_structured_data( $product = null ) {
                         	$product_variations = new WC_Product_Variation( $child_val );
                              	$variations = array_filter($product_variations->get_variation_attributes());
 				$from_url = str_replace("\\","",sanitize_text_field($_GET),$i);
-                            	$intersect = array_intersect($from_url, $variations);
-                              	if($variations == $intersect){
-                                	$variation_id = $child_val;
-                             	}
+				if(is_array($from_url)){
+					$intersect = array_intersect($from_url, $variations);
+                              		if($variations == $intersect){
+                                		$variation_id = $child_val;
+					}
+				}
                     	}
 
             		if(isset($variation_id )){
