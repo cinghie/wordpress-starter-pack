@@ -68,10 +68,10 @@ add_filter( 'site_transient_update_plugins', 'disable_plugin_updates' );
 function footer_credits_widgets_init()
 {
 	register_sidebar( array(
-		'name'          => 'Footer Credits',
-		'id'            => 'footer-credits',
+		'name' => 'Footer Credits',
+		'id' => 'footer-credits',
 		'before_widget' => '<div class="credits">',
-		'after_widget'  => '</div>',
+		'after_widget' => '</div>',
 	) );
 }
 
@@ -80,7 +80,8 @@ add_action( 'widgets_init', 'footer_credits_widgets_init' );
 /**
  * Theme Credits
  */
-function storefront_credit() {
+function storefront_credit()
+{
 	?>
 	<div class="site-info">
 		<?php if ( is_active_sidebar( 'footer-credits' ) ) : ?>
