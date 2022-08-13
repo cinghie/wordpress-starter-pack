@@ -71,11 +71,22 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 			add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
 
 			add_action( 'yith_ajax_search_premium', array( $this, 'premium_tab' ) );
+			add_action( 'after_setup_theme', array( $this, 'add_editor_styles' ) );
 
 			// YITH WCAS Loaded.
 			do_action( 'yith_wcas_loaded' );
 		}
 
+		/**
+		 * Add editor style to WordPress full site editor
+		 *
+		 * @return void
+		 * @since 1.22.2
+		 */
+		public function add_editor_styles() {
+			$css = file_exists( get_stylesheet_directory() . '/woocommerce/yith_ajax_search.css' ) ? get_stylesheet_directory_uri() . '/woocommerce/yith_ajax_search.css' : YITH_WCAS_URL . 'assets/css/yith_wcas_ajax_search.css';
+			add_editor_style( $css );
+		}
 
 		/**
 		 * Gutenberg Integration

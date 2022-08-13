@@ -60,7 +60,8 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 
 			add_action( 'wp_ajax_yith_ajax_search_products', array( $this, 'ajax_search_products' ) );
 			add_action( 'wp_ajax_nopriv_yith_ajax_search_products', array( $this, 'ajax_search_products' ) );
-
+			add_action( 'wp_enqueue_scripts', array( $this, 'register_styles_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'register_styles_scripts' ) );
 			// register shortcode.
 			add_shortcode( 'yith_woocommerce_ajax_search', array( $this, 'add_woo_ajax_search_shortcode' ) );
 
@@ -71,6 +72,33 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 			return $this->obj;
 		}
 
+
+		/**
+		 * Register styles and scripts
+		 *
+		 * @access public
+		 * @return void
+		 * @since 1.22.2
+		 */
+		public function register_styles_scripts() {
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			wp_register_script( 'yith_autocomplete', YITH_WCAS_URL . 'assets/js/yith-autocomplete' . $suffix . '.js', array( 'jquery' ), YITH_WCAS_VERSION, true );
+			wp_register_script( 'yith_wcas_jquery-autocomplete', YITH_WCAS_URL . 'assets/js/devbridge-jquery-autocomplete' . $suffix . '.js', array( 'jquery' ), YITH_WCAS_VERSION, true );
+			wp_register_script( 'yith_wcas_frontend', YITH_WCAS_URL . 'assets/js/frontend' . $suffix . '.js', array( 'jquery' ), YITH_WCAS_VERSION, true );
+			$css = file_exists( get_stylesheet_directory() . '/woocommerce/yith_ajax_search.css' ) ? get_stylesheet_directory_uri() . '/woocommerce/yith_ajax_search.css' : YITH_WCAS_URL . 'assets/css/yith_wcas_ajax_search.css';
+			wp_register_style( 'yith_wcas_frontend', $css, array(), YITH_WCAS_VERSION );
+
+			wp_localize_script(
+				'yith_wcas_frontend',
+				'yith_wcas_params',
+				array(
+					'loading'  => YITH_WCAS_ASSETS_IMAGES_URL . 'ajax-loader.gif',
+					'ajax_url' => admin_url( 'admin-ajax.php' ),
+
+				)
+			);
+
+		}
 
 		/**
 		 * Load Plugin Framework

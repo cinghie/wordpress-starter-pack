@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the YITH WooCommerce Ajax Search package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Ajax Search 1.22.1\n"
+"Project-Id-Version: YITH WooCommerce Ajax Search 1.22.2\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-ajax-search\n"
-"POT-Creation-Date: 2022-08-04 09:34:23+00:00\n"
+"POT-Creation-Date: 2022-08-10 09:16:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,15 +14,15 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/class.yith-wcas-admin.php:123
+#: includes/class.yith-wcas-admin.php:134
 msgid "Settings"
 msgstr ""
 
-#: includes/class.yith-wcas-admin.php:124
+#: includes/class.yith-wcas-admin.php:135
 msgid "Premium Version"
 msgstr ""
 
-#: includes/class.yith-wcas.php:203
+#: includes/class.yith-wcas.php:231
 msgid "No results"
 msgstr ""
 
@@ -54,7 +54,7 @@ msgid ""
 "you are using the premium one."
 msgstr ""
 
-#: init.php:125
+#: init.php:96
 msgid ""
 "YITH WooCommerce Ajax Search is enabled but not effective. It requires "
 "WooCommerce in order to work."
@@ -220,12 +220,12 @@ msgctxt "[gutenberg]: block description"
 msgid "Show Ajax Search Form"
 msgstr ""
 
-#: plugin-options/gutenberg/blocks.php:26
+#: plugin-options/gutenberg/blocks.php:27
 msgctxt "[gutenberg]: keywords"
 msgid "Ajax Search"
 msgstr ""
 
-#: plugin-options/gutenberg/blocks.php:27
+#: plugin-options/gutenberg/blocks.php:28
 msgctxt "[gutenberg]: keywords"
 msgid "Search"
 msgstr ""

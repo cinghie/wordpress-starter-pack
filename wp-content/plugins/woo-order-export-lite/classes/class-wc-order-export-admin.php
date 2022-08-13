@@ -481,7 +481,7 @@ class WC_Order_Export_Admin {
 		if ( ! isset( $this->tabs[ $tab ] ) ) {
 			$ajax_handler = apply_filters( 'woe_global_ajax_handler', new WC_Order_Export_Ajax() );
 			if ( ! method_exists( $ajax_handler, $method ) ) {
-				die( sprintf( __( 'Unknown AJAX method %s', 'woo-order-export-lite' ), $method) );
+				die( sprintf( __( 'Unknown AJAX method %s', 'woo-order-export-lite' ), esc_html($method)) );
 			}
 
 			$ajax_handler->$method();
@@ -489,7 +489,7 @@ class WC_Order_Export_Admin {
 		}
 
 		if ( ! method_exists( $this->tabs[ $tab ], $method ) ) {
-			die( sprintf( __( 'Unknown tab method %s', 'woo-order-export-lite' ), $method) );
+			die( sprintf( __( 'Unknown tab method %s', 'woo-order-export-lite' ), esc_html($method)) );
 		}
 
 		if ( $_POST && ! check_admin_referer( 'woe_nonce', 'woe_nonce' ) ) {

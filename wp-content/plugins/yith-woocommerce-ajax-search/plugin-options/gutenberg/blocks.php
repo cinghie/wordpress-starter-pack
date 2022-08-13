@@ -7,7 +7,7 @@
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @author YITH
+ * @author  YITH
  * @package YITH WooCommerce Ajax Search
  * @version 1.0.0
  */
@@ -20,6 +20,7 @@ $blocks = array(
 	'yith-woocommerce-ajax-search' => array(
 		'title'          => _x( 'Ajax Search', '[gutenberg]: block name', 'yith-woocommerce-ajax-search' ),
 		'description'    => _x( 'Show Ajax Search Form', '[gutenberg]: block description', 'yith-woocommerce-ajax-search' ),
+		'style'          => 'yith_wcas_frontend',
 		'shortcode_name' => 'yith_woocommerce_ajax_search',
 		'do_shortcode'   => true,
 		'keywords'       => array(
@@ -28,8 +29,6 @@ $blocks = array(
 		),
 	),
 );
-
-
 
 
 return apply_filters( 'ywraq_gutenberg_blocks', $blocks );

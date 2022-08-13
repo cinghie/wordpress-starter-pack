@@ -63,11 +63,11 @@ final class WOOCCM
 
     $checkout = include(WOOCCM_PLUGIN_DIR . 'assets/frontend/js/checkout.asset.php');
 
-    wp_register_style('wooccm', plugins_url('assets/frontend/css/checkout.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
+    wp_register_style('wooccm-checkout-css', plugins_url('assets/frontend/css/checkout.css', WOOCCM_PLUGIN_FILE), false, WOOCCM_PLUGIN_VERSION, 'all');
 
-    wp_register_script('wooccm-checkout', plugins_url('assets/frontend/js/checkout.js', WOOCCM_PLUGIN_FILE), $checkout['dependencies'], $checkout['version'], true);
+    wp_register_script('wooccm-checkout-js', plugins_url('assets/frontend/js/checkout.js', WOOCCM_PLUGIN_FILE), $checkout['dependencies'], $checkout['version'], true);
 
-    wp_localize_script('wooccm-checkout', 'wooccm_upload', array(
+    wp_localize_script('wooccm-checkout-js', 'wooccm_upload', array(
       'ajax_url' => admin_url('admin-ajax.php'),
       'nonce' => wp_create_nonce('wooccm_upload'),
       'limit' => array(

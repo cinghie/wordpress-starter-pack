@@ -1000,6 +1000,49 @@ class WooSEA_Get_Products {
                                                         			$shipping_cost = apply_filters('wc_aelia_cs_convert', $shipping_cost, $from_currency, $project_config['AELIA']);
                                                 			}
 								}
+                                                        
+							       // Set shipping cost
+                                                               if(!empty($product_id)){
+                                                                        // Add product to cart
+                                                                        if (isset($product_id)){
+                                                                                $quantity = 1;
+
+                                                                                if(!empty($code_from_config)){
+                                                                                        defined( 'WC_ABSPATH' ) || exit;
+
+                                                                                        // Load cart functions which are loaded only on the front-end.
+                                                                                        include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+                                                                                        include_once WC_ABSPATH . 'includes/class-wc-cart.php';
+
+                                                                                        wc_load_cart();
+
+                                                                                        WC()->customer->set_shipping_country( $code_from_config );
+
+                                                                                        if(isset($zone_details['region'])){
+                                                                                                WC()->customer->set_shipping_state(wc_clean( $zone_details['region'] ));
+                                                                                        }
+
+                                                                                        if(isset($zone_details['postal_code'])){
+                                                                                                WC()->customer->set_shipping_postcode(wc_clean( $zone_details['postal_code'] ));
+                                                                                        }
+
+                                                                                        if((is_numeric($product_id)) AND ($product_id > 0) AND (!empty($product_id))){
+                                                                                                WC()->cart->add_to_cart( $product_id, $quantity );
+                                                                                        }
+
+                                                                                        // Read cart and get schipping costs
+                                                                                        foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+                                                                                                $total_cost = WC()->cart->get_total();
+                                                                                                $shipping_cost = WC()->cart->get_shipping_total();
+                                                                                                $shipping_tax = WC()->cart->get_shipping_tax();
+                                                                                                $shipping_cost = ($shipping_cost+$shipping_tax);
+                                                                                                $shipping_cost = wc_format_localized_price($shipping_cost);
+                                                                                        }
+                                                                                        // Make sure to empty the cart again
+                                                                                        WC()->cart->empty_cart();
+                                                                                }
+                                                                        }
+                                                                }
                             				}
 
 							// CHECK IF WE NEED TO REMOVE LOCAL PICKUP
@@ -2806,6 +2849,15 @@ class WooSEA_Get_Products {
 				if (($project_config['taxonomy'] == "google_shopping") AND ($project_config['fields'] == "google_shopping")) {
 					$product_data['availability'] = "in_stock";
 				}
+			}
+
+			// Create future availability dates
+			if($stock_status == "onbackorder"){
+                        	$product_data['availability_date_plus1week'] = date('Y-m-d', strtotime('+1 week'));
+                        	$product_data['availability_date_plus2week'] = date('Y-m-d', strtotime('+2 week'));
+                        	$product_data['availability_date_plus3week'] = date('Y-m-d', strtotime('+3 week'));
+                        	$product_data['availability_date_plus4week'] = date('Y-m-d', strtotime('+4 week'));
+                        	$product_data['availability_date_plus5week'] = date('Y-m-d', strtotime('+5 week'));
 			}
 
 			$product_data['author'] = get_the_author();

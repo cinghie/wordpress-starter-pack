@@ -1,46 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
 var __webpack_exports__ = {};
-
-// NAMESPACE OBJECT: ./assets/js/shortcodes/config.js
-var config_namespaceObject = {};
-__webpack_require__.r(config_namespaceObject);
-__webpack_require__.d(config_namespaceObject, {
-  "$": () => ($)
-});
 
 ;// CONCATENATED MODULE: ./assets/js/shortcodes/config.js
 
@@ -48,6 +8,7 @@ __webpack_require__.d(config_namespaceObject, {
 
 var $ = jQuery; // we can do this as WebPack will compact all together inside a closure.
 
+var $body = $('body');
 
 ;// CONCATENATED MODULE: ./assets/js/shortcodes/modules/yith-wcan-filter.js
 
@@ -164,7 +125,7 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
         $(this).closest('form').submit();
       });
       this.filtered = filters && !!Object.keys(filters).length;
-      this.filtered ? config_namespaceObject.$body.addClass('filtered') : config_namespaceObject.$body.removeClass('filtered');
+      this.filtered ? $body.addClass('filtered') : $body.removeClass('filtered');
       $(window).trigger('scroll');
       $(document).trigger('yith-wcan-ajax-filtered', [response, filters]).trigger('yith_wcwl_reload_fragments');
     } // build url to show
@@ -467,6 +428,8 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
   // options
   // init object
   function YITH_WCAN_Dropdown(el, opts) {
+    var _yith_wcan_shortcodes, _yith_wcan_shortcodes2, _yith_wcan_shortcodes3, _yith_wcan_shortcodes4;
+
     yith_wcan_dropdown_classCallCheck(this, YITH_WCAN_Dropdown);
 
     yith_wcan_dropdown_defineProperty(this, "$originalSelect", null);
@@ -503,10 +466,10 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
       order: defaultOrder ? defaultOrder : 'ASC',
       getElements: null,
       labels: {
-        emptyLabel: defaultAll ? defaultAll : yith_wcan_shortcodes.labels.empty_option,
-        searchPlaceholder: yith_wcan_shortcodes.labels.search_placeholder,
-        noItemsFound: yith_wcan_shortcodes.labels.no_items,
-        showMore: yith_wcan_shortcodes.labels.show_more
+        emptyLabel: defaultAll ? defaultAll : (_yith_wcan_shortcodes = yith_wcan_shortcodes.labels) === null || _yith_wcan_shortcodes === void 0 ? void 0 : _yith_wcan_shortcodes.empty_option,
+        searchPlaceholder: (_yith_wcan_shortcodes2 = yith_wcan_shortcodes.labels) === null || _yith_wcan_shortcodes2 === void 0 ? void 0 : _yith_wcan_shortcodes2.search_placeholder,
+        noItemsFound: (_yith_wcan_shortcodes3 = yith_wcan_shortcodes.labels) === null || _yith_wcan_shortcodes3 === void 0 ? void 0 : _yith_wcan_shortcodes3.no_items,
+        showMore: (_yith_wcan_shortcodes4 = yith_wcan_shortcodes.labels) === null || _yith_wcan_shortcodes4 === void 0 ? void 0 : _yith_wcan_shortcodes4.show_more
       }
     };
     this.options = $.extend(defaults, opts);
@@ -580,9 +543,11 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
   }, {
     key: "_initShowMoreTemplate",
     value: function _initShowMoreTemplate($dropdwonSpan) {
+      var _this$options$labels$;
+
       var $showMore = $('<a/>', {
         "class": 'show-more',
-        text: this.options.labels.showMore.replace('%d', this.options.perPage)
+        text: (_this$options$labels$ = this.options.labels.showMore) === null || _this$options$labels$ === void 0 ? void 0 : _this$options$labels$.replace('%d', this.options.perPage)
       });
       $showMore.on('click', this.loadNextPage.bind(this)).hide();
       $dropdwonSpan.append($showMore);
@@ -667,9 +632,12 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
           }
         });
         self.updateLabel();
-      }); // close dropdown on external click
+      }); // close dropdown on external click; do this handler only once for any dropdown in the page
 
-      $(document).on('click', this.closeDropdown.bind(this));
+      if (!(globalThis !== null && globalThis !== void 0 && globalThis.yith_wcan_dropdown_init)) {
+        $(document).on('click', this._closeAllDropdowns);
+        globalThis.yith_wcan_dropdown_init = true;
+      }
     } // open dropdown
 
   }, {
@@ -688,6 +656,18 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
       var _this$$_main3;
 
       (_this$$_main3 = this.$_main) === null || _this$$_main3 === void 0 ? void 0 : _this$$_main3.removeClass('open').addClass('closed');
+    } // close all dropdowns
+
+  }, {
+    key: "_closeAllDropdowns",
+    value: function _closeAllDropdowns() {
+      var dropdowns = $(document).find('select.enhanced').filter(function (i, select) {
+        var $el = $(select);
+        return !!$el.data('dropdown');
+      });
+      dropdowns.each(function () {
+        $(this).data('dropdown').closeDropdown();
+      });
     } // close other dropdowns
 
   }, {
@@ -842,6 +822,7 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
       $anchor = $('<a/>', {
         href: option.length ? option.data('filter_url') : '#',
         html: label,
+        rel: 'nofollow',
         'data-title': option.length ? option.data('title') : ''
       });
 
@@ -913,7 +894,7 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
 
         _this3.$_items.append(items);
 
-        $(document).trigger('yith_wcan_dropdown_updated');
+        _this3.$originalSelect.trigger('yith_wcan_dropdown_updated');
 
         if (hasMore) {
           _this3._showLoadMore();

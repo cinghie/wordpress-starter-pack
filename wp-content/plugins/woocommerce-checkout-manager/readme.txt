@@ -5,9 +5,9 @@ Tags: checkout field editor, woocommerce checkout field editor, checkout manager
 Requires at least: 4.9
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 6.1.7
+Stable tag: 6.1.8
 WC requires at least: 3.1.0
-WC tested up to: 6.7
+WC tested up to: 6.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -148,6 +148,9 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+=  6.1.8
+* Fix. WooCommerce 6.8 compatibility
 
 =  6.1.7
 * Fix. WooCommerce Account fields remove

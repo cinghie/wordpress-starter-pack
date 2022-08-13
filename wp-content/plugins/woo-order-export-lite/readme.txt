@@ -5,7 +5,7 @@ Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders 
 Requires PHP: 5.4.0
 Requires at least: 4.7
 Tested up to: 6.0
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,7 +120,12 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 
 == Changelog ==
 
-= 3.3.1 - 2021-05-23 =
+= 3.3.2 - 2022-08-08 =
+* Fixed XSS vulnerability
+* Fixed bug - filter "Orders Range" ignores space chars now
+* Fixed bug - export failed  if product used webp images
+
+= 3.3.1 - 2022-05-23 =
 * Fixed critical bug - mode "Add coupons as X columns" exported empty product data
 
 = 3.3.0 - 2022-05-18 =

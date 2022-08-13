@@ -373,9 +373,10 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 				case 'names':
 				case 'slugs':
 				case 'count':
-				case 'id=>parent':
-				case 'id=>name':
-				case 'id=>slug':
+					if ( ! $term_ids && ! ( 'view' === $context && $this->use_all_terms() ) ) {
+						return array();
+					}
+
 					$terms = get_terms(
 						array_merge(
 							array(
@@ -383,7 +384,7 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 								'fields'     => $fields,
 								'hide_empty' => false,
 							),
-							$this->use_all_terms() ? array() : array(
+							'view' === $context && $this->use_all_terms() ? array() : array(
 								'include' => $term_ids,
 							)
 						)
@@ -391,6 +392,44 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 
 					if ( is_wp_error( $terms ) ) {
 						return array();
+					}
+
+					return $terms;
+				case 'id=>parent':
+				case 'id=>name':
+				case 'id=>slug':
+					if ( ! $term_ids && ! ( 'view' === $context && $this->use_all_terms() ) ) {
+						return array();
+					}
+
+					$terms = get_terms(
+						array_merge(
+							array(
+								'taxonomy'   => $taxonomy,
+								'fields'     => $fields,
+								'hide_empty' => false,
+							),
+							'view' === $context && $this->use_all_terms() ? array() : array(
+								'include' => $term_ids,
+							)
+						)
+					);
+
+					if ( is_wp_error( $terms ) ) {
+						return array();
+					}
+
+					if ( ! $this->use_all_terms() && $term_ids ) {
+						$sorted_terms = array();
+						foreach ( $term_ids as $term_id ) {
+							if ( ! isset( $terms[ $term_id ] ) ) {
+								continue;
+							}
+
+							$sorted_terms[ $term_id ] = $terms[ $term_id ];
+						}
+
+						$terms = $sorted_terms;
 					}
 
 					return $terms;
@@ -996,13 +1035,16 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 		 * @param string $filter_design Design of the filter.
 		 */
 		public function set_filter_design( $filter_design ) {
-			$supported_designs = array(
-				'checkbox',
-				'radio',
-				'select',
-				'text',
-				'color',
-				'label',
+			$supported_designs = apply_filters(
+				'yith_wcan_set_supported_filter_design',
+				array(
+					'checkbox',
+					'radio',
+					'select',
+					'text',
+					'color',
+					'label',
+				)
 			);
 
 			if ( ! in_array( $filter_design, $supported_designs, true ) ) {

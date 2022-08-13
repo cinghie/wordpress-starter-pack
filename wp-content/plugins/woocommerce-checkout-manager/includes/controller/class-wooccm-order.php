@@ -49,7 +49,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
 			WOOCCM()->register_scripts();
 
-			wp_enqueue_style( 'wooccm' );
+			wp_enqueue_style( 'wooccm-checkout-css' );
 			wp_enqueue_style( 'dashicons' );
 			wp_enqueue_script( 'wooccm-order-upload' );
 		}

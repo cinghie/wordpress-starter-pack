@@ -81,8 +81,21 @@ if ( ! class_exists( 'YITH_WCAN_Elementor_Filters' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @access protected
+		 * @deprecated Elementor 2.9.0
 		 */
-		protected function register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
+		protected function _register_controls() { // phpcs:ignore PSR2.Methods.MethodDeclaration.Underscore
+			$this->register_controls();
+		}
+
+		/**
+		 * Register YITH_WCAN_Elementor_Filters widget controls.
+		 *
+		 * Adds different input fields to allow the user to change and customize the widget settings.
+		 *
+		 * @since  1.0.0
+		 * @access protected
+		 */
+		protected function register_controls() {
 			$presets         = YITH_WCAN_Preset_Factory::list_presets();
 			$presets_options = array_merge(
 				array(

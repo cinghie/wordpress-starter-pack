@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.7.8
+Stable tag: 11.8.2
 
 == Description ==
 
@@ -344,6 +344,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.8.2 (2022-08-13) =
+* When the availability date field mapping has been added it will only be added to products that are on backorder. Not to any other products.
+
+= 11.8.1 (2022-08-11) =
+* Added 5 attributes to create availability dates in the future for products that are on backorder
+
+= 11.8.0 (2022-08-10) =
+* Checked for compatibility with WooCommerce 6.8.0
+
+= 11.7.9 (2022-08-08) =
+* Fixed an issue where shipping class costs where not calculated properly
 
 = 11.7.8 (2022-08-05) =
 * Added additional field for the Pinterest template
@@ -3766,6 +3778,18 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.8.2 =
+When the availability date field mapping has been added it will only be added to products that are on backorder. Not to any other products.
+
+= 11.8.1 =
+Added 5 attributes to create availability dates in the future for products that are on backorder
+
+= 11.8.0 =
+Checked for compatibility with WooCommerce 6.8.0
+
+= 11.7.9 =
+Fixed an issue where shipping class costs where not calculated properly
 
 = 11.7.8 =
 Added additional field for the Pinterest template

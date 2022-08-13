@@ -53,7 +53,7 @@ class WOOCCM_Checkout_Controller {
 
 			$i18n = substr( get_user_locale(), 0, 2 );
 
-			wp_enqueue_style( 'wooccm' );
+			wp_enqueue_style( 'wooccm-checkout-css' );
 
 			// Colorpicker
 			// ---------------------------------------------------------------------
@@ -71,7 +71,7 @@ class WOOCCM_Checkout_Controller {
 
 			// Checkout
 			// ---------------------------------------------------------------------
-			wp_enqueue_script( 'wooccm-checkout' );
+			wp_enqueue_script( 'wooccm-checkout-js' );
 		}
 	}
 

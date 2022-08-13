@@ -403,7 +403,7 @@ class WC_Order_Export_Engine {
 
 	protected static function try_mark_order( $order_id, $settings ) {
 		if ( $settings['mark_exported_orders'] ) {
-			update_post_meta( $order_id, 'woe_order_exported', current_time( 'timestamp' ) );
+			update_post_meta( $order_id, 'woe_order_exported' . apply_filters("woe_exported_postfix",''), current_time( 'timestamp' ) );
 		}
 	}
 

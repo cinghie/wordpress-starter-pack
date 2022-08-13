@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-08-03 11:54:24+0000\n"
+"PO-Revision-Date: 2022-08-09 16:54:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -7408,6 +7408,11 @@ msgstr "Prova il nuovo modo di ottenere i pagamenti"
 msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
 msgstr "Sembra che una o più tabelle del database non siano presenti. Tentativo in corso di ricreare le tabelle mancanti."
 
+#. translators: %s: Link to settings page.
+#: includes/admin/views/html-notice-redirect-only-download.php:18
+msgid "Your store is configured to serve digital products using \"Redirect only\" method. This method is deprecated, <a href=\"%s\">please switch to a different method instead.</a><br><em>If you use a remote server for downloadable files (such as Google Drive, Dropbox, Amazon S3), you may optionally wish to \"allow using redirects as a last resort\". Enabling that and/or selecting any of the other options will make this notice go away.</em>"
+msgstr "Il tuo negozio è configurato per offrire prodotti digitali usando il metodo \"Reindirizza soltanto\". Questo metodo è deprecato, <a href=\"%s\">passa invece a un metodo diverso.</a><br><em>Se utilizzi un server remoto per i file scaricabili (come Google Drive, Dropbox, Amazon S3), potresti voler \"consentire l'utilizzo dei reindirizzamenti come ultima risorsa\". L'abilitazione e/o la selezione di una qualsiasi delle altre opzioni farà scomparire questo avviso.</em>"
+
 #: src/Internal/Admin/Notes/WooCommercePayments.php:122
 #: assets/client/admin/app/index.js:2
 #: assets/client/admin/chunks/payment-recommendations.js:1
@@ -8431,6 +8436,11 @@ msgstr "Imposta di spedizione"
 #: assets/client/admin/chunks/dashboard-charts.js:1
 msgid "Order tax"
 msgstr "Imposta dell'ordine"
+
+#: src/Admin/API/Reports/Taxes/Controller.php:310
+#: assets/client/admin/chunks/analytics-report-taxes.js:1
+msgid "Tax code"
+msgstr "Codice spesa"
 
 #: src/Admin/API/Reports/Taxes/Controller.php:285
 msgid "Limit result set to items assigned one or more tax rates."

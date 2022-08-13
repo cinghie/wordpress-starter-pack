@@ -3,7 +3,7 @@
  * Plugin Name: YITH WooCommerce Ajax Search
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-ajax-search/
  * Description: <code><strong>YITH WooCommerce Ajax Search</strong></code> is the plugin that allows you to search for a specific product by inserting a few characters. Thanks to <strong>Ajax Search</strong>, users can quickly find the contents they are interested in without wasting time among site pages. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.22.1
+ * Version: 1.22.2
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-ajax-search
@@ -13,7 +13,7 @@
  *
  * @author YITH
  * @package YITH WooCommerce Ajax Search
- * @version 1.22.0
+ * @version 1.22.2
  */
 
 /*
@@ -71,44 +71,15 @@ if ( ! function_exists( 'yith_plugin_registration_hook' ) ) {
 
 register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
-
-if ( defined( 'YITH_WCAS_VERSION' ) ) {
-	return;
-} else {
-	define( 'YITH_WCAS_VERSION', '1.22.1' );
-}
-
-if ( ! defined( 'YITH_WCAS_FREE_INIT' ) ) {
-	define( 'YITH_WCAS_FREE_INIT', plugin_basename( __FILE__ ) );
-}
-
-if ( ! defined( 'YITH_WCAS' ) ) {
-	define( 'YITH_WCAS', true );
-}
-
-if ( ! defined( 'YITH_WCAS_FILE' ) ) {
-	define( 'YITH_WCAS_FILE', __FILE__ );
-}
-
-if ( ! defined( 'YITH_WCAS_URL' ) ) {
-	define( 'YITH_WCAS_URL', plugin_dir_url( __FILE__ ) );
-}
-
-if ( ! defined( 'YITH_WCAS_TEMPLATE_PATH' ) ) {
-	define( 'YITH_WCAS_TEMPLATE_PATH', YITH_WCAS_DIR . 'templates' );
-}
-
-if ( ! defined( 'YITH_WCAS_ASSETS_URL' ) ) {
-	define( 'YITH_WCAS_ASSETS_URL', YITH_WCAS_URL . 'assets' );
-}
-
-if ( ! defined( 'YITH_WCAS_ASSETS_IMAGES_URL' ) ) {
-	define( 'YITH_WCAS_ASSETS_IMAGES_URL', YITH_WCAS_ASSETS_URL . '/images/' );
-}
-
-if ( ! defined( 'YITH_WCAS_SLUG' ) ) {
-	define( 'YITH_WCAS_SLUG', 'yith-woocommerce-ajax-search' );
-}
+! defined( 'YITH_WCAS_VERSION' ) && define( 'YITH_WCAS_VERSION', '1.22.2' );
+! defined( 'YITH_WCAS_FREE_INIT' ) && define( 'YITH_WCAS_FREE_INIT', plugin_basename( __FILE__ ) );
+! defined( 'YITH_WCAS' ) && define( 'YITH_WCAS', true );
+! defined( 'YITH_WCAS_FILE' ) && define( 'YITH_WCAS_FILE', __FILE__ );
+! defined( 'YITH_WCAS_URL' ) && define( 'YITH_WCAS_URL', plugin_dir_url( __FILE__ ) );
+! defined( 'YITH_WCAS_TEMPLATE_PATH' ) && define( 'YITH_WCAS_TEMPLATE_PATH', YITH_WCAS_DIR . 'templates' );
+! defined( 'YITH_WCAS_ASSETS_URL' ) && define( 'YITH_WCAS_ASSETS_URL', YITH_WCAS_URL . 'assets' );
+! defined( 'YITH_WCAS_ASSETS_IMAGES_URL' ) && define( 'YITH_WCAS_ASSETS_IMAGES_URL', YITH_WCAS_ASSETS_URL . '/images/' );
+! defined( 'YITH_WCAS_SLUG' ) && define( 'YITH_WCAS_SLUG', 'yith-woocommerce-ajax-search' );
 
 /**
  * Start plugin.

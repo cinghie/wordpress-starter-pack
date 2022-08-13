@@ -906,7 +906,7 @@ class WC_Order_Export_Data_Extractor {
 
 		if ( $settings['export_unmarked_orders'] ) {
 			$pos                    = "export_unmarked_orders";
-			$field                  = "woe_order_exported";
+			$field                  = "woe_order_exported" . apply_filters("woe_exported_postfix",'');
 			$left_join_order_meta[] = "LEFT JOIN {$wpdb->postmeta} AS ordermeta_cf_{$pos} ON ordermeta_cf_{$pos}.post_id = orders.ID AND ordermeta_cf_{$pos}.meta_key='$field'";
 			$order_meta_where []    = " ( ordermeta_cf_{$pos}.meta_value IS NULL ) ";
 		}
@@ -1144,10 +1144,10 @@ class WC_Order_Export_Data_Extractor {
 				}
 			}
 		} else {
-            if ( ! empty( $settings['from_order_id'] ) ) {
+            if ( trim( $settings['from_order_id'] ) ) {
                   $where[] = "orders.ID >= " . intval($settings['from_order_id']);
             }
-            if ( ! empty( $settings['to_order_id'] ) ) {
+            if ( trim( $settings['to_order_id'] ) ) {
                   $where[] = "orders.ID <= " . intval($settings['to_order_id']);
             }
 		}
