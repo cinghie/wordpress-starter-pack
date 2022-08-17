@@ -100,7 +100,7 @@ trait WPPFM_Feed_Processor_Functions {
 			$product_data->{$third_party_field} = $this->get_third_party_custom_field_data( $product_data->ID, $parent_product_id, $third_party_field );
 		}
 
-		if ( $this->_feed_data ) { // @since 2.29.0 to not start this function when using the WooCommerce Google Review Feed Manager plugin.
+		if ( $this->_feed_data ) { // @since 2.29.0 to not start this function when using the WooCommerce Google Review Feed Manager plugin version 0.15.0 or lower.
 			$this->add_procedural_data( $product_data, $this->_pre_data['column_names'], $this->_feed_data->language, $this->_feed_data->currency, $this->_feed_data->feedId );
 		}
 

@@ -30,6 +30,7 @@ $block_classes = apply_filters( 'yith_wapo_block_classes' ,'yith-wapo-block', $b
 			// Display settings.
 			$addon_title       = $addon->get_setting( 'title' );
 			$addon_description = $addon->get_setting( 'description' );
+			$required          = $addon->get_setting( 'required', 'no', false );
 			if ( YITH_WAPO::$is_wpml_installed ) {
 				$addon_title       = YITH_WAPO_WPML::string_translate( $addon_title );
 				$addon_description = YITH_WAPO_WPML::string_translate( $addon_description );
@@ -80,6 +81,12 @@ $block_classes = apply_filters( 'yith_wapo_block_classes' ,'yith-wapo-block', $b
 				for ( $y = 0; $y < $min_max_rule_count; $y++ ) {
 					$min_max_values[ $min_max_rule[ $y ] ] = $min_max_value[ $y ];
 				}
+			}
+
+			$required_addon    = false;
+
+			if ( 'yes' === apply_filters( 'yith_wapo_addons_settings_required', $required, $addon ) || 'select' === $addon->type && 'yes' === $enable_min_max && ( ! empty( $min_max_values['min'] ) || ! empty( $min_max_values['max'] ) || ! empty( $min_max_values['exa'] ) ) ) {
+				$required_addon = true;
 			}
 
 			// Conditional logic.
@@ -147,10 +154,12 @@ $block_classes = apply_filters( 'yith_wapo_block_classes' ,'yith-wapo-block', $b
 
 						echo '<div class="option-image"></div>';
 
+						$is_required = 'yes' === $required ? 'required' : '';
+
 						echo '<select id="yith-wapo-' . esc_attr( $addon->id ) . '"
 							name="yith_wapo[][' . esc_attr( $addon->id ) . ']"
 							data-addon-id="' . esc_attr( $addon->id ) . '"
-							style="' . esc_attr( $options_width_select_css ) . '">
+							style="' . esc_attr( $options_width_select_css ) . '"' . esc_attr( $is_required ) . '>
 								<option value="default">' . esc_html( apply_filters( 'yith_wapo_select_option_label', __( 'Select an option', 'yith-woocommerce-product-add-ons' ) ) ) . '</option>';
 					}
 

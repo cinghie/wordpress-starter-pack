@@ -589,6 +589,11 @@ jQuery(document).on( 'click', '.add-request-quote-button', function(e) {
 });
 
 function yith_wapo_check_required_min_max() {
+
+  if ( ! checkRequiredSelect() ) {
+    return false;
+  }
+
 	if ( ! yith_wapo_check_required_fields( 'highlight' ) ) {
 		return false;
 	}
@@ -683,6 +688,41 @@ function yith_wapo_check_min_max( addon, submit = false ) {
 		}
 
 	}
+}
+
+// Check if the Select add-ons are required.
+function checkRequiredSelect() {
+
+  let value = true;
+
+  jQuery( '.yith-wapo-addon.yith-wapo-addon-type-select select' ).each(
+    function () {
+      let currentSelect = jQuery( this );
+      if ( currentSelect.is( ':required' ) ) {
+        let addon       = currentSelect.parents( '.yith-wapo-addon' );
+        let selectValue = currentSelect.val();
+        if ( 'default' === selectValue && ! addon.hasClass( 'hidden' ) ) {
+          value = false;
+          if ( ! value ) {
+            let error_el           = addon.find( '.min-error, .min-error-an, .min-error-option' );
+            let toggle_addon       = currentSelect.parents( 'div.yith-wapo-addon.wapo-toggle' );
+            let toggle_addon_title = toggle_addon.find( 'h3.wapo-addon-title.toggle-closed' );
+            addon.addClass( 'required-min' );
+
+            if ( toggle_addon_title ) {
+              toggle_addon_title.click();
+            }
+
+            addon.css( 'border', '1px solid #f00' );
+
+            error_el.show();
+          }
+        }
+      }
+    }
+  );
+
+  return value;
 }
 
 

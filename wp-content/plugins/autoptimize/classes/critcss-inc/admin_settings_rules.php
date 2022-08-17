@@ -9,13 +9,13 @@
 function ao_ccss_render_rules() {
     // Attach required arrays.
     $criticalcss = autoptimize()->criticalcss();
-    $ao_ccss_rules = $criticalcss->get_option( 'rules' );
+    $ao_ccss_rules = sanitize_rules( $criticalcss->get_option( 'rules' ) );
     $ao_ccss_types = $criticalcss->get_types();
-    
+
     if ( empty( $ao_ccss_types ) || ! is_array( $ao_ccss_types ) ) {
         $ao_ccss_types = array( 'No conditionals, check CSS optimization settings.' );
     }
-?>
+    ?>
     <ul id="rules-panel">
         <li class="itemDetail">
             <h2 class="itemTitle"><?php _e( 'Rules', 'autoptimize' ); ?></h2>
@@ -204,6 +204,26 @@ function ao_ccss_render_rules() {
             <!-- END Rules UI -->
         </li>
     </ul>
-<?php
+    <?php
+}
+
+/**
+ * Sanitize rules before rendering.
+ *
+ * @param array $rules Array with rules to be sanitized.
+ */
+function sanitize_rules( $rules ) {
+    if ( apply_filters( 'autoptimize_filter_ccss_paths_clickable', true ) ) {
+        if ( array_key_exists( 'paths', $rules ) ) {
+            foreach ( $rules['paths'] as $key => $value ) {
+                $newkey = esc_url( $key );
+                if ( $newkey !== $key ) {
+                    unset( $rules['paths'][ $key ] );
+                    $rules['paths'][ $newkey ] = $value;
+                }
+            }
+        }
+    }
+    return $rules;
 }
 ?>

@@ -84,9 +84,11 @@ private function get_custom_attributes() {
     		function woosea_get_meta_keys_for_post_type( $post_type, $sample_size = 'modified' ) {
         		$meta_keys = array();
         		$posts     = get_posts( array( 'post_type' => $post_type, 'limit' => $sample_size ) );
+        		//$posts     = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
 
         		foreach ( $posts as $post ) {
-            			$post_meta_keys = get_post_custom_keys( $post->ID );
+				$post_meta_keys = get_post_custom_keys( $post->ID );
+				$post_meta_keys = array_map('ucfirst', $post_meta_keys);
             			$meta_keys      = array_merge( $meta_keys, $post_meta_keys );
         		}
 

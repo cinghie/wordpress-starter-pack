@@ -6,7 +6,7 @@ Donate link: https://www.wpmarketingrobot.com/
 Requires at least: 5.4
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 1.42.0
+Stable tag: 1.43.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,6 +97,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.43.0 - 15/08/2022 =
+* Added a result check to the get_term_by call to prevent a PHP warning error message.
+* Fixed the auto-feed-update process for a Google Product Review Feed update.
+* Tested on WooCommerce 6.8.0.
+
 = 1.42.0 - 17/07/2022 =
 * Improved the way data is stored in the database.
 * Tested on WordPress 6.0.1.

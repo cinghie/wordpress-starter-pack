@@ -73,13 +73,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @global stdClass $background_process
 		 */
 		public function __construct( $feed_id = '0' ) {
-			$query_class = new WPPFM_Queries();
-
-			// When this construct is called from a channel class, it will not specify the feed_id so the default 0 is used
-			// in that case the feed_type_id will always be 1.
-			$feed_type_id = $feed_id > 0 ? $query_class->get_feed_type_id( $feed_id ) : '1';
-
-			$background_class = apply_filters( 'wppfm_background_class', 'WPPFM_Feed_Processor', $feed_type_id );
+			$background_class = $this->get_correct_background_class( $feed_id );
 
 			$this->_background_process = new $background_class();
 			$this->_data_class         = new WPPFM_Data();
@@ -293,9 +287,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 					$product_counter++;
 
-					 if ( $product_counter > $sw_status_control ) {
+					if ( $product_counter > $sw_status_control ) {
 						break;
-					 }
+					}
 				}
 			} while ( ! empty( $product_ids ) && $sw_status_control > $product_counter );
 
@@ -474,6 +468,34 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				'active_fields'   => $active_fields,
 				'database_fields' => $database_fields,
 			);
+		}
+
+		/**
+		 * Returns the correct background class.
+		 * Also sets the wppfm_set_global_background_process transient.
+		 *
+		 * @param $feed_id
+		 *
+		 * @since 2.33.0.
+		 *
+		 * @return string
+		 */
+		private function get_correct_background_class( $feed_id ) {
+			$query_class = new WPPFM_Queries();
+
+			if ( $feed_id > 0 ) {
+				set_transient( 'wppfm_active_feed_id', $feed_id, WPPFM_TRANSIENT_LIVE );
+				$feed_type_id = $query_class->get_feed_type_id( $feed_id );
+			} else {
+				$feed_id = get_transient( 'wppfm_active_feed_id' );
+				$feed_type_id = $feed_id > 0 ? $query_class->get_feed_type_id( $feed_id ) : '1';
+			}
+
+			// Set the wppfm_set_global_background_process transient for use in the global background_process variable.
+			$active_tab = '2' === $feed_type_id ? 'product-review-feed' : 'product-feed';
+			set_transient( 'wppfm_set_global_background_process', $active_tab, WPPFM_TRANSIENT_LIVE );
+
+			return apply_filters( 'wppfm_background_class', 'WPPFM_Feed_Processor', $feed_type_id );
 		}
 
 		/**

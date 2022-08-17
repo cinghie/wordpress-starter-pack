@@ -29,7 +29,7 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 				<?php $addon = new YITH_WAPO_Addon( $addon_id ); ?>
 
 				<form action="admin.php?page=yith_wapo_panel&tab=blocks" method="post" id="addon">
-					<button type="submit" class="submit button-primary" style="display: none;"></button>
+					<button type="submit" class="submit button-priprimary" style="display: none;"></button>
 
 					<?php if ( 'new' === $addon_id ) : ?>
 						<a href="admin.php?page=yith_wapo_panel&tab=blocks&block_id=<?php echo esc_attr( $block_id ); ?>&addon_id=new" style="margin-bottom: 20px; display: block;">
@@ -51,7 +51,9 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 									<?php endif; ?>
 								<?php endif; ?>
 								<a href="#" id="conditional-logic"><?php echo esc_html__( 'Conditional logic', 'yith-woocommerce-product-add-ons' ); ?></a>
+								<?php if ( 'select' !== $addon_type ) : ?>
 								<a href="#" id="advanced-settings"><?php echo esc_html__( 'Advanced settings', 'yith-woocommerce-product-add-ons' ); ?></a>
+								<?php endif; ?>
 							</div>
 							<script type="text/javascript">
 								jQuery('#addon-tabs a').click(function(){
@@ -94,7 +96,29 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 										</div>
 									</div>
 									<!-- End option field -->
+									<div class="field-wrap">
+										<label for="addon-required" style="width: 50px;"><?php echo esc_html__( 'Required', 'yith-woocommerce-product-add-ons' ); ?>:</label>
+										<div class="field">
+											<?php
+											$required = $addon->get_setting( 'required', 'no', false );
 
+											yith_plugin_fw_get_field(
+												array(
+													'id'   => 'addon-required',
+													'name' => 'addon_required',
+													'class' => 'yith-wapo-required-select',
+													'default' => 'no',
+													'type' => 'onoff',
+													'value' => $required,
+												),
+												true
+											);
+											?>
+											<span class="description">
+												<?php echo esc_html__( 'Enable to make this add-on required.', 'yith-woocommerce-product-add-ons' ); ?>
+											</span>
+										</div>
+									</div>
 									<div id="addon_options">
 									<?php for ( $x = 0; $x < $options_total; $x++ ) : ?>
 										<div class="option <?php echo 1 === $options_total ? 'open' : ''; ?>">

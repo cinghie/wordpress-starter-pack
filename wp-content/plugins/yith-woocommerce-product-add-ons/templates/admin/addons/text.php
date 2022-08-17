@@ -24,8 +24,6 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
 	<?php require YITH_WAPO_DIR . '/templates/admin/option-common-fields.php'; ?>
 
-	<?php if ( defined( 'YITH_WAPO_PREMIUM' ) && YITH_WAPO_PREMIUM ) : ?>
-
 		<!-- Option field -->
 		<div class="field-wrap">
 			<label for="option-characters-limit"><?php echo esc_html__( 'Limit input characters', 'yith-woocommerce-product-add-ons' ); ?>:</label>
@@ -59,7 +57,5 @@ defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 			</div>
 		</div>
 		<!-- End option field -->
-
-	<?php endif; ?>
 
 </div>

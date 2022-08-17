@@ -428,7 +428,7 @@ class autoptimizeExtra
         // iterate through array and add preload link to tmp string.
         $preload_output = '';
         foreach ( $preloads as $preload ) {
-            if ( $preload !== filter_var( $preload, FILTER_VALIDATE_URL ) ) {
+            if ( filter_var( $preload, FILTER_VALIDATE_URL ) !== $preload ) {
                 continue;
             }
             $preload     = esc_url_raw( $preload );
@@ -476,10 +476,13 @@ class autoptimizeExtra
         remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
 
         if ( true === apply_filters( 'autoptimize_filter_extra_global_styles_and_block_css', true ) ) {
-            add_action( 'wp_enqueue_scripts', function(){
-                wp_dequeue_style( 'wp-block-library' );
-                wp_dequeue_style( 'wp-block-library-theme' );
-            });
+            add_action(
+                'wp_enqueue_scripts',
+                function() {
+                    wp_dequeue_style( 'wp-block-library' );
+                    wp_dequeue_style( 'wp-block-library-theme' );
+                }
+            );
         }
     }
 
@@ -510,6 +513,8 @@ class autoptimizeExtra
 
     public function options_page()
     {
+        // phpcs:disable Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace
+
         // Working with actual option values from the database here.
         // That way any saves are still processed as expected, but we can still
         // override behavior by using `new autoptimizeExtra($custom_options)` and not have that custom

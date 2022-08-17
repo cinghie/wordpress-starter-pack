@@ -5,7 +5,7 @@ Donate link: http://blog.futtta.be/2013/10/21/do-not-donate-to-me/
 Requires at least: 4.9
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 3.1.0
+Stable tag: 3.1.1.1
 
 Autoptimize speeds up your website by optimizing JS, CSS, images (incl. lazy-load), HTML and Google Fonts, asyncing JS, removing emoji cruft and more.
 
@@ -315,9 +315,17 @@ Just [fork Autoptimize on Github](https://github.com/futtta/autoptimize) and cod
 
 == Changelog ==
 
+= 3.1.1.1 =
+* Quick workaround for an autoload conflict with JetFormBuilder (and maybe other Crocoblock plugins?) that causes a critical error on the AO settings page.
+
+= 3.1.1 =
+* images: when optimizing images and lazyloading is on, then by default do not set an LQIP (low quality image placeholder) any more (reason: it might *look* nice but it comes with a small-ish perf. penalty). This can be re-enabled by returning true to the `autoptimize_filter_imgopt_lazyload_dolqip` filter.
+* security: further improvements to critical CSS settings page (again with the great assistance of WPScan Security).
+* some other minor changes/ improvements/ filters, see the [GitHub commit log](https://github.com/futtta/autoptimize/commits/beta).
+
 = 3.1.0 =
-* new: HTML sub-option: "minify inline CSS/ JS" (off by default).
-* new: Misc option: permanently allow the "do not run compatibility logic" flag to be removed (which was set for users upgrading from AO 2.9.* to AO 3.0.* as the assumption was things were working anyway).
+* new HTML sub-option: "minify inline CSS/ JS" (off by default).
+* new Misc option: permanently allow the "do not run compatibility logic" flag to be removed (which was set for users upgrading from AO 2.9.* to AO 3.0.* as the assumption was things were working anyway).
 * security: improvements to the critical CSS settings page to fix authenticated cross site scripting issues as reported by WPScan Security.
 * bugfix: "defer inline JS" of very large chunks of inline JS could cause server errors (PCRE crash actually) so not deferring if string is more then 200000 characters (filter available).
 * some other minor changes/ improvements/ hooks, see the [GitHub commit log](https://github.com/futtta/autoptimize/commits/beta)

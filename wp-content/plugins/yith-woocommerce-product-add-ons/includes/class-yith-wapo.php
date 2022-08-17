@@ -440,6 +440,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 					// Display options.
 					'title'                        => isset( $request['addon_title'] ) ? str_replace( '"', '&quot;', $request['addon_title'] ) : '',
 					'description'                  => $request['addon_description'] ?? '',
+					'required'                     => $request['addon_required'] ?? '',
 					'show_image'                   => $request['addon_show_image'] ?? '',
 					'image'                        => $request['addon_image'] ?? '',
 					'image_replacement'            => $request['addon_image_replacement'] ?? '',

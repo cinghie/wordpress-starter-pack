@@ -27,6 +27,7 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 		 *
 		 * @since 2.31.0 Update the function to include a primary category selection.
 		 * @since 2.31.1 Changed the make_shop_taxonomy_string() methode, so it returns the correct value for non category related attributes.
+		 * @since 2.33.0 Added a result test after the get_term_by_id call, to prevent an error message.
 		 *
 		 * @return string
 		 */
@@ -57,6 +58,8 @@ if ( ! class_exists( 'WPPFM_Taxonomies' ) ) :
 			$cat_string = function ( $id ) use ( &$result, &$cat_string, $tax ) {
 				// get the first term
 				$term = get_term_by( 'id', $id, $tax, 'ARRAY_A' );
+
+				if ( ! $term ) { return; }
 
 				// check if the term has a parent
 				if ( $term['parent'] ) {
