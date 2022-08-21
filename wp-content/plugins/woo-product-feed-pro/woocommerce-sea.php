@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.8.3
+ * Version:     11.8.4
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.8.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.8.4' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -2491,8 +2491,7 @@ function woosea_remove_free_shipping (){
 add_action( 'wp_ajax_woosea_remove_free_shipping', 'woosea_remove_free_shipping' );
 
 /**
- * This function enables the setting to use
- * logging
+ * This function enables the setting to use logging
  */
 function woosea_add_woosea_logging (){
         $user = wp_get_current_user();
@@ -2509,6 +2508,25 @@ function woosea_add_woosea_logging (){
 	}
 }
 add_action( 'wp_ajax_woosea_add_woosea_logging', 'woosea_add_woosea_logging' );
+
+/**
+ * This function enables the setting to use only the basic attributes in drop-downs
+ */
+function woosea_add_woosea_basic (){
+        $user = wp_get_current_user();
+        $allowed_roles = array( 'administrator' );
+
+        if ( array_intersect( $allowed_roles, $user->roles ) ) {
+        	$status = sanitize_text_field($_POST['status']);
+
+		if ($status == "off"){
+			update_option( 'add_woosea_basic', 'no', 'yes');
+		} else {
+			update_option( 'add_woosea_basic', 'yes', 'yes');
+		}
+	}
+}
+add_action( 'wp_ajax_woosea_add_woosea_basic', 'woosea_add_woosea_basic' );
 
 /**
  * This function enables the setting to add CDATA to title and descriptions

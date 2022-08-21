@@ -82,13 +82,18 @@ private function get_custom_attributes() {
 	if ( ! function_exists( 'woosea_get_meta_keys_for_post_type' ) ) :
 
     		function woosea_get_meta_keys_for_post_type( $post_type, $sample_size = 'modified' ) {
-        		$meta_keys = array();
-        		$posts     = get_posts( array( 'post_type' => $post_type, 'limit' => $sample_size ) );
-        		//$posts     = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
+			$meta_keys = array();
+
+                	$add_woosea_basic = get_option ('add_woosea_basic');
+			if($add_woosea_basic == "yes"){
+        			$posts     = get_posts( array( 'post_type' => $post_type, 'limit' => $sample_size ) );
+			} else {	
+				$posts     = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
+			}
 
         		foreach ( $posts as $post ) {
 				$post_meta_keys = get_post_custom_keys( $post->ID );
-				$post_meta_keys = array_map('ucfirst', $post_meta_keys);
+				//$post_meta_keys = array_map('ucfirst', $post_meta_keys);
             			$meta_keys      = array_merge( $meta_keys, $post_meta_keys );
         		}
 

@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.8.3
+Stable tag: 11.8.4
 
 == Description ==
 
@@ -344,6 +344,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.8.4 (2022-08-17) =
+* Added an option to enable/disable returning of only basic attributes in the field mapping and rules and filters drop-downs
 
 = 11.8.3 (2022-08-15) =
 * Fixed an issue where not all (externally created) attributes or metafields where showing in the field mapping drop-downs
@@ -3781,6 +3784,9 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.8.4 =
+Added an option to enable/disable returning of only basic attributes in the field mapping and rules and filters drop-downs
 
 = 11.8.3 =
 Fixed an issue where not all (externally created) attributes or metafields where showing in the field mapping drop-downs

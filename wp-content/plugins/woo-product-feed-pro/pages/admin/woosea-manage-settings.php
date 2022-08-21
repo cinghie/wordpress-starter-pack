@@ -346,6 +346,24 @@ if(isset($_GET["tab"])) {
 						</tr>
 						<tr>
 							<td>
+								<span><?php _e( 'Show only basis attributes in field mapping and filter/rule drop-downs', 'woo-product-feed-pro');?></span>
+							</td>
+							<td>
+                                                		<label class="woo-product-feed-pro-switch">
+                                                        	<?php
+								$add_woosea_basic = get_option ('add_woosea_basic');
+                                                        	if($add_woosea_basic == "yes"){
+                                                                	print "<input type=\"checkbox\" id=\"add_woosea_basic\" name=\"add_woosea_basic\" class=\"checkbox-field\" checked>";
+							 	} else {
+                                                                	print "<input type=\"checkbox\" id=\"add_woosea_basic\" name=\"add_woosea_basic\" class=\"checkbox-field\">";
+                                                        	}
+                                                        	?>
+                                                        	<div class="woo-product-feed-pro-slider round"></div>
+                                                		</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
 								<span><?php _e( 'Enable logging', 'woo-product-feed-pro');?></span>
 							</td>
 							<td>

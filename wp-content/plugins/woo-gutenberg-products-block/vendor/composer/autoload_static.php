@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfacf90ff9c89069e3a0a0231b038aa2c
+class ComposerStaticInit52c4959d9cecf5d38793e440b1dfdac3
 {
     public static $files = array (
         'fcd5d7d87e03ff4f5b5a66c2b8968671' => __DIR__ . '/../..' . '/src/StoreApi/deprecated.php',
@@ -51,9 +51,9 @@ class ComposerStaticInitfacf90ff9c89069e3a0a0231b038aa2c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfacf90ff9c89069e3a0a0231b038aa2c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfacf90ff9c89069e3a0a0231b038aa2c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitfacf90ff9c89069e3a0a0231b038aa2c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit52c4959d9cecf5d38793e440b1dfdac3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit52c4959d9cecf5d38793e440b1dfdac3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit52c4959d9cecf5d38793e440b1dfdac3::$classMap;
 
         }, null, ClassLoader::class);
     }

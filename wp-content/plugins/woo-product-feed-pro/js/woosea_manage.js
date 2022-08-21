@@ -308,6 +308,26 @@ jQuery(function($) {
 		}
 	})	
 
+	// Check if user would like to enable only basis attributes in drop-downs
+	$('#add_woosea_basic').on('change', function(){ // on change of state
+   		if(this.checked){
+
+			// Checkbox is on
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_woosea_basic', 'status': "on" }
+                	})
+		} else {
+			// Checkbox is off
+                	jQuery.ajax({
+                        	method: "POST",
+                        	url: ajaxurl,
+                        	data: { 'action': 'woosea_add_woosea_basic', 'status': "off" }
+                	})
+		}
+	})	
+
 	// Check if user would like to enable addition of CDATA
 	$('#add_woosea_cdata').on('change', function(){ // on change of state
    		if(this.checked){
