@@ -598,6 +598,7 @@ if ( ! class_exists( 'YITH_WCAN_Frontend' ) ) {
 				'change_browser_url'    => in_array( yith_wcan_get_option( 'yith_wcan_change_browser_url', 'yes' ), array( 'yes', 'custom' ), true ),
 				'instant_filters'       => true,
 				'ajax_filters'          => true,
+				'reload_on_back'        => true,
 				'show_clear_filter'     => false,
 				'scroll_top'            => false,
 				'scroll_target'         => false,

@@ -544,6 +544,7 @@ $z-index: 1001; // value is this high since modal must be on top of Proteo's sti
 			.yith-wcan-tooltip {
 				bottom: calc(100% + 15px);
 				top: auto;
+				white-space: nowrap;
 			}
 		}
 

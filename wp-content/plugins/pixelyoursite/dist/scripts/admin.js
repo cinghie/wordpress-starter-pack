@@ -105,7 +105,34 @@ jQuery( document ).ready(function($) {
         }
 
     })
+    $("#pys .pys_utm_builder .utm, #pys .pys_utm_builder .site_url").on("input",function () {
 
+        updateBuilderUrl()
+    })
+    $("#pys .copy_text").on("click",function () {
+
+        navigator.clipboard.writeText($(this).text());
+    })
+    function updateBuilderUrl() {
+        let utms = ""
+        let urls =  $("#pys .pys_utm_builder .site_url").val()
+        $("#pys .pys_utm_builder .utm").each(function () {
+            if($(this).val() != "") {
+                if(utms === "") {
+                    utms = $(this).data('type')+"="+$(this).val()
+                }else {
+                    utms += "&"+$(this).data('type')+"="+$(this).val()
+                }
+            }
+        })
+        if(utms!="") {
+            utms = "?"+utms
+        }
+        $("#pys .build_utms_with_url").text(urls+utms)
+        $("#pys .build_utms").text(utms)
+    }
+
+    updateBuilderUrl()
 
 });
 

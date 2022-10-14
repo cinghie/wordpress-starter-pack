@@ -162,6 +162,9 @@ class Facebook extends Settings implements Pixel {
             } break;
             case 'automatic_event_search' :{
                 $event->addPayload(["name" => "Search"]);
+                if(!empty( $_GET['s'] )) {
+                    $event->addParams(["search_string" => $_GET['s']]);
+                }
                 $isActive = $this->getOption($event->getId().'_enabled');
             } break;
 
@@ -420,7 +423,7 @@ class Facebook extends Settings implements Pixel {
                     $src = str_replace("[","%5B",$src); //pass markup validation
                     $src = str_replace("]","%5D",$src);
 					// ALT tag used to pass ADA compliance
-					printf( '<noscript><img height="1" width="1" style="display: none;" src="%s" alt="facebook_pixel"></noscript>',
+					printf( '<noscript><img height="1" width="1" style="display: none;" src="%s" alt=""></noscript>',
                         $src);
 
 					echo "\r\n";

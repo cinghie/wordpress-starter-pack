@@ -5,9 +5,9 @@ Tags: checkout field editor, woocommerce checkout field editor, checkout manager
 Requires at least: 4.9
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 6.1.8
+Stable tag: 6.3.2
 WC requires at least: 3.1.0
-WC tested up to: 6.8
+WC tested up to: 6.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -148,6 +148,43 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+=  6.3.2
+* Fix. WooCommerce Account fields
+* Fix. WooCommerce default billing & shipping fields
+
+=  6.3.1
+* Fix. WooCommerce Account fields
+* Fix. WooCommerce Checkout conditional field prices
+
+=  6.2.8
+* Fix. WooCommerce Checkout alert removed
+
+=  6.2.7
+* Fix. Elementor checkout upload
+
+=  6.2.6
+* Fix. WooCommerce compatibility
+
+=  6.2.4
+* Fix. WPML compatibility
+* Fix. Polylang compatibility
+
+=  6.2.3
+* Fix. PHP erros
+
+=  6.2.2
+* Fix. PHP erros
+
+=  6.2.1
+* Fix. PHP erros
+
+=  6.2.0
+* Fix. PHP erros
+
+=  6.1.9
+* Fix. WooCommerce Checkout WPML compatibility
+* Fix. WooCommerce Checkout Polylang compatibility
 
 =  6.1.8
 * Fix. WooCommerce 6.8 compatibility

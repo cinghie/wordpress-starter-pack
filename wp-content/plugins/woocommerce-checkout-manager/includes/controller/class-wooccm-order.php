@@ -51,7 +51,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
 			wp_enqueue_style( 'wooccm-checkout-css' );
 			wp_enqueue_style( 'dashicons' );
-			wp_enqueue_script( 'wooccm-order-upload' );
+			wp_enqueue_script( 'wooccm-frontend-js' );
 		}
 	}
 
@@ -62,7 +62,7 @@ class WOOCCM_Order_Controller extends WOOCCM_Upload {
 
 				WOOCCM()->register_scripts();
 
-				wp_enqueue_script( 'wooccm-order-upload' );
+				wp_enqueue_script( 'wooccm-frontend-js' );
 			}
 		}
 	}

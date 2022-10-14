@@ -54,6 +54,19 @@ class WP_Optimize_Minify {
 	}
 
 	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimize_Minify Returns `WP_Optimize_Minify` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
+	/**
 	 * Admin toolbar processing
 	 *
 	 * @param array        $menu_items

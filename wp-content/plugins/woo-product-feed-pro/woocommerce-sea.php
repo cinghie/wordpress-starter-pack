@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.8.4
+ * Version:     11.9.2
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
  * Plugin URI:  https://wwww.adtribes.io/pro-vs-elite/
  * Author URI:  https://www.adtribes.io
- * Developer:   Joris Verwater, Eva van Gelooven
+ * Developer:   Joris Verwater
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.8.4' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.9.2' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -2033,7 +2033,7 @@ function woosea_project_delete(){
 		unset($feed_config[$found_key]);
 		
 		# Update cron
-		update_option('cron_projects', $feed_config);
+		update_option('cron_projects', $feed_config, 'no');
 
 		# Remove project file
 		@unlink($file);
@@ -2068,7 +2068,7 @@ function woosea_project_cancel(){
 			wp_schedule_single_event( time() + 60, 'woosea_update_project_stats', array($val['project_hash']) );
 		}
 	}		
-	update_option( 'cron_projects', $feed_config);	
+	update_option( 'cron_projects', $feed_config, 'no');	
 }
 add_action( 'wp_ajax_woosea_project_cancel', 'woosea_project_cancel' );
 
@@ -2152,7 +2152,7 @@ function woosea_project_copy(){
 			$new_key = $max_key+1;
                         $add_project[$new_key] = $val;
                         array_push($feed_config, $add_project[$new_key]);
-			update_option( 'cron_projects', $feed_config);
+			update_option( 'cron_projects', $feed_config, 'no');
 			
 			// Do not start processing, user wants to make changes to the copied project
 			$copy_status = "true";
@@ -2219,7 +2219,7 @@ function woosea_add_attributes() {
 				$extra_attributes = array(
 					$attribute_value => $attribute_name
 				);
-				update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+				update_option ( 'woosea_extra_attributes', $extra_attributes, 'no');
 			}
 	        } else {
 			$extra_attributes = get_option( 'woosea_extra_attributes' );
@@ -2229,13 +2229,13 @@ function woosea_add_attributes() {
 						$attribute_value => $attribute_name
 					);
 					$extra_attributes = array_merge ($extra_attributes, $add_attribute);	
-					update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+					update_option ( 'woosea_extra_attributes', $extra_attributes, 'no');
 				}
 			} else {
 				if($active == "false"){
 					// remove from extra attributes array	
 					$extra_attributes = array_diff($extra_attributes, array($attribute_value => $attribute_name));	
-					update_option ( 'woosea_extra_attributes', $extra_attributes, 'yes');
+					update_option ( 'woosea_extra_attributes', $extra_attributes, 'no');
 				}
 			}
 		}	
@@ -2278,7 +2278,7 @@ function woosea_project_status() {
 	}
 
 	// Update cron with new project status
-        update_option( 'cron_projects', $feed_config);
+        update_option( 'cron_projects', $feed_config, 'no');
 }
 add_action( 'wp_ajax_woosea_project_status', 'woosea_project_status' );
 
@@ -4564,7 +4564,7 @@ function woosea_last_updated($project_hash){
 		}
 	}
 
-	update_option( 'cron_projects', $feed_config);
+	update_option( 'cron_projects', $feed_config, 'no');
 	return $last_updated;
 }
 
@@ -4684,12 +4684,12 @@ function woosea_on_product_save( $product_id ) {
 					$diff['product_id'] = $product_id;
 				} else {
 					// Enable the product changed flag
-			        	update_option('woosea_allow_update', 'yes');
+			        	update_option('woosea_allow_update', 'no');
 				}
 				delete_option('product_changes');
 			} else {
 				// Enable the product changed flag
-				update_option('woosea_allow_update', 'yes');
+				update_option('woosea_allow_update', 'no');
 			}
 		}
 	}

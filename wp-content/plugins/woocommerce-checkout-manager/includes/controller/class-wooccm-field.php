@@ -1,407 +1,381 @@
 <?php
 
-include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-controller.php');
-
-class WOOCCM_Field_Controller extends WOOCCM_Controller
-{
-
-  protected static $_instance;
-  public $billing;
-
-  public function __construct()
-  {
-
-    include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-billing.php');
-    include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-shipping.php');
-    include_once(WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-additional.php');
-	include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-i18n.php');
-
-    if (!is_admin()) {
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-register.php');
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-additional.php');
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-disable.php');
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-conditional.php');
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-handler.php');
-      include_once(WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-filters.php');
-    }
-
-    add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
-    add_action('wp_ajax_wooccm_load_parent', array($this, 'ajax_load_parent'));
-    add_action('wp_ajax_wooccm_load_field', array($this, 'ajax_load_field'));
-    add_action('wp_ajax_wooccm_save_field', array($this, 'ajax_save_field'));
-    add_action('wp_ajax_wooccm_delete_field', array($this, 'ajax_delete_field'));
-    add_action('wp_ajax_wooccm_reset_fields', array($this, 'ajax_reset_fields'));
-    add_action('wp_ajax_wooccm_change_field_attribute', array($this, 'ajax_change_field_attribute'));
-    add_action('wp_ajax_wooccm_toggle_field_attribute', array($this, 'ajax_toggle_field_attribute'));
-    add_action('woocommerce_settings_save_' . WOOCCM_PREFIX, array($this, 'save_field_order'));
-  }
-
-  public static function instance()
-  {
-    if (is_null(self::$_instance)) {
-      self::$_instance = new self();
-    }
-    return self::$_instance;
-  }
+require_once WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-controller.php';
+
+class WOOCCM_Field_Controller extends WOOCCM_Controller {
+
+
+	protected static $_instance;
+	public $billing;
+
+	public function __construct() {
+		include_once WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-billing.php';
+		include_once WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-shipping.php';
+		include_once WOOCCM_PLUGIN_DIR . 'includes/controller/class-wooccm-field-additional.php';
+		include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-i18n.php';
+
+		if ( ! is_admin() ) {
+			include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-register.php';
+			include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-additional.php';
+			include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-disable.php';
+			include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-conditional.php';
+			include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-handler.php';
+			include_once WOOCCM_PLUGIN_DIR . 'includes/view/frontend/class-wooccm-fields-filters.php';
+		}
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_ajax_wooccm_load_parent', array( $this, 'ajax_load_parent' ) );
+		add_action( 'wp_ajax_wooccm_load_field', array( $this, 'ajax_load_field' ) );
+		add_action( 'wp_ajax_wooccm_save_field', array( $this, 'ajax_save_field' ) );
+		add_action( 'wp_ajax_wooccm_delete_field', array( $this, 'ajax_delete_field' ) );
+		add_action( 'wp_ajax_wooccm_reset_fields', array( $this, 'ajax_reset_fields' ) );
+		add_action( 'wp_ajax_wooccm_change_field_attribute', array( $this, 'ajax_change_field_attribute' ) );
+		add_action( 'wp_ajax_wooccm_toggle_field_attribute', array( $this, 'ajax_toggle_field_attribute' ) );
+		add_action( 'woocommerce_settings_save_' . WOOCCM_PREFIX, array( $this, 'save_field_order' ) );
+	}
+
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	function enqueue_scripts() {
+		global $current_section;
+
+		// $admin_field = include_once WOOCCM_PLUGIN_DIR . 'assets/backend/js/admin-field.asset.php';
+
+		// wp_register_script( 'wooccm-admin-js', plugins_url( 'assets/backend/js/admin-field.js', WOOCCM_PLUGIN_FILE ), $admin_field['dependencies'], $admin_field['dependencies'], true );
+
+		wp_localize_script(
+			'wooccm-admin-js',
+			'wooccm_field',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php?section=' . $current_section ),
+				'nonce'    => wp_create_nonce( 'wooccm_field' ),
+				'args'     => WOOCCM()->billing->get_args(),
+				'message'  => array(
+					'remove' => esc_html__( 'Are you sure you want to remove this field?', 'woocommerce-checkout-manager' ),
+					'reset'  => esc_html__( 'Are you sure you want to reset this fields?', 'woocommerce-checkout-manager' ),
+				),
+			)
+		);
+
+		if ( isset( $_GET['tab'] ) && $_GET['tab'] === WOOCCM_PREFIX ) {
+			wp_enqueue_style( 'media-views' );
+			wp_enqueue_script( 'wooccm-admin-js' );
+		}
+	}
+
+	public function get_product_categories() {
+		$args = array(
+			'taxonomy'   => 'product_cat',
+			'orderby'    => 'id',
+			'order'      => 'ASC',
+			'hide_empty' => true,
+			'fields'     => 'all',
+		);
+
+		return get_terms( $args );
+	}
+
+	// Ajax
+	// ---------------------------------------------------------------------------
+
+	public function ajax_toggle_field_attribute() {
+		if (
+		current_user_can( 'manage_woocommerce' ) &&
+		check_ajax_referer( 'wooccm_field', 'nonce' ) &&
+		isset( $_REQUEST['section'] ) &&
+		isset( $_REQUEST['field_id'] ) &&
+		isset( $_REQUEST['field_attr'] )
+		) {
+
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
+
+			if ( isset( WOOCCM()->$section ) ) {
+
+				$field_id = wc_clean( wp_unslash( $_REQUEST['field_id'] ) );
+				$attr     = wc_clean( wp_unslash( $_REQUEST['field_attr'] ) );
+
+				if ( $field = WOOCCM()->$section->get_field( $field_id ) ) {
+
+					$value = $field[ $attr ] = ! (bool) @$field[ $attr ];
 
-  function enqueue_scripts()
-  {
-
-    global $current_section;
+					WOOCCM()->$section->update_field( $field );
 
-    $admin_field = include_once(WOOCCM_PLUGIN_DIR . 'assets/backend/js/admin-field.asset.php');
-
-    wp_register_script('wooccm-admin-field', plugins_url('assets/backend/js/admin-field.js', WOOCCM_PLUGIN_FILE), $admin_field['dependencies'],  $admin_field['dependencies'], true);
+					parent::success_ajax( $value );
+				}
+			}
+		}
 
-    wp_localize_script('wooccm-admin-field', 'wooccm_field', array(
-      'ajax_url' => admin_url('admin-ajax.php?section=' . $current_section),
-      'nonce' => wp_create_nonce('wooccm_field'),
-      'args' => WOOCCM()->billing->get_args(),
-      'message' => array(
-        'remove' => esc_html__('Are you sure you want to remove this field?', 'woocommerce-checkout-manager'),
-        'reset' => esc_html__('Are you sure you want to reset this fields?', 'woocommerce-checkout-manager')
-      )
-    ));
+		parent::error_reload_page();
+	}
 
-    if (isset($_GET['tab']) && $_GET['tab'] === WOOCCM_PREFIX) {
-      wp_enqueue_style('media-views');
-      wp_enqueue_script('wooccm-admin-field');
-    }
-  }
-
-  public function get_product_categories()
-  {
-
-    $args = array(
-      'taxonomy' => 'product_cat',
-      'orderby' => 'id',
-      'order' => 'ASC',
-      'hide_empty' => true,
-      'fields' => 'all'
-    );
-
-    return get_terms($args);
-  }
-
-  // Ajax
-  // ---------------------------------------------------------------------------
+	public function ajax_change_field_attribute() {
+		if (
+		current_user_can( 'manage_woocommerce' ) &&
+		check_ajax_referer( 'wooccm_field', 'nonce' ) &&
+		isset( $_REQUEST['section'] ) &&
+		isset( $_REQUEST['field_id'] ) &&
+		isset( $_REQUEST['field_attr'] ) &&
+		isset( $_REQUEST['field_value'] )
+		) {
 
-  public function ajax_toggle_field_attribute()
-  {
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-    if (
-      current_user_can('manage_woocommerce') &&
-      check_ajax_referer('wooccm_field', 'nonce') &&
-      isset($_REQUEST['section']) &&
-      isset($_REQUEST['field_id']) &&
-      isset($_REQUEST['field_attr'])
-    ) {
+			if ( isset( WOOCCM()->$section ) ) {
 
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
+				$field_id = wc_clean( wp_unslash( $_REQUEST['field_id'] ) );
+				$attr     = wc_clean( wp_unslash( $_REQUEST['field_attr'] ) );
 
-      if (isset(WOOCCM()->$section)) {
+				if ( $field = WOOCCM()->$section->get_field( $field_id ) ) {
 
-        $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
-        $attr = wc_clean(wp_unslash($_REQUEST['field_attr']));
+					$value = $field[ $attr ] = wc_clean( wp_unslash( $_REQUEST['field_value'] ) );
 
-        if ($field = WOOCCM()->$section->get_field($field_id)) {
+					$field = WOOCCM()->$section->update_field( $field );
 
-          $value = $field[$attr] = !(bool) @$field[$attr];
+					parent::success_ajax( $value );
+				}
+			}
+		}
 
-          WOOCCM()->$section->update_field($field);
+		parent::error_reload_page();
+	}
 
-          parent::success_ajax($value);
-        }
-      }
-    }
+	public function ajax_save_field() {
+		if ( isset( $_REQUEST['field_data'] ) && current_user_can( 'manage_woocommerce' ) && check_ajax_referer( 'wooccm_field', 'nonce', false ) ) {
+			$field_data = json_decode( stripslashes( $_REQUEST['field_data'] ), true );
+			if ( is_array( $field_data ) ) {
+				if ( isset( $field_data['id'] ) ) {
 
-    parent::error_reload_page();
-  }
+					unset( $field_data['show_product_selected'] );
+					unset( $field_data['hide_product_selected'] );
 
-  public function ajax_change_field_attribute()
-  {
+					return parent::success_ajax( $this->save_modal_field( $field_data ) );
+				} else {
+					return parent::success_ajax( $this->add_modal_field( $field_data ) );
+				}
+			}
+		}
 
-    if (
-      current_user_can('manage_woocommerce') &&
-      check_ajax_referer('wooccm_field', 'nonce') &&
-      isset($_REQUEST['section']) &&
-      isset($_REQUEST['field_id']) &&
-      isset($_REQUEST['field_attr']) &&
-      isset($_REQUEST['field_value'])
-    ) {
+		return parent::error_reload_page();
+	}
 
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
+	public function ajax_delete_field() {
+		if (
+		current_user_can( 'manage_woocommerce' ) &&
+		check_ajax_referer( 'wooccm_field', 'nonce' ) &&
+		isset( $_REQUEST['field_id'] )
+		) {
 
-      if (isset(WOOCCM()->$section)) {
+			$field_id = wc_clean( wp_unslash( $_REQUEST['field_id'] ) );
 
-        $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
-        $attr = wc_clean(wp_unslash($_REQUEST['field_attr']));
+			if ( $this->delete_field( $field_id ) ) {
 
-        if ($field = WOOCCM()->$section->get_field($field_id)) {
+				parent::success_ajax( $field_id );
+			}
+		}
 
-          $value = $field[$attr] = wc_clean(wp_unslash($_REQUEST['field_value']));
+		parent::error_reload_page();
+	}
 
-          $field = WOOCCM()->$section->update_field($field);
+	public function ajax_reset_fields() {
+		if (
+		current_user_can( 'manage_woocommerce' ) &&
+		check_ajax_referer( 'wooccm_field', 'nonce' ) &&
+		isset( $_REQUEST['section'] )
+		) {
 
-          parent::success_ajax($value);
-        }
-      }
-    }
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-    parent::error_reload_page();
-  }
+			if ( isset( WOOCCM()->$section ) ) {
 
-  public function ajax_save_field()
-  {
+				WOOCCM()->$section->delete_fields();
 
-    if (isset($_REQUEST['field_data']) && current_user_can('manage_woocommerce') && check_ajax_referer('wooccm_field', 'nonce', false)) {
-      $field_data = json_decode(stripslashes($_REQUEST['field_data']), true);
-      if (is_array($field_data)) {
-        if (isset($field_data['id'])) {
+				parent::success_ajax();
+			}
+		}
 
-          unset($field_data['show_product_selected']);
-          unset($field_data['hide_product_selected']);
+		parent::error_reload_page();
+	}
 
-          return parent::success_ajax($this->save_modal_field($field_data));
-        } else {
-          return parent::success_ajax($this->add_modal_field($field_data));
-        }
-      }
-    }
+	public function ajax_load_field() {
+		if (
+		current_user_can( 'manage_woocommerce' ) &&
+		check_ajax_referer( 'wooccm_field', 'nonce' ) &&
+		isset( $_REQUEST['field_id'] )
+		) {
 
-    return parent::error_reload_page();
-  }
+			$field_id = wc_clean( wp_unslash( $_REQUEST['field_id'] ) );
 
-  public function ajax_delete_field()
-  {
+			if ( $field = $this->get_modal_field( $field_id ) ) {
+				parent::success_ajax( $field );
+			}
 
-    if (
-      current_user_can('manage_woocommerce') &&
-      check_ajax_referer('wooccm_field', 'nonce') &&
-      isset($_REQUEST['field_id'])
-    ) {
+			parent::error_ajax( esc_html__( 'Undefined field id', 'woocommerce-checkout-manager' ) );
+		}
 
-      $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
+		parent::error_reload_page();
+	}
 
-      if ($this->delete_field($field_id)) {
+	// Modal
+	// ---------------------------------------------------------------------------
 
-        parent::success_ajax($field_id);
-      }
-    }
+	public function get_modal_field( $field_id ) {
+		if ( array_key_exists( 'section', $_REQUEST ) ) {
 
-    parent::error_reload_page();
-  }
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-  public function ajax_reset_fields()
-  {
+			if ( isset( WOOCCM()->$section ) ) {
 
-    if (
-      current_user_can('manage_woocommerce') &&
-      check_ajax_referer('wooccm_field', 'nonce') &&
-      isset($_REQUEST['section'])
-    ) {
+				if ( $fields = WOOCCM()->$section->get_fields() ) {
 
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
+					if ( isset( $fields[ $field_id ] ) ) {
 
-      if (isset(WOOCCM()->$section)) {
+						$field = $fields[ $field_id ];
 
-        WOOCCM()->$section->delete_fields();
+						if ( ! empty( $field['show_product'] ) ) {
+							$field['show_product_selected'] = array_filter( array_combine( (array) $field['show_product'], array_map( 'get_the_title', (array) $field['show_product'] ) ) );
+						} else {
+							$field['show_product_selected'] = array();
+						}
+						if ( ! empty( $field['hide_product'] ) ) {
+							  $field['hide_product_selected'] = array_filter( array_combine( (array) $field['hide_product'], array_map( 'get_the_title', (array) $field['hide_product'] ) ) );
+						} else {
+							$field['hide_product_selected'] = array();
+						}
 
-        parent::success_ajax();
-      }
-    }
+						if ( ! empty( $field['conditional_parent_key'] ) && $field['conditional_parent_key'] != $field['key'] ) {
 
-    parent::error_reload_page();
-  }
+							  // $parent_id = @max(array_keys(array_column($fields, 'key'), $field['conditional_parent_key']));
+							  $parent_id = WOOCCM()->$section->get_field_id( $fields, 'key', $field['conditional_parent_key'] );
 
-  public function ajax_load_field()
-  {
+							if ( isset( $fields[ $parent_id ] ) ) {
+								$field['parent'] = $fields[ $parent_id ];
+							}
+						}
 
-    if (
-      current_user_can('manage_woocommerce') &&
-      check_ajax_referer('wooccm_field', 'nonce') &&
-      isset($_REQUEST['field_id'])
-    ) {
+						// don't remove empty attr because previus data remain
+						// $field = array_filter($field);
 
-      $field_id = wc_clean(wp_unslash($_REQUEST['field_id']));
+						return $field;
+					}
+				}
+			}
+		}
+	}
 
-      if ($field = $this->get_modal_field($field_id)) {
-        parent::success_ajax($field);
-      }
+	public function ajax_load_parent() {
+		if ( ! empty( $_REQUEST['conditional_parent_key'] ) ) {
 
-      parent::error_ajax(esc_html__('Undefined field id', 'woocommerce-checkout-manager'));
-    }
+			$key = $_REQUEST['conditional_parent_key'];
 
-    parent::error_reload_page();
-  }
+			if ( array_key_exists( 'section', $_REQUEST ) ) {
 
-  // Modal
-  // ---------------------------------------------------------------------------
+				$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-  public function get_modal_field($field_id)
-  {
+				if ( isset( WOOCCM()->$section ) ) {
 
-    if (array_key_exists('section', $_REQUEST)) {
+					if ( $fields = WOOCCM()->$section->get_fields() ) {
 
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
+						$parent_id = WOOCCM()->$section->get_field_id( $fields, 'key', $key );
 
-      if (isset(WOOCCM()->$section)) {
+						if ( isset( $fields[ $parent_id ] ) ) {
+							parent::success_ajax( $fields[ $parent_id ] );
+						}
+					}
+				}
+			}
+		}
+	}
 
-        if ($fields = WOOCCM()->$section->get_fields()) {
+	// Save
+	// ---------------------------------------------------------------------------
 
-          if (isset($fields[$field_id])) {
+	public function save_modal_field( $field_data ) {
+		if ( array_key_exists( 'section', $_REQUEST ) ) {
 
-            $field = $fields[$field_id];
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-            if (!empty($field['show_product'])) {
-              $field['show_product_selected'] = array_filter(array_combine((array) $field['show_product'], array_map('get_the_title', (array) $field['show_product'])));
-            } else {
-              $field['show_product_selected'] = array();
-            }
-            if (!empty($field['hide_product'])) {
-              $field['hide_product_selected'] = array_filter(array_combine((array) $field['hide_product'], array_map('get_the_title', (array) $field['hide_product'])));
-            } else {
-              $field['hide_product_selected'] = array();
-            }
+			if ( isset( WOOCCM()->$section ) ) {
 
-            if (!empty($field['conditional_parent_key']) && $field['conditional_parent_key'] != $field['key']) {
+				$field_data = wp_parse_args( $field_data, WOOCCM()->$section->get_args() );
 
-              //              $parent_id = @max(array_keys(array_column($fields, 'key'), $field['conditional_parent_key']));
-              $parent_id = WOOCCM()->$section->get_field_id($fields, 'key', $field['conditional_parent_key']);
+				/**
+				 * Don't override this fields, they are handled trough the interface toggles.
+				*/
+				unset( $field_data['order'] );
+				unset( $field_data['required'] );
+				// unset($field_data['position']);
+				unset( $field_data['clear'] );
+				unset( $field_data['disabled'] );
 
-              if (isset($fields[$parent_id])) {
-                $field['parent'] = $fields[$parent_id];
-              }
-            }
+				return WOOCCM()->$section->update_field( $field_data );
+			}
+		}
+	}
 
-            //don't remove empty attr because previus data remain
-            //$field = array_filter($field);
+	public function add_modal_field( $field_data ) {
+		if ( array_key_exists( 'section', $_REQUEST ) ) {
 
-            return $field;
-          }
-        }
-      }
-    }
-  }
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-  public function ajax_load_parent()
-  {
+			if ( isset( WOOCCM()->$section ) ) {
 
-    if (!empty($_REQUEST['conditional_parent_key'])) {
+				return WOOCCM()->$section->add_field( $field_data );
+			}
+		}
+	}
 
-      $key = $_REQUEST['conditional_parent_key'];
+	public function delete_field( $field_id ) {
+		if ( array_key_exists( 'section', $_REQUEST ) ) {
 
-      if (array_key_exists('section', $_REQUEST)) {
+			$section = wc_clean( wp_unslash( $_REQUEST['section'] ) );
 
-        $section = wc_clean(wp_unslash($_REQUEST['section']));
+			if ( isset( WOOCCM()->$section ) ) {
 
-        if (isset(WOOCCM()->$section)) {
+				return WOOCCM()->$section->delete_field( $field_id );
+			}
+		}
+	}
 
-          if ($fields = WOOCCM()->$section->get_fields()) {
+	function save_field_order() {
+		global $current_section;
 
-            $parent_id = WOOCCM()->$section->get_field_id($fields, 'key', $key);
+		if ( in_array( $current_section, array( 'billing', 'shipping', 'additional' ) ) ) {
 
-            if (isset($fields[$parent_id])) {
-              parent::success_ajax($fields[$parent_id]);
-            }
-          }
-        }
-      }
-    }
-  }
+			$section = wc_clean( wp_unslash( $current_section ) );
 
-  // Save
-  // ---------------------------------------------------------------------------
+			if ( array_key_exists( 'field_order', $_POST ) ) {
 
-  public function save_modal_field($field_data)
-  {
+				$field_order = wc_clean( wp_unslash( $_POST['field_order'] ) );
 
-    if (array_key_exists('section', $_REQUEST)) {
+				if ( is_array( $field_order ) && count( $field_order ) > 0 ) {
 
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
+					if ( isset( WOOCCM()->$section ) ) {
 
-      if (isset(WOOCCM()->$section)) {
+						$fields = WOOCCM()->$section->get_fields();
 
-        $field_data = wp_parse_args($field_data, WOOCCM()->$section->get_args());
-         
-		/**
-		 * Don't override this fields, they are handled trough the interface toggles.
-		*/
-        unset($field_data['order']);
-        unset($field_data['required']);
-        // unset($field_data['position']);
-        unset($field_data['clear']);
-        unset($field_data['disabled']);
+						$loop = 1;
 
-        return WOOCCM()->$section->update_field($field_data);
-      }
-    }
-  }
+						foreach ( $field_order as $field_id ) {
 
-  public function add_modal_field($field_data)
-  {
-    if (array_key_exists('section', $_REQUEST)) {
+							if ( isset( $fields[ $field_id ] ) ) {
 
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
+								  $fields[ $field_id ]['order'] = $loop;
 
-      if (isset(WOOCCM()->$section)) {
+								  $loop++;
+							}
+						}
 
-        return WOOCCM()->$section->add_field($field_data);
-      }
-    }
-  }
-
-  public function delete_field($field_id)
-  {
-
-    if (array_key_exists('section', $_REQUEST)) {
-
-      $section = wc_clean(wp_unslash($_REQUEST['section']));
-
-      if (isset(WOOCCM()->$section)) {
-
-        return WOOCCM()->$section->delete_field($field_id);
-      }
-    }
-  }
-
-  function save_field_order()
-  {
-
-    global $current_section;
-
-    if (in_array($current_section, array('billing', 'shipping', 'additional'))) {
-
-      $section = wc_clean(wp_unslash($current_section));
-
-      if (array_key_exists('field_order', $_POST)) {
-
-        $field_order = wc_clean(wp_unslash($_POST['field_order']));
-
-        if (is_array($field_order) && count($field_order) > 0) {
-
-          if (isset(WOOCCM()->$section)) {
-
-            $fields = WOOCCM()->$section->get_fields();
-
-            $loop = 1;
-
-            foreach ($field_order as $field_id) {
-
-              if (isset($fields[$field_id])) {
-
-                $fields[$field_id]['order'] = $loop;
-
-                $loop++;
-              }
-            }
-
-            WOOCCM()->$section->update_fields($fields);
-          }
-        }
-      }
-    }
-  }
+						WOOCCM()->$section->update_fields( $fields );
+					}
+				}
+			}
+		}
+	}
 }
 
 WOOCCM_Field_Controller::instance();

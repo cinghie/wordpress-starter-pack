@@ -173,6 +173,12 @@ function wppfm_getCorrectValueSelector(
 	switch ( type ) {
 		case '0':
 		case 'change nothing':
+		// @since 2.22.0.
+		case '8':
+		case 'strip tags':
+		// @since 2.34.0.
+		case '9':
+		case 'html entity decode':
 			wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ); // save the value in meta now as there is no second input field required.
 			selectorCode = '';
 			break;
@@ -207,14 +213,7 @@ function wppfm_getCorrectValueSelector(
 			break;
 
 		// @since 2.22.0.
-		case '8':
-		case 'strip tags':
-			wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ); // save the value in meta now as there is no second input field required.
-			selectorCode = '';
-			break;
-
-		// @since 2.22.0.
-		case '9':
+		case '10':
 		case 'limit characters':
 			selectorCode = wppfm_valueOptionsSingleInput( rowId, sourceLevel, valueEditorLevel, value );
 			break;

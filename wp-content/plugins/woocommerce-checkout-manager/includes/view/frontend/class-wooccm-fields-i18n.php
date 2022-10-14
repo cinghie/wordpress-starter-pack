@@ -65,6 +65,9 @@ class WOOCCM_Fields_i18n {
 					if ( isset( $field['description'] ) && $field['description'] != '' ) {
 						pll_register_string( $field['description'], $field['description'], $name );
 					}
+					if ( isset( $field['conditional_parent_value'] ) && $field['conditional_parent_value'] != '' ) {
+						pll_register_string( $field['conditional_parent_value'], $field['conditional_parent_value'], $name );
+					}
 
 					if ( isset( $field['options'] ) ) {
 						foreach ( $field['options'] as $option_data ) {
@@ -96,10 +99,12 @@ class WOOCCM_Fields_i18n {
 					if ( isset( $field['description'] ) && $field['description'] != '' ) {
 						icl_register_string( 'woocommerce-checkout-manager', $field['description'], $field['description'], false, $icl_language_code );
 					}
+					if ( isset( $field['conditional_parent_value'] ) && $field['conditional_parent_value'] != '' ) {
+						icl_register_string( 'woocommerce-checkout-manager', $field['conditional_parent_value'], $field['conditional_parent_value'], false, $icl_language_code );
+					}
 					if ( isset( $field['options'] ) ) {
 						foreach ( $field['options'] as $option_data ) {
 							if ( isset( $option_data['label'] ) ) {
-								// 1326
 								icl_register_string( 'woocommerce-checkout-manager', $option_data['label'], $option_data['label'], false, $icl_language_code );
 							}
 						}
@@ -108,8 +113,6 @@ class WOOCCM_Fields_i18n {
 			}
 		}
 	}
-
-
 
 	public function i18n( $string ) {
 
@@ -121,7 +124,6 @@ class WOOCCM_Fields_i18n {
 
 		return esc_html__( $string, 'woocommerce' );
 	}
-
 
 	public function translate( $value ) {
 		if ( ! empty( $value ) ) {
@@ -153,6 +155,10 @@ class WOOCCM_Fields_i18n {
 
 		if ( ! empty( $field['placeholder'] ) ) {
 			$field['placeholder'] = $this->translate( $field['placeholder'] );
+		}
+
+		if ( ! empty( $field['conditional_parent_value'] ) ) {
+			$field['conditional_parent_value'] = $this->translate( $field['conditional_parent_value'] );
 		}
 
 		return $field;

@@ -6,7 +6,7 @@ Donate link: https://www.wpmarketingrobot.com/
 Requires at least: 5.4
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 1.43.0
+Stable tag: 1.44.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,6 +97,12 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.44.0 - 29/09/2022 =
+* Added a new line break at the end of each xml row to make a more readable xml feed and prevent large text lines.
+* Added an utf8 check to CDATA string conversion.
+* Fixed an issue where it was not possible to add a filter to the "strip tags" change value option.
+* Added an "html entity decode" option to the change value options.
+
 = 1.43.0 - 15/08/2022 =
 * Added a result check to the get_term_by call to prevent a PHP warning error message.
 * Fixed the auto-feed-update process for a Google Product Review Feed update.

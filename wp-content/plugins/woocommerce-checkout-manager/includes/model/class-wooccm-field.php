@@ -237,13 +237,18 @@ class WOOCCM_Field extends WOOCCM_Model {
 	public function get_default_fields() {
 		$fields = array();
 
-		if ( $this->prefix !== 'additional' ) {
+		/**
+		 * Exclude from form actions to fix issue in myaccount edit billing and shipping form save
+		 */
+		$form_action = WOOCCM_Field_Helpers::get_form_action();
+
+		if ( ! $form_action && $this->prefix !== 'additional' ) {
 
 			$prefix = sprintf( '%s_', $this->prefix );
 
-			// $filters = WOOCCM_Fields_Register::instance();
-			// fix nesting level
-			// remove_filter('woocommerce_' . $prefix . 'fields', array($filters, 'add_' . $prefix . 'fields'));
+			/**
+			 * Fix nesting level
+			 */
 			remove_all_filters( 'woocommerce_' . $prefix . 'fields' );
 
 			$i = 0;
@@ -302,7 +307,7 @@ class WOOCCM_Field extends WOOCCM_Model {
 
 	public function delete_fields() {
 		$this->delete();
-		$this->save_items( $this->get_defaults() );
+		$this->save_items( $this->get_default_fields() );
 	}
 
 	// Field

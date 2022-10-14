@@ -54,6 +54,10 @@ var YITH_WCAN_Filter = /*#__PURE__*/function () {
   _createClass(YITH_WCAN_Filter, [{
     key: "initPopState",
     value: function initPopState() {
+      if (!yith_wcan_shortcodes.reload_on_back) {
+        return;
+      }
+
       this.pushUrlToHistory(window.location, document.title, null, true);
       $(window).on('popstate', function () {
         var _window$history$state;
@@ -533,6 +537,7 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
           $search = $('<input/>', {
         name: 's',
         "class": 'search-field',
+        autocomplete: 'off',
         type: 'search',
         placeholder: this.options.labels.searchPlaceholder
       });

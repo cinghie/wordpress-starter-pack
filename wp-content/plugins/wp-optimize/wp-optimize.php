@@ -3,7 +3,7 @@
 Plugin Name: WP-Optimize - Clean, Compress, Cache
 Plugin URI: https://getwpo.com
 Description: WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract more traffic and users.
-Version: 3.2.6
+Version: 3.2.9
 Update URI: https://wordpress.org/plugins/wp-optimize/
 Author: David Anderson, Ruhani Rabin, Team Updraft
 Author URI: https://updraftplus.com
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 // Check to make sure if WP_Optimize is already call and returns.
 if (!class_exists('WP_Optimize')) :
-define('WPO_VERSION', '3.2.6');
+define('WPO_VERSION', '3.2.9');
 define('WPO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WPO_PLUGIN_MAIN_PATH', plugin_dir_path(__FILE__));
 define('WPO_PREMIUM_NOTIFICATION', false);
@@ -29,24 +29,6 @@ class WP_Optimize {
 	private $template_directories;
 
 	protected static $_instance = null;
-
-	protected static $_optimizer_instance = null;
-
-	protected static $_options_instance = null;
-
-	protected static $_minify_instance = null;
-
-	protected static $_notices_instance = null;
-
-	protected static $_logger_instance = null;
-
-	protected static $_browser_cache = null;
-
-	protected static $_db_info = null;
-
-	protected static $_cache = null;
-
-	protected static $_gzip_compression = null;
 
 	/**
 	 * Class constructor
@@ -64,6 +46,8 @@ class WP_Optimize {
 		$this->load_admin();
 		add_action('admin_init', array($this, 'admin_init'));
 		add_action('admin_bar_menu', array($this, 'cache_admin_bar'), 100, 1);
+
+		add_action('init', array($this, 'schedule_plugin_cron_tasks'));
 
 		add_filter("plugin_action_links_".plugin_basename(__FILE__), array($this, 'plugin_settings_link'));
 		add_action('wpo_cron_event2', array($this, 'cron_action'));
@@ -97,8 +81,6 @@ class WP_Optimize {
 		include_once(WPO_PLUGIN_MAIN_PATH.'includes/backward-compatibility-functions.php');
 				
 		register_shutdown_function(array($this, 'log_fatal_errors'));
-
-		$this->schedule_plugin_cron_tasks();
 
 		add_action('wpo_admin_before_closing_wrap', array($this, 'load_modal_template'), 20);
 
@@ -230,11 +212,8 @@ class WP_Optimize {
 		return self::$_instance;
 	}
 
-	public static function get_optimizer() {
-		if (empty(self::$_optimizer_instance)) {
-			self::$_optimizer_instance = new WP_Optimizer();
-		}
-		return self::$_optimizer_instance;
+	public function get_optimizer() {
+		return WP_Optimizer::instance();
 	}
 
 	/**
@@ -243,24 +222,15 @@ class WP_Optimize {
 	 * @return WP_Optimize_Minify
 	 */
 	public function get_minify() {
-		if (empty(self::$_minify_instance)) {
-			self::$_minify_instance = new WP_Optimize_Minify();
-		}
-		return self::$_minify_instance;
+		return WP_Optimize_Minify::instance();
 	}
 
-	public static function get_options() {
-		if (empty(self::$_options_instance)) {
-			self::$_options_instance = new WP_Optimize_Options();
-		}
-		return self::$_options_instance;
+	public function get_options() {
+		return WP_Optimize_Options::instance();
 	}
 
-	public static function get_notices() {
-		if (empty(self::$_notices_instance)) {
-			self::$_notices_instance = new WP_Optimize_Notices();
-		}
-		return self::$_notices_instance;
+	public function get_notices() {
+		return WP_Optimize_Notices::instance();
 	}
 
 	/**
@@ -321,11 +291,8 @@ class WP_Optimize {
 	 *
 	 * @return WP_Optimize_Browser_Cache
 	 */
-	public static function get_browser_cache() {
-		if (empty(self::$_browser_cache)) {
-			self::$_browser_cache = new WP_Optimize_Browser_Cache();
-		}
-		return self::$_browser_cache;
+	public function get_browser_cache() {
+		return WP_Optimize_Browser_Cache::instance();
 	}
 
 	/**
@@ -334,10 +301,7 @@ class WP_Optimize {
 	 * @return WP_Optimize_Database_Information
 	 */
 	public function get_db_info() {
-		if (empty(self::$_db_info)) {
-			self::$_db_info = new WP_Optimize_Database_Information();
-		}
-		return self::$_db_info;
+		return WP_Optimize_Database_Information::instance();
 	}
 
 	/**
@@ -345,11 +309,8 @@ class WP_Optimize {
 	 *
 	 * @return WP_Optimize_Gzip_Compression
 	 */
-	static public function get_gzip_compression() {
-		if (empty(self::$_gzip_compression)) {
-			self::$_gzip_compression = new WP_Optimize_Gzip_Compression();
-		}
-		return self::$_gzip_compression;
+	public function get_gzip_compression() {
+		return WP_Optimize_Gzip_Compression::instance();
 	}
 
 	/**
@@ -367,11 +328,8 @@ class WP_Optimize {
 	 *
 	 * @return Updraft_Logger
 	 */
-	public static function get_logger() {
-		if (empty(self::$_logger_instance)) {
-			self::$_logger_instance = new Updraft_Logger();
-		}
-		return self::$_logger_instance;
+	public function get_logger() {
+		return Updraft_Logger::instance();
 	}
 
 	/**
@@ -406,7 +364,7 @@ class WP_Optimize {
 		wp_register_script('updraft-queue-js', WPO_PLUGIN_URL.'js/queue'.$min_or_not_internal.'.js', array(), $enqueue_version);
 		wp_enqueue_script('wp-optimize-modal', WPO_PLUGIN_URL.'js/modal'.$min_or_not_internal.'.js', array('jquery', 'backbone', 'wp-util'), $enqueue_version);
 		wp_enqueue_script('wp-optimize-cache-js', WPO_PLUGIN_URL.'js/cache'.$min_or_not_internal.'.js', array('wp-optimize-send-command', 'smush-js'), $enqueue_version);
-		wp_enqueue_script('wp-optimize-admin-js', WPO_PLUGIN_URL.'js/wpoadmin'.$min_or_not_internal.'.js', array('jquery', 'updraft-queue-js', 'wp-optimize-send-command', 'smush-js', 'wp-optimize-modal'), $enqueue_version);
+		wp_enqueue_script('wp-optimize-admin-js', WPO_PLUGIN_URL.'js/wpoadmin'.$min_or_not_internal.'.js', array('jquery', 'updraft-queue-js', 'wp-optimize-send-command', 'smush-js', 'wp-optimize-modal', 'wp-optimize-cache-js'), $enqueue_version);
 		wp_enqueue_style('wp-optimize-admin-css', WPO_PLUGIN_URL.'css/wp-optimize-admin'.$min_or_not_internal.'.css', array(), $enqueue_version);
 		// Using tablesorter to help with organising the DB size on Table Information
 		// https://github.com/Mottie/tablesorter
@@ -563,7 +521,7 @@ class WP_Optimize {
 			return;
 		}
 
-				// Loads the task manager
+		// Loads the task manager
 		$this->get_task_manager();
 
 		// Loads the language file.
@@ -576,6 +534,8 @@ class WP_Optimize {
 		// Include minify
 		$this->get_minify();
 		$this->run_updates();
+
+		// Include WebP
 		$this->get_webp_instance();
 	}
 
@@ -927,6 +887,15 @@ class WP_Optimize {
 			'user_always_ignores_table_delete_warning' => (get_user_meta(get_current_user_id(), 'wpo-ignores-table-delete-warning', true)) ? true : false,
 			'post_meta_tweak_completed' => __('The tweak has been performed.', 'wp-optimize'),
 			'no_minified_assets' => __('No minified files are present', 'wp-optimize'),
+			'network_site_url' => network_site_url(),
+			'export_settings_file_name' => 'wpoptimize-settings-'.sanitize_title(get_bloginfo('name')).'.json',
+			'import_select_file' => __('You have not yet selected a file to import.', 'wp-optimize'),
+			'import_invalid_json_file' => __('Error: The chosen file is corrupt. Please choose a valid WP-Optimize export file.', 'wp-optimize'),
+			'importing' => __('Importing...', 'wp-optimize'),
+			'importing_data_from' => __('This will import data from:', 'wp-optimize'),
+			'exported_on' => __('Which was exported on:', 'wp-optimize'),
+			'continue_import' => __('Do you want to carry out the import?', 'wp-optimize'),
+
 		));
 	}
 
@@ -1892,8 +1861,8 @@ function wpo_activation_actions() {
 	WP_Optimize()->get_options()->set_default_options();
 	WP_Optimize()->get_minify()->plugin_activate();
 
-	WP_Optimize::get_gzip_compression()->restore();
-	WP_Optimize::get_browser_cache()->restore();
+	WP_Optimize()->get_gzip_compression()->restore();
+	WP_Optimize()->get_browser_cache()->restore();
 
 	if (!class_exists('Updraft_Tasks_Activation')) require_once(WPO_PLUGIN_MAIN_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-tasks-activation.php');
 	Updraft_Tasks_Activation::init_db();
@@ -1915,8 +1884,8 @@ function wpo_deactivation_actions() {
 	WP_Optimize()->wpo_cron_deactivate();
 	WP_Optimize()->get_page_cache()->disable();
 	WP_Optimize()->get_minify()->plugin_deactivate();
-	WP_Optimize::get_gzip_compression()->disable();
-	WP_Optimize::get_browser_cache()->disable();
+	WP_Optimize()->get_gzip_compression()->disable();
+	WP_Optimize()->get_browser_cache()->disable();
 }
 
 function wpo_cron_deactivate() {
@@ -1929,8 +1898,8 @@ function wpo_cron_deactivate() {
  * Plugin uninstall actions.
  */
 function wpo_uninstall_actions() {
-	WP_Optimize::get_gzip_compression()->disable();
-	WP_Optimize::get_browser_cache()->disable();
+	WP_Optimize()->get_gzip_compression()->disable();
+	WP_Optimize()->get_browser_cache()->disable();
 	WP_Optimize()->get_options()->delete_all_options();
 	WP_Optimize()->get_minify()->plugin_uninstall();
 	WP_Optimize()->get_options()->wipe_settings();

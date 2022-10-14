@@ -1,319 +1,300 @@
 <?php
 
-class WOOCCM_Fields_Filter
-{
-
-  protected static $_instance;
-  public $count = 0;
-
-  public function __construct()
-  {
-    $this->init();
-  }
-
-  public static function instance()
-  {
-    if (is_null(self::$_instance)) {
-      self::$_instance = new self();
-    }
-    return self::$_instance;
-  }
-
-  // Custom fields
-  // ---------------------------------------------------------------------------
-  public function custom_field($field, $key, $args, $value = null)
-  {
-
-    $field = '';
-
-    if ($args['required']) {
-      //$args['class'][] = 'validate-required';
-      $required = '&nbsp;<abbr class="required" title="' . esc_attr__('required', 'woocommerce-checkout-manager') . '">*</abbr>';
-    } else {
-      $required = '&nbsp;<span class="optional">(' . esc_html__('optional', 'woocommerce-checkout-manager') . ')</span>';
-    }
-
-    if (is_string($args['label_class'])) {
-      $args['label_class'] = array($args['label_class']);
-    }
-
-    //if (is_null($value)) {
-    if (!$value) {
-      $value = $args['default'];
-    }
+class WOOCCM_Fields_Filter {
+
+
+	protected static $_instance;
+	public $count = 0;
+
+	public function __construct() {
+		$this->init();
+	}
+
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	// Custom fields
+	// ---------------------------------------------------------------------------
+	public function custom_field( $field = '', $key = '', $args = array(), $value = null ) {
+		$field = '';
+
+		if ( $args['required'] ) {
+			// $args['class'][] = 'validate-required';
+			$required = '&nbsp;<abbr class="required" title="' . esc_attr__( 'required', 'woocommerce-checkout-manager' ) . '">*</abbr>';
+		} else {
+			$required = '&nbsp;<span class="optional">(' . esc_html__( 'optional', 'woocommerce-checkout-manager' ) . ')</span>';
+		}
+
+		if ( is_string( $args['label_class'] ) ) {
+			$args['label_class'] = array( $args['label_class'] );
+		}
+
+		// if (is_null($value)) {
+		if ( ! $value ) {
+			$value = $args['default'];
+		}
+
+		// Custom attribute handling.
+		$custom_attributes         = array();
+		$args['custom_attributes'] = array_filter( (array) $args['custom_attributes'], 'strlen' );
+
+		if ( $args['maxlength'] ) {
+			$args['custom_attributes']['maxlength'] = absint( $args['maxlength'] );
+		}
+
+		if ( ! empty( $args['autocomplete'] ) ) {
+			$args['custom_attributes']['autocomplete'] = $args['autocomplete'];
+		}
 
-    // Custom attribute handling.
-    $custom_attributes = array();
-    $args['custom_attributes'] = array_filter((array) $args['custom_attributes'], 'strlen');
+		if ( true === $args['autofocus'] ) {
+			$args['custom_attributes']['autofocus'] = 'autofocus';
+		}
+
+		if ( $args['description'] ) {
+			$args['custom_attributes']['aria-describedby'] = $args['id'] . '-description';
+		}
+
+		if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) ) {
+			foreach ( $args['custom_attributes'] as $attribute => $attribute_value ) {
+				$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
+			}
+		}
 
-    if ($args['maxlength']) {
-      $args['custom_attributes']['maxlength'] = absint($args['maxlength']);
-    }
+		if ( ! empty( $args['validate'] ) ) {
+			foreach ( $args['validate'] as $validate ) {
+				$args['class'][] = 'validate-' . $validate;
+			}
+		}
 
-    if (!empty($args['autocomplete'])) {
-      $args['custom_attributes']['autocomplete'] = $args['autocomplete'];
-    }
+		// $field           = '';
+		$label_id        = $args['id'];
+		$sort            = $args['priority'] ? $args['priority'] : '';
+		$field_container = '<p class="form-row %1$s" id="%2$s" data-priority="' . esc_attr( $sort ) . '">%3$s</p>';
+		switch ( $args['type'] ) {
 
-    if (true === $args['autofocus']) {
-      $args['custom_attributes']['autofocus'] = 'autofocus';
-    }
+			case 'radio':
+				$field = '';
 
-    if ($args['description']) {
-      $args['custom_attributes']['aria-describedby'] = $args['id'] . '-description';
-    }
+				if ( ! empty( $args['options'] ) ) {
 
-    if (!empty($args['custom_attributes']) && is_array($args['custom_attributes'])) {
-      foreach ($args['custom_attributes'] as $attribute => $attribute_value) {
-        $custom_attributes[] = esc_attr($attribute) . '="' . esc_attr($attribute_value) . '"';
-      }
-    }
+					$field .= ' <span class="woocommerce-radio-wrapper" ' . implode( ' ', $custom_attributes ) . '>';
 
-    if (!empty($args['validate'])) {
-      foreach ($args['validate'] as $validate) {
-        $args['class'][] = 'validate-' . $validate;
-      }
-    }
+					foreach ( $args['options'] as $option_key => $option_text ) {
+						$option_key = is_numeric( $option_key ) ? $option_text : $option_key;
+						$field     .= '<input type="radio" class="input-checkbox" value="' . esc_attr( $option_key ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $key ) . '_' . esc_attr( $option_key ) . '"' . checked( $value, $option_text, false ) . ' />';
+						$field     .= '<label for="' . esc_attr( $key ) . '_' . esc_attr( $option_key ) . '" class="checkbox ' . implode( ' ', $args['label_class'] ) . '">' . $option_text . '</label><br>';
+					}
 
-    //$field           = '';
-    $label_id = $args['id'];
-    $sort = $args['priority'] ? $args['priority'] : '';
-    $field_container = '<p class="form-row %1$s" id="%2$s" data-priority="' . esc_attr($sort) . '">%3$s</p>';
-    switch ($args['type']) {
+					$field .= ' </span>';
+				}
 
-      case 'radio':
-        $field = '';
+				break;
 
-        if (!empty($args['options'])) {
+			case 'select':
+				$field = '';
 
-          $field .= ' <span class="woocommerce-radio-wrapper" ' . implode(' ', $custom_attributes) . '>';
+				if ( ! empty( $args['options'] ) ) {
+					$field .= '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . ' data-placeholder="' . esc_attr( $args['placeholder'] ) . '">';
+					if ( ! empty( $args['placeholder'] ) ) {
+						$field .= '<option value="" disabled="disabled" selected="selected">' . esc_attr( $args['placeholder'] ) . '</option>';
+					}
+					foreach ( $args['options'] as $option_key => $option_text ) {
+						$option_key = is_numeric( $option_key ) ? $option_text : $option_key;
+						$field     .= '<option value="' . esc_attr( $option_key ) . '" ' . selected( $value, $option_text, false ) . '>' . esc_attr( $option_text ) . '</option>';
+					}
+					$field .= '</select>';
+				}
 
-          foreach ($args['options'] as $option_key => $option_text) {					
-			$option_key = is_numeric($option_key) ? $option_text : $option_key;
-            $field .= '<input type="radio" class="input-checkbox" value="' . esc_attr($option_key) . '" name="' . esc_attr($key) . '" id="' . esc_attr($key) . '_' . esc_attr($option_key) . '"' . checked($value, $option_text, false) . ' />';
-            $field .= '<label for="' . esc_attr($key) . '_' . esc_attr($option_key) . '" class="checkbox ' . implode(' ', $args['label_class']) . '">' . $option_text . '</label><br>';
-          }
+				break;
 
-          $field .= ' </span>';
-        }
+			case 'multiselect':
+				$field = '';
 
-        break;
+				$value = is_array( $value ) ? $value : array_map( 'trim', (array) explode( ',', $value ) );
 
-      case 'select':
+				if ( ! empty( $args['options'] ) ) {
+					$field .= '<select name="' . esc_attr( $key ) . '[]" id="' . esc_attr( $key ) . '" class="select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" multiple="multiple" ' . implode( ' ', $custom_attributes ) . '>';
+					foreach ( $args['options'] as $option_key => $option_text ) {
+						$option_key = is_numeric( $option_key ) ? $option_text : $option_key;
+						$field     .= '<option value="' . esc_attr( $option_key ) . '" ' . selected( in_array( $option_text, $value ), 1, false ) . '>' . esc_attr( $option_text ) . '</option>';
+					}
+					$field .= ' </select>';
+				}
 
-        $field = '';
+				break;
 
-        if (!empty($args['options'])) {
-          $field .= '<select name="' . esc_attr($key) . '" id="' . esc_attr($args['id']) . '" class="select ' . esc_attr(implode(' ', $args['input_class'])) . '" ' . implode(' ', $custom_attributes) . ' data-placeholder="' . esc_attr($args['placeholder']) . '">';
-          if (!empty($args['placeholder'])) {
-            $field .= '<option value="" disabled="disabled" selected="selected">' . esc_attr($args['placeholder']) . '</option>';
-          }
-          foreach ($args['options'] as $option_key => $option_text) {
-			$option_key = is_numeric($option_key) ? $option_text : $option_key;
-            $field .= '<option value="' . esc_attr($option_key) . '" ' . selected($value, $option_text, false) . '>' . esc_attr($option_text) . '</option>';
-          }
-          $field .= '</select>';
-        }
+			case 'multicheckbox':
+				$field = '';
 
-        break;
+				$value = is_array( $value ) ? $value : array_map( 'trim', (array) explode( ',', $value ) );
 
-      case 'multiselect':
+				if ( ! empty( $args['options'] ) ) {
 
-        $field = '';
+					$field .= ' <span class="woocommerce-multicheckbox-wrapper" ' . implode( ' ', $custom_attributes ) . '>';
 
-        $value = is_array($value) ? $value : array_map('trim', (array) explode(',', $value));
+					foreach ( $args['options'] as $option_key => $option_text ) {
+						$option_key = is_numeric( $option_key ) ? $option_text : $option_key;
+						$field     .= '<label><input type="checkbox" name="' . esc_attr( $key ) . '[]" value="' . esc_attr( $option_key ) . '"' . checked( in_array( $option_text, $value ), 1, false ) . ' /> ' . esc_attr( $option_text ) . '</label>';
+					}
 
-        if (!empty($args['options'])) {
-          $field .= '<select name="' . esc_attr($key) . '[]" id="' . esc_attr($key) . '" class="select ' . esc_attr(implode(' ', $args['input_class'])) . '" multiple="multiple" ' . implode(' ', $custom_attributes) . '>';
-          foreach ($args['options'] as $option_key => $option_text) {
-			$option_key = is_numeric($option_key) ? $option_text : $option_key;
-            $field .= '<option value="' . esc_attr($option_key) . '" ' . selected(in_array($option_text, $value), 1, false) . '>' . esc_attr($option_text) . '</option>';
-          }
-          $field .= ' </select>';
-        }
+					$field .= '</span>';
+				}
 
-        break;
+				break;
 
-      case 'multicheckbox':
+			case 'file':
+				$field = '';
 
-        $field = '';
+				$field .= '<button style="width:100%" class="wooccm-file-button button alt" type="button" class="button alt" id="' . esc_attr( $key ) . '_button">' . esc_html( $args['placeholder'] ) . '</button>';
+				// $field .= '<input class="wooccm-file-field" type="text" name="' . esc_attr($key) . '" id="' . esc_attr($key) . '" value="test" />';
+				$field .= '<input class="wooccm-file-field" type="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="" ' . implode( ' ', $custom_attributes ) . ' />';
+				$field .= '<input style="display:none;" class="fileinput-button" type="file" name="' . esc_attr( $key ) . '_file" id="' . esc_attr( $key ) . '_file" multiple="multiple" />';
+				$field .= '<span style="display:none;" class="wooccm-file-list"></span>';
 
-        $value = is_array($value) ? $value : array_map('trim', (array) explode(',', $value));
+				break;
+		}
 
-        if (!empty($args['options'])) {
+		if ( ! empty( $field ) ) {
+			$field_html = '';
 
-          $field .= ' <span class="woocommerce-multicheckbox-wrapper" ' . implode(' ', $custom_attributes) . '>';
+			if ( $args['label'] && 'checkbox' !== $args['type'] ) {
+				$field_html .= '<label for="' . esc_attr( $label_id ) . '" class="' . esc_attr( implode( ' ', $args['label_class'] ) ) . '">' . $args['label'] . $required . '</label>';
+			}
 
-          foreach ($args['options'] as $option_key => $option_text) {		
-			$option_key = is_numeric($option_key) ? $option_text : $option_key;
-            $field .= '<label><input type="checkbox" name="' . esc_attr($key) . '[]" value="' . esc_attr($option_key) . '"' . checked(in_array($option_text, $value), 1, false) . ' /> ' . esc_attr($option_text) . '</label>';
-          }
+			$field_html .= '<span class="woocommerce-input-wrapper">' . $field;
 
-          $field .= '</span>';
-        }
+			if ( $args['description'] ) {
+				$field_html .= '<span class="description" id="' . esc_attr( $args['id'] ) . '-description" aria-hidden="true">' . wp_kses_post( $args['description'] ) . '</span>';
+			}
 
-        break;
+			$field_html .= '</span>';
 
-      case 'file':
+			$container_class = esc_attr( implode( ' ', $args['class'] ) );
+			$container_id    = esc_attr( $args['id'] ) . '_field';
+			$field           = sprintf( $field_container, $container_class, $container_id, $field_html );
+		}
 
-        $field = '';
+		return $field;
+	}
 
-        $field .= '<button style="width:100%" class="wooccm-file-button button alt" type="button" class="button alt" id="' . esc_attr($key) . '_button">' . esc_html($args['placeholder']) . '</button>';
-        //$field .= '<input class="wooccm-file-field" type="text" name="' . esc_attr($key) . '" id="' . esc_attr($key) . '" value="test" />';
-        $field .= '<input class="wooccm-file-field" type="hidden" name="' . esc_attr($key) . '" id="' . esc_attr($args['id']) . '" value="" ' . implode(' ', $custom_attributes) . ' />';
-        $field .= '<input style="display:none;" class="fileinput-button" type="file" name="' . esc_attr($key) . '_file" id="' . esc_attr($key) . '_file" multiple="multiple" />';
-        $field .= '<span style="display:none;" class="wooccm-file-list"></span>';
+	// Heading
+	// ---------------------------------------------------------------------------
+	public function heading_field( $field = '', $key = '', $args = array(), $value = null ) {
+		// Custom attribute handling.
+		$custom_attributes = array();
 
-        break;
-    }
+		if ( ! empty( $args['custom_attributes'] ) && is_array( $args['custom_attributes'] ) ) {
+			foreach ( $args['custom_attributes'] as $attribute => $attribute_value ) {
+				$custom_attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
+			}
+		}
 
-    if (!empty($field)) {
-      $field_html = '';
+		$sort = $args['priority'] ? $args['priority'] : '';
 
-      if ($args['label'] && 'checkbox' !== $args['type']) {
-        $field_html .= '<label for="' . esc_attr($label_id) . '" class="' . esc_attr(implode(' ', $args['label_class'])) . '">' . $args['label'] . $required . '</label>';
-      }
+		$field_html = '<h3 ' . implode( ' ', $custom_attributes ) . '>' . esc_html( $args['label'] ) . '</h3>';
 
-      $field_html .= '<span class="woocommerce-input-wrapper">' . $field;
+		$container_class = esc_attr( implode( ' ', $args['class'] ) );
+		$container_id    = esc_attr( $args['id'] ) . '_field';
+		$field_container = '<div class="form-row %1$s" id="%2$s" data-priority="' . esc_attr( $sort ) . '">%3$s</div>';
 
-      if ($args['description']) {
-        $field_html .= '<span class="description" id="' . esc_attr($args['id']) . '-description" aria-hidden="true">' . wp_kses_post($args['description']) . '</span>';
-      }
+		return sprintf( $field_container, $container_class, $container_id, $field_html );
+	}
 
-      $field_html .= '</span>';
+	// Colorpicker
+	// ---------------------------------------------------------------------------
+	public function colorpicker_field( $field = '', $key = '', $args = array(), $value = null ) {
+		$args['type']      = 'text';
+		$args['maxlength'] = 7;
 
-      $container_class = esc_attr(implode(' ', $args['class']));
-      $container_id = esc_attr($args['id']) . '_field';
-      $field = sprintf($field_container, $container_class, $container_id, $field_html);
-    }
+		ob_start();
 
-    return $field;
-  }
+		woocommerce_form_field( $key, $args, $value );
 
-  // Heading
-  // ---------------------------------------------------------------------------
-  public function heading_field($field, $key, $args, $value = null)
-  {
+		$field = ob_get_clean();
 
-    // Custom attribute handling.
-    $custom_attributes = array();
+		$field = str_replace( '</p>', ' <span class="wooccmcolorpicker_container" class="spec_shootd"></span></p>', $field );
 
-    if (!empty($args['custom_attributes']) && is_array($args['custom_attributes'])) {
-      foreach ($args['custom_attributes'] as $attribute => $attribute_value) {
-        $custom_attributes[] = esc_attr($attribute) . '="' . esc_attr($attribute_value) . '"';
-      }
-    }
+		return $field;
+	}
 
-    $sort = $args['priority'] ? $args['priority'] : '';
+	// Country
+	// ---------------------------------------------------------------------------
+	public function country_field( $field = '', $key = '', $args = array(), $value = null ) {
+		static $instance = 0;
 
-    $field_html = '<h3 ' . implode(' ', $custom_attributes) . '>' . esc_html($args['label']) . '</h3>';
+		if ( $instance ) {
+			return $field;
+		}
 
-    $container_class = esc_attr(implode(' ', $args['class']));
-    $container_id = esc_attr($args['id']) . '_field';
-    $field_container = '<div class="form-row %1$s" id="%2$s" data-priority="' . esc_attr($sort) . '">%3$s</div>';
+		$instance++;
 
-    return sprintf($field_container, $container_class, $container_id, $field_html);
-  }
+		ob_start();
 
-  // Colorpicker
-  // ---------------------------------------------------------------------------
-  public function colorpicker_field($field = '', $key = '', $args = [], $value = null)
-  {
+		if ( ! empty( $args['default'] ) ) {
+			$value = $args['default'];
+		}
 
-    $args['type'] = 'text';
-    $args['maxlength'] = 7;
+		woocommerce_form_field( $key, $args, $value );
 
-    ob_start();
+		$field = ob_get_clean();
 
-    woocommerce_form_field($key, $args, $value);
+		return $field;
+	}
 
-    $field = ob_get_clean();
+	// State
+	// ---------------------------------------------------------------------------
+	public function state_field( $field = '', $key = '', $args = array(), $value = null ) {
+		static $instance = 0;
 
-    $field = str_replace('</p>', ' <span class="wooccmcolorpicker_container" class="spec_shootd"></span></p>', $field);
+		if ( $instance ) {
+			return $field;
+		}
 
-    return $field;
-  }
+		$instance++;
 
-  // Country 
-  // ---------------------------------------------------------------------------
-  public function country_field($field = '', $key = '', $args = [], $value = null)
-  {
+		ob_start();
 
-    static $instance = 0;
+		if ( ! empty( $args['default'] ) ) {
+			$value = $args['default'];
+		}
 
-    if ($instance) {
-      return $field;
-    }
+		woocommerce_form_field( $key, $args, $value );
 
-    $instance++;
+		$field = ob_get_clean();
 
-    ob_start();
+		return $field;
+	}
 
-    if (!empty($args['default'])) {
-      $value = $args['default'];
-    }
+	public function hidden_field( $field = '', $key = '', $args = array(), $value = null ) {
+		static $instance = 0;
 
-    woocommerce_form_field($key, $args, $value);
+		if ( $instance ) {
+			return $field;
+		}
 
-    $field = ob_get_clean();
+		$instance++;
 
-    return $field;
-  }
+		$field .= '<input type="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="' . esc_html( $value ) . '" ' . implode( ' ', $args['custom_attributes'] ) . ' readonly="readonly" />';
 
-  //  State
-  // ---------------------------------------------------------------------------
-  public function state_field($field = '', $key = '', $args = [], $value = null)
-  {
+		return $field;
+	}
 
-    static $instance = 0;
-
-    if ($instance) {
-      return $field;
-    }
-
-    $instance++;
-
-    ob_start();
-
-    if (!empty($args['default'])) {
-      $value = $args['default'];
-    }
-
-    woocommerce_form_field($key, $args, $value);
-
-    $field = ob_get_clean();
-
-    return $field;
-  }
-
-  public function hidden_field($field = '', $key = '', $args = [], $value = null)
-  {
-
-    static $instance = 0;
-
-    if ($instance) {
-      return $field;
-    }
-
-    $instance++;
-
-    $field .= '<input type="hidden" name="' . esc_attr($key) . '" id="' . esc_attr($args['id']) . '" value="' . esc_html($value) . '" ' . implode(' ', $args['custom_attributes']) . ' readonly="readonly" />';
-
-    return $field;
-  }
-
-  public function init()
-  {
-    add_filter('woocommerce_form_field_radio', array($this, 'custom_field'), 10, 4);
-    add_filter('woocommerce_form_field_multicheckbox', array($this, 'custom_field'), 10, 4);
-    add_filter('woocommerce_form_field_multiselect', array($this, 'custom_field'), 10, 4);
-    add_filter('woocommerce_form_field_select', array($this, 'custom_field'), 10, 4);
-    add_filter('woocommerce_form_field_file', array($this, 'custom_field'), 10, 4);
-    add_filter('woocommerce_form_field_heading', array($this, 'heading_field'), 10, 4);
-    add_filter('woocommerce_form_field_colorpicker', array($this, 'colorpicker_field'), 10, 4);
-    add_filter('woocommerce_form_field_country', array($this, 'country_field'), 10, 4);
-    add_filter('woocommerce_form_field_state', array($this, 'state_field'), 10, 4);
-    add_filter('woocommerce_form_field_hidden', array($this, 'hidden_field'), 10, 4);
-  }
+	public function init() {
+		add_filter( 'woocommerce_form_field_radio', array( $this, 'custom_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_multicheckbox', array( $this, 'custom_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_multiselect', array( $this, 'custom_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_select', array( $this, 'custom_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_file', array( $this, 'custom_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_heading', array( $this, 'heading_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_colorpicker', array( $this, 'colorpicker_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_country', array( $this, 'country_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_state', array( $this, 'state_field' ), 10, 4 );
+		add_filter( 'woocommerce_form_field_hidden', array( $this, 'hidden_field' ), 10, 4 );
+	}
 }
 
 WOOCCM_Fields_Filter::instance();

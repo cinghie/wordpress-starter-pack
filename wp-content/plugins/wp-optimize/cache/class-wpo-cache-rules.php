@@ -228,6 +228,8 @@ class WPO_Cache_Rules {
 	 * @param string $taxonomy Taxonomy slug.
 	 */
 	public function purge_related_elements_on_term_updated($term_id, $taxonomy) {
+		if ('nav_menu' === $taxonomy) return;
+
 		// purge cached page for term.
 		$term = get_term($term_id, $taxonomy, ARRAY_A);
 		if (is_array($term)) {

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
-define( 'PYS_FREE_VERSION', '9.1.1' );
+define( 'PYS_FREE_VERSION', '9.2.0' );
 define( 'PYS_FREE_PINTEREST_MIN_VERSION', '3.2.5' );
 define( 'PYS_FREE_BING_MIN_VERSION', '2.2.2' );
 define( 'PYS_FREE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
@@ -56,7 +56,7 @@ require_once PYS_FREE_PATH.'/modules/facebook/facebook.php';
 require_once PYS_FREE_PATH.'/modules/facebook/facebook-server.php';
 require_once PYS_FREE_PATH.'/modules/google_analytics/ga.php';
 require_once PYS_FREE_PATH.'/modules/head_footer/head_footer.php';
-
+require_once PYS_FREE_PATH.'/includes/enrich/class_enrich_order.php';
 
 // here we go...
 PixelYourSite\PYS();

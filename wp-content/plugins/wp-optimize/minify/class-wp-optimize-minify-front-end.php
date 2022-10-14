@@ -224,13 +224,13 @@ class WP_Optimize_Minify_Front_End {
 					
 					// decode
 					$res = json_decode($json, true);
-					
-					// add font-display
-					// https://developers.google.com/web/updates/2016/02/font-display
-					$res['code'] = str_ireplace('font-style:normal;', 'font-display:block;font-style:normal;', $res['code']);
-					
+
 					// inline css or fail
-					if (false != $res['status']) {
+					if (null !== $res && false != $res['status']) {
+						// add font-display
+						// https://developers.google.com/web/updates/2016/02/font-display
+						$res['code'] = str_ireplace('font-style:normal;', 'font-display:block;font-style:normal;', $res['code']);
+
 						echo '<style class="optimize_css_1" type="text/css" media="all">'.$res['code'].'</style>' . "\n";
 						return false;
 					} else {
@@ -278,7 +278,7 @@ class WP_Optimize_Minify_Front_End {
 		$res = json_decode($json, true);
 		
 		// inline it + other inlined children styles
-		if (false != $res['status']) {
+		if (null !== $res && false != $res['status']) {
 			echo '<style class="optimize_css_2" type="text/css" media="'.$media.'">'.$res['code'].'</style>' . "\n";
 			
 			// get inline_styles for this handle, minify and print
@@ -595,7 +595,7 @@ class WP_Optimize_Minify_Front_End {
 					$json = WP_Optimize_Minify_Cache_Functions::get_transient($tkey);
 					$json = json_decode($json, true);
 					// check if the cache is empty or if the cache has code
-					if (false === $json || empty($json['code'])) {
+					if (null !== $json && (false === $json || empty($json['code']))) {
 						$res = WP_Optimize_Minify_Functions::download_and_minify($href, null, $minify_css, 'css', null);
 						if ($this->options['debug']) {
 							echo "<!-- wpo_min DEBUG: Uncached file processing now for $href -->\n";
@@ -606,7 +606,7 @@ class WP_Optimize_Minify_Front_End {
 					}
 					
 					// inline css or fail
-					if (!empty($json['code'])) {
+					if (null !== $json && !empty($json['code'])) {
 						// add font-display
 						// https://developers.google.com/web/updates/2016/02/font-display
 						$json['code'] = str_ireplace('font-style:normal;', 'font-display:block;font-style:normal;', $json['code']);
@@ -759,6 +759,8 @@ class WP_Optimize_Minify_Front_End {
 							
 							// decode
 							$res = json_decode($json, true);
+
+							if (null === $res) continue;
 
 							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
 								WP_Optimize_Minify_Cache_Functions::reset();
@@ -996,7 +998,9 @@ class WP_Optimize_Minify_Front_End {
 							
 							// decode
 							$res = json_decode($json, true);
-							
+
+							if (null === $res) continue;
+
 							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
 								WP_Optimize_Minify_Cache_Functions::reset();
 								$this->minify_cache_incremented = true;
@@ -1292,6 +1296,8 @@ class WP_Optimize_Minify_Front_End {
 							
 							// decode
 							$res = json_decode($json, true);
+
+							if (null === $res) continue;
 							
 							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
 								WP_Optimize_Minify_Cache_Functions::reset();
@@ -1710,6 +1716,8 @@ class WP_Optimize_Minify_Front_End {
 							
 							// decode
 							$res = json_decode($json, true);
+
+							if (null === $res) continue;
 
 							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
 								WP_Optimize_Minify_Cache_Functions::reset();

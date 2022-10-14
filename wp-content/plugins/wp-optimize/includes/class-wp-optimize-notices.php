@@ -2,11 +2,9 @@
 
 if (!defined('WPO_PLUGIN_MAIN_PATH')) die('No direct access allowed');
 
-if (!class_exists('Updraft_Notices_1_1')) require_once(WPO_PLUGIN_MAIN_PATH.'includes/updraft-notices.php');
+if (!class_exists('Updraft_Notices_1_2')) require_once(WPO_PLUGIN_MAIN_PATH.'/vendor/team-updraft/common-libs/src/updraft-notices/updraft-notices.php');
 
-class WP_Optimize_Notices extends Updraft_Notices_1_1 {
-
-	protected static $_instance = null;
+class WP_Optimize_Notices extends Updraft_Notices_1_2 {
 
 	private $initialized = false;
 
@@ -15,15 +13,16 @@ class WP_Optimize_Notices extends Updraft_Notices_1_1 {
 	protected $notices_content = array();
 
 	/**
-	 * Creates and returns the only notice instance
+	 * Returns singleton instance object
 	 *
-	 * @return object WP_Optimize_Notices instance
+	 * @return WP_Optimize_Notices Returns `WP_Optimize_Notices` object
 	 */
 	public static function instance() {
-		if (empty(self::$_instance)) {
-			self::$_instance = new self();
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
 		}
-		return self::$_instance;
+		return $_instance;
 	}
 
 	/**

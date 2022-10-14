@@ -27,11 +27,9 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 			$current_timestamp      = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 			$active_feeds_schedules = $data_class->get_schedule_data();
 			$failed_feeds           = $data_class->get_failed_feeds();
-			$active_feed_id         = null;
 
 			// Update scheduled feeds.
 			foreach ( $active_feeds_schedules as $schedule ) {
-				$active_feed_id = $schedule['product_feed_id'];
 				$update_time    = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
 
 				// Activate the feed update when the update time is reached.
@@ -41,6 +39,8 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 					$data_class->update_feed_status( $schedule['product_feed_id'], 4 ); // Feed status to waiting in queue.
 				}
 			}
+
+			$active_feed_id = WPPFM_Feed_Controller::get_next_id_from_feed_queue();
 
 			// If there is no feed processing in progress and the feed queue is not empty, start updating the current feed.
 			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() && ! WPPFM_Feed_Controller::feed_is_processing() ) {

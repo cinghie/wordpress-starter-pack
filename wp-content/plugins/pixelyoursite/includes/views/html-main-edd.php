@@ -41,21 +41,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                     will be enabled for Google Analytics.</p>
             </div>
         </div>
+
         <div class="row">
             <div class="col">
-				<?php PYS()->render_switcher_input( 'edd_enabled' ); ?>
-                <h4 class="switcher-label">Enable EasyDigitalDownloads set-up</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <?php PYS()->render_switcher_input( 'edd_enabled_save_data_to_orders' ,false,true); ?>
+                <?php PYS()->render_switcher_input( 'edd_enabled_save_data_to_orders'); ?>
                 <h4 class="switcher-label">Save data to orders</h4>
-                <?php renderProBadge(); ?>
-                <small class="form-text">Save the <i>landing page, UTMs, client's browser's time, day, and month, the number of orders, lifetime value, and average order.</i></small>
+                <small class="form-text">Save the <i>landing page, UTMs, client's browser's time, day, and month, the number of orders, lifetime value, and average order</i>. You can view this data when you edit an order. With the professional version you can view it under the <a href="<?=admin_url("admin.php?page=pixelyoursite_edd_reports")?>">Easy Digital Downloads Reports</a> section.</small>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <?php PYS()->render_switcher_input( 'edd_enabled_save_data_to_user',false,true ); ?>
                 <h4 class="switcher-label">Display data to the user's profile</h4>

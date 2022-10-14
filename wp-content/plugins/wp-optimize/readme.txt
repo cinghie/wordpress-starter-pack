@@ -4,8 +4,8 @@ Donate link: https://david.dw-perspective.org.uk/donate
 Tags: cache, minify, database, image optimize, performance, clean, spam, speed, caching, smush, smushing
 Requires PHP: 5.6
 Requires at least: 4.5
-Tested up to: 6.0
-Stable tag: 3.2.6
+Tested up to: 6.1
+Stable tag: 3.2.9
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -361,14 +361,40 @@ If none of the above works, disable processing of JavaScript files in the minify
 8. Real world tests show the cache feature alone can make your site faster than any other caching plugin
 9. Features comparison
 
-
 == Changelog ==
 
+= 3.2.9 - 05/Oct/2022 =
 
+* FEATURE: Import and export settings
+* FIX: Avoid infinite loop while using unused images export csv
+* FIX: Scheduled cache preloading issue
+* FIX: WebP testing making unnecessary background HTTP checks
+* FIX: Google fonts compatibility with The7 theme
+* FIX: Prevent console error for undefined `wp_optimize` for smush scripts
+* TWEAK: Avoid PHP warnings on cache cleanup
+* FIX: Ability to disable webp serving while caching is on
+* TWEAK: Reset webp conversion method flags daily using cron job
+* TWEAK: Remove orphaned `wpo_weekly_cron_tasks` cron job upon uninstallation
 
+= 3.2.8 - 23/Aug/2022 =
 
+* FIX: Build system error led to a missing file in 3.2.7 which could cause an error when using related functions
+* FIX: Fix incorrect function name in admin class
+
+= 3.2.7 - 15/Aug/2022 =
+
+* FEATURE: A CLI command for generating lists of unused images as a CSV file (Premium)
 * FIX: The unused images CSV downloads have a few redundant images listed
-
+* FIX: ACF block field images are listed as unused images
+* FIX: Correctly recognize `inherit` in google fonts async loading
+* FIX: Cache - Do not purge when `wp_update_nav_menu` is removed from `wpo_purge_cache_hooks` array
+* TWEAK: Prevent PHP warnings when using `json_decode` result
+* TWEAK: Create cache config file if not present because of site migration
+* TWEAK: Update notice class
+* TWEAK: Recognize WooCommerce scheduled sales and cache accordingly
+* TWEAK: Prevent duplicate `wp-optimize` entry in tables optimization list
+* TWEAK: Test htaccess capability only when needed by webp feature
+* TWEAK: Increase compatibility with Aelia plugins
 
 = 3.2.6 - 15/Jun/2022 =
 
@@ -1264,4 +1290,4 @@ If none of the above works, disable processing of JavaScript files in the minify
 * Fix Interface
 
 == Upgrade Notice ==
-* 3.2.6: WebP - Trailing slash file creation issue in PHP 8 and incorrect static method calling causes parse Error in PHP 5.6.36; a recommended update for all.
+* 3.2.9: Added the ability to import and export settings, fixes various bugs - a recommended update for all

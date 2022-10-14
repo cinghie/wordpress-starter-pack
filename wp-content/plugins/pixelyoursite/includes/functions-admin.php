@@ -584,10 +584,10 @@ function renderDummyTextInput( $placeholder = '' ) {
     <?php
 }
 
-function renderDummyNumberInput() {
+function renderDummyNumberInput($default = 0) {
     ?>
 
-    <input type="number" disabled="disabled" min="0" max="100" class="form-control">
+    <input type="number" disabled="disabled" min="0" max="100" class="form-control" value="<?=$default?>">
     
     <?php
 }

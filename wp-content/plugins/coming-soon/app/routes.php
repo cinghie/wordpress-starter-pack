@@ -62,16 +62,16 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_setup_page'
 	);
 
-	if ( 'lite' === SEEDPROD_BUILD ) {
-		add_submenu_page(
-			'seedprod_lite',
-			__( 'Templates', 'coming-soon' ),
-			__( 'Templates', 'coming-soon' ),
-			apply_filters( 'seedprod_templates_menu_capability', 'edit_others_posts' ),
-			'seedprod_lite_templates',
-			'seedprod_lite_templates_page'
-		);
-	}
+	//if ( 'lite' === SEEDPROD_BUILD ) {
+		// add_submenu_page(
+		// 	'seedprod_lite',
+		// 	__( 'Templates', 'coming-soon' ),
+		// 	__( 'Templates', 'coming-soon' ),
+		// 	apply_filters( 'seedprod_templates_menu_capability', 'edit_others_posts' ),
+		// 	'seedprod_lite_templates',
+		// 	'seedprod_lite_templates_page'
+		// );
+	//}
 
 	add_submenu_page(
 		'seedprod_lite',
@@ -81,6 +81,17 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_subscribers',
 		'seedprod_lite_subscribers_page'
 	);
+
+    //if ('lite' === SEEDPROD_BUILD) {
+        add_submenu_page(
+            'seedprod_lite',
+            __('Pop-ups', 'coming-soon'),
+            __('Pop-ups', 'coming-soon'),
+            apply_filters('seedprod_popup_menu_capability', 'edit_others_posts'),
+            'seedprod_lite_popup',
+            'seedprod_lite_popup_page'
+        );
+    //}
 
 	add_submenu_page(
 		'seedprod_lite',
@@ -140,10 +151,9 @@ function seedprod_lite_create_menus() {
 		);
 		// add class
 		add_action( 'admin_footer', 'seedprod_lite_upgrade_link_class' );
-		function seedprod_lite_upgrade_link_class(){
+		function seedprod_lite_upgrade_link_class() {
 			echo "<script>jQuery(function($) { $('#sp-lite-admin-menu__upgrade').parent().parent().addClass('sp-lite-admin-menu__upgrade_wrapper')});</script>";
 		}
-
 	}
 
 	add_submenu_page(
@@ -250,6 +260,16 @@ function seedprod_lite_update_selected_page_in_submenu() {
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_theme_templates']" ).parent().addClass('current');
 			}
+			// Theme Chooser
+			if(location.hash.indexOf('#/theme-chooser') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_theme_templates']" ).parent().addClass('current');
+			}
+			// Popups
+			if(location.hash.indexOf('#/popups') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_popup']" ).parent().addClass('current');
+			}
 			// Templates
 			if(location.hash.indexOf('#/template') >= 0){
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
@@ -344,7 +364,7 @@ function seedprod_lite_redirect_to_site() {
 		exit();
 	}
 
-	//  about us page
+	// about us page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_about_us' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		wp_safe_redirect( 'admin.php?page=seedprod_lite#/aboutus' );
 		exit();
@@ -366,6 +386,12 @@ function seedprod_lite_redirect_to_site() {
 			exit();
 		}
 
+	}
+
+	//  popups
+	if ( isset( $_GET['page'] ) && 'seedprod_lite_popup' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_safe_redirect( 'admin.php?page=seedprod_lite&sp_om=1#/popups' );
+		exit();
 	}
 
 	// feature request page
@@ -395,7 +421,7 @@ function seedprod_lite_render_shortcode() {
 			do_action( 'wp_print_footer_scripts' );
 			do_action( 'wp_footer' );
 			$content = do_shortcode( $shortcode );
-			//$content = do_shortcode( $content );
+			// $content = do_shortcode( $content );
 			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
@@ -473,6 +499,7 @@ if ( defined( 'DOING_AJAX' ) ) {
 
 
 
+
 }
 
 
@@ -480,3 +507,19 @@ if ( defined( 'DOING_AJAX' ) ) {
 
 
 
+
+add_filter( 'admin_body_class', 'seedprod_lite_admin_body_class' );
+
+/**
+ * Adds one or more classes to the body tag in the dashboard.
+ *
+ * @link https://wordpress.stackexchange.com/a/154951/17187
+ * @param  String $classes Current body classes.
+ * @return String          Altered body classes.
+ */
+function seedprod_lite_admin_body_class( $classes ) {
+	if( !empty( $_GET['sp_om'] ) &&  $_GET['sp_om'] == 1){
+		return "$classes sp_om";
+	}
+	return $classes;
+}

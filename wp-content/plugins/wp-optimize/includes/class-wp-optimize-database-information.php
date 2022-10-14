@@ -20,6 +20,19 @@ class WP_Optimize_Database_Information {
 	const VIEW = 'VIEW';
 
 	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimize_Database_Information Returns `WP_Optimize_Database_Information` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
+	/**
 	 * Returns server type MySQL or MariaDB if mysql database or Unknown if not mysql.
 	 *
 	 * @return string
@@ -511,8 +524,11 @@ class WP_Optimize_Database_Information {
 		}
 
 		// add WP-Optimize tables.
-		$plugin_tables['tm_taskmeta'][] = 'wp-optimize';
-		$plugin_tables['tm_tasks'][] = 'wp-optimize';
+		$wpo = 'wp-optimize';
+		if (false === array_search($wpo, $plugin_tables['tm_taskmeta']) && false === array_search($wpo, $plugin_tables['tm_tasks'])) {
+			$plugin_tables['tm_taskmeta'][] = $wpo;
+			$plugin_tables['tm_tasks'][] = $wpo;
+		}
 
 		return $plugin_tables;
 	}

@@ -974,11 +974,12 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * Generates an xml node.
+	 * Generates a xml node.
 	 *
-	 * Returns an xml node for a product tag and uses the product data to make the node.
+	 * Returns a xml node for a product tag and uses the product data to make the node.
 	 *
 	 * @since 1.1.0
+	 * @since 2.34.0. Added a new line break at the end of each xml row to make a more readable xml feed and prevent large text lines.
 	 *
 	 * @param string $key                   Note id.
 	 * @param string $xml_value             Note value.
@@ -1033,7 +1034,7 @@ trait WPPFM_Processing_Support {
 			}
 		}
 
-		return $xml_string;
+		return $xml_string . "\r\n";
 	}
 
 	/**
@@ -1064,9 +1065,18 @@ trait WPPFM_Processing_Support {
 	 * @param string $string
 	 *
 	 * @return string
+	 * @since 2.34.0. Added an utf8 check and rewritten the CDATA string rule.
 	 */
 	protected function convert_to_character_data_string( $string ) {
-		return ! is_numeric($string) ? "<![CDATA[ $string ]]>" : $string;
+		if ( is_numeric( $string ) ) {
+			return $string;
+		}
+
+		if ( ! seems_utf8( $string ) ) {
+			$string = utf8_encode( $string );
+		}
+
+		return '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $string ) . ']]>';
 	}
 
 	/**

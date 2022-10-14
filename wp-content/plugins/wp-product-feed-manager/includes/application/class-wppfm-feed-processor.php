@@ -140,7 +140,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 				do_action( 'wppfm_next_in_queue_feed_update_activated', $this->_feed_data->feedId );
 
 				// So there is another feed in the queue.
-				$feed_master_class = new WPPFM_Feed_Master_Class( $this->_feed_data->feedId );
+				$feed_master_class = new WPPFM_Feed_Master_Class( WPPFM_Feed_Controller::get_next_id_from_feed_queue() );
 				$feed_master_class->update_feed_file();
 			}
 		}

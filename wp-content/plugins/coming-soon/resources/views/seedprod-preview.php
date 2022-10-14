@@ -1,5 +1,5 @@
 <?php
-		// Load WooCommerce default styles if WooCommerce is active
+		// Load WooCommerce default styles if WooCommerce is active.
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 	wp_enqueue_style(
 		'seedprod-woocommerce-layout',
@@ -23,7 +23,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		'all'
 	);
 }
-// get settings
+// get settings.
 if ( ! empty( $settings ) && isset( $settings->no_conflict_mode ) ) {
 	$google_fonts_str = seedprod_lite_construct_font_str( $settings );
 	$content          = $page->post_content;
@@ -36,14 +36,14 @@ if ( ! empty( $settings ) && isset( $settings->no_conflict_mode ) ) {
 	$lpage_uuid       = get_post_meta( $post->ID, '_seedprod_page_uuid', true );
 }
 
-// remove vue comment bug
+// remove vue comment bug.
 $content = str_replace( 'function(e,n,r,i){return fn(t,e,n,r,i,!0)}', '', $content );
 
 $plugin_url = SEEDPROD_PLUGIN_URL;
 
 
 
-//check to see if we have a shortcode, form or giveaway
+// check to see if we have a shortcode, form or giveaway.
 $settings_str = wp_json_encode( $settings );
 if ( strpos( $settings_str, 'contact-form' ) !== false ) {
 	$settings->no_conflict_mode = false;
@@ -55,6 +55,10 @@ if ( strpos( $settings_str, 'giveaway' ) !== false ) {
 $include_seed_fb_sdk           = false;
 $include_seed_twitter_sdk      = false;
 $include_seedprod_headline_sdk = false;
+$include_gallery_lightbox_sdk  = false;
+$include_gallery_sdk  = false;
+
+$include_seedprod_image_lightbox_sdk = false;
 
 
 
@@ -172,12 +176,12 @@ if ( ! empty( $settings ) ) {
 		<?php
 	}
 	?>
-	<?php if ( empty( $settings->no_conflict_mode ) ) : ?>
-		<?php
+<?php if ( empty( $settings->no_conflict_mode ) ) : ?>
+<?php
 		$sp_title = wp_title( '&raquo;', false );
 		if ( ! empty( $sp_title ) ) {
+			//remove extra title tag
 			?>
-<title><?php wp_title(); ?></title>
 <?php } ?>
 <?php endif; ?>
 <meta charset="UTF-8">
@@ -188,6 +192,14 @@ if ( ! empty( $settings ) ) {
 
 	<?php if ( true === $include_seedprod_headline_sdk ) { ?>
 	<link rel='stylesheet' id='seedprod-animate-css'  href='<?php echo esc_url( $plugin_url ); ?>public/css/sp-animate.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>' type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+<?php } ?>
+	<?php if ( true === $include_gallery_sdk ) { ?>
+	<link rel="stylesheet" id='seedprod-gallerylightbox-css' href="<?php echo esc_url( $plugin_url ); ?>public/css/seedprod-gallery-block.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>" type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+	<?php } ?>
+		
+
+<?php if ( true === $include_seedprod_image_lightbox_sdk ) { ?>
+	<link rel='stylesheet' id='seedprod-image-lightbox-css'  href='<?php echo esc_url( $plugin_url ); ?>public/css/lightbox.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>' type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
 <?php } ?>
 
 	<?php if ( ! empty( $google_fonts_str ) ) : ?>
@@ -265,7 +277,13 @@ if ( ! empty( $settings ) ) {
 <script>
 </script>
 	<?php
+
 	?>
+	
+	<?php if ( true === $include_gallery_lightbox_sdk ) { ?>
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/img-previewer.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+	<?php } ?>
+	
 	<script src="<?php echo esc_url( $plugin_url ); ?>public/js/sp-scripts.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
 	<?php
 	?>
@@ -288,6 +306,7 @@ if ( ! empty( $settings ) ) {
 			echo '<script src="' . esc_url( $include_url ) . 'js/jquery/jquery.min.js"></script>' . "\n"; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
 		}
 	}
+	
 
 	?>
 	<?php
@@ -312,8 +331,10 @@ if ( ! empty( $settings ) ) {
 	$server_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	$actual_link        = rawurlencode( ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . "://$server_http_host$server_request_uri" );
 	$content            = str_replace( 'the_link', $actual_link, $content );
-	
-	$content = do_shortcode( $content );
+	$content            = do_shortcode( $content );
+	if( empty($content) ){
+		$content = '<h1 style="margin-top:80px; text-align:center; font-size: 22px">The content for this page is empty or has not been saved. Please edit this page and "Save" the contents in the builder.</h1>';
+	}
 	echo apply_filters( 'seedprod_lpage_content', $content );
 
 	// TODO: Add a way to run content in the loop
@@ -356,10 +377,17 @@ if ( ! empty( $settings ) ) {
 	?>
 	<?php
 	?>
-
+	
 </script>
 
 	<?php
+	
+	if ( true === $include_seedprod_image_lightbox_sdk ) {
+		?>
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/lightbox.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+		<?php
+	}
+
 	if ( empty( $settings->no_conflict_mode ) ) {
 		wp_footer();
 	}

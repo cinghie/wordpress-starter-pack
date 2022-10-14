@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.8.4
+Stable tag: 11.9.2
 
 == Description ==
 
@@ -107,9 +107,6 @@ Our plugin supports the Aelia Currency Switcher
 = Polylang support (Elite version) =
 Our plugin supports Polylang
 
-= TranslatePress support (Elite version) =
-Our plugin supports TranslatePress - beta
-
 = Google Shopping product feed tutorial =
 [youtube https://www.youtube.com/watch?v=2XzxwKDufGw]
 
@@ -126,7 +123,6 @@ Our plugin supports TranslatePress - beta
 * Supports WCML, WooCommerce Multilingual
 * Supports Aelia Currency Switcher
 * Supports Polylang
-* Supports TranslatePress
 * Intuitive interface;
 * Supports product variations / variables;
 * Scheduled product feed refreshes: daily, twice-daily or every hour;
@@ -160,7 +156,6 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * WPML / WCML support
 * Aelia currency switcher support
 * Polylang support
-* TranslatePress support
 * Addition of the extra fields on your product edit pages
 * Data manipulation feature
 * WooCommerce structured data bug fix
@@ -344,6 +339,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.9.2 (2022-10-14) =
+* Removed some autoloading on wp_options
+* Checked for compatibility with WooCommerce 7.0
+
+= 11.9.1 (2022-10-14) =
+* Fixed an issue with shipping costs formula calculations
+
+= 11.9.0 (2022-10-10) =
+* Fixed an issue with review names not getting retrieved and showing warnings in the logs
+* Fixed an issue where a data variable was not an integer and showed warnings in the logs
+
+= 11.8.9 (2022-10-07) =
+* Firstname and first character of an users lastname are now being used in Google review feeds
+
+= 11.8.8 (2022-10-01) =
+* Added a htmlspecialchars call on review names
+
+= 11.8.7 (2022-09-07) =
+* Added the rich product content field to the Google Shopping template
+
+= 11.8.6 (2022-09-06) =
+* Added the release date field to the Google Shopping template
+
+= 11.8.5 (2022-09-02) =
+* Changed the update_option for cron_projects to non autoload
 
 = 11.8.4 (2022-08-17) =
 * Added an option to enable/disable returning of only basic attributes in the field mapping and rules and filters drop-downs
@@ -3784,6 +3805,32 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.9.2 =
+Removed some autoloading on wp_options
+Checked for compatibility with WooCommerce 7.0
+
+= 11.9.1 =
+Fixed an issue with shipping costs formula calculations
+
+= 11.9.0 =
+Fixed an issue with review names not getting retrieved and showing warnings in the logs
+Fixed an issue where a data variable was not an integer and showed warnings in the logs
+
+= 11.8.9 =
+Firstname and first character of an users lastname are now being used in Google review feeds
+
+= 11.8.8 =
+Added a htmlspecialchars call on review names
+
+= 11.8.7 =
+Added the rich product content field to the Google Shopping template
+
+= 11.8.6 =
+Added the release date field to the Google Shopping template
+
+= 11.8.5 =
+Changed the update_option for cron_projects to non autoload
 
 = 11.8.4 =
 Added an option to enable/disable returning of only basic attributes in the field mapping and rules and filters drop-downs

@@ -193,6 +193,11 @@ if ( ! class_exists( 'WPPFM_Feed_Support' ) ) :
 					$result = $value_editors->strip_tags_from_value( $current_value );
 					break;
 
+				// @since 2.34.0.
+				case 'html entity decode':
+					$result = $value_editors->html_entity_decode_value( $current_value );
+					break;
+
 				case 'limit characters':
 					$result = $value_editors->limit_characters_value( $query_split, $current_value );
 					break;

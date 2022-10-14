@@ -276,8 +276,10 @@ if ( ! class_exists( 'YITH_WooCommerce_Order_Tracking' ) ) {
 					YIT_Assets::instance()->register_styles_and_scripts();
 				}
 
-				wp_enqueue_script( 'yith-plugin-fw-fields' );
-				wp_enqueue_style( 'yith-plugin-fw-fields' );
+				if ( ! defined( 'YITH_YWRAQ_PREMIUM' ) ) {
+					wp_enqueue_script( 'yith-plugin-fw-fields' );
+					wp_enqueue_style( 'yith-plugin-fw-fields' );
+				}
 			}
 		}
 

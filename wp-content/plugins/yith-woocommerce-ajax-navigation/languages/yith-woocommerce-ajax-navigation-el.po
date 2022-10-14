@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Ajax Product Filter\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "ajax-product-filter\n"
-"POT-Creation-Date: 2022-08-08 08:50:46+00:00\n"
+"POT-Creation-Date: 2022-09-20 12:09:06+00:00\n"
 "PO-Revision-Date: 2021-02-12 13:32:43+0000\n"
 "Language: el_GR\n"
 "MIME-Version: 1.0\n"
@@ -571,51 +571,51 @@ msgctxt "[Admin] Default filter title"
 msgid "New filter"
 msgstr "Νέο φίλτρο"
 
-#: includes/class-yith-wcan-frontend.php:625
+#: includes/class-yith-wcan-frontend.php:626
 #: includes/filters/class-yith-wcan-filter-tax.php:62
 msgctxt "[FRONTEND] \"All\" label shown when no term is selected"
 msgid "All"
 msgstr "Όλα"
 
-#: includes/class-yith-wcan-frontend.php:626
+#: includes/class-yith-wcan-frontend.php:627
 msgctxt "[FRONTEND] Search placeholder shown in terms dropdown"
 msgid "Search..."
 msgstr "Αναζήτηση…"
 
-#: includes/class-yith-wcan-frontend.php:627
+#: includes/class-yith-wcan-frontend.php:628
 msgctxt "[FRONTEND] Empty items list in the dropdown"
 msgid "No item found"
 msgstr "Δεν βρέθηκε αντικείμενο"
 
 #. translators: 1. Number of items to show.
-#: includes/class-yith-wcan-frontend.php:629
+#: includes/class-yith-wcan-frontend.php:630
 msgctxt "[FRONTEND] Show more link on terms dropdown"
 msgid "Show %d more"
 msgstr "Εμφάνιση %d περισσότερων"
 
-#: includes/class-yith-wcan-frontend.php:630
+#: includes/class-yith-wcan-frontend.php:631
 msgctxt "[FRONTEND] Alt text for modal close button on mobile"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: includes/class-yith-wcan-frontend.php:631
+#: includes/class-yith-wcan-frontend.php:632
 msgctxt "[FRONTEND] Label for filter button, on horizontal layout"
 msgid "Save"
 msgstr ""
 
-#: includes/class-yith-wcan-frontend.php:632
+#: includes/class-yith-wcan-frontend.php:633
 msgctxt "[FRONTEND] Label for filter button, on mobile modal"
 msgid "Show results"
 msgstr "Εμφάνιση αποτελεσμάτων"
 
-#: includes/class-yith-wcan-frontend.php:633
+#: includes/class-yith-wcan-frontend.php:634
 msgctxt ""
 "[FRONTEND] Label for clear selection link, that appears above filter after "
 "selection"
 msgid "Clear"
 msgstr "Καθαρισμός"
 
-#: includes/class-yith-wcan-frontend.php:634
+#: includes/class-yith-wcan-frontend.php:635
 msgctxt ""
 "[FRONTEND] Label for clear selection link, that appears above filter after "
 "selection"

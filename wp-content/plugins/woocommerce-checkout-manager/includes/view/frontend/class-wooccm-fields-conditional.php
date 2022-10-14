@@ -20,6 +20,7 @@ class WOOCCM_Fields_Conditional {
 	}
 
 	public function remove_required( $fields ) {
+
 		foreach ( $fields as $field_id => $field ) {
 
 			/**
@@ -47,9 +48,10 @@ class WOOCCM_Fields_Conditional {
 				continue;
 			}
 
-			$action = $this->get_checkout_action();
-
-			switch ( $action ) {
+			$form_action = WOOCCM_Field_Helpers::get_form_action();
+			
+			switch ( $form_action ) {
+				case 'account':
 				case 'save':
 					$is_valid_conditional_field = $this->is_valid_conditional_field( $_POST, $field );
 					if ( ! $is_valid_conditional_field ) {
@@ -95,14 +97,6 @@ class WOOCCM_Fields_Conditional {
 		}
 
 		return false;
-	}
-
-	public function get_checkout_action() {
-		if ( isset( $_REQUEST['woocommerce-process-checkout-nonce'] ) ) {
-			return 'save';
-		} elseif ( isset( $_REQUEST['post_data'] ) && isset( $_REQUEST['wc-ajax'] ) && $_REQUEST['wc-ajax'] == 'update_order_review' ) {
-			return 'update';
-		}
 	}
 
 	public function add_field_attributes( $field ) {

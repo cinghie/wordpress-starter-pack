@@ -71,7 +71,7 @@ class WOOCCM_Checkout_Controller {
 
 			// Checkout
 			// ---------------------------------------------------------------------
-			wp_enqueue_script( 'wooccm-checkout-js' );
+			wp_enqueue_script( 'wooccm-frontend-js' );
 		}
 	}
 

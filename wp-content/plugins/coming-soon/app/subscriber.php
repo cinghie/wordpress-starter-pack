@@ -37,8 +37,8 @@ function seedprod_lite_subscribers_datatable() {
 		$data = array();
 		foreach ( $results as $v ) {
 
-				// Format Date
-			$created_at = gmdate( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $v->created ) );
+			// Format created timestamp to site timezone & format.
+			$created_at = get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $v->created_timestamp ), get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 
 			// Load Data
 			$data[] = array(

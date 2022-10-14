@@ -1066,7 +1066,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 	public function admin_enqueue_scripts() {
 		$current_screen = get_current_screen();
 		// load scripts and styles only on WP-Optimize pages or if show_smush_metabox option enabled.
-		if (!preg_match('/wp\-optimize/i', $current_screen->id) && 'show' != $this->options->get_option('show_smush_metabox', 'show')) return;
+		if (!preg_match('/wp\-optimize|attachment|upload/i', $current_screen->id) && 'show' != $this->options->get_option('show_smush_metabox', 'show')) return;
 
 		$enqueue_version = (defined('WP_DEBUG') && WP_DEBUG) ? WPO_VERSION.'.'.time() : WPO_VERSION;
 		$min_or_not = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
@@ -1079,7 +1079,7 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 		$js_variables['smush_ajax_nonce'] = wp_create_nonce('updraft-task-manager-ajax-nonce');
 
 		wp_enqueue_script('block-ui-js', WPO_PLUGIN_URL.'/includes/blockui/jquery.blockUI'.$min_or_not.'.js', array('jquery'), $enqueue_version);
-		wp_enqueue_script('smush-js', WPO_PLUGIN_URL.'js/wposmush'.$min_or_not_internal.'.js', array('jquery', 'block-ui-js'), $enqueue_version);
+		wp_enqueue_script('smush-js', WPO_PLUGIN_URL.'js/wposmush'.$min_or_not_internal.'.js', array('jquery', 'block-ui-js', 'wp-optimize-send-command'), $enqueue_version);
 		wp_enqueue_style('smush-css', WPO_PLUGIN_URL.'css/smush'.$min_or_not_internal.'.css', array(), $enqueue_version);
 		wp_localize_script('smush-js', 'wposmush', $js_variables);
 	}
@@ -1543,15 +1543,6 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 		if ('' != $the_original_file && file_exists($the_original_file)) {
 			@unlink($the_original_file);// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 		}
-	}
-
-	/**
-	 * Resets webp serving method by setting rewrite capability status to false
-	 *
-	 * @return bool
-	 */
-	public function reset_webp_serving_method() {
-		return $this->options->update_option('rewrite_status', false);
 	}
 
 	/**

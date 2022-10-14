@@ -47,6 +47,11 @@ if ( ! class_exists( 'WPPFM_Feed_Value_Editors' ) ) :
 			return strip_tags( $current_value );
 		}
 
+		// @since 2.34.0.
+		public function html_entity_decode_value( $current_value ) {
+			return html_entity_decode( $current_value );
+		}
+
 		public function limit_characters_value( $condition, $current_value ) {
 			return substr( $current_value, 0, $condition[2] );
 		}

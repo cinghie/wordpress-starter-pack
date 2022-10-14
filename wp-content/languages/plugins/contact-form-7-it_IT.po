@@ -2,14 +2,22 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-08-10 14:21:16+0000\n"
+"PO-Revision-Date: 2022-09-17 18:25:49+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.1\n"
+"X-Generator: GlotPress/4.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Contact Form 7 - Stable (latest release)\n"
+
+#: includes/config-validator.php:634
+msgid "Uploadable file size exceeds PHP’s maximum acceptable size."
+msgstr "La dimensione che si può caricare per i file, eccede la dimensione massima accettata da PHP."
+
+#: includes/config-validator.php:583
+msgid "Colons are used in form-tag names."
+msgstr "I due punti sono utilizzati nei nomi dei form-tag."
 
 #: modules/text.php:204
 msgid "Please enter a telephone number."
@@ -35,6 +43,22 @@ msgstr "Numero troppo corto per questo campo."
 msgid "Please enter a number."
 msgstr "Inserisci un numero."
 
+#: modules/date.php:177
+msgid "This field has a too late date."
+msgstr "Data troppo posticipata per questo campo."
+
+#: modules/date.php:172
+msgid "This field has a too early date."
+msgstr "Data troppo antecedente per questo campo."
+
+#: modules/date.php:167
+msgid "Please enter a date in YYYY-MM-DD format."
+msgstr "Inserisci la data nel formato YYYY-MM-DD."
+
+#: includes/rest-api.php:333
+msgid "The request payload format is not supported."
+msgstr "Circuito di pagamento non supportato."
+
 #. translators: 1: WordPress hook name, 2: version number
 #: includes/functions.php:608
 msgid "Hook %1$s is <strong>deprecated</strong> since Contact Form 7 version %2$s with no alternative available."
@@ -43,6 +67,14 @@ msgstr "L'hook %1$s è <strong>deprecato</strong> dalla versione %2$s di Contact
 #: includes/file.php:111
 msgid "The uploaded file is too large."
 msgstr "Il file caricato è troppo grande."
+
+#: includes/contact-form-template.php:215
+msgid "This field has a too short input."
+msgstr "Valore troppo corto per questo campo."
+
+#: includes/contact-form-template.php:208
+msgid "This field has a too long input."
+msgstr "Valore troppo lungo per questo campo."
 
 #: includes/contact-form-template.php:201
 msgid "Please fill out this field."
@@ -148,7 +180,7 @@ msgstr "%1$s %2$s"
 msgid "Unique identifier for the contact form."
 msgstr "Identificativo univoco per il modulo di contatto."
 
-#: includes/config-validator.php:553
+#: includes/config-validator.php:555
 msgid "Dots are used in form-tag names."
 msgstr "I punti sono usati nei nomi form-tag."
 
@@ -387,11 +419,11 @@ msgstr "Impostazioni aggiuntive"
 msgid "Error"
 msgstr "Errore"
 
-#: includes/config-validator.php:772
+#: includes/config-validator.php:825
 msgid "The total size of attachment files is too large."
 msgstr "La dimensione totale degli allegati è troppo grande."
 
-#: includes/config-validator.php:526
+#: includes/config-validator.php:528
 msgid "Unavailable HTML elements are used in the form template."
 msgstr "Elementi HTML non disponibili sono usati nel template del modulo."
 
@@ -517,7 +549,7 @@ msgstr "Constant Contact"
 msgid "Email marketing"
 msgstr "Email marketing"
 
-#: includes/config-validator.php:858
+#: includes/config-validator.php:911
 msgid "It is not allowed to use files outside the wp-content directory."
 msgstr "Non è consentito usare file al di fuori della directory wp-content."
 
@@ -639,7 +671,7 @@ msgstr "È difficile continuare a sviluppare e supportare questo plugin senza co
 msgid "This contact form is available only for logged in users."
 msgstr "Questo form di contatto è disponibile solo per gli utenti connessi."
 
-#: includes/config-validator.php:191
+#: includes/config-validator.php:192
 msgid "Deprecated settings are used."
 msgstr "Sono state usate impostazioni deprecate."
 
@@ -674,36 +706,36 @@ msgstr "Impossibile creare un modulo di contatto già esistente."
 msgid "You are not allowed to access contact forms."
 msgstr "Non sei abilitato ad accedere ai moduli di contatto."
 
-#: includes/config-validator.php:834
+#: includes/config-validator.php:887
 msgid "Attachment file does not exist at %path%."
 msgstr "Il file allegato non esiste in %path%."
 
-#: includes/config-validator.php:691
+#: includes/config-validator.php:744
 msgid "Invalid mailbox syntax is used in the %name% field."
 msgstr "La sintassi per l'indirizzo di posta nel campo %name% non è valida."
 
 #. translators: %names%: a list of form control names
-#: includes/config-validator.php:503
+#: includes/config-validator.php:505
 msgid "Unavailable names (%names%) are used for form controls."
 msgstr "Nomi non disponibili (%names%) sono stati usati per i controlli del modulo."
 
-#: includes/config-validator.php:189
+#: includes/config-validator.php:190
 msgid "There are invalid mail header fields."
 msgstr "Ci sono campi header non validi."
 
-#: includes/config-validator.php:185
+#: includes/config-validator.php:186
 msgid "HTML tags are used in a message."
 msgstr "Sono stati usati tag HTML in un messaggio."
 
-#: includes/config-validator.php:183
+#: includes/config-validator.php:184
 msgid "Sender email address does not belong to the site domain."
 msgstr "L'indirizzo email del mittente non coincide con il dominio del sito."
 
-#: includes/config-validator.php:181
+#: includes/config-validator.php:182
 msgid "Invalid mailbox syntax is used."
 msgstr "È stata usata una sintassi di indirizzo di posta non valida."
 
-#: includes/config-validator.php:179
+#: includes/config-validator.php:180
 msgid "There is a possible empty field."
 msgstr "È possibile che un campo sia vuoto."
 
@@ -767,11 +799,15 @@ msgstr "https://contactform7.com/comment-blacklist/"
 msgid "Contact Form 7 supports spam-filtering with %1$s. Intelligent %2$s blocks annoying spambots. Plus, using %3$s, you can block messages containing specified keywords or those sent from specified IP addresses."
 msgstr "Contact Form 7 supporta i filtri per lo spam con %1$s. %2$s intelligente blocca i noiosi robot di spam. Inoltre, usando %3$s, puoi bloccare i messaggi contenenti particolari parole chiave o quelli inviati da indirizzi IP specifici."
 
+#: admin/includes/welcome-panel.php:55
+msgid "Spammers target everything; your contact forms are not an exception. Before you get spammed, protect your contact forms with the powerful anti-spam features Contact Form 7 provides."
+msgstr "Gli spammer prendono di mira qualsiasi cosa; i tuoi form di contatto non sono eccezione. Prima che tu riceva dello spam, proteggi i tuoi form di contatto con le potenti funzioni anti-spam che ti fornisce Contact Form 7."
+
 #: admin/includes/welcome-panel.php:49
 msgid "Getting spammed? You have protection."
 msgstr "Stai ricevendo dello spam? Ecco la protezione."
 
-#: includes/config-validator.php:187
+#: includes/config-validator.php:188
 msgid "Multiple form controls are in a single label element."
 msgstr "Molteplici controlli del modulo sono posizionati in un unico elemento etichetta."
 
@@ -830,7 +866,7 @@ msgstr "Una configurazione non corretta può portare a invii falliti o altri pro
 msgid "Validate Contact Form 7 Configuration"
 msgstr "Valida la configurazione di Contact Form 7"
 
-#: includes/config-validator.php:36
+#: includes/config-validator.php:37
 msgid "https://contactform7.com/configuration-errors/"
 msgstr "https://contactform7.com/configuration-errors/"
 
@@ -1442,9 +1478,17 @@ msgstr "Potrebbe essere necessario registrarsi per un account con il servizio ch
 msgid "On this screen, you can manage services that are available through Contact Form 7. Using API will allow you to collaborate with any services that are available."
 msgstr "In questa schermata, è possibile gestire i servizi che sono disponibili attraverso Contact Form 7. L'utilizzo dell'API ti permetterà di collaborare con tutti i servizi che sono disponibili."
 
+#: admin/includes/help-tabs.php:85
+msgid "There are also special mail-tags that have specific names, but do not have corresponding form-tags. They are used to represent meta information of form submissions like the submitter&#8217;s IP address or the URL of the page."
+msgstr "Ci sono anche speciali mail-tag che hanno nomi specifici, ma non hanno dei corrispondenti form-tag. Sono utilizzati per rappresentare meta informazioni dell'invio del modulo, come l'indirizzo IP del mittente o l'URL della pagina."
+
 #: admin/includes/help-tabs.php:84
 msgid "A mail-tag is also a short code enclosed in square brackets that you can use in every Mail and Mail (2) field. A mail-tag represents a user input value through an input field of a corresponding form-tag."
 msgstr "Un mail-tag è uno shortcode racchiuso tra parentesi quadre che può essere utilizzato in ogni campo dei modelli Mail e Mail (2). Un mail-tag rappresenta un valore inserito dall'utente in un campo di input di un corrispondente form-tag."
+
+#: admin/includes/help-tabs.php:82
+msgid "While form-tags have a comparatively complex syntax, you do not need to know the syntax to add form-tags because you can use the straightforward tag generator (<strong>Generate Tag</strong> button on this screen)."
+msgstr "Anche se i form-tag hanno una sintassi relativamente complessa, non devi conoscerla per poterli aggiungere, in quanto è possibile utilizzare il generatore di tag (pulsante <strong>Genera tag</strong> in questa schermata)."
 
 #: admin/includes/help-tabs.php:81
 msgid "A form-tag is a short code enclosed in square brackets used in a form content. A form-tag generally represents an input field, and its components can be separated into four parts: type, name, options, and values. Contact Form 7 supports several types of form-tags including text fields, number fields, date fields, checkboxes, radio buttons, menus, file-uploading fields, CAPTCHAs, and quiz fields."

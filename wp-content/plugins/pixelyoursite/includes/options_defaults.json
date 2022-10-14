@@ -7,14 +7,15 @@
   "general_event_on_woo_enabled": true,
   "general_event_on_edd_enabled": true,
 
-
+  "cookie_duration": 7,
+  "last_visit_duration": 60,
   "debug_enabled": false,
   "do_not_track_user_roles": [],
   "admin_permissions": [
     "administrator"
   ],
 
-  "woo_enabled": true,
+
   "woo_add_to_cart_on_button_click": true,
   "woo_add_to_cart_on_cart_page": false,
   "woo_add_to_cart_on_checkout_page": false,
@@ -31,7 +32,6 @@
   "woo_view_content_value_option": "price",
   "woo_view_content_value_global": 0,
 
-  "edd_enabled": true,
   "edd_add_to_cart_on_button_click": true,
   "edd_add_to_cart_on_checkout_page": false,
   "edd_purchase_value_option": "price",
@@ -46,6 +46,7 @@
   "edd_view_content_value_enabled": true,
   "edd_view_content_value_option": "price",
   "edd_view_content_value_global": 0,
+  "edd_enabled_save_data_to_orders": true,
 
   "custom_events_enabled": true,
 
@@ -85,6 +86,10 @@
   "woo_add_to_cart_enabled": true,
   "woo_view_content_enabled": true,
   "woo_view_category_enabled": true,
+  "woo_enabled_save_data_to_orders": true,
+  "woo_add_enrich_to_admin_email": true,
+
+
   "enable_event_url_param": true,
   "enable_remove_source_url_params": true,
   "enable_post_id_param": true,
@@ -127,4 +132,5 @@
   ],
   "automatic_event_scroll_value": 30,
   "automatic_event_time_on_page_value": 30
+
 }

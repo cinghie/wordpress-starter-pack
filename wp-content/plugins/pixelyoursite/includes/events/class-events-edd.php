@@ -61,7 +61,7 @@ class EventsEdd extends EventsFactory {
 
     function isEnabled()
     {
-        return isEddActive() && PYS()->getOption( 'edd_enabled' );
+        return isEddActive();
     }
 
     function getOptions()
@@ -101,7 +101,7 @@ class EventsEdd extends EventsFactory {
                     $status = edd_get_payment_status( $order_id );
 
                     // pending payment status used because we can't fire event on IPN
-                    if ( strtolower( $status ) != 'publish' && strtolower( $status ) != 'pending' ) {
+                    if ( strtolower( $status ) != 'publish' && strtolower( $status ) != 'pending' &&  strtolower( $status ) != 'complete' ) {
                         return false;
                     }
 

@@ -35,6 +35,19 @@ class WP_Optimize_Gzip_Compression {
 	}
 
 	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimize_Gzip_Compression Returns `WP_Optimize_Gzip_Compression` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
+	/**
 	 * Make http request to theme style.css, get 'server' line and check headers for gzip/brotli encoding option.
 	 *
 	 * @return array|WP_Error

@@ -4,7 +4,7 @@ Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel 
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 6.0
-Stable tag: 9.1.1
+Stable tag: 9.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -23,11 +23,15 @@ Take a look at this video to see Facebook Conversion API in action:
 
 [youtube https://www.youtube.com/watch?v=k_bL53qDE0E]
 
-NEW: Facebook Pixel Conversion API: [Learn how to enable and test Conversion API events](https://www.pixelyoursite.com/facebook-conversion-api-capi)
+IMPORTANT:: Facebook Pixel Conversion API: [Learn how to enable and test Conversion API events](https://www.pixelyoursite.com/facebook-conversion-api-capi)
 
 Learn how to [verify your domain on Facebook](https://www.pixelyoursite.com/verify-domain-facebook)
 
 Learn how to track key actions with [Automated Events](https://www.pixelyoursite.com/global-events)
+
+NEW: Track and store traffic source, landing page, and UTMs for WooCommerce orders: [click to find more](https://www.pixelyoursite.com/woocommerce-first-party-reports)
+
+NEW: Track and store traffic source, landing page and UTMs for Easy Digital Downloads orders: [click to find more](https://www.pixelyoursite.com/easy-digital-downloads-first-party-reports)
 
 TRACK EVERYTHING WITH A SINGLE PLUGIN:
 
@@ -462,6 +466,20 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 9.2.0 =
+
+* New: track and store the traffic source, landing page, UTMs for WooCommerce orders. This helps you identify what generates your sales. [Watch this video for more info](https://www.youtube.com/watch?v=4VpVf9llfkU)
+
+* New: track and store the traffic source, landing page, UTMs for Easy Digital Downloads orders. This helps you identify what generates your sales. [Watch this video for more info](https://www.youtube.com/watch?v=kh17Ik9z5tI)
+
+* Meta API update.
+
+* WooCommerce compatibility check.
+
+* Easy Digital Downloads 3.0 compatibility check.
+
 
 
 = PixelYourSite 9.1.1 =

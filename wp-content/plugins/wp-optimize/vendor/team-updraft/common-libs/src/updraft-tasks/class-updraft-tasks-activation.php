@@ -80,6 +80,7 @@ class Updraft_Tasks_Activation {
 	 */
 	public static function check_if_tables_exist() {
 		global $wpdb;
+		self::init_db();
 		$our_prefix = $wpdb->base_prefix.self::$table_prefix;
 		$tables = array($our_prefix.'tasks', $our_prefix.'taskmeta');
 

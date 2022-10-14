@@ -79,7 +79,7 @@ jQuery( function( $ ){
         else{
             brands_taxonomy_rewrite.parents( 'tr' ).hide();
         }
-    }).change();
+    }).trigger('change');
 
     use_logo_default.on( 'change', function(){
         var t = $(this);
@@ -90,7 +90,7 @@ jQuery( function( $ ){
         else{
             logo_default.parents( 'tr' ).hide();
         }
-    }).change();
+    }).trigger('change');
 
     single_product_brands_position.on( 'change', function(){
         var t = $(this);
@@ -101,7 +101,7 @@ jQuery( function( $ ){
         else{
             single_product_brands_content.parents('tr').show();
         }
-    }).change();
+    }).trigger('change');
 
     loop_product_brands_position.on( 'change', function(){
         var t = $(this);
@@ -112,7 +112,7 @@ jQuery( function( $ ){
         else{
             loop_product_brands_content.parents('tr').show();
         }
-    }).change();
+    }).trigger('change');
 
     // remove duplicated product_cat thumbnail form
     $( '#product_cat_thumbnail').parents('.form-field').remove();

@@ -109,7 +109,6 @@ class WP_Optimize_Minify_Commands {
 	 * @return array
 	 */
 	public function save_minify_settings($data) {
-
 		$new_data = array();
 		foreach ($data as $key => $value) {
 			if ('true' === $value) {
@@ -143,7 +142,7 @@ class WP_Optimize_Minify_Commands {
 		if (!$working) {
 			return array(
 				'success' => false,
-				'error' => 'failed to save'
+				'error' => 'failed to save minify settings'
 			);
 		}
 		$purged = $this->purge_minify_cache();

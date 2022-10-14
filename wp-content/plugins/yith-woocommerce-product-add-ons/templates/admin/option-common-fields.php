@@ -312,7 +312,7 @@ $price_type = $addon->get_option( 'price_type', $x, 'fixed' );
 
 <?php endif; ?>
 
-<?php if ( 'select' !== $addon_type && 'date' !== $addon_type ) : ?>
+<?php if ( 'select' !== $addon_type && 'date' !== $addon_type && 'radio' !== $addon_type ) : ?>
 
 	<!-- Option field -->
 	<div class="field-wrap">

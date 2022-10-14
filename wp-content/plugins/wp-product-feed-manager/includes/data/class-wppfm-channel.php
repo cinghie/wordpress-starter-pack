@@ -58,6 +58,8 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 				new Wppfm_Channel_Info( '27', 'galaxus_properties', 'Galaxus Product Properties' ),
 				new Wppfm_Channel_Info( '28', 'galaxus_stock_pricing', 'Galaxus Product Stock Pricing' ),
 				new Wppfm_Channel_Info( '29', 'vivino', 'Vivino' ),
+				new Wppfm_Channel_Info( '30', 'snapchat', 'Snapchat' ),
+				new Wppfm_Channel_Info( '31', 'pinterest', 'Pinterest' ),
 				new Wppfm_Channel_Info( '996', 'marketingrobot_tsv', 'Custom TSV Export' ),
 				new Wppfm_Channel_Info( '997', 'marketingrobot_txt', 'Custom TXT Export' ),
 				new Wppfm_Channel_Info( '998', 'marketingrobot_csv', 'Custom CSV Export' ),

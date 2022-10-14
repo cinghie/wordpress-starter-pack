@@ -375,7 +375,7 @@ class IS_Public
             
             
             if ( isset( $this->opt['stopwords'] ) && (isset( $q['s'] ) && '' !== $q['s']) ) {
-                $stopwords = explode( ',', $this->opt['stopwords'] );
+                $stopwords = explode( ',', preg_quote( $this->opt['stopwords'] ) );
                 $stopwords = array_map( 'trim', $stopwords );
                 $q['s'] = preg_replace( '/\\b(' . implode( '|', $stopwords ) . ')\\b/', '', $q['s'] );
                 $query->query_vars['s'] = trim( preg_replace( '/\\s\\s+/', ' ', str_replace( "\n", " ", $q['s'] ) ) );
@@ -697,8 +697,8 @@ class IS_Public
         
         if ( '1' == $q['_is_settings']['fuzzy_match'] ) {
             $like = 'REGEXP';
-            $f = '([[:blank:][:punct:]]|^)';
-            $l = '([[:blank:][:punct:]]|$)';
+            $f = '([[:space:][:punct:]]|^)';
+            $l = '([[:space:][:punct:]]|$)';
         } else {
             
             if ( '2' == $q['_is_settings']['fuzzy_match'] ) {
@@ -720,10 +720,21 @@ class IS_Public
         $search = " AND ( ";
         $OR = '';
         foreach ( (array) $q['search_terms'] as $term2 ) {
+            
+            if ( 'REGEXP' == $like ) {
+                if ( $fuzzy_match_partial ) {
+                    $term2 = str_replace( array( ']', ')' ), array( '', '' ), $term2 );
+                }
+                $term2 = str_replace( array( '[', '(', ')' ), array( '[[]', '[(]', '[)]' ), $term2 );
+            }
+            
             $term = $f . $wpdb->esc_like( $term2 ) . $l;
+            
             if ( $fuzzy_match_partial ) {
+                $term2 = str_replace( array( '{', '}' ), array( '', '' ), $term2 );
                 $term = $f . $wpdb->esc_like( $term2 ) . '|' . $wpdb->esc_like( $term2 ) . $l;
             }
+            
             $OR = '';
             $search .= "{$searchand} (";
             
@@ -815,9 +826,14 @@ class IS_Public
             foreach ( (array) $q['tax_query'] as $value ) {
                 
                 if ( isset( $value['terms'] ) ) {
+                    
                     if ( isset( $value['post_type'] ) ) {
                         $tax_post_type = array_diff( $tax_post_type, array( $value['post_type'] ) );
+                        if ( 'product' == $value['post_type'] ) {
+                            $tax_post_type = array_diff( $tax_post_type, array( 'product_variation' ) );
+                        }
                     }
+                    
                     
                     if ( 'OR' === $q['tax_query']['relation'] ) {
                         $search .= $OR;
@@ -961,6 +977,7 @@ class IS_Public
             }
             $found_term_count = 0;
             foreach ( $search_terms as $search_term ) {
+                $preg_safe_term = preg_quote( $search_term );
                 
                 if ( $table['options']['print_name'] && false !== stripos( $table['name'], $search_term ) || $table['options']['print_description'] && false !== stripos( $table['description'], $search_term ) ) {
                     // Found the search term in the name or description (and they are shown).
@@ -983,7 +1000,7 @@ class IS_Public
                         }
                         // @TODO: Cells are not evaluated here, so math formulas are searched.
                         
-                        if ( '1' == $fuzzy_match && preg_match( "/\\b{$search_term}\\b/iu", $table_cell ) || '2' == $fuzzy_match && (preg_match( "/\\b{$search_term}/iu", $table_cell ) || preg_match( "/{$search_term}\\b/iu", $table_cell )) || '3' == $fuzzy_match && false !== stripos( $table_cell, $search_term ) ) {
+                        if ( '1' == $fuzzy_match && preg_match( "/\\b{$preg_safe_term}\\b/iu", $table_cell ) || '2' == $fuzzy_match && (preg_match( "/\\b{$preg_safe_term}/iu", $table_cell ) || preg_match( "/{$preg_safe_term}\\b/iu", $table_cell )) || '3' == $fuzzy_match && false !== stripos( $table_cell, $search_term ) ) {
                             $found_term_count++;
                             
                             if ( 'OR' == $terms_relation || $found_term_count == sizeof( $search_terms ) ) {

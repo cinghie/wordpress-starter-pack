@@ -244,7 +244,7 @@ class ServerEventHelper {
             /**
              * Add common WooCommerce Advanced Matching params
              */
-            if ( PixelYourSite\isWooCommerceActive() && PixelYourSite\PYS()->getOption( 'woo_enabled' ) ) {
+            if ( PixelYourSite\isWooCommerceActive() ) {
                 // if first name is not set in regular wp user meta
                 if (empty($userData->getFirstName())) {
                     $userData->setFirstName($user->get('billing_first_name'));

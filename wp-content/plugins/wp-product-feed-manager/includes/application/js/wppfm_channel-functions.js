@@ -37,6 +37,8 @@ function wppfm_showChannelInputs( channel, isNew ) {
 		'27': 'switchToGalaxusProductPropertiesFeedFormMainInputs',
 		'28': 'switchToGalaxusProductStockPricingFeedFormMainInputs',
 		'29': 'switchToVivinoFeedFormMainInputs',
+		'30': 'switchToSnapchatFeedFormMainInputs',
+		'31': 'switchToPinterestFeedFormMainInputs',
 		'996': 'switchToMarketingrobotTsvFeedFormMainInputs',
 		'997': 'switchToMarketingrobotTxtFeedFormMainInputs',
 		'998': 'switchToMarketingrobotCsvFeedFormMainInputs',
@@ -100,8 +102,8 @@ function wppfm_show_or_hide_category_map( channel ) {
  */
 function wppfm_category_separator( channel ) {
 	switch ( channel ) {
-		case '14': // Commerce Connector
-		case '24': // Commerce Connector
+		case '14': // Zbozi
+		case '24': // Heureka
 			return ' | ';
 
 		default:
@@ -151,6 +153,8 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 			'27': 'galaxusProductStockPricingInputChanged',
 			'28': 'galaxusProductPropertiesInputChanged',
 			'29': 'vivinoInputChanged',
+			'30': 'snapchatInputChanged',
+			'31': 'pinterestInputChanged',
 			'996': 'marketingrobotTsvInputChanged',
 			'997': 'marketingrobotTxtInputChanged',
 			'998': 'marketingrobotCsvInputChanged',
@@ -293,6 +297,7 @@ function wppfm_fillCategoryVariables(
 		'9': 'fillNextagCategoryVariables',
 		'13': 'fillAvantLinkCategoryVariables',
 		'14': 'fillZboziCategoryVariables',
+		'31': 'fillPinterestCategoryVariables',
 	};
 
 	// call the correct function
@@ -367,6 +372,8 @@ function wppfm_getAdvisedInputs( channel ) {
 		'27': 'woocommerceToGalaxusProductStockPricingFields',
 		'28': 'woocommerceToGalaxusProductPropertiesFields',
 		'29': 'woocommerceToVivinoFields',
+		'30': 'woocommerceToSnapchatFields',
+		'31': 'woocommerceToPinterestFields',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -436,6 +443,9 @@ function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {
 		case '28':
 			return setGalaxusProductPropertiesAttributeLevels( feedHolder );
 
+		case '31':
+			return setPinterestOutputAttributeLevels( feedHolder, selectArgument );
+
 		case '996':
 			return setMarketingrobotTsvOutputAttributeLevels( feedHolder );
 
@@ -487,6 +497,8 @@ function wppfm_restrictedStaticFields( channel, fieldName ) {
 		'26': 'galaxusProductDataStaticFieldOptions',
 		'27': 'galaxusProductStockPricingStaticFieldOptions',
 		'28': 'galaxusProductPropertiesStaticFieldOptions',
+		'30': 'snapchatStaticFieldOptions',
+		'31': 'pinterestStaticFieldOptions',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -669,6 +681,30 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 				}
 			}
 			break;
+
+		case '30': // Snapchat
+			if ( outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
+				|| outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setSnapchatPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
+
+		case '31': // Pinterest
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
+				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
+				|| outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setPinterestPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
+
 
 		default:
 			break;

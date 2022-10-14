@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Yoast Duplicate Post - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-03-30 12:48:58+0000\n"
+"PO-Revision-Date: 2022-09-17 18:55:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.2\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Yoast Duplicate Post - Stable (latest release)\n"
 
@@ -55,20 +55,20 @@ msgstr "Si è verificato un errore durante la cancellazione della copia effettua
 
 #. translators: 1: The page title with a link to the frontend page, 2: The
 #. scheduled date and time.
-#: src/ui/classic-editor.php:271
+#: src/ui/classic-editor.php:291
 msgid "This rewritten page %1$s is now scheduled to replace the original page. It will be published on %2$s."
 msgstr "Questa pagina riscritta %1$s è ora programmata per sostituire la pagina originale. Verrà pubblicata su %2$s."
 
-#: src/ui/classic-editor.php:232 js/dist/duplicate-post-strings-440.js:1
+#: src/ui/classic-editor.php:252 js/dist/duplicate-post-strings-450.js:1
 msgid "Schedule republish"
 msgstr "Pianifica ripubblicazione"
 
 #. translators: %s: Date on which the post is to be republished.
-#: src/ui/classic-editor.php:215
+#: src/ui/classic-editor.php:229
 msgid "Republish on: %s"
 msgstr "Ripubblica il: %s"
 
-#: src/ui/classic-editor.php:192
+#: src/ui/classic-editor.php:201
 msgid "Compare"
 msgstr "Confronta"
 
@@ -91,8 +91,8 @@ msgid "Warning: users will be able to copy, rewrite and republish all posts, eve
 msgstr "Attenzione: l'utente sarà in grado di copiare, riscrivere e ripubblicare tutti gli articoli, anche quelli di altri utenti."
 
 #: src/admin/options.php:281 src/ui/admin-bar.php:105 src/ui/admin-bar.php:125
-#: src/ui/bulk-actions.php:74 src/ui/classic-editor.php:164
-#: js/dist/duplicate-post-edit-440.js:1
+#: src/ui/bulk-actions.php:74 src/ui/classic-editor.php:173
+#: js/dist/duplicate-post-edit-450.js:1
 msgid "Rewrite & Republish"
 msgstr "Riscrivi e ripubblica"
 
@@ -100,8 +100,8 @@ msgstr "Riscrivi e ripubblica"
 msgid "Post format"
 msgstr "Formato articolo"
 
-#: src/post-republisher.php:83 src/ui/classic-editor.php:210
-#: js/dist/duplicate-post-strings-440.js:1
+#: src/post-republisher.php:83 src/ui/classic-editor.php:224
+#: js/dist/duplicate-post-strings-450.js:1
 msgid "Republish"
 msgstr "Ripubblica"
 
@@ -158,6 +158,10 @@ msgstr "L'elemento originale da cui è stato copiato è: <span class=\"duplicate
 #: src/ui/column.php:130 src/ui/metabox.php:89
 msgid "Delete reference to original item."
 msgstr "Cancella il riferimento all'elemento originale."
+
+#: src/ui/newsletter.php:29
+msgid "Email address"
+msgstr "Indirizzo email"
 
 #. translators: 1: Yoast
 #: src/ui/newsletter.php:22
@@ -453,7 +457,7 @@ msgid "New Draft"
 msgstr "Nuova bozza"
 
 #: common-functions.php:79 src/ui/admin-bar.php:97 src/ui/admin-bar.php:115
-#: src/ui/classic-editor.php:135 js/dist/duplicate-post-edit-440.js:1
+#: src/ui/classic-editor.php:144 js/dist/duplicate-post-edit-450.js:1
 msgid "Copy to a new draft"
 msgstr "Copia in una nuova bozza"
 

@@ -665,14 +665,11 @@ if ( ! defined( 'ABSPATH' ) ) {
         $wooEvents = EventsWoo()->getCount();
         $eddEvents = EventsEdd()->getCount();
 
-        if($signalEvents > 0) {
-            $signalEvents = 1;
-        }
 
         $total = $customCount + $signalEvents + $wooEvents + $eddEvents;
         ?>
         <p><strong>You have <?=$total?> active events in total.</strong></p>
-        <p>You have <?=$signalEvents?> global active events. You can control them on this page.</p>
+        <p>You have <?=$signalEvents?> automated active events. You can control them on this page.</p>
         <p>You have <?=$customCount?> manually added active events. You can control them on the <a href="<?=buildAdminUrl( 'pixelyoursite', 'events' )?>">Events page</a>.</p>
         <?php if(isWooCommerceActive()) : ?>
             <p>You have <?=$wooEvents?> WooCommerce active events. You can control them on the <a href="<?=buildAdminUrl( 'pixelyoursite', 'woo' )?>">WooCommerce page</a>.</p>
@@ -870,27 +867,45 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="col">
             <?php PYS()->render_switcher_input( 'enable_remove_download_url_param' ); ?>
             <h4 class="switcher-label">Remove download_url parameters.</h4>
-            <hr>
+            <hr/>
         </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mt-3">
         <div class="col">
-            <?php renderDummySwitcher(); ?>
-            <h4 class="switcher-label">Add enriched order's data to WooCommerce's default "New Order" email.<?php renderProBadge();?></h4>
+            <div class="form-inline">
+                <label>First Visit Options:</label>
+                <?php renderDummyNumberInput(7); ?>
+                <label>day(s)</label>
+                <a class="ml-3 badge badge-pill badge-pro" href="https://www.pixelyoursite.com/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature" target="_blank">Pro Feature <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            </div>
+            <small class="mt-1">Define for how long we will store cookies for the "First Visit" attribution model.
+                Used for events parameters (<i>landing page, traffic source, UTMs</i>) and WooCommerce or EDD Reports.
+            </small>
 
         </div>
     </div>
-    <div class="row mb-3">
+    <div class="row mt-2">
         <div class="col">
-            <?php renderDummySwitcher(); ?>
-            <h4 class="switcher-label">Add enriched order's data to WooCommerce's order details pages. <?php renderProBadge();?></h4>
+            <div class="form-inline">
+                <label>Last Visit Options:</label>
+                <?php renderDummyNumberInput(60); ?>
+                <label>min</label>
+                <a class="ml-3 badge badge-pill badge-pro" href="https://www.pixelyoursite.com/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature" target="_blank">Pro Feature <i class="fa fa-external-link" aria-hidden="true"></i></a>
+            </div>
+
+            <small class="mt-1">Define for how long we will store the cookies for the "Last Visit" attribution model.
+                Used for events parameters (<i>landing page, traffic source, UTMs</i>) and WooCommerce or EDD Reports.</small>
+
         </div>
     </div>
-
-    <div class="row mb-3">
-        <div class="col">
-            <a href="https://www.youtube.com/watch?v=2oRF4LKaMaw" target="_blank">WooCommerce: track PURCHASE source (7:56) - wath now</a>
+    <div class="row">
+        <div class="col collapse-inner">
+            <label>Attribution model for events parameters:<a class="ml-3 badge badge-pill badge-pro" href="https://www.pixelyoursite.com/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature/?utm_source=pys-free-plugin&amp;utm_medium=pro-badge&amp;utm_campaign=pro-feature" target="_blank">Pro Feature <i class="fa fa-external-link" aria-hidden="true"></i></a></label>
+            <div class="custom-controls-stacked">
+                <?php renderDummyRadioInput( 'First Visit',true ); ?>
+                <?php renderDummyRadioInput( 'Last Visit',false ); ?>
+            </div>
             <hr/>
         </div>
     </div>

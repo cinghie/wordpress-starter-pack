@@ -1064,13 +1064,18 @@ function wpo_delete_files($src, $recursive = true) {
 					$file = readdir($dir);
 					continue;
 				}
-				if (is_dir($src . '/' . $file)) {
-					if (!wpo_delete_files($src . '/' . $file)) {
+
+				$full_path = $src . '/' . $file;
+
+				if (is_dir($full_path)) {
+					if (!wpo_delete_files($full_path)) {
 						$success = false;
 					}
 				} else {
-					if (!unlink($src . '/' . $file)) {
-						$success = false;
+					if (!@unlink($full_path)) { // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppressed the first time in case it was already removed by a contemporary process (avoid unwanted logging for harmless races)
+						if (file_exists($full_path) && !unlink($full_path)) {
+							$success = false;
+						}
 					}
 				}
 

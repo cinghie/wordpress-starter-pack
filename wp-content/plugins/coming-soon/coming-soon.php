@@ -3,10 +3,10 @@
 Plugin Name: Coming Soon Page, Maintenance Mode, Landing Pages & WordPress Website Builder by SeedProd
 Plugin URI: https://www.seedprod.com/lite-upgrade/?utm_source=WordPress&utm_campaign=liteplugin&utm_medium=plugin-uri-link
 Description: The Easiest WordPress Drag & Drop Page Builder that allows you to build your webiste, create Landing Pages, Coming Soon Pages, Maintenance Mode Pages and more.
-Version:  6.13.1
+Version:  6.15.4
 Author: SeedProd
 Author URI: https://www.seedprod.com/lite-upgrade/?utm_source=WordPress&utm_campaign=liteplugin&utm_medium=author-uri-link
-TextDomain: coming-soon
+Text Domain: coming-soon
 Domain Path: /languages
 License: GPLv2 or later
 */
@@ -14,9 +14,10 @@ License: GPLv2 or later
 /**
  * Default Constants
  */
+
 define( 'SEEDPROD_BUILD', 'lite' );
 define( 'SEEDPROD_SLUG', 'coming-soon/coming-soon.php' );
-define( 'SEEDPROD_VERSION', '6.13.1' );
+define( 'SEEDPROD_VERSION', '6.15.4' );
 define( 'SEEDPROD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 // Example output: /Applications/MAMP/htdocs/wordpress/wp-content/plugins/seedprod/
 define( 'SEEDPROD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -74,7 +75,12 @@ function seedprod_lite_activation() {
 
 	// set cron to fetch feed
 	if ( ! wp_next_scheduled( 'seedprod_notifications' ) ) {
-		wp_schedule_event( time(), 'daily', 'seedprod_notifications' );
+		if ( SEEDPROD_BUILD === 'pro' ) {
+			wp_schedule_event( time() + 7200, 'daily', 'seedprod_notifications' );
+		}else{
+			wp_schedule_event( time(), 'daily', 'seedprod_notifications' );
+		}
+		
 	}
 
 	// flush rewrite rules

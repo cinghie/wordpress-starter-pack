@@ -127,15 +127,18 @@ final class PYS extends Settings implements Plugin {
         }
 
         // maybe disable Facebook for WooCommerce pixel output
-	    if ( isWooCommerceActive() && $this->getOption( 'woo_enabled' )
+	    if ( isWooCommerceActive()
 	         && array_key_exists( 'facebook', $this->registeredPixels ) && Facebook()->configured() ) {
 		    add_filter( 'facebook_for_woocommerce_integration_pixel_enabled', '__return_false' );
 	    }
 
         $this->logger->init();
+        EnrichOrder()->init();
         AjaxHookEventManager::instance()->addHooks();
     }
-
+    public function utmTemplate() {
+        include 'views/html-utm-templates.php';
+    }
 	/**
 	 * Extend options after post types are registered
 	 */
@@ -228,7 +231,10 @@ final class PYS extends Settings implements Plugin {
         }
 
         // disable Events Manager on Elementor editor
-        if (did_action('elementor/preview/init') || did_action('elementor/editor/init')) {
+        if (did_action('elementor/preview/init')
+            || did_action('elementor/editor/init')
+            || (isset( $_GET['action'] ) && $_GET['action'] == 'piotnetforms') // skip preview for piotnet forms plugin
+        ) {
             return;
         }
 
@@ -296,6 +302,18 @@ final class PYS extends Settings implements Plugin {
                 'manage_pys', 'pixelyoursite_licenses', array( $this, 'adminPageLicenses' ) );
         }
 
+        if(isWooCommerceActive()) {
+            add_submenu_page( 'pixelyoursite', 'WooCommerce Reports', 'WooCommerce Reports',
+                'manage_pys', 'pixelyoursite_woo_reports', array( $this, 'wooReport' ) );
+        }
+        if(isEddActive()) {
+            add_submenu_page( 'pixelyoursite', 'EDD Reports', 'EDD Reports',
+                'manage_pys', 'pixelyoursite_edd_reports', array( $this, 'eddReport' ) ,9);
+        }
+
+        add_submenu_page( 'pixelyoursite', 'UTM Builder', 'UTM Builder',
+            'manage_pys', 'pixelyoursite_utm', array( $this, 'utmTemplate' ) );
+
         add_submenu_page( 'pixelyoursite', 'System Report', 'System Report',
             'manage_pys', 'pixelyoursite_report', array( $this, 'adminPageReport' ) );
 
@@ -304,6 +322,9 @@ final class PYS extends Settings implements Plugin {
             'pixelyoursite',
             'pixelyoursite_licenses',
             'pixelyoursite_report',
+            'pixelyoursite_woo_reports',
+            'pixelyoursite_edd_reports',
+            'pixelyoursite_utm',
         );
 
         // rename first submenu item
@@ -344,6 +365,13 @@ final class PYS extends Settings implements Plugin {
 	public function adminPageReport() {
 		include 'views/html-report.php';
 	}
+
+    public function wooReport() {
+        include 'views/html-report-woo.php';
+    }
+    public function eddReport() {
+        include 'views/html-report-edd.php';
+    }
 
 	public function adminPageLicenses() {
 

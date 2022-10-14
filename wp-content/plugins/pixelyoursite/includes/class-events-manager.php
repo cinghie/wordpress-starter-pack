@@ -64,6 +64,8 @@ class EventsManager {
 			'siteUrl' => site_url(),
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
             'enable_remove_download_url_param'=> PYS()->getOption( 'enable_remove_download_url_param' ),
+            'cookie_duration'                   => PYS()->getOption( 'cookie_duration' ),
+            'last_visit_duration'               => PYS()->getOption('last_visit_duration')
 		);
 
 		$options['gdpr'] = array(

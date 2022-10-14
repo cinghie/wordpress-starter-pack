@@ -116,6 +116,7 @@ export default class YITH_WCAN_Dropdown {
 			$search = $( '<input/>', {
 				name: 's',
 				class: 'search-field',
+				autocomplete: 'off',
 				type: 'search',
 				placeholder: this.options.labels.searchPlaceholder,
 			} );

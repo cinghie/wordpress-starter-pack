@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* === Filter Preset List === */
 #yith_wcan_panel_filter-preset {
   position: relative;
@@ -120,7 +119,7 @@
 }
 #yith_wcan_panel_filter-preset .yith-plugin-fw-list-table-container table.wp-list-table tbody tr td.shortcode .copy-on-click:after {
   color: #9d9d9d;
-  content: "";
+  content: "\f101";
   font-family: "yith-icon";
   font-size: 14px;
   position: absolute;
@@ -681,7 +680,7 @@
 }
 #yith_wcan_panel_filter-preset-edit .preset-saved:before {
   color: var(--yith-success);
-  content: "";
+  content: "\e921";
   font-family: yith-icon;
   font-weight: 400;
   font-size: 21px;

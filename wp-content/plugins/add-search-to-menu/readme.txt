@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 6.0
 Requires PHP: 5.2.4
-Stable tag: 5.4.7
+Stable tag: 5.4.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,12 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 5.4.8 =
+* Fixed - Using brackets in the search term was not getting searched.
+* Fixed - Using special characters in stopwords generate warnings.
+* Improved - Search/Exclude product variations by attributes/variations.
+* Updated - Freemius SDK
 
 = 5.4.7 =
 * Fixed - add_query_arg() and remove_query_arg() usage

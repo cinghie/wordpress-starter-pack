@@ -15,7 +15,8 @@ function wppfm_queryOptionsEng() {
 function wppfm_changeValuesOptions() {
 
 	// @since 2.22.0 strip tags and limit characters.
-	return [ 'change nothing', 'overwrite', 'replace', 'remove', 'add prefix', 'add suffix', 'recalculate', 'convert to child-element', 'strip tags', 'limit characters' ];
+	// @since 2.34.0 html entity decode.
+	return [ 'change nothing', 'overwrite', 'replace', 'remove', 'add prefix', 'add suffix', 'recalculate', 'convert to child-element', 'strip tags', 'html entity decode', 'limit characters' ];
 }
 
 function wppfm_changeValuesRecalculateOptions() {

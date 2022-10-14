@@ -188,6 +188,26 @@ if (!Array.prototype.includes) {
 
         var gtag_loaded = false;
 
+        let isNewSession = checkSession();
+
+        let utmTerms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+        let utmId = ['fbadid', 'gadid', 'padid', 'bingid'];
+
+        function validateEmail(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+        function getDomain(url) {
+
+            url = url.replace(/(https?:\/\/)?(www.)?/i, '');
+
+            if (url.indexOf('/') !== -1) {
+                return url.split('/')[0];
+            }
+
+            return url;
+        }
         function loadPixels() {
 
             if (!options.gdpr.all_disabled_by_api) {
@@ -211,6 +231,151 @@ if (!Array.prototype.includes) {
 
         }
 
+        function checkSession() {
+            let duration = options.last_visit_duration * 60000
+            if( Cookies.get('pys_start_session') === undefined ||
+                Cookies.get('pys_session_limit') === undefined) {
+                var now = new Date();
+                now.setTime(now.getTime() + duration);
+                Cookies.set('pys_session_limit', true,{ expires: now })
+                Cookies.set('pys_start_session', true)
+                return true
+            }
+            return false
+
+        }
+
+        function getTrafficSource() {
+
+            try {
+
+                let referrer = document.referrer.toString(),
+                    source;
+
+                let direct = referrer.length === 0;
+                let internal = direct ? false : referrer.indexOf(options.siteUrl) === 0;
+                let external = !direct && !internal;
+
+                if (external === false) {
+                    source = 'direct';
+                } else {
+                    source = referrer;
+                }
+
+                if (source !== 'direct') {
+                    // leave only domain (Issue #70)
+                    return getDomain(source);
+                } else {
+                    return source;
+                }
+
+            } catch (e) {
+                console.error(e);
+                return 'direct';
+            }
+
+        }
+
+        /**
+         * Return query variables object with where property name is query variable
+         * and property value is query variable value.
+         */
+        function getQueryVars() {
+
+            try {
+
+                var result = {},
+                    tmp = [];
+
+                window.location.search
+                    .substr(1)
+                    .split("&")
+                    .forEach(function (item) {
+
+                        tmp = item.split('=');
+
+                        if (tmp.length > 1) {
+                            result[tmp[0]] = tmp[1];
+                        }
+
+                    });
+
+                return result;
+
+            } catch (e) {
+                console.error(e);
+                return {};
+            }
+
+        }
+
+
+        function getUTMId(useLast = false) {
+            try {
+                let cookiePrefix = 'pys_'
+                let terms = [];
+                if (useLast) {
+                    cookiePrefix = 'last_pys_'
+                }
+                $.each(utmId, function (index, name) {
+                    if (Cookies.get(cookiePrefix + name)) {
+                        terms[name] = Cookies.get(cookiePrefix + name)
+                    }
+                });
+                return terms;
+            } catch (e) {
+                console.error(e);
+                return [];
+            }
+        }
+        /**
+         * Return UTM terms from request query variables or from cookies.
+         */
+        function getUTMs(useLast = false) {
+
+            try {
+                let cookiePrefix = 'pys_'
+                if(useLast) {
+                    cookiePrefix = 'last_pys_'
+                }
+                let terms = [];
+                $.each(utmTerms, function (index, name) {
+                    if (Cookies.get(cookiePrefix + name)) {
+                        let value = Cookies.get(cookiePrefix + name);
+                        terms[name] = filterEmails(value); // do not allow email in request params (Issue #70)
+                    }
+                });
+
+                return terms;
+
+            } catch (e) {
+                console.error(e);
+                return [];
+            }
+
+        }
+
+        function getDateTime() {
+            var dateTime = new Array();
+            var date = new Date(),
+                days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                months = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ],
+                hours = ['00-01', '01-02', '02-03', '03-04', '04-05', '05-06', '06-07', '07-08',
+                    '08-09', '09-10', '10-11', '11-12', '12-13', '13-14', '14-15', '15-16', '16-17',
+                    '17-18', '18-19', '19-20', '20-21', '21-22', '22-23', '23-24'
+                ];
+            dateTime.push(hours[date.getHours()]);
+            dateTime.push(days[date.getDay()]);
+            dateTime.push(months[date.getMonth()]);
+            return dateTime;
+        }
+
+        function filterEmails(value) {
+            return validateEmail(value) ? undefined : value;
+        }
+
         /**
          * PUBLIC API
          */
@@ -219,6 +384,7 @@ if (!Array.prototype.includes) {
             PRODUCT_VARIABLE : 1,
             PRODUCT_BUNDLE : 2,
             PRODUCT_GROUPED : 3,
+
             fireEventForAllPixel:function(functionName,events){
                 if (events.hasOwnProperty(Facebook.tag()))
                     Facebook[functionName](events[Facebook.tag()]);
@@ -249,6 +415,56 @@ if (!Array.prototype.includes) {
                     to[key] = from[key];
                 }
                 return to;
+            },
+
+            manageCookies: function () {
+                let expires = parseInt(options.cookie_duration); //  days
+                let queryVars = getQueryVars();
+                let landing = window.location.href.split('?')[0];
+                try {
+                    // save data for first visit
+                    if(Cookies.get('pys_first_visit') === undefined) {
+                        Cookies.set('pys_first_visit', true, { expires: expires });
+                        Cookies.set('pysTrafficSource', getTrafficSource(), { expires: expires });
+                        Cookies.set('pys_landing_page',landing,{ expires: expires });
+                        $.each(utmTerms, function (index, name) {
+                            if (queryVars.hasOwnProperty(name)) {
+                                Cookies.set('pys_' + name, queryVars[name], { expires: expires });
+                            } else {
+                                Cookies.remove('pys_' + name)
+                            }
+                        });
+                        $.each(utmId,function(index,name) {
+                            if (queryVars.hasOwnProperty(name)) {
+                                Cookies.set('pys_' + name, queryVars[name], { expires: expires });
+                            } else {
+                                Cookies.remove('pys_' + name)
+                            }
+                        })
+                    }
+
+                    // save data for last visit if it new session
+                    if(isNewSession) {
+                        Cookies.set('last_pysTrafficSource', getTrafficSource(), { expires: expires });
+                        $.each(utmTerms, function (index, name) {
+                            if (queryVars.hasOwnProperty(name)) {
+                                Cookies.set('last_pys_' + name, queryVars[name], { expires: expires });
+                            } else {
+                                Cookies.remove('last_pys_' + name)
+                            }
+                        });
+                        $.each(utmId,function(index,name) {
+                            if (queryVars.hasOwnProperty(name)) {
+                                Cookies.set('last_pys_' + name, queryVars[name], { expires: expires });
+                            } else {
+                                Cookies.remove('last_pys_' + name)
+                            }
+                        })
+                        Cookies.set('last_pys_landing_page',landing,{ expires: expires });
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
             },
             // clone object
             clone: function(obj) {
@@ -857,8 +1073,82 @@ if (!Array.prototype.includes) {
                 } else {
                     return "";
                 }
-            }
+            },
+            /**
+             * Enrich
+             */
+            isCheckoutPage: function () {
+                return $('body').hasClass('woocommerce-checkout') ||
+                    $('body').hasClass('edd-checkout');
+            },
+            addCheckoutFields : function() {
+                var utm = "";
+                var utms = getUTMs()
 
+                $.each(utmTerms, function (index, name) {
+                    if(index > 0) {
+                        utm+="|";
+                    }
+                    utm+=name+":"+utms[name];
+                });
+                var utmIdList = "";
+                var utmsIds = getUTMId()
+                $.each(utmId, function (index, name) {
+                    if(index > 0) {
+                        utmIdList+="|";
+                    }
+                    utmIdList+=name+":"+utmsIds[name];
+                });
+                var utmIdListLast = "";
+                var utmsIdsLast = getUTMId(true)
+                $.each(utmId, function (index, name) {
+                    if(index > 0) {
+                        utmIdListLast+="|";
+                    }
+                    utmIdListLast+=name+":"+utmsIdsLast[name];
+                });
+
+
+                var utmLast = "";
+                var utmsLast = getUTMs(true)
+                $.each(utmTerms, function (index, name) {
+                    if(index > 0) {
+                        utmLast+="|";
+                    }
+                    utmLast+=name+":"+utmsLast[name];
+                });
+
+                var dateTime = getDateTime();
+                var landing = Cookies.get('pys_landing_page');
+                var lastLanding = Cookies.get('last_pys_landing_page');
+                var trafic = Cookies.get('pysTrafficSource');
+                var lastTrafic = Cookies.get('last_pysTrafficSource');
+
+                var $form = null;
+                if($('body').hasClass('woocommerce-checkout')) {
+                    $form = $("form.woocommerce-checkout");
+                } else {
+                    $form = $("#edd_purchase_form");
+                }
+                var inputs = {'pys_utm':utm,
+                    'pys_utm_id':utmIdList,
+                    'pys_browser_time':dateTime.join("|"),
+                    'pys_landing':landing,
+                    'pys_source':trafic,
+                    'pys_order_type': $(".wcf-optin-form").length > 0 ? "wcf-optin" : "normal",
+
+                    'last_pys_landing':lastLanding,
+                    'last_pys_source':lastTrafic,
+                    'last_pys_utm':utmLast,
+                    'last_pys_utm_id':utmIdListLast,
+                }
+
+                Object.keys(inputs).forEach(function(key,index) {
+                    $form.append("<input type='hidden' name='"+key+"' value='"+inputs[key]+"' /> ");
+                });
+
+
+            }
         };
 
     }(options);
@@ -897,62 +1187,61 @@ if (!Array.prototype.includes) {
             options.gdpr.cookie_notice_integration_enabled ||
             options.gdpr.cookie_law_info_integration_enabled;
 
-        function fireEvent(name, allData) {
-
-            if(typeof window.pys_event_data_filter === "function" && window.pys_disable_event_filter(name,'facebook')) {
-                return;
-            }
-
-            var actionType = defaultEventTypes.includes(name) ? 'track' : 'trackCustom';
-            var data = allData.params;
-            var params = {};
-            var arg = {};
-            Utils.copyProperties(data, params);
-
+        /**
+         *
+         * @param allData
+         * @param params
+         * @returns {string | null}
+         */
+        function sendFbServerEvent(allData,name,params) {
+            let eventId = null;
             if(options.facebook.serverApiEnabled) {
 
-                var isAddToCartFromJs =  options.woo.hasOwnProperty("addToCartCatchMethod")
-                    && options.woo.addToCartCatchMethod === "add_cart_js";
+                if(allData.e_id === "woo_remove_from_cart" || allData.e_id === "woo_add_to_cart_on_button_click") {// server event will sended from hook
+                    let isAddToCartFromJs =  options.woo.hasOwnProperty("addToCartCatchMethod")
+                        && options.woo.addToCartCatchMethod === "add_cart_js";
 
-                if(allData.e_id === "woo_remove_from_cart"
-                    || (isAddToCartFromJs && allData.e_id === "woo_add_to_cart_on_button_click"))
-                {
-                    Facebook.updateEventId(allData.name);
-                    allData.eventID = Facebook.getEventId(allData.name);
-                } else  if(  options.facebook.ajaxForServerEvent
-                                || isApiDisabled
-                                || allData.delay > 0
-                                || allData.type !== "static")
-                { // send event from server if they was bloc by gdpr or need send with delay
-                    allData.eventID = pys_generate_token(36);
-                    var json = {
-                        action: 'pys_api_event',
-                        pixel: 'facebook',
-                        event: name,
-                        data:data,
-                        ids:options.facebook.pixelIds,
-                        eventID:allData.eventID,
-                        url:window.location.href,
-                    };
-                    if(allData.hasOwnProperty('woo_order')) {
-                        json['woo_order'] = allData.woo_order;
-                    }
-                    if(allData.hasOwnProperty('edd_order')) {
-                        json['edd_order'] = allData.edd_order;
-                    }
-
-                    if(allData.delay > 0) {
-                        jQuery.ajax( {
-                            type: 'POST',
-                            url: options.ajaxUrl,
-                            data: json,
-                            headers: {
-                                'Cache-Control': 'no-cache'
-                            },
-                            success: function(){},
-                        });
+                    if(isAddToCartFromJs || allData.e_id !== "woo_add_to_cart_on_button_click") {
+                        Facebook.updateEventId(allData.name);
+                        allData.eventID = Facebook.getEventId(allData.name);
                     } else {
-                       // if(name != "AddToCart") { // AddToCart call from hook
+                        // not update eventID for woo_add_to_cart_on_button_click,
+                        // web event created by ajax from server
+                    }
+                } else {
+                    if(  options.facebook.ajaxForServerEvent
+                        || isApiDisabled
+                        || allData.delay > 0
+                        || allData.type !== "static")
+                    { // send event from server if they was bloc by gdpr or need send with delay
+                        allData.eventID = pys_generate_token(36);
+                        var json = {
+                            action: 'pys_api_event',
+                            pixel: 'facebook',
+                            event: name,
+                            data:params,
+                            ids:options.facebook.pixelIds,
+                            eventID:allData.eventID,
+                            url:window.location.href,
+                        };
+                        if(allData.hasOwnProperty('woo_order')) {
+                            json['woo_order'] = allData.woo_order;
+                        }
+                        if(allData.hasOwnProperty('edd_order')) {
+                            json['edd_order'] = allData.edd_order;
+                        }
+
+                        if(allData.delay > 0) {
+                            jQuery.ajax( {
+                                type: 'POST',
+                                url: options.ajaxUrl,
+                                data: json,
+                                headers: {
+                                    'Cache-Control': 'no-cache'
+                                },
+                                success: function(){},
+                            });
+                        } else {
                             setTimeout(function (json) {
                                 jQuery.ajax({
                                     type: 'POST',
@@ -965,10 +1254,28 @@ if (!Array.prototype.includes) {
                                     },
                                 });
                             }, 500, json);
-                        //}
+                        }
                     }
                 }
+                eventId = allData.eventID
             }
+
+            return eventId;
+        }
+
+        function fireEvent(name, allData) {
+
+            if(typeof window.pys_event_data_filter === "function" && window.pys_disable_event_filter(name,'facebook')) {
+                return;
+            }
+
+            var actionType = defaultEventTypes.includes(name) ? 'track' : 'trackCustom';
+            var data = allData.params;
+            var params = {};
+            var arg = {};
+            Utils.copyProperties(data, params);
+
+            let eventId = sendFbServerEvent(allData,name,params)
 
 
             if("hCR" === name) {
@@ -976,11 +1283,11 @@ if (!Array.prototype.includes) {
             }
 
             if (options.debug) {
-                console.log('[Facebook] ' + name, params,"eventID",allData.eventID);
+                console.log('[Facebook] ' + name, params,"eventID",eventId);
             }
 
-            if(allData.hasOwnProperty('eventID')) {
-                arg.eventID = allData.eventID;
+            if(eventId != null) {
+                arg.eventID = eventId;
             }
 
             fbq(actionType, name, params,arg);
@@ -1259,7 +1566,7 @@ if (!Array.prototype.includes) {
             },
             updateEventId:function(key) {
                 var cooData = Cookies.get("pys_fb_event_id")
-                if(data === undefined) {
+                if(cooData === undefined) {
                     this.initEventIdCookies(key);
                 } else {
                     var data = JSON.parse(cooData);
@@ -1460,11 +1767,7 @@ if (!Array.prototype.includes) {
 
                 // configure tracking ids
                 options.ga.trackingIds.forEach(function (trackingId,index) {
-                    if(options.ga.isDebugEnabled.includes("index_"+index)) {
-                        config.debug_mode = true;
-                    } else {
-                        config.debug_mode = false;
-                    }
+                    config.debug_mode = options.ga.isDebugEnabled.includes("index_" + index);
                     if(isv4(trackingId)) {
                         if(options.ga.disableAdvertisingFeatures) {
                             config.allow_google_signals = false
@@ -1683,6 +1986,7 @@ if (!Array.prototype.includes) {
         var Pinterest = Utils.setupPinterestObject();
         var Bing = Utils.setupBingObject();
 
+        Utils.manageCookies();
         Utils.setupGdprCallbacks();
         // page scroll event
         if ( options.dynamicEvents.hasOwnProperty("automatic_event_scroll")
@@ -2137,7 +2441,10 @@ if (!Array.prototype.includes) {
 
         // load pixel APIs
         Utils.loadPixels();
-
+        // setup Enrich content
+        if(Utils.isCheckoutPage()) {
+            Utils.addCheckoutFields();
+        }
     });
 
 }(jQuery, pysOptions);

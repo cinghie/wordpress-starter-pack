@@ -7,6 +7,12 @@ function wppfm_changeValueIsFilled( rowId, sourceLevel, conditionLevel ) {
 	var changeSelectorValue = jQuery( '#value-options-' + rowId + '-' + sourceLevel + '-' + conditionLevel ).val();
 	var changeOptionsValue  = jQuery( '#value-options-input-' + rowId + '-' + sourceLevel + '-' + conditionLevel ).val();
 
+	// @since 2.34.0.
+	// The "change nothing", "strip tags" and "html entity decode" selections have no value to check.
+	if ( '0' === changeSelectorValue || '8' === changeSelectorValue || '9' === changeSelectorValue ) {
+		return true;
+	}
+
 	if ( changeOptionsValue ) {
 		if ( '2' === changeSelectorValue ) { // replace
 			result = ! ! jQuery( '#value-options-input-with-' + rowId + '-' + sourceLevel + '-' + conditionLevel ).val();

@@ -449,7 +449,49 @@ class WP_Optimize_Commands {
 			return array('errors' => array(__('Please upload a valid settings file.', 'wp-optimize')));
 		}
 
-		return WP_Optimize()->get_options()->save_settings($settings);
+		$cache_settings = $settings['cache_settings'];
+		$minify_settings = $settings['minify_settings'];
+		$smush_settings = $settings['smush_settings'];
+		$database_settings = $settings['database_settings'];
+
+		$cache = WP_Optimize()->get_page_cache();
+		$cache->create_folders();
+		if ($cache_settings['enable_page_caching']) {
+			$cache->enable();
+		}
+
+		$wpo_browser_cache = WP_Optimize()->get_browser_cache();
+		if ($cache_settings['enable_browser_cache']) {
+			$browser_cache = array(
+				'browser_cache_expire_days' => $cache_settings['browser_cache_expire_days'],
+				'browser_cache_expire_hours' => $cache_settings['browser_cache_expire_hours']
+			);
+			$wpo_browser_cache->enable_browser_cache_command_handler($browser_cache);
+		}
+
+		$message = '';
+		$cache_result = WP_Optimize()->get_page_cache()->config->update($cache_settings);
+		$minify_result = WP_Optimize()->get_minify()->minify_commands->save_minify_settings($minify_settings);
+		$smush_result = WP_Optimize()->get_task_manager()->commands->update_smush_options($smush_settings);
+		$this->save_settings($database_settings);
+
+		if (is_wp_error($cache_result)) {
+			$message .= $cache_result->get_error_message() . PHP_EOL;
+		}
+
+		if (!$minify_result['success']) {
+			$message .= isset($minify_result['message']) ? $minify_result['message'] . PHP_EOL : '';
+			$message .= isset($minify_result['error']) ? $minify_result['error'] . PHP_EOL : '';
+		}
+
+		if (is_wp_error($smush_result)) {
+			$message .= $smush_result->get_error_message() . PHP_EOL;
+		}
+
+		return array(
+			'success' => true,
+			'message' => empty($message) ? __('The settings were imported successfully.', 'wp-optimize') : $message
+		);
 	}
 
 	/**
@@ -551,6 +593,18 @@ class WP_Optimize_Commands {
 	public function user_ignores_table_delete_warning() {
 		return array(
 			'success' => update_user_meta(get_current_user_id(), 'wpo-ignores-table-delete-warning', true)
+		);
+	}
+
+	/**
+	 * Exports unused images as a CSV file to the `uploads` folder
+	 *
+	 * @return array
+	 */
+	public function export_csv() {
+		WP_Optimization_images::instance()->output_csv();
+		return array(
+			'success' => true
 		);
 	}
 }

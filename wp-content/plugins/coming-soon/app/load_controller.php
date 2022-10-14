@@ -28,7 +28,7 @@ if ( is_admin() ) {
 	require_once SEEDPROD_PLUGIN_PATH . 'app/lpage.php';
 	require_once SEEDPROD_PLUGIN_PATH . 'app/edit_with_seedprod.php';
 	require_once SEEDPROD_PLUGIN_PATH . 'app/functions-addons.php';
-	if ( SEEDPROD_BUILD == 'lite' ) {
+	if ( 'lite' == SEEDPROD_BUILD ) {
 		require_once SEEDPROD_PLUGIN_PATH . 'app/class-seedprod-review.php';
 	}
 }

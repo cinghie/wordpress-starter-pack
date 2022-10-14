@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPPFM_Channel_FTP' ) ) :
 					sprintf(
 						/* translators: %s: Folder that contains the channel data */
 						__(
-							'You have no read/write permission to the %s folder. 
+							'You have no read/write permission to the %s folder.
 							Please update the file permissions of this folder to make it writable and then try installing a channel again.',
 							'wp-product-feed-manager'
 						),
@@ -65,7 +65,7 @@ if ( ! class_exists( 'WPPFM_Channel_FTP' ) ) :
 			curl_setopt( $ch, CURLOPT_HEADER, 0 );
 			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
 			curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-			curl_setopt( $ch, CURLOPT_BINARYTRANSFER, true );
+			curl_setopt( $ch, CURLOPT_FRESH_CONNECT, true ); // @since 2.34.0.
 			curl_setopt( $ch, CURLOPT_TIMEOUT, 10 );
 			curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
 			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 );

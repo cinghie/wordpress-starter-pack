@@ -10,7 +10,10 @@
 
 namespace Google\Site_Kit\Modules;
 
+use Google\Site_Kit\Context;
 use Google\Site_Kit\Core\Assets\Asset;
+use Google\Site_Kit\Core\Assets\Assets;
+use Google\Site_Kit\Core\Authentication\Authentication;
 use Google\Site_Kit\Core\Assets\Script;
 use Google\Site_Kit\Core\Authentication\Clients\Google_Site_Kit_Client;
 use Google\Site_Kit\Core\Modules\Module;
@@ -18,22 +21,28 @@ use Google\Site_Kit\Core\Modules\Module_Settings;
 use Google\Site_Kit\Core\Modules\Module_With_Assets;
 use Google\Site_Kit\Core\Modules\Module_With_Assets_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Deactivation;
+use Google\Site_Kit\Core\Modules\Module_With_Owner;
+use Google\Site_Kit\Core\Modules\Module_With_Owner_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Scopes;
 use Google\Site_Kit\Core\Modules\Module_With_Scopes_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Settings;
 use Google\Site_Kit\Core\Modules\Module_With_Settings_Trait;
-use Google\Site_Kit\Core\Modules\Module_With_Owner;
-use Google\Site_Kit\Core\Modules\Module_With_Owner_Trait;
+use Google\Site_Kit\Core\REST_API\Data_Request;
 use Google\Site_Kit\Core\REST_API\Exception\Invalid_Datapoint_Exception;
+use Google\Site_Kit\Core\REST_API\REST_Routes;
+use Google\Site_Kit\Core\Storage\Options;
+use Google\Site_Kit\Core\Storage\Transients;
+use Google\Site_Kit\Core\Storage\User_Options;
 use Google\Site_Kit\Core\Tags\Guards\Tag_Environment_Type_Guard;
 use Google\Site_Kit\Core\Tags\Guards\Tag_Verify_Guard;
 use Google\Site_Kit\Core\Util\Method_Proxy_Trait;
-use Google\Site_Kit\Core\REST_API\Data_Request;
+use Google\Site_Kit\Modules\Search_Console\Settings as Search_Console_Settings;
 use Google\Site_Kit\Modules\Thank_With_Google\Settings;
 use Google\Site_Kit\Modules\Thank_With_Google\Supporter_Wall_Widget;
 use Google\Site_Kit\Modules\Thank_With_Google\Web_Tag;
 use Google\Site_Kit_Dependencies\Google_Service_SubscribewithGoogle;
 use Google\Site_Kit_Dependencies\Google_Service_SubscribewithGoogle_ListPublicationsResponse;
+use Google\Site_Kit_Dependencies\Google_Service_SubscribewithGoogle_Publication;
 use Google\Site_Kit_Dependencies\Psr\Http\Message\RequestInterface;
 use WP_Error;
 
@@ -58,12 +67,72 @@ final class Thank_With_Google extends Module
 	const MODULE_SLUG = 'thank-with-google';
 
 	/**
+	 * Transient created on module activation.
+	 */
+	const TRANSIENT_SETUP_TIMER = 'googlesitekit_thank_with_google_setup';
+
+	/**
+	 * Transients instance.
+	 *
+	 * @since 1.85.0
+	 * @var Transients
+	 */
+	private $transients;
+
+	/**
+	 * Internal flag for whether the module is connected before saving/updating its settings.
+	 *
+	 * @since 1.85.0
+	 * @var bool
+	 */
+	private $pre_update_is_connected;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.85.0
+	 *
+	 * @param Context        $context        Plugin context.
+	 * @param Options        $options        Optional. Option API instance. Default is a new instance.
+	 * @param User_Options   $user_options   Optional. User Option API instance. Default is a new instance.
+	 * @param Authentication $authentication Optional. Authentication instance. Default is a new instance.
+	 * @param Assets         $assets         Optional. Assets API instance. Default is a new instance.
+	 */
+	public function __construct(
+		Context $context,
+		Options $options = null,
+		User_Options $user_options = null,
+		Authentication $authentication = null,
+		Assets $assets = null
+	) {
+		parent::__construct( $context, $options, $user_options, $authentication, $assets );
+
+		$this->transients = new Transients( $this->context );
+	}
+
+	/**
 	 * Registers functionality through WordPress hooks.
 	 *
 	 * @since 1.78.0
 	 */
 	public function register() {
 		$this->register_scopes_hook();
+
+		add_action(
+			'googlesitekit_pre_save_settings_' . self::MODULE_SLUG,
+			function() {
+				$this->pre_update_is_connected = $this->is_connected();
+			}
+		);
+
+		add_action(
+			'googlesitekit_save_settings_' . self::MODULE_SLUG,
+			function() {
+				if ( ! $this->pre_update_is_connected && $this->is_connected() ) {
+					$this->transients->set( self::TRANSIENT_SETUP_TIMER, time(), WEEK_IN_SECONDS );
+				}
+			}
+		);
 
 		if ( ! $this->is_connected() ) {
 			return;
@@ -87,6 +156,18 @@ final class Thank_With_Google extends Module
 				) {
 					$this->register_tag();
 				}
+			}
+		);
+
+		add_filter(
+			'googlesitekit_apifetch_preload_paths',
+			function ( $paths ) {
+				return array_merge(
+					$paths,
+					array(
+						'/' . REST_Routes::REST_ROOT . '/modules/thank-with-google/data/supporter-wall-prompt',
+					)
+				);
 			}
 		);
 
@@ -217,6 +298,59 @@ final class Thank_With_Google extends Module
 	}
 
 	/**
+	 * Gets the supporter wall sidebars.
+	 *
+	 * @since 1.85.0
+	 *
+	 * @return array list of supporter wall sidebars, otherwise an empty list.
+	 */
+	protected function get_supporter_wall_sidebars() {
+		$sidebars      = array();
+		$all_sidebars  = wp_get_sidebars_widgets();
+		$block_widgets = get_option( 'widget_block' );
+
+		$pattern = sprintf( '/^%s[0-9]+$/i', preg_quote( Supporter_Wall_Widget::WIDGET_ID . '-', '/' ) );
+		$substr  = sprintf( '"idBase":"%s"', Supporter_Wall_Widget::WIDGET_ID );
+
+		$actual_sidebars_count = 0;
+		foreach ( $all_sidebars as $sidebar_id => $widgets ) {
+			// Skip the inactive widgets sidebar because it is not an actual sidebar.
+			if ( 'wp_inactive_widgets' === $sidebar_id ) {
+				continue;
+			}
+
+			$actual_sidebars_count++;
+
+			$sidebar = wp_get_sidebar( $sidebar_id );
+			foreach ( $widgets as $widget ) {
+				$block_match = array();
+				if ( preg_match( $pattern, $widget ) ) {
+					$sidebars[ $sidebar_id ] = $sidebar['name'];
+					break;
+				} elseif (
+					preg_match( '/block-(\d+)/', $widget, $block_match ) &&
+					stripos( $block_widgets[ $block_match[1] ]['content'], $substr ) > 0
+				) {
+					$sidebars[ $sidebar_id ] = ucfirst( $sidebar['name'] );
+					break;
+				}
+			}
+		}
+
+		if (
+				// Only show the "All sidebars" text if there is more
+				// than one sidebar.
+				$actual_sidebars_count > 1 &&
+				count( $sidebars ) === $actual_sidebars_count
+			) {
+			return array( __( 'All sidebars', 'google-site-kit' ) );
+		}
+
+		return array_values( $sidebars );
+
+	}
+
+	/**
 	 * Gets map of datapoint to definition data for each.
 	 *
 	 * @since 1.79.0
@@ -226,6 +360,7 @@ final class Thank_With_Google extends Module
 		return array(
 			'GET:publications'            => array( 'service' => 'subscribewithgoogle' ),
 			'GET:supporter-wall-sidebars' => array( 'service' => '' ),
+			'GET:supporter-wall-prompt'   => array( 'service' => '' ),
 		);
 	}
 
@@ -245,47 +380,51 @@ final class Thank_With_Google extends Module
 				$service = $this->get_service( 'subscribewithgoogle' );
 				/* @var $service Google_Service_SubscribewithGoogle phpcs:ignore Squiz.PHP.CommentedOutCode.Found */
 
-				/* @TODO filter by verified domains */
-				return $service->publications->listPublications();
+				$sc_settings    = $this->options->get( Search_Console_Settings::OPTION );
+				$sc_property_id = $sc_settings['propertyID'];
+				$raw_url        = str_replace(
+					array( 'sc-domain:', 'https://', 'http://', 'www.' ),
+					'',
+					$sc_property_id
+				);
+
+				if ( 0 === strpos( $sc_property_id, 'sc-domain:' ) ) { // Domain property.
+					$filter = join(
+						' OR ',
+						array_map(
+							function ( $host ) {
+								return sprintf( 'domain = "%s"', $host );
+							},
+							$this->permute_site_hosts( $raw_url )
+						)
+					);
+				} else { // URL property.
+					$filter = join(
+						' OR ',
+						array_map(
+							function ( $host ) {
+								return sprintf( 'site_url = "%s"', $host );
+							},
+							$this->permute_site_url( $raw_url )
+						)
+					);
+				}
+
+				return $service->publications->listPublications(
+					array( 'filter' => $filter )
+				);
 			case 'GET:supporter-wall-sidebars':
 				return function() {
-					$sidebars      = array();
-					$all_sidebars  = wp_get_sidebars_widgets();
-					$block_widgets = get_option( 'widget_block' );
-
-					$pattern = sprintf( '/^%s[0-9]+$/i', preg_quote( Supporter_Wall_Widget::WIDGET_ID . '-', '/' ) );
-					$substr  = sprintf( '"idBase":"%s"', Supporter_Wall_Widget::WIDGET_ID );
-
-					$actual_sidebars_count = 0;
-					foreach ( $all_sidebars as $sidebar_id => $widgets ) {
-						// Skip the inactive widgets sidebar because it is not an actual sidebar.
-						if ( 'wp_inactive_widgets' === $sidebar_id ) {
-							continue;
-						}
-
-						$actual_sidebars_count++;
-
-						$sidebar = wp_get_sidebar( $sidebar_id );
-						foreach ( $widgets as $widget ) {
-							$block_match = array();
-							if ( preg_match( $pattern, $widget ) ) {
-								$sidebars[ $sidebar_id ] = $sidebar['name'];
-								break;
-							} elseif (
-								preg_match( '/block-(\d+)/', $widget, $block_match ) &&
-								stripos( $block_widgets[ $block_match[1] ]['content'], $substr ) > 0
-							) {
-								$sidebars[ $sidebar_id ] = ucfirst( $sidebar['name'] );
-								break;
-							}
-						}
+					return $this->get_supporter_wall_sidebars();
+				};
+			case 'GET:supporter-wall-prompt':
+				return function() {
+					$supporter_wall_sidebars = $this->get_supporter_wall_sidebars();
+					$setup_transient         = $this->transients->get( self::TRANSIENT_SETUP_TIMER );
+					if ( empty( $supporter_wall_sidebars ) && ! $setup_transient ) {
+						return array( 'supporterWallPrompt' => true );
 					}
-
-					if ( count( $sidebars ) === $actual_sidebars_count ) {
-						return array( __( 'All sidebars', 'google-site-kit' ) );
-					}
-
-					return array_values( $sidebars );
+					return array( 'supporterWallPrompt' => false );
 				};
 		}
 
@@ -305,7 +444,23 @@ final class Thank_With_Google extends Module
 		switch ( "{$data->method}:{$data->datapoint}" ) {
 			case 'GET:publications':
 				/* @var $response Google_Service_SubscribewithGoogle_ListPublicationsResponse phpcs:ignore Squiz.PHP.CommentedOutCode.Found */
-				return (array) $response->getPublications();
+				$publications = array_filter(
+					(array) $response->getPublications(),
+					function ( Google_Service_SubscribewithGoogle_Publication $publication ) {
+						// Require only TwG-enabled publications.
+						if ( empty( $publication['paymentOptions']['thankStickers'] ) ) {
+							return false;
+						}
+						// If onboarding isn't completed, other criteria won't be available.
+						if ( 'ONBOARDING_COMPLETE' !== $publication->getOnboardingState() ) {
+							return true;
+						}
+
+						// This is left as array access as it is not guaranteed to be set.
+						return ! empty( $publication['publicationPredicates']['businessPredicates']['supportsSiteKit'] );
+					}
+				);
+				return array_values( $publications );
 		}
 
 		return parent::parse_data_response( $data, $response );
@@ -352,6 +507,7 @@ final class Thank_With_Google extends Module
 		if ( $tag->can_register() ) {
 			$tag->set_cta_placement( $settings['ctaPlacement'] );
 			$tag->set_cta_post_types( $settings['ctaPostTypes'] );
+			$tag->set_color_theme( $settings['colorTheme'] );
 
 			$tag->register();
 		}

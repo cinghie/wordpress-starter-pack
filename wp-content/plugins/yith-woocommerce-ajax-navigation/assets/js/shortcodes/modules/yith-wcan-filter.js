@@ -28,6 +28,10 @@ export default class YITH_WCAN_Filter {
 
 	// init page reload when popstate event alter filters
 	initPopState() {
+		if ( ! yith_wcan_shortcodes.reload_on_back ) {
+			return;
+		}
+
 		this.pushUrlToHistory( window.location, document.title, null, true );
 
 		$( window ).on( 'popstate', function () {

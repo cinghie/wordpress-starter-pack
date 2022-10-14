@@ -17,7 +17,6 @@ class WP_Optimize_Page_Cache_Preloader extends WP_Optimize_Preloader {
 	public function __construct() {
 		parent::__construct();
 
-		add_filter('cron_schedules', array($this, 'cron_add_intervals'));
 		add_action('wpo_page_cache_schedule_preload', array($this, 'run_scheduled_cache_preload'));
 		add_filter('wpo_preload_headers', array($this, 'preload_headers'));
 	}
@@ -97,29 +96,6 @@ class WP_Optimize_Page_Cache_Preloader extends WP_Optimize_Preloader {
 		$enable_schedule_preload = $this->get_cache_config('enable_schedule_preload');
 		return !empty($enable_schedule_preload);
 	}
-
-	/**
-	 * Add intervals to cron schedules.
-	 *
-	 * @param array $schedules
-	 *
-	 * @return array
-	 */
-	public function cron_add_intervals($schedules) {
-		$interval = $this->get_continue_preload_cron_interval();
-		$schedules['wpo_page_cache_preload_continue_interval'] = array(
-			'interval' => $interval,
-			'display' => round($interval / 60, 1).' minutes'
-		);
-
-		$schedules['wpo_use_cache_lifespan'] = array(
-			'interval' => WPO_Cache_Config::instance()->get_option('page_cache_length'),
-			'display' => 'Same as cache lifespan: '.WPO_Cache_Config::instance()->get_option('page_cache_length_value').' '.WPO_Cache_Config::instance()->get_option('page_cache_length_unit')
-		);
-
-		return $schedules;
-	}
-
 
 	/**
 	 * Check if we need run cache preload and run it.

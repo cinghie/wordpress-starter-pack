@@ -154,7 +154,7 @@ class WPO_Cache_Config {
 	 *
 	 * @return boolean - returns false if an attempt to write failed
 	 */
-	private function write($config, $only_if_present = false) {
+	public function write($config, $only_if_present = false) {
 
 		$config_file = WPO_CACHE_CONFIG_DIR.'/'.$this->get_cache_config_filename();
 
@@ -259,9 +259,9 @@ class WPO_Cache_Config {
 		$url = parse_url(network_site_url());
 
 		if (isset($url['port']) && '' != $url['port'] && 80 != $url['port']) {
-			return 'config-'.$url['host'].'-port'.$url['port'].'.php';
+			return 'config-'.strtolower($url['host']).'-port'.$url['port'].'.php';
 		} else {
-			return 'config-'.$url['host'].'.php';
+			return 'config-'.strtolower($url['host']).'.php';
 		}
 	}
 

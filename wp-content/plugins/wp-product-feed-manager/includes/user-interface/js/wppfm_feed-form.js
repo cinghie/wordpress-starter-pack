@@ -2292,7 +2292,7 @@ function wppfm_valueInputOptionsChanged( rowId, sourceLevel, valueEditorLevel ) 
 	if ( option !== 'replace' && option !== 'recalculate' ) {
 
 		store = pre + '#' + option + '#';
-		store += option === 'change nothing' || option === 'strip tags' ? 'blank' : value;
+		store += option === 'change nothing' || option === 'strip tags' || option === 'html entity decode' ? 'blank' : value;
 
 		_feedHolder.addChangeValue( rowId, sourceLevel, valueEditorLevel, store );
 	} else if ( option === 'replace' ) {

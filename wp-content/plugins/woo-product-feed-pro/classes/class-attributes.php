@@ -93,7 +93,6 @@ private function get_custom_attributes() {
 
         		foreach ( $posts as $post ) {
 				$post_meta_keys = get_post_custom_keys( $post->ID );
-				//$post_meta_keys = array_map('ucfirst', $post_meta_keys);
             			$meta_keys      = array_merge( $meta_keys, $post_meta_keys );
         		}
 

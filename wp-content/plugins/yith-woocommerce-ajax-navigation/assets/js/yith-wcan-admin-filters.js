@@ -23,13 +23,6 @@ function YITH_WCAN_Filters( $ ) {
 		filter_design: {
 			type: [ 'tax', 'review', 'price_range' ],
 		},
-		label_position: {
-			filter_design: [ 'label', 'color' ],
-		},
-		column_number: {
-			filter_design: [ 'label', 'color' ],
-			label_position: [ 'below', 'hide' ],
-		},
 		customize_terms: {
 			type: 'tax',
 			use_all_terms: '!:checked',
@@ -38,6 +31,36 @@ function YITH_WCAN_Filters( $ ) {
 			term_ids: ( v ) => !! v,
 			customize_terms: ':checked',
 			__show: ( $filter ) => self.updateTerms( $filter, true ),
+		},
+		label_position: {
+			filter_design: ( v, $fd, $fl ) => {
+				if ( 'color' === v ) {
+					return true;
+				}
+
+				if ( 'label' === v ) {
+					const $terms_options = self._findFilterField(
+						$fl,
+						'terms_options'
+					);
+
+					if (
+						$terms_options.length &&
+						$terms_options.is( ':visible' ) &&
+						$terms_options
+							.find( 'input[name*=image]' )
+							.filter( ( i, e ) => !! $( e ).val() ).length
+					) {
+						return true;
+					}
+				}
+
+				return false;
+			},
+		},
+		column_number: {
+			filter_design: [ 'label', 'color' ],
+			label_position: [ 'below', 'hide' ],
 		},
 		show_search: {
 			type: 'tax',
@@ -748,7 +771,7 @@ function YITH_WCAN_Filters( $ ) {
 			if ( Array.isArray( condition ) ) {
 				result = condition.includes( fieldValue );
 			} else if ( typeof condition === 'function' ) {
-				result = condition( fieldValue );
+				result = condition( fieldValue, $field, $filter );
 			} else if ( 0 === condition.indexOf( ':' ) ) {
 				result = $field.is( condition );
 			} else if ( 0 === condition.indexOf( '!:' ) ) {
@@ -1334,7 +1357,7 @@ function YITH_WCAN_Filters( $ ) {
 
 				$selected.prepend( $selectedImg );
 
-				$input.val( attachment.id );
+				$input.val( attachment.id ).change();
 
 				self.unblock( $placeholder );
 
@@ -1353,7 +1376,7 @@ function YITH_WCAN_Filters( $ ) {
 		$clear.off( 'click' ).on( 'click', function ( ev ) {
 			ev.preventDefault();
 
-			$input.val( '' );
+			$input.val( '' ).change();
 
 			$selected.hide();
 			$placeholder.show();

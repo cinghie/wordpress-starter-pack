@@ -84,7 +84,7 @@ class EventsWoo extends EventsFactory {
 
     function isEnabled()
     {
-        return isWooCommerceActive() && PYS()->getOption( 'woo_enabled' );
+        return isWooCommerceActive();
     }
 
     function getOptions() {
@@ -129,7 +129,9 @@ class EventsWoo extends EventsFactory {
 
             case 'woo_purchase' : {
                 if(PYS()->getOption( 'woo_purchase_enabled' ) && is_order_received_page() &&
-                    isset( $_REQUEST['key'] )  && $_REQUEST['key'] != "" ) {
+                    isset( $_REQUEST['key'] )  && $_REQUEST['key'] != ""
+                    && empty($_REQUEST['wc-api']) // if is not api request
+                ) {
                     $order_key = sanitize_key($_REQUEST['key']);
                     $order_id = (int) wc_get_order_id_by_order_key( $order_key );
 

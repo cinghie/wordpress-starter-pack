@@ -21,6 +21,7 @@ return array(
     'Minify_CSSmin' => $vendorDir . '/mrclay/minify/lib/Minify/CSSmin.php',
     'Minify_CacheInterface' => $vendorDir . '/mrclay/minify/lib/Minify/CacheInterface.php',
     'Minify_Cache_APC' => $vendorDir . '/mrclay/minify/lib/Minify/Cache/APC.php',
+    'Minify_Cache_APCu' => $vendorDir . '/mrclay/minify/lib/Minify/Cache/APCu.php',
     'Minify_Cache_File' => $vendorDir . '/mrclay/minify/lib/Minify/Cache/File.php',
     'Minify_Cache_Memcache' => $vendorDir . '/mrclay/minify/lib/Minify/Cache/Memcache.php',
     'Minify_Cache_Null' => $vendorDir . '/mrclay/minify/lib/Minify/Cache/Null.php',

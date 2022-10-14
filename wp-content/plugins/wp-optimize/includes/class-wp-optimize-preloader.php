@@ -42,7 +42,7 @@ abstract class WP_Optimize_Preloader extends Updraft_Task_Manager_1_3 {
 	 *
 	 * @return integer
 	 */
-	protected function get_continue_preload_cron_interval() {
+	public function get_continue_preload_cron_interval() {
 		/**
 		 * Filters the interval between each preload attempt, in seconds.
 		 */

@@ -86,7 +86,7 @@ class WP_Optimize_Admin {
 		$can_run_optimizations = WP_Optimize()->can_run_optimizations();
 		$can_manage_options = WP_Optimize()->can_manage_options();
 
-		if (!current_user_can($capability_required) || (!$can_run_optimizations && !$can_manage_options())) {
+		if (!current_user_can($capability_required) || (!$can_run_optimizations && !$can_manage_options)) {
 			echo "Permission denied.";
 			return;
 		}

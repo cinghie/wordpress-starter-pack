@@ -95,6 +95,9 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 											<span class="description"><?php echo esc_html__( 'Enter a description to show before the options.', 'yith-woocommerce-product-add-ons' ); ?></span>
 										</div>
 									</div>
+									<?php
+										if ( 'select' === $addon_type ) {
+									?>
 									<!-- End option field -->
 									<div class="field-wrap">
 										<label for="addon-required" style="width: 50px;"><?php echo esc_html__( 'Required', 'yith-woocommerce-product-add-ons' ); ?>:</label>
@@ -119,6 +122,7 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 											</span>
 										</div>
 									</div>
+									<?php } ?>
 									<div id="addon_options">
 									<?php for ( $x = 0; $x < $options_total; $x++ ) : ?>
 										<div class="option <?php echo 1 === $options_total ? 'open' : ''; ?>">

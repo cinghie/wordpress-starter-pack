@@ -90,22 +90,26 @@ class WooSEA_Get_Products {
 				$review['review_id'] = $review_raw->comment_ID;
 
 				// Names need to be anonomyzed			
-				$name_pieces = explode(" ", $review_raw->comment_author);
-				$nr_name_pieces = count($name_pieces);
-				$cnt = 0;
-				$name = "";
-				foreach($name_pieces as $n_piece){
-					$n_piece = str_replace("&amp;", "", $n_piece);
-
-					if($cnt > 0){
-						$n_piece = ucfirst(substr($n_piece, 0, 1));
-					}	
-					$name .= $n_piece." ";
-					$cnt++;
+    				if ( empty($review_raw->comment_author) ) {
+        				if (!empty($review_raw->user_id)){
+            					$user=get_userdata($review_raw->user_id);
+            					$author=$user->first_name.' '.substr($user->last_name,0,1).'.'; // this is the actual line you want to change
+        				} else {
+            					$author = __('Anonymous');
+        				}
+    				} else {
+					$user=get_userdata($review_raw->user_id);
+					if(!empty($user)){
+        					$author=$user->first_name.' '.substr($user->last_name,0,1).'.'; // this is the actual line you want to change
+					} else {
+            					$author = __('Anonymous');
+					}
 				}
+				$author = str_replace("&amp;", "", $author);
+				$author = ucfirst($author);
 
 				// Remove strange charachters from reviewer name
-				$review['reviewer_name'] = $this->rip_tags(trim(ucfirst($name)));
+				$review['reviewer_name'] = $this->rip_tags(trim(ucfirst($author)));
 				$review['reviewer_name'] = html_entity_decode((str_replace("\r", "", $review['reviewer_name'])), ENT_QUOTES | ENT_XML1, 'UTF-8');
 				$review['reviewer_name'] = preg_replace( '/\[(.*?)\]/', ' ', $review['reviewer_name'] );
 				$review['reviewer_name'] = str_replace("&#xa0;", "", $review['reviewer_name']);
@@ -1629,7 +1633,8 @@ class WooSEA_Get_Products {
 																$reviewer->addChild('name','Anonymous');
 																$reviewer->name->addAttribute('is_anonymous', 'true');
 															} else {
-																$reviewer->addChild('name',$name);
+																$reviewer->addChild('name', htmlspecialchars($name));
+																//$reviewer->addChild('name',$name);
 															}
 														} else {
 															if(is_numeric($nodes[1])){
@@ -3487,11 +3492,15 @@ class WooSEA_Get_Products {
 					$lowest_shipping_price = $numeric_lowest_shipping_price;
 					unset($value);
 				}
-				$product_data['lowest_shipping_costs'] = min($lowest_shipping_price);
+				
+				$nr_in = count($lowest_shipping_price);
+				if ($nr_in > 0){
+					$product_data['lowest_shipping_costs'] = min($lowest_shipping_price);
 			
-				if($decimal_separator == ","){
-					$product_data['lowest_shipping_costs'] = str_replace('.', ',', $product_data['lowest_shipping_costs']);
-				}	
+					if($decimal_separator == ","){
+						$product_data['lowest_shipping_costs'] = str_replace('.', ',', $product_data['lowest_shipping_costs']);
+					}	
+				}
 			}
 
 			// Google Dynamic Remarketing feeds require the English price notation
@@ -5276,8 +5285,10 @@ class WooSEA_Get_Products {
 	 */
     	public function get_sale_date($id, $name) {
         	$date = $this->get_attribute_value($id, $name);
-        	if ($date) {
-            		return date("Y-m-d", $date);
+		if ($date) {
+			if(is_int($date)){
+				return date("Y-m-d", $date);
+			}
         	}
         	return false;
     	}
@@ -5787,15 +5798,17 @@ class WooSEA_Get_Products {
                                                                         break;
                                                                 case($pr_array['condition'] = "containsnot"):
                                                                         if ((!preg_match('/'.$pr_array['criteria'].'/', $pd_value))){
-                                                                                // Specifically for shipping price rules
-                                                                                if(is_array($product_data[$pr_array['than_attribute']])){
-                                                                                        $arr_size = (count($product_data[$pr_array['than_attribute']])-1);
-                                                                                        for ($x = 0; $x <= $arr_size; $x++) {
-                                                                                                $product_data[$pr_array['than_attribute']][$x]['price'] = $pr_array['newvalue'];
-                                                                                        }
-                                                                                } else {
-                                                                                        $product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
-                                                                                }
+										// Specifically for shipping price rules
+										if(isset($pr_array['than_attribute'])){
+                                                                                	if(is_array($product_data[$pr_array['than_attribute']])){
+                                                                                        	$arr_size = (count($product_data[$pr_array['than_attribute']])-1);
+                                                                                        	for ($x = 0; $x <= $arr_size; $x++) {
+                                                                                                	$product_data[$pr_array['than_attribute']][$x]['price'] = $pr_array['newvalue'];
+                                                                                        	}
+                                                                                	} else {
+                                                                                        	$product_data[$pr_array['than_attribute']] = $pr_array['newvalue'];
+                                                                                	}
+										}	
                                                                         }
                                                                         break;
                                                                 case($pr_array['condition'] = "="):

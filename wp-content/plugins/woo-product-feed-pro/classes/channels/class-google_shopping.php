@@ -516,6 +516,16 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:format",
 					"format" => "optional",
 				),
+				"Release date" => array(
+					"name" => "release_date",
+					"feed_name" => "g:release_date",
+					"format" => "optional",
+				),
+				"Rich product content" => array(
+					"name" => "rich_product_content",
+					"feed_name" => "g:rich_product_content",
+					"format" => "optional",
+				),
 				"Product line" => array(
 					"name" => "product_line",
 					"feed_name" => "g:product_line",
