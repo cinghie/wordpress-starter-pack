@@ -3,59 +3,56 @@ Contributors: storeapps, niravmehta, mansi shah, Tarun.Parswani, Musilda
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPTHCDC382KVA
 Author URI: https://www.storeapps.org/
 Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
-Tags: stock manager, woocommerce, stock management, inventory, products
+Tags: woocommerce stock management, woocommerce stock manager, woocommerce product stock manager, woocommerce stock management free, woocommerce inventory management
 Requires at least: 5.0.0
-Tested up to: 5.8.2
+Tested up to: 6.0.3
 Requires PHP: 5.6
-Stable tag: 2.8.3
+Stable tag: 2.9.0
 License: GPLv3
+
+Best WooCommerce stock management plugin to manage and edit product stock and their variables from a single dashboard. Stock log, import/export, filters and more...
 
 == Description ==
 
-Stock Manager for WooCommerce allows you manage stock for products and their variables from one screen.
+Stock Manager is a powerful WooCommerce stock management plugin that allows you to manage product stock and their variations from one screen.
+
+Edit and manage product stock status, quantity, prices, SKU, taxes. etc., apply quick filters and view stock history, import and export stock data to CSV.
 
 > Stock Manager for WooCommerce plugin is completely Free to use.
 > There's no paid or Pro version of this plugin.
 
-####What you can do using Stock Manager for WooCommerce
+####WooCommerce stock management dashboard
 
-**Manage following product fields:**
+You don’t need to visit each product page to view and edit stock fields. Stock Manager plugin provides a dashboard to view all product stock and inventory information details at one place...and some cool features:
 
-* SKU
-* Product name
-* Tax status
-* Tax class
-* Shipping class
-* Price
-* Sale price
-* Weight
-* Manage stock
-* Stock status
-* Backorders
-* Stock
+- **Table editor** - Make edits to stock data using table cells and dropdown. Simple and fast.
+- **Inline edit** - Create, remove or update as many stock items. You can save each product or variations separately or save all displayed data at once.
+- **Stock and price management** - Navigate through the dashboard and make edits to the following product stock data fields:
+-- SKU
+-- Product name
+-- Tax status
+-- Tax class
+-- Shipping class
+-- Price
+-- Sale price
+-- Weight
+-- Manage stock
+-- Stock status
+-- Backorders
+-- Stock
+- **Support for all product types** - Simple, variable, external/affiliate, grouped...
+- **Admin columns**  - Show/hide columns based on your requirements, thus making the dashboard look clean.
+- **Pre-defined Search Filters** - The plugin gives you three predefined filters (facets) – Product Category, Product Type and Stock Status to make edits. You can also search and sort using SKU and product name.
+- View **product thumbnail image.**
+- Edit the variations for variable products after clicking on the “Show variables” button.
 
-**Additionally, you can:**
+####Product stock history
 
-* Display product thumbnail image
-* Filter products by type, category, stock manage or stock status
-* Sort products by name
-* Search products by name or SKU
-* Show/hide columns for better usability
-* Edit the variations for variable product after clicking on "Show variables" button
-* Save each product or variation separately, or save all displayed data
+Stock Manager for WooCommerce plugin provides a **Stock log page**, wherein you can see each product’s stock history. This helps you track the stock movement for each product.
 
-#### ➡️ Manage custom fields
+###Import/Export
 
-> To manage custom field(s) from any post type like Products, Orders, Coupons, Subscriptions, Bookings, Memberships, etc,
-> use our **another free** plugin [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/).
-
-**Product stock history**
-
-In Stock log page, you can see the products stock history. 
-
-**Import/Export**
-
-With Stock Manager for WooCommerce plugin, it is possible export all stock data of your shop, edit them and import back with CSV file.
+Export all stock data of your shop, edit them and import back with a CSV file.
 (This feature needs refactoring, so use this only on your own risk).
 
 * Export file structure:
@@ -63,21 +60,25 @@ With Stock Manager for WooCommerce plugin, it is possible export all stock data 
 * SKU - product unique identificator, required.
 * Product name - Name/title of the product
 * Manage stock - values: "yes", "notify", "no". If is empty "no" will be save.
-* Stock status - values: "instock", "outofstock". If is empty "outofstock" will be save.
-* Backorders - values: "yes", "notify", "no". If is empty "no" will be save.
+* Stock status - values: "instock", "outofstock". If is empty "outofstock" will be saved.
+* Backorders - values: "yes", "notify", "no". If is empty "no" will be saved.
 * Stock - quantity value.
 * Type - type of product.
 * Parent ID - if product is variant, parent product ID is displayed for better filtering csv file.
 
 GDPR ready - plugin doesn't collect personal data.
 
-**Spread The Love ❤️**
+###Bulk edit and manage custom fields
 
-If you like Stock Manager for WooCommerce plugin, please consider leaving [five stars ⭐⭐⭐⭐⭐](https://wordpress.org/support/plugin/woocommerce-stock-manager/reviews/#new-post) for the plugin. That helps fellow website owners assess plugin easily and benefit from it!
+>To bulk edit and  manage custom field(s) for any post type like WooCommerce products, orders, coupons, posts, users, subscriptions, bookings, memberships, etc., use our [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) plugin.
+
+**Spread The Love**
+
+If you like Stock Manager for WooCommerce plugin, please consider leaving [five stars](https://wordpress.org/support/plugin/woocommerce-stock-manager/reviews/#new-post) for the plugin. That helps fellow website owners assess plugin easily and benefit from it!
 
 **Contribute**
 
-Want to add a new language to Stock Manager for WooCommerce? Contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/woocommerce-stock-manager/).
+Want to add a new language to the Stock Manager for WooCommerce? Contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/woocommerce-stock-manager/).
 
 **Have any questions?**
 
@@ -86,33 +87,31 @@ Feel free to [contact us](https://www.storeapps.org/support/contact-us/?utm_sour
 **Recommended Readings for faster WooCommerce stock management**
 
 1. [How to bulk edit sale price and regular price](https://www.storeapps.org/woocommerce-bulk-edit-price/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
-2. [How to manage Backorders in bulk?](https://www.storeapps.org/woocommerce-backorder/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
+2. [How to manage Backorders in bulk](https://www.storeapps.org/woocommerce-backorder/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
 3. [How to create Excel-like custom views to manage product stock](https://www.storeapps.org/excel-custom-views-woocommerce-wordpress/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
 4. [How to Delete all products](https://www.storeapps.org/woocommerce-delete-all-products/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
 5. [How to manage stock 10x faster](https://www.storeapps.org/woocommerce-stock-management/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
 6. [How to search products by SKU](https://www.storeapps.org/woocommerce-search-by-sku/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
-7. [How to export products based on advanced search and admin column filters?](https://www.storeapps.org/woocommerce-export-products/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
-8. [How to bulk edit Attributes](https://www.storeapps.org/woocommerce-bulk-edit-attributes/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
+7. [How to export products based on advanced search and admin column filters](https://www.storeapps.org/woocommerce-search-by-sku/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
+8. [How to bulk edit attributes](https://www.storeapps.org/woocommerce-bulk-edit-attributes/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
 9. [How to manage Admin Columns for stock fields](https://www.storeapps.org/wordpress-admin-columns/?utm_source=wprepo&utm_medium=links&utm_campaign=stock_management_how_tos)
 
 **Some of our other free plugins**
 
-1. [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) - Manage and bulk edit WooCommerce products, variations, orders, coupons, any WordPress post type. All from a single screen using Excel-Like Spreadsheet.
-2. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/)
+1. [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) - Manage and bulk edit WooCommerce products, variations, orders, coupons, any WordPress post type. All from a single screen using an Excel-like sheet editor.
+2. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/) -  - Create secure, self-expiring ⏱️, automatic login links for WordPress.
 3. [Icegram](https://wordpress.org/plugins/icegram/) - Popups, Welcome Bar, Optins and Lead Generation Plugin
-4. [Email Subscribers & Newsletters](https://wordpress.org/plugins/email-subscribers/)
+4. [Email Subscribers & Newsletters](https://wordpress.org/plugins/email-subscribers/) - Collect leads, send automated new blog post notification emails, create & send broadcasts.
 
 **StoreApps’ other Pro plugins**
 
-1. [Offermative](https://wordpress.org/plugins/offermative-discount-pricing-related-products-upsell-funnels-for-woocommerce/) - Dynamic discount pricing, related product recommendations, upsells and funnels for WooCommerce.
-2. [Bulk Variations Manager](https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wprepo&utm_medium=web_bvm&utm_campaign=wsm_readme)
-3. [Smart Offers for WooCommerce](https://www.storeapps.org/product/smart-offers/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme) - WooCommerce One Click Upsell
-4. [Email Customizer for WooCommerce](https://www.storeapps.org/product/smart-emails/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-5. [WooCommerce Name Your Price Plugin](https://www.storeapps.org/product/offer-your-price/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-6. [Frequently Bought Together for WooCommerce](https://www.storeapps.org/product/frequently-bought-together-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-7. [Express Checkout for WooCommerce](https://www.storeapps.org/product/express-checkout-for-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-8. [WooCommerce Update Variations In Cart](https://www.storeapps.org/product/woocommerce-update-variations-in-cart/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
-9. [Express Login for WordPress](https://www.storeapps.org/product/express-login-for-wordpress/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme)
+1. [Offermative](https://wordpress.org/plugins/offermative-discount-pricing-related-products-upsell-funnels-for-woocommerce/) - Automated discount, related products recommendations, upsells for WooCommerce.
+2. [WooCommerce Bulk Variations Manager](https://www.storeapps.org/product/bulk-variations-manager/?utm_source=wprepo&utm_medium=web_bvm&utm_campaign=wsm_readme) - Create & set prices for thousands of product variations at once.
+3. [Smart Offers For WooCommerce](https://www.storeapps.org/product/smart-offers/?utm_source=wprepo&utm_medium=web_mb&utm_campaign=wsm_readme) - Targeted one-click upsells, BOGO, order bumps and Buy Now buttons for direct checkout.
+4. [Email Customizer for WooCommerce](https://www.storeapps.org/product/smart-emails/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme) - Customize default WooCommerce transactional emails to match your brand. Edit text, colors and other elements in a live preview.
+5. [WooCommerce Name Your Price Plugin](https://www.storeapps.org/product/offer-your-price/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme) - Create a pay what you want or a donation-based pricing system.
+6. [Frequently Bought Together For WooCommerce](https://www.storeapps.org/product/frequently-bought-together-woocommerce/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme) - Show users related products or recommendations to the product they are already viewing.
+7. [Express Login For WordPress](https://www.storeapps.org/product/express-login-for-wordpress/?utm_source=wprepo&utm_medium=web_se&utm_campaign=wsm_readme) - Create secure, auto-login links for WordPress and WooCommerce without the need for a username and password.
 
 [Check out all our WooCommerce plugins](https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web_others&utm_campaign=wsm_readme)
 
@@ -151,6 +150,11 @@ Be sure, that you have active stock manager.
 4. Product stock as on date
 
 == Changelog ==
+= 2.9.0 (20.10.2022) =
+* New: WooCommerce 7.0.0 compatible
+* New: WordPress 6.0.3 compatible
+* Update: Readme file changes
+* Update: POT file
 
 = 2.8.3 (18.11.2021) =
 * New: WooCommerce 5.9.0 compatible
@@ -283,6 +287,9 @@ Be sure, that you have active stock manager.
 For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/woocommerce-stock-manager/trunk/changelog.txt) file.
 
 == Upgrade Notice ==
+
+= 2.9.0 =
+WooCommerce 7.0.0 compatible, WordPress 6.0.3 compatible, Readme file changes, POT file
 
 = 2.8.3 =
 WooCommerce 5.9.0 compatible

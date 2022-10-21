@@ -91,9 +91,12 @@ private function get_custom_attributes() {
 				$posts     = get_posts( array( 'post_type' => $post_type, 'numberposts' => -1 ) );
 			}
 
-        		foreach ( $posts as $post ) {
+			foreach ( $posts as $post ) {
 				$post_meta_keys = get_post_custom_keys( $post->ID );
-            			$meta_keys      = array_merge( $meta_keys, $post_meta_keys );
+				if(empty($post_meta_keys)){
+					$post_meta_keys = array();
+				}
+				$meta_keys      = array_merge( $meta_keys, $post_meta_keys );
         		}
 
         		// Use array_unique to remove duplicate meta_keys that we received from all posts

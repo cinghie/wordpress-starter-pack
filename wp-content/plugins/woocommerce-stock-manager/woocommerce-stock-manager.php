@@ -3,21 +3,21 @@
  * Plugin Name: Stock Manager for WooCommerce
  * Plugin URI: https://www.storeapps.org/woocommerce-plugins/
  * Description: Manage product's stock and price in your WooCommerce store. Export/Import inventory, track history, sort and more...
- * Version: 2.8.3
+ * Version: 2.9.0
  * Author: StoreApps
  * Author URI: https://www.storeapps.org/
  * Developer: StoreApps
  * Developer URI: https://www.storeapps.org/
  * Requires at least: 5.0.0
- * Tested up to: 5.8.2
+ * Tested up to: 6.0.3
  * Requires PHP: 5.6+
  * WC requires at least: 3.5.0
- * WC tested up to: 5.9.0
+ * WC tested up to: 7.0.0
  * Text Domain: woocommerce-stock-manager
  * Domain Path: /languages/
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
- * Copyright (c) 2020-2021 StoreApps. All rights reserved.
+ * Copyright (c) 2020-2022 StoreApps. All rights reserved.
  *
  * @package woocommerce-stock-manager
  */
@@ -391,3 +391,56 @@ function get_woocommerce_stock_manager_plugin_version() {
 
 	return $plugin_version;
 }
+
+/**
+ * Function to check if WSM admin page.
+ */
+function is_wsm_admin_page() {
+	$page = ( ! empty( $_GET['page'] ) ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore
+	if ( 'stock-manager' === $page || 'stock-manager-import-export' === $page || 'stock-manager-log' === $page || 'stock-manager-setting' === $page || 'stock-manager-storeapps-plugins' === $page ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Function to show SA in app offers in WSM if any.
+ *
+ * @since: 2.5.2.
+ */
+function wsm_may_be_show_sa_in_app_offer() {
+
+	if ( ! class_exists( 'SA_WSM_In_App_Offer' ) && file_exists( STOCKDIR . 'sa-includes/class-sa-wsm-in-app-offer.php' ) ) {
+		include_once STOCKDIR . 'sa-includes/class-sa-wsm-in-app-offer.php';
+
+		$is_wsm_admin = is_wsm_admin_page();
+
+		$args     = array(
+			'file'           => STOCKDIR . 'sa-includes/',
+			'prefix'         => 'wsm',              // prefix/slug of your plugin.
+			'option_name'    => 'sa_wsm_offer_halloween_2022',
+			'campaign'       => 'sa_halloween_2022',
+			'start'          => '2022-10-28 13:30:00',
+			'end'            => '2022-11-03 06:00:00',
+			'is_plugin_page' => $is_wsm_admin ? true : false,   // page where you want to show offer, do not send this if no plugin page is there and want to show offer on Products page.
+		);
+		$sa_offer = SA_WSM_In_App_Offer::get_instance( $args );
+	}
+}
+add_action( 'plugins_loaded', 'wsm_may_be_show_sa_in_app_offer' );
+
+
+/**
+ * Action for WooCommerce v7.1 custom order tables related compatibility.
+ *
+ * @since: 2.9.0.
+*/
+add_action(
+	'before_woocommerce_init',
+	function() {
+		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, false );
+		}
+	}
+);

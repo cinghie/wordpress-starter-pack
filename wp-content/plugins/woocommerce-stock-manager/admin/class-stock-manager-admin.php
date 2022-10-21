@@ -3,7 +3,7 @@
  * Main class for Stock Manager.
  *
  * @package  woocommerce-stock-manager/admin/
- * @version  2.8.3
+ * @version  2.8.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -44,13 +44,9 @@ class Stock_Manager_Admin {
 
 		add_action( 'admin_notices', array( $this, 'includes' ) );
 
-		add_action( 'admin_init', array( $this, 'wsm_dismiss_admin_notice' ) );
-
 		// To update footer text on WSM screens.
 		add_filter( 'admin_footer_text', array( $this, 'wsm_footer_text' ), 99999 );
 		add_filter( 'update_footer', array( $this, 'wsm_update_footer_text' ), 99999 );
-
-		$this->may_be_show_sa_in_app_offer();
 	}
 
 	/**
@@ -72,22 +68,11 @@ class Stock_Manager_Admin {
 	 * Include required core files used in admin.
 	 */
 	public function includes() {
-		$is_wsm_admin = $this->is_wsm_admin_page();
+		$is_wsm_admin = is_wsm_admin_page();
 		if ( $is_wsm_admin ) {
 			$this->wsm_add_subscribe_notice();
 
 		}
-	}
-
-	/**
-	 * Function to check if WSM admin page.
-	 */
-	public function is_wsm_admin_page() {
-		if ( 'stock-manager' === $this->page || 'stock-manager-import-export' === $this->page || 'stock-manager-log' === $this->page || 'stock-manager-setting' === $this->page || 'stock-manager-storeapps-plugins' === $this->page ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -186,7 +171,7 @@ class Stock_Manager_Admin {
 		// Klawoo subscribe.
 		$wsm_dismiss_admin_notice = get_option( 'wsm_dismiss_subscribe_admin_notice', false );
 		if ( empty( $wsm_dismiss_admin_notice ) ) {
-			$is_wsm_admin = $this->is_wsm_admin_page();
+			$is_wsm_admin = is_wsm_admin_page();
 			if ( $is_wsm_admin ) {
 				$params = array(
 					'ajax_nonce' => wp_create_nonce( 'wsm_update' ),
@@ -333,46 +318,6 @@ class Stock_Manager_Admin {
 	}
 
 	/**
-	 * Function to show SA in app offers in WSM if any.
-	 *
-	 * @since: 2.5.2.
-	 */
-	public function may_be_show_sa_in_app_offer() {
-		if ( ! class_exists( 'SA_In_App_Offers' ) ) {
-			include_once STOCKDIR . 'sa-includes/class-sa-in-app-offers.php';
-
-			$is_wsm_admin = $this->is_wsm_admin_page();
-
-			$args = array(
-				'file'           => WSM_PLUGIN_FILE,
-				'prefix'         => 'wsm',
-				'option_name'    => 'sa_offer_bfcm_2021_wsm',
-				'campaign'       => 'sa_halloween_2021',
-				'start'          => '2021-11-23 06:30:00',
-				'end'            => '2021-12-02 06:30:00',
-				'is_plugin_page' => $is_wsm_admin ? true : false,
-			);
-
-			SA_In_App_Offers::get_instance( $args );
-		}
-	}
-
-	/**
-	 * Function to dismiss admin notice.
-	 */
-	public function wsm_dismiss_admin_notice() {
-		$dismiss_wsm_notice = ( ! empty( $_GET['wsm_dismiss_admin_notice'] ) ) ? wc_clean( wp_unslash( $_GET['wsm_dismiss_admin_notice'] ) ) : ''; // phpcs:ignore
-		$option_name        = ( ! empty( $_GET['option_name'] ) ) ? wc_clean( wp_unslash( $_GET['option_name'] ) ) : ''; // phpcs:ignore
-		if ( '1' === $dismiss_wsm_notice && $option_name ) {
-			update_option( $option_name . '_wsm', 'no', 'no' );
-			$referer = wp_get_referer();
-			wp_safe_redirect( $referer );
-			exit();
-		}
-
-	}
-
-	/**
 	 * Function to show notice in the admin.
 	 */
 	public function wsm_add_subscribe_notice() {
@@ -470,7 +415,7 @@ class Stock_Manager_Admin {
 	 */
 	public function wsm_footer_text( $wsm_rating_text ) {
 
-		$is_wsm_admin = $this->is_wsm_admin_page();
+		$is_wsm_admin = is_wsm_admin_page();
 		if ( $is_wsm_admin ) {
 			/* translators: %1$s & %2$s: Opening & closing strong tag. %3$s: link to Stock Manager for WooCommerce on WordPress.org */
 			$wsm_rating_text = sprintf( __( 'If you are liking %1$sStock Manager for WooCommerce%2$s, please rate us %3$s. A huge thanks from StoreApps in advance!', 'woocommerce-stock-manager' ), '<strong>', '</strong>', '<a target="_blank" href="' . esc_url( 'https://wordpress.org/support/plugin/woocommerce-stock-manager/reviews/?filter=5' ) . '" style="color: #5850EC;">5-star</a>' );
@@ -488,7 +433,7 @@ class Stock_Manager_Admin {
 	 */
 	public function wsm_update_footer_text( $wsm_text ) {
 
-		$is_wsm_admin = $this->is_wsm_admin_page();
+		$is_wsm_admin = is_wsm_admin_page();
 		if ( $is_wsm_admin ) {
 			$wsm_text = 'Installed Version: ' . WSM_PLUGIN_VERSION;
 			?>

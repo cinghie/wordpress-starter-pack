@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.0
-Stable tag: 11.9.2
+Stable tag: 11.9.5
 
 == Description ==
 
@@ -339,6 +339,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 11.9.5 (2022-10-20) =
+* Solved a PHP warning for yoast attributes
+
+= 11.9.4 (2022-10-19) =
+* Solved a PHP warning for an undefined variable
+
+= 11.9.3 (2022-10-15) =
+* Solved a fatal array merge error
 
 = 11.9.2 (2022-10-14) =
 * Removed some autoloading on wp_options
@@ -3805,6 +3814,15 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 11.9.5 =
+Solved a PHP warning for yoast attributes
+
+= 11.9.4 =
+Solved a PHP warning for an undefined variable
+
+= 11.9.3 =
+Solved a fatal array merge error
 
 = 11.9.2 =
 Removed some autoloading on wp_options

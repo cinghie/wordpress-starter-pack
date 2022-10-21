@@ -276,19 +276,31 @@ class WooSEA_Get_Products {
 					if($value->name == "wpseo_global_identifier_values"){
 						$type_expl = explode("\";", $value->type);
 
-						$yoast_gtin8_value = explode(":\"", $type_expl[1]);
-						$yoast_gtin12_value = explode(":\"", $type_expl[3]);
-						$yoast_gtin13_value = explode(":\"", $type_expl[5]);
-						$yoast_gtin14_value = explode(":\"", $type_expl[7]);
-						$yoast_isbn_value = explode(":\"", $type_expl[9]);
-						$yoast_mpn_value = explode(":\"", $type_expl[11]);
+						$yoast_gtin8_value = @explode(":\"", $type_expl[1]);
+						$yoast_gtin12_value = @explode(":\"", $type_expl[3]);
+						$yoast_gtin13_value = @explode(":\"", $type_expl[5]);
+						$yoast_gtin14_value = @explode(":\"", $type_expl[7]);
+						$yoast_isbn_value = @explode(":\"", $type_expl[9]);
+						$yoast_mpn_value = @explode(":\"", $type_expl[11]);
 
-						$list["yoast_gtin8"] = $yoast_gtin8_value[1];
-						$list["yoast_gtin12"] = $yoast_gtin12_value[1];
-						$list["yoast_gtin13"] = $yoast_gtin13_value[1];
-						$list["yoast_gtin14"] = $yoast_gtin14_value[1];
-						$list["yoast_isbn"] = $yoast_isbn_value[1];
-						$list["yoast_mpn"] = $yoast_mpn_value[1];
+						if(isset($yoast_gtin8_value[1])){
+							$list["yoast_gtin8"] = $yoast_gtin8_value[1];
+						}
+						if(isset($yoast_gtin12_value[1])){
+							$list["yoast_gtin12"] = $yoast_gtin12_value[1];
+						}
+						if(isset($yoast_gtin13_value[1])){
+							$list["yoast_gtin13"] = $yoast_gtin13_value[1];
+						}	
+						if(isset($yoast_gtin14_value[1])){
+							$list["yoast_gtin14"] = $yoast_gtin14_value[1];
+						}
+						if(isset($yoast_isbn_value[1])){
+							$list["yoast_isbn"] = $yoast_isbn_value[1];
+						}
+						if(isset($yoast_mpn_value[1])){
+							$list["yoast_mpn"] = $yoast_mpn_value[1];
+						}	
 					}	
 				} else {
 					$product_attr = unserialize($value->type);
@@ -4561,28 +4573,30 @@ class WooSEA_Get_Products {
                                                         $product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], ",");
                                                         $product_data[$sz_attribute] = ltrim($product_data[$sz_attribute], ",");
 
-                                                        foreach($variations_id as $var_id){
-                                                                $size_variation = get_post_meta( $var_id, "attribute_".$sz_attribute, true );
-                                                                $product_excluded = ucfirst( get_post_meta( $var_id, '_woosea_exclude_product', true ) );
+							foreach($variations_id as $var_id){
+								if(isset($sz_attribute)){
+                                                                	$size_variation = get_post_meta( $var_id, "attribute_".$sz_attribute, true );
+                                                                	$product_excluded = ucfirst( get_post_meta( $var_id, '_woosea_exclude_product', true ) );
 
-                                                                if( $product_excluded == "Yes"){
-                                                                        // Remove this size as it is has been set to be excluded from feeds
-                                                                        if(array_key_exists($sz_attribute, $product_data)){
-                                                                                $new_size = "";
-                                                                                foreach($enabled_sizes as $siz){
-                                                                                        $siz = trim($siz, " ");
-                                                                                        $size_variation = trim($size_variation, " ");
-                                                                                        if($siz <> strtoupper($size_variation)){
-                                                                                                $new_size .= " ".$siz.",";
-                                                                                        }
-                                                                                }
-                                                                                $product_data[$sz_attribute] = $new_size;
-                                                                                $product_data[$sz_attribute] = str_replace(", , ",",",$product_data[$sz_attribute]);
-                                                                                $product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], " ");
-                                                                                $product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], ",");
-                                                                                $product_data[$sz_attribute] = ltrim($product_data[$sz_attribute], ",");
-                                                                        }
-                                                                }
+                                                                	if( $product_excluded == "Yes"){
+                                                                        	// Remove this size as it is has been set to be excluded from feeds
+                                                                        	if(array_key_exists($sz_attribute, $product_data)){
+                                                                                	$new_size = "";
+                                                                                	foreach($enabled_sizes as $siz){
+                                                                                        	$siz = trim($siz, " ");
+                                                                                        	$size_variation = trim($size_variation, " ");
+                                                                                        	if($siz <> strtoupper($size_variation)){
+                                                                                                	$new_size .= " ".$siz.",";
+                                                                                        	}
+                                                                                	}
+                                                                                	$product_data[$sz_attribute] = $new_size;
+                                                                                	$product_data[$sz_attribute] = str_replace(", , ",",",$product_data[$sz_attribute]);
+                                                                                	$product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], " ");
+                                                                                	$product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], ",");
+                                                                                	$product_data[$sz_attribute] = ltrim($product_data[$sz_attribute], ",");
+                                                                        	}
+									}
+								}
                                                         }
 						}
 					}
