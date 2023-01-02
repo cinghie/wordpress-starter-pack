@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     11.9.5
+ * Version:     12.1.3
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -11,13 +11,13 @@
  * License:     GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.5
- * Tested up to: 6.0
+ * Tested up to: 6.1
  *
  * Text Domain: woo-product-feed-pro
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 6.8
+ * WC tested up to: 7.2
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '11.9.5' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '12.1.3' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -71,15 +71,19 @@ if ( ! defined( 'WOOCOMMERCESEA_PLUGIN_URL' ) ) {
 /**
  * Enqueue css assets
  */
-function woosea_styles() {
-        wp_register_style( 'woosea_admin-css', plugins_url( '/css/woosea_admin.css', __FILE__ ), '',WOOCOMMERCESEA_PLUGIN_VERSION );
-        wp_enqueue_style( 'woosea_admin-css' );
+function woosea_styles($hook) {
 
-        wp_register_style( 'woosea_jquery_ui-css', plugins_url( '/css/jquery-ui.css', __FILE__ ), '',WOOCOMMERCESEA_PLUGIN_VERSION );
-        wp_enqueue_style( 'woosea_jquery_ui-css' );
+        // Only register and enqueue CSS scripts from within the plugin itself
+        if (preg_match("/product-feed-pro/i",$hook)){
+        	wp_register_style( 'woosea_admin-css', plugins_url( '/css/woosea_admin.css', __FILE__ ), '',WOOCOMMERCESEA_PLUGIN_VERSION );
+        	wp_enqueue_style( 'woosea_admin-css' );
 
-        wp_register_style( 'woosea_jquery_typeahead-css', plugins_url( '/css/jquery.typeahead.css', __FILE__ ), '',WOOCOMMERCESEA_PLUGIN_VERSION );
-        wp_enqueue_style( 'woosea_jquery_typeahead-css' );
+        	wp_register_style( 'woosea_jquery_ui-css', plugins_url( '/css/jquery-ui.css', __FILE__ ), '',WOOCOMMERCESEA_PLUGIN_VERSION );
+        	wp_enqueue_style( 'woosea_jquery_ui-css' );
+
+        	wp_register_style( 'woosea_jquery_typeahead-css', plugins_url( '/css/jquery.typeahead.css', __FILE__ ), '',WOOCOMMERCESEA_PLUGIN_VERSION );
+		wp_enqueue_style( 'woosea_jquery_typeahead-css' );
+	}
 }
 add_action( 'admin_enqueue_scripts' , 'woosea_styles' );
 
@@ -256,6 +260,9 @@ function woosea_add_facebook_pixel( $product = null ){
 			$fb_capi_data["event_time"] = time();
 			$fb_capi_data["event_id"] = $event_id;
 			$fb_capi_data["user_data"]["client_ip_address"] = WC_Geolocation::get_ip_address();
+			if(!isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
+				$_SERVER['HTTP_USER_AGENT'] = "Unknown";	
+			}	
 			$fb_capi_data["user_data"]["client_user_agent"] = sanitize_text_field($_SERVER['HTTP_USER_AGENT']);
 			$fb_capi_data["action_source"] = "website";	
 			$fb_capi_data["event_source_url"] = sanitize_text_field(home_url($_SERVER['REQUEST_URI']));
@@ -1239,7 +1246,10 @@ function woosea_product_delete_meta_price( $product = null ) {
 			$mpn = get_post_meta( $product_id, '_woosea_mpn', true );
 	
 			// Get product condition
-			$condition = ucfirst( get_post_meta( $product_id, '_woosea_condition', true ) );
+			$first_condition = get_post_meta( $product_id, '_woosea_condition', true );
+			if(is_string($first_condition)){
+				$condition = ucfirst( $first_condition );
+			}
 
 			if(!$condition){
 				$json_condition = "NewCondition";

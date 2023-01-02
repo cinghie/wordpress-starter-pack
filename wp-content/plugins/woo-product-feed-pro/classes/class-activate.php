@@ -74,7 +74,7 @@ class WooSEA_Activation {
 					"type" => "Advertising" ),
                  		"Facebook Catalog Feed / Instagram" => array (
                         		"channel_hash" => md5("Facebook Remarketing"),
-                        		"name" => "Facebook Catalog Feed / Instagram",
+                        		"name" => "Meta / Facebook Catalog Feed / Instagram",
 					"fields" => "facebook_drm",
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Facebook Catalog Feed",

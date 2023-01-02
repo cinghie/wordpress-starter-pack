@@ -14,7 +14,7 @@ use WooCommerce\PayPalCommerce\ApiClient\Helper\DccApplies;
 use WooCommerce\PayPalCommerce\Button\Helper\MessagesApply;
 use WooCommerce\PayPalCommerce\Onboarding\State;
 use WooCommerce\PayPalCommerce\WcGateway\Gateway\CreditCardGateway;
-use Psr\Container\ContainerInterface;
+use WooCommerce\PayPalCommerce\Vendor\Psr\Container\ContainerInterface;
 use WooCommerce\PayPalCommerce\WcGateway\Helper\DCCProductStatus;
 use WooCommerce\PayPalCommerce\WcGateway\Gateway\PayPalGateway;
 use WooCommerce\PayPalCommerce\WcGateway\Helper\SettingsStatus;
@@ -164,9 +164,9 @@ class SettingsRenderer {
 	}
 
 	/**
-	 * Check if current screen is PayPal checkout settings screen.
+	 * Check if current screen is Standard Payments settings screen.
 	 *
-	 * @return bool Whether is PayPal checkout screen or not.
+	 * @return bool Whether is Standard Payments screen or not.
 	 */
 	private function is_paypal_checkout_screen(): bool {
 		return PayPalGateway::ID === $this->page_id;
@@ -514,7 +514,7 @@ $data_rows_html
 	/**
 	 * Renders the DCC onboarding info.
 	 */
-	private function render_dcc_onboarding_info() {
+	private function render_dcc_onboarding_info(): void {
 		?>
 <tr>
 	<th><?php esc_html_e( 'Onboarding', 'woocommerce-paypal-payments' ); ?></th>
@@ -522,7 +522,7 @@ $data_rows_html
 	<p>
 		<?php
 			esc_html_e(
-				'You need to complete your onboarding, before you can use the PayPal Card Processing option.',
+				'You need to complete your onboarding, before you can use the Advanced Card Processing option.',
 				'woocommerce-paypal-payments'
 			);
 		?>
@@ -578,7 +578,7 @@ $data_rows_html
 		}
 
 		return $this->is_paypal_checkout_screen()
-			&& ( $this->paypal_vaulting_is_enabled() || $this->settings_status->pay_later_messaging_is_enabled() );
+			&& ( $this->paypal_vaulting_is_enabled() || $this->settings_status->is_pay_later_messaging_enabled() );
 	}
 }
 

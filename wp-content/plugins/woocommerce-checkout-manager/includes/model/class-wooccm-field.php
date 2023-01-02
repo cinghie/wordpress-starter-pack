@@ -140,6 +140,7 @@ class WOOCCM_Field extends WOOCCM_Model {
 			'priority'                 => null,
 			'label'                    => '',
 			'placeholder'              => '',
+			'validate_regex'                  => '',
 			'description'              => '',
 			'default'                  => '',
 			'position'                 => '',
@@ -215,8 +216,9 @@ class WOOCCM_Field extends WOOCCM_Model {
 			'select2_search'           => false,
 			// Upload
 			// -------------------------------------------------------------------
-			'file_limit'               => 1,
+			'file_limit'               => 4,
 			'file_types'               => array(),
+			'file_max_size'            => wp_max_upload_size() / 1024,
 			// Color
 			// -------------------------------------------------------------------
 			'pickertype'               => '',
@@ -242,7 +244,7 @@ class WOOCCM_Field extends WOOCCM_Model {
 		 */
 		$form_action = WOOCCM_Field_Helpers::get_form_action();
 
-		if ( ! $form_action && $this->prefix !== 'additional' ) {
+		if ( $form_action !== 'account' && $this->prefix !== 'additional' ) {
 
 			$prefix = sprintf( '%s_', $this->prefix );
 

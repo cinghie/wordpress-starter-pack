@@ -34,12 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <?php endforeach; ?>
 
-					<hr>
-					<div class="row justify-content-center">
-						<div class="col-4">
-							<button class="btn btn-block btn-sm btn-save">Save Settings</button>
-						</div>
-					</div>
 
 				</form>
 			</div>

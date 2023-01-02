@@ -165,7 +165,9 @@ class Stock_Manager_Admin {
 				)
 			);
 
-			wp_set_script_translations( 'woocommerce-stock-manager-admin-script-react', 'stock-manager', STOCKDIR . 'languages' );
+			if ( function_exists( 'wp_set_script_translations' ) ) {
+				wp_set_script_translations( 'woocommerce-stock-manager-admin-script-react', 'stock-manager', STOCKDIR . 'languages' );
+			}
 		}
 
 		// Klawoo subscribe.

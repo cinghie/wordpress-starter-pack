@@ -29,7 +29,13 @@ class IS_Settings_Fields
      */
     public function __construct()
     {
-        $this->opt = Ivory_Search::load_options();
+        
+        if ( empty($this->opt) ) {
+            $is_menu_search = get_option( 'is_menu_search', array() );
+            $is_settings = get_option( 'is_settings', array() );
+            $this->opt = array_merge( (array) $is_settings, (array) $is_menu_search );
+        }
+    
     }
     
     /**

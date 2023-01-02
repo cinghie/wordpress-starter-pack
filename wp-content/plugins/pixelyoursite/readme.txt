@@ -3,8 +3,8 @@ Contributors: PixelYourSite
 Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel Events, Facebook Dynamic Product Ads, Facebook Conversion Value, WooCommerce Facebook Pixel, Easy Digital Downloads Facebook Pixel, Google Analytics, Google Analytics Enhanced Ecommerce, GA4, WooCommerce Google Analytics, Easy Digital Downloads Google Analytics, head & footer scripts, Pinterest tag
 Requires at least: 3.0.1
 Requires PHP: 5.4
-Tested up to: 6.0
-Stable tag: 9.2.0
+Tested up to: 6.1
+Stable tag: 9.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -466,6 +466,41 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+= PixelYourSite 9.2.2 =
+
+* New: hide the plugin for known web crawlers. This can prevent certain Ajax AddToCart WooCommerce buttons to fire CAPI events because of crawlers.
+
+* New: hide the plugin for custom IP addresses. 
+
+* Track WooCommerce’s extra data (traffic source, landing pages, UTMs) even when no tag is installed in the plugin.
+
+* Confirmation dialog when deleting events on the plugin’s Events page.
+
+* Google Consent Mode compatibility with ConsentMagic.
+
+* Fix for a problem with Meta AddToCart IDs for WooCommerce variable items when SKU is used.
+
+* Fix for a conflict with Bricksbuilder editor.
+
+* Some other small changes and code improvements.
+
+* WooCommerce 7.1 compatibility.
+
+* WordPress 6.1 compatibility.
+
+
+= PixelYourSite 9.2.1 =
+
+* Improvements on how the plugins tracks and sends fbp and fbc for Meta CAPI events. In time, this will lead to an improved EMQ score and overall better ads attribution.
+
+* New option to remove the post_category parameter, as required by some users.
+
+* UI changes to reflect new features in the PRO version of the plugin: Advanced user-data detection for forms.
+
+* Updates to our notifications. We now show a number of notifications with tips about the plugin and tracking in general. These notifications can be close individually. Each notification has a button that will turn OFF all notifications at once.
+
+* WooCommerce 7.0 compatibility.
 
 
 = PixelYourSite 9.2.0 =

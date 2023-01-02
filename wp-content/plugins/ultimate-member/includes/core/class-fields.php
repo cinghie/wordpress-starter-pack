@@ -86,9 +86,15 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			}
 
 			foreach ( $social as $k => $arr ) {
-				if ( um_profile( $k ) ) { ?>
+				if ( um_profile( $k ) ) {
+					if ( array_key_exists( 'match' , $arr ) ) {
+						$match = is_array( $arr['match'] ) ? $arr['match'][0] : $arr['match'];
+					} else {
+						$match = null;
+					}
+					?>
 
-					<a href="<?php echo esc_url( um_filtered_social_link( $k, $arr['match'] ) ); ?>"
+					<a href="<?php echo esc_url( um_filtered_social_link( $k, $match ) ); ?>"
 					   style="background: <?php echo esc_attr( $arr['color'] ); ?>;" target="_blank" class="um-tip-n"
 					   title="<?php echo esc_attr( $arr['title'] ); ?>"><i class="<?php echo esc_attr( $arr['icon'] ); ?>"></i></a>
 
@@ -111,7 +117,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			$output = null;
 
 			foreach ( $fields as $key => $data ) {
-				$output .= UM()->fields()->edit_field( $key, $data );
+				$output .= $this->edit_field( $key, $data );
 			}
 
 			echo $output;
@@ -146,17 +152,19 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 			if ( array_key_exists( 'custom_dropdown_options_source', $args ) ) {
 				if ( function_exists( wp_unslash( $args['custom_dropdown_options_source'] ) ) ) {
-					$allowed_callbacks = UM()->options()->get( 'allowed_choice_callbacks' );
-					if ( ! empty( $allowed_callbacks ) ) {
-						$allowed_callbacks = array_map( 'rtrim', explode( "\n", $allowed_callbacks ) );
-						$allowed_callbacks[] = $args['custom_dropdown_options_source'];
-					} else {
-						$allowed_callbacks = array( $args['custom_dropdown_options_source'] );
-					}
-					$allowed_callbacks = array_unique( $allowed_callbacks );
-					$allowed_callbacks = implode( "\r\n", $allowed_callbacks );
+					if ( ! $this->is_source_blacklisted( $args['custom_dropdown_options_source'] ) ) {
+						$allowed_callbacks = UM()->options()->get( 'allowed_choice_callbacks' );
+						if ( ! empty( $allowed_callbacks ) ) {
+							$allowed_callbacks = array_map( 'rtrim', explode( "\n", $allowed_callbacks ) );
+							$allowed_callbacks[] = $args['custom_dropdown_options_source'];
+						} else {
+							$allowed_callbacks = array( $args['custom_dropdown_options_source'] );
+						}
+						$allowed_callbacks = array_unique( $allowed_callbacks );
+						$allowed_callbacks = implode( "\r\n", $allowed_callbacks );
 
-					UM()->options()->update( 'allowed_choice_callbacks', $allowed_callbacks );
+						UM()->options()->update( 'allowed_choice_callbacks', $allowed_callbacks );
+					}
 				}
 			}
 
@@ -201,19 +209,21 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 			if ( array_key_exists( 'custom_dropdown_options_source', $args ) ) {
 				if ( function_exists( wp_unslash( $args['custom_dropdown_options_source'] ) ) ) {
-					$allowed_callbacks = UM()->options()->get( 'allowed_choice_callbacks' );
-					if ( ! empty( $allowed_callbacks ) ) {
-						$allowed_callbacks = array_map( 'rtrim', explode( "\n", $allowed_callbacks ) );
-						$allowed_callbacks[] = $args['custom_dropdown_options_source'];
-					} else {
-						$allowed_callbacks = array( $args['custom_dropdown_options_source'] );
+					if ( ! $this->is_source_blacklisted( $args['custom_dropdown_options_source'] ) ) {
+						$allowed_callbacks = UM()->options()->get( 'allowed_choice_callbacks' );
+						if ( ! empty( $allowed_callbacks ) ) {
+							$allowed_callbacks = array_map( 'rtrim', explode( "\n", $allowed_callbacks ) );
+							$allowed_callbacks[] = $args['custom_dropdown_options_source'];
+						} else {
+							$allowed_callbacks = array( $args['custom_dropdown_options_source'] );
+						}
+						$allowed_callbacks = array_unique( $allowed_callbacks );
+						$allowed_callbacks = implode( "\r\n", $allowed_callbacks );
+
+						UM()->options()->update( 'allowed_choice_callbacks', $allowed_callbacks );
+
+						$args['custom_dropdown_options_source'] = wp_unslash( $args['custom_dropdown_options_source'] );
 					}
-					$allowed_callbacks = array_unique( $allowed_callbacks );
-					$allowed_callbacks = implode( "\r\n", $allowed_callbacks );
-
-					UM()->options()->update( 'allowed_choice_callbacks', $allowed_callbacks );
-
-					$args['custom_dropdown_options_source'] = wp_unslash( $args['custom_dropdown_options_source'] );
 				}
 			}
 
@@ -1291,6 +1301,37 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			return '';
 		}
 
+		/**
+		 * Getting the blacklist of the functions that cannot be used as callback.
+		 * All internal PHP functions are insecure for using inside callback functions.
+		 *
+		 * @return array
+		 */
+		public function dropdown_options_source_blacklist() {
+			$list      = get_defined_functions();
+			$blacklist = ! empty( $list['internal'] ) ? $list['internal'] : array();
+			$blacklist = apply_filters( 'um_dropdown_options_source_blacklist', $blacklist );
+			return $blacklist;
+		}
+
+		/**
+		 * Is the dropdown source callback function blacklisted?
+		 *
+		 * @param string $source Function name
+		 *
+		 * @return bool
+		 */
+		public function is_source_blacklisted( $source ) {
+			// avoid using different letter case for bypass the blacklist e.g. phpInfo
+			// avoid using root namespace for bypass the blacklist e.g. \phpinfo
+			$source = trim( strtolower( $source ), '\\' );
+
+			if ( in_array( $source, $this->dropdown_options_source_blacklist(), true ) ) {
+				return true;
+			}
+
+			return false;
+		}
 
 		/**
 		 * Gets selected option value from a callback function
@@ -1304,6 +1345,10 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		function get_option_value_from_callback( $value, $data, $type ) {
 
 			if ( in_array( $type, array( 'select', 'multiselect' ) ) && ! empty( $data['custom_dropdown_options_source'] ) ) {
+
+				if ( $this->is_source_blacklisted( $data['custom_dropdown_options_source'] ) ) {
+					return $value;
+				}
 
 				$has_custom_source = apply_filters( "um_has_dropdown_options_source__{$data['metakey']}", false );
 
@@ -1371,6 +1416,10 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			$arr_options = array();
 
 			if ( in_array( $type, array( 'select', 'multiselect' ) ) && ! empty( $data['custom_dropdown_options_source'] ) ) {
+
+				if ( $this->is_source_blacklisted( $data['custom_dropdown_options_source'] ) ) {
+					return $arr_options;
+				}
 
 				if ( function_exists( $data['custom_dropdown_options_source'] ) ) {
 					if ( isset( $data['parent_dropdown_relationship'] ) ) {
@@ -3037,7 +3086,9 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 						if ( ! empty( $data['custom_dropdown_options_source'] ) && $has_parent_option && function_exists( $data['custom_dropdown_options_source'] ) &&
 							um_user( $data['parent_dropdown_relationship'] )
 						) {
-							$options = call_user_func( $data['custom_dropdown_options_source'], $data['parent_dropdown_relationship'] );
+							if ( ! $this->is_source_blacklisted( $data['custom_dropdown_options_source'] ) ) {
+								$options = call_user_func( $data['custom_dropdown_options_source'], $data['parent_dropdown_relationship'] );
+							}
 
 							$disabled_by_parent_option = '';
 							if ( um_user( $form_key ) ) {
@@ -3053,10 +3104,11 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 					// Child dropdown
 					if ( $has_parent_option ) {
-
 						if ( ! empty( $data['custom_dropdown_options_source'] ) && $has_parent_option &&
 							 function_exists( $data['custom_dropdown_options_source'] ) && isset( UM()->form()->post_form[ $form_key ] ) ) {
-							$options = call_user_func( $data['custom_dropdown_options_source'], $data['parent_dropdown_relationship'] );
+							if ( ! $this->is_source_blacklisted( $data['custom_dropdown_options_source'] ) ) {
+								$options = call_user_func( $data['custom_dropdown_options_source'], $data['parent_dropdown_relationship'] );
+							}
 						}
 					}
 
@@ -3576,7 +3628,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 							$i++;
 							if ($i % 2 == 0) {
-								$col_class = 'right';
+								$col_class = ' right ';
 							} else {
 								$col_class = '';
 							}
@@ -3703,7 +3755,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 
 						$i++;
 						if ( $i % 2 == 0 ) {
-							$col_class = 'right';
+							$col_class = ' right ';
 						} else {
 							$col_class = '';
 						}

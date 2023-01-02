@@ -537,10 +537,9 @@ var YITH_WCAN_Dropdown = /*#__PURE__*/function () {
           $search = $('<input/>', {
         name: 's',
         "class": 'search-field',
-        autocomplete: 'off',
         type: 'search',
         placeholder: this.options.labels.searchPlaceholder
-      });
+      }).attr('autocomplete', 'off');
       $container.append($search).prependTo($dropdwonSpan);
       this.$_search = $search;
     } // create showMore field
@@ -1371,7 +1370,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
 
         self.sliderTimeout = setTimeout(function () {
           self.maybeFilter($filter);
-        }, 200);
+        }, 300);
       };
 
       $filter.find('.price-slider-ui').ionRangeSlider({
@@ -1393,7 +1392,12 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
         },
         onFinish: handleSliderChange
       });
-      $minInput.add($maxInput).off('change').on('keyup', function () {
+      $minInput.add($maxInput).off('change').on('change', handleSliderChange).on('keyup', function (ev) {
+        if (!ev.key.match(/[0-9,.]/)) {
+          ev.preventDefault();
+          return false;
+        }
+
         if (!$minInput.val() || !$maxInput.val()) {
           return;
         }
@@ -1457,6 +1461,8 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
   }, {
     key: "_initToggle",
     value: function _initToggle($toggle, $container, $target) {
+      var _this4 = this;
+
       if ($container.hasClass('closed')) {
         $target.hide();
       }
@@ -1464,9 +1470,10 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
       $toggle.off('click').on('click', function (ev) {
         ev.stopPropagation();
         ev.preventDefault();
-        $target.slideToggle(400, function () {
-          $container.toggleClass('opened').toggleClass('closed');
-        });
+
+        _this4.toggle($target, $container);
+
+        $target.trigger('yith_wcan_after_toggle_element', [$container]);
       });
     } // init custom input
 
@@ -1562,7 +1569,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
   }, {
     key: "_addApplyFiltersModalButton",
     value: function _addApplyFiltersModalButton() {
-      var _this4 = this;
+      var _this5 = this;
 
       var $filterButton = $('<button/>', {
         "class": 'apply-filters main-modal-button',
@@ -1570,9 +1577,9 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
         'data-dismiss': 'modal'
       });
       $filterButton.appendTo(this.$preset).on('click', function () {
-        _this4.filter();
+        _this5.filter();
 
-        _this4.closeModal();
+        _this5.closeModal();
       });
       this.modalElements.applyFiltersButton = $filterButton;
     } // hide main filter button for the modal
@@ -1622,20 +1629,20 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
   }, {
     key: "_openAllCollapsables",
     value: function _openAllCollapsables() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.$filters.not('.no-title').not(function (i, v) {
-        return _this5.isFilterActive($(v));
+        return _this6.isFilterActive($(v));
       }).find('.filter-content').show().end().find('.filter-title').removeClass('closed').addClass('opened');
     } // close all collpasable before showing modal
 
   }, {
     key: "_closeAllCollapsables",
     value: function _closeAllCollapsables() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.$filters.not('.no-title').not(function (i, v) {
-        return _this6.isFilterActive($(v));
+        return _this7.isFilterActive($(v));
       }).find('.filter-content').hide().end().find('.filter-title').addClass('closed').removeClass('opened');
     } // update status change flag, if filters have changed
 
@@ -1673,11 +1680,11 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
     value: function filter() {
       var _window,
           _filter$doFilter,
-          _this7 = this;
+          _this8 = this;
 
       var filter = (_window = window) === null || _window === void 0 ? void 0 : _window.product_filter;
       filter === null || filter === void 0 ? void 0 : (_filter$doFilter = filter.doFilter(this.getFiltersProperties(), this.target, this.preset)) === null || _filter$doFilter === void 0 ? void 0 : _filter$doFilter.done(function () {
-        var newPreset = $(_this7.preset);
+        var newPreset = $(_this8.preset);
 
         if (newPreset.length && yith_wcan_shortcodes.scroll_top) {
           // by default, scroll till top of first preset in the page.
@@ -1687,7 +1694,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
             // when we have a specific target, use that for the offset.
             var $scrollTarget = $(yith_wcan_shortcodes.scroll_target);
             targetOffset = $scrollTarget.length ? $scrollTarget.offset().top : targetOffset;
-          } else if (_this7.isMobile) {
+          } else if (_this8.isMobile) {
             // otherwise, if we're on mobile, scroll to the top of the page
             // (preset could be in an unexpected location).
             targetOffset = 100;
@@ -1699,8 +1706,8 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
         } // register new filters, clear status flag
 
 
-        _this7.originalFilters = _this7.getFiltersProperties();
-        _this7.dirty = false;
+        _this8.originalFilters = _this8.getFiltersProperties();
+        _this8.dirty = false;
       });
 
       if (this.isMobile) {
@@ -2031,7 +2038,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
   }, {
     key: "maybeShowClearFilter",
     value: function maybeShowClearFilter($filter) {
-      var _this8 = this;
+      var _this9 = this;
 
       if (!this.isFilterActive($filter) || !yith_wcan_shortcodes.show_clear_filter) {
         return;
@@ -2047,12 +2054,12 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
       }).prependTo($filter.find('.filter-content')).on('click', function (ev) {
         ev.preventDefault();
 
-        _this8.deactivateFilter($filter, false, yith_wcan_shortcodes.instant_filters);
+        _this9.deactivateFilter($filter, false, yith_wcan_shortcodes.instant_filters);
 
-        _this8.maybeHideClearFilter($filter);
+        _this9.maybeHideClearFilter($filter);
 
         if (yith_wcan_shortcodes.instant_filters) {
-          _this8.closeModal();
+          _this9.closeModal();
         }
       });
     } // show clearAll anchor, when on mobile layout
@@ -2060,7 +2067,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
   }, {
     key: "maybeShowClearAllFilters",
     value: function maybeShowClearAllFilters() {
-      var _this9 = this;
+      var _this10 = this;
 
       if (!this.isAnyFilterActive() || !this.isMobile) {
         return;
@@ -2076,12 +2083,12 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
       }).prependTo(this.$preset.find('.filters-container')).on('click', function (ev) {
         ev.preventDefault();
 
-        _this9.deactivateAllFilters(yith_wcan_shortcodes.instant_filters);
+        _this10.deactivateAllFilters(yith_wcan_shortcodes.instant_filters);
 
-        _this9.maybeHideClearAllFilters();
+        _this10.maybeHideClearAllFilters();
 
         if (yith_wcan_shortcodes.instant_filters) {
-          _this9.closeModal();
+          _this10.closeModal();
         }
       });
     } // hide clear selection anchor
@@ -2309,12 +2316,76 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
         self.deactivateFilter($filter, properties, doFilter);
       });
       return true;
+    } // open toggle
+
+  }, {
+    key: "toggle",
+    value: function toggle($target, $container, status) {
+      if ('undefined' === typeof status) {
+        status = $container.hasClass('closed');
+      }
+
+      var method = status ? 'slideDown' : 'slideUp',
+          classToAdd = status ? 'opened' : 'closed',
+          classToRemove = status ? 'closed' : 'opened';
+      $target[method](400, function () {
+        $container.addClass(classToAdd).removeClass(classToRemove);
+        $target.trigger('yith_wcan_toggle_element', [$container, status]);
+      });
+    } // open filter if title is collapsable
+
+  }, {
+    key: "openFilter",
+    value: function openFilter($filter) {
+      var $title = $filter.find('.collapsable');
+
+      if (!$title.length) {
+        return;
+      }
+
+      this.toggle($filter.find('.filter-content'), $title, true);
+    } // open all filters in a preset
+
+  }, {
+    key: "openAllFilters",
+    value: function openAllFilters($filter) {
+      var self = this,
+          $filters = this.getFilters();
+      $filters.each(function () {
+        self.openFilter($(this));
+      });
+    } // close filter if title is collapsable
+
+  }, {
+    key: "closeFilter",
+    value: function closeFilter($filter) {
+      var $title = $filter.find('.collapsable');
+
+      if (!$title.length) {
+        return;
+      }
+
+      this.toggle($filter.find('.filter-content'), $title, false);
+    } // close all filters in a preset; if a specific filter is pased as parameter, system will keep it open
+
+  }, {
+    key: "closeAllFilters",
+    value: function closeAllFilters($filter) {
+      var self = this,
+          $filters = this.getFilters();
+      $filters.each(function () {
+        self.closeFilter($(this));
+      });
+
+      if ('undefined' !== typeof $filter) {
+        this.openFilter($filter);
+      }
     } // open filters as a modal, when in mobile layout
 
   }, {
     key: "openModal",
     value: function openModal() {
-      var _this10 = this;
+      var _this11 = this;
 
       if (!this.isMobile) {
         return;
@@ -2329,14 +2400,14 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
       $('body').css('overflow', 'hidden').addClass('yith-wcan-preset-modal-open');
       this.$preset.show();
       setTimeout(function () {
-        _this10.$preset.addClass('open');
+        _this11.$preset.addClass('open');
       }, 100);
     } // close filters modal, when in mobile layout
 
   }, {
     key: "closeModal",
     value: function closeModal() {
-      var _this11 = this;
+      var _this12 = this;
 
       if (!this.isMobile) {
         return;
@@ -2344,7 +2415,7 @@ var YITH_WCAN_Preset = /*#__PURE__*/function () {
 
       this.$preset.removeClass('open');
       setTimeout(function () {
-        _this11.$preset.hide();
+        _this12.$preset.hide();
 
         $('body').css('overflow', 'auto').removeClass('yith-wcan-preset-modal-open');
       }, 300);

@@ -101,7 +101,7 @@ class IS_Index_Matches {
 							case 'tax_desp':
 								$tax_query = $search_form->group_prop( '_is_includes', 'tax_query' );
 								$tax_rel   = $search_form->group_prop( '_is_includes', 'tax_rel' );
-								if ( isset( $match->taxonomy_detail ) && is_array( $match->taxonomy_detail ) ) {
+								if ( property_exists( $match, 'taxonomy_detail' ) && is_array( $match->taxonomy_detail ) ) {
 									if ( ! empty( $tax_query ) ) {
 										$tax       = array_keys( $tax_query );
 										$intersect = array_intersect( $tax, array_keys( $match->taxonomy_detail ) );

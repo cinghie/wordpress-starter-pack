@@ -81,6 +81,10 @@ class WOE_Formatter_Storage_Summary_Session implements WOE_Formatter_Storage {
     }
 
     public function getNextRow() {
+		if( !isset($_SESSION[$this->summaryKey]) ) {
+			return false;
+		}
+			
         $row = current($_SESSION[$this->summaryKey]);
 		if ($row === false) { //all rows were returned
 			unset($_SESSION[$this->summaryKey . '_header']);

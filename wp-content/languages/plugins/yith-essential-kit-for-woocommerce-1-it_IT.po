@@ -2,14 +2,36 @@
 # This file is distributed under the same license as the Plugins - YITH Essential Kit for WooCommerce #1 - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-09-01 11:54:05+0000\n"
+"PO-Revision-Date: 2022-12-23 11:30:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.1\n"
+"X-Generator: GlotPress/4.0.0-alpha.3\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH Essential Kit for WooCommerce #1 - Stable (latest release)\n"
+
+#. translators: %s is the number of characters.
+#: plugin-fw/includes/class-yit-assets.php:124
+msgctxt "Enhanced select"
+msgid "Searching&hellip;"
+msgstr "Ricerca in corso&hellip;"
+
+#. translators: %s is the number of characters.
+#: plugin-fw/includes/class-yit-assets.php:123
+msgctxt "Enhanced select"
+msgid "Please enter %s or more characters"
+msgstr "Inserisci %s o più caratteri"
+
+#: plugin-fw/includes/class-yit-assets.php:121
+msgctxt "Enhanced select"
+msgid "Please enter 1 or more characters"
+msgstr "Inserisci 1 o più caratteri"
+
+#: plugin-fw/includes/class-yit-assets.php:120
+msgctxt "Enhanced select"
+msgid "No matches found"
+msgstr "Nessuna corrispondenza trovata"
 
 #. translators: %s is the number of steps.
 #: plugin-fw/templates/panel/welcome-modals/welcome.php:45
@@ -308,20 +330,20 @@ msgstr "Defined WP_CACHE"
 msgid "Site Info"
 msgstr "Informazioni sito"
 
-#: plugin-fw/templates/sysinfo/tabs/error-log.php:105
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:106
 msgid "Copy Code"
 msgstr "Copia il codice"
 
-#: plugin-fw/templates/sysinfo/tabs/error-log.php:105
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:106
 msgid "Copied!"
 msgstr "Copiato!"
 
 #. translators: %s file name.
-#: plugin-fw/templates/sysinfo/tabs/error-log.php:96
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:97
 msgid "No Log file available. Enable the WordPress debug by adding this in the %s file of your installation"
 msgstr "Nessun file log disponibile. Attiva il debug di WordPress aggiungendolo nel file %s della tua installazione "
 
-#: plugin-fw/templates/sysinfo/tabs/error-log.php:72
+#: plugin-fw/templates/sysinfo/tabs/error-log.php:73
 msgid "The file size exceeds 8 megabytes so it must be downloaded"
 msgstr "La dimensione del file supera gli 8 megabyte e deve essere scaricato"
 
@@ -463,16 +485,16 @@ msgid "Copied!"
 msgstr "Copiato!"
 
 #. translators: %1$s TLS label
-#: plugin-fw/includes/class-yith-system-status.php:608
+#: plugin-fw/includes/class-yith-system-status.php:616
 msgid "The system check cannot determine which %1$s version is installed due to a connection issue between your site and our server."
 msgstr "Non è stato possibile determinare con i controlli di sistema quale versione di %1$s è installata a causa di un problema di connessione fra il tuo sito e il nostro server."
 
 #. translators: %1$s TLS label, %2$s cURL label
-#: plugin-fw/includes/class-yith-system-status.php:605
+#: plugin-fw/includes/class-yith-system-status.php:613
 msgid "The system check cannot determine which %1$s version is installed because %2$s module is disabled. Ask your hosting company to enable it."
 msgstr "Non è stato possibile determinare quale versione di %1$s è installata in quanto il modulo %2$s è disattivato. Chiedi al tuo servizio hosting di attivarlo."
 
-#: plugin-fw/includes/class-yith-system-status.php:558
+#: plugin-fw/includes/class-yith-system-status.php:566
 msgid "Contact your hosting company in order to install it."
 msgstr "Contatta il tuo hosting per installarlo."
 
@@ -526,66 +548,66 @@ msgstr "Help"
 msgid "There was an error with your request; please try again later."
 msgstr "Si è verificato un errore con la tua richiesta. Riprova più tardi."
 
-#: plugin-fw/includes/class-yit-assets.php:179
+#: plugin-fw/includes/class-yit-assets.php:186
 msgid "Color value"
 msgstr "Valore del colore"
 
-#: plugin-fw/includes/class-yit-assets.php:177
+#: plugin-fw/includes/class-yit-assets.php:184
 msgid "Select default color"
 msgstr "Seleziona il colore predefinito"
 
-#: plugin-fw/includes/class-yit-assets.php:175
+#: plugin-fw/includes/class-yit-assets.php:182
 msgid "Clear color"
 msgstr "Rimuovi colore"
 
-#: plugin-fw/includes/class-yit-assets.php:154 plugin-fw/yit-functions.php:2027
+#: plugin-fw/includes/class-yit-assets.php:161 plugin-fw/yit-functions.php:2027
 #: plugin-fw/yit-functions.php:2154
 msgctxt "Delete confirmation action"
 msgid "Yes, delete"
 msgstr "Sì, elimina"
 
 #. translators: %s is the title of the post object.
-#: plugin-fw/includes/class-yit-assets.php:153 plugin-fw/yit-functions.php:1940
+#: plugin-fw/includes/class-yit-assets.php:160 plugin-fw/yit-functions.php:1940
 #: plugin-fw/yit-functions.php:2100
 msgid "This action cannot be undone and you will not be able to recover this data."
 msgstr "Quest'azione non può essere annullata e non sarà possibile recuperare questi dati."
 
-#: plugin-fw/includes/class-yit-assets.php:153
+#: plugin-fw/includes/class-yit-assets.php:160
 msgid "Are you sure you want to delete the selected items?"
 msgstr "Se sicuro di voler eliminare gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:152 plugin-fw/yit-functions.php:2024
+#: plugin-fw/includes/class-yit-assets.php:159 plugin-fw/yit-functions.php:2024
 #: plugin-fw/yit-functions.php:2152
 msgid "Confirm delete"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/includes/class-yit-assets.php:151
-#: plugin-fw/includes/class-yit-assets.php:155
+#: plugin-fw/includes/class-yit-assets.php:158
+#: plugin-fw/includes/class-yit-assets.php:162
 #: plugin-fw/templates/sysinfo/tabs/main.php:42
 #: plugin-fw/templates/sysinfo/tabs/main.php:50
 #: plugin-fw/yit-functions.php:2008 plugin-fw/yit-functions.php:2026
 msgid "No"
 msgstr "No"
 
-#: plugin-fw/includes/class-yit-assets.php:150 plugin-fw/yit-functions.php:2009
+#: plugin-fw/includes/class-yit-assets.php:157 plugin-fw/yit-functions.php:2009
 msgctxt "Trash confirmation action"
 msgid "Yes, move to trash"
 msgstr "Sì, sposta nel cestino"
 
-#: plugin-fw/includes/class-yit-assets.php:149
+#: plugin-fw/includes/class-yit-assets.php:156
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
-#: plugin-fw/includes/class-yit-assets.php:148 plugin-fw/yit-functions.php:2006
+#: plugin-fw/includes/class-yit-assets.php:155 plugin-fw/yit-functions.php:2006
 msgid "Confirm trash"
 msgstr "Conferma eliminazione"
 
-#: plugin-fw/includes/class-yit-assets.php:137
+#: plugin-fw/includes/class-yit-assets.php:144
 msgctxt "Button text"
 msgid "Cancel"
 msgstr "Annulla"
 
-#: plugin-fw/includes/class-yit-assets.php:136
+#: plugin-fw/includes/class-yit-assets.php:143
 msgctxt "Button text"
 msgid "Confirm"
 msgstr "Conferma"
@@ -620,7 +642,7 @@ msgstr "Indirizzo IP (output)"
 msgid "Site URL"
 msgstr "URL del sito"
 
-#: plugin-fw/includes/class-yith-system-status.php:493
+#: plugin-fw/includes/class-yith-system-status.php:501
 msgid "N/A"
 msgstr "N/A"
 
@@ -702,46 +724,46 @@ msgid "%1$s (#%2$s &ndash; %3$s)"
 msgstr "%1$s (#%2$s &ndash; %3$s)"
 
 #. translators: %1$s opening link tag, %2$s closing link tag
-#: plugin-fw/includes/class-yith-system-status.php:577
-#: plugin-fw/includes/class-yith-system-status.php:600
+#: plugin-fw/includes/class-yith-system-status.php:585
+#: plugin-fw/includes/class-yith-system-status.php:608
 msgid "Read more %1$shere%2$s or contact your hosting company in order to increase it."
 msgstr "Per maggiori informazioni %1$sleggi qui%2$s oppure contatta il tuo host per un upgrade."
 
-#: plugin-fw/includes/class-yith-system-status.php:573
+#: plugin-fw/includes/class-yith-system-status.php:581
 msgid "Contact your hosting company in order to enable it."
 msgstr "Per attivarlo contatta il tuo servizio hosting."
 
 #. translators: %1$s code, %2$s file name
-#: plugin-fw/includes/class-yith-system-status.php:565
+#: plugin-fw/includes/class-yith-system-status.php:573
 msgid "Remove %1$s from %2$s file"
 msgstr "Rimuovi %1$s dal file %2$s"
 
-#: plugin-fw/includes/class-yith-system-status.php:554
-#: plugin-fw/includes/class-yith-system-status.php:560
+#: plugin-fw/includes/class-yith-system-status.php:562
+#: plugin-fw/includes/class-yith-system-status.php:568
 msgid "Contact your hosting company in order to update it."
 msgstr "Contatta il tuo servizio hosting per aggiornarlo."
 
-#: plugin-fw/includes/class-yith-system-status.php:550
+#: plugin-fw/includes/class-yith-system-status.php:558
 msgid "Update it to the latest version in order to benefit of all new features and security updates."
 msgstr "Per beneficiare di tutte le nuove funzionalità e degli aggiornamenti di sicurezza, aggiorna all'ultima versione."
 
 #. translators: %1$s plugin name, %2$s version number
-#: plugin-fw/includes/class-yith-system-status.php:526
+#: plugin-fw/includes/class-yith-system-status.php:534
 msgid "%1$s needs at least %2$s version"
 msgstr "%1$s necessita almeno della versione %2$s"
 
 #. translators: %s recommended memory amount
-#: plugin-fw/includes/class-yith-system-status.php:597
+#: plugin-fw/includes/class-yith-system-status.php:605
 msgid "For optimal functioning of our plugins, we suggest setting at least %s of available memory"
 msgstr "Per il funzionamento ottimale dei nostri plugin consigliamo di impostare almeno %s di memoria disponibile"
 
 #. translators: %1$s plugin name, %2$s required memory amount
-#: plugin-fw/includes/class-yith-system-status.php:523
+#: plugin-fw/includes/class-yith-system-status.php:531
 msgid "%1$s needs at least %2$s of available memory"
 msgstr "%1$s necessita di almeno %2$s di memoria disponibile"
 
 #. translators: %1$s plugin name, %2$s requirement name
-#: plugin-fw/includes/class-yith-system-status.php:520
+#: plugin-fw/includes/class-yith-system-status.php:528
 msgid "%1$s needs %2$s enabled"
 msgstr "%1$s necessita dell'attivazione di %2$s"
 
@@ -788,7 +810,7 @@ msgstr "Ultime novità dal blog YITH"
 msgid "YITH Latest Updates"
 msgstr "Ultimi aggiornamenti YITH"
 
-#: plugin-fw/includes/builders/gutenberg/class-yith-gutenberg.php:149
+#: plugin-fw/includes/builders/gutenberg/class-yith-gutenberg.php:152
 msgctxt "[gutenberg]: Category Name"
 msgid "YITH"
 msgstr "YITH"
@@ -931,11 +953,11 @@ msgstr "Opzioni salvate"
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
-#: plugin-fw/includes/class-yit-assets.php:178
+#: plugin-fw/includes/class-yit-assets.php:185
 msgid "Select Color"
 msgstr "Seleziona colore"
 
-#: plugin-fw/includes/class-yit-assets.php:174
+#: plugin-fw/includes/class-yit-assets.php:181
 msgid "Clear"
 msgstr "Annulla"
 
@@ -1162,7 +1184,7 @@ msgstr "Impostazioni plugin"
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
-#: plugin-fw/includes/class-yit-assets.php:176
+#: plugin-fw/includes/class-yit-assets.php:183
 msgid "Default"
 msgstr "Predefinito"
 
@@ -1179,11 +1201,11 @@ msgstr "Salva"
 msgid "Delete"
 msgstr "Rimuovi"
 
-#: plugin-fw/includes/class-yith-system-status.php:488
+#: plugin-fw/includes/class-yith-system-status.php:496
 msgid "Disabled"
 msgstr "Disattivato"
 
-#: plugin-fw/includes/class-yith-system-status.php:488
+#: plugin-fw/includes/class-yith-system-status.php:496
 msgid "Enabled"
 msgstr "Attivato"
 

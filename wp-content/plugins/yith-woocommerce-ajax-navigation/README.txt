@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: woocommerce ajax product filter download, woocommerce, widget, ajax, ajax filtered nav, ajax navigation, ajax filtered navigation, woocommerce layered navigation, woocommerce layered nav, product filter, product filters, ajax product filter, woocommerce ajax product filter, woocommerce filters, sidebar filter, sidebar ajax filter, ajax price filter, price filter, product sorting, woocommerce filter, taxonomy filter, attribute filter, attributes filter, woocommerce product sort, ajax sort, woocommerce ajax product filter, advanced product filters, ajax product filters, filters, woocommerce ajax product filters, woocommerce product filters, woocommerce product filters, category filter, attribute filters, woocommerce products filter, woocommerce price filter, yit, yith, yithemes
-Requires at least: 5.8
-Tested up to: 6.0
-Stable tag: 4.15.0
+Requires at least: 5.9
+Tested up to: 6.1
+Stable tag: 4.17.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,24 @@ If none of the previous listed actions helps you solve the problem, then, submit
 14. Gutenberg block
 
 == Changelog ==
+
+= 4.17.0 - Released on 13 December 2022 =
+
+* New: support for WooCommerce 7.2
+* Update: plugin FW
+* Fix: sass deprecated
+* Dev: added yith_wcan_toggle_element trigger
+* Dev: added yith_wcan_before_toggle_element trigger
+
+= 4.16.0 - Released on 14 November 2022 =
+
+* New: support for WooCommerce 7.1
+* New: support for WodPress 6.1
+* Tweak: add rel nofollow attribute to Active Labels anchor, when SEO option is enabled
+* Tweak: check if preset has relevant filters before showing it
+* Tweak: prevent JS error with jQuery autocomplete library and filter dropdown
+* Update: YITH plugin framework
+* Fix: patched security vulnerability
 
 = 4.15.0 - Released on 5 October 2022 =
 

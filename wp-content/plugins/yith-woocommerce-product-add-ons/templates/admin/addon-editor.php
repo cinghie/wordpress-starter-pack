@@ -103,7 +103,7 @@ if ( yith_wapo_is_addon_type_available( $addon_type ) && ( file_exists( $templat
 										<label for="addon-required" style="width: 50px;"><?php echo esc_html__( 'Required', 'yith-woocommerce-product-add-ons' ); ?>:</label>
 										<div class="field">
 											<?php
-											$required = $addon->get_setting( 'required', 'no', false );
+											$required = $addon->get_setting( 'required', 'no' );
 
 											yith_plugin_fw_get_field(
 												array(

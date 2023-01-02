@@ -75,8 +75,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		public function __construct( $feed_id = '0' ) {
 			$background_process_class = $this->get_background_process_class_name( $feed_id );
 
-			$this->_background_process = new $background_process_class();
-			$this->_data_class         = new WPPFM_Data();
+			if( $background_process_class ) {
+				$this->_background_process = new $background_process_class();
+				$this->_data_class         = new WPPFM_Data();
+			}
 		}
 
 		/**
@@ -499,7 +501,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			if ( '1' === $feed_type_id ) {
 				$background_class = 'WPPFM_Feed_Processor';
 			} elseif ( '2' === $feed_type_id ) {
-				$background_class = 'WPPRFM_Review_Feed_Processor';
+				$background_class = is_plugin_active( 'wp-product-review-feed-manager/wp-product-review-feed-manager.php' ) ? 'WPPRFM_Review_Feed_Processor' : false;
 			} else {
 				$background_class = 'WPPFM_Feed_Processor';
 			}
@@ -642,6 +644,49 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		}
 
 		/**
+		 * Returns an array with fields that are handled procedurally in the add_procedural_data() function.
+		 *
+		 * @since 2.36.0.
+		 * @return string[]
+		 */
+		private function procedural_fields() {
+			return [
+				'_regular_price',
+				'_sale_price',
+				'shipping_class',
+				'permalink',
+				'attachment_url',
+				'product_cat',
+				'product_cat_string',
+				'last_update',
+				'_wp_attachement_metadata',
+				'product_tags',
+				'wc_currency',
+				'_min_variation_price',
+				'_max_variation_price',
+				'_min_variation_regular_price',
+				'_max_variation_regular_price',
+				'_min_variation_sale_price',
+				'_max_variation_sale_price',
+				'item_group_id',
+				'_stock',
+				'empty',
+				'product_type',
+				'product_variation_title_without_attributes',
+				'_variation_parent_id',
+				'_product_parent_id',
+				'_max_group_price',
+				'_min_group_price',
+				'_regular_price_with_tax',
+				'_regular_price_without_tax',
+				'_sale_price_with_tax',
+				'_sale_price_without_tax',
+				'_product_parent_description',
+				'_woocs_currency',
+			];
+		}
+
+		/**
 		 * Gather all required column names from the database.
 		 *
 		 * @param array $active_field_names     Array with the names of the active fields.
@@ -656,6 +701,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$custom_fields                    = array();
 			$active_custom_fields             = array();
 			$active_third_party_custom_fields = array();
+			$procedural_fields                = $this->procedural_fields();
 			$post_columns_string              = '';
 
 			$columns_in_post_table     = $queries_class->get_columns_from_post_table(); // Get all post table column names.
@@ -679,7 +725,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				} elseif ( in_array( $column, $third_party_custom_fields, true ) ) {
 					array_push( $active_third_party_custom_fields, $column );
 				} else {
-					array_push( $meta_fields, $column );
+					if( ! in_array( $column, $procedural_fields ) ) { // Skip the procedural fields
+						array_push( $meta_fields, $column );
+					}
 				}
 			}
 

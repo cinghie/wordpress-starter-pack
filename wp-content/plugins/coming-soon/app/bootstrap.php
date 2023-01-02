@@ -135,11 +135,35 @@ function seedprod_lite_admin_enqueue_scripts( $hook_suffix ) {
 			);
 
 			wp_enqueue_style(
+				'seedprod-hotspot-tooltipster-css',
+				SEEDPROD_PLUGIN_URL . 'public/css/tooltipster.bundle.min.css',
+				false,
+				SEEDPROD_VERSION
+			);
+
+			wp_enqueue_style(
 				'seedprod-builder-lightbox-index',
 				SEEDPROD_PLUGIN_URL . 'public/css/seedprod-gallery-block.min.css',
 				false,
 				SEEDPROD_VERSION
 			);
+
+			// animate css
+			wp_enqueue_style(
+				'seedprod-animate-css',
+				SEEDPROD_PLUGIN_URL . 'public/css/animate.css',
+				false,
+				SEEDPROD_VERSION
+			);
+
+			wp_register_script(
+				'seedprod-animate-dynamic-css',
+				SEEDPROD_PLUGIN_URL . 'public/js/animate-dynamic.js',
+				array( 'jquery-core' ),
+				SEEDPROD_VERSION,
+				true
+			);
+			//wp_enqueue_script( 'seedprod-animate-dynamic-css' );
 
 			// Load WPForms CSS assets.
 			if ( function_exists( 'wpforms' ) ) {

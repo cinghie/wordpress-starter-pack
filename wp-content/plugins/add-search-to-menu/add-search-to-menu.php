@@ -4,7 +4,7 @@
  * Plugin Name: Ivory Search
  * Plugin URI:  https://ivorysearch.com
  * Description: The WordPress Search plugin that includes Search Form Customizer, WooCommerce Search, Image Search, Search Shortcode, AJAX Search & Live Search support!
- * Version:     5.4.8
+ * Version:     5.4.10
  * Author:      Ivory Search
  * Author URI:  https://ivorysearch.com/
  * License:     GPL2+
@@ -13,7 +13,7 @@
  * Text Domain: add-search-to-menu
  *
  * 
- * WC tested up to: 6
+ * WC tested up to: 7
  *
  * Ivory Search is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,22 +53,10 @@ if ( function_exists( 'is_fs' ) ) {
 final class Ivory_Search
 {
     /**
-     * Stores plugin options.
-     */
-    private static  $opt ;
-    /**
      * Core singleton class
      * @var self
      */
     private static  $_instance ;
-    /**
-     * Ivory Search Constructor.
-     */
-    public function __construct()
-    {
-        Ivory_Search::$opt = self::load_options();
-    }
-    
     /**
      * Gets the instance of this class.
      *
@@ -83,34 +71,12 @@ final class Ivory_Search
     }
     
     /**
-     * Loads plugin options.
-     *
-     */
-    public static function load_options()
-    {
-        
-        if ( empty(Ivory_Search::$opt) ) {
-            $temp = (array) get_option( 'ivory_search', array() );
-            $is_menu_search = get_option( 'is_menu_search', array() );
-            $temp2 = array_merge( $temp, (array) $is_menu_search );
-            $is_settings = get_option( 'is_settings', array() );
-            $temp3 = array_merge( $temp2, (array) $is_settings );
-            $is_notices = get_option( 'is_notices', array() );
-            Ivory_Search::$opt = array_merge( $temp3, (array) $is_notices );
-            return Ivory_Search::$opt;
-        } else {
-            return Ivory_Search::$opt;
-        }
-    
-    }
-    
-    /**
      * Defines Ivory Search Constants.
      */
     public function define_constants()
     {
         if ( !defined( 'IS_VERSION' ) ) {
-            define( 'IS_VERSION', '5.4.8' );
+            define( 'IS_VERSION', '5.4.10' );
         }
         if ( !defined( 'IS_PLUGIN_FILE' ) ) {
             define( 'IS_PLUGIN_FILE', __FILE__ );
@@ -190,7 +156,7 @@ final class Ivory_Search
     /**
      * Hooks into initialization actions and filters.
      */
-    private function init_hooks()
+    public function register_activ_deactiv_hooks()
     {
         // Executes necessary actions on plugin activation and deactivation.
         register_activation_hook( IS_PLUGIN_FILE, array( 'IS_Activator', 'activate' ) );
@@ -202,9 +168,6 @@ final class Ivory_Search
      */
     function start()
     {
-        $this->define_constants();
-        $this->includes();
-        $this->init_hooks();
         $is_loader = IS_Loader::getInstance();
         $is_loader->load();
     }
@@ -230,3 +193,10 @@ add_action( 'plugins_loaded', 'ivory_search_start' );
 $is = Ivory_Search::getInstance();
 $is->define_constants();
 require_once IS_PLUGIN_DIR . 'includes/freemius.php';
+/**
+ * Registering these hooks inside the 'plugins_loaded' or 'init' hooks will not work.
+ * 
+ * @since 5.4.9
+ */
+$is->includes();
+$is->register_activ_deactiv_hooks();

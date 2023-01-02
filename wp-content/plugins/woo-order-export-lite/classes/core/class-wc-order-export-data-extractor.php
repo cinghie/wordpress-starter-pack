@@ -1768,6 +1768,11 @@ class WC_Order_Export_Data_Extractor {
 			$row['coupons'] = array();
 		}
 
+		if ($options['strip_html_tags']) {
+			array_walk_recursive($row, function (&$item, $key) {
+				$item = strip_tags($item);
+			});
+		}
 		$row = apply_filters( "woe_fetch_order", $row, $order );
 
 		return $row;

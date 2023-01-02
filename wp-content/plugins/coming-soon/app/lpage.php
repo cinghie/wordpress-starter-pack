@@ -601,6 +601,12 @@ function seedprod_lite_save_lpage() {
 			$has_permission = true;
 		}
 
+		$sp_post         = $_POST;
+		$sp_current_user = wp_get_current_user();
+
+		// Save personalization preferences.
+		update_user_meta( $sp_current_user->ID, 'seedprod_personalization_preferences', $sp_post['personalization_preferences'] );
+
 		if ( false === $has_permission ) {
 			header( 'Content-Type: application/json' );
 			header( 'Status: 400 Bad Request' );
@@ -609,7 +615,6 @@ function seedprod_lite_save_lpage() {
 		}
 
 		// clean slashes post
-		$sp_post               = $_POST;
 		$sp_post['lpage_html'] = stripslashes_deep( $sp_post['lpage_html'] );
 
 		// remove unneeded code
@@ -628,6 +633,8 @@ function seedprod_lite_save_lpage() {
 			$html = preg_replace( "'contenteditable=\"true\"'", '', $html );
 			$html = preg_replace( "'spellcheck=\"false\"'", '', $html );
 			$html = str_replace( 'function(e,n,r,i){return fn(t,e,n,r,i,!0)}', '', $html );
+			// remove preview animation
+			$html = str_replace( 'animate__', '', $html );
 			// remove sp-theme-template id
 			require_once SEEDPROD_PLUGIN_PATH . 'app/includes/simple_html_dom.php';
 			$phtml                   = seedprod_str_get_html( $html );
@@ -688,18 +695,18 @@ function seedprod_lite_save_lpage() {
 					kses_remove_filters();
 					wp_update_post( $update );
 					kses_init_filters();
-				}else{
+				} else {
 					wp_update_post( $update );
 				}
 				$status = 'updated';
 			}
 
 			if ( class_exists( 'SeedProd_Tracking' ) ) {
-				$tracking         = new SeedProd_Tracking();
-				if(!empty($check_post_type->document->sections)){
-                    $block_usage_data = $tracking->get_block_data($check_post_type->document->sections);
-                    update_post_meta($lpage_id, '_seedprod_block_usage', $block_usage_data);
-                }
+				$tracking = new SeedProd_Tracking();
+				if ( ! empty( $check_post_type->document->sections ) ) {
+					$block_usage_data = $tracking->get_block_data( $check_post_type->document->sections );
+					update_post_meta( $lpage_id, '_seedprod_block_usage', $block_usage_data );
+				}
 			}
 		}
 
@@ -829,7 +836,7 @@ function seedprod_lite_template_subscribe() {
 /**
  * Save/Update lpages Template.
  */
-function seedprod_lite_save_template() {  
+function seedprod_lite_save_template() {
 	// get template code and set name and slug
 	if ( check_ajax_referer( 'seedprod_nonce' ) ) {
 		if ( ! current_user_can( apply_filters( 'seedprod_lpage_capability', 'edit_others_posts' ) ) ) {

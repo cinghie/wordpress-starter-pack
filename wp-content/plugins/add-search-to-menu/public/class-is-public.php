@@ -22,7 +22,13 @@ class IS_Public
      */
     public function __construct()
     {
-        $this->opt = Ivory_Search::load_options();
+        
+        if ( empty($this->opt) ) {
+            $is_menu_search = get_option( 'is_menu_search', array() );
+            $is_settings = get_option( 'is_settings', array() );
+            $this->opt = array_merge( (array) $is_settings, (array) $is_menu_search );
+        }
+    
     }
     
     /**
@@ -39,7 +45,7 @@ class IS_Public
     }
     
     /**
-     * Enqueues search menu style files.
+     * Enqueues search form stylesheet files.
      */
     function wp_enqueue_styles()
     {
@@ -56,7 +62,7 @@ class IS_Public
     }
     
     /**
-     * Enqueues search menu script files.
+     * Enqueues search form script files.
      */
     function wp_enqueue_scripts()
     {

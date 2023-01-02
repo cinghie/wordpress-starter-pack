@@ -54,26 +54,9 @@ function unregister_plugin() {
 	// Retrieve the license from the database.
 	$license = get_option( 'wppfm_lic_key' );
 
-	delete_option( 'wppfm_db_version' );
-	delete_option( 'wppfm_lic_status' );
-	delete_option( 'wppfm_lic_status_date' ); // deprecated.
-	delete_option( 'wppfm_lic_key' );
-	delete_option( 'wppfm_lic_expires' );
-	delete_option( 'wppfm_channel_update_check_date' );
-	delete_option( 'wppfm_channels_to_update' );
-	delete_option( 'wppfm_ftp_passive' ); // deprecated as of 1.9.3.
-	delete_option( 'wppfm_auto_feed_fix' );
-	delete_option( 'wppfm_disabled_background_mode' ); // @since 2.0.7
-	delete_option( 'wppfm_debug_mode' );
-	delete_option( 'wppfm_prep_check' ); // deprecated.
-	delete_option( 'wppfm_third_party_attribute_keywords' );
-	delete_option( 'wppfm_license_notice_suppressed' ); // @since 1.9.0
-	delete_option( 'wppfm_feed_queue' ); // @since 1.10.0
-	delete_option( 'wppfm_background_process_is_running' ); // @since 1.10.0
-	delete_option( 'wppfm_background_process_time_limit' ); // @since 2.2.0 (deprecated)
-	delete_option( 'wppfm_notice_mailaddress' ); // @since 2.3.0
-	delete_option( 'wppfm_batch_counter' ); // @since 2.11.0
-	delete_option( 'wppfm_show_product_identifiers' ); // @since 2.28.0
+	foreach( wp_load_alloptions() as $option => $value ) {
+		if( false !== strpos( $option, 'wppfm_' ) ) { delete_option( $option );	}
+	}
 
 	if ( $license ) { // If the plugin is a licensed version then deactivate it on the license server.
 		// Data to send in our API request.

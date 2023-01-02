@@ -1,9 +1,13 @@
 /**
  * External dependencies
  */
-import { BlockInstance } from '@wordpress/blocks';
 import type { EditorBlock } from '@woocommerce/types';
 
+// The interface below disables the forbidden underscores
+// naming convention because we are namespacing our
+// custom attributes inside a core block. Prefixing with underscores
+// will help signify our intentions.
+/* eslint-disable @typescript-eslint/naming-convention */
 export interface ProductQueryArguments {
 	/**
 	 * Display only products on sale.
@@ -28,23 +32,36 @@ export interface ProductQueryArguments {
 	 * )
 	 * ```
 	 */
-	onSale?: boolean;
-}
-
-export type ProductQueryBlock =
-	WooCommerceBlockVariation< ProductQueryAttributes >;
-
-export interface ProductQueryAttributes {
+	__woocommerceOnSale?: boolean;
 	/**
-	 * An array of controls to disable in the inspector.
+	 * Filter products by their stock status.
 	 *
-	 * @example  `[ 'stockStatus' ]`  will not render the dropdown for stock status.
+	 * Will generate the following `meta_query`:
+	 *
+	 * ```
+	 * array(
+	 *   'key'     => '_stock_status',
+	 *   'value'   => (array) $stock_statii,
+	 *   'compare' => 'IN',
+	 * ),
+	 * ```
 	 */
-	disabledInspectorControls?: string[];
-	/**
-	 * Query attributes that define which products will be fetched.
-	 */
-	query?: ProductQueryArguments;
+	__woocommerceStockStatus?: string[];
+}
+/* eslint-enable */
+
+export type ProductQueryBlock = EditorBlock< QueryBlockAttributes >;
+
+export type ProductQueryBlockQuery = QueryBlockQuery & ProductQueryArguments;
+
+export interface QueryBlockAttributes {
+	allowedControls?: string[];
+	displayLayout?: {
+		type: 'flex' | 'list';
+		columns?: number;
+	};
+	namespace?: string;
+	query: ProductQueryBlockQuery;
 }
 
 export interface QueryBlockQuery {
@@ -63,17 +80,14 @@ export interface QueryBlockQuery {
 	taxQuery?: string;
 }
 
-export enum QueryVariation {
-	/** The main, fully customizable, Product Query block */
-	PRODUCT_QUERY = 'product-query',
-	/** Only shows products on sale */
-	PRODUCTS_ON_SALE = 'query-products-on-sale',
+export interface ProductQueryContext {
+	query?: QueryBlockQuery & ProductQueryArguments;
+	queryId?: number;
 }
 
-export type WooCommerceBlockVariation< T > = EditorBlock< {
-	// Disabling naming convention because we are namespacing our
-	// custom attributes inside a core block. Prefixing with underscores
-	// will help signify our intentions.
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	__woocommerceVariationProps: Partial< BlockInstance< T > >;
-} >;
+export enum QueryVariation {
+	/** The main, fully customizable, Product Query block */
+	PRODUCT_QUERY = 'woocommerce/product-query',
+	/** Only shows products on sale */
+	PRODUCTS_ON_SALE = 'woocommerce/query-products-on-sale',
+}

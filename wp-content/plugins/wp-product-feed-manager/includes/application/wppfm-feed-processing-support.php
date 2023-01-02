@@ -1334,6 +1334,24 @@ trait WPPFM_Processing_Support {
 			$woocommerce_product_parent = $woocommerce_product;
 		}
 
+		// @since 2.36.0.
+		if ( in_array( '_regular_price', $active_field_names ) ) {
+			if( $woocommerce_product->is_type( 'variable' ) ) {
+				$product->_regular_price = wppfm_prep_money_values( $woocommerce_product->get_variation_regular_price( 'max', true ), $selected_language, $selected_currency );
+			} else {
+				$product->_regular_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
+			}
+		}
+
+		// @since 2.36.0.
+		if ( in_array( '_sale_price', $active_field_names ) ) {
+			if( $woocommerce_product->is_type( 'variable' ) ) {
+				$product->_sale_price = wppfm_prep_money_values(  $woocommerce_product->get_variation_sale_price( 'max' ), $selected_language, $selected_currency );
+			} else {
+				$product->_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
+			}
+		}
+
 		if ( in_array( 'shipping_class', $active_field_names ) ) {
 			// Get the shipping class.
 			$shipping_class = $woocommerce_product->get_shipping_class();
@@ -1355,6 +1373,10 @@ trait WPPFM_Processing_Support {
 			// WOOCS support since @2.29.0
 			$permalink = has_filter( 'wppfm_get_woocs_currency' )
 				? apply_filters( 'wppfm_woocs_product_permalink', $permalink, $selected_currency ) : $permalink;
+
+			// Translatepress support since @2.36.0
+			$permalink = has_filter( 'wppfm_get_transpress_permalink' )
+				? apply_filters( 'wppfm_get_transpress_permalink', $permalink, $selected_language ) : $permalink;
 
 			$product->permalink = $permalink;
 		}
@@ -1505,26 +1527,50 @@ trait WPPFM_Processing_Support {
 		}
 
 		// @since 2.26.0
+		// @since 2.37.0 Changed the way the regular price is fetched for variation products
 		if ( in_array( '_regular_price_with_tax', $active_field_names )  ) {
-			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_regular_price( 'feed' ) ) );
+			if( $woocommerce_product->is_type( 'variable' ) ) {
+				$regular_price = $woocommerce_product->get_variation_regular_price( 'max' );
+			} else {
+				$regular_price = $woocommerce_product->get_regular_price();
+			}
+			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $regular_price ) );
 			$product->_regular_price_with_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 		}
 
 		// @since 2.26.0
+		// @since 2.37.0 Changed the way the regular price is fetched for variation products
 		if ( in_array( '_regular_price_without_tax', $active_field_names )  ) {
-			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_regular_price( 'feed' ) ) );
+			if( $woocommerce_product->is_type( 'variable' ) ) {
+				$regular_price = $woocommerce_product->get_variation_regular_price( 'max' );
+			} else {
+				$regular_price = $woocommerce_product->get_regular_price();
+			}
+			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $regular_price ) );
 			$product->_regular_price_without_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 		}
 
 		// @since 2.26.0
+		// @since 2.37.0 Changed the way the sale price is fetched for variation products
 		if ( in_array( '_sale_price_with_tax', $active_field_names )  ) {
-			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_sale_price( 'feed' ) ) );
+			if( $woocommerce_product->is_type( 'variable' ) ) {
+				$sale_price = $woocommerce_product->get_variation_sale_price( 'max' );
+			} else {
+				$sale_price = $woocommerce_product->get_sale_price();
+			}
+			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $sale_price ) );
 			$product->_sale_price_with_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 		}
 
 		// @since 2.26.0
+		// @since 2.37.0 Changed the way the sale price is fetched for variation products
 		if ( in_array( '_sale_price_without_tax', $active_field_names )  ) {
-			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $woocommerce_product->get_sale_price( 'feed' ) ) );
+			if( $woocommerce_product->is_type( 'variable' ) ) {
+				$sale_price = $woocommerce_product->get_variation_sale_price( 'max' );
+			} else {
+				$sale_price = $woocommerce_product->get_sale_price();
+			}
+			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $sale_price ) );
 			$product->_sale_price_without_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 		}
 

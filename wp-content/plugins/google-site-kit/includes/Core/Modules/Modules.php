@@ -32,7 +32,6 @@ use Google\Site_Kit\Modules\PageSpeed_Insights;
 use Google\Site_Kit\Modules\Search_Console;
 use Google\Site_Kit\Modules\Site_Verification;
 use Google\Site_Kit\Modules\Tag_Manager;
-use Google\Site_Kit\Modules\Thank_With_Google;
 use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -137,14 +136,6 @@ final class Modules {
 	private $assets;
 
 	/**
-	 * REST_Dashboard_Sharing_Controller instance.
-	 *
-	 * @since 1.75.0
-	 * @var REST_Dashboard_Sharing_Controller
-	 */
-	private $rest_dashboard_sharing_controller;
-
-	/**
 	 * Core module class names.
 	 *
 	 * @since 1.21.0
@@ -187,42 +178,15 @@ final class Modules {
 
 		$this->core_modules[ Analytics_4::MODULE_SLUG ] = Analytics_4::class;
 
+		// Preferably no features should be checked here, or any time prior to
+		// Modules::register() being called to add the 'googlesitekit_features_request_data'
+		// filter callback. For any feature flags checked in this method, a workaround needs
+		// to be added to Authentication::filter_features_via_proxy() so that the remote
+		// features request is not triggered too early.
+
 		if ( Feature_Flags::enabled( 'ideaHubModule' ) ) {
 			$this->core_modules[ Idea_Hub::MODULE_SLUG ] = Idea_Hub::class;
 		}
-
-		if ( self::should_enable_twg() ) {
-			$this->core_modules[ Thank_With_Google::MODULE_SLUG ] = Thank_With_Google::class;
-		}
-
-		if ( Feature_Flags::enabled( 'dashboardSharing' ) ) {
-			$this->rest_dashboard_sharing_controller = new REST_Dashboard_Sharing_Controller( $this );
-		}
-	}
-
-	/**
-	 * Determines if Thank with Google module should be enabled.
-	 *
-	 * @since 1.83.0
-	 *
-	 * @return bool True if the module should be enabled, false otherwise.
-	 */
-	public static function should_enable_twg() {
-		if ( ! Feature_Flags::enabled( 'twgModule' ) ) {
-			return false;
-		}
-
-		if ( Build_Mode::get_mode() === Build_Mode::MODE_DEVELOPMENT ) {
-			return true;
-		}
-
-		if ( 'https' === URL::parse( home_url(), PHP_URL_SCHEME ) ) {
-			return true;
-		}
-
-		// Because we aren't in development mode and haven't detected SSL being enabled, TwG should
-		// not be enabled.
-		return false;
 	}
 
 	/**
@@ -283,7 +247,7 @@ final class Modules {
 		$this->sharing_settings->register();
 
 		if ( Feature_Flags::enabled( 'dashboardSharing' ) ) {
-			$this->rest_dashboard_sharing_controller->register();
+			( new REST_Dashboard_Sharing_Controller( $this ) )->register();
 		}
 
 		add_filter(
@@ -613,7 +577,7 @@ final class Modules {
 		$modules = $this->get_available_modules();
 
 		if ( ! isset( $modules[ $slug ] ) ) {
-			/* translators: 1: module slug */
+			/* translators: %s: module slug */
 			throw new Exception( sprintf( __( 'Invalid module slug %s.', 'google-site-kit' ), $slug ) );
 		}
 
@@ -651,7 +615,7 @@ final class Modules {
 		$modules = $this->get_available_modules();
 
 		if ( ! isset( $modules[ $slug ] ) ) {
-			/* translators: 1: module slug */
+			/* translators: %s: module slug */
 			throw new Exception( sprintf( __( 'Invalid module slug %s.', 'google-site-kit' ), $slug ) );
 		}
 
@@ -672,7 +636,7 @@ final class Modules {
 		$modules = $this->get_available_modules();
 
 		if ( ! isset( $modules[ $slug ] ) ) {
-			/* translators: 1: module slug */
+			/* translators: %s: module slug */
 			throw new Exception( sprintf( __( 'Invalid module slug %s.', 'google-site-kit' ), $slug ) );
 		}
 
@@ -957,7 +921,7 @@ final class Modules {
 								$dependency_slugs = $this->get_module_dependencies( $slug );
 								foreach ( $dependency_slugs as $dependency_slug ) {
 									if ( ! $this->is_module_active( $dependency_slug ) ) {
-										/* translators: 1: module name */
+										/* translators: %s: module name */
 										return new WP_Error( 'inactive_dependencies', sprintf( __( 'Module cannot be activated because of inactive dependency %s.', 'google-site-kit' ), $modules[ $dependency_slug ]->name ), array( 'status' => 500 ) );
 									}
 								}
@@ -970,7 +934,7 @@ final class Modules {
 								foreach ( $dependant_slugs as $dependant_slug ) {
 									if ( $this->is_module_active( $dependant_slug ) ) {
 										if ( ! $this->deactivate_module( $dependant_slug ) ) {
-											/* translators: 1: module name */
+											/* translators: %s: module name */
 											return new WP_Error( 'cannot_deactivate_dependant', sprintf( __( 'Module cannot be deactivated because deactivation of dependant %s failed.', 'google-site-kit' ), $modules[ $dependant_slug ]->name ), array( 'status' => 500 ) );
 										}
 									}
@@ -1190,6 +1154,11 @@ final class Modules {
 							} catch ( Exception $e ) {
 								return new WP_Error( 'invalid_module_slug', __( 'Invalid module slug.', 'google-site-kit' ), array( 'status' => 404 ) );
 							}
+
+							if ( ! $this->is_module_active( $slug ) ) {
+								return new WP_Error( 'module_not_active', __( 'Module must be active to request data.', 'google-site-kit' ), array( 'status' => 403 ) );
+							}
+
 							$data = $module->get_data( $request['datapoint'], $request->get_params() );
 							if ( is_wp_error( $data ) ) {
 								return $data;
@@ -1207,6 +1176,11 @@ final class Modules {
 							} catch ( Exception $e ) {
 								return new WP_Error( 'invalid_module_slug', __( 'Invalid module slug.', 'google-site-kit' ), array( 'status' => 404 ) );
 							}
+
+							if ( ! $this->is_module_active( $slug ) ) {
+								return new WP_Error( 'module_not_active', __( 'Module must be active to request data.', 'google-site-kit' ), array( 'status' => 403 ) );
+							}
+
 							$data = isset( $request['data'] ) ? (array) $request['data'] : array();
 							$data = $module->set_data( $request['datapoint'], $data );
 							if ( is_wp_error( $data ) ) {
@@ -1242,53 +1216,120 @@ final class Modules {
 				)
 			),
 			new REST_Route(
-				'core/modules/data/recover-module',
+				'core/modules/data/recover-modules',
 				array(
 					array(
 						'methods'             => WP_REST_Server::EDITABLE,
 						'callback'            => function( WP_REST_Request $request ) {
 							$data = $request['data'];
-							$slug = isset( $data['slug'] ) ? $data['slug'] : '';
-							try {
-								$module = $this->get_module( $slug );
-							} catch ( Exception $e ) {
-								return new WP_Error( 'invalid_module_slug', $e->getMessage(), array( 'status' => 404 ) );
+							$slugs = isset( $data['slugs'] ) ? $data['slugs'] : array();
+
+							if ( ! is_array( $slugs ) || empty( $slugs ) ) {
+								return new WP_Error(
+									'invalid_param',
+									__( 'Request parameter slugs is not valid.', 'google-site-kit' ),
+									array( 'status' => 400 )
+								);
 							}
 
-							if ( ! $module->is_shareable() ) {
-								return new WP_Error( 'module_not_shareable', __( 'Module is not shareable.', 'google-site-kit' ), array( 'status' => 404 ) );
-							}
-
-							if ( ! $this->is_module_recoverable( $module ) ) {
-								return new WP_Error( 'module_not_recoverable', __( 'Module is not recoverable.', 'google-site-kit' ), array( 'status' => 403 ) );
-							}
-
-							$check_access_endpoint = '/' . REST_Routes::REST_ROOT . '/' . self::REST_ENDPOINT_CHECK_ACCESS;
-							$check_access_request = new WP_REST_Request( 'POST', $check_access_endpoint );
-							$check_access_request->set_body_params(
-								array(
-									'data' => array(
-										'slug' => $slug,
-									),
-								)
+							$response = array(
+								'success' => array(),
+								'error'   => array(),
 							);
-							$check_access_response = rest_do_request( $check_access_request );
 
-							if ( is_wp_error( $check_access_response ) ) {
-								return $check_access_response;
+							foreach ( $slugs as $slug ) {
+								try {
+									$module = $this->get_module( $slug );
+								} catch ( Exception $e ) {
+									$response = $this->handle_module_recovery_error(
+										$slug,
+										$response,
+										new WP_Error(
+											'invalid_module_slug',
+											$e->getMessage(),
+											array( 'status' => 404 )
+										)
+									);
+									continue;
+								}
+
+								if ( ! $module->is_shareable() ) {
+									$response = $this->handle_module_recovery_error(
+										$slug,
+										$response,
+										new WP_Error(
+											'module_not_shareable',
+											__( 'Module is not shareable.', 'google-site-kit' ),
+											array( 'status' => 404 )
+										)
+									);
+									continue;
+								}
+
+								if ( ! $this->is_module_recoverable( $module ) ) {
+									$response = $this->handle_module_recovery_error(
+										$slug,
+										$response,
+										new WP_Error(
+											'module_not_recoverable',
+											__( 'Module is not recoverable.', 'google-site-kit' ),
+											array( 'status' => 403 )
+										)
+									);
+									continue;
+								}
+
+								$check_access_endpoint = '/' . REST_Routes::REST_ROOT . '/' . self::REST_ENDPOINT_CHECK_ACCESS;
+								$check_access_request = new WP_REST_Request( 'POST', $check_access_endpoint );
+								$check_access_request->set_body_params(
+									array(
+										'data' => array(
+											'slug' => $slug,
+										),
+									)
+								);
+								$check_access_response = rest_do_request( $check_access_request );
+
+								if ( is_wp_error( $check_access_response ) ) {
+									$response = $this->handle_module_recovery_error(
+										$slug,
+										$response,
+										$check_access_response
+									);
+									continue;
+								}
+								$access = isset( $check_access_response->data['access'] ) ? $check_access_response->data['access'] : false;
+								if ( ! $access ) {
+									$response = $this->handle_module_recovery_error(
+										$slug,
+										$response,
+										new WP_Error(
+											'module_not_accessible',
+											__( 'Module is not accessible by current user.', 'google-site-kit' ),
+											array( 'status' => 403 )
+										)
+									);
+									continue;
+								}
+
+								// Update the module's ownerID to the ID of the user making the request.
+								$module_setting_updates = array(
+									'ownerID' => get_current_user_id(),
+								);
+								$recovered_module = $module->get_settings()->merge( $module_setting_updates );
+
+								if ( $recovered_module ) {
+									$response['success'][ $slug ] = true;
+								}
 							}
-							$access = isset( $check_access_response->data['access'] ) ? $check_access_response->data['access'] : false;
-							if ( ! $access ) {
-								return new WP_Error( 'module_not_accessible', __( 'Module is not accessible by current user.', 'google-site-kit' ), array( 'status' => 403 ) );
+
+							// Cast error array to an object so JSON encoded response is
+							// always an object, even when the error array is empty.
+							if ( ! $response['error'] ) {
+								$response['error'] = (object) array();
 							}
 
-							// Update the module's ownerID to the ID of the user making the request.
-							$module_setting_updates = array(
-								'ownerID' => get_current_user_id(),
-							);
-							$module->get_settings()->merge( $module_setting_updates );
-
-							return new WP_REST_Response( $module_setting_updates );
+							return new WP_REST_Response( $response );
 						},
 						'permission_callback' => $can_setup,
 					),
@@ -1616,4 +1657,39 @@ final class Modules {
 		return $this->options->delete( Module_Sharing_Settings::OPTION );
 	}
 
+	/**
+	 * Prepares error data to pass with WP_REST_Response.
+	 *
+	 * @since 1.87.0
+	 *
+	 * @param WP_Error $error Error (WP_Error) to prepare.
+	 *
+	 * @return array Formatted error response suitable for the client.
+	 */
+	protected function prepare_error_response( $error ) {
+		return array(
+			'code'    => $error->get_error_code(),
+			'message' => $error->get_error_message(),
+			'data'    => $error->get_error_data(),
+		);
+	}
+
+	/**
+	 * Updates response with error encounted during module recovery.
+	 *
+	 * @since 1.87.0
+	 *
+	 * @param string   $slug The module slug.
+	 * @param array    $response The existing response.
+	 * @param WP_Error $error The error encountered.
+	 *
+	 * @return array The updated response with error included.
+	 */
+	protected function handle_module_recovery_error( $slug, $response, $error ) {
+		$response['success'][ $slug ] = false;
+		$response['error'][ $slug ]   = $this->prepare_error_response(
+			$error
+		);
+		return $response;
+	}
 }

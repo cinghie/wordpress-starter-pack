@@ -694,6 +694,9 @@ add_filter( 'um_field_non_utf8_value', 'um_field_non_utf8_value' );
  */
 function um_select_dropdown_dynamic_callback_options( $options, $data ) {
 	if ( ! empty( $data['custom_dropdown_options_source'] ) && function_exists( $data['custom_dropdown_options_source'] ) ) {
+		if ( UM()->fields()->is_source_blacklisted( $data['custom_dropdown_options_source'] ) ) {
+			return $options;
+		}
 		$options = call_user_func( $data['custom_dropdown_options_source'] );
 	}
 

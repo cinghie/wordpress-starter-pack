@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ivory Search\n"
-"POT-Creation-Date: 2022-08-25 15:36+0530\n"
+"POT-Creation-Date: 2022-11-04 14:12+0530\n"
 "PO-Revision-Date: 2020-03-17 21:05+0530\n"
 "Last-Translator: \n"
 "Language-Team: Ivory Search <admin@ivorysearch.com>\n"
@@ -10,190 +10,207 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_html_e;esc_html__\n"
-"X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;esc_html_e;esc_html__;"
+"esc_attr__;esc_attr_e;esc_attr_x;esc_html_x;_n;_ex;_nx;_n_noop;_nx_noop\n"
+"X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../admin/class-is-admin.php:74
+#: ../admin/class-is-admin.php:51
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
 
-#: ../admin/class-is-admin.php:138 ../admin/class-is-settings-fields.php:417
+#: ../admin/class-is-admin.php:115 ../admin/class-is-settings-fields.php:420
 #: ../admin/partials/search-form.php:23 ../includes/class-is-widget.php:83
 msgid "Edit Search Form"
 msgstr ""
 
-#: ../admin/class-is-admin.php:139
+#: ../admin/class-is-admin.php:116
 msgid "Click on the search form title to edit it."
 msgstr ""
 
-#: ../admin/class-is-admin.php:163 ../admin/class-is-admin.php:453
+#: ../admin/class-is-admin.php:140 ../admin/class-is-admin.php:439
 #: ../admin/class-is-help.php:64 ../admin/class-is-help.php:102
 #: ../includes/class-is-index-options.php:641
 msgid "Settings"
 msgstr ""
 
-#: ../admin/class-is-admin.php:181 ../admin/class-is-help.php:118
+#: ../admin/class-is-admin.php:158
+msgid "View Ivory Search documentation"
+msgstr ""
+
+#: ../admin/class-is-admin.php:158 ../admin/class-is-help.php:118
 msgid "Docs"
 msgstr ""
 
-#: ../admin/class-is-admin.php:182 ../admin/class-is-help.php:119
+#: ../admin/class-is-admin.php:159
+msgid "Visit plugin customer support"
+msgstr ""
+
+#: ../admin/class-is-admin.php:159 ../admin/class-is-help.php:119
 #: ../admin/partials/search-form.php:220
 #: ../admin/partials/settings-form.php:149
 msgid "Support"
 msgstr ""
 
-#: ../admin/class-is-admin.php:203
+#: ../admin/class-is-admin.php:180
 #, php-format
 msgid ""
 "If you like %1$s please leave us a %2$s rating. A huge thanks in advance!"
 msgstr ""
 
-#: ../admin/class-is-admin.php:204 ../admin/class-is-admin.php:437
-#: ../includes/class-is-admin-public.php:94 ../includes/class-is-widget.php:13
+#: ../admin/class-is-admin.php:181 ../admin/class-is-admin.php:423
+#: ../includes/class-is-admin-public.php:82 ../includes/class-is-widget.php:13
 msgid "Ivory Search"
 msgstr ""
 
-#: ../admin/class-is-admin.php:241
+#: ../admin/class-is-admin.php:182
+msgid "Thanks :)"
+msgstr ""
+
+#: ../admin/class-is-admin.php:224
 msgid "Dismiss"
 msgstr ""
 
-#: ../admin/class-is-admin.php:243
+#: ../admin/class-is-admin.php:226
 #, php-format
 msgid ""
 "Hey %s, it's Vinod Dalvi from %s. You have used this free plugin for some "
 "time now, and I hope you like it!"
 msgstr ""
 
-#: ../admin/class-is-admin.php:246
+#: ../admin/class-is-admin.php:229
 #, php-format
 msgid ""
 "I have spent countless hours developing it, and it would mean a lot to me if "
 "you %ssupport it with a quick review on WordPress.org.%s"
 msgstr ""
 
-#: ../admin/class-is-admin.php:251
+#: ../admin/class-is-admin.php:234
 msgid "Review Ivory Search"
 msgstr ""
 
-#: ../admin/class-is-admin.php:252
+#: ../admin/class-is-admin.php:235
 msgid "No, thanks"
 msgstr ""
 
-#: ../admin/class-is-admin.php:288
+#: ../admin/class-is-admin.php:271
 msgid "No posts found"
 msgstr ""
 
-#: ../admin/class-is-admin.php:387
+#: ../admin/class-is-admin.php:373
 msgid "Search form created."
 msgstr ""
 
-#: ../admin/class-is-admin.php:389
+#: ../admin/class-is-admin.php:375
 msgid "Search form saved."
 msgstr ""
 
-#: ../admin/class-is-admin.php:391
+#: ../admin/class-is-admin.php:377
 msgid "Search form deleted."
 msgstr ""
 
-#: ../admin/class-is-admin.php:393
+#: ../admin/class-is-admin.php:379
 msgid "Search form reset."
 msgstr ""
 
-#: ../admin/class-is-admin.php:395
+#: ../admin/class-is-admin.php:381
 msgid "Index settings reset."
 msgstr ""
 
-#: ../admin/class-is-admin.php:404
+#: ../admin/class-is-admin.php:390
 msgid "There was an error saving the search form."
 msgstr ""
 
-#: ../admin/class-is-admin.php:412
+#: ../admin/class-is-admin.php:398
 msgid "Validation error occurred."
 msgstr ""
 
-#: ../admin/class-is-admin.php:413 ../admin/class-is-admin.php:421
+#: ../admin/class-is-admin.php:399 ../admin/class-is-admin.php:407
 #: ../admin/class-is-help.php:35 ../admin/class-is-help.php:90
 msgid "Includes"
 msgstr ""
 
-#: ../admin/class-is-admin.php:414 ../admin/class-is-admin.php:423
+#: ../admin/class-is-admin.php:400 ../admin/class-is-admin.php:409
 #: ../admin/class-is-help.php:40 ../admin/class-is-help.php:91
 msgid "Excludes"
 msgstr ""
 
-#: ../admin/class-is-admin.php:427
+#: ../admin/class-is-admin.php:413
 #, php-format
 msgid ""
 "Please make sure you have not selected similar %s fields in the search form "
 "%s and %s sections."
 msgstr ""
 
-#: ../admin/class-is-admin.php:439 ../admin/class-is-admin.php:486
+#: ../admin/class-is-admin.php:425 ../admin/class-is-admin.php:472
 #: ../includes/class-is-search-form.php:95
 msgid "Search Forms"
 msgstr ""
 
-#: ../admin/class-is-admin.php:444 ../admin/class-is-admin.php:446
-#: ../admin/class-is-admin.php:493 ../admin/partials/search-form.php:21
+#: ../admin/class-is-admin.php:430 ../admin/class-is-admin.php:432
+#: ../admin/class-is-admin.php:479 ../admin/partials/search-form.php:21
 #: ../admin/partials/search-form.php:31
 msgid "Add New Search Form"
 msgstr ""
 
-#: ../admin/class-is-admin.php:444 ../admin/class-is-admin.php:446
+#: ../admin/class-is-admin.php:430 ../admin/class-is-admin.php:432
 msgid "Add New"
 msgstr ""
 
-#: ../admin/class-is-admin.php:450 ../admin/class-is-help.php:59
+#: ../admin/class-is-admin.php:436 ../admin/class-is-help.php:59
 #: ../admin/class-is-help.php:101
 msgid "Menu Search"
 msgstr ""
 
-#: ../admin/class-is-admin.php:453 ../admin/partials/settings-form.php:20
+#: ../admin/class-is-admin.php:439 ../admin/partials/settings-form.php:20
 msgid "Ivory Search Settings"
 msgstr ""
 
-#: ../admin/class-is-admin.php:500
+#: ../admin/class-is-admin.php:486
 #, php-format
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
-#: ../admin/class-is-admin.php:511
+#: ../admin/class-is-admin.php:497
 msgid "Find Search Forms"
 msgstr ""
 
-#: ../admin/class-is-admin.php:555
+#: ../admin/class-is-admin.php:541
 msgid "You are not allowed to edit this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:654
+#: ../admin/class-is-admin.php:640
 msgid "You are not allowed to reset this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:690
+#: ../admin/class-is-admin.php:676
 msgid "You are not allowed to copy this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:729
+#: ../admin/class-is-admin.php:715
 msgid "You are not allowed to delete this item."
 msgstr ""
 
-#: ../admin/class-is-admin.php:733
+#: ../admin/class-is-admin.php:719
 msgid "Error in deleting."
 msgstr ""
 
-#: ../admin/class-is-admin.php:974
+#: ../admin/class-is-admin.php:950
+msgid "Save Form"
+msgstr ""
+
+#: ../admin/class-is-admin.php:960
 msgid "Upgrade to Pro to Access"
 msgstr ""
 
-#: ../admin/class-is-admin.php:981
+#: ../admin/class-is-admin.php:967
 msgid "Install Premium Version to Access"
 msgstr ""
 
-#: ../admin/class-is-admin.php:983
+#: ../admin/class-is-admin.php:969
 msgid "Upgrade to Pro Plus to Access"
 msgstr ""
 
@@ -202,10 +219,10 @@ msgid "The requested section does not exist."
 msgstr ""
 
 #: ../admin/class-is-editor.php:116 ../admin/partials/search-form.php:130
-#: ../includes/class-is-admin-public.php:186
+#: ../includes/class-is-admin-public.php:174
 #: ../includes/class-is-search-form.php:529
-#: ../includes/class-is-search-form.php:601 ../public/class-is-public.php:208
-#: ../public/class-is-public.php:257
+#: ../includes/class-is-search-form.php:601 ../public/class-is-public.php:212
+#: ../public/class-is-public.php:261
 msgid "Search"
 msgstr ""
 
@@ -217,21 +234,21 @@ msgstr ""
 msgid "Configure Searchable Content"
 msgstr ""
 
-#: ../admin/class-is-editor.php:145 ../admin/class-is-settings-fields.php:197
+#: ../admin/class-is-editor.php:145 ../admin/class-is-settings-fields.php:200
 msgid "Post Types"
 msgstr ""
 
 #: ../admin/class-is-editor.php:146 ../admin/class-is-editor.php:424
 #: ../admin/class-is-editor.php:825 ../admin/class-is-editor.php:1192
 #: ../admin/class-is-editor.php:1396 ../admin/class-is-editor.php:1526
-#: ../admin/class-is-editor.php:1671 ../admin/class-is-settings-fields.php:109
+#: ../admin/class-is-editor.php:1671 ../admin/class-is-settings-fields.php:112
 msgid "Expand All"
 msgstr ""
 
 #: ../admin/class-is-editor.php:146 ../admin/class-is-editor.php:424
 #: ../admin/class-is-editor.php:826 ../admin/class-is-editor.php:1192
 #: ../admin/class-is-editor.php:1396 ../admin/class-is-editor.php:1526
-#: ../admin/class-is-editor.php:1671 ../admin/class-is-settings-fields.php:109
+#: ../admin/class-is-editor.php:1671 ../admin/class-is-settings-fields.php:112
 msgid "Collapse All"
 msgstr ""
 
@@ -373,7 +390,7 @@ msgid ""
 msgstr ""
 
 #: ../admin/class-is-editor.php:423 ../admin/class-is-editor.php:1395
-#: ../admin/class-is-settings-fields.php:200
+#: ../admin/class-is-settings-fields.php:203
 msgid "Extras"
 msgstr ""
 
@@ -422,7 +439,7 @@ msgid "OR - Search posts having any one of the above selected category terms"
 msgstr ""
 
 #: ../admin/class-is-editor.php:483 ../admin/class-is-editor.php:1400
-#: ../admin/class-is-settings-fields.php:199
+#: ../admin/class-is-settings-fields.php:202
 msgid "Custom Fields"
 msgstr ""
 
@@ -683,7 +700,7 @@ msgstr ""
 msgid "Stock Status"
 msgstr ""
 
-#: ../admin/class-is-editor.php:1075 ../public/class-is-ajax.php:419
+#: ../admin/class-is-editor.php:1075 ../public/class-is-ajax.php:406
 msgid "Featured Icon"
 msgstr ""
 
@@ -997,6 +1014,16 @@ msgstr ""
 msgid "The Index should be created to use this option in the Index "
 msgstr ""
 
+#: ../admin/class-is-editor.php:1767
+#, php-format
+msgid "The %s post type is not selected in Index"
+msgstr ""
+
+#: ../admin/class-is-editor.php:1783
+#, php-format
+msgid "The %s meta field is not selected in Index"
+msgstr ""
+
 #: ../admin/class-is-editor.php:1794
 msgid "The post title is not selected in Index"
 msgstr ""
@@ -1079,8 +1106,8 @@ msgid ""
 msgstr ""
 
 #: ../admin/class-is-help.php:84 ../admin/class-is-list-table.php:158
-#: ../admin/class-is-settings-fields.php:500
-#: ../admin/class-is-settings-fields.php:530
+#: ../admin/class-is-settings-fields.php:503
+#: ../admin/class-is-settings-fields.php:533
 #: ../includes/class-is-search-form.php:623
 msgid "Edit"
 msgstr ""
@@ -1240,333 +1267,333 @@ msgstr ""
 msgid "d/m/Y"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:167
+#: ../admin/class-is-settings-fields.php:170
 msgid "Custom CSS"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:168
+#: ../admin/class-is-settings-fields.php:171
 msgid "Stopwords"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:169
+#: ../admin/class-is-settings-fields.php:172
 msgid "Synonyms"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:170
+#: ../admin/class-is-settings-fields.php:173
 msgid "Header Search"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:171
+#: ../admin/class-is-settings-fields.php:174
 msgid "Footer Search"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:172
+#: ../admin/class-is-settings-fields.php:175
 msgid "Mobile Search"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:173
+#: ../admin/class-is-settings-fields.php:176
 msgid "Plugin Files"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:174
-#: ../admin/class-is-settings-fields.php:201
+#: ../admin/class-is-settings-fields.php:177
+#: ../admin/class-is-settings-fields.php:204
 msgid "Advanced"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:182
+#: ../admin/class-is-settings-fields.php:185
 msgid "Menu Search Settings"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:189
-#: ../admin/class-is-settings-fields.php:242
+#: ../admin/class-is-settings-fields.php:192
+#: ../admin/class-is-settings-fields.php:245
 msgid "Search Analytics"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:198
+#: ../admin/class-is-settings-fields.php:201
 msgid "Taxonomies"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:210
+#: ../admin/class-is-settings-fields.php:213
 msgid "Invalid Custom CSS Code"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:215
+#: ../admin/class-is-settings-fields.php:218
 msgid "Invalid Stopwords"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:220
+#: ../admin/class-is-settings-fields.php:223
 msgid "Invalid Synonyms"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:232
+#: ../admin/class-is-settings-fields.php:235
 msgid "Configure Menu Search"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:252
+#: ../admin/class-is-settings-fields.php:255
 msgid "Advanced Website Search Settings"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:264
+#: ../admin/class-is-settings-fields.php:267
 msgid "Display search form on selected menu locations."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:280
+#: ../admin/class-is-settings-fields.php:283
 #, php-format
 msgid "No menu assigned to navigation menu location in the %sMenus screen%s."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:283
+#: ../admin/class-is-settings-fields.php:286
 msgid "Navigation menu location is not registered on the site."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:292
+#: ../admin/class-is-settings-fields.php:295
 msgid "Display search form on selected menus."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:307
+#: ../admin/class-is-settings-fields.php:310
 #, php-format
 msgid "No menu created in the %sMenus screen%s."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:328
+#: ../admin/class-is-settings-fields.php:331
 msgid "Display search form at the start of the navigation menu"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:334
+#: ../admin/class-is-settings-fields.php:337
 msgid "Select menu search form style."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:338
+#: ../admin/class-is-settings-fields.php:341
 msgid "Default"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:339
+#: ../admin/class-is-settings-fields.php:342
 msgid "Dropdown"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:340
+#: ../admin/class-is-settings-fields.php:343
 msgid "Sliding"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:341
+#: ../admin/class-is-settings-fields.php:344
 msgid "Full Width"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:342
+#: ../admin/class-is-settings-fields.php:345
 msgid "Popup"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:369
+#: ../admin/class-is-settings-fields.php:372
 msgid "Select menu magnifier icon color."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:382
+#: ../admin/class-is-settings-fields.php:385
 msgid "Display search form close icon"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:389
+#: ../admin/class-is-settings-fields.php:392
 msgid "Add menu title to display in place of search icon."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:399
+#: ../admin/class-is-settings-fields.php:402
 msgid "Select search form that will control menu search functionality."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:410
-#: ../admin/class-is-settings-fields.php:492
-#: ../admin/class-is-settings-fields.php:524
+#: ../admin/class-is-settings-fields.php:413
+#: ../admin/class-is-settings-fields.php:495
+#: ../admin/class-is-settings-fields.php:527
 msgid "None"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:419
-#: ../admin/class-is-settings-fields.php:502
-#: ../admin/class-is-settings-fields.php:532
+#: ../admin/class-is-settings-fields.php:422
+#: ../admin/class-is-settings-fields.php:505
+#: ../admin/class-is-settings-fields.php:535
 msgid "Create New"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:427
+#: ../admin/class-is-settings-fields.php:430
 msgid "Add class to search form menu item."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:433
+#: ../admin/class-is-settings-fields.php:436
 msgid "Add multiple classes seperated by space."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:439
+#: ../admin/class-is-settings-fields.php:442
 msgid ""
 "Add Google Custom Search( CSE ) search form code that will replace default "
 "search form."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:457
+#: ../admin/class-is-settings-fields.php:460
 msgid "Enabled"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:458
+#: ../admin/class-is-settings-fields.php:461
 msgid "Disabled"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:459
+#: ../admin/class-is-settings-fields.php:462
 msgid "Google Analytics tracking for searches"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:460
+#: ../admin/class-is-settings-fields.php:463
 msgid "Search Analytics uses Google Analytics to track searches."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:461
+#: ../admin/class-is-settings-fields.php:464
 #, php-format
 msgid "You need %s Google Analytics %s to be installed on your site."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:462
+#: ../admin/class-is-settings-fields.php:465
 msgid ""
 "Data will be visible inside Google Analytics 'Events' and 'Site Search' "
 "report."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:463
+#: ../admin/class-is-settings-fields.php:466
 msgid "Events will be as below:"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:464
+#: ../admin/class-is-settings-fields.php:467
 msgid "Category - Results Found / Nothing Found"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:465
+#: ../admin/class-is-settings-fields.php:468
 msgid "Action - Ivory Search - ID"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:466
+#: ../admin/class-is-settings-fields.php:469
 msgid "Label - Value of search term"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:467
+#: ../admin/class-is-settings-fields.php:470
 #, php-format
 msgid ""
 "Need to %s activate Site Search feature %s inside Google Analytics to "
 "display data inside 'Site Search' report."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:468
+#: ../admin/class-is-settings-fields.php:471
 msgid ""
 "Enable Site search Tracking option in Site Search Settings and set its "
 "parameters as below."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:469
+#: ../admin/class-is-settings-fields.php:472
 msgid "Query parameter - s"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:470
+#: ../admin/class-is-settings-fields.php:473
 msgid "Category parameter - id / result"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:480
+#: ../admin/class-is-settings-fields.php:483
 msgid "Select search form to display in site header( Not Menu )."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:505
+#: ../admin/class-is-settings-fields.php:508
 msgid ""
 "Please note that the above option displays search form in site header and "
 "not in navigation menu."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:513
+#: ../admin/class-is-settings-fields.php:516
 msgid "Select search form to display in site footer."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:548
+#: ../admin/class-is-settings-fields.php:551
 msgid "Display search form in site header on mobile devices"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:551
+#: ../admin/class-is-settings-fields.php:554
 msgid ""
 "If this site uses cache then please select the below option to display "
 "search form on mobile."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:558
+#: ../admin/class-is-settings-fields.php:561
 msgid "This site uses cache"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:567
+#: ../admin/class-is-settings-fields.php:570
 msgid "Add custom CSS code."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:580
+#: ../admin/class-is-settings-fields.php:583
 msgid "Add Stopwords that will not be searched."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:585
+#: ../admin/class-is-settings-fields.php:588
 msgid "Please separate multiple words with commas."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:594
+#: ../admin/class-is-settings-fields.php:597
 msgid "Add synonyms to make the searches find better results."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:596
+#: ../admin/class-is-settings-fields.php:599
 msgid ""
 "If you add bird = crow to the list of synonyms, searches for bird "
 "automatically become a search for bird crow and will thus match to posts "
 "that include either bird or crow."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:601
+#: ../admin/class-is-settings-fields.php:604
 msgid "The format here is key = value"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:602
+#: ../admin/class-is-settings-fields.php:605
 msgid "Please add every synonyms key = value pairs on new line."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:604
+#: ../admin/class-is-settings-fields.php:607
 msgid ""
 "This only works for search forms configured to search any of the search "
 "terms(OR) and not all search terms(AND) in the search form Options."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:613
+#: ../admin/class-is-settings-fields.php:616
 msgid ""
 "Enable below options to disable loading of plugin CSS and JavaScript files."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:617
+#: ../admin/class-is-settings-fields.php:620
 msgid "Do not load plugin CSS files"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:618
+#: ../admin/class-is-settings-fields.php:621
 msgid "Do not load plugin JavaScript files"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:634
+#: ../admin/class-is-settings-fields.php:637
 msgid ""
 "If checked, you have to add following plugin file code into your child theme "
 "CSS file."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:639
+#: ../admin/class-is-settings-fields.php:642
 msgid ""
 "If checked, you have to add following plugin files code into your child "
 "theme JavaScript file."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:656
+#: ../admin/class-is-settings-fields.php:659
 msgid "Warning: Use with caution."
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:661
+#: ../admin/class-is-settings-fields.php:664
 msgid ""
 "Do not use Default Search Form to control WordPress default search "
 "functionality"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:670
+#: ../admin/class-is-settings-fields.php:673
 msgid "Disable search functionality on entire website"
 msgstr ""
 
-#: ../admin/class-is-settings-fields.php:680
+#: ../admin/class-is-settings-fields.php:683
 msgid ""
 "Display easy edit links of search form on the website frontend to the admin "
 "users"
@@ -1587,6 +1614,10 @@ msgstr ""
 
 #: ../admin/class-is-settings-index-fields.php:132
 msgid "Index Configurations"
+msgstr ""
+
+#: ../admin/class-is-settings-index-fields.php:165
+msgid "Delete Index"
 msgstr ""
 
 #: ../admin/class-is-settings-index-fields.php:175
@@ -1628,6 +1659,10 @@ msgstr ""
 
 #: ../admin/class-is-settings-index-fields.php:443
 msgid "Index selected custom fields."
+msgstr ""
+
+#: ../admin/class-is-settings-index-fields.php:503
+msgid "-custom_field"
 msgstr ""
 
 #: ../admin/class-is-settings-index-fields.php:520
@@ -1707,44 +1742,45 @@ msgid ""
 "  'Cancel' to stop, 'OK' to reset."
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:130
+#: ../includes/class-is-admin-public.php:118
+#: ../public/partials/is-ajax-results.php:152
 msgid "Loader Image"
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:133
+#: ../includes/class-is-admin-public.php:121
 msgid "AJAX loader image."
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:150
+#: ../includes/class-is-admin-public.php:138
 msgid "Search Form Style"
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:151
+#: ../includes/class-is-admin-public.php:139
 msgid "Search form submit button field style."
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:155
+#: ../includes/class-is-admin-public.php:143
 msgid "Style 1"
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:159
+#: ../includes/class-is-admin-public.php:147
 msgid "Style 2"
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:163
+#: ../includes/class-is-admin-public.php:151
 msgid "Style 3"
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:173
+#: ../includes/class-is-admin-public.php:161
 #: ../includes/class-is-search-form.php:528
 msgid "Search here..."
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:177
+#: ../includes/class-is-admin-public.php:165
 msgid "Text Box Placeholder"
 msgstr ""
 
-#: ../includes/class-is-admin-public.php:190
+#: ../includes/class-is-admin-public.php:178
 #: ../includes/class-is-search-form.php:601
 msgid "Search Button"
 msgstr ""
@@ -2039,6 +2075,14 @@ msgstr ""
 msgid "Please select search form in the Ivory Search widget."
 msgstr ""
 
+#: ../includes/class-is-widget.php:56
+msgid "Title:"
+msgstr ""
+
+#: ../includes/class-is-widget.php:67
+msgid "Search Form:"
+msgstr ""
+
 #: ../includes/class-is-widget.php:69
 msgid "Click to select Search Form"
 msgstr ""
@@ -2051,43 +2095,47 @@ msgstr ""
 msgid "More results"
 msgstr ""
 
-#: ../public/class-is-ajax.php:299 ../public/partials/is-ajax-results.php:41
+#: ../public/class-is-ajax.php:296 ../public/partials/is-ajax-results.php:41
 msgid "Category"
 msgstr ""
 
-#: ../public/class-is-ajax.php:301 ../public/partials/is-ajax-results.php:30
+#: ../public/class-is-ajax.php:298 ../public/partials/is-ajax-results.php:30
 msgid "Tag"
 msgstr ""
 
-#: ../public/class-is-ajax.php:502
+#: ../public/class-is-ajax.php:429
+msgid "By"
+msgstr ""
+
+#: ../public/class-is-ajax.php:483
 msgid "Tagged with:"
 msgstr ""
 
-#: ../public/class-is-ajax.php:530
+#: ../public/class-is-ajax.php:509
 msgid "Categories:"
 msgstr ""
 
-#: ../public/class-is-ajax.php:603
+#: ../public/class-is-ajax.php:578
 msgid "In stock"
 msgstr ""
 
-#: ../public/class-is-ajax.php:603
+#: ../public/class-is-ajax.php:578
 msgid "Out of stock"
 msgstr ""
 
-#: ../public/class-is-ajax.php:626
+#: ../public/class-is-ajax.php:599
 msgid "SKU:"
 msgstr ""
 
-#: ../public/class-is-ajax.php:678
+#: ../public/class-is-ajax.php:644
 msgid "Sale!"
 msgstr ""
 
-#: ../public/class-is-public.php:202
+#: ../public/class-is-public.php:206
 msgid "Search Title Link"
 msgstr ""
 
-#: ../public/class-is-public.php:204
+#: ../public/class-is-public.php:208
 msgid "Search Icon Link"
 msgstr ""
 

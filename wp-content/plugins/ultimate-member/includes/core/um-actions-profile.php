@@ -294,10 +294,12 @@ function um_user_edit_profile( $args ) {
 			if ( isset( $array['options'] ) && in_array( $array['type'], array( 'select', 'multiselect' ) ) ) {
 
 				$options = array();
-				if ( ! empty( $array['custom_dropdown_options_source'] ) && function_exists( $array['custom_dropdown_options_source'] ) && ! $has_custom_source  ) {
-					$callback_result = call_user_func( $array['custom_dropdown_options_source'], $array['options'] );
-					if ( is_array( $callback_result ) ) {
-						$options = array_keys( $callback_result );
+				if ( ! empty( $array['custom_dropdown_options_source'] ) && function_exists( $array['custom_dropdown_options_source'] ) && ! $has_custom_source ) {
+					if ( ! UM()->fields()->is_source_blacklisted( $array['custom_dropdown_options_source'] ) ) {
+						$callback_result = call_user_func( $array['custom_dropdown_options_source'], $array['options'] );
+						if ( is_array( $callback_result ) ) {
+							$options = array_keys( $callback_result );
+						}
 					}
 				}
 

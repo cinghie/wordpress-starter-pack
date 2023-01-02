@@ -759,6 +759,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 					'reset_password_limit_number'           => array(
 						'sanitize' => 'absint',
 					),
+					'change_password_request_limit'         => array(
+						'sanitize' => 'bool',
+					),
 					'blocked_emails'                        => array(
 						'sanitize' => 'textarea',
 					),
@@ -1284,6 +1287,12 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 										'validate'    => 'numeric',
 										'conditional' => array( 'enable_reset_password_limit', '=', 1 ),
 										'size'        => 'small',
+									),
+									array(
+										'id'      => 'change_password_request_limit',
+										'type'    => 'checkbox',
+										'label'   => __( 'Change Password request limit', 'ultimate-member' ),
+										'tooltip' => __( 'This option adds rate limit when submitting the change password form in the Account page. Users are only allowed to submit 1 request per 30 minutes to prevent from any brute-force attacks or password guessing with the form.', 'ultimate-member' ),
 									),
 									array(
 										'id'      => 'blocked_emails',
@@ -3172,7 +3181,6 @@ do_action( "um_install_info_after_page_config" ); ?>
 Default New User Role: 		<?php  echo UM()->options()->get('register_role') . "\n"; ?>
 Profile Permalink Base:		<?php  echo UM()->options()->get('permalink_base') . "\n"; ?>
 User Display Name:			<?php  echo UM()->options()->get('display_name') . "\n"; ?>
-Force Name to Uppercase:		<?php echo $this->info_value( UM()->options()->get('force_display_name_capitlized'), 'yesno', true ); ?>
 Redirect author to profile: 		<?php echo $this->info_value( UM()->options()->get('author_redirect'), 'yesno', true ); ?>
 Enable Members Directory:	<?php echo $this->info_value( UM()->options()->get('members_page'), 'yesno', true ); ?>
 Use Gravatars: 				<?php echo $this->info_value( UM()->options()->get('use_gravatars'), 'yesno', true ); ?>
@@ -3449,7 +3457,6 @@ Use Only Cookies:         			<?php echo ini_get( 'session.use_only_cookies' ) ? 
 		 * @return array
 		 */
 		function save_email_templates( $settings ) {
-
 			if ( empty( $settings['um_email_template'] ) ) {
 				return $settings;
 			}
@@ -3458,16 +3465,17 @@ Use Only Cookies:         			<?php echo ini_get( 'session.use_only_cookies' ) ? 
 			$content = wp_kses_post( stripslashes( $settings[ $template ] ) );
 
 			$theme_template_path = UM()->mail()->get_template_file( 'theme', $template );
-
 			if ( ! file_exists( $theme_template_path ) ) {
 				UM()->mail()->copy_email_template( $template );
 			}
 
-			$fp = fopen( $theme_template_path, "w" );
-			$result = fputs( $fp, $content );
-			fclose( $fp );
+			if ( file_exists( $theme_template_path ) ) {
+				$fp = fopen( $theme_template_path, "w" );
+				$result = fputs( $fp, $content );
+				fclose( $fp );
+			}
 
-			if ( $result !== false ) {
+			if ( isset( $result ) && $result !== false ) {
 				unset( $settings['um_email_template'] );
 				unset( $settings[ $template ] );
 			}

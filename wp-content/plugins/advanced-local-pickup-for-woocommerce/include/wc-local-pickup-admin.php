@@ -56,7 +56,8 @@ class WC_Local_Pickup_Admin {
 		
 		// Add to list of WC Order statuses
 		add_filter( 'wc_order_statuses', array( $this, 'add_pickup_to_order_statuses' ) );
-		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_bulk_actions_change_order_status' ), 50, 1 );				
+		add_filter( 'bulk_actions-edit-shop_order', array( $this, 'add_bulk_actions_change_order_status' ), 50, 1 );
+		add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'add_bulk_actions_change_order_status'), 50, 1 );			
 		
 		// Add to custom email for WC Order statuses
 		add_filter( 'woocommerce_email_before_order_table', array( $this, 'add_location_address_detail_emails' ), 2, 4 );
@@ -374,20 +375,31 @@ class WC_Local_Pickup_Admin {
 				$wpdb->insert( $this->table, $data );
 				$id = $wpdb->insert_id;
 			}
+
+			$wclp_store_name = isset($_POST['wclp_store_name']) ? sanitize_text_field($_POST['wclp_store_name']) : '';
+			$wclp_store_address = isset($_POST['wclp_store_address']) ? sanitize_text_field($_POST['wclp_store_address']) : '';
+			$wclp_store_address_2 = isset($_POST['wclp_store_address_2']) ? sanitize_text_field($_POST['wclp_store_address_2']) : '';
+			$wclp_store_city = isset($_POST['wclp_store_city']) ? sanitize_text_field($_POST['wclp_store_city']) : '';
+			$wclp_default_country = isset($_POST['wclp_default_country']) ? sanitize_text_field($_POST['wclp_default_country']) : '';
+			$wclp_store_postcode = isset($_POST['wclp_store_postcode']) ? sanitize_text_field($_POST['wclp_store_postcode']) : '';
+			$wclp_store_phone = isset($_POST['wclp_store_phone']) ? sanitize_text_field($_POST['wclp_store_phone']) : '';
+			$wclp_default_time_format = isset($_POST['wclp_default_time_format']) ? sanitize_text_field($_POST['wclp_default_time_format']) : '';
+			$wclp_store_days = isset($_POST['wclp_store_days']) ? serialize(wc_clean($_POST['wclp_store_days'])) : get_option('wclp_store_days');
+			$wclp_store_instruction = isset($_POST['wclp_store_instruction']) ? sanitize_text_field($_POST['wclp_store_instruction']) : '';
 			
 			
 			//get form field
 			$data = array(
-				'store_name' => isset( $_POST['wclp_store_name'] ) ? sanitize_text_field( $_POST['wclp_store_name'] ) : '',
-				'store_address' => isset( $_POST['wclp_store_address'] ) ? sanitize_text_field( $_POST['wclp_store_address'] ) : '',
-				'store_address_2' => isset( $_POST['wclp_store_address_2'] ) ? sanitize_text_field( $_POST['wclp_store_address_2'] ) : '',
-				'store_city' => isset( $_POST['wclp_store_city'] ) ? sanitize_text_field( $_POST['wclp_store_city'] ) : '',
-				'store_country' => isset( $_POST['wclp_default_country'] ) ? sanitize_text_field( $_POST['wclp_default_country'] ) : '',
-				'store_postcode' => isset( $_POST['wclp_store_postcode'] ) ? sanitize_text_field( $_POST['wclp_store_postcode'] ) : '',
-				'store_phone' => isset( $_POST['wclp_store_phone'] ) ? sanitize_text_field( $_POST['wclp_store_phone'] ) : '',
-				'store_time_format' => isset( $_POST['wclp_default_time_format'] ) ? sanitize_text_field( $_POST['wclp_default_time_format'] ) : '',
-				'store_days' => !empty($_POST['wclp_store_days']) ? serialize(wc_clean($_POST['wclp_store_days'])) : '',
-				'store_instruction' => isset( $_POST['wclp_store_instruction'] ) ? sanitize_text_field( $_POST['wclp_store_instruction'] ) : '',
+				'store_name' => $wclp_store_name,
+				'store_address' => $wclp_store_address,
+				'store_address_2' => $wclp_store_address_2,
+				'store_city' => $wclp_store_city,
+				'store_country' => $wclp_default_country,
+				'store_postcode' => $wclp_store_postcode,
+				'store_phone' => $wclp_store_phone,
+				'store_time_format' => $wclp_default_time_format,
+				'store_days' => $wclp_store_days,
+				'store_instruction' => $wclp_store_instruction,
 			);
 			
 			// local pickup location edit form save hook
@@ -412,7 +424,14 @@ class WC_Local_Pickup_Admin {
 				'id' => $id,
 			);
 			
-			$result = $wpdb->update( $this->table, $data, $where );				
+			$result = $wpdb->update( $this->table, $data, $where );	
+			
+			//WPML string registed
+			do_action( 'wpml_register_single_string', 'advanced-local-pickup-pro', $wclp_store_name, $wclp_store_name );
+			do_action( 'wpml_register_single_string', 'advanced-local-pickup-pro', $wclp_store_instruction, $wclp_store_instruction );
+			do_action( 'wpml_register_single_string', 'advanced-local-pickup-pro', $wclp_store_address, $wclp_store_address );
+			do_action( 'wpml_register_single_string', 'advanced-local-pickup-pro', $wclp_store_address_2, $wclp_store_address_2 );
+			do_action( 'wpml_register_single_string', 'advanced-local-pickup-pro', $wclp_store_city, $wclp_store_city );
 			
 			echo json_encode( $array );
 			die();
@@ -515,11 +534,11 @@ class WC_Local_Pickup_Admin {
 	public function add_bulk_actions_change_order_status( $bulk_actions ) {
 		$ready_for_pickup = get_option( 'wclp_status_ready_pickup', 0);
 		if (true == $ready_for_pickup) {
-			$bulk_actions['mark_ready-pickup'] = esc_html__( 'Change status to Ready for pickup', 'advanced-local-pickup-for-woocommerce' );
+			$bulk_actions['mark_ready-pickup'] = esc_html__( 'Change status to ready for pickup', 'advanced-local-pickup-for-woocommerce' );
 		}
 		$picked = get_option( 'wclp_status_picked_up', 0);
 		if (true == $picked) {
-			$bulk_actions['mark_pickup'] = esc_html__( 'Change status to Picked up', 'advanced-local-pickup-for-woocommerce' );
+			$bulk_actions['mark_pickup'] = esc_html__( 'Change status to picked up', 'advanced-local-pickup-for-woocommerce' );
 		}
 		return $bulk_actions;		
 	}

@@ -62,7 +62,6 @@ final class PYS extends Settings implements Plugin {
         add_action( 'admin_menu', array( $this, 'adminMenu' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'adminEnqueueScripts' ) );
         add_action( 'admin_notices', 'PixelYourSite\adminRenderNotices' );
-        add_action( 'admin_notices', 'PixelYourSite\adminRenderPromoNotice' );
         add_action( 'admin_init', array( $this, 'adminProcessRequest' ), 11 );
 
         // run Events Manager
@@ -178,7 +177,7 @@ final class PYS extends Settings implements Plugin {
      * @param \WP_User $user
      */
     function userLogin($user_login, $user) {
-        add_user_meta($user->ID,'pys_just_login',true);
+        update_user_meta($user->ID,'pys_just_login',true);
     }
 
     public function userRegisterHandler( $user_id ) {
@@ -242,6 +241,19 @@ final class PYS extends Settings implements Plugin {
         if (function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled()) {
             return;
         }
+        if(PYS()->getOption( 'block_robot_enabled') && $this->is_user_agent_bot())
+        {
+            return;
+        }
+        if(PYS()->getOption( 'block_ip_enabled') && in_array($this->get_user_ip(), PYS()->getOption('blocked_ips')))
+        {
+            return;
+        }
+
+        $theme = wp_get_theme(); // gets the current theme
+        if ( ('Bricks' == $theme->name || 'Bricks' == $theme->parent_theme) && $_GET['bricks']=='run') {
+            return;
+        }
 
     	// output debug info
 	    add_action( 'wp_head', function() {
@@ -251,7 +263,8 @@ final class PYS extends Settings implements Plugin {
 	    if ( isDisabledForCurrentRole() ) {
 	    	return;
 	    }
-
+        // setup events
+        $this->eventsManager = new EventsManager();
 	    // at least one pixel should be configured
 	    if ( ! Facebook()->configured() && ! GA()->configured() && ! Pinterest()->configured() && ! Bing()->configured() ) {
 
@@ -263,9 +276,53 @@ final class PYS extends Settings implements Plugin {
 
 	    }
 
-	    // setup events
-	    $this->eventsManager = new EventsManager();
 
+
+    }
+
+    function get_user_ip(){
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+
+    function is_user_agent_bot(){
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            $options = array(
+                'YandexBot', 'YandexAccessibilityBot', 'YandexMobileBot','YandexDirectDyn',
+                'YandexScreenshotBot', 'YandexImages', 'YandexVideo', 'YandexVideoParser',
+                'YandexMedia', 'YandexBlogs', 'YandexFavicons', 'YandexWebmaster',
+                'YandexPagechecker', 'YandexImageResizer','YandexAdNet', 'YandexDirect',
+                'YaDirectFetcher', 'YandexCalendar', 'YandexSitelinks', 'YandexMetrika',
+                'YandexNews', 'YandexNewslinks', 'YandexCatalog', 'YandexAntivirus',
+                'YandexMarket', 'YandexVertis', 'YandexForDomain', 'YandexSpravBot',
+                'YandexSearchShop', 'YandexMedianaBot', 'YandexOntoDB', 'YandexOntoDBAPI',
+                'Googlebot', 'Googlebot-Image', 'Googlebot-News', 'Googlebot-Video',
+                'Mediapartners-Google', 'AdsBot-Google', 'Chrome-Lighthouse', 'Lighthouse',
+                'Mail.RU_Bot', 'bingbot', 'Accoona', 'ia_archiver', 'Ask Jeeves',
+                'OmniExplorer_Bot', 'W3C_Validator', 'WebAlta', 'YahooFeedSeeker', 'Yahoo!',
+                'Ezooms', '', 'Tourlentabot', 'MJ12bot', 'AhrefsBot', 'SearchBot', 'SiteStatus',
+                'Nigma.ru', 'Baiduspider', 'Statsbot', 'SISTRIX', 'AcoonBot', 'findlinks',
+                'proximic', 'OpenindexSpider','statdom.ru', 'Exabot', 'Spider', 'SeznamBot',
+                'oBot', 'C-T bot', 'Updownerbot', 'Snoopy', 'heritrix', 'Yeti',
+                'DomainVader', 'DCPbot', 'PaperLiBot', 'APIs-Google', 'AdsBot-Google-Mobile',
+                'AdsBot-Google-Mobile', 'AdsBot-Google-Mobile-Apps', 'FeedFetcher-Google',
+                'Google-Read-Aloud', 'DuplexWeb-Google', 'Storebot-Google'
+            );
+
+            foreach($options as $row) {
+                if (stripos($_SERVER['HTTP_USER_AGENT'], $row) !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function ajaxGetGdprFiltersValues() {
@@ -337,7 +394,7 @@ final class PYS extends Settings implements Plugin {
     }
 
     public function adminEnqueueScripts() {
-
+        wp_enqueue_style( 'pys_notice', PYS_FREE_URL . '/dist/styles/notice.css', array(), PYS_FREE_VERSION );
         if ( in_array( getCurrentAdminPage(), $this->adminPagesSlugs ) ) {
 
 

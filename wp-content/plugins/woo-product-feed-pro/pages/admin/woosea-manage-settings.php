@@ -137,123 +137,8 @@ if(isset($_GET["tab"])) {
                                                 <tr><td><strong><?php _e( 'Plugin setting', 'woo-product-feed-pro' );?></strong></td><td><strong><?php _e( 'Off / On', 'woo-product-feed-pro' );?></strong></td></tr>
 
 						<form action="" method="post">
-						<?php
-						if($elite_disable == "enabled"){
-						?>
-						<tr class="<?php print"$elite_disable";?>" id="json_option">
-							<td>
-								<span><?php _e( 'Increase the number of products that will be approved in Google\'s Merchant Center:', 'woo-product-feed-pro' );?><br/>
-								<?php _e( 'This option will fix WooCommerce\'s (JSON-LD) structured data bug and add extra structured data elements to your pages.', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/woocommerce-structured-data-bug/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=structured data bug" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
-							</td>
-							<td>
-                                                		<label class="woo-product-feed-pro-switch">
-								<?php
-								$structured_data_fix = get_option ('structured_data_fix');
- 	                                                       	if($structured_data_fix == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"fix_json_ld\" name=\"fix_json_ld\" class=\"checkbox-field\" checked $elite_disable>";
-							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"fix_json_ld\" name=\"fix_json_ld\" class=\"checkbox-field\" $elite_disable>";
-                                                        	}
-                                                        	?>
-                                                        	<div class="woo-product-feed-pro-slider round"></div>
-                                                		</label>
-							</td>
-						</tr>
-						<tr class="<?php print"$elite_disable";?>" id="structured_vat_option">
-							<td>
-								<span><?php _e( 'Exclude TAX from structured data prices', 'woo-product-feed-pro' );?></span>
-							</td>
-							<td>
-                                                		<label class="woo-product-feed-pro-switch">
-								<?php
-								$structured_vat = get_option ('structured_vat');
- 	                                                       	if($structured_vat == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"no_structured_vat\" name=\"no_structured_vat\" class=\"checkbox-field\" checked $elite_disable>";
-							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"no_structured_vat\" name=\"no_structured_vat\" class=\"checkbox-field\" $elite_disable>";
-                                                        	}
-                                                        	?>
-                                                        	<div class="woo-product-feed-pro-slider round"></div>
-                                                		</label>
-							</td>
-						</tr>
-						<tr class="<?php print"$elite_disable";?>" id="identifier_option">
-							<td>
-								<span><?php _e( 'Add GTIN, MPN, UPC, EAN, Product condition, Optimised title, Installment, Unit measure, Brand and many more attributes to your store:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/add-gtin-mpn-upc-ean-product-condition-optimised-title-and-brand-attributes/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=adding fields" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
-							</td>
-							<td>
-                                                		<label class="woo-product-feed-pro-switch">
-                                                        	<?php
-								$add_unique_identifiers = get_option ('add_unique_identifiers');
-                                                        	if($add_unique_identifiers == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_identifiers\" name=\"add_identifiers\" class=\"checkbox-field\" checked $elite_disable>";
-							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_identifiers\" name=\"add_identifiers\" class=\"checkbox-field\" $elite_disable>";
-                                                        	}
-                                                        	?>
-                                                        	<div class="woo-product-feed-pro-slider round"></div>
-                                                		</label>
-							</td>
-						</tr>
-						<tr class="<?php print"$elite_disable";?>" id="manipulation_option">
-							<td>
-								<span><?php _e( 'Enable the Product Data Manipulation feature:', 'woo-product-feed-pro' );?> (<a href="https://adtribes.io/feature-product-data-manipulation/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=wpml support" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro' );?>)</a></span>
-							</td>
-							<td>
-                                                		<label class="woo-product-feed-pro-switch">
-                                                        	<?php
-								$add_manipulation_support = get_option ('add_manipulation_support');
-                                                        	if($add_manipulation_support == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_manipulation_support\" name=\"add_manipulation_support\" class=\"checkbox-field\" checked $elite_disable>";
-							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_manipulation_support\" name=\"add_manipulation_support\" class=\"checkbox-field\" $elite_disable>";
-                                                        	}
-                                                        	?>
-                                                        	<div class="woo-product-feed-pro-slider round"></div>
-                                                		</label>
-							</td>
-						</tr>
+						<?php wp_nonce_field( 'woosea_ajax_nonce' ); ?>
 
-						<tr class="<?php print"$elite_disable";?>" id="wpml_option">
-							<td>
-								<span><?php _e( 'Enable WPML support:', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/wpml-support/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=wpml support" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro');?>)</a></span>
-							</td>
-							<td>
-                                                		<label class="woo-product-feed-pro-switch">
-                                                        	<?php
-								$add_wpml_support = get_option ('add_wpml_support');
-                                                        	if($add_wpml_support == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_wpml_support\" name=\"add_wpml_support\" class=\"checkbox-field\" checked $elite_disable>";
-							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_wpml_support\" name=\"add_wpml_support\" class=\"checkbox-field\" $elite_disable>";
-                                                        	}
-                                                        	?>
-                                                        	<div class="woo-product-feed-pro-slider round"></div>
-                                                		</label>
-							</td>
-						</tr>
-
-						<tr class="<?php print"$elite_disable";?>" id="aelia_option">
-							<td>
-								<span><?php _e( 'Enable Aelia Currency Switcher support:', 'woo-product-feed-pro');?> (<a href="https://adtribes.io/aelia-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=manage-settings&utm_content=aelia support" target="_blank"><?php _e( 'Read more about this', 'woo-product-feed-pro'); ?>)</a></span>
-							</td>
-							<td>
-                                                		<label class="woo-product-feed-pro-switch">
-                                                        	<?php
-								$add_aelia_support = get_option ('add_aelia_support');
-                                                        	if($add_aelia_support == "yes"){
-                                                                	print "<input type=\"checkbox\" id=\"add_aelia_support\" name=\"add_aeli_support\" class=\"checkbox-field\" checked $elite_disable>";
-							 	} else {
-                                                                	print "<input type=\"checkbox\" id=\"add_aelia_support\" name=\"add_aeli_support\" class=\"checkbox-field\" $elite_disable>";
-                                                        	}
-                                                        	?>
-                                                        	<div class="woo-product-feed-pro-slider round"></div>
-                                                		</label>
-							</td>
-						</tr>
-						<?php
-						}
-						?>
 						<tr>
 							<td>
 								<span><?php _e( 'Use parent variable product image for variations', 'woo-product-feed-pro');?></span>
@@ -746,7 +631,6 @@ if(isset($_GET["tab"])) {
                                                                 <li><strong>6.</strong> <?php _e( 'Aelia currency switcher support', 'woo-product-feed-pro');?></li>
                                                                 <li><strong>7.</strong> <?php _e( 'Facebook pixel feature', 'woo-product-feed-pro');?></li>
 								<li><strong>8.</strong> <?php _e( 'Polylang support', 'woo-product-feed-pro');?></li>
-								<li><strong>9.</strong> <?php _e( 'TranslatePress support', 'woo-product-feed-pro');?></li>
 							</ul>
                                                         <strong>
                                                         <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=manage-settings&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!', 'woo-product-feed-pro' );?></a>

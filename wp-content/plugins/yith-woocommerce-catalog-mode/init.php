@@ -5,10 +5,10 @@
  * Description: <code><strong>YITH WooCommerce Catalog Mode</strong></code> allows hiding product prices, cart and checkout from your store and turning it into a performing product catalogue. You will be able to adjust your catalogue settings as you prefer based on your requirements. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
  * Author: YITH
  * Text Domain: yith-woocommerce-catalog-mode
- * Version: 2.15.0
+ * Version: 2.17.0
  * Author URI: https://yithemes.com/
- * WC requires at least: 6.8.0
- * WC tested up to: 7.0.x
+ * WC requires at least: 7.0.0
+ * WC tested up to: 7.2.x
  *
  * @package YITH WooCommerce Catalog Mode
  */
@@ -61,7 +61,7 @@ function ywctm_install_free_admin_notice() {
 	<?php
 }
 
-! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.15.0' );
+! defined( 'YWCTM_VERSION' ) && define( 'YWCTM_VERSION', '2.17.0' );
 ! defined( 'YWCTM_FREE_INIT' ) && define( 'YWCTM_FREE_INIT', plugin_basename( __FILE__ ) );
 ! defined( 'YWCTM_SLUG' ) && define( 'YWCTM_SLUG', 'yith-woocommerce-catalog-mode' );
 ! defined( 'YWCTM_FILE' ) && define( 'YWCTM_FILE', __FILE__ );
@@ -140,5 +140,20 @@ if ( ! function_exists( 'YITH_WCTM' ) ) {
 
 		return YITH_WooCommerce_Catalog_Mode::get_instance();
 
+	}
+}
+
+add_action( 'before_woocommerce_init', 'ywctm_free_declare_hpos_compatibility' );
+
+/**
+ * Declare HPOS compatibility
+ *
+ * @return void
+ * @since  2.17.0
+ * @author Alberto Ruggiero <alberto.ruggiero@yithemes.com>
+ */
+function ywctm_free_declare_hpos_compatibility() {
+	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 	}
 }

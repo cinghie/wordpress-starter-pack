@@ -3,10 +3,10 @@
 Contributors: WPMarketingRobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Donate link: https://www.wpmarketingrobot.com/
-Requires at least: 5.4
-Tested up to: 6.0.1
+Requires at least: 7.2
+Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.44.0
+Stable tag: 1.46.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,6 +97,16 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.46.0 - 19/12/2022 =
+* Fixed an issue where the "Regular Price" and "Sale Price" could be unreliable for variable products.
+* Tested on WooCommerce version 7.2.0.
+* Fixed an issue where the output of the "Regular Price With Tax" and "Regular Price Without Tax" would show the Sale Price in stead of the Regular Price.
+* Fixed an issue where the wppfm_feed_item_value filter would be called twice instead of once.
+* Fixed an issue where the data of disabled product variations would still be included in the feed data.
+
+= 1.45.0 - 14/11/2022 =
+* Tested on WooCommerce 7.1.0.
+
 = 1.44.0 - 29/09/2022 =
 * Added a new line break at the end of each xml row to make a more readable xml feed and prevent large text lines.
 * Added an utf8 check to CDATA string conversion.

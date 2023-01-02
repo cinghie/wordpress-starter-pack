@@ -222,6 +222,9 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			update_site_option( 'pre_data_' . $key, $this->pre_data );
 			update_site_option( 'channel_details_' . $key, $this->channel_details );
 			update_site_option( 'relations_table_' . $key, $this->relations_table );
+		} else { // @since 2.35.0
+			$message = sprintf( 'Got no data to store in the site option! Feed id = %s', $feed_id );
+			do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
 		}
 
 		return $this;
@@ -442,41 +445,44 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			$batch = $this->get_batch();
 
 			if ( ! $batch ) { // @since 2.10.0
-				$this->end_batch( false, 'failed' );
+				$message = 'Could not get the next batch data!';
+				do_action( 'wppfm_feed_generation_message', '0', $message, 'ERROR' );
+				$this->end_batch( 'unknown', 'failed' );
 				return false;
 			}
 
 			$properties_key  = get_site_option( 'wppfm_background_process_key' );
+
+			// @since 2.10.0
+			if ( ! $properties_key ) {
+				$message = 'Tried to get the next batch but the wppfm_background_process_key is empty.';
+				do_action( 'wppfm_feed_generation_message', '0', $message, 'ERROR' );
+				$this->end_batch( 'unknown', 'failed' );
+				return false;
+			}
+
 			$feed_file_path  = get_site_option( 'file_path_' . $properties_key );
 			$feed_data       = get_site_option( 'feed_data_' . $properties_key );
 			$pre_data        = get_site_option( 'pre_data_' . $properties_key );
 			$channel_details = get_site_option( 'channel_details_' . $properties_key );
 			$relations_table = get_site_option( 'relations_table_' . $properties_key );
 
+			// @since 2.34.0
+			if ( $feed_data && ! empty( $feed_data ) && property_exists( $feed_data, 'feedId' ) ) {
+				// phpcs:ignore
+				$feed_id = $feed_data->feedId;
+			} else {
+				$message = sprintf( 'Tried to get the next batch the feed data could not be loaded correctly. Used property key: %s', $properties_key );
+				do_action( 'wppfm_feed_generation_message', 'unknown', $message, 'ERROR' );
+				$this->end_batch( 'unknown', 'failed' );
+				return false;
+			}
+
 			// @since 2.12.0
 			$this->products_handled_in_batch = 0;
 
 			// @since 2.12.0
 			update_option( 'wppfm_batch_counter', get_option( 'wppfm_batch_counter', 0 ) + 1 );
-
-			// phpcs:ignore
-			$feed_id = $feed_data->feedId;
-
-			// @since 2.10.0
-			if ( ! $properties_key ) {
-				$message = 'Tried to get the next batch but the wppfm_background_process_key is empty.';
-				do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
-				$this->end_batch( $feed_id, 'failed' );
-				return false;
-			}
-
-			// @since 2.10.0
-			if ( ! $feed_data || empty( $feed_data ) || ! property_exists( $feed_data, 'feedId' ) ) {
-				$message = 'Tried to get the next batch the feed data could not be loaded correctly.';
-				do_action( 'wppfm_feed_generation_message', $feed_id, $message, 'ERROR' );
-				$this->end_batch( false, 'failed' );
-				return false;
-			}
 
 			// When in fore-ground mode increase the set time limit to enable larger feeds.
 			// @since 2.11.0.
@@ -521,8 +527,12 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 			// Update or delete current batch.
 			if ( ! empty( $batch->data ) ) {
+				$message = sprintf( 'Updated the batch data in the site options store for the next batch. Using key %s', $batch->key );
+				do_action('wppfm_feed_generation_message', $feed_id, $message ); // @since 2.35.0
 				$this->update( $batch->key, $batch->data );
 			} else {
+				$message = sprintf( 'No more products in the batch, so we can clear the batch data from the site options. Used key = %s', $batch->key );
+				do_action('wppfm_feed_generation_message', $feed_id, $message ); // @since 2.35.0
 				$this->delete( $batch->key );
 			}
 		} while ( ! $this->time_exceeded( $feed_id ) && ! $this->memory_exceeded( $feed_id ) && ! $this->is_queue_empty() );

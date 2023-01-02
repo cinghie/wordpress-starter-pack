@@ -3,17 +3,17 @@
  * Plugin Name: YITH WooCommerce Product Add-ons & Extra Options
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-product-add-ons/
  * Description: <code><strong>YITH WooCommerce Product Add-ons & Extra Options</strong></code> is the plugin that allows you to create new options for WooCommerce products. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
- * Version: 2.15.0
+ * Version: 2.17.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-product-add-ons
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Domain Path: /languages/
- * Requires at least: 5.8
- * Tested up to: 6.0
- * WC requires at least: 6.8
- * WC tested up to: 7.0
+ * Requires at least: 5.9
+ * Tested up to: 6.1
+ * WC requires at least: 7.0
+ * WC tested up to: 7.2
  *
  * @author  YITH
  * @package YITH WooCommerce Product Add-ons & Extra Options
@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 ! defined( 'YITH_WAPO_TEMPLATE_ADMIN_PATH' ) && define( 'YITH_WAPO_TEMPLATE_ADMIN_PATH', YITH_WAPO_TEMPLATE_PATH . '/admin/' );
 ! defined( 'YITH_WAPO_TEMPLATE_FRONTEND_PATH' ) && define( 'YITH_WAPO_TEMPLATE_FRONTEND_PATH', YITH_WAPO_TEMPLATE_PATH . '/frontend/' );
 ! defined( 'YITH_WAPO_ASSETS_URL' ) && define( 'YITH_WAPO_ASSETS_URL', YITH_WAPO_URL . 'assets' );
-! defined( 'YITH_WAPO_VERSION' ) && define( 'YITH_WAPO_VERSION', '2.15.0' );
+! defined( 'YITH_WAPO_VERSION' ) && define( 'YITH_WAPO_VERSION', '2.17.0' );
 ! defined( 'YITH_WAPO_DB_VERSION' ) && define( 'YITH_WAPO_DB_VERSION', '2.0.0' );
 ! defined( 'YITH_WAPO_FILE' ) && define( 'YITH_WAPO_FILE', __FILE__ );
 ! defined( 'YITH_WAPO_SLUG' ) && define( 'YITH_WAPO_SLUG', 'yith-woocommerce-advanced-product-options' );

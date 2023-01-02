@@ -71,6 +71,11 @@ trait WPPFM_Feed_Processor_Functions {
 			$product_data = apply_filters( 'pll_translation', $product_data, $this->_feed_data->language );
 		}
 
+		// Translatepress support.
+		if ( has_filter( 'wppfm_transpress_translation' ) ) {
+			$product_data = apply_filters( 'wppfm_transpress_translation', $product_data, $this->_feed_data->language );
+		}
+
 		// Parent ids are required to get the main data from product variations.
 		$meta_parent_ids = 0 !== $parent_product_id ? array( $parent_product_id ) : $this->get_meta_parent_ids( $product_id );
 

@@ -13,6 +13,10 @@
   "do_not_track_user_roles": "multi_select",
   "admin_permissions": "multi_select",
 
+  "block_robot_enabled": "checkbox",
+  "block_ip_enabled": "checkbox",
+  "blocked_ips": "multi_select",
+
   "woo_add_to_cart_on_button_click": "checkbox",
   "woo_add_to_cart_on_cart_page": "checkbox",
   "woo_add_to_cart_on_checkout_page": "checkbox",
@@ -92,6 +96,9 @@
   "enable_user_role_param":"checkbox",
   "enable_page_title_param":"checkbox",
   "enable_post_type_param": "checkbox",
+  "enable_post_category_param": "checkbox",
+  "сompress_front_js":  "checkbox",
+
 
   "enable_woo_category_name_param": "checkbox",
   "enable_woo_num_items_param": "checkbox",

@@ -198,6 +198,13 @@ function countdown(type, ts, id, action, redirect) {
     var minutes = Math.floor(distance % (1000 * 60 * 60) / (1000 * 60));
     var seconds = Math.floor(distance % (1000 * 60) / 1000);
 
+    if (seconds == -1) {
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      days = 0;
+    }
+
     if (days == 0) {
       jQuery("#sp-cd-days-" + id).hide();
     } else {
@@ -226,8 +233,8 @@ function countdown(type, ts, id, action, redirect) {
 
 
       if (action == "3") {
-        console.log('remove' + id);
-        seedprodCookies.remove('seedprod_enddate_' + id);
+        //console.log('remove' + id);
+        seedprodCookies.remove('seedprod_enddate_' + id); //location.reload();
       }
     }
   }, 1000);
@@ -393,19 +400,38 @@ jQuery('.sp-testimonial-nav button').click(function () {
   var currentButtonIndex = jQuery(currentId + ' .sp-testimonial-nav button').index(this);
   var currentIndex = 0;
   var testimonials = jQuery('.sp-testimonial-wrapper', jQuery(this).parents(currentId));
-  jQuery(testimonials).each(function (index) {
-    var o = jQuery(this).css('opacity');
+  var slideshowmax = jQuery(this).parents('.sp-testimonials-wrapper').attr('data-slidetoshow');
 
-    if (o == 1) {
-      currentIndex = index;
+  if (slideshowmax == undefined) {
+    slideshowmax = 1;
+  }
+  /*
+  jQuery(testimonials).each(function (index) {
+  	var o = jQuery(this).css('opacity');
+  	if (o == 1) {
+  		currentIndex = index;
+  	}
+  })
+  */
+
+
+  var slider_length = Math.ceil(testimonials.length / parseInt(slideshowmax));
+
+  for (var customindexdata = 0; customindexdata < slider_length; customindexdata++) {
+    var opa = jQuery(currentId + ' .sp-testimonial-nav button[data-index="' + customindexdata + '"]').css('opacity');
+
+    if (opa >= 0.5) {
+      //console.log("customindexdata is =" + customindexdata);
+      currentIndex = customindexdata;
     }
-  });
+  }
+
   var buttonsLength = jQuery(currentId + ' .sp-testimonial-nav button').length - 1;
   var currentButtonIndexData = jQuery(currentId + ' .sp-testimonial-nav button').eq(currentButtonIndex).attr('data-index'); // check for previous button click
 
   if (currentButtonIndex == 0) {
     if (0 == currentIndex) {
-      currentIndex = testimonials.length - 1;
+      currentIndex = Math.ceil(testimonials.length / parseInt(slideshowmax)) - 1;
     } else {
       currentIndex--;
     }
@@ -413,7 +439,7 @@ jQuery('.sp-testimonial-nav button').click(function () {
 
 
   if (currentButtonIndex == buttonsLength) {
-    if (testimonials.length - 1 == currentIndex) {
+    if (Math.ceil(testimonials.length / parseInt(slideshowmax)) - 1 == currentIndex) {
       currentIndex = 0;
     } else {
       currentIndex++;
@@ -428,24 +454,40 @@ jQuery('.sp-testimonial-nav button').click(function () {
   });
   jQuery(currentId + ' .sp-testimonial-nav button[data-index]').css({
     'opacity': 0.25
-  }); // select testimonial and button
+  });
+  var startindex = parseInt(currentIndex * parseInt(slideshowmax));
+  var endindex = parseInt(startindex + parseInt(slideshowmax)); // select testimonial and button
 
   if (currentButtonIndexData !== undefined) {
     currentIndex = currentButtonIndexData;
-    jQuery(testimonials).eq(currentIndex).css({
-      'opacity': 1,
-      'height': 'auto',
-      'position': 'initial'
-    });
+    startindex = parseInt(currentIndex * parseInt(slideshowmax));
+    endindex = parseInt(startindex + parseInt(slideshowmax));
+
+    for (var i = startindex; i < endindex; i++) {
+      jQuery(testimonials).eq(i).css({
+        'opacity': 1,
+        'height': 'auto',
+        'position': 'initial'
+      });
+    } //jQuery(testimonials).eq(currentIndex).css({ 'opacity': 1, 'height': 'auto', 'position': 'initial' });
+
+
     jQuery(currentId + ' .sp-testimonial-nav button').eq(currentButtonIndex).css({
       'opacity': 1
     });
   } else {
-    jQuery(testimonials).eq(currentIndex).css({
-      'opacity': 1,
-      'height': 'auto',
-      'position': 'initial'
-    });
+    startindex = parseInt(currentIndex * parseInt(slideshowmax));
+    endindex = parseInt(startindex + parseInt(slideshowmax));
+
+    for (var _i = startindex; _i < endindex; _i++) {
+      jQuery(testimonials).eq(_i).css({
+        'opacity': 1,
+        'height': 'auto',
+        'position': 'initial'
+      }); //jQuery(currentId + ' .sp-imagecarousel-nav button').eq(currentButtonIndex).css({ 'opacity': 1 })	
+    } //jQuery(testimonials).eq(currentIndex).css({ 'opacity': 1, 'height': 'auto', 'position': 'initial' });
+
+
     jQuery(currentId + ' .sp-testimonial-nav button').eq(currentIndex + 1).css({
       'opacity': 1
     });
@@ -533,20 +575,41 @@ jQuery('.sp-imagecarousel-nav button').click(function () {
   var currentId = '#' + jQuery(this).parents('.sp-imagecarousels-wrapper').attr('id');
   var currentButtonIndex = jQuery(currentId + ' .sp-imagecarousel-nav button').index(this);
   var currentIndex = 0;
+  var currentIndexOfNav = 0;
   var imagecarousels = jQuery('.sp-imagecarousel-wrapper', jQuery(this).parents(currentId));
-  jQuery(imagecarousels).each(function (index) {
-    var o = jQuery(this).css('opacity');
+  var slideshowmax = jQuery(this).parents('.sp-imagecarousels-wrapper').attr('data-slidetoshow');
 
-    if (o == 1) {
-      currentIndex = index;
+  if (slideshowmax == undefined) {
+    slideshowmax = 1;
+  } //console.log("new slidershow value = " + slideshowmax);
+
+  /*
+  jQuery(imagecarousels).each(function (index) {
+  	var o = jQuery(this).css('opacity');
+  	if (o == 1) {
+  		currentIndex = index;
+  	}
+  })
+  */
+
+
+  var slider_length = Math.ceil(imagecarousels.length / parseInt(slideshowmax));
+
+  for (var customindexdata = 0; customindexdata < slider_length; customindexdata++) {
+    var opa = jQuery(currentId + ' .sp-imagecarousel-nav button[data-index="' + customindexdata + '"]').css('opacity');
+
+    if (opa >= 0.5) {
+      //console.log("customindexdata is =" + customindexdata);
+      currentIndex = customindexdata;
     }
-  });
+  }
+
   var buttonsLength = jQuery(currentId + ' .sp-imagecarousel-nav button').length - 1;
   var currentButtonIndexData = jQuery(currentId + ' .sp-imagecarousel-nav button').eq(currentButtonIndex).attr('data-index'); // check for previous button click
 
   if (currentButtonIndex == 0) {
     if (0 == currentIndex) {
-      currentIndex = imagecarousels.length - 1;
+      currentIndex = Math.ceil(imagecarousels.length / parseInt(slideshowmax)) - 1;
     } else {
       currentIndex--;
     }
@@ -554,13 +617,15 @@ jQuery('.sp-imagecarousel-nav button').click(function () {
 
 
   if (currentButtonIndex == buttonsLength) {
-    if (imagecarousels.length - 1 == currentIndex) {
+    if (Math.ceil(imagecarousels.length / parseInt(slideshowmax)) - 1 == currentIndex) {
       currentIndex = 0;
     } else {
       currentIndex++;
     }
-  } // reset states
+  }
 
+  var startindex = parseInt(currentIndex * parseInt(slideshowmax));
+  var endindex = parseInt(startindex + parseInt(slideshowmax)); // reset states
 
   imagecarousels.css({
     'opacity': 0,
@@ -573,20 +638,34 @@ jQuery('.sp-imagecarousel-nav button').click(function () {
 
   if (currentButtonIndexData !== undefined) {
     currentIndex = currentButtonIndexData;
-    jQuery(imagecarousels).eq(currentIndex).css({
-      'opacity': 1,
-      'height': 'auto',
-      'position': 'initial'
-    });
+    startindex = parseInt(currentIndex * parseInt(slideshowmax));
+    endindex = parseInt(startindex + parseInt(slideshowmax));
+
+    for (var i = startindex; i < endindex; i++) {
+      jQuery(imagecarousels).eq(i).css({
+        'opacity': 1,
+        'height': 'auto',
+        'position': 'initial'
+      });
+    } //jQuery(imagecarousels).eq(currentIndex).css({ 'opacity': 1, 'height': 'auto', 'position': 'initial' });
+
+
     jQuery(currentId + ' .sp-imagecarousel-nav button').eq(currentButtonIndex).css({
       'opacity': 1
     });
   } else {
-    jQuery(imagecarousels).eq(currentIndex).css({
-      'opacity': 1,
-      'height': 'auto',
-      'position': 'initial'
-    });
+    startindex = parseInt(currentIndex * parseInt(slideshowmax));
+    endindex = parseInt(startindex + parseInt(slideshowmax));
+
+    for (var _i2 = startindex; _i2 < endindex; _i2++) {
+      jQuery(imagecarousels).eq(_i2).css({
+        'opacity': 1,
+        'height': 'auto',
+        'position': 'initial'
+      }); //jQuery(currentId + ' .sp-imagecarousel-nav button').eq(currentButtonIndex).css({ 'opacity': 1 })	
+    } //jQuery(imagecarousels).eq(currentIndex).css({ 'opacity': 1, 'height': 'auto', 'position': 'initial' });
+
+
     jQuery(currentId + ' .sp-imagecarousel-nav button').eq(currentIndex + 1).css({
       'opacity': 1
     });
@@ -876,6 +955,77 @@ function seedprod_add_gallery_js(blockId) {
           jQuery(this).addClass('sp-hidden-items');
         }
       }
+    });
+  });
+} // Check if an element is in the viewport.
+
+
+jQuery.fn.isInViewport = function () {
+  var elementTop = jQuery(this).offset().top;
+  var elementBottom = elementTop + jQuery(this).outerHeight();
+  var viewportTop = jQuery(window).scrollTop();
+  var viewportBottom = viewportTop + jQuery(window).height();
+  return elementBottom > viewportTop && elementTop < viewportBottom;
+}; // Trigger counter block.
+
+
+function counter(blockId) {
+  var duration = jQuery("#sp-counter-".concat(blockId, " .sp-counter-text-wrapper .sp-counter-number")).attr('data-duration');
+  var startNumber = jQuery("#sp-counter-".concat(blockId, " .sp-counter-text-wrapper .sp-counter-number")).attr('data-start-number');
+  var endNumber = jQuery("#sp-counter-".concat(blockId, " .sp-counter-text-wrapper .sp-counter-number")).attr('data-end-number');
+  var thousandsSeparator = jQuery("#sp-counter-".concat(blockId, " .sp-counter-text-wrapper .sp-counter-number")).attr('data-thousands-separator');
+  var separator = jQuery("#sp-counter-".concat(blockId, " .sp-counter-text-wrapper .sp-counter-number")).attr('data-separator');
+  var options = {};
+  var delimeter = {
+    'default': ',',
+    'space': ' ',
+    'dot': '.'
+  };
+  options.duration = duration;
+  options.delimiter = thousandsSeparator ? delimeter[separator] : '';
+  options.toValue = endNumber;
+  jQuery("#sp-counter-number-".concat(blockId)).html(startNumber);
+  jQuery("#sp-counter-number-".concat(blockId)).numerator(options);
+}
+
+function beforeafterslider(blockId, options) {
+  console.log(options);
+  /*
+  let options1 = {
+  	default_offset_pct: 0.5,
+  	orientation: "horizontal",
+  	before_label: "Before",
+  	after_label: "After",
+  	no_overlay: false,//self.block.settings.overlayColor,
+  	move_slider_on_hover: true,
+  	move_with_handle_only: true,
+  	click_to_move: true
+  };
+  */
+
+  jQuery("#sp-toggle-".concat(blockId, " .twentytwenty-container")).twentytwenty(options);
+}
+
+function hotspotTooltips(blockId, items) {
+  var trigger = jQuery("#sp-".concat(blockId, " .sp-hotspot-image")).attr('data-tooltip-trigger');
+  var animation = jQuery("#sp-".concat(blockId, " .sp-hotspot-image")).attr('data-tooltip-animation');
+  var duration = jQuery("#sp-".concat(blockId, " .sp-hotspot-image")).attr('data-tooltip-duration');
+  var position = jQuery("#sp-".concat(blockId, " .sp-hotspot-image")).attr('data-tooltip-position');
+  var showArrow = jQuery("#sp-".concat(blockId, " .sp-hotspot-image")).attr('data-tooltip-show-arrow');
+  var maxWidth = jQuery("#sp-".concat(blockId, " .sp-hotspot-image")).attr('data-tooltip-max-width');
+  items = JSON.parse(items);
+  items.map(function (item, index) {
+    var $myElement = "#sp-".concat(blockId, " #hotspot-").concat(blockId, "-").concat(index);
+    jQuery($myElement).tooltipster({
+      animation: animation,
+      delay: duration,
+      trigger: trigger,
+      side: position,
+      arrow: 'true' === showArrow ? true : false,
+      maxWidth: maxWidth,
+      content: item.tooltipContent,
+      contentCloning: true,
+      contentAsHTML: true
     });
   });
 }

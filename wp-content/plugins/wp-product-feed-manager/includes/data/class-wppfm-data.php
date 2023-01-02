@@ -296,7 +296,12 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			// Polylang support.
 			if ( has_filter( 'pll_translation' ) ) {
-				$product_data = apply_filters( 'pll_translation', $product_data, $language );
+				$parent_product_data = apply_filters( 'pll_translation', $parent_product_data, $language );
+			}
+
+			// Translatepress support.
+			if ( has_filter( 'wppfm_transpress_translation' ) ) {
+				$parent_product_data = apply_filters( 'wppfm_transpress_translation', $parent_product_data, $language );
 			}
 
 			$parent_product_data = (array)$parent_product_data;
@@ -651,13 +656,15 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 				if ( $attribute_object && ( is_object( $attribute_object ) || is_array( $attribute_object ) ) ) {
 					foreach ( $attribute_object as $attribute ) {
-						if ( ! in_array( $attribute['name'], $prev_dup_array ) ) {
+						if ( is_array( $attribute ) && array_key_exists( 'name', $attribute ) && ! in_array( $attribute['name'], $prev_dup_array ) ) {
 							$obj                  = new stdClass();
 							$obj->attribute_name  = $attribute['name'];
 							$obj->attribute_label = $attribute['name'];
 
 							array_push( $attributes, $obj );
 							array_push( $prev_dup_array, $attribute['name'] );
+						} else if ( ! is_array( $attribute ) ) {
+							wppfm_write_log_file( sprintf( 'An attribute object could not be processed as it\'s not in an array format. The content of the attribute object = %s', $attribute ), 'debug' );
 						}
 					}
 				} else {

@@ -178,13 +178,32 @@ class ServerEventHelper {
                     if($order->get_billing_postcode()) {
                         $userData->setZipCode($order->get_billing_postcode());
                     }
-                    $userData->setCountryCode(strtolower($order->get_billing_country()));
-                    $userData->setEmail($order->get_billing_email());
-                    $userData->setPhone($order->get_billing_phone());
-                    $userData->setFirstName($order->get_billing_first_name());
-                    $userData->setLastName($order->get_billing_last_name());
-                    $userData->setCity($order->get_billing_city());
-                    $userData->setState($order->get_billing_state());
+                    if($order->get_billing_country()) {
+                        $userData->setCountryCode(strtolower($order->get_billing_country()));
+                    }
+                    if($order->get_billing_email()) {
+                        $userData->setEmail($order->get_billing_email());
+                    }
+
+                    if($order->get_billing_phone()) {
+                        $userData->setPhone($order->get_billing_phone());
+                    }
+
+                    if($order->get_billing_first_name()) {
+                        $userData->setFirstName($order->get_billing_first_name());
+                    }
+
+                    if($order->get_billing_last_name()) {
+                        $userData->setLastName($order->get_billing_last_name());
+                    }
+
+                    if($order->get_billing_city()) {
+                        $userData->setCity($order->get_billing_city());
+                    }
+
+                    if($order->get_billing_state()) {
+                        $userData->setState($order->get_billing_state());
+                    }
 
                 } else {
                     if($order->billing_postcode) {
@@ -214,8 +233,11 @@ class ServerEventHelper {
                     $payment_id = (int) edd_get_purchase_id_by_key( $payment_key );
                 }
                 $user_info = edd_get_payment_meta_user_info($payment_id);
+                $email = edd_get_payment_user_email($payment_id);
+                if($email) {
+                    $userData->setEmail($email);
+                }
 
-                $userData->setEmail(edd_get_payment_user_email($payment_id));
 
                 if(isset($user_info['first_name']))
                     $userData->setFirstName($user_info['first_name']);

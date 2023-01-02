@@ -15,6 +15,9 @@
     "administrator"
   ],
 
+  "block_robot_enabled": false,
+  "block_ip_enabled": false,
+  "blocked_ips": [],
 
   "woo_add_to_cart_on_button_click": true,
   "woo_add_to_cart_on_cart_page": false,
@@ -97,7 +100,7 @@
   "enable_user_role_param":true,
   "enable_page_title_param":true,
   "enable_post_type_param": true,
-
+  "enable_post_category_param": true,
   "enable_woo_category_name_param": true,
   "enable_woo_num_items_param": true,
   "enable_woo_tags_param":true,

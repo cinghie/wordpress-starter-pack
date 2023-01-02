@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 24.0
+ * @version 25.0
  */
 
 // Prevent direct access
@@ -18,7 +18,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '24.0';
+		private $_version = '25.0';
 
 		public function __construct() {
 			parent::__construct();
@@ -127,7 +127,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		}
 
 		public function keys_that_can_be_used_more_than_once() {
-			return array( 'display_ads_similar_id', 'excluded_destination', 'shopping_ads_excluded_country', 'product_highlight', 'adwords_labels', 'shipping', 'product_detail' );
+			return array( 'display_ads_similar_id', 'excluded_destination', 'shopping_ads_excluded_country', 'product_highlight', 'adwords_labels', 'shipping', 'product_detail', 'repricing_rule_id' );
 		}
 
 		public function sub_keys_for_sub_tags() {

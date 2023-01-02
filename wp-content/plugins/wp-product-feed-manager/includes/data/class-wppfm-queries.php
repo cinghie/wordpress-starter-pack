@@ -144,7 +144,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		public function get_meta_parents( $feed_id ) {
-			return $this->_wpdb->get_results( "SELECT ID FROM {$this->_table_prefix}posts WHERE post_parent = {$feed_id}", ARRAY_A );
+			return $this->_wpdb->get_results( "SELECT ID FROM {$this->_table_prefix}posts WHERE post_parent = {$feed_id} AND post_status = 'publish'", ARRAY_A );
 		}
 
 		public function read_feed( $feed_id ) {

@@ -36,6 +36,7 @@ import { previewOptions } from './preview';
 import './style.scss';
 import { getActiveFilters } from './utils';
 import { Attributes, DisplayOption } from './types';
+import { useSetWraperVisibility } from '../filter-wrapper/context';
 
 export const QUERY_PARAM_KEY = PREFIX_QUERY_ARG_FILTER_TYPE + 'stock_status';
 
@@ -53,6 +54,8 @@ const StockStatusFilterBlock = ( {
 	attributes: Attributes;
 	isEditor?: boolean;
 } ) => {
+	const setWrapperVisibility = useSetWraperVisibility();
+
 	const filteringForPhpTemplate = getSettingWithCoercion(
 		'is_rendering_php_template',
 		false,
@@ -66,6 +69,10 @@ const StockStatusFilterBlock = ( {
 		'stockStatusOptions',
 		{}
 	);
+
+	const productIds = isEditor
+		? []
+		: getSettingWithCoercion( 'product_ids', [], Array.isArray );
 
 	const STOCK_STATUS_OPTIONS = useRef(
 		getSetting( 'hideOutOfStockItems', false )
@@ -98,6 +105,7 @@ const StockStatusFilterBlock = ( {
 		useCollectionData( {
 			queryStock: true,
 			queryState,
+			productIds,
 		} );
 
 	/**
@@ -224,12 +232,7 @@ const StockStatusFilterBlock = ( {
 
 			updateFilterUrl( checkedOptions );
 		},
-		[
-			isEditor,
-			setProductStockStatusQuery,
-			checked,
-			filteringForPhpTemplate,
-		]
+		[ isEditor, setProductStockStatusQuery, filteringForPhpTemplate ]
 	);
 
 	// Track checked STATE changes - if state changes, update the query.
@@ -342,6 +345,7 @@ const StockStatusFilterBlock = ( {
 	);
 
 	if ( ! filteredCountsLoading && displayedOptions.length === 0 ) {
+		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -359,6 +363,7 @@ const StockStatusFilterBlock = ( {
 	);
 
 	if ( ! hasFilterableProducts ) {
+		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -373,6 +378,8 @@ const StockStatusFilterBlock = ( {
 	) : (
 		heading
 	);
+
+	setWrapperVisibility( true );
 
 	return (
 		<>

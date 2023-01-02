@@ -4,8 +4,8 @@ Donate link: https://paypal.me/ipprokaev/0usd
 Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires PHP: 5.4.0
 Requires at least: 4.7
-Tested up to: 6.0
-Stable tag: 3.3.2
+Tested up to: 6.1
+Stable tag: 3.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,15 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 3.3.3 - 2022-10-24 =
+* Fixed CSRF vulnerability
+* Added option "Strip tags from all fields" to section "Misc settings"
+* The "Link to edit order" field works for XLS format
+* Fixed bug - "Remove line breaks" option incorrectly replaced commas with spaces
+* Fixed bug - "Sum Items Exported" field was empty for XLS/PDF formats, mode "Summary report by products"
+* Fixed bug - PHP warning if all fields have undefined format
+* Updated Select2.js library
 
 = 3.3.2 - 2022-08-08 =
 * Fixed XSS vulnerability

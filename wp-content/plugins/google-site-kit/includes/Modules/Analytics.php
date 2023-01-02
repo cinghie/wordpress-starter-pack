@@ -64,6 +64,7 @@ use WP_Error;
 use Exception;
 use Google\Site_Kit\Core\Modules\Module_With_Service_Entity;
 use Google\Site_Kit\Core\Util\BC_Functions;
+use Google\Site_Kit\Core\Util\Sort;
 use Google\Site_Kit\Core\Util\URL;
 
 /**
@@ -408,19 +409,19 @@ final class Analytics extends Module
 				};
 			case 'POST:create-account-ticket':
 				if ( ! isset( $data['accountName'] ) ) {
-					/* translators: 1: Missing parameter name */
+					/* translators: %s: Missing parameter name */
 					return new WP_Error( 'missing_required_param', sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'accountName' ), array( 'status' => 400 ) );
 				}
 				if ( ! isset( $data['propertyName'] ) ) {
-					/* translators: 1: Missing parameter name */
+					/* translators: %s: Missing parameter name */
 					return new WP_Error( 'missing_required_param', sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'propertyName' ), array( 'status' => 400 ) );
 				}
 				if ( ! isset( $data['profileName'] ) ) {
-					/* translators: 1: Missing parameter name */
+					/* translators: %s: Missing parameter name */
 					return new WP_Error( 'missing_required_param', sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'profileName' ), array( 'status' => 400 ) );
 				}
 				if ( ! isset( $data['timezone'] ) ) {
-					/* translators: 1: Missing parameter name */
+					/* translators: %s: Missing parameter name */
 					return new WP_Error( 'missing_required_param', sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'timezone' ), array( 'status' => 400 ) );
 				}
 
@@ -476,7 +477,7 @@ final class Analytics extends Module
 				if ( ! isset( $data['accountID'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'accountID' ),
 						array( 'status' => 400 )
 					);
@@ -484,7 +485,7 @@ final class Analytics extends Module
 				if ( ! isset( $data['propertyID'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'propertyID' ),
 						array( 'status' => 400 )
 					);
@@ -495,7 +496,7 @@ final class Analytics extends Module
 				if ( ! isset( $data['accountID'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'accountID' ),
 						array( 'status' => 400 )
 					);
@@ -506,7 +507,7 @@ final class Analytics extends Module
 				$request_args = array();
 
 				if ( empty( $data['metrics'] ) ) {
-					/* translators: 1: Missing parameter name */
+					/* translators: %s: Missing parameter name */
 					return new WP_Error( 'missing_required_param', sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'metrics' ), array( 'status' => 400 ) );
 				}
 
@@ -681,7 +682,7 @@ final class Analytics extends Module
 				if ( ! isset( $data['accountID'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'accountID' ),
 						array( 'status' => 400 )
 					);
@@ -689,7 +690,7 @@ final class Analytics extends Module
 				if ( ! isset( $data['propertyID'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'propertyID' ),
 						array( 'status' => 400 )
 					);
@@ -705,7 +706,7 @@ final class Analytics extends Module
 				if ( ! isset( $data['accountID'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'accountID' ),
 						array( 'status' => 400 )
 					);
@@ -776,7 +777,10 @@ final class Analytics extends Module
 		switch ( "{$data->method}:{$data->datapoint}" ) {
 			case 'GET:accounts-properties-profiles':
 				/* @var Google_Service_Analytics_Accounts $response listManagementAccounts response. */
-				$accounts            = (array) $response->getItems();
+				$accounts            = Sort::case_insensitive_list_sort(
+					(array) $response->getItems(),
+					'name'
+				);
 				$account_ids         = array_map(
 					function ( Google_Service_Analytics_Account $account ) {
 						return $account->getId();
@@ -828,12 +832,17 @@ final class Analytics extends Module
 				break;
 			case 'GET:profiles':
 				// TODO: Parse this response to a regular array.
-				$response = $response->getItems();
-
+				$response = Sort::case_insensitive_list_sort(
+					$response->getItems(),
+					'name'
+				);
 				return $response;
 			case 'GET:properties-profiles':
 				/* @var Google_Service_Analytics_Webproperties $response listManagementWebproperties response. */
-				$properties     = (array) $response->getItems();
+				$properties     = Sort::case_insensitive_list_sort(
+					(array) $response->getItems(),
+					'name'
+				);
 				$found_property = null;
 				$response       = array(
 					'properties' => $properties,
@@ -1199,6 +1208,7 @@ final class Analytics extends Module
 						'googlesitekit-datastore-site',
 						'googlesitekit-datastore-user',
 						'googlesitekit-datastore-forms',
+						'googlesitekit-components',
 					),
 				)
 			),
@@ -1392,12 +1402,10 @@ final class Analytics extends Module
 		);
 
 		if ( count( $invalid_metrics ) > 0 ) {
-			$message = sprintf(
-				/* translators: 1: is replaced with a comma separated list of the invalid metrics. */
-				_n(
-					'Unsupported metric requested: %s',
+			$message = count( $invalid_metrics ) > 1 ? sprintf(
+				/* translators: %s: is replaced with a comma separated list of the invalid metrics. */
+				__(
 					'Unsupported metrics requested: %s',
-					count( $invalid_metrics ),
 					'google-site-kit'
 				),
 				join(
@@ -1405,6 +1413,13 @@ final class Analytics extends Module
 					__( ', ', 'google-site-kit' ),
 					$invalid_metrics
 				)
+			) : sprintf(
+				/* translators: %s: is replaced with the invalid metric. */
+				__(
+					'Unsupported metric requested: %s',
+					'google-site-kit'
+				),
+				$invalid_metrics
 			);
 
 			throw new Invalid_Report_Metrics_Exception( $message );
@@ -1448,12 +1463,10 @@ final class Analytics extends Module
 		);
 
 		if ( count( $invalid_dimensions ) > 0 ) {
-			$message = sprintf(
-				/* translators: 1: is replaced with a comma separated list of the invalid dimensions. */
-				_n(
-					'Unsupported dimension requested: %s',
+			$message = count( $invalid_dimensions ) > 1 ? sprintf(
+				/* translators: %s: is replaced with a comma separated list of the invalid dimensions. */
+				__(
 					'Unsupported dimensions requested: %s',
-					count( $invalid_dimensions ),
 					'google-site-kit'
 				),
 				join(
@@ -1461,6 +1474,13 @@ final class Analytics extends Module
 					__( ', ', 'google-site-kit' ),
 					$invalid_dimensions
 				)
+			) : sprintf(
+				/* translators: %s: is replaced with the invalid dimension. */
+				__(
+					'Unsupported dimension requested: %s',
+					'google-site-kit'
+				),
+				$invalid_dimensions
 			);
 
 			throw new Invalid_Report_Dimensions_Exception( $message );

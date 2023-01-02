@@ -101,6 +101,7 @@ use PixelYourSite\Facebook\Helpers;
                 <p>Google Analytics 4 (GA4) FUNNELS for WooCommerce (6:13)  - <a href="https://www.youtube.com/watch?v=c6L1XMYzuMM" target="_blank">watch now</a></p>
                 <p>Same Facebook (Meta) pixel or Google tag on multiple WooCommerce websites? (4:43) - <a href="https://www.youtube.com/watch?v=3Ugwlq1EVO4" target="_blank">watch now</a></p>
                 <p>WooCommerce First-Party Reports: Track UTMs, Traffic Source, Landing Page (13:15) - <a href="https://www.youtube.com/watch?v=4VpVf9llfkU" target="_blank">watch video</a></p>
+                <p>Find out your ads PROFIT - Meta, Google, TikTok, Pinterest, etc (5:48) - <a href="https://www.youtube.com/watch?v=ydqyp-iW9Ko" target="_blank">watch video</a></p>
             </div>
         </div>
     </div>

@@ -14,7 +14,7 @@ import {
     ORDER_BUTTON_SELECTOR,
     PaymentMethods
 } from "./modules/Helper/CheckoutMethodState";
-import {hide, setVisible} from "./modules/Helper/Hiding";
+import {hide, setVisible, setVisibleByClass} from "./modules/Helper/Hiding";
 import {isChangePaymentPage} from "./modules/Helper/Subscriptions";
 import FreeTrialHandler from "./modules/ActionHandler/FreeTrialHandler";
 
@@ -30,16 +30,29 @@ const bootstrap = () => {
 
     const freeTrialHandler = new FreeTrialHandler(PayPalCommerceGateway, spinner, errorHandler);
 
+    jQuery('form.woocommerce-checkout input').on('keydown', e => {
+        if (e.key === 'Enter' && [
+            PaymentMethods.PAYPAL,
+            PaymentMethods.CARDS,
+            PaymentMethods.CARD_BUTTON,
+        ].includes(getCurrentPaymentMethod())) {
+            e.preventDefault();
+        }
+    });
+
     const onSmartButtonClick = (data, actions) => {
         window.ppcpFundingSource = data.fundingSource;
+        const requiredFields = jQuery('form.woocommerce-checkout .validate-required:visible :input');
+        requiredFields.each((i, input) => {
+            jQuery(input).trigger('validate');
+        });
 
         if (PayPalCommerceGateway.basic_checkout_validation_enabled) {
-            // TODO: quick fix to get the error about empty form before attempting PayPal order
-            // it should solve #513 for most of the users, but proper solution should be implemented later.
-            const requiredFields = jQuery('form.woocommerce-checkout .validate-required:visible :input');
-            requiredFields.each((i, input) => {
-                jQuery(input).trigger('validate');
-            });
+            // A quick fix to get the errors about empty form fields before attempting PayPal order,
+            // it should solve #513 for most of the users, but it is not a proper solution.
+            // Currently it is disabled by default because a better solution is now implemented
+            // (see woocommerce_paypal_payments_basic_checkout_validation_enabled,
+            // woocommerce_paypal_payments_early_wc_checkout_validation_enabled filters).
             const invalidFields = Array.from(jQuery('form.woocommerce-checkout .validate-required.woocommerce-invalid:visible'));
             if (invalidFields.length) {
                 const billingFieldsContainer = document.querySelector('.woocommerce-billing-fields');
@@ -100,7 +113,8 @@ const bootstrap = () => {
         if (PayPalCommerceGateway.mini_cart_buttons_enabled === '1') {
             const miniCartBootstrap = new MiniCartBootstap(
                 PayPalCommerceGateway,
-                renderer
+                renderer,
+                errorHandler,
             );
 
             miniCartBootstrap.init();
@@ -112,6 +126,7 @@ const bootstrap = () => {
             PayPalCommerceGateway,
             renderer,
             messageRenderer,
+            errorHandler,
         );
 
         singleProductBootstrap.init();
@@ -121,6 +136,7 @@ const bootstrap = () => {
         const cartBootstrap = new CartBootstrap(
             PayPalCommerceGateway,
             renderer,
+            errorHandler,
         );
 
         cartBootstrap.init();
@@ -131,7 +147,8 @@ const bootstrap = () => {
             PayPalCommerceGateway,
             renderer,
             messageRenderer,
-            spinner
+            spinner,
+            errorHandler,
         );
 
         checkoutBootstap.init();
@@ -142,7 +159,8 @@ const bootstrap = () => {
             PayPalCommerceGateway,
             renderer,
             messageRenderer,
-            spinner
+            spinner,
+            errorHandler,
         );
         payNowBootstrap.init();
     }
@@ -190,7 +208,7 @@ document.addEventListener(
             const isPaypalButton = paypalButtonGatewayIds.includes(currentPaymentMethod);
             const isCards = currentPaymentMethod === PaymentMethods.CARDS;
 
-            setVisible(ORDER_BUTTON_SELECTOR, !isPaypalButton && !isCards, true);
+            setVisibleByClass(ORDER_BUTTON_SELECTOR, !isPaypalButton && !isCards, 'ppcp-hidden');
 
             if (isPaypalButton) {
                 // stopped after the first rendering of the buttons, in onInit

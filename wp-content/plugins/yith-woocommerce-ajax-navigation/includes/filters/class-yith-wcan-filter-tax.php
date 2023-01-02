@@ -38,17 +38,12 @@ if ( ! class_exists( 'YITH_WCAN_Filter_Tax' ) ) {
 		}
 
 		/**
-		 * Method that will output content of the filter on frontend
+		 * Checks if filter is relevant to current product selection
 		 *
-		 * @return string Template for current filter
+		 * @return bool Whether filter is relevant or not.
 		 */
-		public function render() {
-			$atts = array(
-				'filter' => $this,
-				'preset' => $this->get_preset(),
-			);
-
-			return yith_wcan_get_template( 'filters/filter-tax.php', $atts, false );
+		public function is_relevant() {
+			return apply_filters( 'yith_wcan_is_filter_relevant', $this->is_enabled() && $this->has_relevant_terms(), $this );
 		}
 
 		/**
@@ -423,7 +418,7 @@ if ( ! class_exists( 'YITH_WCAN_Filter_Tax' ) ) {
 				}
 			}
 
-			$this->formatted_terms = $result;
+			$this->formatted_terms = apply_filters( "yith_wcan_filter_get_formatted_terms_for_{$taxonomy}", $result, $this );
 
 			return $result;
 		}

@@ -3,25 +3,25 @@
  * Plugin Name:          PDF Invoices & Packing Slips for WooCommerce
  * Plugin URI:           https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/
  * Description:          Create, print & email PDF invoices & packing slips for WooCommerce orders.
- * Version:              3.2.1
+ * Version:              3.2.6
  * Author:               WP Overnight
  * Author URI:           https://www.wpovernight.com
  * License:              GPLv2 or later
  * License URI:          https://opensource.org/licenses/gpl-license.php
  * Text Domain:          woocommerce-pdf-invoices-packing-slips
- * WC requires at least: 2.2.0
- * WC tested up to:      6.9
+ * WC requires at least: 3.0
+ * WC tested up to:      7.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( 'WPO_WCPDF' ) ) :
+if ( ! class_exists( 'WPO_WCPDF' ) ) :
 
 class WPO_WCPDF {
 
-	public $version = '3.2.1';
+	public $version = '3.2.6';
 	public $plugin_basename;
 	public $legacy_mode;
 	public $legacy_textdomain;
@@ -172,14 +172,6 @@ class WPO_WCPDF {
 	 * Load the main plugin classes and functions
 	 */
 	public function includes() {
-		// WooCommerce compatibility classes
-		include_once( $this->plugin_path() . '/includes/compatibility/abstract-wc-data-compatibility.php' );
-		include_once( $this->plugin_path() . '/includes/compatibility/class-wc-date-compatibility.php' );
-		include_once( $this->plugin_path() . '/includes/compatibility/class-wc-core-compatibility.php' );
-		include_once( $this->plugin_path() . '/includes/compatibility/class-wc-order-compatibility.php' );
-		include_once( $this->plugin_path() . '/includes/compatibility/class-wc-product-compatibility.php' );
-		include_once( $this->plugin_path() . '/includes/compatibility/wc-datetime-functions-compatibility.php' );
-
 		// Third party compatibility
 		include_once( $this->plugin_path() . '/includes/compatibility/class-wcpdf-compatibility-third-party-plugins.php' );
 
@@ -207,6 +199,11 @@ class WPO_WCPDF {
 	public function load_classes() {
 		if ( $this->is_woocommerce_activated() === false ) {
 			add_action( 'admin_notices', array ( $this, 'need_woocommerce' ) );
+			return;
+		}
+
+		if ( $this->is_woocommerce_version_supported() === false ) {
+			add_action( 'admin_notices', array ( $this, 'need_woocommerce_3_0' ) );
 			return;
 		}
 
@@ -245,6 +242,29 @@ class WPO_WCPDF {
 		}
 		return $this->legacy_textdomain;
 	}
+
+	/**
+	 * Check if woocommerce version is supported
+	 */
+	public function is_woocommerce_version_supported() {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.0', '>=' ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Woocommerce version < 3.0 notice
+	 */
+	public function need_woocommerce_3_0() {
+		/* translators: <a> tags */
+		$error = sprintf( esc_html__( 'PDF Invoices & Packing Slips for WooCommerce requires %1$sWooCommerce%2$s version 3.0 or higher!' , 'woocommerce-pdf-invoices-packing-slips' ), '<a href="http://wordpress.org/extend/plugins/woocommerce/">', '</a>' );
+		
+		$message = '<div class="error"><p>' . $error . '</p></div>';
+	
+		echo $message;
+}
 
 	/**
 	 * Check if woocommerce is activated

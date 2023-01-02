@@ -202,7 +202,6 @@ class WC_Order_Export_Engine {
 				$format_settings[ $m[1] ] = $val;
 			}
 		}
-
 		self::init_labels( $settings, $labels, $static_vals, $field_formats );
 
 		$class = 'WOE_Formatter_' . $format;
@@ -245,6 +244,8 @@ class WC_Order_Export_Engine {
 				$field_formats[ $segment ] = array_map( "array_unique", $label_data['field_formats'] );
 				//clean up possible duplicates
 //				$field_formats = array_merge_recursive( $field_formats, $label_data['field_formats'] );
+			} else {
+				$field_formats[ $segment ] = array();
 			}
 
 		}
@@ -344,6 +345,7 @@ class WC_Order_Export_Engine {
 		}
 		
 		$options['strip_tags_product_fields'] = ! empty( $settings['strip_tags_product_fields'] );
+        $options['strip_html_tags'] = ! empty( $settings['strip_html_tags'] );
 
 		return $options;
 	}

@@ -33,7 +33,6 @@ if ( ! class_exists( 'um\core\User' ) ) {
 			$this->data = null;
 			$this->profile = null;
 			$this->cannot_edit = null;
-			$this->password_reset_key = null;
 			$this->deleted_user_id = null;
 
 			global $wpdb;
@@ -1527,11 +1526,7 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		 * @return string|\WP_Error
 		 */
 		function maybe_generate_password_reset_key( $userdata ) {
-			if ( empty( $this->password_reset_key ) ) {
-				$this->password_reset_key = get_password_reset_key( $userdata );
-			}
-
-			return $this->password_reset_key ;
+			return get_password_reset_key( $userdata );
 		}
 
 
@@ -1546,7 +1541,7 @@ if ( ! class_exists( 'um\core\User' ) ) {
 			add_filter( 'um_template_tags_patterns_hook', array( UM()->password(), 'add_placeholder' ), 10, 1 );
 			add_filter( 'um_template_tags_replaces_hook', array( UM()->password(), 'add_replace_placeholder' ), 10, 1 );
 
-			UM()->mail()->send( um_user( 'user_email' ), 'resetpw_email' );
+			UM()->mail()->send( $userdata->user_email, 'resetpw_email' );
 		}
 
 
@@ -1641,6 +1636,11 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		function email_pending() {
 			$this->assign_secretkey();
 			$this->set_status( 'awaiting_email_confirmation' );
+
+			//clear all sessions for email confirmation pending users
+			$user = \WP_Session_Tokens::get_instance( um_user( 'ID' ) );
+			$user->destroy_all();
+
 			UM()->mail()->send( um_user( 'user_email' ), 'checkmail_email' );
 		}
 
@@ -1662,6 +1662,11 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		 */
 		function pending() {
 			$this->set_status( 'awaiting_admin_review' );
+
+			//clear all sessions for awaiting admin confirmation users
+			$user = \WP_Session_Tokens::get_instance( um_user( 'ID' ) );
+			$user->destroy_all();
+
 			UM()->mail()->send( um_user( 'user_email' ), 'pending_email' );
 		}
 
@@ -1684,6 +1689,11 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		 */
 		function reject() {
 			$this->set_status( 'rejected' );
+
+			//clear all sessions for rejected users
+			$user = \WP_Session_Tokens::get_instance( um_user( 'ID' ) );
+			$user->destroy_all();
+
 			UM()->mail()->send( um_user( 'user_email' ), 'rejected_email' );
 		}
 
@@ -1705,6 +1715,11 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		 */
 		function deactivate() {
 			$this->set_status( 'inactive' );
+
+			//clear all sessions for inactive users
+			$user = \WP_Session_Tokens::get_instance( um_user( 'ID' ) );
+			$user->destroy_all();
+
 			/**
 			 * UM hook
 			 *
@@ -2087,7 +2102,7 @@ if ( ! class_exists( 'um\core\User' ) ) {
 						update_user_meta( $this->id, $key, $value );
 					}
 				} else {
-					$args[ $key ] = esc_attr( $changes[ $key ] );
+					$args[ $key ] = $changes[ $key ];
 				}
 			}
 

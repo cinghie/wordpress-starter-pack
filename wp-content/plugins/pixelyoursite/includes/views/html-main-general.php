@@ -243,10 +243,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <p><a href="https://www.youtube.com/watch?v=PsKdCkKNeLU" target="_blank">Facebook Conversion API and the Consent Problem (9:25 min) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=kEp5BDg7dP0" target="_blank">How to fire EVENTS with PixelYourSite (22:28) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=zkb67djRnd0" target="_blank">FIX IT: PixelYourSite high number of admin-ajax requests (9:04) - watch now</a></p>
-                <p><a href="https://www.youtube.com/watch?v=EvzGMAvBnbs" target="_blank">
-                        How to create Meta (Facebook) Custom Audiences & Lookalikes based on Events & Parameters (21:53) - watch now
-                    </a>
-                </p>
+                <p><a href="https://www.youtube.com/watch?v=EvzGMAvBnbs" target="_blank">How to create Meta (Facebook) Custom Audiences & Lookalikes based on Events & Parameters (21:53) - watch now</a></p>
                 <p>
                     <a href="https://www.youtube.com/watch?v=w97FATUy7ok" target="_blank">
                         How to configure Custom Conversions on Meta (Facebook) based on Events & Parameters (11:03) - watch now
@@ -257,6 +254,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         How to run A/B tests with Google Optimize and GA4 (6:07)
                     </a>
                 </p>
+                <p><a href="https://www.youtube.com/watch?v=snUKcsTbvCk" target="_blank">Improve META (Facebook) EMQ score
+                        with form automatic data detection (11:48) - watch now</a></p>
             </div>
         </div>
         <div class="row">
@@ -736,6 +735,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <hr>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input('enable_post_category_param'); ?>
+                <h4 class="switcher-label">post_category</h4>
+                <hr>
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col-12">
                 <?php PYS()->render_switcher_input("enable_post_id_param");?>
@@ -863,11 +869,32 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
             <?php PYS()->render_switcher_input( 'enable_remove_download_url_param' ); ?>
             <h4 class="switcher-label">Remove download_url parameters.</h4>
-            <hr/>
+
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="form-inline">
+                <?php PYS()->render_switcher_input('сompress_front_js'); ?>
+                <h4 class="switcher-label">Compress frontend js</h4>
+            </div>
+
+            <small class="mt-1">Compress JS files (please test all your events if you enable this option because it can create conflicts with various caches).</small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <?php renderDummySwitcher(false); ?>
+            <h4 class="switcher-label">Advanced user-data detection <a href="https://www.youtube.com/watch?v=snUKcsTbvCk" target="_blank">Watch video</a></h4>
+            <?php renderProBadge(); ?>
+            <small class="mt-1 d-block">
+                The plugin will try to detect user-related data like email, phone, first name, or last name and use it for subsequent Meta CAPI events personal parameters, and Meta browser events Advanced Matching. It works with most WordPress forms (email, phone number) and WooCommerce orders.
+            </small>
+            <hr>
         </div>
     </div>
 
@@ -909,7 +936,25 @@ if ( ! defined( 'ABSPATH' ) ) {
             <hr/>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col">
+            <?php PYS()->render_switcher_input('block_robot_enabled'); ?>
+            <h4 class="switcher-label">Disable the plugin for known web crawlers</h4>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <?php PYS()->render_switcher_input('block_ip_enabled'); ?>
+            <h4 class="switcher-label">Disable the plugin for these IP addresses:</h4>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <?php PYS()->render_tags_select_input('blocked_ips',false); ?>
+        </div>
+    </div>
 
+    <hr>
     <div class="row form-group">
         <div class="col">
             <h4 class="label">Ignore these user roles from tracking:</h4>

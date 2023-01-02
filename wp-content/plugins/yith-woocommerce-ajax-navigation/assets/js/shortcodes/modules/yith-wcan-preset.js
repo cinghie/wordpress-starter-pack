@@ -346,7 +346,7 @@ export default class YITH_WCAN_Preset {
 
 				self.sliderTimeout = setTimeout( () => {
 					self.maybeFilter( $filter );
-				}, 200 );
+				}, 300 );
 			};
 
 		$filter.find( '.price-slider-ui' ).ionRangeSlider( {
@@ -370,7 +370,13 @@ export default class YITH_WCAN_Preset {
 		$minInput
 			.add( $maxInput )
 			.off( 'change' )
-			.on( 'keyup', () => {
+			.on( 'change', handleSliderChange )
+			.on( 'keyup', ( ev ) => {
+				if ( ! ev.key.match( /[0-9,.]/ ) ) {
+					ev.preventDefault();
+					return false;
+				}
+
 				if ( ! $minInput.val() || ! $maxInput.val() ) {
 					return;
 				}
@@ -444,9 +450,9 @@ export default class YITH_WCAN_Preset {
 			ev.stopPropagation();
 			ev.preventDefault();
 
-			$target.slideToggle( 400, () => {
-				$container.toggleClass( 'opened' ).toggleClass( 'closed' );
-			} );
+			this.toggle( $target, $container );
+
+			$target.trigger( 'yith_wcan_after_toggle_element', [ $container ] );
 		} );
 	}
 
@@ -1430,6 +1436,72 @@ export default class YITH_WCAN_Preset {
 		} );
 
 		return true;
+	}
+
+	// open toggle
+	toggle( $target, $container, status ) {
+		if ( 'undefined' === typeof status ) {
+			status = $container.hasClass( 'closed' );
+		}
+
+		const method = status ? 'slideDown' : 'slideUp',
+			classToAdd = status ? 'opened' : 'closed',
+			classToRemove = status ? 'closed' : 'opened';
+
+		$target[ method ]( 400, () => {
+			$container.addClass( classToAdd ).removeClass( classToRemove );
+
+			$target.trigger( 'yith_wcan_toggle_element', [
+				$container,
+				status,
+			] );
+		} );
+	}
+
+	// open filter if title is collapsable
+	openFilter( $filter ) {
+		const $title = $filter.find( '.collapsable' );
+
+		if ( ! $title.length ) {
+			return;
+		}
+
+		this.toggle( $filter.find( '.filter-content' ), $title, true );
+	}
+
+	// open all filters in a preset
+	openAllFilters( $filter ) {
+		const self = this,
+			$filters = this.getFilters();
+
+		$filters.each( function () {
+			self.openFilter( $( this ) );
+		} );
+	}
+
+	// close filter if title is collapsable
+	closeFilter( $filter ) {
+		const $title = $filter.find( '.collapsable' );
+
+		if ( ! $title.length ) {
+			return;
+		}
+
+		this.toggle( $filter.find( '.filter-content' ), $title, false );
+	}
+
+	// close all filters in a preset; if a specific filter is pased as parameter, system will keep it open
+	closeAllFilters( $filter ) {
+		const self = this,
+			$filters = this.getFilters();
+
+		$filters.each( function () {
+			self.closeFilter( $( this ) );
+		} );
+
+		if ( 'undefined' !== typeof $filter ) {
+			this.openFilter( $filter );
+		}
 	}
 
 	// open filters as a modal, when in mobile layout

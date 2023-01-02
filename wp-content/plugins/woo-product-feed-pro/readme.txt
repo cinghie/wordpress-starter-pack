@@ -2,14 +2,14 @@
 Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: Google Shopping Feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
+Tags: Google Shopping Feed, Meta feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
-Tested up to: 6.0
-Stable tag: 11.9.5
+Tested up to: 6.1
+Stable tag: 12.1.3
 
 == Description ==
 
-Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Facebook, Remarketing, Bing Ads, Billiger.de, Pricerunner, Skroutz and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
+Generate WooCommerce product feeds for all your marketing channels, such as Google Shopping (merchant center), Meta, Facebook, Remarketing, Bing Ads, Billiger.de, Pricerunner, Skroutz and many more. Next to custom feeds there are over 100 pre-defined templates included for marketplaces, comparison shopping engines and search engines. This plugin provides high-quality product feed for Google Shopping and many many more.
 
 = Why choose this plugin? =
 Simply because this is the most complete plugin offering support for an unlimited number of products and feeds, including features such as category- & field-mapping and advanced, rule-based, filtering and product variables support. Next to creating product feeds this plugin also add's pixels and conversion API (CAPI) and Google Dynamic Remarketing pixel to your website and makes sure they are aligned with your feeds.
@@ -55,8 +55,8 @@ Some marketing channels require you to map your categories to theirs (such as Go
 = Google Shopping =
 Our plugin offers added and advanced features for creating the best possible product feed for Google Shopping. Feeds created by our plugin have a high approval rate on products in Google's Merchant center. Also, because of a WooCommerce bug in the structured data of variable products all of these products would normally be disapproved in Google's merchant center. Our plugin fixes this bug and enables you to advertise on all of your products in Google Shopping.
 
-= Facebook Feed/Catalog and remarketing =
-Our plugin offers added and advanced features for creating the best possible product feed for your Facebook catalog and Facebook shop. Our plugin also includes the Facebook pixel and CAPI support. 
+= Meta / Facebook Feed/Catalog and remarketing =
+Our plugin offers added and advanced features for creating the best possible product feed for your Meta, Facebook catalog and Facebook shop. Our plugin also includes the Meta / Facebook pixel and CAPI support. 
 
 = Google Analytics support =
 This plugin enables you to add and configure Google Analytics UTM tracking-codes to your product URL’s so you can measure the effectiveness of your marketing channels in Google Analytics. 
@@ -171,7 +171,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Google Local Products Inventory
 * Google Shopping Actions
 * Facebook shop
-* Facebook Dynamic Ad's / remarketing
+* Meta / Facebook Dynamic Ad's / remarketing
 * Bing Shopping
 * Bing Shopping Promotions
 * Pinterest
@@ -339,6 +339,64 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 12.1.3 (2022-12-29) =
+* Fixed an issue for PARAM fields for Glami.gr feeds
+
+= 12.1.2 (2022-12-23) =
+* Updated promo-boxes
+
+= 12.1.1 (2022-12-20) =
+* Fixed an issue with contain rules for numeric values
+
+= 12.1.0 (2022-12-19) =
+* Added Meta to channel and feed names
+
+= 12.0.9 (2022-12-14) =
+* Checked for compatibility with WooCommerce 7.2
+
+= 12.0.8 (2022-12-13) =
+* Fixed an issue with Skroutz feeds getting stuck
+
+= 12.0.7 (2022-12-11) =
+* Fixed a shipping costs issue for Idealo feeds where the first product had no shipping costs in the feed
+
+= 12.0.6 (2022-12-11) =
+* Added some nonce checks to plugin setting changes
+
+= 12.0.5 (2022-12-07) =
+* Fixed a tax calculation issue for Portugal and Slovakia
+
+= 12.0.4 (2022-12-02) =
+* Solved an undefined variable PHP warning for the sz_attribute variable
+
+= 12.0.3 (2022-11-23) =
+* Solved a PHP Fatal error when trying to retrieve the woosea_condition string
+
+= 12.0.2 (2022-11-21) =
+* Added the sale_price_effective_date field to the Google DRM feed template
+
+= 12.0.1 (2022-11-20) =
+* Fixed an issue with the sale_price_effective_date which was empty
+
+= 12.0.0 (2022-11-15) =
+* Added a created timestamp to Skroutz XML feeds
+* Fixed an issue that resulted in a fatal error, added is array check
+* Fixed an issue that resulted in PHP warnings when browsers do not set a HTTP USER AGENT
+
+= 11.9.9 (2022-11-09) =
+* Checked for compatibility with WooCommerce 7.1
+* jQuery CSS no longer enqueued on the WP-admin dashboard
+
+= 11.9.8 (2022-11-04) =
+* Added support for PHP 8.1
+* Checked for compatibility with Wordpress 6.1
+
+= 11.9.7 (2022-11-02) =
+* Changed function string to is_string
+
+= 11.9.6 (2022-10-28) =
+* Solved an issue where a string was used in a multiply formula and caused a fatal error
 
 = 11.9.5 (2022-10-20) =
 * Solved a PHP warning for yoast attributes
@@ -3814,6 +3872,64 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 12.1.3 =
+Fixed an issue for PARAM fields for Glami.gr feeds
+
+= 12.1.2 =
+Updated promo-boxes
+
+= 12.1.1 =
+Fixed an issue with contain rules for numeric values
+
+= 12.1.0 =
+Added Meta to channel and feed names
+
+= 12.0.9 =
+Checked for compatibility with WooCommerce 7.2
+
+= 12.0.8 =
+Fixed an issue with Skroutz feeds getting stuck
+
+= 12.0.7 =
+Fixed a shipping costs issue for Idealo feeds where the first product had no shipping costs in the feed
+
+= 12.0.6 =
+Added some nonce checks to plugin setting changes
+
+= 12.0.5 =
+Fixed a tax calculation issue for Portugal and Slovakia
+
+= 12.0.4 =
+Solved an undefined variable PHP warning for the sz_attribute variable
+
+= 12.0.3 =
+Solved a PHP Fatal error when trying to retrieve the woosea_condition string
+
+= 12.0.2 =
+Added the sale_price_effective_date field to the Google DRM feed template
+
+= 12.0.1 =
+Fixed an issue with the sale_price_effective_date which was empty
+
+= 12.0.0 =
+* Added a created timestamp to Skroutz XML feeds
+* Fixed an issue that resulted in a fatal error, added is array check
+* Fixed an issue that resulted in PHP warnings when browsers do not set a HTTP USER AGENT
+
+= 11.9.9 =
+Checked for compatibility with WooCommerce 7.1
+jQuery CSS no longer enqueued on the WP-admin dashboard
+
+= 11.9.8 =
+Added support for PHP 8.1
+Checked for compatibility with Wordpress 6.1
+
+= 11.9.7 =
+Changed function string to is_string
+
+= 11.9.6 =
+Solved an issue where a string was used in a multiply formula and caused a fatal error
 
 = 11.9.5 =
 Solved a PHP warning for yoast attributes

@@ -188,10 +188,16 @@ img,video{max-width:100%;height:auto}
 .sp-w-6{width:1.5rem}
 .sp-w-8{width:2rem}
 .sp-w-24{width:6rem}
+.sp-w-1\/3{width:33.333333%}
+.sp-w-1\/4{width:25%}
+.sp-w-2\/4{width:50%}
+.sp-w-1\/5{width:20%}
+.sp-w-1\/6{width:16.666667%}
 .sp-w-full{width:100%}
 .sp-z-0{z-index:0}
 .sp-z-40{z-index:40}
 .sp-z-50{z-index:50}
+.sp-gap-2{grid-gap:.5rem;gap:.5rem}
 html{scroll-behavior:smooth}
 body{background-color:#fff}
 #sp-theme-template{display:flex;flex-direction:column;position:relative}
@@ -358,7 +364,7 @@ to{background-position:0 0}
 }@keyframes sp-ajax-stripes{from{background-position:48px 0}
 to{background-position:0 0}
 }.sp-ajax-animated{-webkit-animation:sp-ajax-stripes 1s linear infinite;animation:sp-ajax-stripes 1s linear infinite}
-.sp-ajax-striped{background-image:linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent);background-size:1rem 1rem}
+.sp-ajax-striped{background-image:linear-gradient(45deg,rgba(255,255,255,0.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.15) 50%,rgba(255,255,255,0.15) 75%,transparent 75%,transparent) !important;background-size:1rem 1rem !important}
 #tubular-container iframe{opacity:0;transition:opacity .5s}
 #tubular-container .active{opacity:1}
 @media(max-width:640px){.sp-spacer{height:1vh !important}
@@ -448,7 +454,8 @@ input[type="password"]{-webkit-appearance:none;-moz-appearance:none;appearance:n
 .menu-item a{text-align:left !important}
 }.seedprod-menu-horizontal .menu-item:first-child{padding-left:0 !important}
 .seedprod-menu-horizontal .sub-menu .menu-item:first-child{padding-left:10px !important}
-.seedprod-menu-horizontal .menu-item:last-child{padding-right:0 !important}
+@media(max-width:786px){.seedprod-menu-horizontal .sub-menu .menu-item:first-child{padding-left:0 !important}
+}.seedprod-menu-horizontal .menu-item:last-child{padding-right:0 !important}
 .seedprod-menu-horizontal .sub-menu .menu-item:last-child{padding-right:10px !important}
 .sp-mobile-menu-true ul.sub-menu{padding-left:10px}
 .custom-restricted-width .menu-item:first-child{padding-top:0 !important}
@@ -605,5 +612,23 @@ input[type="password"]{-webkit-appearance:none;-moz-appearance:none;appearance:n
 .sp-divider-wrapper .sp-divider .sp-divider-separator::after,.sp-divider-wrapper .sp-divider .sp-divider-separator::before{flex-grow:1;-webkit-box-flex:1}
 .sp-divider-wrapper .sp-divider .sp-divider-text-block{padding:0 10px}
 .sp-divider-wrapper .sp-divider .sp-divider-text-block .sp-divider-text{font-size:15px}
-@media(min-width:640px){.sm\:sp-flex{display:flex}
+.sp_animated_start{opacity:0}
+.sp-counter-wrapper{flex-direction:column}
+.sp-counter-wrapper .sp-counter-title,.sp-counter-wrapper .sp-counter-text-wrapper{display:flex}
+.sp-counter-wrapper .sp-counter-text-wrapper .sp-counter-number-prefix,.sp-counter-wrapper .sp-counter-text-wrapper .sp-counter-number-suffix{white-space:pre-wrap}
+.sp-hotspot-wrapper{position:relative}
+.hotspot-wrapper{z-index:1;display:flex;align-items:center;justify-content:center;position:absolute}
+.hotspot-repeater-item{left:50%;--hotspot-translate-x:50%;top:50%;--hotspot-translate-y:50%}
+.hotspot-item-inner-circle{border-radius:50%;top:50%;left:50%;padding:10px}
+.hotspot-soft-beat{-webkit-animation-duration:.7s;animation-duration:.7s;-webkit-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-delay:0s;animation-delay:0s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-direction:alternate;animation-direction:alternate;-webkit-animation-fill-mode:none;animation-fill-mode:none;-webkit-animation-play-state:running;animation-play-state:running;-webkit-animation-name:hotspot-soft-beat;animation-name:hotspot-soft-beat}
+.hotspot-expand{-webkit-animation-duration:1.5s;animation-duration:1.5s;-webkit-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-delay:0s;animation-delay:0s;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;-webkit-animation-direction:normal;animation-direction:normal;-webkit-animation-fill-mode:none;animation-fill-mode:none;-webkit-animation-play-state:running;animation-play-state:running;-webkit-animation-name:hotspot-expand;animation-name:hotspot-expand}
+@-webkit-keyframes hotspot-soft-beat{from{-webkit-transform:scale(1);transform:scale(1)}
+to{-webkit-transform:scale(1.1);transform:scale(1.1)}
+}@keyframes hotspot-soft-beat{from{-webkit-transform:scale(1);transform:scale(1)}
+to{-webkit-transform:scale(1.1);transform:scale(1.1)}
+}@-webkit-keyframes hotspot-expand{from{-webkit-transform:scale(0.5);transform:scale(0.5);opacity:1}
+to{-webkit-transform:scale(1);transform:scale(1);opacity:.7}
+}@keyframes hotspot-expand{from{-webkit-transform:scale(0.5);transform:scale(0.5);opacity:1}
+to{-webkit-transform:scale(1);transform:scale(1);opacity:.7}
+}@media(min-width:640px){.sm\:sp-flex{display:flex}
 }

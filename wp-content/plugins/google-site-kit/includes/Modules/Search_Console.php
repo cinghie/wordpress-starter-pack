@@ -42,6 +42,7 @@ use Google\Site_Kit_Dependencies\Psr\Http\Message\ResponseInterface;
 use Google\Site_Kit_Dependencies\Psr\Http\Message\RequestInterface;
 use WP_Error;
 use Exception;
+use Google\Site_Kit\Core\Util\Sort;
 
 /**
  * Class representing the Search Console module.
@@ -218,7 +219,7 @@ final class Search_Console extends Module
 				if ( empty( $data['siteURL'] ) ) {
 					return new WP_Error(
 						'missing_required_param',
-						/* translators: 1: Missing parameter name */
+						/* translators: %s: Missing parameter name */
 						sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'siteURL' ),
 						array( 'status' => 400 )
 					);
@@ -285,9 +286,11 @@ final class Search_Console extends Module
 		switch ( "{$data->method}:{$data->datapoint}" ) {
 			case 'GET:matched-sites':
 				/* @var Google_Service_SearchConsole_SitesListResponse $response Response object. */
-				$entries = $this->map_sites( (array) $response->getSiteEntry() );
-				$strict  = filter_var( $data['strict'], FILTER_VALIDATE_BOOLEAN );
-
+				$entries     = Sort::case_insensitive_list_sort(
+					$this->map_sites( (array) $response->getSiteEntry() ),
+					'name'
+				);
+				$strict      = filter_var( $data['strict'], FILTER_VALIDATE_BOOLEAN );
 				$current_url = $this->context->get_reference_site_url();
 				if ( ! $strict ) {
 					$current_url = untrailingslashit( $current_url );
@@ -553,6 +556,7 @@ final class Search_Console extends Module
 						'googlesitekit-api',
 						'googlesitekit-data',
 						'googlesitekit-modules',
+						'googlesitekit-components',
 					),
 				)
 			),

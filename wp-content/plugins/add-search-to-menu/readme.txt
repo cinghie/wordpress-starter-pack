@@ -3,9 +3,9 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search, inverted index-based search, exclude from search, search widget, search menu, search plugin, custom search, search by sku, search by post type, search by category, relevance search, search forms
 Requires at least: 3.9
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.2.4
-Stable tag: 5.4.8
+Stable tag: 5.4.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,12 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 5.4.10 =
+* Fixed - Warning: array_merge(): Expected parameter 1 to be an array, string given in
+
+= 5.4.9 =
+* Fixed - Tags and Categories search was not working in inverted index search engine.
 
 = 5.4.8 =
 * Fixed - Using brackets in the search term was not getting searched.

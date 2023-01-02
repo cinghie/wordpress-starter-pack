@@ -297,7 +297,6 @@ function wppfm_fillCategoryVariables(
 		'9': 'fillNextagCategoryVariables',
 		'13': 'fillAvantLinkCategoryVariables',
 		'14': 'fillZboziCategoryVariables',
-		'31': 'fillPinterestCategoryVariables',
 	};
 
 	// call the correct function
@@ -443,9 +442,6 @@ function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {
 		case '28':
 			return setGalaxusProductPropertiesAttributeLevels( feedHolder );
 
-		case '31':
-			return setPinterestOutputAttributeLevels( feedHolder, selectArgument );
-
 		case '996':
 			return setMarketingrobotTsvOutputAttributeLevels( feedHolder );
 
@@ -525,7 +521,8 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 		case '1': // Google
 			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
 				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
-				|| outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+				|| outputsField[ 'field_label'] === 'sale_price_effective_date' || outputsField[ 'field_label'] === 'sell_on_google_minimum_advertised_price' || outputsField[ 'field_label'] === 'sell_on_google_price'
+				|| outputsField[ 'field_label'] === 'auto_pricing_min_price' ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
@@ -694,9 +691,8 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			break;
 
 		case '31': // Pinterest
-			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
-				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
-				|| outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability'
+				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price' ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {

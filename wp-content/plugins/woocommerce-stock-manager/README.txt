@@ -5,9 +5,9 @@ Author URI: https://www.storeapps.org/
 Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: woocommerce stock management, woocommerce stock manager, woocommerce product stock manager, woocommerce stock management free, woocommerce inventory management
 Requires at least: 5.0.0
-Tested up to: 6.0.3
+Tested up to: 6.1.0
 Requires PHP: 5.6
-Stable tag: 2.9.0
+Stable tag: 2.10.0
 License: GPLv3
 
 Best WooCommerce stock management plugin to manage and edit product stock and their variables from a single dashboard. Stock log, import/export, filters and more...
@@ -98,9 +98,9 @@ Feel free to [contact us](https://www.storeapps.org/support/contact-us/?utm_sour
 
 **Some of our other free plugins**
 
-1. [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) - Manage and bulk edit WooCommerce products, variations, orders, coupons, any WordPress post type. All from a single screen using an Excel-like sheet editor.
-2. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/) -  - Create secure, self-expiring ⏱️, automatic login links for WordPress.
-3. [Icegram](https://wordpress.org/plugins/icegram/) - Popups, Welcome Bar, Optins and Lead Generation Plugin
+1. [Smart Manager for WooCommerce](https://wordpress.org/plugins/smart-manager-for-wp-e-commerce/) - Manage and bulk edit WooCommerce products, variations, orders, coupons, any WordPress post type...all from a single screen using an Excel-like sheet editor.
+2. [Temporary Login Without Password](https://wordpress.org/plugins/temporary-login-without-password/) - Create secure, self-expiring, automatic login links for WordPress.
+3. [Icegram](https://wordpress.org/plugins/icegram/) - Popups, header footer bars, optins and lead generation plugin.
 4. [Email Subscribers & Newsletters](https://wordpress.org/plugins/email-subscribers/) - Collect leads, send automated new blog post notification emails, create & send broadcasts.
 
 **StoreApps’ other Pro plugins**
@@ -150,6 +150,12 @@ Be sure, that you have active stock manager.
 4. Product stock as on date
 
 == Changelog ==
+= 2.10.0 (10.11.2022) =
+* New: WooCommerce 7.0.1 compatible
+* New: WordPress 6.1.0 compatible
+* Fix: PHP Fatal Error: Call to undefined function wp_set_script_translations()
+* Update: POT file
+
 = 2.9.0 (20.10.2022) =
 * New: WooCommerce 7.0.0 compatible
 * New: WordPress 6.0.3 compatible
@@ -287,6 +293,9 @@ Be sure, that you have active stock manager.
 For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/woocommerce-stock-manager/trunk/changelog.txt) file.
 
 == Upgrade Notice ==
+
+= 2.10.0 =
+WooCommerce 7.0.1 compatible, WordPress 6.1.0 compatible, Fixes related to PHP Fatal Error: Call to undefined function wp_set_script_translations() along with other important fixes and updates. Recommended upgrade.
 
 = 2.9.0 =
 WooCommerce 7.0.0 compatible, WordPress 6.0.3 compatible, Readme file changes, POT file

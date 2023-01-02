@@ -18,20 +18,30 @@ function renderLicenseControls( $plugin ) {
 
 	?>
 
-	<div class="row">
-		<div class="col-9">
-			<?php $plugin->render_text_input( 'license_key', 'Enter your license key' ); ?>
-		</div>
-		<div class="col-3">
-			<?php if( $license_status == 'valid' ) : ?>
-				<button class="btn btn-block btn-sm btn-danger" name="<?php esc_attr_e( $input_name ); ?>"
-				        value="deactivate">Deactivate License</button>
-			<?php else : ?>
-				<button class="btn btn-block btn-sm btn-primary" name="<?php esc_attr_e( $input_name ); ?>"
-				        value="activate">Activate License</button>
-			<?php endif; ?>
-		</div>
-	</div>
+    <div class="row">
+        <?php if( $license_status == 'valid' ) : ?>
+            <div class="col-3">
+                <?php $plugin->render_text_input( 'license_key', 'Enter your license key', true, true, false); ?>
+                <button class="btn btn-block btn-sm btn-primary" name="<?php esc_attr_e( $input_name ); ?>"
+                        value="reactivate">Reactivate License</button>
+            </div>
+        <?php else : ?>
+            <div class="col-9">
+                <?php $plugin->render_text_input( 'license_key', 'Enter your license key', false, false, true ); ?>
+            </div>
+
+        <?php endif; ?>
+
+        <div class="col-3">
+            <?php if( $license_status == 'valid' ) : ?>
+                <button class="btn btn-block btn-sm btn-danger" name="<?php esc_attr_e( $input_name ); ?>"
+                        value="deactivate">Deactivate License</button>
+            <?php else : ?>
+                <button class="btn btn-block btn-sm btn-primary" name="<?php esc_attr_e( $input_name ); ?>"
+                        value="activate">Activate License</button>
+            <?php endif; ?>
+        </div>
+    </div>
 
 	<?php
 
@@ -79,6 +89,7 @@ function renderLicenseControls( $plugin ) {
 					<p>Your license key <strong>expires
 							on <?php echo date( get_option( 'date_format' ), $license_expires ); ?></strong>. Make sure
 						you keep everything updated and in order.</p>
+                    <p>If you renewed your license but you still see this message, click on the "Reactivate License" button.</p>
 					<p class="mb-0"><a href="https://www.pixelyoursite.com/checkout/?edd_license_key=<?php esc_attr_e(
 						$license_key ); ?>&utm_campaign=admin&utm_source=licenses&utm_medium=renew" target="_blank"><strong>Click here to renew your license now for a 40% discount</strong></a></p>
 				</div>
@@ -96,6 +107,7 @@ function renderLicenseControls( $plugin ) {
 				<div class="alert alert-danger mb-0">
 					<p><strong>Your license key is expired</strong>, so you no longer get any updates. Don't miss our
                         latest improvements and make sure that everything works smoothly.</p>
+                    <p>If you renewed your license but you still see this message, click on the "Reactivate License" button.</p>
 					<p class="mb-0"><a href="https://www.pixelyoursite.com/checkout/?edd_license_key=<?php esc_attr_e(
 						$license_key ); ?>&utm_campaign=admin&utm_source=licenses&utm_medium=renew" target="_blank"><strong>Click here to renew your license now</strong></a></p>
 				</div>
@@ -113,7 +125,7 @@ function renderLicenseControls( $plugin ) {
 function updateLicense( $plugin ) {
 
 	$slug = $plugin->getSlug();
-
+    $license_key_old = $plugin->getOption( 'license_key' );
 	// nothing to do...
 	if( ! isset( $_POST['pys'][ $slug ]['license_action'] ) ) {
 		return;
@@ -128,12 +140,23 @@ function updateLicense( $plugin ) {
 
 
 	// activate/deactivate license
-	if ( $license_action == 'activate' ) {
-		$license_data = licenseActivate( $license_key, $plugin );
-	} else {
-		$license_data = licenseDeactivate( $license_key, $plugin );
-	}
-
+    if ( $license_action == 'activate' ) {
+        $license_data = licenseActivate( $license_key, $plugin );
+    } else {
+        if($license_key_old)
+        {
+            $license_key = $license_key_old;
+        }
+        $license_data = licenseDeactivate( $license_key, $plugin );
+    }
+    if ( $license_action == 'reactivate' ) {
+        if($license_key_old)
+        {
+            $license_key = $license_key_old;
+        }
+        licenseDeactivate($license_key, $plugin);
+        $license_data = licenseActivate($license_key, $plugin);
+    }
 	$license_status = $plugin->getOption( 'license_status' );
 	$license_expires = $plugin->getOption( 'license_expires' );
 

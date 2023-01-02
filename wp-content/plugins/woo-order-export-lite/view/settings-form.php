@@ -896,6 +896,12 @@ function remove_time_from_date( $datetime ) {
 							'woo-order-export-lite' ) ?></label>
                 </div>
                 <div>
+                    <input type="hidden" name="settings[strip_html_tags]" value="0"/>
+                    <label><input type="checkbox" name="settings[strip_html_tags]"
+                                  value="1" <?php checked( $settings['strip_html_tags'] ) ?>/><?php _e( 'Strip tags from all fields',
+                            'woo-order-export-lite' ) ?></label>
+                </div>
+                <div>
                     <input type="hidden" name="settings[round_item_tax_rate]" value="0"/>
                     <label><input type="checkbox" name="settings[round_item_tax_rate]"
                                   value="1" <?php checked( $settings['round_item_tax_rate'] ) ?>/><?php _e( 'Item Tax Rate as an integer',

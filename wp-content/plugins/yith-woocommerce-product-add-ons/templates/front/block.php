@@ -236,7 +236,7 @@ $block_classes = apply_filters( 'yith_wapo_block_classes' ,'yith-wapo-block', $b
 
 					echo '<div class="clear"></div>';
 
-					if ( 'yes' === $enable_min_max ) :
+					if ( 'yes' === $required || 'yes' === $enable_min_max ) :
 						?>
 							<small class="min-error" style="color: #f00; padding: 5px 0px; display: none;">
 								<?php echo esc_html__( 'Please select', 'yith-woocommerce-product-add-ons' ); ?>

@@ -230,7 +230,7 @@ abstract class Settings {
 		return $this->sanitize_text_field( $value );
 
 	}
-	
+
 	/**
 	 * Output text input
 	 *
@@ -238,12 +238,13 @@ abstract class Settings {
 	 * @param string $placeholder
 	 * @param bool   $disabled
 	 * @param bool   $hidden
+     * @param bool   $empty
 	 */
-	public function render_text_input( $key, $placeholder = '', $disabled = false, $hidden = false ) {
+    public function render_text_input( $key, $placeholder = '', $disabled = false, $hidden = false, $empty = false) {
 
-		$attr_name = "pys[$this->slug][$key]";
-		$attr_id = 'pys_' . $this->slug . '_' . $key;
-		$attr_value = $this->getOption( $key );
+        $attr_name = "pys[$this->slug][$key]";
+        $attr_id = 'pys_' . $this->slug . '_' . $key;
+        $attr_value = $empty == false ? $this->getOption( $key ) : "";
 		
 		$classes = array( 'form-control' );
 		

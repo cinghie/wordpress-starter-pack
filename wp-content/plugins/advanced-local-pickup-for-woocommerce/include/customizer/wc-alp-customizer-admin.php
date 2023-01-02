@@ -920,7 +920,7 @@ class WC_ALP_CUSTOMIZER_ADMIN {
 
 		if ( is_object( $order ) ) {
 			// Get user ID from order, if guest get current user ID.
-			if ( 0 === ( $user_id = (int) get_post_meta( $order->get_id(), '_customer_user', true ) ) ) {
+			if ( 0 === ( $user_id = (int) $order->get_meta( '_customer_user', true ) ) ) {
 				$user_id = get_current_user_id();
 			}
 		} else {
@@ -996,7 +996,7 @@ class WC_ALP_CUSTOMIZER_ADMIN {
 				 */
 				default:
 					$email->object               = $order;
-					$user_id = get_post_meta( $email->object->get_order_number(), '_customer_user', true );
+					$user_id = $order ? $order->get_meta( '_customer_user', true ) : '';
 					if ( is_object( $order ) ) {
 						$email->find['order-date']   = '{order_date}';
 						$email->find['order-number'] = '{order_number}';

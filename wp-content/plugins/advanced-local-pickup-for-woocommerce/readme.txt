@@ -52,6 +52,16 @@ The Advanced Local Pickup for WooCommerce plugin is localized/ translatable by d
 
 == Changelog ==
 
+= 1.5.1 =
+* Fix - Uncaught Error: Call to undefined function wp_kses_post() 
+
+= 1.5 =
+* Dev - Tested with WordPress 6.1
+* Dev - Tested with WooCommerce 7.1
+* Enhancement - Added compatibility of HTML support in email content
+* Enhancement - Added compatibility with High-Performance Order Storage
+* Improved - Special instruction text WPML translation
+
 = 1.4.1 =
 * Dev - Tested with WordPress 6.0.1
 * Dev - Tested with WooCommerce 6.7

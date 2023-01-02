@@ -114,6 +114,8 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		public function complete() {
 			parent::complete();
 
+			do_action( 'wppfm_feed_generation_message', $this->_feed_data->feedId, 'Started the complete function to clean up the feed process and queue.' );
+
 			// Remove the properties from the options table.
 			$properties_key = get_site_option( 'wppfm_background_process_key' );
 			delete_site_option( 'wppfm_background_process_key' );
@@ -293,8 +295,6 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			if ( $product_placeholder ) {
 				// The wppfm_feed_item_value filter allows users to modify the data that goes into the feed. The $data variable contains an array
 				// with all the data that goes into the feed, with the items name as key.
-				$product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id );
-
 				if ( $product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id ) ) {
 					return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );
 				} else {

@@ -378,6 +378,9 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 					$wpdb->insert( $block_table, $block_data ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 					$block_id = $wpdb->insert_id;
 
+					$settings_addons_old = array();
+					$addons_new_ids      = array();
+
 					foreach ( $queried_addons_row as $addons_row ) {
 						$addons_data = array(
 							'block_id'   => $block_id,
@@ -389,6 +392,58 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
 
 						$wpdb->insert( $addons_table, $addons_data ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 						$addon_id = $wpdb->insert_id;
+
+						if ( $addon_id ) { // Sync conditional logics with new data.
+							$settings                               = unserialize( $addons_data['settings'] );
+							$settings_addons_old[ $addons_row->id ] = $settings; // Save setting default addon.
+							$addons_new_ids[ $addons_row->id ]      = $addon_id; // Create an array pair  default_addon => clone addon.
+
+						}
+					}
+
+					if ( ! empty( $addons_new_ids ) ) {
+
+						foreach ( $addons_new_ids as $old_id => $new_id ) {
+
+							$conditional_rule_addon_old = $settings_addons_old[ $old_id ]['conditional_rule_addon'];
+
+							if ( is_array( $conditional_rule_addon_old ) ) {
+
+								$conditional_rule_addon_new = array();
+
+								foreach ( $conditional_rule_addon_old as $id ) {
+
+									if ( ! empty( $id ) ) {
+
+										$split_addon = explode( '-', $id );
+
+										if ( $split_addon ) {
+
+											if ( 'v' !== $split_addon[0] ) { // Prevent change variations.
+
+												$split_addon[0]               = $addons_new_ids[ $split_addon[0] ]; // change new addon_id.
+												$new_value                    = implode( '-', $split_addon );
+												$conditional_rule_addon_new[] = $new_value;
+
+											} else {
+
+												$conditional_rule_addon_new[] = $id;
+
+											}
+										} else { // Simple addon only switch the value.
+
+											$conditional_rule_addon_new[] = $settings_addons_old[ $id ];
+										}
+									}
+								}
+								if ( ! empty( $conditional_rule_addon_new ) ) {
+
+									$settings_addons_old[ $old_id ]['conditional_rule_addon'] = $conditional_rule_addon_new;
+									$update_settings_values                                   = serialize( $settings_addons_old[ $old_id ] );
+									$wpdb->update( $addons_table, array( 'settings' => $update_settings_values ), array( 'id' => $new_id ) );
+								}
+							}
+						}
 					}
 
 					wp_safe_redirect( admin_url( '/admin.php?page=yith_wapo_panel' ) );

@@ -10,18 +10,21 @@ import { sparkles } from '@wordpress/icons';
 /**
  * Internal dependencies
  */
-import { INNER_BLOCKS_TEMPLATE, QUERY_DEFAULT_ATTRIBUTES } from '../constants';
+import {
+	DEFAULT_ALLOWED_CONTROLS,
+	INNER_BLOCKS_TEMPLATE,
+	QUERY_DEFAULT_ATTRIBUTES,
+	QUERY_LOOP_ID,
+} from '../constants';
+
+const VARIATION_NAME = 'woocommerce/product-query';
 
 if ( isExperimentalBuild() ) {
-	registerBlockVariation( 'core/query', {
-		name: 'woocommerce/product-query',
+	registerBlockVariation( QUERY_LOOP_ID, {
+		name: VARIATION_NAME,
 		title: __( 'Product Query', 'woo-gutenberg-products-block' ),
-		isActive: ( attributes ) => {
-			return (
-				attributes?.__woocommerceVariationProps?.name ===
-				'product-query'
-			);
-		},
+		isActive: ( blockAttributes ) =>
+			blockAttributes.namespace === VARIATION_NAME,
 		icon: {
 			src: (
 				<Icon
@@ -32,10 +35,13 @@ if ( isExperimentalBuild() ) {
 		},
 		attributes: {
 			...QUERY_DEFAULT_ATTRIBUTES,
-			__woocommerceVariationProps: {
-				name: 'product-query',
-			},
+			namespace: VARIATION_NAME,
 		},
+		// Gutenberg doesn't support this type yet, discussion here:
+		// https://github.com/WordPress/gutenberg/pull/43632
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		allowedControls: DEFAULT_ALLOWED_CONTROLS,
 		innerBlocks: INNER_BLOCKS_TEMPLATE,
 		scope: [ 'block', 'inserter' ],
 	} );

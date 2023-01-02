@@ -228,6 +228,11 @@ if (!Array.prototype.includes) {
                     Bing.loadPixel();
                 }
             }
+            if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
+                if (typeof CS_Data.cs_google_analytics_consent_mode !== "undefined" && CS_Data.cs_google_analytics_consent_mode == 1) {
+                    Analytics.loadPixel();
+                }
+            }
 
         }
 
@@ -777,7 +782,15 @@ if (!Array.prototype.includes) {
                             return true;
                         }
                     }
+                    if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
+                        if ((typeof CS_Data.cs_google_analytics_consent_mode !== "undefined" && CS_Data.cs_google_analytics_consent_mode == 1) && pixel == 'analytics') {
+                            return true;
+                        }
 
+                        if ((typeof CS_Data.cs_google_ads_consent_mode !== "undefined" && CS_Data.cs_google_ads_consent_mode == 1) && pixel == 'google_ads') {
+                            return true;
+                        }
+                    }
                     return false;
 
                 }
@@ -895,11 +908,12 @@ if (!Array.prototype.includes) {
                                     
                                     if (categoryCookie === CS_Data.cs_script_cat.bing) {
                                         Bing.loadPixel();
-                                    } 
-                                    
-                                    if (categoryCookie === CS_Data.cs_script_cat.analytics) {
+                                    }
+
+                                    if (categoryCookie === CS_Data.cs_script_cat.analytics || (typeof CS_Data.cs_google_analytics_consent_mode !== "undefined" && CS_Data.cs_google_analytics_consent_mode == 1)) {
+
                                         Analytics.loadPixel();
-                                    } 
+                                    }
                                     
                                      if (categoryCookie === CS_Data.cs_script_cat.pinterest) {
                                         Pinterest.loadPixel();
@@ -911,11 +925,10 @@ if (!Array.prototype.includes) {
                                     
                                      if (categoryCookie === CS_Data.cs_script_cat.bing) {
                                         Bing.disable();
-                                    } 
-                                    
-                                     if (categoryCookie === CS_Data.cs_script_cat.analytics) {
+                                    }
+                                    if (categoryCookie === CS_Data.cs_script_cat.analytics && (typeof CS_Data.cs_google_analytics_consent_mode == "undefined" || CS_Data.cs_google_analytics_consent_mode == 0)) {
                                         Analytics.disable();
-                                    } 
+                                    }
                                     
                                      if (categoryCookie === CS_Data.cs_script_cat.pinterest) {
                                         Pinterest.disable();
@@ -940,7 +953,10 @@ if (!Array.prototype.includes) {
                             } else if(button_action === 'disable_all') {
                                 Facebook.disable();
                                 Bing.disable();
-                                Analytics.disable();
+                                if(CS_Data.cs_google_analytics_consent_mode == 0 || typeof CS_Data.cs_google_analytics_consent_mode == "undefined")
+                                {
+                                    Analytics.disable();
+                                }
                                 Pinterest.disable();
                             }
                         });
@@ -1231,7 +1247,45 @@ if (!Array.prototype.includes) {
                             json['edd_order'] = allData.edd_order;
                         }
 
-                        if(allData.delay > 0) {
+                        if(name == 'PageView') {
+                            let expires = parseInt(options.cookie_duration);
+                            var currentTimeInSeconds=Date.now();
+                            var randomNum = Math.floor(1000000000 + Math.random() * 9000000000);
+                            timeoutDelay = 0;
+                            if(allData.delay > 0)
+                            {
+                                timeoutDelay = allData.delay;
+                            }
+                            if(!Cookies.get('_fbp'))
+                            {
+                                timeoutDelay = 100;
+                            }
+                            if(getUrlParameter('fbclid') && !Cookies.get('_fbc'))
+                            {
+                                timeoutDelay = 100;
+                            }
+                            setTimeout(function(){
+                                if(!Cookies.get('_fbp'))
+                                {
+                                    Cookies.set('_fbp','fb.1.'+currentTimeInSeconds+'.'+randomNum,  { expires: expires })
+                                }
+                                if(getUrlParameter('fbclid') && !Cookies.get('_fbc'))
+                                {
+                                    Cookies.set('_fbc', 'fb.1.'+currentTimeInSeconds+'.'+getUrlParameter('fbclid'),  { expires: expires })
+                                }
+                                jQuery.ajax( {
+                                    type: 'POST',
+                                    url: options.ajaxUrl,
+                                    data: json,
+                                    headers: {
+                                        'Cache-Control': 'no-cache'
+                                    },
+                                    success: function(){},
+                                });
+                            },timeoutDelay)
+                        }
+                        else
+                        {
                             jQuery.ajax( {
                                 type: 'POST',
                                 url: options.ajaxUrl,
@@ -1241,19 +1295,6 @@ if (!Array.prototype.includes) {
                                 },
                                 success: function(){},
                             });
-                        } else {
-                            setTimeout(function (json) {
-                                jQuery.ajax({
-                                    type: 'POST',
-                                    url: options.ajaxUrl,
-                                    data: json,
-                                    headers: {
-                                        'Cache-Control': 'no-cache'
-                                    },
-                                    success: function () {
-                                    },
-                                });
-                            }, 500, json);
                         }
                     }
                 }
@@ -2482,3 +2523,18 @@ function getPixelBySlag(slug) {
         case "pinterest": return window.pys.Pinterest;
     }
 }
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+};

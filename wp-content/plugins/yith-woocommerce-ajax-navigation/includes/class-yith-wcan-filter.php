@@ -54,6 +54,13 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 		protected $type = 'tax';
 
 		/**
+		 * Name of the template to use for filter rendering
+		 *
+		 * @var string
+		 */
+		protected $template = '';
+
+		/**
 		 * Core data for this object. Name value pairs (name + default value).
 		 *
 		 * @since 4.0.0
@@ -223,6 +230,15 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 		 */
 		public function is_active() {
 			return apply_filters( 'yith_wcan_is_filter_active', YITH_WCAN_Query()->is_filtered_by( $this->type ), $this );
+		}
+
+		/**
+		 * Checks if filter is relevant to current product selection
+		 *
+		 * @return bool Whether filter is relevant or not.
+		 */
+		public function is_relevant() {
+			return apply_filters( 'yith_wcan_is_filter_relevant', $this->is_enabled(), $this );
 		}
 
 		/**
@@ -1417,7 +1433,23 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 		 *
 		 * @return string Filter template.
 		 */
-		abstract public function render();
+		public function render() {
+			$atts = array(
+				'filter' => $this,
+				'preset' => $this->get_preset(),
+			);
+
+			if ( ! $this->is_relevant() ) {
+				return '';
+			}
+
+			if ( ! $this->template ) {
+				$formatted_type = str_replace( '_', '-', $this->type );
+				$this->template = "filter-{$formatted_type}";
+			}
+
+			return yith_wcan_get_template( "filters/{$this->template}.php", $atts, false );
+		}
 
 		/**
 		 * Render filter title

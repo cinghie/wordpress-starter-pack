@@ -152,7 +152,12 @@ function setGooglePresets( field ) {
 			return '{"m":[{"s":{"source":"combined","f":"_regular_price|1#wc_currency"}}]}';
 
 		case 'sale_price':
-			return '{"m":[{"s":{"source":"combined","f":"_sale_price|1#wc_currency"}}]}';
+      return '{"m":[{"s":{"source":"combined","f":"_sale_price|1#wc_currency"}}]}';
+
+    case 'sell_on_google_minimum_advertised_price':
+    case 'sell_on_google_price':
+    case 'auto_pricing_min_price':
+			return '{"m":[{"s":{"source":"combined","f":"|1#wc_currency"}}]}';
 
 		case 'sale_price_effective_date':
 			return '{"m":[{"s":{"source":"combined","f":"_sale_price_dates_from|7#_sale_price_dates_to"},"c":[{"1":"0#_sale_price#5"}]},{"s":{"source":"empty"}}]}';

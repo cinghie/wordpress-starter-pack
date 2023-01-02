@@ -9,28 +9,10 @@
 class IS_Admin
 {
     /**
-     * Stores plugin options.
-     */
-    public  $opt ;
-    /**
-     * Stores network activation status.
-     */
-    private  $networkactive ;
-    /**
      * Core singleton class
      * @var self
      */
     private static  $_instance ;
-    /**
-     * Initializes this class.
-     *
-     */
-    public function __construct()
-    {
-        $this->opt = Ivory_Search::load_options();
-        $this->networkactive = is_multisite() && array_key_exists( plugin_basename( IS_PLUGIN_FILE ), (array) get_site_option( 'active_sitewide_plugins' ) );
-    }
-    
     /**
      * Gets the instance of this class.
      *
@@ -230,12 +212,16 @@ class IS_Admin
      */
     function all_admin_notices()
     {
-        $hascaps = ( $this->networkactive ? is_network_admin() && current_user_can( 'manage_network_plugins' ) : current_user_can( 'manage_options' ) );
+        $isnetworkactive = is_multisite() && array_key_exists( plugin_basename( IS_PLUGIN_FILE ), (array) get_site_option( 'active_sitewide_plugins' ) );
+        $hascaps = ( $isnetworkactive ? is_network_admin() && current_user_can( 'manage_network_plugins' ) : current_user_can( 'manage_options' ) );
         
         if ( $hascaps ) {
             $screen = get_current_screen();
             $is_ivory = strpos( $screen->id, 'ivory-search' );
             $display_review = true;
+            if ( empty($this->opt) ) {
+                $this->opt = get_option( 'is_notices', array() );
+            }
             //Don't display if dismissed
             if ( isset( $this->opt['is_notices']['review'] ) && $this->opt['is_notices']['review'] || isset( $_GET['is_dismiss'] ) && 'notice_review' == $_GET['is_dismiss'] ) {
                 $display_review = false;
@@ -342,7 +328,10 @@ class IS_Admin
         ob_start();
         
         if ( isset( $_GET['is_dismiss'] ) && '' !== $_GET['is_dismiss'] ) {
-            $is_notices = get_option( 'is_notices', array() );
+            if ( empty($this->opt) ) {
+                $this->opt = get_option( 'is_notices', array() );
+            }
+            $is_notices = $this->opt;
             if ( 'notice_review' === $_GET['is_dismiss'] ) {
                 $is_notices['is_notices']['review'] = 1;
             }

@@ -492,7 +492,7 @@ class WC_Order_Export_Admin {
 			die( sprintf( __( 'Unknown tab method %s', 'woo-order-export-lite' ), esc_html($method)) );
 		}
 
-		if ( $_POST && ! check_admin_referer( 'woe_nonce', 'woe_nonce' ) ) {
+		if (! check_admin_referer( 'woe_nonce', 'woe_nonce' ) ) {
 			die( __( 'Wrong nonce', 'woo-order-export-lite' ) );
 		}
 

@@ -71,7 +71,13 @@ function wppfm_meta_key_is_money( $key ) {
 		'_min_variation_regular_price',
 		'_min_variation_sale_price',
 		'_regular_price',
+		'_regular_price_with_tax',
+		'_regular_price_without_tax',
 		'_sale_price',
+		'_sale_price_with_tax',
+		'_sale_price_without_tax',
+		'_max_group_price',
+		'_min_group_price',
 		'regular_price',
 		'sale_price',
 	);

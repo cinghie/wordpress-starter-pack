@@ -95,3 +95,7 @@
 95	4	ships_from_country
 96	4	sell_on_google_quantity
 97	4	short_title
+98	4	auto_pricing_min_price
+99	4	repricing_rule_id
+100	4	sell_on_google_price
+101	4	sell_on_google_minimum_advertised_price

@@ -58,6 +58,7 @@ import {
 } from './utils';
 import { BlockAttributes, DisplayOption } from './types';
 import CheckboxFilter from './checkbox-filter';
+import { useSetWraperVisibility } from '../filter-wrapper/context';
 
 /**
  * Formats filter values into a string for the URL parameters needed for filtering PHP templates.
@@ -99,6 +100,10 @@ const AttributeFilterBlock = ( {
 		window.location.href,
 		isString
 	);
+
+	const productIds = isEditor
+		? []
+		: getSettingWithCoercion( 'product_ids', [], Array.isArray );
 
 	const [ hasSetFilterDefaultsFromUrl, setHasSetFilterDefaultsFromUrl ] =
 		useState( false );
@@ -157,6 +162,7 @@ const AttributeFilterBlock = ( {
 				...queryState,
 				attributes: filterAvailableTerms ? queryState.attributes : null,
 			},
+			productIds,
 		} );
 
 	/**
@@ -468,7 +474,10 @@ const AttributeFilterBlock = ( {
 		filteringForPhpTemplate,
 	] );
 
+	const setWrapperVisibility = useSetWraperVisibility();
+
 	if ( ! hasFilterableProducts ) {
+		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -486,6 +495,7 @@ const AttributeFilterBlock = ( {
 				</Notice>
 			);
 		}
+		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -513,6 +523,7 @@ const AttributeFilterBlock = ( {
 		( termsLoading || countsLoading ) && displayedOptions.length === 0;
 
 	if ( ! isLoading && displayedOptions.length === 0 ) {
+		setWrapperVisibility( false );
 		return null;
 	}
 
@@ -527,6 +538,23 @@ const AttributeFilterBlock = ( {
 	) : (
 		heading
 	);
+
+	setWrapperVisibility( true );
+
+	const getIsApplyButtonDisabled = () => {
+		if ( termsLoading || countsLoading ) {
+			return true;
+		}
+
+		const activeFilters = getActiveFilters( attributeObject );
+		if ( activeFilters.length === checked.length ) {
+			return checked.every( ( value ) =>
+				activeFilters.includes( value )
+			);
+		}
+
+		return false;
+	};
 
 	return (
 		<>
@@ -673,11 +701,7 @@ const AttributeFilterBlock = ( {
 					<FilterSubmitButton
 						className="wc-block-attribute-filter__button"
 						isLoading={ isLoading }
-						disabled={
-							termsLoading ||
-							countsLoading ||
-							checked.length === 0
-						}
+						disabled={ getIsApplyButtonDisabled() }
 						onClick={ () => onSubmit( checked ) }
 					/>
 				) }

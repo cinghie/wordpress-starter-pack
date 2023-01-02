@@ -6,8 +6,8 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires PHP: 5.6
 Requires at least: 5.0
-Tested up to: 6.0
-Stable tag: 2.5.0
+Tested up to: 6.1
+Stable tag: 2.5.3
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -162,6 +162,61 @@ No, you do not need to use our plugin’s login or registration pages and can us
 
 * To learn more about version 2.1 please see this [docs](https://docs.ultimatemember.com/article/1512-upgrade-2-1-0)
 * UM2.1+ is a significant update to the Member Directories' code base from 2.0.x. Please make sure you take a full-site backup with restore point before updating the plugin
+
+= 2.5.3: December 19, 2022 =
+
+* Bugfixes:
+
+  - Fixed: Plugin upgrade DB initialization and PHP Fatal Error.
+
+= 2.5.2: December 14, 2022 =
+
+* Enhancements:
+
+  - Added: Custom dropdown callback functions security enhancements. Avoid using blacklisted functions through namespace or uppercase format
+  - Added: Validation for upgrade package in wp-admin
+  - Added: `Change Password request limit` option for prevent from any brute-force attacks or password guessing with the form
+  - Added: Strong password checking for not using username|email inside the password
+  - Added: `um_custom_authenticate_error_codes` hook for handling 3rd-party login errors on UM invalid form
+
+* Bugfixes:
+
+  - Fixed: Some texts sanitizing
+  - Fixed: PHP Error in url-type field on UM Forms
+  - Fixed: Using `wp_mkdir` to avoid the filesystem conflict when copy email template to theme
+  - Fixed: Password Reset URL generating
+  - Fixed: Multiple users approve
+  - Fixed: Using regular URL-type field for displaying
+
+* Templates required update:
+  - members.php
+
+* Cached and optimized/minified assets(JS/CSS) must be flushed/re-generated after upgrade
+
+= 2.5.1: October 26, 2022 =
+
+* Enhancements:
+
+  - Added: Custom fields callbacks blacklist. Use `um_dropdown_options_source_blacklist` filter for adding your custom functions to the custom callbacks blacklist. By default there are all PHP internal functions.
+
+* Bugfixes:
+
+  - Fixed: Posts' restriction that is based on term restriction settings
+  - Fixed: Issue with class name in checkbox and radio. Class name being 'activeright' instead of 'active right'
+  - Fixed: Admin upgrade scripts and upgrades pack validation
+  - Fixed: Directory traversal vulnerabilities
+  - Fixed: Destroying user sessions after changing "Approved" status to something else (e.g. deactivated)
+  - Fixed: Conflict when `wp_get_current_user()` not exists. Transferred restriction settings callbacks to `plugins_loaded` hook
+  - Fixed: Restriction post displaying when 404 is enabled and old restiction logic isn't active
+  - Fixed: PHP warning when nav menu is empty
+  - Fixed: Disable auto-login after user is registered by Administrator and UM Registration form
+  - Fixed: Some typos errors
+  - Fixed: Using an apostrophe symbols in emails for registration and login both
+  - Fixed: Sanitizing YouTube links. Applying both https://youtu.be/xxxxxxx and https://youtube.com/xxxxxxx links
+
+* Deprecated:
+
+  - Removed: Outdated setting using in code (force_display_name_capitlized). Moved the functionality to extended [repo](https://github.com/ultimatemember/Extended/tree/main/um-capitalize-name#readme)
 
 = 2.5.0: August 17, 2022 =
 

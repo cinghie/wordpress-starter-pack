@@ -1,22 +1,22 @@
 === Plugin Name ===
 Contributors: yithemes
 Tags: woocommerce, quick view, woocommerce quick view, products quick view
-Requires at least: 5.8
-Tested up to: 6.0
-Stable tag: 1.20.0
+Requires at least: 5.9
+Tested up to: 6.1
+Stable tag: 1.23.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This plugin adds the possibility to have a quick preview of the products right from product list
 
 == Description ==
-Sometimes the halfway is better: what if you are looking to a product in a list and its image is still too small? 
+Sometimes the halfway is better: what if you are looking to a product in a list and its image is still too small?
 
-You have to open its product page, waiting for its loading and finally observe what you are interested into. 
+You have to open its product page, waiting for its loading and finally observe what you are interested into.
 So why don't use a simple way to look immediately at the product's distinctiveness? Here it is what Quick View can offer you.
 
-People are more attracted to what they can see clearly. And often the classic product lists are not enough to understand the real value of a product. 
-That's when Quick View strikes successfully! Your clients will be free to look in a better way your products, reading also a small description with all the most important features and qualities you want to underline. 
+People are more attracted to what they can see clearly. And often the classic product lists are not enough to understand the real value of a product.
+That's when Quick View strikes successfully! Your clients will be free to look in a better way your products, reading also a small description with all the most important features and qualities you want to underline.
 In this way, they will be more focused on what they really want and they will proceed easily to the purchase step.
 
 **Main features:**
@@ -39,6 +39,26 @@ Full documentation is available [here](https://docs.yithemes.com/yith-woocommerc
 3. The quick view modal.
 
 == Changelog ==
+
+= 1.23.0 = Released 28 December 2022
+
+* New: support for WooCommerce 7.3
+* Update: YITH plugin framework
+
+= 1.22.0 = Released 14 December 2022
+
+* New: support for WooCommerce 7.2
+* Update: YITH plugin framework
+
+= 1.21.1 = Released 17 November 2022
+
+* Fix: patched security vulnerability
+
+= 1.21.0 = Released 07 November 2022
+
+* New: support for WordPress 6.1
+* New: support for WooCommerce 7.1
+* Update: YITH plugin framework
 
 = 1.20.0 = Released 05 October 2022
 
@@ -432,7 +452,7 @@ Or, if you have created your own language pack, or have an update for an existin
 
 == Upgrade notice ==
 
-= 1.20.0 = Released 05 October 2022
+= 1.23.0 = Released 28 December 2022
 
-* New: support for WooCommerce 7.0
+* New: support for WooCommerce 7.3
 * Update: YITH plugin framework
