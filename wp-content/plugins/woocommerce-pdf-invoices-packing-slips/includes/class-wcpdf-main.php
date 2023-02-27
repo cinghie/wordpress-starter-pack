@@ -42,8 +42,10 @@ class Main {
 		add_action( 'wp_scheduled_delete', array( $this, 'schedule_temporary_files_cleanup' ) );
 
 		// remove private data
-		add_action( 'woocommerce_privacy_remove_order_personal_data_meta', array( $this, 'remove_order_personal_data_meta' ), 10, 1 );
-		add_action( 'woocommerce_privacy_remove_order_personal_data', array( $this, 'remove_order_personal_data' ), 10, 1 );
+		if ( apply_filters( 'wpo_wcpdf_remove_order_personal_data', true ) ) {
+			add_action( 'woocommerce_privacy_remove_order_personal_data_meta', array( $this, 'remove_order_personal_data_meta' ), 10, 1 );
+			add_action( 'woocommerce_privacy_remove_order_personal_data', array( $this, 'remove_order_personal_data' ), 10, 1 );
+		}
 		// export private data
 		add_action( 'woocommerce_privacy_export_order_personal_data_meta', array( $this, 'export_order_personal_data_meta' ), 10, 1 );
 
@@ -86,7 +88,7 @@ class Main {
 		// WooCommerce Booking compatibility
 		if ( get_post_type( $order_id ) == 'wc_booking' && isset( $order->order ) && ! empty( $order->order ) ) {
 			// $order is actually a WC_Booking object!
-			$order = $order->order;
+			$order    = $order->order;
 			$order_id = $order->get_id();
 		}
 
@@ -715,16 +717,23 @@ class Main {
 					<?php /* translators: 1. plugin name, 2. directory path */ ?>
 						<p><?php printf( esc_html__( 'The %1$s directory %2$s couldn\'t be created or is not writable!', 'woocommerce-pdf-invoices-packing-slips' ), '<strong>PDF Invoices & Packing Slips for WooCommerce</strong>' ,'<code>' . $path . '</code>' ); ?></p>
 						<p><?php esc_html_e( 'Please check your directories write permissions or contact your hosting service provider.', 'woocommerce-pdf-invoices-packing-slips' ); ?></p>
-						<p><a href="<?php echo esc_url( add_query_arg( 'wpo_wcpdf_hide_no_dir_notice', 'true' ) ); ?>"><?php esc_html_e( 'Hide this message', 'woocommerce-pdf-invoices-packing-slips' ); ?></a></p>
+						<p><a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'wpo_wcpdf_hide_no_dir_notice', 'true' ), 'hide_no_dir_notice_nonce' ) ); ?>"><?php esc_html_e( 'Hide this message', 'woocommerce-pdf-invoices-packing-slips' ); ?></a></p>
 					</div>
 					<?php
 					echo wp_kses_post( ob_get_clean() );
 		
 					// save option to hide notice
-					if ( isset( $_GET['wpo_wcpdf_hide_no_dir_notice'] ) ) {
-						delete_option( 'wpo_wcpdf_no_dir_error', true );
-						wp_redirect( 'admin.php?page=wpo_wcpdf_options_page' );
-						exit;
+					if ( isset( $_REQUEST['wpo_wcpdf_hide_no_dir_notice'] ) && isset( $_REQUEST['_wpnonce'] ) ) {
+						// validate nonce
+						if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'hide_no_dir_notice_nonce' ) ) {
+							wcpdf_log_error( 'You do not have sufficient permissions to perform this action: wpo_wcpdf_hide_no_dir_notice' );
+							wp_redirect( 'admin.php?page=wpo_wcpdf_options_page' );
+							exit;
+						} else {
+							delete_option( 'wpo_wcpdf_no_dir_error' );
+							wp_redirect( 'admin.php?page=wpo_wcpdf_options_page' );
+							exit;
+						}
 					}
 				}
 			}

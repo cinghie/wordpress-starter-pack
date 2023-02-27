@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Ajax Product Filter\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "ajax-product-filter\n"
-"POT-Creation-Date: 2022-11-14 15:59:20+00:00\n"
+"POT-Creation-Date: 2023-02-08 12:53:00+00:00\n"
 "PO-Revision-Date: 2020-12-29 14:36:56+0000\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -671,41 +671,41 @@ msgctxt "[ADMIN] Name of the preset elementor widget"
 msgid "YITH AJAX Filters Reset Button"
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-filters.php:102
+#: includes/elementor/class-yith-wcan-elementor-filters.php:90
 #: includes/shortcodes/class-yith-wcan-shortcode-filters.php:60
 msgctxt "[ELEMENTOR] Default preset option"
 msgid "Choose an option"
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-filters.php:110
+#: includes/elementor/class-yith-wcan-elementor-filters.php:98
 msgctxt "[ELEMENTOR] Section title"
 msgid "Filters"
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:102
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:90
 msgctxt "[ELEMENTOR] Section title"
 msgid "General"
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-filters.php:118
+#: includes/elementor/class-yith-wcan-elementor-filters.php:106
 msgctxt "[ELEMENTOR] Control label"
 msgid "Preset"
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:113
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:101
 msgctxt "[ELEMENTOR] Widget description"
 msgid ""
 "This widget will display \"Filters reset\" button, wherever it is placed"
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:116
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:104
 msgctxt "[ELEMENTOR] Widget description"
 msgid ""
 "It will allow users to reset the filer selection; it will only appear when "
 "there is an active filter."
 msgstr ""
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:120
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:108
 msgctxt "[ELEMENTOR] Widget description"
 msgid ""
 "You can use this block to place \"Reset filters\" button inside your page, "
@@ -794,17 +794,7 @@ msgctxt "[Admin] Preset delete confirm label"
 msgid "Are you sure you want to delete this preset?"
 msgstr ""
 
-#: includes/tables/class-yith-wcan-filter-presets-table.php:175
-msgctxt "[Admin] on-off yes"
-msgid "YES"
-msgstr ""
-
-#: includes/tables/class-yith-wcan-filter-presets-table.php:175
-msgctxt "[Admin] on-off no"
-msgid "NO"
-msgstr ""
-
-#: includes/tables/class-yith-wcan-filter-presets-table.php:195
+#: includes/tables/class-yith-wcan-filter-presets-table.php:200
 msgctxt ""
 "[Admin] Name of the item missing, shown in preset-empty-content template"
 msgid "filter preset"
@@ -816,7 +806,7 @@ msgctxt ""
 msgid "filter"
 msgstr ""
 
-#: includes/tables/class-yith-wcan-filter-presets-table.php:196
+#: includes/tables/class-yith-wcan-filter-presets-table.php:201
 msgctxt "[Admin] New preset button label"
 msgid "Create a new preset"
 msgstr ""
@@ -1353,8 +1343,9 @@ msgstr ""
 #: templates/admin/upgrade-note-modal.php:51
 msgctxt "[ADMIN] Upgrade note modal content"
 msgid ""
-"We suggest you to <a href=\"%1$s\">check this video</a> or <a href=\"%2$s"
-"\">read the documentation</a> to learn how to use this new feature."
+"We suggest you to <a href=\"%1$s\">check this video</a> or <a "
+"href=\"%2$s\">read the documentation</a> to learn how to use this new "
+"feature."
 msgstr ""
 
 #. translators: 1. Url to docs.

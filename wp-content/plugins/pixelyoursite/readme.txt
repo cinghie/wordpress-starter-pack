@@ -4,7 +4,7 @@ Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel 
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 6.1
-Stable tag: 9.2.2
+Stable tag: 9.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -466,6 +466,39 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+= PixelYourSite 9.3.2 =
+
+* Fix for an issue with WooCommerce logs: pixelyoursite.php is not a known WordPress plugin
+
+
+= PixelYourSite 9.3.1 =
+
+* Fixing a bug related to missing custom parameters for Meta CAPI events configured on the plugin’s Events page.
+
+* Declaring WooCommerce 7.3 compatibility.
+
+* Important code improvements.
+
+* Fixing other bugs.
+
+
+= PixelYourSite 9.3.0 =
+
+* Ensuring compatibility with WooCommerce High-Performance Order Storage (HPOS).
+
+* Meta Conversion API test code will auto-delete in 24 hours.
+
+* Changing the default method for WooCommerce AddToCart event in order to avoid a possible conflict with Elementor.
+
+* Improvements for how we handle licenses and updates for extra add-ons (the Pinterest add-on, the Bing add-on).
+
+* UI changes.
+
+* Fix for a possible conflict with Brick theme.
+
+* Fixing other bugs and code refactoring. 
+
 
 = PixelYourSite 9.2.2 =
 

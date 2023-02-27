@@ -3,7 +3,7 @@
 Plugin Name: WP-Optimize - Clean, Compress, Cache
 Plugin URI: https://getwpo.com
 Description: WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract more traffic and users.
-Version: 3.2.10
+Version: 3.2.12
 Update URI: https://wordpress.org/plugins/wp-optimize/
 Author: David Anderson, Ruhani Rabin, Team Updraft
 Author URI: https://updraftplus.com
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 // Check to make sure if WP_Optimize is already call and returns.
 if (!class_exists('WP_Optimize')) :
-define('WPO_VERSION', '3.2.10');
+define('WPO_VERSION', '3.2.12');
 define('WPO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WPO_PLUGIN_MAIN_PATH', plugin_dir_path(__FILE__));
 define('WPO_PREMIUM_NOTIFICATION', false);
@@ -64,7 +64,7 @@ class WP_Optimize {
 
 		add_action('wp_enqueue_scripts', array($this, 'frontend_enqueue_scripts'));
 
-		add_action('wp_ajax_wp_optimize_ajax', array($this, 'wp_optimize_ajax_handler'));
+		$this->load_ajax_handler();
 
 		// Show update to Premium notice for non-premium multisite.
 		add_action('wpo_additional_options', array($this, 'show_multisite_update_to_premium_notice'));
@@ -716,134 +716,6 @@ class WP_Optimize {
 			
 	public function capability_required() {
 		return apply_filters('wp_optimize_capability_required', 'manage_options');
-	}
-
-	public function wp_optimize_ajax_handler() {
-		$nonce = empty($_POST['nonce']) ? '' : $_POST['nonce'];
-
-		if (!wp_verify_nonce($nonce, 'wp-optimize-ajax-nonce') || empty($_POST['subaction'])) {
-			wp_send_json(array(
-				'result' => false,
-				'error_code' => 'security_check',
-				'error_message' => __('The security check failed; try refreshing the page.', 'wp-optimize')
-			));
-		}
-
-		$subaction = $_POST['subaction'];
-		$data = isset($_POST['data']) ? $_POST['data'] : null;
-
-		if (!current_user_can($this->capability_required())) {
-			wp_send_json(array(
-				'result' => false,
-				'error_code' => 'security_check',
-				'error_message' => __('You are not allowed to run this command.', 'wp-optimize')
-			));
-		}
-
-
-		// Currently the settings are only available to network admins.
-		if (is_multisite() && !current_user_can('manage_network_options')) {
-		/**
-		 * Filters the commands allowed to the subsite admins. Other commands are only available to network admin. Only used in a multisite context.
-		 */
-			$allowed_commands = apply_filters('wpo_multisite_allowed_commands', array('check_server_status', 'compress_single_image', 'restore_single_image'));
-			if (!in_array($subaction, $allowed_commands)) wp_send_json(array(
-				'result' => false,
-				'error_code' => 'update_failed',
-				'error_message' => __('Options can only be saved by network admin', 'wp-optimize')
-			));
-		}
-				
-		$options = $this->get_options();
-
-		$results = array();
-
-		// Some commands that are available via AJAX only.
-		if (in_array($subaction, array('dismiss_dash_notice_until', 'dismiss_season'))) {
-			$options->update_option($subaction, (time() + 366 * 86400));
-		} elseif (in_array($subaction, array('dismiss_page_notice_until', 'dismiss_notice'))) {
-			$options->update_option($subaction, (time() + 84 * 86400));
-		} elseif ('dismiss_review_notice' == $subaction) {
-		if (empty($data['dismiss_forever'])) {
-			$options->update_option($subaction, time() + 84*86400);
-		} else {
-			$options->update_option($subaction, 100 * (365.25 * 86400));
-		}
-		} else {
-
-			$commands = new WP_Optimize_Commands();
-			$minify_commands = new WP_Optimize_Minify_Commands();
-
-			
-			if (self::is_premium()) {
-				$cache_commands = new WP_Optimize_Cache_Commands_Premium();
-			} else {
-				$cache_commands = new WP_Optimize_Cache_Commands();
-			}
-
-			// check if called command not in main commands class and exist in cache commands class then change class.
-			if (!is_callable(array($commands, $subaction)) && is_callable(array($minify_commands, $subaction))) {
-				$commands = $minify_commands;
-			}
-
-			// check if called command not in main commands class and exist in cache commands class then change class.
-			if (!is_callable(array($commands, $subaction)) && is_callable(array($cache_commands, $subaction))) {
-				$commands = $cache_commands;
-			}
-
-			if (!is_callable(array($commands, $subaction))) {
-				error_log("WP-Optimize: ajax_handler: no such command (".$subaction.")");
-				$results = array(
-					'result' => false,
-					'error_code' => 'command_not_found',
-					'error_message' => sprintf(__('The command "%s" was not found', 'wp-optimize'), $subaction)
-				);
-			} else {
-				$results = call_user_func(array($commands, $subaction), $data);
-
-				// clean status box content, it broke json sometimes.
-				if (isset($results['status_box_contents'])) {
-					$results['status_box_contents'] = str_replace(array("\n", "\t"), '', $results['status_box_contents']);
-				}
-
-				if (is_wp_error($results)) {
-					$results = array(
-						'result' => false,
-						'error_code' => $results->get_error_code(),
-						'error_message' => $results->get_error_message(),
-						'error_data' => $results->get_error_data(),
-					);
-				}
-
-				// if nothing was returned for some reason, set as result null.
-				if (empty($results)) {
-					$results = array(
-						'result' => null
-					);
-				}
-			}
-		}
-
-		$result = json_encode($results);
-
-		// Requires PHP 5.3+
-		$json_last_error = function_exists('json_last_error') ? json_last_error() : false;
-
-		// if json_encode returned error then return error.
-		if ($json_last_error) {
-			$result = array(
-				'result' => false,
-				'error_code' => $json_last_error,
-				'error_message' => 'json_encode error : '.$json_last_error,
-				'error_data' => '',
-			);
-
-			$result = json_encode($result);
-		}
-
-		echo $result;
-
-		die;
 	}
 
 	/**
@@ -1861,7 +1733,14 @@ class WP_Optimize {
 	 * @return string empty or min suffix with wpo_version string
 	 */
 	public function get_min_or_not_internal_string() {
-		return (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '-'. str_replace('.', '-', WPO_VERSION). '.min';
+		return (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '-' . str_replace('.', '-', WPO_VERSION) . '.min';
+	}
+
+	/**
+	 * Instantiate Ajax handling class
+	 */
+	private function load_ajax_handler() {
+		WPO_Ajax::get_instance();
 	}
 }
 

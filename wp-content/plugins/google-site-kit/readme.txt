@@ -4,7 +4,7 @@ Contributors:      google
 Requires at least: 5.2
 Tested up to:      6.1
 Requires PHP:      5.6
-Stable tag:        1.90.1
+Stable tag:        1.94.0
 License:           Apache License 2.0
 License URI:       https://www.apache.org/licenses/LICENSE-2.0
 Tags:              google, search-console, analytics, adsense, pagespeed-insights, optimize, tag-manager, site-kit
@@ -107,6 +107,80 @@ By default, Site Kit does anonymize IP addresses upon activation of the Google A
 Please create a new topic on our [WordPress.org support forum](https://wordpress.org/support/plugin/google-site-kit/). Be sure to follow the [support forum guidelines](https://wordpress.org/support/guidelines/) when posting.
 
 == Changelog ==
+
+= 1.94.0 =
+
+**Enhanced**
+
+* Only register the Key Metrics widgets when the userInput feature flag is enabled. See [#6519](https://github.com/google/site-kit-wp/issues/6519).
+* Update text on copy to clipboard buttons with informative feedback when pressed. See [#6391](https://github.com/google/site-kit-wp/issues/6391).
+* Implement `getAnalyticsConfigByMeasurementIDs` selector to look up GA4 account, property, and web data stream based on a set of measurement IDs. See [#6372](https://github.com/google/site-kit-wp/issues/6372).
+* Add `getReport` selector for Google Analytics 4. See [#6173](https://github.com/google/site-kit-wp/issues/6173).
+* Determine Google Tag settings when configuring Analytics. See [#6081](https://github.com/google/site-kit-wp/issues/6081).
+* Simplify User Input completion-related behavior. See [#5900](https://github.com/google/site-kit-wp/issues/5900).
+* Update the user menu to display Google account details. See [#5775](https://github.com/google/site-kit-wp/issues/5775).
+* Improve loading of setup/settings views when an existing tag is present. See [#5426](https://github.com/google/site-kit-wp/issues/5426).
+
+**Fixed**
+
+* Fix the dismissal behavior of the auto-update CTA to be permanent. See [#6545](https://github.com/google/site-kit-wp/issues/6545).
+* Fix potential errors raised when the `mbstring` PHP extension is not loaded. See [#6524](https://github.com/google/site-kit-wp/issues/6524).
+* Fix console error appearing in Admin Settings when User Input feature flag is enabled but Analytics is disconnected. See [#6488](https://github.com/google/site-kit-wp/issues/6488).
+* Fix bug that caused Tag Manager settings screen to be stuck in a "loading" state. See [#6464](https://github.com/google/site-kit-wp/issues/6464).
+* Fix key metrics preview loading issue on the admin settings page. See [#6428](https://github.com/google/site-kit-wp/issues/6428).
+
+= 1.93.0 =
+
+**Enhanced**
+
+* Conditionally render Google charts on non-Site Kit screens to avoid conflicts. See [#6439](https://github.com/google/site-kit-wp/issues/6439).
+* Add a new endpoint for the Analytics 4 module to list conversion events. See [#6348](https://github.com/google/site-kit-wp/issues/6348).
+* Update type scale and color tokens to match GM2+ design. See [#6328](https://github.com/google/site-kit-wp/issues/6328).
+* Update the in-progress state when submitting User Input answers. See [#6323](https://github.com/google/site-kit-wp/issues/6323).
+* Create REST endpoints to store and fetch user-selected Key Metrics settings. See [#6256](https://github.com/google/site-kit-wp/issues/6256).
+* Remove admin-wide base JS. See [#6250](https://github.com/google/site-kit-wp/issues/6250).
+* Enhance web storage clearing to only remove Site Kit items. See [#6237](https://github.com/google/site-kit-wp/issues/6237).
+* Add `GET:report` datapoint for Google Analytics 4. See [#6172](https://github.com/google/site-kit-wp/issues/6172).
+* Reduce code complexity in `GoogleChart` component. See [#6029](https://github.com/google/site-kit-wp/issues/6029).
+* Prevent the "Set up Google Analytics 4..." Tooltip from overlapping the header on page scroll. See [#5938](https://github.com/google/site-kit-wp/issues/5938).
+* Implement new inline edit answer interface for User Input settings. See [#5897](https://github.com/google/site-kit-wp/issues/5897).
+* Add notification to prompt users to enable auto-updates. See [#5853](https://github.com/google/site-kit-wp/issues/5853).
+* Simplify experience when additional scopes are required to view the dashboard. See [#5497](https://github.com/google/site-kit-wp/issues/5497).
+
+**Fixed**
+
+* Skip outputting measurement ID specific Google Analytics disabling script when no measurement ID is configured. See [#6364](https://github.com/google/site-kit-wp/issues/6364).
+* Fix incorrect redirects for sites with internationalized domain names. See [#5868](https://github.com/google/site-kit-wp/issues/5868).
+
+= 1.92.0 =
+
+**Enhanced**
+
+* Restore Unique Visitors chart on WP Dashboard widget. See [#6355](https://github.com/google/site-kit-wp/issues/6355).
+* Improve error handling in Google charts to avoid crashing the dashboard. See [#6346](https://github.com/google/site-kit-wp/issues/6346).
+* Enhance isolation of client-side storage between user sessions. See [#6240](https://github.com/google/site-kit-wp/issues/6240).
+* Remove the Idea Hub experimental feature. See [#6235](https://github.com/google/site-kit-wp/issues/6235).
+* Preload `user-input-settings` REST route. See [#6233](https://github.com/google/site-kit-wp/issues/6233).
+* Only fetch server notifications if none have been received yet. See [#6163](https://github.com/google/site-kit-wp/issues/6163).
+* Disable "How to improve" CTA on PageSpeed widget while re-running test. See [#6106](https://github.com/google/site-kit-wp/issues/6106).
+* Use the configured Google Tag ID for the Analytics 4 snippet if present. See [#6080](https://github.com/google/site-kit-wp/issues/6080).
+* Implement selectors and associated logic for looking up Google Tag containers and destinations. See [#6079](https://github.com/google/site-kit-wp/issues/6079).
+* Add Google Tag container lookup and destinations list datapoints. See [#6078](https://github.com/google/site-kit-wp/issues/6078).
+* Update styling of User Input Settings on the Admin Settings tab. See [#5896](https://github.com/google/site-kit-wp/issues/5896).
+* Improve the User Input review screen and editing interface in Settings. See [#5891](https://github.com/google/site-kit-wp/issues/5891).
+* Remove Google Analytics 4 Alpha API availability conditions and fallbacks. See [#5575](https://github.com/google/site-kit-wp/issues/5575).
+* Add a Material 3, web components `Checkbox` component to the codebase. See [#5190](https://github.com/google/site-kit-wp/issues/5190).
+* Improve error messages when encountering an internal server error in WordPress. See [#4997](https://github.com/google/site-kit-wp/issues/4997).
+
+**Changed**
+
+* Upgrade `@wordpress/data` to 4.23.0, `react` and `react-dom` to 16.14.0. See [#1769](https://github.com/google/site-kit-wp/issues/1769).
+
+**Fixed**
+
+* Fix the formatting of Bounce Rate on the single page dashboard to always be a percentage. See [#5506](https://github.com/google/site-kit-wp/issues/5506).
+* Fix Site Kit logo being cut-off on Samsung Galaxy S22 and other similarly-sized phones. See [#5436](https://github.com/google/site-kit-wp/issues/5436).
+* Fix various PHP deprecation notices on PHP 8.1. See [#5110](https://github.com/google/site-kit-wp/issues/5110).
 
 = 1.90.1 =
 

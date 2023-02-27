@@ -1,7 +1,7 @@
-( function( $ ) {
+window.IVS_AJAX_JS_LOAD = function() {
 	'use strict';
 
-        $( document ).ready( function() {
+        jQuery( document ).ready( function($) {
 		var _ref = null;
                 var old_search_term = '';
                 var old_form_id = -1;
@@ -354,7 +354,9 @@
 			}
 		}
 	} );
-} )( jQuery );
+};
+
+IVS_AJAX_JS_LOAD();
 
 /**
  * SimpleBar.js - v5.3.5

@@ -4,11 +4,8 @@
 import {
 	PlainPaymentMethods,
 	PlainExpressPaymentMethods,
-} from '@woocommerce/type-defs/payments';
-import type {
-	EmptyObjectType,
-	ObjectType,
-} from '@woocommerce/type-defs/objects';
+} from '@woocommerce/types';
+import type { EmptyObjectType, ObjectType } from '@woocommerce/types';
 import { DataRegistry } from '@wordpress/data';
 
 /**
@@ -65,25 +62,6 @@ export interface PaymentStatusDispatchers {
 	) => void;
 }
 
-export type PaymentMethodCurrentStatusType = {
-	// If true then the payment method state in checkout is pristine.
-	isPristine: boolean;
-	// If true then the payment method has been initialized and has started.
-	isStarted: boolean;
-	// If true then the payment method is processing payment.
-	isProcessing: boolean;
-	// If true then the payment method is in a finished state (which may mean it's status is either error, failed, or success).
-	isFinished: boolean;
-	// If true then the payment method is in an error state.
-	hasError: boolean;
-	// If true then the payment method has failed (usually indicates a problem with the payment method used, not logic error).
-	hasFailed: boolean;
-	// If true then the payment method has completed it's processing successfully.
-	isSuccessful: boolean;
-	// If true, an express payment is in progress.
-	isDoingExpressPayment: boolean;
-};
-
 export type PaymentMethodsDispatcherType = (
 	paymentMethods: PlainPaymentMethods
 ) => undefined | void;
@@ -112,5 +90,4 @@ export interface PaymentStatus {
 	hasError?: boolean;
 	hasFailed?: boolean;
 	isSuccessful?: boolean;
-	isDoingExpressPayment?: boolean;
 }

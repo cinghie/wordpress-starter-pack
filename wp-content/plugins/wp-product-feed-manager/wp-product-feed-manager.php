@@ -4,8 +4,8 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy-to-use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.46.0
- * Modified: 19-12-2022
+ * Version: 1.47.1
+ * Modified: 15-02-2023
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 5.4.0
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0.0
- * WC tested up to: 7.2.0
+ * WC tested up to: 7.3.0
  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 *
 		 * @var string  Containing the version number of the plugin.
 		 */
-		public $version = '1.46.0';
+		public $version = '1.47.1';
 
 		/**
 		 * Author Name.
@@ -280,13 +280,6 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			// Include all required classes.
 			include_classes();
 			include_channels();
-
-			// Include wpml support if needed.
-			if ( is_plugin_active( 'woocommerce-multilingual/wpml-woocommerce.php' ) ) {
-				if ( file_exists( __DIR__ . '/../wp-product-feed-manager-wpml/wppfm-wpml-support.php' ) ) {
-					require_once __DIR__ . '/../wp-product-feed-manager-wpml/wppfm-wpml-support.php';
-				}
-			}
 
 			add_action(
 				'after_setup_theme',

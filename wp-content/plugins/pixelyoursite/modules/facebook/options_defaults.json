@@ -52,6 +52,7 @@
   "server_event_use_ajax": true,
   "server_access_api_token": "",
   "test_api_event_code": "",
+  "test_api_event_code_expiration_at": "",
 
   "complete_registration_event_enabled" : true,
   "woo_complete_registration_fire_every_time": false,

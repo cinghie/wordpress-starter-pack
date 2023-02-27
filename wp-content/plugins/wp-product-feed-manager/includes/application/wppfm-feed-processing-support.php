@@ -1090,6 +1090,7 @@ trait WPPFM_Processing_Support {
 	 * @param   $node_pre_tag           string  The channel dependant pre tag (eg. g: for Google Feeds).
 	 *
 	 * @return  array   The product with the correct xml tags.
+	 * @since 2.37.0. Added the extra limit parameter to the explode function so that it can work with attributes that have an - in their name, like attributes used in the Vivino Xml channel.
 	 */
 	public function add_xml_sub_tags( &$product, $sub_keys_for_subs, $tags_repeated_fields, $node_pre_tag ) {
 		$sub_tags = array_intersect_key( $product, array_flip( $sub_keys_for_subs ) );
@@ -1102,7 +1103,7 @@ trait WPPFM_Processing_Support {
 		$tags_value = array();
 
 		foreach ( $sub_tags as $key => $value ) {
-			$split = explode( '-', $key );
+			$split = explode( '-', $key, 2 );
 
 			if ( in_array( $split[0], $tags_repeated_fields ) ) {
 				$tags_counter = 0;
@@ -1468,6 +1469,31 @@ trait WPPFM_Processing_Support {
 				}
 			}
 		} else {
+			//@since 2.37.0 added code to handle min and max variation prices for non variation products.
+			if ( in_array( '_min_variation_price', $active_field_names ) ) {
+				$product->_min_variation_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
+			}
+
+			if ( in_array( '_max_variation_price', $active_field_names ) ) {
+				$product->_max_variation_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
+			}
+
+			if ( in_array( '_min_variation_regular_price', $active_field_names ) ) {
+				$product->_min_variation_regular_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
+			}
+
+			if ( in_array( '_max_variation_regular_price', $active_field_names ) ) {
+				$product->_max_variation_regular_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
+			}
+
+			if ( in_array( '_min_variation_sale_price', $active_field_names ) ) {
+				$product->_min_variation_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
+			}
+
+			if ( in_array( '_max_variation_sale_price', $active_field_names ) ) {
+				$product->_max_variation_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
+			}
+
 			if ( ! $woocommerce_product_parent->is_type( 'simple' ) && ! $woocommerce_product_parent->is_type( 'grouped' )
 				&& ! $woocommerce_product_parent->is_type( 'virtual' ) && ! $woocommerce_product_parent->is_type( 'downloadable' )
 				&& ! $woocommerce_product_parent->is_type( 'external' ) ) {
@@ -1527,7 +1553,7 @@ trait WPPFM_Processing_Support {
 		}
 
 		// @since 2.26.0
-		// @since 2.37.0 Changed the way the regular price is fetched for variation products
+		// @since 2.36.0 Changed the way the regular price is fetched for variation products
 		if ( in_array( '_regular_price_with_tax', $active_field_names )  ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
 				$regular_price = $woocommerce_product->get_variation_regular_price( 'max' );
@@ -1539,7 +1565,7 @@ trait WPPFM_Processing_Support {
 		}
 
 		// @since 2.26.0
-		// @since 2.37.0 Changed the way the regular price is fetched for variation products
+		// @since 2.36.0 Changed the way the regular price is fetched for variation products
 		if ( in_array( '_regular_price_without_tax', $active_field_names )  ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
 				$regular_price = $woocommerce_product->get_variation_regular_price( 'max' );
@@ -1551,27 +1577,35 @@ trait WPPFM_Processing_Support {
 		}
 
 		// @since 2.26.0
-		// @since 2.37.0 Changed the way the sale price is fetched for variation products
+		// @since 2.36.0 Changed the way the sale price is fetched for variation products
+		// @since 2.37.0 Added a check if the sale price is empty because the wc_get_price_including_tax function will return an unwanted regular price if sale price is empty
 		if ( in_array( '_sale_price_with_tax', $active_field_names )  ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
 				$sale_price = $woocommerce_product->get_variation_sale_price( 'max' );
 			} else {
 				$sale_price = $woocommerce_product->get_sale_price();
 			}
-			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $sale_price ) );
-			$product->_sale_price_with_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
+
+			if( $sale_price ) {
+				$price                         = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $sale_price ) );
+				$product->_sale_price_with_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
+			}
 		}
 
 		// @since 2.26.0
-		// @since 2.37.0 Changed the way the sale price is fetched for variation products
+		// @since 2.36.0 Changed the way the sale price is fetched for variation products
+		// @since 2.37.0 Added a check if the sale price is empty because the wc_get_price_including_tax function will return an unwanted regular price if sale price is empty
 		if ( in_array( '_sale_price_without_tax', $active_field_names )  ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
 				$sale_price = $woocommerce_product->get_variation_sale_price( 'max' );
 			} else {
 				$sale_price = $woocommerce_product->get_sale_price();
 			}
-			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $sale_price ) );
-			$product->_sale_price_without_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
+
+			if( $sale_price ) {
+				$price                            = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $sale_price ) );
+				$product->_sale_price_without_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
+			}
 		}
 
 		// @since 2.28.0

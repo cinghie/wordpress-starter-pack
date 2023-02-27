@@ -2,10 +2,10 @@
 Contributors: jorisverwater,supportadtribes,evavangelooven
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: Google Shopping Feed, Meta feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Pinterest, Idealo, Pixels, Conversion API
+Tags: Google Shopping Feed, Meta feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Twitter, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.1
-Stable tag: 12.1.3
+Stable tag: 12.3.0
 
 == Description ==
 
@@ -70,6 +70,9 @@ Our plugin supports the official shipping table rate plugin of WooCommerce
 = WooCommerce Shipping Table Rate (Bolder Elements) support =
 Our plugin supports the WooCommerce Shipping Table Rate plugin created by Bolder Elements.
 
+= EAN and Barcodes for WooCommerce =
+Our plugin supports the EAN and Barcodes for WooCommerce pugin created by WPFactory.
+
 = Product variations / Variables =
 This plugin supports product variables so all your variations make it to product feeds as individual products too.
 
@@ -104,6 +107,9 @@ Our plugin supports WooCommerce Multilangual, especially the currency switcher
 = Aelia Currency Switcher (Elite version) =
 Our plugin supports the Aelia Currency Switcher
 
+= Curcy Currency Switcher (Elite version) =
+Our plugin supports the Curcy Currency Switcher
+
 = Polylang support (Elite version) =
 Our plugin supports Polylang
 
@@ -119,10 +125,6 @@ Our plugin supports Polylang
 * > 100 pre-configured product feed channel-templates for ~ 200 countries;
 * Create custom product feeds;
 * XML, CSV, TSV and TXT formats;
-* Supports WPML (version 4.1 and higher)
-* Supports WCML, WooCommerce Multilingual
-* Supports Aelia Currency Switcher
-* Supports Polylang
 * Intuitive interface;
 * Supports product variations / variables;
 * Scheduled product feed refreshes: daily, twice-daily or every hour;
@@ -134,6 +136,13 @@ Our plugin supports Polylang
 * Create custom field names: create your own field names and fill them with static or dynamic values;
 * Add static field values to your product feeds;
 * Google Analytics support: add Google Analytics UTM parameters to your product feed and individual products.
+
+== Supported plugins ===
+* Supports WPML (Elite)
+* Supports WCML, WooCommerce Multilingual (Elite)
+* Supports Aelia Currency Switcher (Elite)
+* Supports Curcy Currency Switcher (Elite)
+* Supports Polylang (Elite)
 * Supports Yoasts primary category feature
 * Supports Rankmaths primary category feature
 * Supports the official "WooCommerce Brands" plugin
@@ -145,16 +154,19 @@ Our plugin supports Polylang
 * Supports WooCommerce Dynamic Pricing & Discounts from RightPress
 * Supports the Discount Rules for WooCommerce plugin from FlyCart
 * Supports WC Fields Factory
+* Supports WooCommerce Wholesale Prices from Rymera Web Co (removing prices with wholesale prices set)
 * Supports Table Rate Shipping for WooCommerce from WooCommerce
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
 * Supports usage of the All In One SEO pack title and description attributes
 * Supports the WPC Product Bundles for WooCommerce plugin
+* Supports the EAN and Barcodes for WooCommerce pugin created by WPFactory.
 
 Some of the above mentioned feature can only be used by users who upgraded to the Elite version of our plugin
 
 === Elite paid features ===
 * WPML / WCML support
 * Aelia currency switcher support
+* Curcy currency switcher support
 * Polylang support
 * Addition of the extra fields on your product edit pages
 * Data manipulation feature
@@ -175,6 +187,7 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Bing Shopping
 * Bing Shopping Promotions
 * Pinterest
+* Twitter
 * <a href="https://help.vivino.com/s/article/How-do-I-create-my-product-feed-XML?language=en_US" target="_blank">Vivino</a>
 * <a href="https://businesshelp.snapchat.com/en-US/a/product-catalog-specs" target="_blank">Snapchat</a>
 * <a href="https://ads.tiktok.com/help/article?aid=10001006" target="_blank">TikTok</a>
@@ -339,6 +352,62 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 12.3.0 (2023-02-24) =
+* Fixed an issue where filters on Google category ID's did not work
+
+= 12.2.9 (2023-02-21) =
+* Fixed a PHP warning for an empty tax rate variable
+* Fixed a Skroutz feed issue where additional images were not added when multiple product colors where set
+
+= 12.2.8 (2023-02-20) =
+* Fixed an issue where multiple tax rates were active for countries and products
+
+= 12.2.7 (2023-02-19) =
+* Removed "Pa" and "Custom attributes" from product detail attribite names
+
+= 12.2.6 (2023-02-16) =
+* Checked for compatibility with WooCommerce 7.4
+* Added a Feed publication date and time attribute
+
+= 12.2.5 (2023-02-14) =
+* Respecting wholesale visibility filter. When it contains "all", allow products to be in feeds
+
+= 12.2.4 (2023-02-12) =
+* Remove shipping methods from feeds when they are for wholesale users only (WooCommerce Wholesale Prices - by Rymera Web Co)
+
+= 12.2.3 (2023-02-09) =
+* Products with wholesale prices are automatically being removed from product feeds (WooCommerce Wholesale Prices - by Rymera Web Co)
+
+= 12.2.2 (2023-02-06) =
+* Added support for Twitter product feeds
+
+= 12.2.1 (2023-02-03) =
+* Added support for the VARIABLE_PARAMS XML field for Mall.sk feeds
+
+= 12.2.0 (2023-02-02) =
+* Removing shipping details from Google and Facebook feeds when no country has been set for them
+* Added availability dates +5 / +6 / +7 and +8 weeks from current date
+
+= 12.1.9 (2023-01-27) =
+* Fixed a PHP warning on the settings page when a plugin is first activated
+
+= 12.1.8 (2023-01-15) =
+* Fixed a PHP warning with regards to the non locally saved images
+
+= 12.1.7 (2023-01-13) =
+* Added support for non locally saved images
+* Checked for compatibility with WooCommerce 7.3
+
+= 12.1.6 (2023-01-13) =
+* Made compatible with WooCommerce HPOS / High-Performance Order Storage
+* Fixed CSS issue on category mapping page
+
+= 12.1.5 (2023-01-11) =
+* Fixed an issue with the Google DRM pixel feature returning a fatal error for some users
+
+= 12.1.4 (2023-01-06) =
+* Fixed an issue with a find and replace rule for Skroutz feeds
 
 = 12.1.3 (2022-12-29) =
 * Fixed an issue for PARAM fields for Glami.gr feeds
@@ -3872,6 +3941,62 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 12.3.0 =
+Fixed an issue where filters on Google category ID's did not work
+
+= 12.2.9 =
+Fixed a PHP warning for an empty tax rate variable
+Fixed a Skroutz feed issue where additional images were not added when multiple product colors where set
+
+= 12.2.8 =
+Fixed an issue where multiple tax rates were active for countries and products
+
+= 12.2.7 =
+Removed "Pa" and "Custom attributes" from product detail attribite names
+
+= 12.2.6 =
+Checked for compatibility with WooCommerce 7.4
+Added a Feed publication date and time attribute
+
+= 12.2.5 =
+Respecting wholesale visibility filter. When it contains "all", allow products to be in feeds
+
+= 12.2.4 =
+Remove shipping methods from feeds when they are for wholesale users only (WooCommerce Wholesale Prices - by Rymera Web Co)
+
+= 12.2.3 =
+Products with wholesome prices are automatically being removed from product feeds (WooCommerce Wholesale Prices - by Rymera Web Co)
+
+= 12.2.2 =
+Added support for Twitter product feeds
+
+= 12.2.1 =
+Added support for the VARIABLE_PARAMS XML field for Mall.sk feeds
+
+= 12.2.0 =
+Removing shipping details from Google and Facebook feeds when no country has been set for them
+Added availability dates +5 / +6 / +7 and +8 weeks from current date
+
+= 12.1.9 =
+Fixed a PHP warning on the settings page when a plugin is first activated
+
+= 12.1.8 =
+Fixed a PHP warning with regards to the non locally saved images
+
+= 12.1.7 =
+Added support for non locally saved images
+Checked for compatibility with WooCommerce 7.3
+
+= 12.1.6 =
+Made compatible with WooCommerce HPOS / High-Performance Order Storage
+Fixed CSS issue on category mapping page
+
+= 12.1.5 =
+Fixed an issue with the Google DRM pixel feature returning a fatal error for some users
+
+= 12.1.4 =
+Fixed an issue with a find and replace rule for Skroutz feeds
 
 = 12.1.3 =
 Fixed an issue for PARAM fields for Glami.gr feeds

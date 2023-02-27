@@ -103,6 +103,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			}
 
 			// instantiate the correct channel class
+
 			$this->_channel_class = new WPPFM_Google_Feed_Class();
 
 			return $this->do_task( $task_data );
@@ -198,7 +199,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			}
 
 			if ( $wc_product instanceof WC_Product_Grouped ) {
-				return 'product added'; // Skip grouped products.
+				return false; // Skip grouped products.
 			}
 
 			do_action( 'wppfm_started_product_processing', $this->_feed_data->feedId, $product_id );

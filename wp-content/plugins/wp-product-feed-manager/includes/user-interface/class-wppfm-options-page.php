@@ -57,6 +57,8 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$process_logging_unchecked       = true === $process_logging_option || 'true' === $process_logging_option ? ' checked ' : '';
 			$product_identifiers_option      = get_option( 'wppfm_show_product_identifiers', 'false' );
 			$show_product_identifiers        = true === $product_identifiers_option || 'true' === $product_identifiers_option ? ' checked ' : '';
+			$review_feed_manager_option      = get_option( 'wppfm_review_feed_manager_active', 'false' );
+			$review_feed_manager_active      = true === $review_feed_manager_option || 'true' === $review_feed_manager_option ? ' checked ' : '';
 			$use_full_resolution_option      = get_option( 'wppfm_use_full_url_resolution', 'false' );
 			$wpml_use_full_resolution_urls   = true === $use_full_resolution_option || 'true' === $use_full_resolution_option ? ' checked ' : '';
 
@@ -102,6 +104,17 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$html_code .= '<label for="wppfm_product_identifiers">';
 			$html_code .= esc_html__( 'When switched on, adds Brand, GTIN and MPN product identifiers to the products (default off).', 'wp-product-feed-manager' ) . '</label>';
 			$html_code .= '<p><i>' . esc_html__( 'This option will add product identifier input fields to the Inventory card of your products. The MPN identifier is also added to the product variations.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
+			$html_code .= '</td></tr>';
+
+			// @since 2.37.0.
+			$html_code .= '<tr valign="top" class="">';
+			$html_code .= '<th scope="row" class="titledesc">' . esc_html__( 'Activate Google Product Review Feeds', 'wp-product-feed-manager' ) . '</th>';
+			$html_code .= '<td class="forminp forminp-checkbox">';
+			$html_code .= '<fieldset>';
+			$html_code .= '<input name="wppfm_review_feed_manager_on" id="wppfm_review_feed_manager" type="checkbox" class="" value="1"' . $review_feed_manager_active . '> ';
+			$html_code .= '<label for="wppfm_review_feed_manager">';
+			$html_code .= esc_html__( 'When switched on you get the option to generate Google Review Feeds (default off).', 'wp-product-feed-manager' ) . '</label>';
+			$html_code .= '<p><i>' . esc_html__( 'This option will add an extra tab to the Feed Manager that will allow you to generate Google Product Review Feeds.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
 			$html_code .= '</td></tr>';
 
 			// @since 2.15.0.

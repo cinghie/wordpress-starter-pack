@@ -34,7 +34,7 @@ class EventsManager {
   
         wp_register_script( 'js-cookie', PYS_FREE_URL . '/dist/scripts/js.cookie-2.1.3.min.js', array(), '2.1.3' );
         wp_enqueue_script( 'js-cookie' );
-        if ( PYS()->getOption( 'сompress_front_js' )){
+        if ( PYS()->getOption( 'compress_front_js' )){
             wp_enqueue_script( 'pys', PYS_FREE_URL . '/dist/scripts/public.bundle.js',
                 array( 'jquery', 'js-cookie', 'jquery-bind-first' ), PYS_FREE_VERSION );
         }
@@ -67,10 +67,11 @@ class EventsManager {
 		}
 
 		$options = array(
-			'debug' => PYS()->getOption( 'debug_enabled' ),
-			'siteUrl' => site_url(),
-			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-            'enable_remove_download_url_param'=> PYS()->getOption( 'enable_remove_download_url_param' ),
+			'debug'                             => PYS()->getOption( 'debug_enabled' ),
+			'siteUrl'                           => site_url(),
+			'ajaxUrl'                           => admin_url( 'admin-ajax.php' ),
+            'ajax_event'                        => wp_create_nonce('ajax-event-nonce'),
+            'enable_remove_download_url_param'  => PYS()->getOption( 'enable_remove_download_url_param' ),
             'cookie_duration'                   => PYS()->getOption( 'cookie_duration' ),
             'last_visit_duration'               => PYS()->getOption('last_visit_duration')
 		);

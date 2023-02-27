@@ -35,14 +35,19 @@ class ServerEventHelper {
             ->setClientIpAddress(self::getIpAddress())
             ->setClientUserAgent(self::getHttpUserAgent());
 
+
         $fbp = self::getFbp();
         $fbc = self::getFbc();
-        if($fbp) {
-            $user_data->setFbp($fbp);
+
+        if(!$fbp && $wooOrder) {
+            $fbp = ServerEventHelper::getFbStatFromOrder('fbp',$wooOrder);
         }
-        if($fbc) {
-            $user_data->setFbc($fbc);
+        if(!$fbc && $wooOrder) {
+            $fbc = ServerEventHelper::getFbStatFromOrder('fbc',$wooOrder);
         }
+
+        $user_data->setFbp($fbp);
+        $user_data->setFbc($fbc);
 
         $customData = self::paramsToCustomData($eventParams);
         $uri = self::getRequestUri(PYS()->getOption('enable_remove_source_url_params'));
@@ -72,6 +77,25 @@ class ServerEventHelper {
 
 
         return $event;
+    }
+
+    /**
+     * @param $key
+     * @param $wooOrder
+     * @return string|null
+     */
+    private static function getFbStatFromOrder($key,$wooOrder) {
+
+        $order = wc_get_order( $wooOrder );
+        if($order) {
+            $fbCookie = $order->get_meta('pys_fb_cookie',true);
+            if($fbCookie){
+                if(!empty($fbCookie[$key])) {
+                    return $fbCookie[$key];
+                }
+            }
+        }
+        return null;
     }
 
 
@@ -135,7 +159,7 @@ class ServerEventHelper {
         return $request_uri;
     }
 
-    private static function getFbp() {
+    public static function getFbp() {
         $fbp = null;
 
         if (!empty($_COOKIE['_fbp'])) {
@@ -145,7 +169,7 @@ class ServerEventHelper {
         return $fbp;
     }
 
-    private static function getFbc() {
+    public static function getFbc() {
         $fbc = null;
 
         if (!empty($_COOKIE['_fbc'])) {
@@ -324,7 +348,25 @@ class ServerEventHelper {
             'video_id','video_title','event_trigger','link_type','tag_text',"URL",
             'form_id','form_class','form_submit_label','transactions_count','average_order',
             'shipping_cost','tax','total','shipping','coupon_used','post_category','landing_page'];
-        foreach ($custom_values as $val) {
+
+
+        $adding_custom_field = array();
+
+        $eventsCustom = EventsCustom()->getEvents();
+        foreach ($eventsCustom as $event)
+        {
+            $fbCustomEvents = $event->getFacebookCustomParams();
+
+            foreach ($fbCustomEvents as $paramKey => $params)
+            {
+                if(!in_array($params['name'], $custom_values))
+                {
+                    $adding_custom_field[] = $params['name'];
+                }
+            }
+        }
+        $result_custom_values = array_merge($custom_values, $adding_custom_field);
+        foreach ($result_custom_values as $val) {
             if(isset($data[$val])){
                 $customProperties[$val] = $data[$val];
             }

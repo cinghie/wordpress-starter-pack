@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce ajax product filter download, woocommerce, widget, ajax, ajax filtered nav, ajax navigation, ajax filtered navigation, woocommerce layered navigation, woocommerce layered nav, product filter, product filters, ajax product filter, woocommerce ajax product filter, woocommerce filters, sidebar filter, sidebar ajax filter, ajax price filter, price filter, product sorting, woocommerce filter, taxonomy filter, attribute filter, attributes filter, woocommerce product sort, ajax sort, woocommerce ajax product filter, advanced product filters, ajax product filters, filters, woocommerce ajax product filters, woocommerce product filters, woocommerce product filters, category filter, attribute filters, woocommerce products filter, woocommerce price filter, yit, yith, yithemes
 Requires at least: 5.9
 Tested up to: 6.1
-Stable tag: 4.17.0
+Stable tag: 4.19.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -152,13 +152,31 @@ If none of the previous listed actions helps you solve the problem, then, submit
 
 == Changelog ==
 
+= 4.19.0 - Released on 08 February 2023 =
+
+* New: support for WooCommerce 7.4
+* Update: YITH plugin framework
+* Tweak: make sure that formatted terms array is filtered before returning it
+* Tweak: minor fix to Filter dependencies on admin panel
+* Dev: replacing the on-off field in the Presets table with the plugin FW
+* Dev: added yith_wcan_filter_title_html filter
+
+
+= 4.18.0 - Released on 10 January 2023 =
+
+* New: support for WooCommerce 7.3
+* Update: Readme
+* Update: YITH plugin framework
+* Fix: removed deprecated method used for Elementor compatibility
+* Dev: added new filter yith_wcan_get_filters
+
+
 = 4.17.0 - Released on 13 December 2022 =
 
 * New: support for WooCommerce 7.2
 * Update: plugin FW
 * Fix: sass deprecated
 * Dev: added yith_wcan_toggle_element trigger
-* Dev: added yith_wcan_before_toggle_element trigger
 
 = 4.16.0 - Released on 14 November 2022 =
 

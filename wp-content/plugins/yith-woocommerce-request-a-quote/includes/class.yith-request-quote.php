@@ -252,7 +252,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 			if ( ! headers_sent() ) {
 				if ( count( $this->raq_content ) > 0 ) {
-					$this->set_rqa_cookies( true );
+					$this->set_rqa_cookies();
 					$set = true;
 				} elseif ( isset( $_COOKIE['yith_ywraq_items_in_raq'] ) ) {
 					$this->set_rqa_cookies( false );
@@ -517,7 +517,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 				$message = '';
 				$return  = $this->exists( $posted['product_id'], $posted['variation_id'] );
-				if ( 'true' === $return ) {
+				if ( true === $return ) {
 					$message = ywraq_get_label( 'already_in_quote' );
 				}
 
@@ -625,7 +625,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 * @since 1.0
 		 */
 		public function load_wc_mailer() {
-			add_action( 'send_raq_mail', array( 'WC_Emails', 'send_transactional_email' ), 10 );
+			add_action( 'send_raq_mail', array( 'WC_Emails', 'send_transactional_email' ) );
 		}
 
 		/**
@@ -661,9 +661,10 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			$quantity        = ( ! isset( $_REQUEST['quantity'] ) || empty( $_REQUEST['quantity'] ) ) ? 1 : wc_stock_amount( wp_unslash( $_REQUEST['quantity'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$variations      = array();
 			$error           = false;
+			$raq_data        = array();
 
 			if ( $adding_to_quote->is_type( 'variation' ) ) {
-				$var_id = yit_get_prop( $adding_to_quote, 'variation_id', true );
+                $var_id = $adding_to_quote->get_meta('variation_id');
 				if ( ! empty( $var_id ) ) {
 					$product_id   = $adding_to_quote->get_id();
 					$variation_id = $var_id;
@@ -672,12 +673,8 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 			if ( $adding_to_quote->is_type( 'variable' ) ) {
 				if ( empty( $variation_id ) ) {
-					if ( is_callable( $adding_to_quote, 'get_matching_variation' ) ) {
-						$variation_id = $adding_to_quote->get_matching_variation( wp_unslash( $_POST ) ); // phpcs:ignore
-					} else {
-						$data_store   = WC_Data_Store::load( 'product' );
-						$variation_id = $data_store->find_matching_product_variation( $adding_to_quote, wp_unslash( $_POST ) ); // phpcs:ignore
-					}
+					$data_store   = WC_Data_Store::load( 'product' );
+					$variation_id = $data_store->find_matching_product_variation( $adding_to_quote, wp_unslash( $_POST ) ); // phpcs:ignore
 				}
 				if ( ! empty( $variation_id ) ) {
 					$attributes = $adding_to_quote->get_attributes();
@@ -700,14 +697,13 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 								$value = wc_clean( sanitize_title( wp_unslash( $_REQUEST[ $taxonomy ] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							}
 
-							$variation_data = yit_get_prop( $variation, 'data', true );
+							$variation_data = $variation->get_meta( 'data', true );
 							// Get valid value from variation.
 							$valid_value = isset( $variation_data['attributes'][ $attribute['name'] ] ) ? $variation_data['attributes'][ $attribute['name'] ] : '';
 
 							// Allow if valid.
 							if ( '' === $valid_value || $valid_value === $value ) {
 								$raq_data[ $taxonomy ] = $value;
-								continue;
 							}
 						} else {
 							$missing_attributes[] = wc_attribute_label( $attribute['name'] );

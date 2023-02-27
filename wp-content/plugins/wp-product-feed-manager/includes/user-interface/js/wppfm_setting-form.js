@@ -35,6 +35,14 @@ function wppfm_show_product_identifiers_changed() {
 	);
 }
 
+function wppfm_activate_review_feed_manager() {
+	alert( wppfm_setting_form_vars.review_feed_manager_only_for_premium );
+	wppfm_review_feed_manager_status( false, function( response ) {
+		console.log( 'Review Feed Manager can not be switched on in the free version.' )
+	} );
+	jQuery( '#wppfm_review_feed_manager' ).prop( 'checked', false );
+}
+
 function wppfm_wpml_use_full_resolution_urls_changed() {
 	wppfm_wpml_use_full_url_resolution(
 		jQuery( '#wppfm_wpml_use_full_resolution_urls' ).is( ':checked' ),

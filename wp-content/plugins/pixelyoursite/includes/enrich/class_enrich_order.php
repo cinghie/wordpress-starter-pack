@@ -40,13 +40,15 @@ class EnrichOrder {
     }
 
     function woo_add_order_meta_boxes () {
+        $screen = isWooUseHPStorage()
+            ? wc_get_page_screen_id( 'shop-order' )
+            : 'shop_order';
         add_meta_box( 'pys_enrich_fields_woo', __('PixelYourSite','pixelyoursite'),
-            array($this,"woo_render_order_fields"), 'shop_order');
+            array($this,"woo_render_order_fields"), $screen);
     }
 
-    function woo_render_order_fields() {
-        global  $post;
-        $orderId = $post->ID;
+    function woo_render_order_fields($post) {
+        $orderId = ( $post instanceof \WP_Post ) ? $post->ID : $post->get_id();
         echo "<div style='margin:20px 10px'><p>With the paid plugin, you can see more data on the WooCommerce Reports page. 
                 <a href='https://www.pixelyoursite.com/woocommerce-first-party-reports?utm_source=free-plugin&utm_medium=order-page&utm_campaign=reports-order-page&utm_content=woocommerce-reports-client-page&utm_term=order-page-reports' target='_blank'>Click here for details</a>
                 </p>You can stop storing this data from the plugin's <a href='".admin_url("admin.php?page=pixelyoursite&tab=woo")."' target='_blank'>WooCommerce page</a>.</div>";
@@ -67,7 +69,11 @@ class EnrichOrder {
         $pysData['pys_utm_id'] = isset($_REQUEST['pys_utm_id']) ? sanitize_text_field($_REQUEST['pys_utm_id']) : "";
         $pysData['last_pys_utm_id'] = isset($_REQUEST['last_pys_utm_id']) ? sanitize_text_field($_REQUEST['last_pys_utm_id']) : "";
 
-        update_post_meta($order_id,"pys_enrich_data",$pysData);
+        $order = wc_get_order($order_id);
+        if($order) {
+            $order->update_meta_data("pys_enrich_data",$pysData);
+            $order->save();
+        }
     }
 
     /**

@@ -110,7 +110,7 @@
   "enable_edd_tags_param": true,
   "enable_remove_download_url_param": true,
   "pys_logs_enable": false,
-  "woo_add_to_cart_catch_method": "add_cart_js",
+  "woo_add_to_cart_catch_method": "add_cart_hook",
 
   "automatic_events_enabled": false,
 
@@ -134,6 +134,7 @@
     "xls"
   ],
   "automatic_event_scroll_value": 30,
-  "automatic_event_time_on_page_value": 30
+  "automatic_event_time_on_page_value": 30,
+  "compress_front_js": false
 
 }

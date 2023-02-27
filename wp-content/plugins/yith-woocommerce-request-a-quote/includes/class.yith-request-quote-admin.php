@@ -173,7 +173,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 
 			$this->panel = new YIT_Plugin_Panel_WooCommerce( $args );
 
-			add_action( 'woocommerce_admin_field_ywraq_upload', array( $this->panel, 'yit_upload' ), 10, 1 );
+			add_action( 'woocommerce_admin_field_ywraq_upload', array( $this->panel, 'yit_upload' ) );
 
 		}
 
@@ -261,7 +261,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		/**
 		 * Add the action links to plugin admin page
 		 *
-		 * @param   string $new_row_meta_args  Plugin Meta New args.
+		 * @param   array $new_row_meta_args  Plugin Meta New args.
 		 * @param   string $plugin_meta        Plugin Meta.
 		 * @param   string $plugin_file        Plugin file.
 		 * @param   array  $plugin_data        Plugin data.

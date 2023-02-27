@@ -118,6 +118,9 @@ class WPO_Page_Cache {
 
 		add_action('admin_init', array($this, 'admin_init'));
 
+		add_action('update_option_gmt_offset', array($this, 'update_gmt_offset_timezone_string_config'), 10, 3);
+		add_action('update_option_timezone_string', array($this, 'update_gmt_offset_timezone_string_config'), 10, 3);
+
 		$this->check_compatibility_issues();
 
 		add_filter('cron_schedules', array($this, 'cron_schedules'));
@@ -1192,6 +1195,33 @@ EOF;
 			self::$instance = new self();
 		}
 		return self::$instance;
+	}
+
+
+	/**
+	 * Update gmt_offset and timezone_string cache config value, used with hook `update_gmt_offset_timezone_string_config`.
+	 *
+	 * @param {float|string} $old_value GMT offset as a float value or timezone value supported by PHP as a string (https://www.php.net/manual/en/timezones.php)
+	 * @param {float|string} $new_value
+	 * @param {string}    	 $option    gmt_offset|timezone_string
+	 *
+	 * @return null
+	 */
+	public function update_gmt_offset_timezone_string_config($old_value, $new_value, $option) {
+		$option;
+		
+		if ('' == $new_value) return;
+
+		$current_config = $this->config->get();
+		if ('timezone_string' == $option) {
+			$timeZone = new DateTimeZone($new_value);
+			$dateTime = new DateTime("now");
+			$gmt_offset = $timeZone->getOffset($dateTime);
+			$current_config['gmt_offset'] = round($gmt_offset/3600, 1);
+		} elseif ('' !== $new_value) {
+			$current_config['gmt_offset'] = $new_value;
+		}
+		$this->config->update($current_config, true);
 	}
 
 	/**

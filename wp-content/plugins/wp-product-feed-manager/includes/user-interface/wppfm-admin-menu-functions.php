@@ -50,13 +50,16 @@ function wppfm_main_admin_page() {
 	$start->show();
 }
 
+/**
+ * starts the product feed page
+ */
 function wppfm_add_product_feed_page() {
 	$add_new_feed_page = new WPPFM_Product_Feed_Page();
 	$add_new_feed_page->show();
 }
 
 /**
- * options page
+ * starts the options page
  */
 function wppfm_options_page() {
 	$add_options_page = new WPPFM_Add_Options_Page();
@@ -97,3 +100,4 @@ function wppfm_page_footer() {
 		'<a href="https://wordpress.org/support/plugin/wp-product-feed-manager/reviews?rate=5#new-post" target="_blank" class="wppfm-rating-request">' . '&#9733;&#9733;&#9733;&#9733;&#9733;' . '</a>'
 	);
 }
+

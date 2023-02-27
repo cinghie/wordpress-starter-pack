@@ -103,11 +103,11 @@
 				<input type="checkbox" id="smush-preserve-exif" class="smush-options preserve_exif" <?php checked($smush_options['preserve_exif']); ?> >
 				<label for="smush-preserve-exif" class="smush-options preserve_exif"><?php _e('Preserve EXIF data', 'wp-optimize');?></label>
 				<br>
-				<input type="checkbox" id="smush-backup-original" class="smush-options back_up_original" <?php checked($smush_options['back_up_original']); ?> > 
+				<input type="checkbox" id="smush-backup-original" class="smush-options" <?php checked($smush_options['back_up_original']); ?> > 
 				<label for="smush-backup-original"><?php _e('Backup original images', 'wp-optimize');?></label>
 				<span tabindex="0" data-tooltip="<?php _e('The original images are stored alongside the compressed images, you can visit the edit screen of the individual images in the Media Library to restore them.', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span> </span>
 				<br>
-				<input type="checkbox" id="smush-backup-delete" class="smush-options back_up_original" <?php checked($smush_options['back_up_delete_after']); ?> >
+				<input type="checkbox" id="smush-backup-delete" class="smush-options" <?php checked($smush_options['back_up_delete_after']); ?> >
 				<label for="smush-backup-delete"><?php _e('Automatically delete image backups after', 'wp-optimize');?><input id="smush-backup-delete-days" type="number" min="1" value="<?php echo (0 !== intval($smush_options['back_up_delete_after_days'])) ? intval($smush_options['back_up_delete_after_days']) : 50; ?>"><?php _e('days', 'wp-optimize');?></label><label> — <?php _e('or', 'wp-optimize'); ?></label> <button type="button" id="wpo_smush_delete_backup_btn" class="wpo_primary_small button"><?php _e('Delete all backup images now', 'wp-optimize'); ?></button>
 				<img id="wpo_smush_delete_backup_spinner" class="display-none" src="<?php echo esc_attr(admin_url('images/spinner-2x.gif')); ?>" alt="...">
 				<span id="wpo_smush_delete_backup_done" class="dashicons dashicons-yes display-none save-done"></span>

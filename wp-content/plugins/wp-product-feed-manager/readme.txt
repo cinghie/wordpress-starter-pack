@@ -1,12 +1,12 @@
-=== Woocommerce Google Feed Manager ===
+﻿=== Woocommerce Google Feed Manager ===
 
 Contributors: WPMarketingRobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Donate link: https://www.wpmarketingrobot.com/
 Requires at least: 7.2
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.46.0
+Stable tag: 1.47.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,6 +97,16 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.47.1 - 15/02/2023 =
+* Fixed an issue with a not correctly minified js file that would cause an error when opening the Edit Feed form.
+
+= 1.47.0 - 01/02/2023 =
+* Tested on WooCommerce 7.3.0.
+* Added the code to handle min and max variation prices for non variation products.
+
+= 1.46.1 - 14/01/2023 =
+* Fixed an issue where the price could not be filtered on "Sale Price is empty".
+
 = 1.46.0 - 19/12/2022 =
 * Fixed an issue where the "Regular Price" and "Sale Price" could be unreliable for variable products.
 * Tested on WooCommerce version 7.2.0.

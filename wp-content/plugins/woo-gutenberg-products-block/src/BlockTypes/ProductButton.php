@@ -56,8 +56,7 @@ class ProductButton extends AbstractBlock {
 	 * It is necessary to register and enqueue assets during the render phase because we want to load assets only if the block has the content.
 	 */
 	protected function register_block_type_assets() {
-		parent::register_block_type_assets();
-		$this->register_chunk_translations( [ $this->block_name ] );
+		return null;
 	}
 
 	/**
@@ -102,7 +101,7 @@ class ProductButton extends AbstractBlock {
 					esc_url( $product->add_to_cart_url() ),
 					esc_attr( $product->get_id() ),
 					esc_attr( $product->get_sku() ),
-					$product->is_purchasable() ? 'ajax_add_to_cart add_to_cart_button' : '',
+					$product->is_purchasable() && ! $product->has_options() ? 'ajax_add_to_cart add_to_cart_button' : '',
 					esc_attr( $product->get_type() ),
 					esc_attr( $styles_and_classes['classes'] ),
 					esc_attr( $styles_and_classes['styles'] ),

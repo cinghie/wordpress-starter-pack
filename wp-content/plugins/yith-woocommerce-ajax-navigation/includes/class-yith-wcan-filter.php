@@ -1470,8 +1470,9 @@ if ( ! class_exists( 'YITH_WCAN_Filter' ) ) {
 			}
 
 			$additional_classes = implode( ' ', apply_filters( 'yith_wcan_filter_title_classes', $additional_classes, $this ) );
+			$filter_title_html  = wp_kses_post( sprintf( '<%1$s class="%3$s">%2$s</%1$s>', esc_html( $title_tag ), esc_html( $this->get_title() ), esc_attr( $additional_classes ) ) );
 
-			return wp_kses_post( sprintf( '<%1$s class="%3$s">%2$s</%1$s>', esc_html( $title_tag ), esc_html( $this->get_title() ), esc_attr( $additional_classes ) ) );
+			return apply_filters( 'yith_wcan_filter_title_html', $filter_title_html, $this->get_title(), $this );
 		}
 
 		/**

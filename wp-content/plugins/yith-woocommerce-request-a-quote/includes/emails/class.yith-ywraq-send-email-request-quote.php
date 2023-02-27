@@ -25,7 +25,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		/**
 		 * Constructor method, used to return object of the class to WC
 		 *
-		 * @return \YITH_YWRAQ_Send_Email_Request_Quote
+		 * @return void
 		 * @since 1.0.0
 		 */
 		public function __construct() {

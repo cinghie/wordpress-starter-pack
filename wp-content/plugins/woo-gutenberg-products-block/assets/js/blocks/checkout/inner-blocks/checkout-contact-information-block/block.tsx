@@ -2,11 +2,16 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useCheckoutAddress, useStoreEvents } from '@woocommerce/base-context';
+import {
+	useCheckoutAddress,
+	useStoreEvents,
+	noticeContexts,
+} from '@woocommerce/base-context';
 import { getSetting } from '@woocommerce/settings';
 import {
 	CheckboxControl,
 	ValidatedTextInput,
+	StoreNoticesContainer,
 } from '@woocommerce/blocks-checkout';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { CHECKOUT_STORE_KEY } from '@woocommerce/block-data';
@@ -53,23 +58,23 @@ const Block = (): JSX.Element => {
 
 	return (
 		<>
+			<StoreNoticesContainer
+				context={ noticeContexts.CONTACT_INFORMATION }
+			/>
 			<ValidatedTextInput
 				id="email"
 				type="email"
 				autoComplete="email"
+				errorId={ 'billing_email' }
 				label={ __( 'Email address', 'woo-gutenberg-products-block' ) }
 				value={ billingAddress.email }
 				required={ true }
 				onChange={ onChangeEmail }
-				requiredMessage={ __(
-					'Please provide a valid email address',
-					'woo-gutenberg-products-block'
-				) }
 				customValidation={ ( inputObject: HTMLInputElement ) => {
 					if ( ! isEmail( inputObject.value ) ) {
 						inputObject.setCustomValidity(
 							__(
-								'Please provide a valid email address',
+								'Please enter a valid email address',
 								'woo-gutenberg-products-block'
 							)
 						);

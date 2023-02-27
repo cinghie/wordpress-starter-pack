@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Ajax Product Filter\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "ajax-product-filter\n"
-"POT-Creation-Date: 2022-11-14 15:59:20+00:00\n"
+"POT-Creation-Date: 2023-02-08 12:53:00+00:00\n"
 "PO-Revision-Date: 2021-03-02 11:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -198,8 +198,8 @@ msgstr ""
 "können Ihre Benutzer das gesuchte Produkt so schnell wie möglich finden. "
 "Dank des Plugins können Sie einen oder mehrere Suchfilter für Ihre "
 "WooCommerce-Produkte einrichten, das Benutzererlebnis verbessern und den "
-"Eindruck vermitteln, eines großen und zuverlässigen Shop vermitteln. <a href="
-"\"https://yithemes.com/\" target=\"_blank\">Weitere Plugins für Ihren E-"
+"Eindruck vermitteln, eines großen und zuverlässigen Shop vermitteln. <a "
+"href=\"https://yithemes.com/\" target=\"_blank\">Weitere Plugins für Ihren E-"
 "Commerce-Shop erhalten Sie bei <strong>YITH</strong></a>"
 
 #: includes/class-yith-wcan-admin.php:104
@@ -699,28 +699,28 @@ msgctxt "[ADMIN] Name of the preset elementor widget"
 msgid "YITH AJAX Filters Reset Button"
 msgstr "YITH AJAX-Filter Reset-Button"
 
-#: includes/elementor/class-yith-wcan-elementor-filters.php:102
+#: includes/elementor/class-yith-wcan-elementor-filters.php:90
 #: includes/shortcodes/class-yith-wcan-shortcode-filters.php:60
 msgctxt "[ELEMENTOR] Default preset option"
 msgid "Choose an option"
 msgstr "Wählen Sie eine Option"
 
-#: includes/elementor/class-yith-wcan-elementor-filters.php:110
+#: includes/elementor/class-yith-wcan-elementor-filters.php:98
 msgctxt "[ELEMENTOR] Section title"
 msgid "Filters"
 msgstr "Filter"
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:102
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:90
 msgctxt "[ELEMENTOR] Section title"
 msgid "General"
 msgstr "Allgemein"
 
-#: includes/elementor/class-yith-wcan-elementor-filters.php:118
+#: includes/elementor/class-yith-wcan-elementor-filters.php:106
 msgctxt "[ELEMENTOR] Control label"
 msgid "Preset"
 msgstr "Preset"
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:113
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:101
 msgctxt "[ELEMENTOR] Widget description"
 msgid ""
 "This widget will display \"Filters reset\" button, wherever it is placed"
@@ -728,7 +728,7 @@ msgstr ""
 "Dieses Widget zeigt den Button \"Filter zurücksetzen\" an, wo immer es "
 "platziert wird"
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:116
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:104
 msgctxt "[ELEMENTOR] Widget description"
 msgid ""
 "It will allow users to reset the filer selection; it will only appear when "
@@ -737,7 +737,7 @@ msgstr ""
 "Wird es dem Benutzer ermöglichen, die Auswahl des Filters zurückzusetzen; es "
 "erscheint nur, wenn ein Filter aktiv ist. "
 
-#: includes/elementor/class-yith-wcan-elementor-reset-button.php:120
+#: includes/elementor/class-yith-wcan-elementor-reset-button.php:108
 msgctxt "[ELEMENTOR] Widget description"
 msgid ""
 "You can use this block to place \"Reset filters\" button inside your page, "
@@ -834,17 +834,7 @@ msgctxt "[Admin] Preset delete confirm label"
 msgid "Are you sure you want to delete this preset?"
 msgstr "Sind Sie sicher, dass Sie dieses Preset löschen möchten?"
 
-#: includes/tables/class-yith-wcan-filter-presets-table.php:175
-msgctxt "[Admin] on-off yes"
-msgid "YES"
-msgstr "JA"
-
-#: includes/tables/class-yith-wcan-filter-presets-table.php:175
-msgctxt "[Admin] on-off no"
-msgid "NO"
-msgstr "NEIN"
-
-#: includes/tables/class-yith-wcan-filter-presets-table.php:195
+#: includes/tables/class-yith-wcan-filter-presets-table.php:200
 msgctxt ""
 "[Admin] Name of the item missing, shown in preset-empty-content template"
 msgid "filter preset"
@@ -856,7 +846,7 @@ msgctxt ""
 msgid "filter"
 msgstr "Filter"
 
-#: includes/tables/class-yith-wcan-filter-presets-table.php:196
+#: includes/tables/class-yith-wcan-filter-presets-table.php:201
 msgctxt "[Admin] New preset button label"
 msgid "Create a new preset"
 msgstr "Neues Preset erstellen"
@@ -1439,8 +1429,9 @@ msgstr ""
 #: templates/admin/upgrade-note-modal.php:51
 msgctxt "[ADMIN] Upgrade note modal content"
 msgid ""
-"We suggest you to <a href=\"%1$s\">check this video</a> or <a href=\"%2$s"
-"\">read the documentation</a> to learn how to use this new feature."
+"We suggest you to <a href=\"%1$s\">check this video</a> or <a "
+"href=\"%2$s\">read the documentation</a> to learn how to use this new "
+"feature."
 msgstr ""
 "Wir empfehlen, <a href=\"%1$s\">dieses Video</a> oder <a href=\"%2$s\">die "
 "Dokumentation (engl.)</a> anzusehen, um zu lernen, wie dieses neue Feature "
@@ -1493,6 +1484,14 @@ msgstr "Nein Danke"
 msgctxt "[FRONTEND] Reset button for preset shortcode"
 msgid "Reset filters"
 msgstr "Filter zurücksetzen"
+
+#~ msgctxt "[Admin] on-off yes"
+#~ msgid "YES"
+#~ msgstr "JA"
+
+#~ msgctxt "[Admin] on-off no"
+#~ msgid "NO"
+#~ msgstr "NEIN"
 
 #~ msgctxt "[Admin] tab name"
 #~ msgid "Premium Version"
@@ -1959,8 +1958,8 @@ msgstr "Filter zurücksetzen"
 #~ "product's loop"
 #~ msgstr ""
 #~ "Sie können diesen Block verwenden, um \"Aktive Filter\"-Labels innerhalb "
-#~ "Ihrer Seite zu platzieren, wenn die Option \"Aktive Filter Label Position"
-#~ "\" für den Loop Ihres Produkts nicht funktioniert "
+#~ "Ihrer Seite zu platzieren, wenn die Option \"Aktive Filter Label "
+#~ "Position\" für den Loop Ihres Produkts nicht funktioniert "
 
 #~ msgctxt "[ELEMENTOR] Widget description"
 #~ msgid "This widget will display button to open mobile filters modal opener"
@@ -1985,8 +1984,8 @@ msgstr "Filter zurücksetzen"
 #~ "your page, when \"Show as modal on mobile\" option won't work for your "
 #~ "product's loop"
 #~ msgstr ""
-#~ "Sie können diesen Block verwenden, um das \"Modale Fenster für Mobilgeräte"
-#~ "\" innerhalb Ihrer Seite zu platzieren, wenn die Option \"Auf "
+#~ "Sie können diesen Block verwenden, um das \"Modale Fenster für "
+#~ "Mobilgeräte\" innerhalb Ihrer Seite zu platzieren, wenn die Option \"Auf "
 #~ "Mobilgeräten als modales Fenster\" für den Loop Ihres Produkts nicht "
 #~ "funktioniert "
 

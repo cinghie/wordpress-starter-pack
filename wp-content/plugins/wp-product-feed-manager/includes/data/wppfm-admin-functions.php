@@ -97,10 +97,16 @@ function wppfm_meta_key_is_money( $key ) {
  * @since 2.28.0 Switched to the formal wc functions to get the separator and number of decimals values.
  * @since 2.28.0 Added support for the WooCommerce Currency Switcher plugin.
  * @since 2.31.0 Added the wppfm_feed_price_thousands_separator, wppfm_feed_price_decimal_separator and wppfm_feed_price_decimals filters.
+ * @since 2.36.1 Return an empty string if the $money_value parameter is an empty string. This is required to allow filtering feed attributes on "is empty" parameters.
  *
  * @since 1.1.0
  */
 function wppfm_prep_money_values( $money_value, $feed_language = '', $feed_currency = '' ) {
+
+	if ( '' === $money_value ) {
+		return $money_value;
+	}
+
 	$thousand_separator = apply_filters( 'wppfm_feed_price_thousands_separator', wc_get_price_thousand_separator() );
 
 	if ( ! is_float( $money_value ) ) {

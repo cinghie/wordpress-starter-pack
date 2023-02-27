@@ -542,10 +542,11 @@ if (array_key_exists('project_hash', $_GET)){
                                                                 <li><strong>2.</strong> <?php _e( 'More products approved by Google','woo-product-feed-pro' );?></li>
                                                                 <li><strong>3.</strong> <?php _e( 'Add GTIN, brand and more fields to your store','woo-product-feed-pro' );?></li>
                                                                 <li><strong>4.</strong> <?php _e( 'Exclude individual products from your feeds','woo-product-feed-pro' );?></li>
-                                                                <li><strong>5.</strong> <?php _e( 'WPML support','woo-product-feed-pro' );?></li>
+                                                                <li><strong>5.</strong> <?php _e( 'WPML / WCML support','woo-product-feed-pro' );?></li>
                                                                 <li><strong>6.</strong> <?php _e( 'Aelia currency switcher support','woo-product-feed-pro' );?></li>
-                                                                <li><strong>7.</strong> <?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?></li>
-								<li><strong>8.</strong> <?php _e( 'Polylang support','woo-product-feed-pro' );?></li>
+                                                                <li><strong>7.</strong> <?php _e( 'Curcy currency switcher support','woo-product-feed-pro' );?></li>
+								<li><strong>8.</strong> <?php _e( 'Facebook pixel feature','woo-product-feed-pro' );?></li>
+								<li><strong>9.</strong> <?php _e( 'Polylang support','woo-product-feed-pro' );?></li>
 							 </ul>
                                                         <strong>
                                                         <a href="https://adtribes.io/pro-vs-elite/?utm_source=<?php print"$host";?>&utm_medium=page-0&utm_campaign=why-upgrade-box" target="_blank"><?php _e( 'Upgrade to Elite here!','woo-product-feed-pro' );?></a>
@@ -589,7 +590,8 @@ if (array_key_exists('project_hash', $_GET)){
                                                                 <li><strong>9. <a href="https://adtribes.io/help-my-feed-processing-is-stuck/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=feed stuck" target="_blank"><?php _e( 'Help, my feed is stuck!','woo-product-feed-pro' );?></a></strong></li>
                                                                 <li><strong>10. <a href="https://adtribes.io/help-i-have-none-or-less-products-in-my-product-feed-than-expected/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=too few products" target="_blank"><?php _e( 'Help, my feed has no or too few products!','woo-product-feed-pro' );?></a></strong></li>
                                                                 <li><strong>11. <a href="https://adtribes.io/polylang-support-product-feeds/?utm_source=<?php print "$host";?>&utm_medium=manage-feed&utm_campaign=polylang support" target="_blank"><?php _e( 'How to use the Polylang feature', 'woo-product-feed-pro' );?></a></strong></li>
-                                                        </ul>
+                                                                <li><strong>12. <a href="https://adtribes.io/curcy-currency-switcher-feature/?utm_source=<?php print "$host";?>&utm_medium=page0&utm_campaign=curcy support" target="_blank"><?php _e( 'Enable Curcy currency switcher support','woo-product-feed-pro' );?></a></strong></li>
+							</ul>
                                                 </td>
                                         </tr>
                                 </table><br/>

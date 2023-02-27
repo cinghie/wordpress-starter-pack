@@ -34,6 +34,7 @@ if ( ! class_exists('WPPFM_Ajax_File') ) :
 			add_action('wp_ajax_myajax-background-processing-mode-selection', array( $this, 'myajax_background_processing_mode_selection' ));
 			add_action('wp_ajax_myajax-feed-logger-status-selection', array( $this, 'myajax_feed_logger_status_selection' ));
 			add_action('wp_ajax_myajax-show-product-identifiers-selection', array( $this, 'myajax_show_product_identifiers_selection' ));
+			add_action('wp_ajax_myajax-activate-review-feed-manager', array( $this, 'myajax_activate_review_feed_manager' ));
 			add_action('wp_ajax_myajax-wpml-use-full-url-resolution-selection', array( $this, 'myajax_wpml_use_full_url_resolution_selection' ));
 			add_action('wp_ajax_myajax-debug-mode-selection', array( $this, 'myajax_debut_mode_selection' ));
 			add_action('wp_ajax_myajax-third-party-attribute-keywords', array( $this, 'myajax_set_third_party_attribute_keywords' ));
@@ -266,6 +267,25 @@ if ( ! class_exists('WPPFM_Ajax_File') ) :
 				update_option('wppfm_show_product_identifiers', $selection);
 
 				echo get_option('wppfm_show_product_identifiers');
+			}
+
+			// IMPORTANT: don't forget to exit.
+			exit;
+		}
+
+		/**
+		 * Changes Activate Review Feed Manager from the Settings page.
+		 *
+		 * @since 2.37.0
+		 */
+		public function myajax_activate_review_feed_manager() {
+			// Make sure this call is legal.
+			if ( $this->safe_ajax_call(filter_input(INPUT_POST, 'setActivateReviewFeedManagerNonce'), 'myajax-activate-review-feed-manager-nonce') )
+			{
+				$selection = filter_input(INPUT_POST, 'showReviewFeedSelection');
+				update_option('wppfm_review_feed_manager_active', $selection);
+
+				echo get_option('wppfm_review_feed_manager_active');
 			}
 
 			// IMPORTANT: don't forget to exit.

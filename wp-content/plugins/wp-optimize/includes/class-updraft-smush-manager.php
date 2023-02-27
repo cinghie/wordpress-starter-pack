@@ -51,7 +51,8 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 		$this->commands = new Updraft_Smush_Manager_Commands($this);
 		$this->options = WP_Optimize()->get_options();
 
-		if (!isset($this->options)) {
+		// we set default options when compression server is false - it means that options was not saved before
+		if (!$this->options->get_option('compression_server')) {
 			$this->set_default_options();
 		}
 
@@ -89,8 +90,16 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 		// add filter for already compressed images by EWWW Image Optimizer.
 		add_filter('wpo_get_uncompressed_images_args', array($this, 'ewww_image_optimizer_compressed_images_args'));
 
-		if (!wp_next_scheduled('wpo_smush_clear_backup_images')) {
-			wp_schedule_event(time(), 'daily', 'wpo_smush_clear_backup_images');
+		// schedule or unschedule clear backup images cron if need
+		$scheduled = wp_next_scheduled('wpo_smush_clear_backup_images');
+		if ($this->options->get_option('back_up_delete_after', true)) {
+			if (!$scheduled) {
+				wp_schedule_event(time(), 'daily', 'wpo_smush_clear_backup_images');
+			}
+		} else {
+			if ($scheduled) {
+				wp_unschedule_event($scheduled, 'wpo_smush_clear_backup_images');
+			}
 		}
 	}
 
@@ -845,10 +854,11 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_3 {
 		if ($uncompressed_images) return $uncompressed_images;
 
 		$uncompressed_images = array();
+		$accepted_mimes = array('image/jpeg', 'image/gif', 'image/png');
 
 		$args = array(
 			'post_type'		=> 'attachment',
-			'post_mime_type' => 'image',
+			'post_mime_type' => $accepted_mimes,
 			'post_status'	=> 'inherit',
 			'posts_per_page' => apply_filters('updraft_smush_posts_per_page', 1000),
 			'meta_query' => array(

@@ -30,7 +30,7 @@ final class PYS extends Settings implements Plugin {
     private $logger;
 	
 	public static function instance() {
-		
+
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
@@ -132,6 +132,17 @@ final class PYS extends Settings implements Plugin {
 	    }
 
         $this->logger->init();
+        if(Facebook()->getOption('test_api_event_code_expiration_at'))
+        {
+            foreach (Facebook()->getOption('test_api_event_code_expiration_at') as $key => $test_code_expiration_at)
+            {
+                if(time() >= $test_code_expiration_at)
+                {
+                    Facebook()->updateOptions(array("test_api_event_code" => array()));
+                    Facebook()->updateOptions(array("test_api_event_code_expiration_at" => array()));
+                }
+            }
+        }
         EnrichOrder()->init();
         AjaxHookEventManager::instance()->addHooks();
     }
@@ -251,7 +262,7 @@ final class PYS extends Settings implements Plugin {
         }
 
         $theme = wp_get_theme(); // gets the current theme
-        if ( ('Bricks' == $theme->name || 'Bricks' == $theme->parent_theme) && $_GET['bricks']=='run') {
+        if ( ('Bricks' == $theme->name || 'Bricks' == $theme->parent_theme) && isset($_GET['bricks']) && $_GET['bricks']=='run') {
             return;
         }
 
@@ -306,7 +317,7 @@ final class PYS extends Settings implements Plugin {
                 'Mediapartners-Google', 'AdsBot-Google', 'Chrome-Lighthouse', 'Lighthouse',
                 'Mail.RU_Bot', 'bingbot', 'Accoona', 'ia_archiver', 'Ask Jeeves',
                 'OmniExplorer_Bot', 'W3C_Validator', 'WebAlta', 'YahooFeedSeeker', 'Yahoo!',
-                'Ezooms', '', 'Tourlentabot', 'MJ12bot', 'AhrefsBot', 'SearchBot', 'SiteStatus',
+                'Ezooms', 'Tourlentabot', 'MJ12bot', 'AhrefsBot', 'SearchBot', 'SiteStatus',
                 'Nigma.ru', 'Baiduspider', 'Statsbot', 'SISTRIX', 'AcoonBot', 'findlinks',
                 'proximic', 'OpenindexSpider','statdom.ru', 'Exabot', 'Spider', 'SeznamBot',
                 'oBot', 'C-T bot', 'Updownerbot', 'Snoopy', 'heritrix', 'Yeti',

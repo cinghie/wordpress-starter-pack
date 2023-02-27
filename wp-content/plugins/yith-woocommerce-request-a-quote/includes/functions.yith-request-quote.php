@@ -254,6 +254,7 @@ if ( ! function_exists( 'yith_ywraq_print_notices' ) ) {
 	 * Prints messages and errors which are stored in the session, then clears them.
 	 *
 	 * @since 2.1
+	 * @return void
 	 */
 	function yith_ywraq_print_notices() {
 		$session = YITH_Request_Quote()->session_class;
@@ -326,7 +327,7 @@ function yith_ywraq_show_button_in_single_page() {
  * @param string $tag Tag.
  * @param string $html Html.
  *
- * @return false|string
+ * @return false|string|void
  */
 function yith_ywraq_email_custom_tags( $text, $tag, $html ) {
 

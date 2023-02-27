@@ -16,12 +16,12 @@ use WooCommerce\PayPalCommerce\AdminNotices\Repository\Repository;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\Capture;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\OrderStatus;
 use WooCommerce\PayPalCommerce\ApiClient\Helper\DccApplies;
-use WooCommerce\PayPalCommerce\ApiClient\Repository\PayPalRequestIdRepository;
 use WooCommerce\PayPalCommerce\Onboarding\State;
 use WooCommerce\PayPalCommerce\WcGateway\Admin\FeesRenderer;
 use WooCommerce\PayPalCommerce\WcGateway\Admin\OrderTablePaymentStatusColumn;
 use WooCommerce\PayPalCommerce\WcGateway\Admin\PaymentStatusOrderDetail;
 use WooCommerce\PayPalCommerce\WcGateway\Admin\RenderAuthorizeAction;
+use WooCommerce\PayPalCommerce\WcGateway\Assets\FraudNetAssets;
 use WooCommerce\PayPalCommerce\WcGateway\Assets\SettingsPageAssets;
 use WooCommerce\PayPalCommerce\WcGateway\Checkout\CheckoutPayPalAddressPreset;
 use WooCommerce\PayPalCommerce\WcGateway\Checkout\DisableGateways;
@@ -214,7 +214,6 @@ class WCGatewayModule implements ModuleInterface {
 			'woocommerce_paypal_commerce_gateway_deactivate',
 			static function () use ( $c ) {
 				delete_option( Settings::KEY );
-				delete_option( PayPalRequestIdRepository::KEY );
 				delete_option( 'woocommerce_' . PayPalGateway::ID . '_settings' );
 				delete_option( 'woocommerce_' . CreditCardGateway::ID . '_settings' );
 			}
@@ -236,6 +235,8 @@ class WCGatewayModule implements ModuleInterface {
 		add_action(
 			'woocommerce_paypal_payments_gateway_migrate',
 			static function () use ( $c ) {
+				delete_option( 'ppcp-request-ids' );
+
 				$settings = $c->get( 'wcgateway.settings' );
 				assert( $settings instanceof Settings );
 
@@ -258,6 +259,10 @@ class WCGatewayModule implements ModuleInterface {
 				}
 
 				( $c->get( 'wcgateway.oxxo' ) )->init();
+
+				$fraudnet_assets = $c->get( 'wcgateway.fraudnet-assets' );
+				assert( $fraudnet_assets instanceof FraudNetAssets );
+				$fraudnet_assets->register_assets();
 			}
 		);
 

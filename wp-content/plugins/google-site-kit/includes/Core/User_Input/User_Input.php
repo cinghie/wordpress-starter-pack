@@ -125,10 +125,13 @@ class User_Input {
 	 * @return array|WP_Error User input answers.
 	 */
 	public function get_answers() {
-		$questions = static::$questions;
-		$settings  = array_merge(
-			$this->site_specific_answers->get(),
-			$this->user_specific_answers->get()
+		$questions    = static::$questions;
+		$site_answers = $this->site_specific_answers->get();
+		$user_answers = $this->user_specific_answers->get();
+
+		$settings = array_merge(
+			is_array( $site_answers ) ? $site_answers : array(),
+			is_array( $user_answers ) ? $user_answers : array()
 		);
 
 		// If there are no settings, return default empty values.
@@ -226,18 +229,6 @@ class User_Input {
 		$this->site_specific_answers->set( $site_settings );
 		$this->user_specific_answers->set( $user_settings );
 
-		$updated_settings = $this->get_answers();
-		$is_empty         = $this->are_settings_empty( $updated_settings );
-
-		/**
-		 * Fires when the User Input answers are set.
-		 *
-		 * @since 1.90.0
-		 *
-		 * @param bool $is_empty If at least one of the answers has empty values.
-		 */
-		do_action( 'googlesitekit_user_input_set', $is_empty );
-
-		return $updated_settings;
+		return $this->get_answers();
 	}
 }

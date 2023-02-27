@@ -2567,6 +2567,7 @@ function wppfm_hideFeedFormMainInputs() {
 	jQuery( '#add-product-variations-row' ).hide();
 }
 
+
 function wppfm_editFeedFilter( ) {
 	alert( wppfm_feed_settings_form_vars.advanced_filter_only_for_premium );
 }

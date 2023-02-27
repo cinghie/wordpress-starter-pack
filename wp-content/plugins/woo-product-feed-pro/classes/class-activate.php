@@ -85,7 +85,14 @@ class WooSEA_Activation {
 					"fields" => "pinterest",
 					"taxonomy" => "google_shopping",
 					"utm_source" => "Pinterest",
-                        		"type" => "Advertising" ),
+					"type" => "Advertising" ),
+     	 			"Twitter" => array (
+                        		"channel_hash" => md5("Twitter"),
+					"name" => "Twitter",
+					"fields" => "google_shopping",
+					"taxonomy" => "google_shopping",
+					"utm_source" => "Twitter",
+					"type" => "Advertising" ),
      	 			"Pinterest RSS Board" => array (
                         		"channel_hash" => md5("Pinterest RSS Board"),
 					"name" => "Pinterest RSS Board",

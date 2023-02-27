@@ -420,7 +420,7 @@ if ( ! class_exists( 'YITH_WCAN_Filter_Tax' ) ) {
 
 			$this->formatted_terms = apply_filters( "yith_wcan_filter_get_formatted_terms_for_{$taxonomy}", $result, $this );
 
-			return $result;
+			return $this->formatted_terms;
 		}
 
 		/**

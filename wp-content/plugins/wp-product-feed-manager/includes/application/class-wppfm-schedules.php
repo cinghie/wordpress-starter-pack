@@ -23,6 +23,7 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 		 */
 		public function update_active_feeds() {
 			$data_class = new WPPFM_Data();
+			$query_class = new WPPFM_Queries();
 
 			$current_timestamp      = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 			$active_feeds_schedules = $data_class->get_schedule_data();
@@ -31,6 +32,13 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 			// Update scheduled feeds.
 			foreach ( $active_feeds_schedules as $schedule ) {
 				$update_time    = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
+
+				$feed_type_id = $query_class->get_feed_type_id( $schedule['product_feed_id'] );
+				$review_feeds_active = get_option('wppfm_review_feed_manager_active');
+
+				if ( '2' === $feed_type_id && 'false' === $review_feeds_active ) {
+					continue; // Only put review feeds in the queue if the review feed option is active.
+				}
 
 				// Activate the feed update when the update time is reached.
 				if ( $update_time < $current_timestamp ) {

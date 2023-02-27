@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     12.1.3
+ * Version:     12.3.0
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 7.2
+ * WC tested up to: 7.4
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '12.1.3' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '12.3.0' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -627,7 +627,7 @@ add_action('wp_footer', 'woosea_add_facebook_pixel');
  */
 function woosea_add_remarketing_tags( $product = null ){
         if ( ! is_object( $product ) ) {
-                global $product;
+		$product = wc_get_product(get_the_ID());
         }
 	$ecomm_pagetype = WooSEA_Google_Remarketing::woosea_google_remarketing_pagetype();
    	$add_remarketing = get_option ('add_remarketing');
@@ -4286,7 +4286,8 @@ function woosea_generate_pages(){
 	/**
  	* Since WP 4.99 form elements are no longer allowed tags for non-admin users
  	* With the function below we add the form elements again to the allowed tags
- 	**/
+	**/
+
 	if(!function_exists('woosea_add_allowed_tags')) {
         	function woosea_add_allowed_tags($tags) {
                 	// form
@@ -4433,6 +4434,9 @@ function woosea_generate_pages(){
 			break;
 		case 9:
 			load_template( plugin_dir_path( __FILE__ ) . '/pages/admin/woosea-generate-feed-step-9.php' );
+			break;
+		case 11:
+			load_template( plugin_dir_path( __FILE__ ) . '/pages/admin/woosea-gs-analytics.php' );
 			break;
 		case 100:
 			load_template( plugin_dir_path( __FILE__ ) . '/pages/admin/woosea-manage-feed.php' );
@@ -4706,6 +4710,35 @@ function woosea_on_product_save( $product_id ) {
 }
 add_action( 'woocommerce_update_product', 'woosea_on_product_save', 10, 1 );
 
+//add_filter( 'woocommerce_product_data_tabs', 'woosea_custom_product_tab', 10, 1 );
+function woosea_custom_product_tab( $default_tabs ) {
+    $default_tabs['custom_tab'] = array(
+        'label'   =>  __( 'AdTribes Analysis', 'domain' ),
+        'target'  =>  'woosea_custom_tab_data',
+        'priority' => 60,
+        'class'   => array()
+    );
+    return $default_tabs;
+}
+//add_action( 'woocommerce_product_data_panels', 'woosea_custom_tab_data' );
+
+function woosea_custom_tab_data() {
+	echo '<div id="woosea_custom_tab_data" class="panel woocommerce_options_panel">';
+	echo '// add content here';
+	echo '</div>';
+}
+
+// Add CSS - icon
+function action_admin_head() {
+    echo '<style>
+        #woocommerce-product-data ul.wc-tabs li.custom_tab_options a::before {
+            content: "\f339";
+        } 
+    </style>';
+}
+//add_action( 'admin_head', 'action_admin_head' );
+
+
 /**
  * Function with initialisation of class for managing existing feeds
  */
@@ -4743,6 +4776,17 @@ function woosea_clear(){
 	delete_option( 'cron_projects' );
 	echo $html->get_page();
 }
+
+/**
+ * Added support for WooCommerce HPOS
+ * High-Performnce Order Storage
+ */
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
+
 
 /**
  * Add plugin links to Wordpress menu

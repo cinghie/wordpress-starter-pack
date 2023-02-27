@@ -440,7 +440,7 @@ if ( ! class_exists( 'YITH_WCAN_Preset' ) ) {
 				$results[] = yith_wcan_get_filter( $filter );
 			}
 
-			return $results;
+			return apply_filters( 'yith_wcan_get_filters', $results );
 		}
 
 		/**

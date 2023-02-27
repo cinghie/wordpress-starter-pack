@@ -20,13 +20,10 @@ import {
 	ProductSaleBadge,
 } from '@woocommerce/base-components/cart-checkout';
 import { getCurrencyFromPriceResponse } from '@woocommerce/price-format';
-import {
-	__experimentalApplyCheckoutFilter,
-	mustContain,
-} from '@woocommerce/blocks-checkout';
+import { applyCheckoutFilter, mustContain } from '@woocommerce/blocks-checkout';
 import Dinero from 'dinero.js';
 import { forwardRef, useMemo } from '@wordpress/element';
-import type { CartItem } from '@woocommerce/type-defs/cart';
+import type { CartItem } from '@woocommerce/types';
 import { objectHasProp, Currency } from '@woocommerce/types';
 import { getSetting } from '@woocommerce/settings';
 
@@ -118,7 +115,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 			useStoreCartItemQuantity( lineItem );
 		const { dispatchStoreEvent } = useStoreEvents();
 
-		// Prepare props to pass to the __experimentalApplyCheckoutFilter filter.
+		// Prepare props to pass to the applyCheckoutFilter filter.
 		// We need to pluck out receiveCart.
 		// eslint-disable-next-line no-unused-vars
 		const { receiveCart, ...cart } = useStoreCart();
@@ -131,7 +128,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 			[ lineItem, cart ]
 		);
 		const priceCurrency = getCurrencyFromPriceResponse( prices );
-		const name = __experimentalApplyCheckoutFilter( {
+		const name = applyCheckoutFilter( {
 			filterName: 'itemName',
 			defaultValue: initialName,
 			extensions,
@@ -163,7 +160,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 		const isProductHiddenFromCatalog =
 			catalogVisibility === 'hidden' || catalogVisibility === 'search';
 
-		const cartItemClassNameFilter = __experimentalApplyCheckoutFilter( {
+		const cartItemClassNameFilter = applyCheckoutFilter( {
 			filterName: 'cartItemClass',
 			defaultValue: '',
 			extensions,
@@ -171,7 +168,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 		} );
 
 		// Allow extensions to filter how the price is displayed. Ie: prepending or appending some values.
-		const productPriceFormat = __experimentalApplyCheckoutFilter( {
+		const productPriceFormat = applyCheckoutFilter( {
 			filterName: 'cartItemPrice',
 			defaultValue: '<price/>',
 			extensions,
@@ -179,7 +176,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 			validation: productPriceValidation,
 		} );
 
-		const subtotalPriceFormat = __experimentalApplyCheckoutFilter( {
+		const subtotalPriceFormat = applyCheckoutFilter( {
 			filterName: 'subtotalPriceFormat',
 			defaultValue: '<price/>',
 			extensions,
@@ -187,7 +184,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 			validation: productPriceValidation,
 		} );
 
-		const saleBadgePriceFormat = __experimentalApplyCheckoutFilter( {
+		const saleBadgePriceFormat = applyCheckoutFilter( {
 			filterName: 'saleBadgePriceFormat',
 			defaultValue: '<price/>',
 			extensions,
@@ -195,7 +192,7 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 			validation: productPriceValidation,
 		} );
 
-		const showRemoveItemLink = __experimentalApplyCheckoutFilter( {
+		const showRemoveItemLink = applyCheckoutFilter( {
 			filterName: 'showRemoveItemLink',
 			defaultValue: true,
 			extensions,
@@ -311,6 +308,14 @@ const CartLineItemRow: React.ForwardRefExoticComponent<
 							{ showRemoveItemLink && (
 								<button
 									className="wc-block-cart-item__remove-link"
+									aria-label={ sprintf(
+										/* translators: %s refers to the item's name in the cart. */
+										__(
+											'Remove %s from cart',
+											'woo-gutenberg-products-block'
+										),
+										name
+									) }
 									onClick={ () => {
 										onRemove();
 										removeItem();

@@ -73,7 +73,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @global stdClass $background_process
 		 */
 		public function __construct( $feed_id = '0' ) {
-			$background_process_class = $this->get_background_process_class_name( $feed_id );
+			$background_process_class = 'WPPFM_Feed_Processor';
 
 			if( $background_process_class ) {
 				$this->_background_process = new $background_process_class();
@@ -470,43 +470,6 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				'active_fields'   => $active_fields,
 				'database_fields' => $database_fields,
 			);
-		}
-
-		/**
-		 * Returns the correct background class name.
-		 * Also sets the wppfm_set_global_background_process transient.
-		 *
-		 * @param $feed_id
-		 *
-		 * @since 2.33.0.
-		 * @since 2.34.0. Improved the stability of the correct selection of the class name.
-		 *
-		 * @return string
-		 */
-		private function get_background_process_class_name( $feed_id ) {
-			$query_class = new WPPFM_Queries();
-
-			if ( intval( $feed_id ) > 0 ) {
-				set_transient( 'wppfm_active_feed_id', $feed_id, WPPFM_TRANSIENT_LIVE );
-				$feed_type_id = $query_class->get_feed_type_id( $feed_id );
-			} else {
-				$feed_id = get_transient( 'wppfm_active_feed_id' );
-				$feed_type_id = intval( $feed_id ) > 0 ? $query_class->get_feed_type_id( $feed_id ) : '1';
-			}
-
-			// Set the wppfm_set_global_background_process transient for use in the global background_process variable.
-			$active_tab = '2' === $feed_type_id ? 'product-review-feed' : 'product-feed';
-			set_transient( 'wppfm_set_global_background_process', $active_tab, WPPFM_TRANSIENT_LIVE );
-
-			if ( '1' === $feed_type_id ) {
-				$background_class = 'WPPFM_Feed_Processor';
-			} elseif ( '2' === $feed_type_id ) {
-				$background_class = is_plugin_active( 'wp-product-review-feed-manager/wp-product-review-feed-manager.php' ) ? 'WPPRFM_Review_Feed_Processor' : false;
-			} else {
-				$background_class = 'WPPFM_Feed_Processor';
-			}
-
-			return $background_class;
 		}
 
 		/**

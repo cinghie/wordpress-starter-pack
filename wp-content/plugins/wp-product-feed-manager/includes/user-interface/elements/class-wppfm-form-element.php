@@ -36,7 +36,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 			// Html for the tabs
 			foreach ( $tabs as $tab ) {
 				$html_code .= '<a href="admin.php?' . $tab->get_page_tab_url() . '"';
-				$html_code .= 'class="nav-tab' . $tab->tab_selected_string() . '">' . $tab->get_tab_title() . '</a>';
+				$html_code .= 'class="nav-tab' . $tab->tab_selected_string() . '" id="wppfm-' . $tab->get_page_identifier() . '-tab">' . $tab->get_tab_title() . '</a>';
 			}
 
 			$html_code .= '</h2>';

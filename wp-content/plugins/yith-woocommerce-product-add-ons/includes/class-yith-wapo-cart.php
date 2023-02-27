@@ -46,7 +46,9 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 
 			// Add options to cart item.
 			add_filter( 'woocommerce_add_cart_item_data', array( $this, 'add_cart_item_data' ), 25, 2 );
-			// Display custom product thumbnail in cart.
+            add_filter( 'woocommerce_order_again_cart_item_data', array( $this, 'add_cart_item_data_order_again' ), 25, 3 );
+
+            // Display custom product thumbnail in cart.
 			if ( 'yes' === get_option( 'yith_wapo_show_image_in_cart', 'no' ) ) {
 				add_filter( 'woocommerce_cart_item_thumbnail', array( $this, 'cart_item_thumbnail' ), 10, 3 );
 			}
@@ -153,6 +155,31 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 			return $cart_item_data;
 		}
 
+        /**
+         * Set the data for the cart item in cart object.
+         *
+         * @param array $cart_item_data Cart item data.
+         * @param int   $item The item object.
+         * @param array $order The Order Object.
+         *
+         * @return mixed
+         */
+        public function add_cart_item_data_order_again( $cart_item_data, $item, $order ) {
+
+            $item_id       = $item->get_id();
+            $meta_data     = wc_get_order_item_meta( $item_id, '_ywapo_meta_data', true );
+            $product_image = wc_get_order_item_meta( $item_id, '_ywapo_product_img', true );
+
+            if ( ! empty( $meta_data ) ) {
+                $cart_item_data['yith_wapo_options'] = $meta_data;
+            }
+            if ( ! empty( $product_image ) ) {
+                $cart_item_data['yith_wapo_product_img'] = $product_image;
+            }
+
+            return $cart_item_data;
+        }
+
 		/**
 		 * Filter Item before add to cart.
 		 *
@@ -188,7 +215,9 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 				foreach ( $cart_item['yith_wapo_options'] as $index => $option ) {
 					foreach ( $option as $key => $value ) {
 						if ( $key && '' !== $value ) {
-							$value   = stripslashes( $value );
+                            if ( ! is_array( $value ) ) {
+                                $value = stripslashes( $value );
+                            }
 							$explode = explode( '-', $key );
 							if ( isset( $explode[1] ) ) {
 								$addon_id  = $explode[0];
@@ -404,6 +433,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							}
 
 							$sign = 'decrease' === $info['price_method'] ? '-' : '+';
+							$is_empty_select = 'select' === $info['addon_type'] && 'default' === $option_id;
 
 							// First X free options check.
 							if ( 'yes' === $info['addon_first_options_selected'] && $first_free_options_count < $info['addon_first_free_options'] ) {
@@ -474,17 +504,21 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							$option_price = apply_filters( 'yith_wapo_addon_prices_on_cart', $option_price );
 
 							if ( 'yes' === get_option( 'yith_wapo_show_options_in_cart' ) ) {
-								if ( ! isset( $cart_data_array[ $cart_data_name ] ) ) {
-									$cart_data_array[ $cart_data_name ] = '';
+								if ( !$is_empty_select ) {
+									if (!isset($cart_data_array[$cart_data_name])) {
+										$cart_data_array[$cart_data_name] = '';
+									}
+									$cart_data_array[$cart_data_name] .= '<div>' . $value . ('' !== $option_price && floatval(0) !== floatval($option_price) ? ' (' . $sign . wc_price($option_price) . ')' : '') . '</div>';
 								}
-								$cart_data_array[ $cart_data_name ] .= '<div>' . $value . ( '' !== $option_price && floatval( 0 ) !== floatval( $option_price ) ? ' (' . $sign . wc_price( $option_price ) . ')' : '' ) . '</div>';
 							}
 
 							if ( ! apply_filters( 'yith_wapo_show_options_grouped_in_cart', true ) ) {
-								$cart_data[] = array(
-									'name'    => $info['label'],
-									'display' => empty($option_price) ? $value : '<div>' . $value . ( '' !== $option_price && floatval( 0 ) !== floatval( $option_price ) ? ' (' . $sign . wc_price( $option_price ) . ')' : '' ) . '</div>',
-								);
+								if ( !$is_empty_select ) {
+									$cart_data[] = array(
+										'name' => $info['label'],
+										'display' => empty($option_price) ? $value : '<div>' . $value . ('' !== $option_price && floatval(0) !== floatval($option_price) ? ' (' . $sign . wc_price($option_price) . ')' : '') . '</div>',
+									);
+								}
 							}
 						}
 					}

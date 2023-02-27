@@ -403,7 +403,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 				if ( $attribute_object && ( is_object( $attribute_object ) || is_array( $attribute_object ) ) ) {
 					foreach ( $attribute_object as $attribute ) {
-						if ( ! in_array( $attribute['name'], $prev_dup_array ) ) {
+						if ( is_array( $attribute ) && array_key_exists( 'name', $attribute ) && ! in_array( $attribute['name'], $prev_dup_array ) ) {
 							$obj                  = new stdClass();
 							$obj->attribute_name  = $attribute['name'];
 							$obj->attribute_label = $attribute['name'];

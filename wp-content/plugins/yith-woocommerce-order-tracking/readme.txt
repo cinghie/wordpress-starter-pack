@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: carrier, tracking, delivery, shipping, woocommerce, yith
 Requires at least: 5.9
 Tested up to: 6.1
-Stable tag: 2.9.0
+Stable tag: 2.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,16 @@ YITH WooCommerce Order & Shipment Tracking will add a new tab called "Order & Sh
 5. Customer view in order details: the customers can view the shipping info in the order details page, in the My Account section.
 
 == Changelog ==
+
+= Version 2.11.0 - Released on 14 February 2023 =
+
+* New: Support for WooCommerce 7.4
+* Update: YITH Plugin Framework
+
+= Version 2.10.0 - Released on 04 January 2023 =
+
+* New: Support for WooCommerce 7.3
+* Update: YITH Plugin Framework
 
 = Version 2.9.0 - Released on 15 December 2022 =
 

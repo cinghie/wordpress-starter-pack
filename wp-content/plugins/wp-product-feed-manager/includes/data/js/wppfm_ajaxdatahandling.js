@@ -359,6 +359,31 @@ function wppfm_show_pi_status( selection, callback ) {
 }
 
 /**
+ * Sets the Review Feed Manager Status option.
+ *
+ * @since 2.37.0.
+ *
+ * @param selection
+ * @param callback
+ */
+function wppfm_review_feed_manager_status( selection, callback ) {
+
+	jQuery.post(
+		myAjaxNonces.ajaxurl,
+		{
+			action: 'myajax-activate-review-feed-manager',
+			showReviewFeedSelection: selection,
+			setActivateReviewFeedManagerNonce: myAjaxNonces.setActivateReviewFeedManagerNonce,
+
+		},
+		function( response ) {
+
+			callback( response.trim() );
+		}
+	);
+}
+
+/**
  * Stores the WPML Use full URL resolution option.
  *
  * @since 2.15.0

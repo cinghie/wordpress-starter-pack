@@ -2,6 +2,9 @@
 
 if (!defined('ABSPATH')) die('No direct access allowed');
 
+if (!class_exists('WP_Optimize_Load_Url_Task')) {
+	require_once(WPO_PLUGIN_MAIN_PATH . 'cache/class-wpo-load-url-task.php');
+}
 
 class WP_Optimize_Page_Cache_Preloader extends WP_Optimize_Preloader {
 

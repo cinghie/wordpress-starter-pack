@@ -33,8 +33,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
 
                     <?php endforeach; ?>
-
-
 				</form>
 			</div>
 		</div>

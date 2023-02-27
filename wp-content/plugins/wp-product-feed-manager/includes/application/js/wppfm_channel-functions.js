@@ -39,11 +39,14 @@ function wppfm_showChannelInputs( channel, isNew ) {
 		'29': 'switchToVivinoFeedFormMainInputs',
 		'30': 'switchToSnapchatFeedFormMainInputs',
 		'31': 'switchToPinterestFeedFormMainInputs',
+		'32': 'switchToVivinoXmlFeedFormMainInputs',
 		'996': 'switchToMarketingrobotTsvFeedFormMainInputs',
 		'997': 'switchToMarketingrobotTxtFeedFormMainInputs',
 		'998': 'switchToMarketingrobotCsvFeedFormMainInputs',
 		'999': 'switchToMarketingrobotFeedFormMainInputs',
 	};
+
+	console.log(fName[ channel ]);
 
 	// call the correct function
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -83,6 +86,7 @@ function wppfm_show_or_hide_category_map( channel ) {
 		case '27': // Galaxus Product Stock Pricing
 		case '28': // Galaxus Product Properties
 		case '29': // Vivino
+		case '32': // Vivino XML
 			category_map_selector.show();
 			break;
 
@@ -155,6 +159,7 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 			'29': 'vivinoInputChanged',
 			'30': 'snapchatInputChanged',
 			'31': 'pinterestInputChanged',
+			'32': 'vivinoXmlInputChanged',
 			'996': 'marketingrobotTsvInputChanged',
 			'997': 'marketingrobotTxtInputChanged',
 			'998': 'marketingrobotCsvInputChanged',
@@ -269,6 +274,7 @@ function wppfm_channelUsesOwnCategories( channel ) {
 		case '27': // Galaxus Product Stock Pricing
 		case '28': // Galaxus Product Properties
 		case '29': // Vivino
+		case '32': // Vivino XML
 			return true;
 
 		default:
@@ -373,6 +379,7 @@ function wppfm_getAdvisedInputs( channel ) {
 		'29': 'woocommerceToVivinoFields',
 		'30': 'woocommerceToSnapchatFields',
 		'31': 'woocommerceToPinterestFields',
+		'32': 'woocommerceToVivinoXmlFields',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -495,6 +502,7 @@ function wppfm_restrictedStaticFields( channel, fieldName ) {
 		'28': 'galaxusProductPropertiesStaticFieldOptions',
 		'30': 'snapchatStaticFieldOptions',
 		'31': 'pinterestStaticFieldOptions',
+		'32': 'vivinoXmlStaticFieldOptions',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -518,6 +526,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 	switch ( channel ) {
 
 		// @since 2.27.0 added sale_price-effective_date.
+		// @since 2.36.0 added sell_on_google_minimum_advertised_price, sell_on_google_price and auto_pricing_min_price.
 		case '1': // Google
 			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
 				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
@@ -701,6 +710,15 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			}
 			break;
 
+		case '32': // Vivino XML
+			if ( outputsField[ 'field_label' ] === 'bottle_quantity' || outputsField[ 'field_label' ] === 'quantity-is-minimum' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setVivinoXmlPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
 
 		default:
 			break;

@@ -166,6 +166,7 @@ function include_classes() {
  * @global \wpdb $wpdb The database connection
  */
 function include_channels() {
+
 	if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) {
 		require_once __DIR__ . '/application/google/class-feed.php';
 	}

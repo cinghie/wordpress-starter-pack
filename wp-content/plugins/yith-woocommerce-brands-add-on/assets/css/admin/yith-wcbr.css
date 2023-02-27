@@ -7,8 +7,12 @@
 }
 
 .wp-list-table #slug,
-.wp-list-table #posts {
+.wp-list-table #count {
     width: 8%;
+}
+
+.wp-list-table .column-count {
+    text-align: center;
 }
 
 button#product_brand_thumbnail_upload, button#product_brand_thumbnail_remove,

@@ -97,7 +97,7 @@
   "enable_page_title_param":"checkbox",
   "enable_post_type_param": "checkbox",
   "enable_post_category_param": "checkbox",
-  "сompress_front_js":  "checkbox",
+  "compress_front_js":  "checkbox",
 
 
   "enable_woo_category_name_param": "checkbox",

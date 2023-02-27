@@ -97,8 +97,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div class="col-12">
                             <h4 class="label">test_event_code :</h4>
                             <?php Facebook()->render_text_input_array_item("test_api_event_code","Code"); ?>
+                            <?php Facebook()->render_text_input_array_item("test_api_event_code_expiration_at", "", 0, true); ?>
+
                             <small class="form-text">
-                                Use this if you need to test the server-side event. <strong>Remove it after testing</strong>
+                                Use this if you need to test the server-side event. <strong>Remove it after
+                                    testing.</strong> The code will auto-delete itself after 24 hours.
                             </small>
                         </div>
                     </div>
@@ -216,13 +219,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 </div>
 
-<div class="panel panel-primary">
+<div class="panel panel-primary link_youtube">
     <div class="row">
         <div class="col">
-            <p class="text-center">Learn how to use Meta Pixel (formerly Facebook Pixel) like a genuine expert. Download this Facebook
-                Pixel Essential Guide:</p>
+            <p class="text-center">Subscribe to our YouTube Channel to learn how to use the plugin and improve tracking</p>
             <p class="text-center mb-0">
-                <a href="https://www.pixelyoursite.com/facebook-pixel-pdf-guide?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-facebook-guide" class="btn btn-sm btn-save" target="_blank">Click to get the free guide</a>
+                <a href="https://www.youtube.com/channel/UCnie2zvwAjTLz9B4rqvAlFQ" class="btn btn-sm btn-save" target="_blank">Go to YouTube</a>
             </p>
         </div>
     </div>
@@ -528,7 +530,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <!-- Dynamic Ads for Blog Setup -->
 <div class="card" >
-    <div class="card-header has_switch" style="background-color:#cd6c46;color:white;">
+    <div class="card-header has_switch">
         <?php PYS()->render_switcher_input('fdp_enabled');?>Dynamic Ads for Blog Setup <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
@@ -879,7 +881,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="row mb-3">
         <div class="col">
             <div class="form-inline">
-                <?php PYS()->render_switcher_input('сompress_front_js'); ?>
+                <?php PYS()->render_switcher_input('compress_front_js'); ?>
                 <h4 class="switcher-label">Compress frontend js</h4>
             </div>
 

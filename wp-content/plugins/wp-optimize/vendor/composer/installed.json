@@ -34,7 +34,7 @@
                     }
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Intervention\\HttpAuth\\": "src/"
@@ -92,7 +92,7 @@
                     "dev-master": "0.5.1-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "lessc.inc.php"
@@ -129,7 +129,7 @@
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/DavidAnderson684/minify.git",
+                "url": "git@github.com:DavidAnderson684/minify.git",
                 "reference": "aa9c91d9f7d871b8f886e553da568e9b6768d01b"
             },
             "dist": {
@@ -158,7 +158,7 @@
                 "bin/minifyjs"
             ],
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "MatthiasMullie\\Minify\\": "src/"
@@ -183,15 +183,6 @@
                 "js",
                 "minifier",
                 "minify"
-            ],
-            "support": {
-                "source": "https://github.com/DavidAnderson684/minify/tree/master"
-            },
-            "funding": [
-                {
-                    "type": "github",
-                    "url": "https://github.com/matthiasmullie"
-                }
             ],
             "install-path": "../matthiasmullie/minify"
         },
@@ -219,7 +210,7 @@
             },
             "time": "2019-02-05T23:41:09+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "MatthiasMullie\\PathConverter\\": "src/"
@@ -313,7 +304,7 @@
                     "dev-main": "2.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Monolog\\": "src/Monolog"
@@ -355,17 +346,17 @@
         },
         {
             "name": "mrclay/jsmin-php",
-            "version": "2.4.2",
-            "version_normalized": "2.4.2.0",
+            "version": "2.4.3",
+            "version_normalized": "2.4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrclay/jsmin-php.git",
-                "reference": "34324f94d7664ce2e649fb0aa73854186cf503b2"
+                "reference": "49feaa85933458c15bb62ae65644bf22d60b7610"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrclay/jsmin-php/zipball/34324f94d7664ce2e649fb0aa73854186cf503b2",
-                "reference": "34324f94d7664ce2e649fb0aa73854186cf503b2",
+                "url": "https://api.github.com/repos/mrclay/jsmin-php/zipball/49feaa85933458c15bb62ae65644bf22d60b7610",
+                "reference": "49feaa85933458c15bb62ae65644bf22d60b7610",
                 "shasum": ""
             },
             "require": {
@@ -375,9 +366,9 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.8.36|^9.5.26"
             },
-            "time": "2022-12-07T19:27:59+00:00",
+            "time": "2022-12-13T20:15:15+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "JSMin\\": "src/"
@@ -409,7 +400,7 @@
             "support": {
                 "email": "minify@googlegroups.com",
                 "issues": "https://github.com/mrclay/jsmin-php/issues",
-                "source": "https://github.com/mrclay/jsmin-php/tree/2.4.2"
+                "source": "https://github.com/mrclay/jsmin-php/tree/2.4.3"
             },
             "install-path": "../mrclay/jsmin-php"
         },
@@ -456,7 +447,7 @@
                     "dev-master": "3.0.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "lib/"
@@ -508,7 +499,7 @@
             },
             "time": "2019-11-26T17:56:10+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Props\\": [
@@ -570,7 +561,7 @@
                     "dev-master": "3.4.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Pimple": "src/"
@@ -617,7 +608,7 @@
             },
             "time": "2021-11-05T16:50:12+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -673,7 +664,7 @@
                     "dev-master": "1.1.x-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "Psr\\Log\\": "Psr/Log/"
@@ -739,7 +730,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "ExecWithFallback\\": "src/"
@@ -819,7 +810,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "FileUtil\\": "src/"
@@ -895,7 +886,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "HtaccessCapabilityTester\\": "src/"
@@ -971,7 +962,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "ImageMimeTypeGuesser\\": "src/"
@@ -1048,7 +1039,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "ImageMimeTypeSniffer\\": "src/"
@@ -1126,7 +1117,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "LocateBinaries\\": "src/"
@@ -1173,7 +1164,7 @@
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/DavidAnderson684/webp-convert.git",
+                "url": "git@github.com:DavidAnderson684/webp-convert.git",
                 "reference": "d51a1799d12997696681a535d1aa2d4354ea8b8d"
             },
             "dist": {
@@ -1213,7 +1204,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "WebPConvert\\": "src/"
@@ -1305,19 +1296,6 @@
                 "png2webp",
                 "webp"
             ],
-            "support": {
-                "source": "https://github.com/DavidAnderson684/webp-convert/tree/master"
-            },
-            "funding": [
-                {
-                    "type": "github",
-                    "url": "https://github.com/rosell-dk"
-                },
-                {
-                    "type": "ko_fi",
-                    "url": "https://ko-fi.com/rosell"
-                }
-            ],
             "install-path": "../rosell-dk/webp-convert"
         },
         {
@@ -1349,7 +1327,7 @@
             },
             "time": "2019-11-09T15:42:50+00:00",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "classmap": [
                     "./"
@@ -1462,7 +1440,7 @@
                 "cssmin"
             ],
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "tubalmartin\\CssMin\\": "src"

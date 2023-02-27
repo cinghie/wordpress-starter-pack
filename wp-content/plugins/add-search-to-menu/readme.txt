@@ -5,7 +5,7 @@ Tags: search, woocommerce search, image search, ajax search, search shortcode, l
 Requires at least: 3.9
 Tested up to: 6.1
 Requires PHP: 5.2.4
-Stable tag: 5.4.10
+Stable tag: 5.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -197,6 +197,11 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
+= 5.5 =
+* Updated - Freemius SDK
+* Moved - Custom CSS code from website footer to header.
+* Moved - Customizer CSS code from form tag to header.
+
 = 5.4.10 =
 * Fixed - Warning: array_merge(): Expected parameter 1 to be an array, string given in
 
@@ -217,43 +222,3 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 = 5.4.5 =
 * Fixed - Call to undefined function parse_blocks
-
-= 5.4.4 =
-* Updated - Freemius SDK
-* Fixed - Security fix
-
-= 5.4.3 =
-* Fixed - AJAX add to cart was not adhering to quantity field.
-* Fixed - Undefined index: action error.
-
-= 5.4.2 =
-* Improved - Compatibility with Weglot plugin.
-* Improved - Compatibility with TablePress plugin.
-* Fixed - Warning: trim() expects parameter 1 to be string, array given.
-* Fixed - Notice: Undefined index: s
-* Fixed - Media search in admin area was not working.
-* Fixed - Google analytics search was working on all pages.
-
-= 5.4.1 =
-* Fixed - PHP 5 issue 'Default value for parameters with a class type hint can only be NULL'.
-
-= 5.4 =
-* Fixed - PHP 5.2 compatibility issue.
-* Fixed - Index build max execution time not working.
-
-= 5.3 =
-* Fixed - Compatibility issue with MySQL 5.7
-* Fixed - MySQL > 8 REGEXP compatibility issue.
-* Fixed - PHP compatibility issues with static var.
-* Fixed - PHP < 5.3 compatibility issue.
-
-= 5.2 =
-* Fixed - For some plugins -1 appearing instead of search.
-
-= 5.1 =
-* Fixed - Media library search in admin area was not working.
-
-= 5.0 =
-* Added - Faster search with inverted index-based search engine.
-* Added - Index and search  shortcode contents.
-* Added - Index and search TablePress shortcode contents.

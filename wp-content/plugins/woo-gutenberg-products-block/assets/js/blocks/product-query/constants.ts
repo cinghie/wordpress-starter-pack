@@ -9,6 +9,7 @@ import type { InnerBlockTemplate } from '@wordpress/blocks';
  */
 import { QueryBlockAttributes } from './types';
 import { VARIATION_NAME as PRODUCT_TITLE_ID } from './variations/elements/product-title';
+import { VARIATION_NAME as PRODUCT_TEMPLATE_ID } from './variations/elements/product-template';
 
 /**
  * Returns an object without a key.
@@ -74,7 +75,7 @@ export const QUERY_DEFAULT_ATTRIBUTES: QueryBlockAttributes = {
 export const INNER_BLOCKS_TEMPLATE: InnerBlockTemplate[] = [
 	[
 		'core/post-template',
-		{},
+		{ __woocommerceNamespace: PRODUCT_TEMPLATE_ID },
 		[
 			[ 'woocommerce/product-image' ],
 			[
@@ -89,12 +90,28 @@ export const INNER_BLOCKS_TEMPLATE: InnerBlockTemplate[] = [
 			],
 			[
 				'woocommerce/product-price',
-				{ textAlign: 'center', fontSize: 'small' },
+				{
+					textAlign: 'center',
+					fontSize: 'small',
+					style: {
+						spacing: {
+							margin: { bottom: '1rem' },
+						},
+					},
+				},
 				[],
 			],
 			[
 				'woocommerce/product-button',
-				{ textAlign: 'center', fontSize: 'small' },
+				{
+					textAlign: 'center',
+					fontSize: 'small',
+					style: {
+						spacing: {
+							margin: { bottom: '1rem' },
+						},
+					},
+				},
 				[],
 			],
 		],

@@ -1,7 +1,8 @@
 <?php
 include_once "function-helper.php";
-$data = get_post_meta($orderId,"pys_enrich_data",true);
-$dataAnalytics = get_post_meta($orderId,"pys_enrich_data_analytics",true);
+$order = wc_get_order($orderId);
+$data = $order->get_meta("pys_enrich_data",true);
+$dataAnalytics = $order->get_meta("pys_enrich_data_analytics",true);
 
 if($dataAnalytics && is_array($dataAnalytics) && is_array($data)) {
     $data = array_merge($data,$dataAnalytics);

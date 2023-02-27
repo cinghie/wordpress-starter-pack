@@ -166,6 +166,7 @@ if ( ! class_exists( 'WPPFM_i18n_Scripts' ) ) :
 				'file_restored'          => esc_html__( '%backup_file_name% restored', 'wp-product-feed-manager' ),
 				/* translators: %backup_file_name%: name of the backup file*/
 				'file_duplicated'        => esc_html__( '%backup_file_name% duplicated', 'wp-product-feed-manager' ),
+				'review_feed_manager_only_for_premium' => esc_html__( 'The option to activate the Google Product Review Feeds is not available in the free version. Unlock this option by upgrading to the Premium plugin. For more information goto https://www.wpmarketingrobot.com/.', 'wp-product-feed-manager' ),
 			);
 
 			wp_localize_script(

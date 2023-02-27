@@ -738,14 +738,6 @@ class WC_Local_Pickup_Admin {
 		//IF display location details not enabel then @return;
 		$wclp_show_pickup_instruction = get_option('wclp_show_pickup_instruction');
 		
-		if (!isset($wclp_show_pickup_instruction['display_in_processing_email']) ) {
-			return;
-		}
-		
-		if ( isset($wclp_show_pickup_instruction['display_in_processing_email']) && '1' != $wclp_show_pickup_instruction['display_in_processing_email'] ) {
-			return; 
-		}
-
 		// Iterating through order shipping items
 		foreach ( $order->get_items( 'shipping' ) as $item_id => $shipping_item_obj ) {			
 			$shipping_method = $shipping_item_obj->get_method_id();						
@@ -817,7 +809,7 @@ class WC_Local_Pickup_Admin {
 			}	
 		}
 		
-		if ( 'customer_ready_pickup_order' == $email->id || 'customer_processing_order' == $email->id ) { 
+		if ( 'customer_ready_pickup_order' == $email->id || ( isset($wclp_show_pickup_instruction['display_in_processing_email']) && '1' == $wclp_show_pickup_instruction['display_in_processing_email'] && 'customer_processing_order' == $email->id ) ) { 
 
 			if ( file_exists( $local_template ) && is_writable( $local_template )) {	
 				wc_get_template( 'emails/pickup-instruction.php', array( 'w_day' => $w_day, 'location' => $location, 'store_country' => $store_country, 'store_state' => $store_state ), 'advanced-local-pickup-for-woocommerce/', get_stylesheet_directory() . '/woocommerce/' );

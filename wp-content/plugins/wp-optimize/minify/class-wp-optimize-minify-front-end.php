@@ -838,17 +838,11 @@ class WP_Optimize_Minify_Front_End {
 					// enqueue file, if not empty
 				} else {
 					if (file_exists($file) && filesize($file) > 0) {
-						
-						// inline CSS if mediatype is not of type "all" (such as mobile only), if the file is smaller than 20KB
-						if (filesize($file) < 20000 && 'all' != $header[$i]['media']) {
-							echo '<style id="wpo-min-header-'.$i.'" media="'.$header[$i]['media'].'">'.file_get_contents($file).'</style>' . "\n";
-						} else {
-							// enqueue it
-							wp_enqueue_style("wpo_min-header-$i", $file_url, array(), 'mycoolversion', $header[$i]['media']);
-							foreach ($header[$i]['handles'] as $h) {
-								if (!$merge_inline_extra_css_js && isset($inline_css[$h]) && !empty($inline_css[$h])) {
-									wp_add_inline_style("wpo_min-header-$i", $inline_css[$h]);
-								}
+						// enqueue it
+						wp_enqueue_style("wpo_min-header-$i", $file_url, array(), 'mycoolversion', $header[$i]['media']);
+						foreach ($header[$i]['handles'] as $h) {
+							if (!$merge_inline_extra_css_js && isset($inline_css[$h]) && !empty($inline_css[$h])) {
+								wp_add_inline_style("wpo_min-header-$i", $inline_css[$h]);
 							}
 						}
 					} else {

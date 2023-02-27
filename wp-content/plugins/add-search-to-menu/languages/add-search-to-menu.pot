@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ivory Search\n"
-"POT-Creation-Date: 2022-11-04 14:12+0530\n"
+"POT-Creation-Date: 2023-01-08 10:39+0530\n"
 "PO-Revision-Date: 2020-03-17 21:05+0530\n"
 "Last-Translator: \n"
 "Language-Team: Ivory Search <admin@ivorysearch.com>\n"
@@ -220,8 +220,8 @@ msgstr ""
 
 #: ../admin/class-is-editor.php:116 ../admin/partials/search-form.php:130
 #: ../includes/class-is-admin-public.php:174
-#: ../includes/class-is-search-form.php:529
-#: ../includes/class-is-search-form.php:601 ../public/class-is-public.php:212
+#: ../includes/class-is-search-form.php:369
+#: ../includes/class-is-search-form.php:441 ../public/class-is-public.php:212
 #: ../public/class-is-public.php:261
 msgid "Search"
 msgstr ""
@@ -539,7 +539,7 @@ msgstr ""
 msgid "Enable Search Form Customization"
 msgstr ""
 
-#: ../admin/class-is-editor.php:729 ../includes/class-is-search-form.php:627
+#: ../admin/class-is-editor.php:729 ../includes/class-is-search-form.php:467
 msgid "Customizer"
 msgstr ""
 
@@ -1108,7 +1108,7 @@ msgstr ""
 #: ../admin/class-is-help.php:84 ../admin/class-is-list-table.php:158
 #: ../admin/class-is-settings-fields.php:503
 #: ../admin/class-is-settings-fields.php:533
-#: ../includes/class-is-search-form.php:623
+#: ../includes/class-is-search-form.php:463
 msgid "Edit"
 msgstr ""
 
@@ -1772,7 +1772,7 @@ msgid "Style 3"
 msgstr ""
 
 #: ../includes/class-is-admin-public.php:161
-#: ../includes/class-is-search-form.php:528
+#: ../includes/class-is-search-form.php:368
 msgid "Search here..."
 msgstr ""
 
@@ -1781,7 +1781,7 @@ msgid "Text Box Placeholder"
 msgstr ""
 
 #: ../includes/class-is-admin-public.php:178
-#: ../includes/class-is-search-form.php:601
+#: ../includes/class-is-search-form.php:441
 msgid "Search Button"
 msgstr ""
 
@@ -2059,11 +2059,11 @@ msgstr ""
 msgid "method instead."
 msgstr ""
 
-#: ../includes/class-is-search-form.php:478
+#: ../includes/class-is-search-form.php:322
 msgid "Invalid search form."
 msgstr ""
 
-#: ../includes/class-is-search-form.php:590
+#: ../includes/class-is-search-form.php:430
 msgid "Search for:"
 msgstr ""
 
@@ -2137,6 +2137,14 @@ msgstr ""
 
 #: ../public/class-is-public.php:208
 msgid "Search Icon Link"
+msgstr ""
+
+#: ../public/js/ivory-ajax-search.min.js:1
+msgid "div"
+msgstr ""
+
+#: ../public/js/ivory-ajax-search.min.js:1
+msgid "iframe"
 msgstr ""
 
 #: ../public/partials/is-ajax-results.php:17

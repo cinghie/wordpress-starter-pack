@@ -46,7 +46,10 @@ function YITH_WCAN_Filters( $ ) {
 
 					if (
 						$terms_options.length &&
-						$terms_options.is( ':visible' ) &&
+						self._checkFilterFieldConditions(
+							$fl,
+							self.dependencies.terms_options
+						) &&
 						$terms_options
 							.find( 'input[name*=image]' )
 							.filter( ( i, e ) => !! $( e ).val() ).length
@@ -250,8 +253,7 @@ function YITH_WCAN_Filters( $ ) {
 
 	self.initFilterFieldsDependencies = function ( $filter ) {
 		$filter
-			.find( ':input' )
-			.on( 'change', () => {
+			.on( 'change', ':input', () => {
 				self._applyFilterDependencies( $filter );
 			} )
 			.first()

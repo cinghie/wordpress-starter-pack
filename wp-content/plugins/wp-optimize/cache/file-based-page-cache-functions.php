@@ -156,6 +156,9 @@ function wpo_cache($buffer, $flags) {
 		}
 
 		$modified_time = time(); // Take this as soon before writing as possible
+		if (!empty($GLOBALS['wpo_cache_config']['gmt_offset'])) {
+			$modified_time += $GLOBALS['wpo_cache_config']['gmt_offset'] * 3600;
+		}
 
 		$add_to_footer = '';
 		
@@ -707,7 +710,7 @@ endif;
 if (!function_exists('wpo_is_canonical_redirection_needed')) :
 	function wpo_is_canonical_redirection_needed() {
 		$permalink_structure = isset($GLOBALS['wpo_cache_config']['permalink_structure']) ? $GLOBALS['wpo_cache_config']['permalink_structure'] : '';
-		$site_url = $GLOBALS['wpo_cache_config']['site_url'];
+		$site_url = wpo_site_url();
 		
 		$schema = isset($_SERVER['HTTPS']) && 'on' === $_SERVER['HTTPS'] ? "https" : "http";
 		$url_part = "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -716,12 +719,13 @@ if (!function_exists('wpo_is_canonical_redirection_needed')) :
 		$extension = pathinfo($url_parts['path'], PATHINFO_EXTENSION);
 		
 		if (!empty($permalink_structure) && $requested_url != $site_url) {
+			$request_uri = rtrim($_SERVER['REQUEST_URI'], '?');
 			if ('/' == substr($permalink_structure, -1) && empty($extension) && empty($url_parts['query']) && empty($url_parts['fragment'])) {
-				$url = preg_replace('/(.+?)([\/]*)(\[\?\#][^\/]+|$)/', '$1/$3', $_SERVER['REQUEST_URI']);
-				if (0 !== strcmp($_SERVER['REQUEST_URI'], $url)) return true;
+				$url = preg_replace('/(.+?)([\/]*)(\[\?\#][^\/]+|$)/', '$1/$3', $request_uri);
+				if (0 !== strcmp($request_uri, $url)) return true;
 			} else {
-				$url = rtrim($_SERVER['REQUEST_URI'], '/');
-				if (0 !== strcmp($_SERVER['REQUEST_URI'], $url)) return true;
+				$url = rtrim($request_uri, '/');
+				if (0 !== strcmp($request_uri, $url)) return true;
 			}
 		}
 		return false;

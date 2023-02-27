@@ -98,7 +98,28 @@ class Facebook extends Settings implements Pixel {
 		
 	}
 
+    public function updateOptions( $values = null ) {
+        if(isset($_POST['pys'][$this->getSlug()]['test_api_event_code']))
+        {
 
+
+            $api_event_code_expiration_at = array();
+            foreach ($_POST['pys'][$this->getSlug()]['test_api_event_code'] as $key => $test_api)
+            {
+                if(!empty($test_api) && empty($this->getOption('test_api_event_code_expiration_at')[$key]))
+                {
+                    $api_event_code_expiration_at[] = time() + $this->convertTimeToSeconds();
+                }
+                elseif (!empty($this->getOption('test_api_event_code_expiration_at')[$key]))
+                {
+                    $api_event_code_expiration_at[] = $this->getOption('test_api_event_code_expiration_at')[$key];
+                }
+            }
+
+            $_POST['pys'][$this->getSlug()]['test_api_event_code_expiration_at'] = $api_event_code_expiration_at;
+        }
+        parent::updateOptions($values);
+    }
     /**
      * Create pixel event and fill it
      * @param SingleEvent $event

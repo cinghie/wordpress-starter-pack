@@ -102,6 +102,15 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function register_panel() {
+			/**
+			 * APPLY_FILTERS: yith_wcbr_available_admin_tabs
+			 *
+			 * Filter the available tabs in the plugin panel.
+			 *
+			 * @param array $tabs Admin tabs
+			 *
+			 * @return array
+			 */
 			$admin_tabs = apply_filters(
 				'yith_wcbr_available_admin_tabs',
 				array(
@@ -115,6 +124,15 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 				'parent_slug'      => '',
 				'page_title'       => 'YITH WooCommerce Brands Add-On',
 				'menu_title'       => 'Brands Add-On',
+				/**
+				 * APPLY_FILTERS: yith_wcbr_panel_capability
+				 *
+				 * Filter the capability used to access the plugin panel.
+				 *
+				 * @param string $capability Capability
+				 *
+				 * @return string
+				 */
 				'capability'       => apply_filters( 'yith_wcbr_panel_capability', 'manage_options' ),
 				'parent'           => '',
 				'parent_page'      => 'yith_plugin_panel',
@@ -304,6 +322,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		public function init_brand_taxonomy_columns() {
 			add_filter( 'manage_edit-' . YITH_WCBR::$brands_taxonomy . '_columns', array( $this, 'brand_taxonomy_columns' ), 15 );
 			add_filter( 'manage_' . YITH_WCBR::$brands_taxonomy . '_custom_column', array( $this, 'brand_taxonomy_column' ), 15, 3 );
+			add_filter( 'manage_edit-' . YITH_WCBR::$brands_taxonomy . '_sortable_columns', array( $this, 'add_sortable_columns' ) );
 		}
 
 		/**
@@ -322,12 +341,26 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 				unset( $columns['cb'] );
 			}
 
+			if ( isset( $columns['posts'] ) ) {
+				unset( $columns['posts'] );
+			}
+
 			$new_columns['thumb'] = __( 'Image', 'yith-woocommerce-brands-add-on' );
 
 			$columns = array_merge( $new_columns, $columns );
 
+			$columns['count']   = _x( 'Count', 'Column heading in the brands table', 'yith-woocommerce-brands-add-on' );
 			$columns['actions'] = '';
 
+			/**
+			 * APPLY_FILTERS: yith_wcbr_brand_taxonomy_columns
+			 *
+			 * Filter the columns for the Brands table.
+			 *
+			 * @param array $columns Columns
+			 *
+			 * @return array
+			 */
 			return apply_filters( 'yith_wcbr_brand_taxonomy_columns', $columns );
 		}
 
@@ -357,6 +390,28 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 
 					break;
 
+				case 'count':
+					$term     = get_term( $id );
+					$taxonomy = get_taxonomy( $term->taxonomy );
+					$count    = number_format_i18n( $term->count );
+
+					if ( $taxonomy->query_var ) {
+						$args = array( $taxonomy->query_var => $term->slug );
+					} else {
+						$args = array(
+							'taxonomy' => $taxonomy->name,
+							'term'     => $term->slug,
+						);
+					}
+
+					$args['post_type'] = 'product';
+
+					$count_url = add_query_arg( $args, 'edit.php' );
+
+					$content = '<a href="' . $count_url . '">' . $count . '</a>';
+
+					break;
+
 				case 'actions':
 					$actions = yith_plugin_fw_get_default_term_actions( $id );
 
@@ -367,7 +422,31 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 					break;
 			}
 
+			/**
+			 * APPLY_FILTERS: yith_wcbr_brand_taxonomy_column
+			 *
+			 * Filter the content for the custom columns in the Brands table.
+			 *
+			 * @param string $content Custom column content
+			 * @param string $column  Custom column name
+			 * @param int    $id      Term ID
+			 *
+			 * @return string
+			 */
 			return apply_filters( 'yith_wcbr_brand_taxonomy_column', $content, $column, $id );
+		}
+
+		/**
+		 * Manage sortable columns in brands table
+		 *
+		 * @param array $sortable_columns Sortable columns.
+		 *
+		 * @return array
+		 */
+		public function add_sortable_columns( $sortable_columns ) {
+			$sortable_columns['count'] = 'count';
+
+			return $sortable_columns;
 		}
 
 		/**

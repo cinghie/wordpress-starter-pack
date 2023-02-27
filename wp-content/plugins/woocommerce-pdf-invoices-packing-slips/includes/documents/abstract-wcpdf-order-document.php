@@ -123,7 +123,7 @@ abstract class Order_Document {
 
 		// load settings
 		$this->init_settings_data();
-		$this->save_settings();
+		// check enable
 		$this->enabled = $this->get_setting( 'enabled', false );
 	}
 
@@ -272,8 +272,7 @@ abstract class Order_Document {
 	}
 
 	public function init() {
-		// init settings
-		$this->init_settings_data();
+		// save settings
 		$this->save_settings();
 
 		$this->set_date( current_time( 'timestamp', true ) );
@@ -354,8 +353,7 @@ abstract class Order_Document {
 			$this->save();
 		}
 
-		// init settings
-		$this->init_settings_data();
+		// save settings
 		$this->save_settings( true );
 
 		//Add order note
@@ -795,7 +793,7 @@ abstract class Order_Document {
 			'paper_orientation'	=> apply_filters( 'wpo_wcpdf_paper_orientation', 'portrait', $this->get_type(), $this ),
 			'font_subsetting'	=> $this->get_setting( 'font_subsetting', false ),
 		);
-		$pdf_maker    = wcpdf_get_pdf_maker( $this->get_html(), $pdf_settings );
+		$pdf_maker    = wcpdf_get_pdf_maker( $this->get_html(), $pdf_settings, $this );
 		$pdf          = $pdf_maker->output();
 		
 		do_action( 'wpo_wcpdf_after_pdf', $this->get_type(), $this );
@@ -820,7 +818,7 @@ abstract class Order_Document {
 			'paper_orientation'	=> apply_filters( 'wpo_wcpdf_paper_orientation', 'portrait', $this->get_type(), $this ),
 			'font_subsetting'	=> $this->get_setting( 'font_subsetting', false ),
 		);
-		$pdf_maker    = wcpdf_get_pdf_maker( $this->get_html(), $pdf_settings );
+		$pdf_maker    = wcpdf_get_pdf_maker( $this->get_html(), $pdf_settings, $this );
 		$pdf          = $pdf_maker->output();
 		
 		return $pdf;
@@ -888,7 +886,8 @@ abstract class Order_Document {
 		$order_count = isset($args['order_ids']) ? count($args['order_ids']) : 1;
 
 		$name = $this->get_type();
-		if ( get_post_type( $this->order_id ) == 'shop_order_refund' ) {
+
+		if ( is_callable( array( $this->order, 'get_type' ) ) && $this->order->get_type() == 'shop_order_refund' ) {
 			$number = $this->order_id;
 		} else {
 			$number = is_callable( array( $this->order, 'get_order_number' ) ) ? $this->order->get_order_number() : '';
@@ -1028,10 +1027,16 @@ abstract class Order_Document {
 		$now                 = new \WC_DateTime( 'now', new \DateTimeZone( 'UTC' ) ); // for settings callback
 	
 		// reset: on
-		if( $reset_number_yearly ) {
-			if( ! ( $date = $this->get_date() ) ) {
+		if ( $reset_number_yearly ) {
+			if ( ! ( $date = $this->get_date() ) ) {
 				$date = $now;
 			}
+			
+			// for yearly reset debugging only
+			if ( apply_filters( 'wpo_wcpdf_enable_yearly_reset_debug', false ) ) {
+				$date = new \WC_DateTime( '1st January Next Year' );
+			}
+			
 			$store_name   = $this->get_sequential_number_store_name( $date, $method, $reset_number_yearly );
 			$number_store = new Sequential_Number_Store( $store_name, $method );	
 	
@@ -1112,6 +1117,12 @@ abstract class Order_Document {
 		
 		$default_table_name = $this->get_number_store_table_default_name( $store_base_name, $method );
 		$now                = new \WC_DateTime( 'now', new \DateTimeZone( 'UTC' ) );
+		
+		// for yearly reset debugging only
+		if ( apply_filters( 'wpo_wcpdf_enable_yearly_reset_debug', false ) ) {
+			$now = new \WC_DateTime( '1st January Next Year' );
+		}
+		
 		$current_year       = intval( $now->date_i18n( 'Y' ) );
 		$current_store_year = intval( $this->get_number_store_year( $default_table_name ) );
 		$requested_year     = intval( $date->date_i18n( 'Y' ) );
@@ -1178,6 +1189,13 @@ abstract class Order_Document {
 		$was_showing_errors = $wpdb->hide_errors(); // if we encounter errors, we'll log them instead
 
 		$current_year = date_i18n( 'Y' );
+		
+		// for yearly reset debugging only
+		if ( apply_filters( 'wpo_wcpdf_enable_yearly_reset_debug', false ) ) {
+			$next_year    = new \WC_DateTime( '1st January Next Year' );
+			$current_year = intval( $next_year->date_i18n( 'Y' ) );
+		}
+		
 		$table_exists = $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'") == $table_name; 
 		if( $table_exists ) {
 			// get year for the last row

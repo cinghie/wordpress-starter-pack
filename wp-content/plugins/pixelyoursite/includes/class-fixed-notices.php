@@ -47,11 +47,16 @@ class NoticesFixed {
     function allCloseNotice(){
         require_once PYS_FREE_PATH . '/notices/fixed.php';
         $notices = adminGetFixedNotices();
-        if ( empty( $_POST['user_id'] )) {
+        $user_id = get_current_user_id();
+
+
+        if ( empty( $user_id ) ) {
             return;
         }
-        $userId = sanitize_text_field( $_POST['user_id'] );
-        $dismissedSlugs = (array)get_user_meta( $userId, $this->dismissedKey,true);
+        if ( empty( $_REQUEST['nonce'] ) || ! wp_verify_nonce( $_REQUEST['nonce'], 'pys_fixed_notice_opt_dismiss') ) {
+            return;
+        }
+        $dismissedSlugs = (array)get_user_meta( $user_id, $this->dismissedKey,true);
         foreach ($notices as $noticesGroup)
         {
             foreach ($noticesGroup['multiMessage'] as $noticesMessage) {
@@ -60,7 +65,7 @@ class NoticesFixed {
 
         }
         $dismissedSlugs = array_unique($dismissedSlugs);
-        update_user_meta($userId, $this->dismissedKey, $dismissedSlugs );
+        update_user_meta($user_id, $this->dismissedKey, $dismissedSlugs );
         echo json_encode($dismissedSlugs);
         die();
     }
@@ -68,11 +73,16 @@ class NoticesFixed {
     function  catchOnCloseNotice() {
         require_once PYS_FREE_PATH . '/notices/fixed.php';
         $notices = adminGetFixedNotices();
-        if ( empty( $_POST['user_id'] ) || empty( $_POST['addon_slug'] ) || empty( $_POST['meta_key'] ) ) {
+        $user_id = get_current_user_id();
+
+
+        if ( empty( $user_id ) || empty( $_POST['addon_slug'] ) || empty( $_POST['meta_key'] ) ) {
             return;
         }
-        $userId = sanitize_text_field( $_POST['user_id'] );
-        $dismissedSlugs = (array)get_user_meta( $userId, $this->dismissedKey,true);
+        if ( empty( $_REQUEST['nonce'] ) || ! wp_verify_nonce( $_REQUEST['nonce'], 'pys_fixed_notice_dismiss' ) ) {
+            return;
+        }
+        $dismissedSlugs = (array)get_user_meta( $user_id, $this->dismissedKey,true);
         foreach ($_POST['meta_key'] as $meta_key)
         {
             $dismissedSlugs[] = sanitize_text_field( $meta_key );
@@ -80,7 +90,7 @@ class NoticesFixed {
 
 
         // save dismissed notice
-        update_user_meta($userId, $this->dismissedKey, $dismissedSlugs );
+        update_user_meta($user_id, $this->dismissedKey, $dismissedSlugs );
         echo json_encode($this->whoIsNext($notices));
         die();
     }
@@ -95,7 +105,6 @@ class NoticesFixed {
             return;
         }
 
-        $user_id = get_current_user_id();
 
         ?>
         <div class="notice notice-info is-dismissible pys-promo-fixed-notice pys-fixed-notice <?php echo (isset($notice['enabelDismiss']) && $notice['enabelDismiss']==false)? 'notice-disable-dismiss' : '';?>" data-slug="<?=$notice['slug']?>">
@@ -129,7 +138,7 @@ class NoticesFixed {
                     dataType: 'json',
                     data: {
                         action: 'pys_fixed_notice_dismiss',
-                        user_id: '<?php esc_attr_e( $user_id ); ?>',
+                        nonce: '<?php esc_attr_e( wp_create_nonce( 'pys_fixed_notice_dismiss'))?>',
                         addon_slug: 'free',
                         meta_key: [jQuery(this).parents('.pys-promo-fixed-notice').data('slug')]
                     },
@@ -149,7 +158,6 @@ class NoticesFixed {
             return;
         }
 
-        $user_id = get_current_user_id();
         if(isset($group['multiMessage'])):
         ?>
         <div class="notice notice-info is-dismissible pys-chain-fixed-notice pys-fixed-notice <?php echo isset($group['color'])? 'notice-color-'.$group['color']:'';?> <?php echo (isset($group['enabelDismiss']) && $group['enabelDismiss']==false)? 'notice-disable-dismiss' : '';?>" >
@@ -216,8 +224,8 @@ class NoticesFixed {
                     dataType: 'json',
                     data: {
                         action: 'pys_fixed_notice_opt_dismiss',
-                        user_id: '<?php esc_attr_e( $user_id ); ?>',
-                        addon_slug: 'pro'
+                        nonce: '<?php esc_attr_e( wp_create_nonce( 'pys_fixed_notice_opt_dismiss'))?>',
+                        addon_slug: 'free'
                     },
                     success: function (response)
                     {
@@ -233,7 +241,7 @@ class NoticesFixed {
                     dataType: 'json',
                     data: {
                             action: 'pys_fixed_notice_dismiss',
-                            user_id: '<?php esc_attr_e( $user_id ); ?>',
+                            nonce: '<?php esc_attr_e( wp_create_nonce( 'pys_fixed_notice_dismiss'))?>',
                             addon_slug: 'free',
                             meta_key: [_this.closest('.notice-item').data('slug')]
                         },
@@ -263,7 +271,7 @@ class NoticesFixed {
                     dataType: 'json',
                     data: {
                         action: 'pys_fixed_notice_dismiss',
-                        user_id: '<?php esc_attr_e( $user_id ); ?>',
+                        nonce: '<?php esc_attr_e( wp_create_nonce( 'pys_fixed_notice_dismiss'))?>',
                         addon_slug: 'free',
                         meta_key: array_notice
                     },

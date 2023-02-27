@@ -165,6 +165,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 		 * Check if the button can be showed in single page
 		 *
 		 * @since  1.0.0
+		 * @return void
 		 */
 		public function add_button_single_page() {
 
@@ -172,7 +173,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 
 			if ( 'yes' !== $show_button ) {
 				return false;
-			};
+			}
 
 			$this->print_button();
 		}

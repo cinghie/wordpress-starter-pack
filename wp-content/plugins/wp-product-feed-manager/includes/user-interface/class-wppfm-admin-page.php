@@ -54,13 +54,14 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			$ticket_link = WPPFM_EDD_SL_ITEM_NAME === 'WP Product Feed Manager' ? 'https://wordpress.org/support/plugin/wp-product-feed-manager'
 				: WPPFM_EDD_SL_STORE_URL . '/support/'; // Get the link to the ticket system depending on the version of the plugin.
 			$feed_queue  = implode( ',', get_site_option( 'wppfm_feed_queue', array() ) ); // Get the active feed queue.
+			$plugin_version_id = 'free'; // Plugin version id
 
 			return
 				'<div class="wrap">
 			<div class="feed-spinner" id="feed-spinner" style="display:none;">
 				<img id="img-spinner" src="' . $spinner_gif . '" alt="Loading" />
 			</div>
-			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue">' . $feed_queue . '</div></div>
+			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue">' . $feed_queue . '</div><div id="wppfm-plugin-version-id" value="' . $plugin_version_id . '">' . $plugin_version_id . '</div></div>
 			<div class="wppfm-main-wrapper wppfm-header-wrapper" id="header-wrapper">
 			<div class="header-text"><h1>' . $header_text . '</h1></div>
 			<div class="sub-header-text"><h3>' . esc_html__( 'Manage your feeds with ease', 'wp-product-feed-manager' ) . '</h3></div>
@@ -71,13 +72,17 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 		}
 
 		protected function message_field( $alert = '' ) {
+			if ( is_plugin_active( 'wp-product-review-feed-manager/wp-product-review-feed-manager.php' ) ) {
+				$alert = esc_html( __( 'As of now the WC Google Product Review Feed Manager is an integral part of the WP Feed Manager plugin. We strongly advice you to delete the WC Google Product Review Feed Manager from the plugins page. Your existing review feeds will remain available.', 'wp-product-review-feed-manager' ) );
+				update_option( 'wppfm_review_feed_manager_active', 'true' );
+			}
+
 			$display_alert = empty( $alert ) ? 'none' : 'block';
 
 			return
 				'<div class="message-field notice notice-error" id="error-message" style="display:none;"></div>
 			 <div class="message-field notice notice-success" id="success-message" style="display:none;"></div>
-			 <div class="message-field notice notice-warning" id="disposable-warning-message" style="display:' . $display_alert . ';"><p>' . $alert . '</p>
-			<button type="button" id="disposable-notice-button" class="notice-dismiss"></button>
+			 <div class="message-field notice notice-warning" id="warning-message" style="display:' . $display_alert . ';"><p>' . $alert . '</p>
 			</div>';
 		}
 

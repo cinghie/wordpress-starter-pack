@@ -85,7 +85,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			// Add action links.
 			add_filter( 'plugin_action_links_' . plugin_basename( YWCTM_DIR . '/' . basename( YWCTM_FILE ) ), array( $this, 'action_links' ) );
 			add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
-			add_action( 'init', array( $this, 'set_plugin_requirements' ), 20 );
 
 			$this->include_files();
 
@@ -117,15 +116,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function include_files() {
-
-			// Check if options should be upgraded.
-			$update_path = YWCTM_DIR . 'includes/actions/update-2.0.0/ywctm-install.php';
-			if ( ( '' === (string) get_option( 'ywctm_update_version' ) || (string) YWCTM_VERSION === (string) get_transient( 'ywctm_prune_settings' ) ) && file_exists( $update_path ) ) {
-				include_once $update_path;
-			}
-
 			include_once 'includes/ywctm-functions.php';
-
 		}
 
 		/**
@@ -502,7 +493,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 				if ( ! $single ) {
 					$hide_variations = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_hide_variations' ), $product_id, 'ywctm_hide_variations' );
-					// APPLY_FILTER: ywctm_hide_variations_on_loop: hide variations only on loop.
+					/**
+					 * APPLY_FILTERS: ywctm_hide_variations_on_loop
+					 *
+					 * Hide variations only on loop.
+					 *
+					 * @param boolean $hide_variations Check if variations should be hidden on loop.
+					 *
+					 * @return boolean
+					 */
 					$hide_variations = apply_filters( 'ywctm_hide_variations_on_loop', $hide_variations );
 					$is_variable     = $product->is_type( 'variable' );
 					$is_grouped      = $product->is_type( 'grouped' );
@@ -581,7 +580,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 */
 		public function enqueue_styles_frontend() {
 
-			// APPLY_FILTER: ywctm_css_classes: CSS selector of elements that should be hidden.
+			/**
+			 * APPLY_FILTERS: ywctm_css_classes
+			 *
+			 * CSS selectors of elements that should be hidden.
+			 *
+			 * @param array $args The CSS classes array.
+			 *
+			 * @return array
+			 */
 			$classes = apply_filters( 'ywctm_css_classes', array() );
 
 			if ( ! empty( $classes ) ) {
@@ -618,7 +625,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				if ( 'flatsome' === $theme_name ) {
 					$args[] = '.cart-item.has-icon.has-dropdown';
 				}
-				// APPLY_FILTER: ywctm_cart_widget_classes: CSS selector of cart widgets.
+				/**
+				 * APPLY_FILTERS: ywctm_cart_widget_classes
+				 *
+				 * CSS selector of cart widgets.
+				 *
+				 * @param array $args The CSS classes array.
+				 *
+				 * @return array
+				 */
 				$classes = array_merge( $classes, apply_filters( 'ywctm_cart_widget_classes', $args ) );
 
 			}
@@ -662,7 +677,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 					$args[] = '.storefront-sticky-add-to-cart__content-button';
 				}
 
-				// APPLY_FILTER: ywctm_cart_widget_classes: CSS selector of add to cart buttons.
+				/**
+				 * APPLY_FILTERS: ywctm_catalog_classes
+				 *
+				 * CSS selector of add to cart buttons.
+				 *
+				 * @param array $args The CSS classes array.
+				 *
+				 * @return array
+				 */
 				$classes = array_merge( $classes, apply_filters( 'ywctm_catalog_classes', $args ) );
 
 			}
@@ -833,7 +856,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 				}
 
-				// APPLY_FILTER: ywctm_cart_widget_classes: CSS selector of add to cart buttons.
+				/**
+				 * APPLY_FILTERS: ywctm_catalog_classes
+				 *
+				 * CSS selector of add to cart buttons.
+				 *
+				 * @param array $args The CSS classes array.
+				 *
+				 * @return array
+				 */
 				$classes = implode( ', ', apply_filters( 'ywctm_catalog_classes', $args ) );
 
 				?>
@@ -924,24 +955,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 			return $new_row_meta_args;
 
-		}
-
-		/**
-		 * Add Plugin Requirements
-		 *
-		 * @return  void
-		 * @since   2.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
-		 */
-		public function set_plugin_requirements() {
-
-			$plugin_data  = get_plugin_data( plugin_dir_path( __FILE__ ) . '/init.php' );
-			$plugin_name  = $plugin_data['Name'];
-			$requirements = array(
-				'min_wp_version' => '5.6.0',
-				'min_wc_version' => '5.8.0',
-			);
-			yith_plugin_fw_add_requirements( $plugin_name, $requirements );
 		}
 
 	}

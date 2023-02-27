@@ -1239,6 +1239,7 @@ if (!Array.prototype.includes) {
                             ids:options.facebook.pixelIds,
                             eventID:allData.eventID,
                             url:window.location.href,
+                            ajax_event:options.ajax_event
                         };
                         if(allData.hasOwnProperty('woo_order')) {
                             json['woo_order'] = allData.woo_order;
@@ -1817,7 +1818,24 @@ if (!Array.prototype.includes) {
                             config.allow_ad_personalization_signals = false
                         }
                     }
-                    gtag('config', trackingId, config);
+                    if (options.gdpr.cookiebot_integration_enabled && typeof Cookiebot !== 'undefined') {
+
+                        var cookiebot_consent_category = options.gdpr['cookiebot_analytics_consent_category'];
+                        if (options.gdpr['analytics_prior_consent_enabled']) {
+                            if (Cookiebot.consented === true && Cookiebot.consent[cookiebot_consent_category]) {
+                                gtag('config', trackingId, config);
+                            }
+                        } else {
+                            if (Cookiebot.consent[cookiebot_consent_category]) {
+                                gtag('config', trackingId, config);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        gtag('config', trackingId, config);
+                    }
                 });
 
                 initialized = true;

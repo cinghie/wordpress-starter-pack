@@ -594,7 +594,7 @@ class IS_Index_Manager extends IS_Base_Options {
 		$exec_time     = $this->calc_exec_time();
 		$max_exec_time = @ini_get( 'max_execution_time' ) * .8;
 		$max_exec_time = min( $max_exec_time, 45 );
-		$max_per_page  = 100;
+		$max_per_page  = apply_filters( 'is_index_max_per_page', 100 );
 		$multiplier    = 2;
 		$per_page      = $this->build_per_page;
 		$build_offset  = $this->build_offset;

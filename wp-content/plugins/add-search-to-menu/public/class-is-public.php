@@ -1078,10 +1078,342 @@ class IS_Public
     }
     
     /**
+     * Get Customizer Generated CSS
+     *
+     * @since 5.5
+     * @return mixed
+     */
+    function display_customizer_css()
+    {
+        $is_form_ids = get_posts( array(
+            'post_type'      => 'is_search_form',
+            'fields'         => 'ids',
+            'posts_per_page' => -1,
+        ) );
+        $css = false;
+        foreach ( $is_form_ids as $post_id ) {
+            $settings = get_option( 'is_search_' . $post_id );
+            
+            if ( !empty($settings) ) {
+                $css = true;
+                if ( $css ) {
+                    ?>
+			<style type="text/css">
+		<?php 
+                }
+                // AJAX customizer fields.
+                
+                if ( !empty(preg_grep( '/^search-results/', array_keys( $settings ) )) ) {
+                    // Suggestion Box.
+                    $suggestion_box_bg_color = ( isset( $settings['search-results-bg'] ) ? $settings['search-results-bg'] : '' );
+                    $suggestion_box_selected_color = ( isset( $settings['search-results-hover'] ) ? $settings['search-results-hover'] : '' );
+                    $suggestion_box_text_color = ( isset( $settings['search-results-text'] ) ? $settings['search-results-text'] : '' );
+                    $suggestion_box_link_color = ( isset( $settings['search-results-link'] ) ? $settings['search-results-link'] : '' );
+                    $suggestion_box_border_color = ( isset( $settings['search-results-border'] ) ? $settings['search-results-border'] : '' );
+                    
+                    if ( '' !== $suggestion_box_bg_color ) {
+                        ?>
+				#is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-post,                        
+	            #is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-show-more-results,
+	            #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-items > div {
+					background-color: <?php 
+                        echo  esc_html( $suggestion_box_bg_color ) ;
+                        ?> !important;
+				}
+            <?php 
+                    }
+                    
+                    
+                    if ( '' !== $suggestion_box_selected_color ) {
+                        ?>
+				#is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-post:hover,
+	            #is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-show-more-results:hover,
+	            #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-tags-details > div:hover,
+	            #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-categories-details > div:hover {
+					background-color: <?php 
+                        echo  esc_html( $suggestion_box_selected_color ) ;
+                        ?> !important;
+				}
+                        <?php 
+                    }
+                    
+                    
+                    if ( '' !== $suggestion_box_text_color ) {
+                        ?>
+                #is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-term-label,
+                #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-term-label,
+				#is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?>,
+                #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> {
+					color: <?php 
+                        echo  esc_html( $suggestion_box_text_color ) ;
+                        ?> !important;
+				}
+                        <?php 
+                    }
+                    
+                    
+                    if ( '' !== $suggestion_box_link_color ) {
+                        ?>
+				#is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> a,
+                #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> a:not(.button) {
+					color: <?php 
+                        echo  esc_html( $suggestion_box_link_color ) ;
+                        ?> !important;
+				}
+                #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-woocommerce-actions a.button {
+                	background-color: <?php 
+                        echo  esc_html( $suggestion_box_link_color ) ;
+                        ?> !important;
+                }
+                        <?php 
+                    }
+                    
+                    
+                    if ( '' !== $suggestion_box_border_color ) {
+                        ?>
+				#is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-post,
+				#is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-ajax-search-post-details {
+				    border-color: <?php 
+                        echo  esc_html( $suggestion_box_border_color ) ;
+                        ?> !important;
+				}
+                #is-ajax-search-result-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?>,
+                #is-ajax-search-details-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> {
+                    background-color: <?php 
+                        echo  esc_html( $suggestion_box_border_color ) ;
+                        ?> !important;
+                }
+			<?php 
+                    }
+                
+                }
+                
+                // Customize options.
+                
+                if ( !empty(preg_grep( '/^text-box/', array_keys( $settings ) )) || !empty(preg_grep( '/^submit-button/', array_keys( $settings ) )) ) {
+                    // Input.
+                    $search_input_color = ( isset( $settings['text-box-text'] ) ? $settings['text-box-text'] : '' );
+                    $search_input_bg_color = ( isset( $settings['text-box-bg'] ) ? $settings['text-box-bg'] : '' );
+                    $search_input_border_color = ( isset( $settings['text-box-border'] ) ? $settings['text-box-border'] : '' );
+                    // Submit.
+                    $search_submit_color = ( isset( $settings['submit-button-text'] ) ? $settings['submit-button-text'] : '' );
+                    $search_submit_bg_color = ( isset( $settings['submit-button-bg'] ) ? $settings['submit-button-bg'] : '' );
+                    $search_submit_border_color = ( isset( $settings['submit-button-border'] ) ? $settings['submit-button-border'] : '' );
+                    
+                    if ( '' !== $search_submit_color || '' !== $search_submit_bg_color || '' !== $search_submit_border_color ) {
+                        ?>
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-submit:focus,
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-submit:hover,
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-submit,
+            .is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-icon {
+			<?php 
+                        echo  ( '' !== $search_submit_color ? 'color: ' . esc_html( $search_submit_color ) . ' !important;' : '' ) ;
+                        ?>
+            <?php 
+                        echo  ( '' !== $search_submit_bg_color ? 'background-color: ' . esc_html( $search_submit_bg_color ) . ' !important;' : '' ) ;
+                        ?>
+            <?php 
+                        echo  ( '' !== $search_submit_border_color ? 'border-color: ' . esc_html( $search_submit_border_color ) . ' !important;' : '' ) ;
+                        ?>
+			}
+            <?php 
+                        
+                        if ( '' !== $search_submit_color ) {
+                            ?>
+            	.is-form-id-<?php 
+                            echo  esc_attr( $post_id ) ;
+                            ?> .is-search-submit path {
+					<?php 
+                            echo  'fill: ' . esc_html( $search_submit_color ) . ' !important;' ;
+                            ?>
+            	}
+            <?php 
+                        }
+                    
+                    }
+                    
+                    
+                    if ( '' !== $search_input_color ) {
+                        ?>
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input::-webkit-input-placeholder {
+			    color: <?php 
+                        echo  esc_html( $search_input_color ) ;
+                        ?> !important;
+			}
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:-moz-placeholder {
+			    color: <?php 
+                        echo  esc_html( $search_input_color ) ;
+                        ?> !important;
+			    opacity: 1;
+			}
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input::-moz-placeholder {
+			    color: <?php 
+                        echo  esc_html( $search_input_color ) ;
+                        ?> !important;
+			    opacity: 1;
+			}
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:-ms-input-placeholder {
+			    color: <?php 
+                        echo  esc_html( $search_input_color ) ;
+                        ?> !important;
+			}
+                        <?php 
+                    }
+                    
+                    
+                    if ( '' !== $search_input_color || '' !== $search_input_border_color || '' !== $search_input_bg_color ) {
+                        ?>
+			.is-form-style-1.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:focus,
+			.is-form-style-1.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:hover,
+			.is-form-style-1.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input,
+			.is-form-style-2.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:focus,
+			.is-form-style-2.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:hover,
+			.is-form-style-2.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input,
+			.is-form-style-3.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:focus,
+			.is-form-style-3.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:hover,
+			.is-form-style-3.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input,
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:focus,
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input:hover,
+			.is-form-id-<?php 
+                        echo  esc_attr( $post_id ) ;
+                        ?> .is-search-input {
+                                <?php 
+                        echo  ( '' !== $search_input_color ? 'color: ' . esc_html( $search_input_color ) . ' !important;' : '' ) ;
+                        ?>
+                                <?php 
+                        echo  ( '' !== $search_input_border_color ? 'border-color: ' . esc_html( $search_input_border_color ) . ' !important;' : '' ) ;
+                        ?>
+                                <?php 
+                        echo  ( '' !== $search_input_bg_color ? 'background-color: ' . esc_html( $search_input_bg_color ) . ' !important;' : '' ) ;
+                        ?>
+			}
+                        <?php 
+                    }
+                
+                }
+                
+                
+                if ( $css ) {
+                    $css = false;
+                    ?>
+			</style>
+		<?php 
+                }
+            
+            }
+        
+        }
+    }
+    
+    /**
      * Adds code in the header of site front end.
      */
     function wp_head()
     {
+        
+        if ( isset( $this->opt['menu_style'] ) && 'default' !== $this->opt['menu_style'] && isset( $this->opt['menu_magnifier_color'] ) && !empty($this->opt['menu_magnifier_color']) ) {
+            echo  '<style type="text/css" media="screen">' ;
+            echo  '.is-menu path.search-icon-path { fill: ' . $this->opt['menu_magnifier_color'] . ';}' ;
+            echo  'body .popup-search-close:after, body .search-close:after { border-color: ' . $this->opt['menu_magnifier_color'] . ';}' ;
+            echo  'body .popup-search-close:before, body .search-close:before { border-color: ' . $this->opt['menu_magnifier_color'] . ';}' ;
+            echo  '</style>' ;
+        }
+        
+        
+        if ( isset( $this->opt['custom_css'] ) && $this->opt['custom_css'] != '' && !preg_match( '#</?\\w+#', $this->opt['custom_css'] ) ) {
+            ?>
+			<style type="text/css" media="screen">
+			/* Ivory search custom CSS code */
+			<?php 
+            echo  wp_specialchars_decode( esc_html( $this->opt['custom_css'] ), ENT_QUOTES ) ;
+            ?>
+			</style>
+		<?php 
+        }
+        
+        global  $wp_query ;
+        
+        if ( is_search() && isset( $wp_query->query_vars['_is_settings']['highlight_terms'] ) && isset( $wp_query->query_vars['_is_settings']['highlight_color'] ) ) {
+            echo  '<style type="text/css" media="screen">' ;
+            echo  '.is-highlight { background-color: ' . esc_html( $wp_query->query_vars['_is_settings']['highlight_color'] ) . ' !important;}' ;
+            echo  '</style>' ;
+        }
+        
+        $this->display_customizer_css();
         if ( isset( $this->opt['header_search'] ) && $this->opt['header_search'] ) {
             echo  do_shortcode( '[ivory-search id="' . $this->opt['header_search'] . '"]' ) ;
         }
@@ -1141,35 +1473,6 @@ class IS_Public
      */
     function wp_footer()
     {
-        
-        if ( isset( $this->opt['menu_style'] ) && 'default' !== $this->opt['menu_style'] && isset( $this->opt['menu_magnifier_color'] ) && !empty($this->opt['menu_magnifier_color']) ) {
-            echo  '<style type="text/css" media="screen">' ;
-            echo  '.is-menu path.search-icon-path { fill: ' . $this->opt['menu_magnifier_color'] . ';}' ;
-            echo  'body .popup-search-close:after, body .search-close:after { border-color: ' . $this->opt['menu_magnifier_color'] . ';}' ;
-            echo  'body .popup-search-close:before, body .search-close:before { border-color: ' . $this->opt['menu_magnifier_color'] . ';}' ;
-            echo  '</style>' ;
-        }
-        
-        
-        if ( isset( $this->opt['custom_css'] ) && $this->opt['custom_css'] != '' && !preg_match( '#</?\\w+#', $this->opt['custom_css'] ) ) {
-            ?>
-			<style type="text/css" media="screen">
-			/* Ivory search custom CSS code */
-			<?php 
-            echo  wp_specialchars_decode( esc_html( $this->opt['custom_css'] ), ENT_QUOTES ) ;
-            ?>
-			</style>
-		<?php 
-        }
-        
-        global  $wp_query ;
-        
-        if ( is_search() && isset( $wp_query->query_vars['_is_settings']['highlight_terms'] ) && isset( $wp_query->query_vars['_is_settings']['highlight_color'] ) ) {
-            echo  '<style type="text/css" media="screen">' ;
-            echo  '.is-highlight { background-color: ' . esc_html( $wp_query->query_vars['_is_settings']['highlight_color'] ) . ' !important;}' ;
-            echo  '</style>' ;
-        }
-        
         if ( isset( $this->opt['footer_search'] ) && $this->opt['footer_search'] ) {
             echo  do_shortcode( '[ivory-search id="' . $this->opt['footer_search'] . '"]' ) ;
         }

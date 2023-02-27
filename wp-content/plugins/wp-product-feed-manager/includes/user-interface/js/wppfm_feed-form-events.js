@@ -226,6 +226,13 @@ jQuery(
 			}
 		);
 
+		$( '#wppfm_review_feed_manager' ).on(
+			'change',
+			function() {
+				wppfm_activate_review_feed_manager();
+			}
+		);
+
 		$( '#wppfm_wpml_use_full_resolution_urls' ).on(
 			'change',
 			function() {

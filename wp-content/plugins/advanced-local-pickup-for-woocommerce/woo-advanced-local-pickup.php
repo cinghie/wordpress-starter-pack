@@ -5,11 +5,11 @@
 * Description: The Advanced Local Pickup (ALP) helps you handle local pickup orders more conveniently by extending the WooCommerce Local Pickup shipping method.
 * Author: zorem
 * Author URI: https://www.zorem.com/
-* Version: 1.5.1
+* Version: 1.5.2
 * Text Domain: advanced-local-pickup-for-woocommerce
 * Domain Path: /lang/
 * WC requires at least: 4.0
-* WC tested up to: 7.1
+* WC tested up to: 7.4
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,7 +23,7 @@ class Woocommerce_Local_Pickup {
 	 *
 	 * @var string
 	 */
-	public $version = '1.5.1';
+	public $version = '1.5.2';
 	
 	/**
 	 * Constructor
@@ -636,3 +636,9 @@ function wc_local_pickup() {
  * Backward compatibility.
 */
 wc_local_pickup();
+
+add_action( 'before_woocommerce_init', function() {
+	if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+	}
+} );
