@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_WCAS_VERSION' ) ) {
  * @class   YITH_WCAS_Elementor
  * @package YITH
  * @since   1.3.6
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 if ( ! class_exists( 'YITH_WCAS_Elementor' ) ) {
 

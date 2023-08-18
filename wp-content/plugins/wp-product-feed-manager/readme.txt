@@ -1,33 +1,33 @@
-﻿=== Woocommerce Google Feed Manager ===
+﻿=== WooCommerce Google Feed Manager ===
 
 Contributors: WPMarketingRobot, Michel Jongbloed, AukeJomm
 Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
 Donate link: https://www.wpmarketingrobot.com/
-Requires at least: 7.2
-Tested up to: 6.2
-Requires PHP: 5.6
-Stable tag: 1.47.1
+Requires at least: 5.4
+Tested up to: 6.3
+Requires PHP: 7.2
+Stable tag: 1.50.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Extremely Powerful Woocommerce Google Feed Manager,  Optimize your product listings and campaign results and sell more on Google Shopping! 
 
 == Description ==
-Woocommerce Google Feed Manager is an extremely powerful and easy to use google shopping feed manager for Woocommerce web shops.
-With Woocommerce Google Feed Manager you can easily add up to 100 products from your woocommerce store to a product feed setup that meets the requirements from Google Shopping. 
+WooCommerce Google Feed Manager is an extremely powerful and easy to use google shopping feed manager for WooCommerce web shops.
+With WooCommerce Google Feed Manager you can easily add up to 100 products from your WooCommerce store to a product feed setup that meets the requirements from Google Shopping. 
 
-We have connected al the required and recommended fields of the feed with the Wordpress database. So after installation you're ready to submit your product feed to your Google merchant center. But you can go even further and tweak the content of every field in order to maximize your revenue from your products in Google shopping.
+We have connected al the required and recommended fields of the feed with the WordPress database. So after installation you're ready to submit your product feed to your Google Merchant Center. But you can go even further and tweak the content of every field in order to maximize your revenue from your products in Google shopping.
 
-You have very advanced and professional options at your disposal to make your products stand out, use titles different from your shop, change your product google categories depending on title names. 
+You have very advanced and professional options at your disposal to make your products stand out, use titles different from your shop, change your product Google categories depending on title names. 
 
 > Premium Woocommerce Google Feed manager
 
 > If you love the plugin, or have more than 100 products in your woocommerce webshop we offer a full featured premium version.
-> if you're a serious webshop owner and want to have absolute controle about over Google Shopping Feed you should start using our [Premium Woocommerce Google Feed Manager](https://goo.gl/mGFLMm)
+> if you're a serious webshop owner and want to have absolute controle about over Google Shopping Feed you should start using our [Premium WooCommerce Google Feed Manager](https://goo.gl/mGFLMm)
 
 > Sell your products on other selling channels
 
-> If you want to get your products shown in Price comparison, product aggregators, affiliate networks and selling channels we have our [Premium Woocommerce Product Feed Manager](https://goo.gl/mGFLMm) supporting all shopping channels.
+> If you want to get your products shown in Price comparison, product aggregators, affiliate networks and selling channels we have our [Premium WooCommerce Product Feed Manager](https://goo.gl/mGFLMm) supporting all shopping channels.
 > Increase your Sales, Show your products on worldwide selling channels and affiliate networks!
 > We have the most popular and important feed templates already installed like Bing, Pricegrabber, Amazon, Nextag, Beslist, Vergelijk.nl, Shopping.com, Connexity and more.
 
@@ -36,9 +36,9 @@ You have full control over your Google feed, how your products are listed and wh
 
 * Simple: Creating Google shopping feeds is very simple with our plugin,
 * Optimize: Tweak the feed in every possible way to improve performance,
-* Feed Updates: Changes in your Woocommerce store are reflected in your feed instantly with the scheduled update option,
+* Feed Updates: Changes in your WooCommerce store are reflected in your feed instantly with the scheduled update option,
 
-> Learn how to setup up your first basic feed in our online manual > [Product feed manager manual](https://goo.gl/pbgepQ)
+> Learn how to setup up your first basic feed in our online manual > [Product Feed Manager manual](https://goo.gl/pbgepQ)
 
 == Installation ==
 Step 1. Download the wp product feed manager plugin zip file from the Wordpress Plugin Repository.
@@ -49,7 +49,7 @@ That's basically it. You're ready to create your first feed and start making mon
 
 Take a look at the video. They lead you through the proces in creating your first product feed.
 
-= Install woocommerce google feed manager =
+= Install WooCommerce Google Feed Manager =
 [youtube https://www.youtube.com/watch?v=bgEFUWAdNOc]
 
 = How to setup a basic feed =
@@ -57,13 +57,13 @@ Take a look at the video. They lead you through the proces in creating your firs
 
 == Frequently Asked Questions ==
 = Why should i go with your plugin? =
-We are very proud of our woocommerce Google feed manager and we think it is the most powerful plugin out there build by Product Feed Marketeers especially for woocommerce powered shops. Our plugin will help you to get the most out of your Google shopping account.
+We are very proud of our WooCommerce Google feed manager and we think it is the most powerful plugin out there build by Product Feed Marketeers especially for woocommerce powered shops. Our plugin will help you to get the most out of your Google shopping account.
 
-The power of the plugin is that you can add the data from your shop to any feed attribute required, recommended or supported by Google. Next to that you are able to alter the data from you wordpress woocommerce database so you can optimize the data you send to Google. We support custom product fields and product variations making our plugin even stand out more from the competition.
+The power of the plugin is that you can add the data from your shop to any feed attribute required, recommended or supported by Google. Next to that you are able to alter the data from you WordPress WooCommerce database so you can optimize the data you send to Google. We support custom product fields and product variations making our plugin even stand out more from the competition.
 
 While you grow with your webshop you can start working with our Premium plugin for even more powerful features and even more channel to sell your products on.
 
-= How does the Google feed manager plugin work? =
+= How does the Google Feed Manager plugin work? =
 Basically the plugin will generate a xml product feed valid for the Google product feed guidelines. It will take the data from your woocommerce powered online shop and create a valid Google product feed. The plugin will automatically update the feed to reflect the changes of your products so the xml feed will contain the correct product data. 
 
 The only thing you have to do is add the xml feed url to your Merchant center and start selling in Google.
@@ -71,7 +71,7 @@ The only thing you have to do is add the xml feed url to your Merchant center an
 = Any Issues? Start here =
 Start with the next steps when you have any issue with your installation and plugin.
 
-First make sure you have all your plugins, theme and wordpress updated to the latest version. Follow woocommerce requirements as a minimum for the use of our plugin.
+First make sure you have all your plugins, theme and WordPress updated to the latest version. Follow WooCommerce requirements as a minimum for the use of our plugin.
 
 PHP 5.6 or greater
 MySQL 5.6 or greater
@@ -97,6 +97,25 @@ In case it does please do submit your feed in your Google Merchant center and ch
 3. Save and generate your feed
 
 == Changelog ==
+= 1.50.0 - 01/08/2023 =
+* Added a check that makes sure that no spaces can be used in attribute names for an xml feed. Spaces will be replaced by underscores.
+* Extended the Feed Process logging.
+* Tested on WooCommerce 7.9.
+
+= 1.49.1 - 24/04/2023 =
+* Fixed an issue with an incorrect path to the review feed files in the cron functions file.
+
+= 1.49.0 - 17/04/2023 =
+* Tested compatibility with the WooCommerce High-Performance Order Storage update.
+* Fixed an issue where the "View feed" functions would not work if the user has the "Relative URL" plugin active.
+* Fixed an issue where trying to make a Feed Backup with an existing backup name, would show an incorrect message.
+* Tested on WooCommerce 7.6.0.
+
+= 1.48.0 - 07/03/2023 =
+* Fixed an issue where a feed that was duplicated could not be set to auto update before a screen reset was performed.
+* Added the option to sort the Feed List table items on the Name, Updated and Products columns.
+* Tested on WooCommerce 7.4.1.
+
 = 1.47.1 - 15/02/2023 =
 * Fixed an issue with a not correctly minified js file that would cause an error when opening the Edit Feed form.
 

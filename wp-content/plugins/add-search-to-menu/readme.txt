@@ -3,13 +3,13 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search, inverted index-based search, exclude from search, search widget, search menu, search plugin, custom search, search by sku, search by post type, search by category, relevance search, search forms
 Requires at least: 3.9
-Tested up to: 6.1
+Tested up to: 6.3
 Requires PHP: 5.2.4
-Stable tag: 5.5
+Stable tag: 5.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Advanced WordPress custom search plugin. Includes Search Form Customizer, WooCommerce Search, AJAX Search & Live Search support!
+Advanced WordPress custom search plugin. Provides Search Form Customizer, WooCommerce Search, AJAX Search & Live Search support!
 
 == Description ==
 
@@ -196,6 +196,14 @@ Yes we do. We try our best to help free users with customisation requests and we
 8. Plugin Settings
 
 == Changelog ==
+
+= 5.5.2 =
+* Fixed - Plugin option "Index posts marked as 'No Index' in Yoast SEO" not working.
+* Fixed - Plugin option  "Do not use Default Search Form to control WordPress default search functionality"
+* Updated - Freemius SDK 2.5.10
+
+= 5.5.1 =
+* Updated - Freemius SDK
 
 = 5.5 =
 * Updated - Freemius SDK

@@ -3,6 +3,7 @@
  * Plugin base functions
  *
  * @package YITH\CatalogMode
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +17,6 @@ if ( ! function_exists( 'ywctm_get_theme_name' ) ) {
 	 *
 	 * @return  string
 	 * @since   2.0.0
-	 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 	 */
 	function ywctm_get_theme_name() {
 		$wp_theme = wp_get_theme();
@@ -35,7 +35,6 @@ if ( ! function_exists( 'ywctm_is_wpml_active' ) ) {
 	 *
 	 * @return  boolean
 	 * @since   2.0.0
-	 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 	 */
 	function ywctm_is_wpml_active() {
 		global $sitepress;

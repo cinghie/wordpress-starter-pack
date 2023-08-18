@@ -211,8 +211,8 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 			?>
         		</tbody>
                              
- 			<form action="" method="post">
-			<input name="nonce_category_mapping" id="nonce_category_mapping" class="nonce_category_mapping" value="<?php print "$nonce";?>" type="hidden">
+			<form action="" method="post">
+ 			<?php wp_nonce_field( 'woosea_ajax_nonce' ); ?>
 
 			<tr>
 				<td colspan="3">
@@ -243,7 +243,7 @@ function woosea_hierarchical_term_tree($category, $prev_mapped){
 
 		<div class="woo-product-feed-pro-table-right">
 				<?php
-                                if($license_information['license_valid'] <> "true"){
+				if($license_information['license_valid'] <> "true"){
                                 ?>
 				<table class="woo-product-feed-pro-table">
                                         <tr>

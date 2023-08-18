@@ -26,7 +26,16 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
         <p class="small">
-            The plugin will send a purchase event using Facebook and Google Analytics API when auto-renewals take place. This feature is not yet supported for GA4 properties.
+            The plugin will send a Purchase event to Meta and Google using API when auto-renewals take place or when a new order is placed by an admin on the backend. Meta Conversion API token and GA4 Measurement Protocol secret are required.
+        </p>
+        <div  class="row">
+            <div class="col">
+                <?php renderDummySwitcher(false); ?>
+                <h4 class="switcher-label">Track refunds on Goolge Analytics</h4><?php renderProBadge(); ?>
+            </div>
+        </div>
+        <p class="small">
+            A "Refund" event will be sent to Google via the API when the order status changes to "Refund". GA4 measurement protocol secret required.
         </p>
     </div>
 </div>
@@ -44,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <div class="row">
             <div class="col">
-                <?php PYS()->render_switcher_input( 'edd_enabled_save_data_to_orders'); ?>
+                <?php PYS()->render_switcher_input( 'edd_enabled_save_data_to_orders',false ); ?>
                 <h4 class="switcher-label">Save data to orders</h4>
                 <small class="form-text">Save the <i>landing page, UTMs, client's browser's time, day, and month, the number of orders, lifetime value, and average order</i>. You can view this data when you edit an order. With the professional version you can view it under the <a href="<?=admin_url("admin.php?page=pixelyoursite_edd_reports")?>">Easy Digital Downloads Reports</a> section.</small>
             </div>
@@ -351,6 +360,11 @@ e&utm_campaign=pro-feature' ); ?>
         <div class="row mb-3">
             <div class="col-12">
                 <?php renderDummyCheckbox( "Don't fire the event for 0 value transactions", true ); ?>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <?php renderDummyCheckbox( "Don't fire the event when the number of items is 0", true ); ?>
             </div>
         </div>
         <?php if ( Facebook()->enabled() ) : ?>

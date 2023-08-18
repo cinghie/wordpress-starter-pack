@@ -267,11 +267,13 @@ class IS_Admin_Public {
 	 */
 	function get_search_form( $form ) {
 
-      	if ( isset( $this->opt['disable'] ) ) {
+		$is_settings = get_option( 'is_settings', array() );
+
+      	if ( isset( $is_settings['disable'] ) ) {
        		return '';
 		}
 
-		if ( isset( $this->opt['default_search'] ) ) {
+		if ( isset( $is_settings['default_search'] ) ) {
 			return $form;
 		}
 
@@ -348,8 +350,15 @@ class IS_Admin_Public {
 		);
 
 		$atts = array_map( 'sanitize_text_field', $atts );
+		$display_id = '';
+		if ( ! isset( $atts['id'] ) || empty( $atts['id'] ) ) {
+			$page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
 
-		if ( ! is_numeric( $atts['id'] ) || 0 == $atts['id'] ) {
+			if ( ! empty( $page ) ) {
+				$atts['id'] = $page->ID;
+				$display_id = 'n';
+			}
+		} else if ( ! is_numeric( $atts['id'] ) || 0 == $atts['id'] ) {
 			return '[ivory-search 404 "Invalid search form ID '. esc_html( $atts['id'] ) .'"]';
 		}
 
@@ -357,9 +366,11 @@ class IS_Admin_Public {
 
 		if ( ! $search_form ) {
 			return '[ivory-search 404 "The search form '. esc_html( $atts['id'] ) .' does not exist"]';
-		} 
+		} else if ( 'default-search-form' == $search_form->name() && isset( $is_settings['default_search'] ) ) {
+			$display_id = 'n';
+		}
 
-		$form  = $search_form->form_html( $atts );
+		$form  = $search_form->form_html( $atts, $display_id );
 
 		return $form;
 	}

@@ -1,7 +1,7 @@
 /**
  * Frontend JS
  *
- * @author YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ZoomMagnifier\Assets\JS
  */
 

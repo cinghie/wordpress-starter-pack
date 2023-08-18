@@ -228,7 +228,12 @@ class ServerEventHelper {
                     if($order->get_billing_state()) {
                         $userData->setState($order->get_billing_state());
                     }
-
+                    if($order->get_meta( 'external_id' )){
+                        $external_id = $order->get_meta( 'external_id' );
+                        if (!empty($external_id)) {
+                            $userData->setExternalId($external_id);
+                        }
+                    }
                 } else {
                     if($order->billing_postcode) {
                         $userData->setZipCode($order->billing_postcode);
@@ -240,6 +245,12 @@ class ServerEventHelper {
                     $userData->setLastName($order->billing_last_name);
                     $userData->setCity($order->billing_city);
                     $userData->setState($order->billing_state);
+                    if(get_post_meta( $order_id, 'external_id', true )){
+                        $external_id = get_post_meta( $order_id, 'external_id', true );
+                        if (!empty($external_id)) {
+                            $userData->setExternalId($external_id);
+                        }
+                    }
                 }
             } else {
                 return ServerEventHelper::getRegularUserData();
@@ -313,10 +324,18 @@ class ServerEventHelper {
                     $userData->setZipCode($user->get('billing_postcode'));
                 }
             }
+            if(PixelYourSite\EventsManager::isTrackExternalId()){
+                if (isset($_COOKIE['pbid'])) {
+                    $userData->setExternalId($_COOKIE['pbid']);
+                }
+            }
         } else {
             // $userData->setFirstName("undefined");
             // $userData->setLastName("undefined");
             // $userData->setEmail("undefined");
+            if (PixelYourSite\EventsManager::isTrackExternalId() && isset($_COOKIE['pbid'])) {
+                $userData->setExternalId($_COOKIE['pbid']);
+            }
         }
         return $userData;
     }

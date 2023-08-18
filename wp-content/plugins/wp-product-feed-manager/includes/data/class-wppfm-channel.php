@@ -61,6 +61,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 				new Wppfm_Channel_Info( '30', 'snapchat', 'Snapchat' ),
 				new Wppfm_Channel_Info( '31', 'pinterest', 'Pinterest' ),
 				new Wppfm_Channel_Info( '32', 'vivino_xml', 'Vivino XML' ),
+				new Wppfm_Channel_Info( '33', 'idealo_xml', 'Idealo XML' ),
 				new Wppfm_Channel_Info( '996', 'marketingrobot_tsv', 'Custom TSV Export' ),
 				new Wppfm_Channel_Info( '997', 'marketingrobot_txt', 'Custom TXT Export' ),
 				new Wppfm_Channel_Info( '998', 'marketingrobot_csv', 'Custom CSV Export' ),

@@ -2,7 +2,7 @@
 /**
  * Main class
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes
  * @version 3.0.0
  */
@@ -90,6 +90,8 @@ if ( ! class_exists( 'YITH_WCWL' ) ) {
 
 			// Polylang integration.
 			add_filter( 'pll_translation_url', array( $this, 'get_pll_wishlist_url' ), 10, 1 );
+
+			add_action( 'before_woocommerce_init', array( $this, 'declare_wc_features_support' ) );
 		}
 
 		/* === PLUGIN FW LOADER === */
@@ -211,7 +213,7 @@ if ( ! class_exists( 'YITH_WCWL' ) ) {
 			/**
 			 * DO_ACTION: yith_wcwl_adding_to_wishlist
 			 *
-			 * Allows to fire some action when a product to a wishlist.
+			 * Allows to fire some action when a product is added to a wishlist.
 			 *
 			 * @param int $prod_id     Product ID
 			 * @param int $wishlist_id Wishlist ID
@@ -1070,6 +1072,17 @@ if ( ! class_exists( 'YITH_WCWL' ) ) {
 			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 			return $url;
+		}
+
+		/**
+		 * Declare support for WooCommerce features.
+		 *
+		 * @since 3.22.0
+		 */
+		public function declare_wc_features_support() {
+			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', YITH_WCWL_INIT, true );
+			}
 		}
 	}
 }

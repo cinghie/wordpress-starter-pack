@@ -15,8 +15,7 @@ function isConsentMagicPluginActivated() {
         include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
     }
 
-    return is_plugin_active( 'consent-magic-pro/consent-magic-pro.php' );
-
+    return (is_plugin_active( 'consent-magic-pro/consent-magic-pro.php' ) || is_plugin_active( 'consent-magic/consent-magic.php' )) ;
 }
 function isConsentMagicPluginInstalled() {
 
@@ -24,14 +23,20 @@ function isConsentMagicPluginInstalled() {
         include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
     }
     $installed_plugins = get_plugins();
-    $plugin_slug = "consent-magic-pro/consent-magic-pro.php";
-    return array_key_exists( $plugin_slug, $installed_plugins ) || in_array( $plugin_slug, $installed_plugins, true );
+    $plugin_slug = 'consent-magic/consent-magic.php';
+    $plugin_slug_pro = "consent-magic-pro/consent-magic-pro.php";
+
+    return
+        array_key_exists( $plugin_slug, $installed_plugins ) ||
+        in_array( $plugin_slug, $installed_plugins, true ) ||
+        array_key_exists( $plugin_slug_pro, $installed_plugins ) ||
+        in_array( $plugin_slug_pro, $installed_plugins, true );
 
 }
 
 function isConsentMagicPluginLicenceActivated() {
     $id = get_option('cs_product_id');
-    if($id && get_option('wc_am_client_'.$id.'_activated') == 'Activated') {
+    if($id && get_option('wc_am_client_'.$id.'_activated') == 'Activated' || is_plugin_active( 'consent-magic/consent-magic.php')) {
         return true;
     }
     return false;

@@ -2,7 +2,7 @@
 /**
  * Utility functions
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\Brands\Classes
  * @version 1.0.0
  */
@@ -87,6 +87,15 @@ if ( ! function_exists( 'yith_wcbr_get_terms' ) ) {
 		}
 
 		if ( version_compare( $wp_version, '4.5', '<' ) ) {
+			/**
+			 * APPLY_FILTERS: yith_wcbr_get_terms_args
+			 *
+			 * Filter the array with the available parameters to get the terms.
+			 *
+			 * @param array $args Array of arguments
+			 *
+			 * @return array
+			 */
 			$terms = get_terms( $taxonomy, apply_filters( 'yith_wcbr_get_terms_args', $args ) );
 		} else {
 			$args = array_merge(

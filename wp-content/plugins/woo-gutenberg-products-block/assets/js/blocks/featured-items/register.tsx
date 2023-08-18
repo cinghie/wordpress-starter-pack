@@ -4,12 +4,12 @@
 /**
  * External dependencies
  */
-import type { BlockConfiguration } from '@wordpress/blocks';
-import { FunctionComponent } from 'react';
 import { InnerBlocks } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { getSetting } from '@woocommerce/settings';
 import { isFeaturePluginBuild } from '@woocommerce/block-settings';
+import type { FunctionComponent } from 'react';
+import type { BlockConfiguration } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -64,7 +64,7 @@ export function register(
 			 */
 			minHeight: {
 				type: 'number',
-				default: getSetting( 'default_height', 500 ),
+				default: getSetting( 'defaultHeight', 500 ),
 			},
 		},
 		supports: {
@@ -100,7 +100,7 @@ export function register(
 			editMode: false,
 			hasParallax: false,
 			isRepeated: false,
-			height: getSetting( 'default_height', 500 ),
+			height: getSetting( 'defaultHeight', 500 ),
 			mediaSrc: '',
 			overlayColor: '#000000',
 			showDesc: true,

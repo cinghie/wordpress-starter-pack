@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Yoast Duplicate Post - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-09-17 18:55:42+0000\n"
+"PO-Revision-Date: 2023-07-08 08:38:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - Yoast Duplicate Post - Stable (latest release)\n"
 
@@ -49,10 +49,6 @@ msgstr "Aggiunto"
 msgid "Removed"
 msgstr "Rimosso"
 
-#: src/post-republisher.php:224
-msgid "An error occurred while deleting the Rewrite & Republish copy."
-msgstr "Si è verificato un errore durante la cancellazione della copia effettuata con Rewrite & Republish "
-
 #. translators: 1: The page title with a link to the frontend page, 2: The
 #. scheduled date and time.
 #: src/ui/classic-editor.php:291
@@ -71,6 +67,10 @@ msgstr "Ripubblica il: %s"
 #: src/ui/classic-editor.php:201
 msgid "Compare"
 msgstr "Confronta"
+
+#: src/ui/classic-editor.php:198
+msgid "Do you want to compare your changes with the original version before merging? Please save any changes first."
+msgstr "Vuoi confrontare le tue modifiche con la versione originale prima di unirle? Salva prima le modifiche."
 
 #: src/ui/row-actions.php:145
 msgctxt "verb"

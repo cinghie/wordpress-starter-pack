@@ -3,20 +3,20 @@
  * Plugin Name: YITH WooCommerce Quick View
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-quick-view
  * Description: The <code><strong>YITH WooCommerce Quick View</strong></code> plugin allows your customers to have a quick look about products. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.24.0
+ * Version: 1.30.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-quick-view
  * Domain Path: /languages/
- * WC requires at least: 7.2
- * WC tested up to: 7.4
+ * WC requires at least: 7.8
+ * WC tested up to: 8.0
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
- * @version 1.24.0
+ * @version 1.30.0
  */
 
-/**  Copyright 2015-2022 Your Inspiration Solutions (email : plugins@yithemes.com)
+/**  Copyright 2015-2023 Your Inspiration Solutions (email : plugins@yithemes.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -42,7 +42,6 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
  * Message if WooCommerce is not installed.
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_wcqv_install_woocommerce_admin_notice() {
@@ -57,7 +56,6 @@ function yith_wcqv_install_woocommerce_admin_notice() {
  * Message if Premium plugin is installed.
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_wcqv_install_free_admin_notice() {
@@ -75,7 +73,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 if ( ! defined( 'YITH_WCQV_VERSION' ) ) {
-	define( 'YITH_WCQV_VERSION', '1.24.0' );
+	define( 'YITH_WCQV_VERSION', '1.30.0' );
 }
 
 if ( ! defined( 'YITH_WCQV_FREE_INIT' ) ) {
@@ -124,7 +122,6 @@ yit_maybe_plugin_fw_loader( YITH_WCQV_DIR );
  * Init.
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_wcqv_init() {
@@ -142,7 +139,6 @@ add_action( 'yith_wcqv_init', 'yith_wcqv_init' );
  * Install.
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_wcqv_install() {
@@ -166,7 +162,6 @@ add_action( 'before_woocommerce_init', 'yith_wcqv_declare_hpos_compatibility' );
  *
  * @return void
  * @since  1.23.0
- * @author Alessio Torrisi <alessio.torrisi@yithemes.com>
  */
 
 if( ! function_exists( 'yith_wcqv_declare_hpos_compatibility' ) ){

@@ -5,7 +5,7 @@
  * @class   YITH_Request_Quote
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 ?><style>

@@ -988,8 +988,22 @@ function counter(blockId) {
   jQuery("#sp-counter-number-".concat(blockId)).numerator(options);
 }
 
+function postcomments(blockId) {
+  // Get comment policy content.
+  var commentPolicyElement = "#sp-".concat(blockId, " .sp-postcomments-content-policy-").concat(blockId);
+  var commentPolicyContent = jQuery(commentPolicyElement).html(); // Create comment policy element, add class & append content.
+
+  var commentPolicyHtml = jQuery('<p class="commentpolicy"></p>').html(commentPolicyContent); // Find commentform on current block & append comment policy
+
+  var currentBlock = "#sp-".concat(blockId, " #commentform");
+  var currentBlockHtml = document.querySelector(currentBlock);
+
+  if (currentBlockHtml) {
+    jQuery(currentBlock).prepend(commentPolicyHtml);
+  }
+}
+
 function beforeafterslider(blockId, options) {
-  console.log(options);
   /*
   let options1 = {
   	default_offset_pct: 0.5,
@@ -1002,7 +1016,6 @@ function beforeafterslider(blockId, options) {
   	click_to_move: true
   };
   */
-
   jQuery("#sp-toggle-".concat(blockId, " .twentytwenty-container")).twentytwenty(options);
 }
 
@@ -1028,4 +1041,166 @@ function hotspotTooltips(blockId, items) {
       contentAsHTML: true
     });
   });
+}
+
+function seedprod_add_content_toggle_js(blockId) {
+  if (jQuery(this).is(":checked") == false) {
+    jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections1").removeClass("sp-hidden");
+    jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections2").addClass("sp-hidden");
+  } else {
+    jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections1").addClass("sp-hidden");
+    jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections2").removeClass("sp-hidden");
+  }
+
+  jQuery("#sp-contenttoggle-" + blockId + " .sp-content-toggle-area .sp-toggle-switch").change(function () {
+    if (jQuery(this).is(":checked") == false) {
+      jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections1").removeClass("sp-hidden");
+      jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections2").addClass("sp-hidden");
+    } else {
+      jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections1").addClass("sp-hidden");
+      jQuery("#sp-contenttoggle-" + blockId + " .sp-toggle-sections .sp-toggle-sections2").removeClass("sp-hidden");
+    }
+  });
+}
+
+jQuery('.sp-type-alert button.sp-alert-close').click(function () {
+  jQuery(this).parents('.sp-type-alert').hide();
+});
+/**
+ * businessreview javascript
+ */
+
+jQuery('.sp-businessreview-nav button').click(function () {
+  var currentId = '#' + jQuery(this).parents('.sp-businessreview-wrapper').attr('id');
+  var currentButtonIndex = jQuery(currentId + ' .sp-businessreview-nav button').index(this);
+  var currentIndex = 0;
+  var businessreviews = jQuery('.seedprod-business-review-wrapper', jQuery(this).parents(currentId));
+  var slideshowmax = jQuery(this).parents('.sp-businessreview-wrapper').attr('data-slidetoshow');
+
+  if (slideshowmax == undefined) {
+    slideshowmax = 1;
+  }
+
+  var slider_length = Math.ceil(businessreviews.length / parseInt(slideshowmax));
+
+  for (var customindexdata = 0; customindexdata < slider_length; customindexdata++) {
+    var opa = jQuery(currentId + ' .sp-businessreview-nav button[data-index="' + customindexdata + '"]').css('opacity');
+
+    if (opa >= 0.5) {
+      //console.log("customindexdata is =" + customindexdata);
+      currentIndex = customindexdata;
+    }
+  }
+
+  var buttonsLength = jQuery(currentId + ' .sp-businessreview-nav button').length - 1;
+  var currentButtonIndexData = jQuery(currentId + ' .sp-businessreview-nav button').eq(currentButtonIndex).attr('data-index'); // check for previous button click
+
+  if (currentButtonIndex == 0) {
+    if (0 == currentIndex) {
+      currentIndex = Math.ceil(businessreviews.length / parseInt(slideshowmax)) - 1;
+    } else {
+      currentIndex--;
+    }
+  } // check for next button click
+
+
+  if (currentButtonIndex == buttonsLength) {
+    if (Math.ceil(businessreviews.length / parseInt(slideshowmax)) - 1 == currentIndex) {
+      currentIndex = 0;
+    } else {
+      currentIndex++;
+    }
+  } // reset states
+
+
+  businessreviews.css({
+    'z-index': 999,
+    'opacity': 0,
+    'height': '0',
+    'position': 'absolute'
+  });
+  jQuery(currentId + ' .sp-businessreview-nav button[data-index]').css({
+    'opacity': 0.25
+  });
+  var startindex = parseInt(currentIndex * parseInt(slideshowmax));
+  var endindex = parseInt(startindex + parseInt(slideshowmax)); // select businessreviews and button
+
+  if (currentButtonIndexData !== undefined) {
+    currentIndex = currentButtonIndexData;
+    startindex = parseInt(currentIndex * parseInt(slideshowmax));
+    endindex = parseInt(startindex + parseInt(slideshowmax));
+
+    for (var i = startindex; i < endindex; i++) {
+      jQuery(businessreviews).eq(i).css({
+        'opacity': 1,
+        'height': 'auto',
+        'position': 'initial'
+      });
+    } //jQuery(businessreviews).eq(currentIndex).css({ 'opacity': 1, 'height': 'auto', 'position': 'initial' });
+
+
+    jQuery(currentId + ' .sp-businessreview-nav button').eq(currentButtonIndex).css({
+      'opacity': 1
+    });
+  } else {
+    startindex = parseInt(currentIndex * parseInt(slideshowmax));
+    endindex = parseInt(startindex + parseInt(slideshowmax));
+
+    for (var _i3 = startindex; _i3 < endindex; _i3++) {
+      jQuery(businessreviews).eq(_i3).css({
+        'opacity': 1,
+        'height': 'auto',
+        'position': 'initial'
+      }); //jQuery(currentId + ' .sp-imagecarousel-nav button').eq(currentButtonIndex).css({ 'opacity': 1 })	
+    } //jQuery(businessreviews).eq(currentIndex).css({ 'opacity': 1, 'height': 'auto', 'position': 'initial' });
+
+
+    jQuery(currentId + ' .sp-businessreview-nav button').eq(currentIndex + 1).css({
+      'opacity': 1
+    });
+  }
+});
+var businessreview_timers = {};
+jQuery(".sp-businessreview-wrapper").each(function (index) {
+  var currentId = '#' + jQuery(this).attr('id');
+  var autoPlay = jQuery(this).attr('data-autoplay');
+  var speed = jQuery(this).attr('data-speed');
+
+  if (speed === '') {
+    speed = 5000;
+  } else {
+    speed = parseInt(speed) * 1000;
+  }
+
+  if (autoPlay !== undefined) {
+    businessreview_timers[currentId] = setInterval(function () {
+      jQuery(currentId + ' .sp-businessreview-nav button:last-child').trigger('click');
+    }, speed);
+  }
+});
+jQuery(".sp-businessreview-wrapper").hover(function () {
+  var id = '#' + jQuery(this).attr('id');
+  clearInterval(businessreview_timers[id]);
+});
+jQuery(".sp-businessreview-wrapper").mouseleave(function () {
+  var currentId = '#' + jQuery(this).attr('id');
+  var autoPlay = jQuery(this).attr('data-autoplay');
+  var speed = jQuery(this).attr('data-speed');
+
+  if (speed === '') {
+    speed = 5000;
+  } else {
+    speed = parseInt(speed) * 1000;
+  }
+
+  if (autoPlay !== undefined) {
+    businessreview_timers[currentId] = setInterval(function () {
+      jQuery(currentId + ' .sp-businessreview-nav button:last-child').trigger('click');
+    }, speed);
+  }
+});
+
+function seedprod_particlessectionjs(blockId, particlesconfig) {
+  var particlesJSON = particlesconfig;
+  particlesJS("tsparticles-preview-sp-" + blockId, particlesJSON);
 }

@@ -5,7 +5,7 @@
  * @class   YITH_YWRAQ_Frontend
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
@@ -47,7 +47,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 		 * Initialize plugin and registers actions and filters to be used
 		 *
 		 * @since  1.0
-		 * @author Emanuela Castorina
 		 */
 		public function __construct() {
 
@@ -61,7 +60,8 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			add_filter( 'body_class', array( $this, 'custom_body_class_in_quote_page' ) );
 
 			// show button in single page.
-			add_action( 'woocommerce_single_product_summary', array( $this, 'add_button_single_page' ), 35 );
+			add_action( 'woocommerce_before_single_product', array( $this, 'show_button_single_page' ), 0 );
+			add_action( 'template_redirect', array( $this, 'wc_blocks_hooks' ), 10 );
 
 			// custom styles and javascripts.
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles_scripts' ) );
@@ -80,7 +80,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 		 * Hide the button add to cart in the single product page
 		 *
 		 * @since  1.0
-		 * @author Emanuela Castorina
 		 */
 		public function hide_add_to_cart_single() {
 
@@ -176,6 +175,82 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			}
 
 			$this->print_button();
+		}
+
+		/**
+		 * Show Button on Single Product Page
+		 *
+		 */
+		public function show_button_single_page() {
+
+			global $product;
+
+			if ( yith_plugin_fw_wc_is_using_block_template_in_single_product() ) {
+				return;
+			}
+
+			if ( $product ) {
+				if ( is_string( $product ) ) {
+					$product = wc_get_product_id_by_sku( $product );
+				}
+
+				if ( is_numeric( $product ) ) {
+					$product = wc_get_product( $product );
+				}
+
+				if ( ! $product instanceof WC_Product ) {
+					return;
+				}
+			} else {
+				return;
+			}
+
+			$show_button_near_add_to_cart = get_option( 'ywraq_show_button_near_add_to_cart', 'no' );
+
+			if ( yith_plugin_fw_is_true( $show_button_near_add_to_cart ) && $product->is_in_stock() && $product->get_price() !== '' ) {
+				if ( $product->is_type( 'variable' ) ) {
+					add_action( 'woocommerce_after_single_variation', array( $this, 'add_button_single_page' ), 15 );
+				} else {
+					add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'add_button_single_page' ), 15 );
+				}
+			} else {
+				add_action( 'woocommerce_single_product_summary', array( $this, 'add_button_single_page' ), 35 );
+			}
+		}
+
+		/**
+		 * Check if WC is using the block to show the add to quote button
+		 *
+		 * @since 4.16.0
+		 */
+		public function wc_blocks_hooks() {
+
+			if ( is_single() && yith_plugin_fw_wc_is_using_block_template_in_single_product() ) {
+				global $post;
+
+				$product                      = wc_get_product( $post->ID );
+				$show_button_near_add_to_cart = get_option( 'ywraq_show_button_near_add_to_cart', 'no' );
+
+				if ( yith_plugin_fw_is_true( $show_button_near_add_to_cart ) && $product->is_in_stock() && $product->get_price() !== '' ) {
+					add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'add_button_single_page' ), 10 );
+				} else {
+					add_filter( 'render_block_woocommerce/add-to-cart-form', array( $this, 'add_button_single_block' ), 10, 2 );
+				}
+			}
+		}
+
+		/**
+		 * Concat the quote button to the product button
+		 *
+		 * @since 4.16.0
+		 */
+		public function add_button_single_block( $content, $b ) {
+			ob_start();
+			$this->add_button_single_page();
+			$new_content = ob_get_clean();
+
+			return $content . $new_content;
+
 		}
 
 		/**

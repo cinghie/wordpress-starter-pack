@@ -2,7 +2,7 @@
 /**
  * Lists options page
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Options
  * @version 3.0.0
  */

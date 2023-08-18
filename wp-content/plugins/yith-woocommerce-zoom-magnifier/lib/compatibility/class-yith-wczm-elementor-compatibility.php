@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWZM_VERSION' ) ) {
  *
  * @class   YITH_WCZM_Elementor_Compatibility
  * @since   1.5.6
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 if ( ! class_exists( 'YITH_WCZM_Elementor_Compatibility' ) ) {
 

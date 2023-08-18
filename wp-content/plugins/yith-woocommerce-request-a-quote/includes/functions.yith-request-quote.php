@@ -4,7 +4,7 @@
  *
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
@@ -309,7 +309,7 @@ function yith_ywraq_show_button_in_single_page() {
 	$general_show_btn = get_option( 'ywraq_show_btn_single_page' );
 	if ( 'yes' === $general_show_btn ) {  // check if the product is in exclusion list.
 		global $product;
-		$hide_quote_button = yit_get_prop( $product, '_ywraq_hide_quote_button', true );
+		$hide_quote_button = $product->get_meta( '_ywraq_hide_quote_button' );
 
 		if ( 1 === $hide_quote_button ) {
 			return 'no';
@@ -501,5 +501,94 @@ if ( ! function_exists( 'ywraq_get_label' ) ) {
 		} else {
 			return $label;
 		}
+	}
+}
+
+
+if ( ! function_exists( 'yith_ywraq_render_button' ) ) {
+	/**
+	 * Render the Request a quote button.
+	 *
+	 * @param mixed $product_id .
+	 * @param array $args       .
+	 */
+	function yith_ywraq_render_button( $product_id = false, $args = array() ) {
+
+		if ( ! $product_id ) {
+			global $product, $post;
+			if( !$product instanceof WC_Product && $post instanceof WP_Post){
+				$product = wc_get_product( $post->ID);
+			}
+		} else {
+			$product = wc_get_product( $product_id );
+		}
+		/**
+		 * APPLY_FILTERS:yith_ywraq_before_print_button
+		 *
+		 * Show or not the quote button
+		 *
+		 * @param bool $hide_button If true hide the quote button.
+		 *
+		 * @return bool
+		 */
+		if ( ! apply_filters( 'yith_ywraq_before_print_button', $product, $product ) ) {
+			return;
+		}
+
+		$style_button = get_option( 'ywraq_show_btn_link', 'button' ) === 'button' ? 'button' : 'ywraq-link';
+		$style_button = $args['style'] ?? $style_button;
+
+		$product_id = $product->get_id();
+
+		$general_color = get_option(
+			'ywraq_add_to_quote_button_color',
+			array(
+				'bg_color'       => '#0066b4',
+				'bg_color_hover' => '#044a80',
+				'color'          => '#ffffff',
+				'color_hover'    => '#ffffff',
+			)
+		);
+
+		$default_args = array(
+			'class'         => 'add-request-quote-button ' . $style_button,
+			'wpnonce'       => wp_create_nonce( 'add-request-quote-' . $product_id ),
+			'product_id'    => $product_id,
+			'label'         => ywraq_get_label( 'btn_link_text' ),
+			'label_browse'  => ywraq_get_label( 'browse_list' ),
+			'template_part' => 'button',
+			'rqa_url'       => YITH_Request_Quote()->get_raq_page_url(),
+			'exists'        => $product->is_type( 'variable' ) ? false : YITH_Request_Quote()->exists( $product_id ),
+			'colors'        => $general_color,
+			'icon'          => 0,
+		);
+
+		$args = shortcode_atts( $default_args, $args );
+
+		// Remove the array colors if the style is general.
+		$array_color = array_filter( array_diff( $args['colors'], $general_color ) );
+
+		if ( empty( $array_color ) ) {
+			unset( $args['colors'] );
+		}
+
+		if ( $product->is_type( 'variable' ) ) {
+			$args['variations'] = implode( ',', YITH_Request_Quote()->raq_variations );
+		}
+
+		/**
+		 * APPLY_FILTERS: ywraq_add_to_quote_args
+		 *
+		 * Filter arguments to pass to the template.
+		 *
+		 * @param array $args List of arguments to pass to the template
+		 *
+		 * @return array
+		 */
+		$args['args']    = apply_filters( 'ywraq_add_to_quote_args', $args );
+		$template_button = 'add-to-quote.php';
+
+
+		wc_get_template( $template_button, $args, '', YITH_YWRAQ_TEMPLATE_PATH . '/' );
 	}
 }

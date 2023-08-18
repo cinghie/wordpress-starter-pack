@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
  * @version 1.1.1
  */
@@ -116,7 +116,6 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		 * Add the action links to plugin admin page
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @param array $links An array og plugin links.
 		 *
 		 * @return   array
@@ -131,7 +130,6 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		 * Add a panel under YITH Plugins tab
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      /Yit_Plugin_Panel class
 		 * @return   void
 		 * @see      plugin-fw/lib/yit-plugin-panel.php
@@ -160,6 +158,7 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 				'options-path'     => YITH_WCQV_DIR . '/plugin-options',
 				'class'            => yith_set_wrapper_class(),
 				'plugin_slug'      => YITH_WCQV_SLUG,
+				'is_free'          => true,
 			);
 
 			/* === Fixed: not updated theme  === */
@@ -176,7 +175,6 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		 * Load the premium tab template on admin page
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return   void
 		 */
 		public function premium_tab() {
@@ -191,7 +189,6 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		 * Plugin Row Meta
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      plugin_row_meta
 		 * @param array    $new_row_meta_args An array of plugin row meta.
 		 * @param string[] $plugin_meta       An array of the plugin's metadata,
@@ -220,7 +217,6 @@ if ( ! class_exists( 'YITH_WCQV_Admin' ) ) {
 		 * Get the premium landing uri
 		 *
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {

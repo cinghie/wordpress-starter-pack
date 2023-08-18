@@ -2,7 +2,7 @@
 /**
  * Plugin FW Loader class
  *
- * @author YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ZoomMagnifier\Classes
  */
 
@@ -106,7 +106,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 * @since  1.0
 		 * @access public
 		 * @return void
-		 * @author Andrea Grillo <andrea.grillo@yithemes.com>
 		 */
 		public function plugin_fw_loader() {
 			if ( ! defined( 'YIT_CORE_PLUGIN' ) ) {
@@ -123,7 +122,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 *
 		 * @return   void
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      /Yit_Plugin_Panel class
 		 * @see      plugin-fw/lib/yit-plugin-panel.php
 		 */
@@ -150,6 +148,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 				'class'            => yith_set_wrapper_class(),
 				'options-path'     => YITH_YWZM_DIR . '/plugin-options',
 				'plugin_slug'      => YITH_YWZM_SLUG,
+				'is_free'          => defined( 'YITH_YWZM_FREE' ),
 			);
 
 			/* === Fixed: not updated theme  === */
@@ -168,7 +167,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 * Load the premium tab template on admin page
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return void
 		 */
 		public function premium_tab() {
@@ -214,7 +212,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 * Get the premium landing uri
 		 *
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {
@@ -240,7 +237,6 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 *
 		 * @return void
 		 * @since    2.0.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 */
 		public function register_plugin_for_activation() {
 			if ( ! class_exists( 'YIT_Plugin_Licence' ) ) {
@@ -253,8 +249,7 @@ if ( ! class_exists( 'YITH_YWZM_Plugin_FW_Loader' ) ) {
 		 * Register plugins for update tab
 		 *
 		 * @return void
-		 * @since    2.0.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
+		 * @since  2.0.0
 		 */
 		public function register_plugin_for_updates() {
 			if ( ! class_exists( 'YIT_Upgrade' ) ) {

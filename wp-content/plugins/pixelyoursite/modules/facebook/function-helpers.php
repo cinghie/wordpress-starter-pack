@@ -52,8 +52,21 @@ function getAdvancedMatchingParams() {
 		 */
 
 		if ( is_order_received_page() && isset( $_REQUEST['key'] ) && $_REQUEST['key'] != "" ) {
-            $key = sanitize_key($_REQUEST['key']);
-			$order_id = wc_get_order_id_by_order_key($key );
+            $order_key = sanitize_key($_REQUEST['key']);
+            $cache_key = 'order_id_' . $order_key;
+            $order_id = get_transient( $cache_key );
+            global $wp;
+            if (empty($order_id) && $wp->query_vars['order-received']) {
+
+                $order_id = absint( $wp->query_vars['order-received'] );
+                if ($order_id) {
+                    set_transient( $cache_key, $order_id, HOUR_IN_SECONDS );
+                }
+            }
+            if ( empty($order_id) ) {
+                $order_id = (int) wc_get_order_id_by_order_key( $order_key );
+                set_transient( $cache_key, $order_id, HOUR_IN_SECONDS );
+            }
 			$order    = wc_get_order( $order_id );
 
 			if ( $order ) {
@@ -141,7 +154,11 @@ function getAdvancedMatchingParams() {
 		}
 
 	}
-
+    if(PixelYourSite\EventsManager::isTrackExternalId()){
+        if (isset($_COOKIE['pbid'])) {
+            $params['external_id'] = $_COOKIE['pbid'];
+        }
+    }
 	$sanitized = array();
 
 	foreach ( $params as $key => $value ) {
@@ -572,7 +589,12 @@ function getFDPPurchaseEventParams() {
 function getCompleteRegistrationOrderParams() {
     $params = array();
     $order_key = sanitize_key( $_REQUEST['key']);
-    $order_id = (int) wc_get_order_id_by_order_key( $order_key );
+    $cache_key = 'order_id_' . $order_key;
+    $order_id = get_transient( $cache_key );
+    if ( empty($order_id) ) {
+        $order_id = (int) wc_get_order_id_by_order_key( $order_key );
+        set_transient( $cache_key, $order_id, HOUR_IN_SECONDS );
+    }
     $order = new \WC_Order( $order_id );
 
     $value_option   = PixelYourSite\Facebook()->getOption( 'woo_complete_registration_custom_value' );

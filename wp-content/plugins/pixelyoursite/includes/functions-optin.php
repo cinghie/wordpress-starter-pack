@@ -69,7 +69,7 @@ function adminRenderOptinNotices() {
             padding-bottom: 15px;
         }
         .pys-notice-content h4 {
-            margin-bottom: 10px;
+            margin-bottom: 10px!important;
         }
         .pys-notice-logo {
             margin-right: 15px;

@@ -9,7 +9,7 @@
  *
  * @package YITH WooCommerce Request a quote
  * @since   3.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 // Exit if accessed directly.

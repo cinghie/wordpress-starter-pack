@@ -7,7 +7,7 @@ use Automattic\WooCommerce\StoreApi\Utilities\ValidationUtils;
 /**
  * CartUpdateCustomer class.
  *
- * Updates the customer billing and shipping address and returns an updated cart--things such as taxes may be recalculated.
+ * Updates the customer billing and shipping addresses, recalculates the cart totals, and returns an updated cart.
  */
 class CartUpdateCustomer extends AbstractCartRoute {
 	use DraftOrderTrait;
@@ -196,6 +196,8 @@ class CartUpdateCustomer extends AbstractCartRoute {
 
 		/**
 		 * Fires when the Checkout Block/Store API updates a customer from the API request data.
+		 *
+		 * @since 7.2.0
 		 *
 		 * @param \WC_Customer $customer Customer object.
 		 * @param \WP_REST_Request $request Full details about the request.

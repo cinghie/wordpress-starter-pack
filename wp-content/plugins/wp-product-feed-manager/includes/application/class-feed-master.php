@@ -168,6 +168,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 				// If it is, set the feed status to fail and change the $current_feed_status['status_id'] to 6.
 				if ( WPPFM_Feed_Controller::feed_processing_failed( $feed_file ) ) {
+
+					do_action( 'wppfm_feed_processing_failed_file_size_stopped_increasing', $feed_id, WPPFM_Feed_Controller::nr_ids_remaining_in_queue() );
+					do_action( 'wppfm_register_feed_url', $feed_id, $feed_file );
+
 					// Change the status of the feed to failed processing.
 					$this->_data_class->update_feed_status( $feed_id, 6 ); // Feed status to failed.
 
@@ -192,9 +196,6 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 							$feed_master_class->update_feed_file();
 						}
 					}
-
-					do_action( 'wppfm_feed_processing_failed_file_size_stopped_increasing', $feed_id, WPPFM_Feed_Controller::nr_ids_remaining_in_queue() );
-					do_action( 'wppfm_register_feed_url', $feed_id, $feed_file );
 				}
 
 				return $current_feed_status;
@@ -471,6 +472,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				'database_fields' => $database_fields,
 			);
 		}
+
 
 		/**
 		 * Get category name and description name from the active channel

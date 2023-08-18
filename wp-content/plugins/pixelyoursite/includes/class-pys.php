@@ -91,13 +91,23 @@ final class PYS extends Settings implements Plugin {
          * Restore settings after COG plugin
          * */
         add_action( 'deactivate_pixel-cost-of-goods/pixel-cost-of-goods.php',array($this,"restoreSettingsAfterCog"));
-
+        add_action( 'woocommerce_checkout_create_order', array( $this,'add_order_external_meta_data'), 10, 2 );
         $this->logger = new PYS_Logger();
 
     }
 
     public function init() {
-
+        if ( isset( $_GET[ 'clear_plugin_logs' ] ) ) {
+            PYS()->getLog()->remove();
+            $actual_link = ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] === 'on' ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            wp_redirect( remove_query_arg( 'clear_plugin_logs', $actual_link ) );
+            exit;
+        } elseif ( isset( $_GET[ 'clear_pinterest_logs' ] ) ) {
+            Pinterest()->getLog()->remove();
+            $actual_link = ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] === 'on' ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            wp_redirect( remove_query_arg( 'clear_pinterest_logs', $actual_link ) );
+            exit;
+        }
 	    register_post_type( 'pys_event', array(
 		    'public' => false,
 		    'supports' => array( 'title' )
@@ -143,8 +153,40 @@ final class PYS extends Settings implements Plugin {
                 }
             }
         }
+        $eventsFormFactory = apply_filters("pys_form_event_factory",[]);
+        if(!$eventsFormFactory)
+        {
+            $options = array(
+                'enable_success_send_form'     => false
+            );
+            PYS()->updateOptions($options);
+        }
+
         EnrichOrder()->init();
         AjaxHookEventManager::instance()->addHooks();
+    }
+    public function add_order_external_meta_data($order, $posted_data){
+
+        $pbidCookieName = 'pbid';
+        $pbid = false;
+        if (isset($_COOKIE[$pbidCookieName])) {
+            $pbid = $_COOKIE[$pbidCookieName];
+        }
+        // Добавляем мета-информацию в заказ
+        if(!empty($pbid)){
+            if ( isWooCommerceVersionGte('3.0.0') ) {
+                // WooCommerce версия >= 3.0
+                if($order) {
+                    $order->update_meta_data( 'external_id', $pbid );
+                    $order->save();
+                }
+
+            } else {
+                // WooCommerce версия < 3.0
+                update_post_meta( $order->get_id(), 'external_id', $pbid );
+            }
+        }
+
     }
     public function utmTemplate() {
         include 'views/html-utm-templates.php';
@@ -267,10 +309,11 @@ final class PYS extends Settings implements Plugin {
         }
 
     	// output debug info
-	    add_action( 'wp_head', function() {
-		    echo "<script type='application/javascript'>console.log('PixelYourSite Free version " . PYS_FREE_VERSION . "');</script>\r\n";
-	    }, 1 );
-
+        if(!PYS()->getOption( 'hide_version_plugin_in_console')) {
+            add_action('wp_head', function () {
+                echo "<script type='application/javascript'>console.log('PixelYourSite Free version " . PYS_FREE_VERSION . "');</script>\r\n";
+            }, 1);
+        }
 	    if ( isDisabledForCurrentRole() ) {
 	    	return;
 	    }
@@ -278,11 +321,11 @@ final class PYS extends Settings implements Plugin {
         $this->eventsManager = new EventsManager();
 	    // at least one pixel should be configured
 	    if ( ! Facebook()->configured() && ! GA()->configured() && ! Pinterest()->configured() && ! Bing()->configured() ) {
-
-		    add_action( 'wp_head', function() {
-			    echo "<script type='application/javascript'>console.warn('PixelYourSite: no pixel configured.');</script>\r\n";
-		    } );
-
+            if(!PYS()->getOption( 'hide_version_plugin_in_console')) {
+                add_action('wp_head', function () {
+                    echo "<script type='application/javascript'>console.warn('PixelYourSite: no pixel configured.');</script>\r\n";
+                });
+            }
 	    	return;
 
 	    }

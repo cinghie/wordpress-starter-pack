@@ -2,7 +2,7 @@
 /**
  * Main class
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Ajax Search
  * @version 1.1.1
  */
@@ -69,6 +69,8 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 				require_once YITH_WCAS_DIR . 'includes/compatibility/elementor/class.yith-wcas-elementor.php';
 			}
 
+			add_action( 'before_woocommerce_init', array( $this, 'declare_wc_features_support' ) );
+
 			return $this->obj;
 		}
 
@@ -106,7 +108,6 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 		 * @since  1.0
 		 * @access public
 		 * @return void
-		 * @author Andrea Grillo <andrea.grillo@yithemes.com>
 		 */
 		public function plugin_fw_loader() {
 			if ( ! defined( 'YIT_CORE_PLUGIN' ) ) {
@@ -169,6 +170,7 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 			$transient_name = 'ywcas_' . $search_keyword;
 			$suggestions    = get_transient( $transient_name );
 			if ( 'no' === $transient_enabled || false === $suggestions ) {
+				$suggestions = array();
 				$args = array(
 					's'                   => apply_filters( 'yith_wcas_ajax_search_products_search_query', $search_keyword ),
 					'post_type'           => 'product',
@@ -250,6 +252,14 @@ if ( ! class_exists( 'YITH_WCAS' ) ) {
 
 		}
 
+		/***
+		 * Declare support for WooCommerce features.
+		 */
+		public function declare_wc_features_support() {
+			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', YITH_WCAS_FREE_INIT, true );
+			}
+		}
 
 	}
 }

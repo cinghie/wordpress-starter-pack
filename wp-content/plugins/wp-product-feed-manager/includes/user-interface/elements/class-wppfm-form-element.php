@@ -25,6 +25,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 * Returns the code for the tabs in all main forms
 		 *
 		 * @return string html code for the tabs
+		 * @since 2.37.0. Added the page identifier as an id in order to support E2E tests
 		 */
 		public static function main_form_tabs() {
 
@@ -81,13 +82,13 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		public static function used_feed_names() {
 			$query_class = new WPPFM_Queries();
 			$feed_names  = $query_class->get_all_feed_names();
-			$used_names  = [];
+			$used_names  = array();
 
-			foreach( $feed_names as $name ) {
-				array_push( $used_names, $name->title );
+			foreach ( $feed_names as $name ) {
+				$used_names[] = $name->title;
 			}
 
-			return '<var id="wppfm-all-feed-names" style="display:none;" >' . wp_json_encode( $used_names )  . '</var>';
+			return '<var id="wppfm-all-feed-names" style="display:none;" >' . wp_json_encode( $used_names ) . '</var>';
 		}
 
 		/**
@@ -109,8 +110,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 					value="' . __( 'Save Feed', 'wp-product-feed-manager' ) .
 					'" id="' . $save_button_id . '" disabled/>
 				<input class="button-primary" type="button" name="view-top"
-					value="' . __( 'View Feed', 'wp-product-feed-manager' ) .
-			       '" id="' . $open_feed_button_id . '" disabled/>
+					value="' . __( 'View Feed', 'wp-product-feed-manager' ) . '" id="' . $open_feed_button_id . '" disabled/>
 				</div>';
 		}
 
@@ -133,6 +133,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 * @return mixed|void
 		 */
 		private static function ajax_feed_data_to_database_array() {
+			/*phpcs:disable*/
 			return apply_filters(
 				'wppfm_feed_data_ajax_to_database_conversion_table',
 				array(

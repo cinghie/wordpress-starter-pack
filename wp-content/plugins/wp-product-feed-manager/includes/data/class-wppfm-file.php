@@ -119,9 +119,13 @@ if ( ! class_exists( 'WPPFM_File' ) ) :
 			$path = WPPFM_BACKUP_DIR;
 
 			foreach ( glob( $path . '/*.sql' ) as $file ) {
-				$feed = fopen( $file, 'r' );
+				$feed = fopen( $file, 'r' )
+				or die( __( 'Unable to open the file containing the categories', 'wp-product-feed-manager' ) );
+
 				$line = fgets( $feed );
-				fclose( $feed );
+				if ( is_resource( $feed ) ) {
+					fclose( $feed );
+				}
 
 				$file_name   = str_replace( WPPFM_BACKUP_DIR . '/', '', $file );
 				$date_string = strtok( $line, '#' );

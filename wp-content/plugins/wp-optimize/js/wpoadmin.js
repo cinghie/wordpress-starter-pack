@@ -136,7 +136,7 @@ var WP_Optimize = function () {
 		 * After tables filtered check if we need show table footer and No tables message.
 		 */
 		table_list.on('filterEnd', function() {
-			var search_value = $.trim(table_list_filter.val());
+			var search_value = table_list_filter.val().trim();
 	
 			if ('' == search_value) {
 				table_footer_line.show();
@@ -272,10 +272,6 @@ var WP_Optimize = function () {
 	});
 
 	$('#wp-optimize-wrap').on('page-change', function(e, params) {
-		// When changing the page, trigger a click, in case the page was loaded somewhere else.
-		if ('WP-Optimize' == params.page && $('#wp-optimize-nav-tab-WP-Optimize-optimize').is('.nav-tab-active')) {
-			$('#wp-optimize-nav-tab-WP-Optimize-optimize').trigger('click');
-		}
 		// Trigger the global tab change events when changing page
 		var active_tab = $('.wpo-page[data-whichpage='+params.page+']').find('.nav-tab-wrapper .nav-tab-active');
 		$('#wp-optimize-wrap').trigger('tab-change', { page: params.page, tab: active_tab.data('tab') });
@@ -357,13 +353,14 @@ var WP_Optimize = function () {
 		}
 	}
 
+	var database_tabs_loading = false;
 	var database_tabs_loaded = false;
 	// When showing the tables tab
 	$('#wp-optimize-wrap').on('tab-change/WP-Optimize/tables', function(e) {
 		get_database_tabs();
 	});
 
-	// When showing the tables tab
+	// When showing the optimizations tab
 	$('#wp-optimize-wrap').on('tab-change/WP-Optimize/optimize', function(event, data) {
 		get_database_tabs();
 	});
@@ -379,10 +376,11 @@ var WP_Optimize = function () {
 	 * Get the data for the database tabs. We get them at the same time, as they both need the same time consuming requests.
 	 */
 	function get_database_tabs() {
-		if (database_tabs_loaded) return;
+		if (database_tabs_loading || database_tabs_loaded) return;
 		var container = $('.wpo-page[data-whichpage=WP-Optimize]');
 		var shade = container.find('.wpo_shade');
 		shade.removeClass('hidden');
+		database_tabs_loading = true;
 		send_command('get_database_tabs', {}, function(response) {
 			// Set the satus to true, to prevent loading again.
 			database_tabs_loaded = true;
@@ -398,6 +396,7 @@ var WP_Optimize = function () {
 			$(document).trigger('wpo_database_tabs_loaded');
 
 		}).always(function() {
+			database_tabs_loading = false;
 			shade.addClass('hidden');
 		});
 	}
@@ -1803,10 +1802,10 @@ var WP_Optimize = function () {
 			validate = field.data('validate');
 
 		if (!validate && required) {
-			return ('' != $.trim(value));
+			return ('' != value.trim());
 		}
 
-		if (validate && !required && '' == $.trim(value)) {
+		if (validate && !required && '' == value.trim()) {
 			return true;
 		}
 
@@ -1819,7 +1818,7 @@ var WP_Optimize = function () {
 					email = '';
 
 				for (var i = 0; i < emails.length; i++) {
-					email = $.trim(emails[i]);
+					email = emails[i].trim();
 
 					if ('' == email || !regex.test(email)) {
 						valid = false;
@@ -2189,7 +2188,7 @@ jQuery(function ($) {
 	function get_add_logging_form_html() {
 		var i,
 			select_options = [
-				'<option value="">Select destination</option>'
+				'<option value="">' + wpoptimize.select_destination + '</option>'
 			];
 
 		for (i in wpoptimize.loggers_classes_info) {
@@ -2205,8 +2204,8 @@ jQuery(function ($) {
 				'<select class="wpo_logger_type" name="wpo-logger-type[]">',
 					select_options.join(''),
 				'</select>',
-				'<div class="wpo_logging_edit_row" style="display:block;"><span class="wpo_delete_logger button button-secondary" title="'+wpoptimize.delete_logger+'">'+wpoptimize.delete_logger+'</span>',
-				'<span class="wpo_save_logging button button-primary" title="'+wpoptimize.add_logger+'">'+wpoptimize.add_logger+'</span></div>',
+				'<div class="wpo_logging_edit_row" style="display:block;"><span class="wpo_delete_logger button button-secondary" title="'+wpoptimize.cancel+'">'+wpoptimize.cancel+'</span>',
+				'<span class="wpo_save_logging button button-primary" title="'+wpoptimize.add+'">'+wpoptimize.add+'</span></div>',
 				'<div class="wpo_additional_logger_options"></div>',
 			'</div>'
 		].join('');
@@ -2232,10 +2231,10 @@ jQuery(function ($) {
 			if (!options.hasOwnProperty(i)) continue;
 
 			if (Array.isArray(options[i])) {
-				placeholder = $.trim(options[i][0]);
-				validate = $.trim(options[i][1]);
+				placeholder = options[i][0].trim();
+				validate = options[i][1].trim();
 			} else {
-				placeholder = $.trim(options[i]);
+				placeholder = options[i].trim();
 				validate = '';
 			}
 

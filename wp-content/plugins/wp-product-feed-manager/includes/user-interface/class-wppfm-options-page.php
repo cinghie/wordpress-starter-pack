@@ -65,6 +65,8 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$third_party_attribute_keywords = get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' );
 			$notice_mailaddress             = get_option( 'wppfm_notice_mailaddress' ) ? get_option( 'wppfm_notice_mailaddress' ) : get_bloginfo( 'admin_email' );
 
+			$html_code .= '<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-plugin-version-id" value="' . WPPFM_PLUGIN_VERSION_ID . '">' . WPPFM_PLUGIN_VERSION_ID . '</div>';
+			$html_code .= '<div id="wppfm-plugin-version-nr" value="' . WPPFM_VERSION_NUM . '">' . WPPFM_VERSION_NUM . '</div></div>';
 			$html_code .= '<tr valign="top" class="">';
 			$html_code .= '<th scope="row" class="titledesc">' . esc_html__( 'Auto feed fix', 'wp-product-feed-manager' ) . '</th>';
 			$html_code .= '<td class="forminp forminp-checkbox">';

@@ -130,7 +130,7 @@ function wppfm_deactivateFeedCategorySelector( id, parent ) {
 }
 
 /**
- * Shows and hides the category sub level selectors depending on the selected level
+ * Shows and hides the category sublevel selectors depending on the selected level
  *
  * @param {string} currentLevelId
  */
@@ -140,7 +140,7 @@ function wppfm_hideSubs( currentLevelId ) {
 	var level    = currentLevelId.match( /(\d+)$/ )[ 0 ];
 	var idString = currentLevelId.substring( 0, currentLevelId.length - level.length );
 
-	// only show sub fields that are at or before the selected level. Hide the rest
+	// only show subfields that are at or before the selected level. Hide the rest
 	for ( var i = 7; i > level; i -- ) {
 		var categorySubLevelSelector = jQuery( '#' + idString + i );
 		categorySubLevelSelector.css( 'display', 'none' );
@@ -160,6 +160,7 @@ function wppfm_escapeHtml( text ) {
 	return text.replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /"/g, '&quot;' ).replace( /'/g, '&#039;' );
 }
 
+//noinspection DuplicatedCode
 /**
  * Takes a field string from a source input string and splits it up even when a pipe character
  * is used in a combined source input string

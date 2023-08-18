@@ -62,13 +62,20 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 			echo $this->table_footer();
 
 			echo '</table>';
+
+			echo $this->store_table_sort_data();
 		}
 
 		private function table_header() {
-			$html = '<thead><tr>';
+			$html             = '<thead><tr>';
+			$sortable_columns = $this->get_sortable_columns();
 
 			foreach ( $this->_column_titles as $title ) {
-				$html .= '<th id="wppfm-feed-list-table-header-column-' . strtolower( $title ) . '">' . $title . '</th>';
+				$on_click_code   = array_key_exists( strtolower( $title ), $sortable_columns ) ? ' onclick="wppfm_sortOnColumn(' . $sortable_columns[strtolower( $title )] . ')"' : '';
+				$sortable_header = array_key_exists( strtolower( $title ), $sortable_columns ) ? '<a href="#"><span>' . $title . '</span><span class="sorting-indicator"></span></a>' : $title;
+				$sortable_class  = array_key_exists( strtolower( $title ), $sortable_columns ) ? ' sortable desc' : '';
+
+				$html .= '<th id="wppfm-feed-list-table-header-column-' . strtolower( $title ) . '"' . $on_click_code . ' class="manage-column column-name' . $sortable_class . '">' . $sortable_header . '</th>';
 			}
 
 			$html .= '</tr></thead>';
@@ -84,6 +91,16 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 			}
 
 			$html .= '</tr></tfoot>';
+
+			return $html;
+		}
+
+		private function store_table_sort_data() {
+			$sortable_columns = $this->get_sortable_columns();
+
+			$html = '<input type="hidden" id="wppfm_feed_list_table_sort_column" value="none">';
+			$html .= '<input type="hidden" id="wppfm_feed_list_table_sort_direction" value="none">';
+			$html .= '<input type="hidden" id="wppfm_feed_list_table_sortable_columns" value="' . implode( '-', $sortable_columns ) . '">';
 
 			return $html;
 		}
@@ -162,6 +179,20 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 				default:
 					return __( 'Unknown', 'wp-product-feed-manager' );
 			}
+		}
+
+		/**
+		 * Defines which columns in the Feed List will be sortable.
+		 *
+		 * @since 2.38.0
+		 * @return string[]
+		 */
+		private function get_sortable_columns() {
+			return [
+				'name' => '1',
+				'updated' => '3',
+				'products' => '4'
+			];
 		}
 
 		/**

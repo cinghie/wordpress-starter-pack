@@ -4,7 +4,7 @@
  * WP Product Feed Controller Class.
  *
  * @package WP Product Feed Manager/Application/Classes
- * @version 1.5.0
+ * @version 1.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -78,17 +78,17 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		 *
 		 * Starts a single feed update task
 		 *
-		 * @param array product
-		 * @param stdClass feed_data
-		 * @param string feed_file_path
-		 * @param array pre_data
-		 * @param array channel_details
-		 * @param array relation_table
+		 * @param array    $item
+		 * @param stdClass $feed_data
+		 * @param string   $feed_file_path
+		 * @param array    $pre_data
+		 * @param array    $channel_details
+		 * @param array    $relation_table
 		 *
 		 * @return boolean
 		 */
-		protected function task( $task_data, $feed_data, $feed_file_path, $pre_data, $channel_details, $relation_table ) {
-			if ( ! $task_data ) {
+		protected function task( $item, $feed_data, $feed_file_path, $pre_data, $channel_details, $relation_table ) {
+			if ( ! $item ) {
 				return false;
 			}
 
@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			$this->_channel_class = new WPPFM_Google_Feed_Class();
 
-			return $this->do_task( $task_data );
+			return $this->do_task( $item );
 		}
 
 		/**
@@ -133,7 +133,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			// Now the feed is ready to go, remove the feed id from the feed queue.
 			WPPFM_Feed_Controller::remove_id_from_feed_queue( $this->_feed_data->feedId );
-			WPPFM_Feed_Controller::set_feed_processing_flag( false );
+			WPPFM_Feed_Controller::set_feed_processing_flag();
 
 			$message = sprintf( 'Completed feed %s. The feed should contain %d products and its status has been set to %s.', $this->_feed_data->feedId, count( $this->processed_products ), $feed_status );
 			do_action( 'wppfm_feed_generation_message', $this->_feed_data->feedId, $message );
@@ -179,6 +179,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		 *
 		 * @param string $product_id The id of the product to be added to the feed.
 		 *
+		 * @since 2.37.0. Changed the return value for Grouped products to exclude them from being counted as processed products.
 		 * @return boolean
 		 */
 		private function add_product_to_feed( $product_id ) {
@@ -248,7 +249,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			$row_filtered = $this->is_product_filtered( $this->_pre_data['filters'], $product_data );
 
-			// Only process the product if its not filtered out.
+			// Only process the product if it is not filtered out.
 			if ( ! $row_filtered ) {
 				// For each row loop through each field.
 				foreach ( $this->_pre_data['active_fields'] as $field ) {
@@ -267,14 +268,16 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 					$key = key( $feed_object );
 
-					// For an xml file only add fields that contain data.
+					// For a xml file only add fields that contain data.
 					if ( ( ! empty( $feed_object[ $key ] ) || '0' === $feed_object[ $key ] ) || 'xml' !== pathinfo( $this->_feed_file_path, PATHINFO_EXTENSION ) ) {
 
 						// Keep money values that have a 0 value out of the feed. @since 2.11.2.
 						// Modified @since 2.24.0, so it first converts money values to a standard decimal separator that it evaluates correctly in the floatval() evaluation.
 						if ( wppfm_meta_key_is_money( $key ) ) {
 							$money_value = wppfm_number_format_parse( $feed_object[ $key ] );
-							if ( 0.0 === floatval( $money_value ) ) { continue; }
+							if ( 0.0 === floatval( $money_value ) ) {
+								continue;
+							}
 						}
 
 						// Catch the DraftImages key for the Ricardo.ch channel.
@@ -296,11 +299,8 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 			if ( $product_placeholder ) {
 				// The wppfm_feed_item_value filter allows users to modify the data that goes into the feed. The $data variable contains an array
 				// with all the data that goes into the feed, with the items name as key.
-				if ( $product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id ) ) {
-					return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );
-				} else {
-					return false;
-				}
+				$product_placeholder = apply_filters( 'wppfm_feed_item_value', $product_placeholder, $this->_feed_data->feedId, $product_id );
+				return $this->write_product_object( $product_placeholder, $this->_feed_data->feedId, $product_id );
 			} else {
 				return false;
 			}
@@ -343,7 +343,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 					return $this->convert_data_to_xml( $data, $this->_channel_details['category_name'], $this->_channel_details['description_name'], $this->_channel_details['channel_id'] );
 
 				case 'txt':
-					$txt_sep = apply_filters( 'wppfm_txt_separator', get_correct_txt_separator($this->_channel_details['channel_id']) );
+					$txt_sep = apply_filters( 'wppfm_txt_separator', get_correct_txt_separator( $this->_channel_details['channel_id'] ) );
 					return $this->convert_data_to_txt( $data, $txt_sep );
 
 				case 'csv':

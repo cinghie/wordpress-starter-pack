@@ -5,21 +5,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\WPO\\WC\\PDF_Invoices\\Documents\\Order_Document' ) ) :
+if ( ! class_exists( '\\WPO\\WC\\PDF_Invoices\\Documents\\Order_Document' ) ) :
 
 /**
  * Abstract Document
  *
  * Handles generic pdf document & order data and database interaction
  * which is extended by both Invoices & Packing Slips
- *
- * @class       \WPO\WC\PDF_Invoices\Documents\Order_Document
- * @version     2.0
- * @category    Class
- * @author      Ewout Fernhout
  */
 
 abstract class Order_Document {
+	
 	/**
 	 * Document type.
 	 * @var String
@@ -164,7 +160,7 @@ abstract class Order_Document {
 					// automatically be applied to existing orders too. However, doing this by combining arrays is not
 					// possible because the way settings are currently stored means unchecked options are not included.
 					// This means there is no way to tell whether an option didn't exist yet (in which case the new
-					// option should be added) or whether the option was simly unchecked (in which case it should not
+					// option should be added) or whether the option was simply unchecked (in which case it should not
 					// be overwritten). This can only be address by storing unchecked checkboxes too.
 					$settings = (array) $this->order_settings + array_intersect_key( (array) $settings, array_flip( $this->get_non_historical_settings() ) );
 				}
@@ -195,6 +191,15 @@ abstract class Order_Document {
 			// in both cases, we store the document settings
 			// exclude non historical settings from being saved in order meta
 			$this->order->update_meta_data( "_wcpdf_{$this->slug}_settings", array_diff_key( $settings, array_flip( $this->get_non_historical_settings() ) ) );
+
+			if ( 'invoice' == $this->slug ) {
+				if ( isset( $settings['display_date'] ) && $settings['display_date'] == 'order_date' ) {
+					$this->order->update_meta_data( "_wcpdf_{$this->slug}_display_date", 'order_date' );
+				} else {
+					$this->order->update_meta_data( "_wcpdf_{$this->slug}_display_date", 'invoice_date' );
+				}
+			}
+			
 			$this->order->save_meta_data();
 		}
 	}
@@ -263,9 +268,11 @@ abstract class Order_Document {
 		// pass data to setter functions
 		$this->set_data( array(
 			// always load date before number, because date is used in number formatting
-			'date'   => $order->get_meta( "_wcpdf_{$this->slug}_date" ),
-			'number' => $number,
-			'notes'  => $order->get_meta( "_wcpdf_{$this->slug}_notes" ),
+			'date'             => $order->get_meta( "_wcpdf_{$this->slug}_date" ),
+			'number'           => $number,
+			'notes'            => $order->get_meta( "_wcpdf_{$this->slug}_notes" ),
+			'display_date'	   => $order->get_meta( "_wcpdf_{$this->slug}_display_date" ),
+			'creation_trigger' => $order->get_meta( "_wcpdf_{$this->slug}_creation_trigger" ),
 		), $order );
 
 		return;
@@ -294,9 +301,10 @@ abstract class Order_Document {
 					$order->delete_meta_data( "_wcpdf_{$this->slug}_{$key}_data" );
 					// deleting the number = deleting the document, so also delete document settings
 					$order->delete_meta_data( "_wcpdf_{$this->slug}_settings" );
-				} elseif ( $key == 'notes' ) {
+				} elseif ( $key == 'notes' || $key == 'display_date') {
 					$order->delete_meta_data( "_wcpdf_{$this->slug}_{$key}" );
 				}
+				
 			} else {
 				if ( $key == 'date' ) {
 					// store dates as timestamp and formatted as mysql time
@@ -306,10 +314,11 @@ abstract class Order_Document {
 					// store both formatted number and number data
 					$order->update_meta_data( "_wcpdf_{$this->slug}_{$key}", $value->formatted_number );
 					$order->update_meta_data( "_wcpdf_{$this->slug}_{$key}_data", $value->to_array() );
-				} elseif ( $key == 'notes' ) {
+				} elseif ( $key == 'notes' || $key == 'display_date' ) {
 					// store notes
 					$order->update_meta_data( "_wcpdf_{$this->slug}_{$key}", $value );
 				}
+				
 			}
 		}
 
@@ -331,6 +340,9 @@ abstract class Order_Document {
 			'number',
 			'number_data',
 			'notes',
+			'printed',
+			'display_date',
+			'creation_trigger',
 		), $this );
 		foreach ( $data_to_remove as $data_key ) {
 			$order->delete_meta_data( "_wcpdf_{$this->slug}_{$data_key}" );
@@ -373,13 +385,13 @@ abstract class Order_Document {
 	public function is_allowed() {
 		$allowed = true;
 		// Check if document is enabled
-		if ( !$this->is_enabled() ) {
+		if ( ! $this->is_enabled() ) {
 			$allowed = false;
 		// Check disabled for statuses
-		} elseif ( !$this->exists() && !empty( $this->settings['disable_for_statuses'] ) && !empty( $this->order ) && is_callable( array( $this->order, 'get_status' ) ) ) {
+		} elseif ( ! $this->exists() && ! empty( $this->settings['disable_for_statuses'] ) && ! empty( $this->order ) && is_callable( array( $this->order, 'get_status' ) ) ) {
 			$status = $this->order->get_status();
 
-			$disabled_statuses = array_map( function($status){
+			$disabled_statuses = array_map( function ( $status ) {
 				$status = 'wc-' === substr( $status, 0, 3 ) ? substr( $status, 3 ) : $status;
 				return $status;
 			}, $this->settings['disable_for_statuses'] );
@@ -394,12 +406,20 @@ abstract class Order_Document {
 	public function exists() {
 		return !empty( $this->data['date'] );
 	}
+	
+	public function printed() {
+		return WPO_WCPDF()->main->is_document_printed( $this );
+	}
 
 	/*
 	|--------------------------------------------------------------------------
 	| Data getters
 	|--------------------------------------------------------------------------
 	*/
+	
+	public function get_printed_data() {
+		return WPO_WCPDF()->main->get_document_printed_data( $this );
+	}
 
 	public function get_data( $key, $document_type = '', $order = null, $context = 'view' ) {
 		$document_type = empty( $document_type ) ? $this->type : $document_type;
@@ -444,6 +464,14 @@ abstract class Order_Document {
 		return $this->get_data( 'notes', $document_type, $order, $context );
 	}
 
+	public function get_display_date( $document_type = '', $order = null, $context = 'view'  ) {
+		return $this->get_data( 'display_date', $document_type, $order, $context );
+	}
+
+	public function get_creation_trigger( $document_type = '', $order = null, $context = 'view'  ) {
+		return $this->get_data( 'creation_trigger', $document_type, $order, $context );
+	}
+	
 	public function get_title() {
 		return apply_filters( "wpo_wcpdf_{$this->slug}_title", $this->title, $this );
 	}
@@ -561,6 +589,23 @@ abstract class Order_Document {
 			}
 
 			$this->data[ 'notes' ] = $value;
+		} catch ( \Exception $e ) {
+			wcpdf_log_error( $e->getMessage() );
+		} catch ( \Error $e ) {
+			wcpdf_log_error( $e->getMessage() );
+		}
+	}
+
+	public function set_display_date( $value, $order = null ) {
+		$order = empty( $order ) ? $this->order : $order;
+
+		try {
+			if ( empty( $value ) ) {
+				$this->data['display_date'] = null;
+				return;
+			}
+			
+			$this->data['display_date'] = $value;
 		} catch ( \Exception $e ) {
 			wcpdf_log_error( $e->getMessage() );
 		} catch ( \Error $e ) {
@@ -841,13 +886,14 @@ abstract class Order_Document {
 				'order_id' => $this->order_id,
 			)
 		);
-		if ($args['wrap_html_content']) {
+		
+		if ( $args['wrap_html_content'] ) {
 			$html = $this->wrap_html_content( $html );
 		}
 
 		// clean up special characters
-		if ( apply_filters( 'wpo_wcpdf_convert_encoding', function_exists('utf8_decode') && function_exists('mb_convert_encoding') ) ) {
-			$html = utf8_decode(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+		if ( apply_filters( 'wpo_wcpdf_convert_encoding', function_exists( 'htmlspecialchars_decode' ) ) ) {
+			$html = htmlspecialchars_decode( wcpdf_convert_encoding( $html ), ENT_QUOTES );
 		}
 
 		do_action( 'wpo_wcpdf_after_html', $this->get_type(), $this );
@@ -1089,7 +1135,7 @@ abstract class Order_Document {
 	/**
 	 * Get the default table name of the Sequential Number Store
 	 * @param  string $store_base_name
-	 * @param  string $metod
+	 * @param  string $method
 	 * 
 	 * @return string $table_name
 	 */
@@ -1200,7 +1246,7 @@ abstract class Order_Document {
 		if( $table_exists ) {
 			// get year for the last row
 			$year = $wpdb->get_var( "SELECT YEAR(date) FROM {$table_name} ORDER BY id DESC LIMIT 1" );
-			// default to currenty year if no results
+			// default to current year if no results
 			if( ! $year ) {
 				$year = $current_year;
 				// if we don't get a result, this could either mean there's an error,

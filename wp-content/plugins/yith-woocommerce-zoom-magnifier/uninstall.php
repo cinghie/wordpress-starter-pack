@@ -2,7 +2,7 @@
 /**
  * Uninstall plugin
  *
- * @author Your Inspiration Themes
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Product Gallery & Image Zoom
  * @version 1.1.2
  */

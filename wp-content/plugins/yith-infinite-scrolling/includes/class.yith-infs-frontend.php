@@ -2,7 +2,7 @@
 /**
  * Frontend class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */
@@ -52,7 +52,6 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 */
 		public function __construct() {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -63,7 +62,6 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @access public
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function enqueue_scripts() {
@@ -86,7 +84,6 @@ if ( ! class_exists( 'YITH_INFS_Frontend' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @access public
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function options_to_script() {

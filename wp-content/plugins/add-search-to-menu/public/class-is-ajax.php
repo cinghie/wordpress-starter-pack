@@ -117,6 +117,7 @@ class IS_Ajax {
 
             $all_terms = get_terms( $taxonomy, array(
                 'taxonomy' => $taxonomy,
+				'hierarchical' => false,
             ) );
 
             foreach ( $all_terms as $term ) {

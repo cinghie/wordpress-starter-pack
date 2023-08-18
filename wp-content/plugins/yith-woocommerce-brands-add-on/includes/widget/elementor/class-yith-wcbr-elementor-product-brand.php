@@ -2,7 +2,7 @@
 /**
  * Product Brand widget for Elementor
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  *
  * @class YITH_WCBR_Elementor_Product_Brand
  * @package YITH\Brands\Classes
@@ -17,7 +17,6 @@ if ( ! class_exists( 'YITH_WCBR_Elementor_Product_Brand' ) ) {
 	/**
 	 * Product Brand widget for Elementor
 	 *
-	 * @author YITH
 	 * @version 1.3.8
 	 */
 	class YITH_WCBR_Elementor_Product_Brand extends \Elementor\Widget_Base {

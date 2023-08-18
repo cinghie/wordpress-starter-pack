@@ -115,6 +115,7 @@ html.yith-quick-view-is-open body {
     float: left;
     opacity: 1 !important;
     margin: 0;
+    box-sizing: border-box;
 }
 #yith-quick-view-content div.summary {
     margin: 0;
@@ -122,6 +123,7 @@ html.yith-quick-view-is-open body {
     width: 60%;
     float: left;
     font-size: inherit;
+    box-sizing: border-box;
 }
 #yith-quick-view-content div.woocommerce-product-rating:after,
 #yith-quick-view-content div.woocommerce-product-rating:before {

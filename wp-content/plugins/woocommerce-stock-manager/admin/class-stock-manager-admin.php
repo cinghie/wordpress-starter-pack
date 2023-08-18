@@ -3,7 +3,7 @@
  * Main class for Stock Manager.
  *
  * @package  woocommerce-stock-manager/admin/
- * @version  2.8.4
+ * @version  3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,6 +43,10 @@ class Stock_Manager_Admin {
 		include_once 'includes/class-wsm-stock.php';
 
 		add_action( 'admin_notices', array( $this, 'includes' ) );
+
+		// Add direct link on product list and individual product page.
+		add_filter( 'post_row_actions', array( $this, 'add_stock_log_link_to_product_list' ), 10, 2 );
+		add_action( 'add_meta_boxes', array( $this, 'add_stock_log_link_to_individual_product' ) );
 
 		// To update footer text on WSM screens.
 		add_filter( 'admin_footer_text', array( $this, 'wsm_footer_text' ), 99999 );
@@ -91,7 +95,7 @@ class Stock_Manager_Admin {
 		if ( ( 'stock-manager' === $this->page || 'stock-manager-import-export' === $this->page || 'stock-manager-log' === $this->page ) ) {
 			wp_enqueue_style( 'woocommerce-stock-manager-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), WSM_PLUGIN_VERSION );
 
-			$old_styles = get_option( 'woocommerce_stock_old_styles' );
+			$old_styles = get_option( 'woocommerce_stock_old_styles', 'no' );
 			if ( ! empty( $old_styles ) && 'ok' === $old_styles ) {
 				wp_enqueue_style( 'woocommerce-stock-manager-old-styles', plugins_url( 'assets/css/old.css', __FILE__ ), array(), WSM_PLUGIN_VERSION );
 			}
@@ -186,6 +190,45 @@ class Stock_Manager_Admin {
 	}
 
 	/**
+	 * Function to show "Stock log" box on admin product page
+	 */
+	public function add_stock_log_link_to_individual_product() {
+		add_meta_box(
+			'post_log_link',
+			__( 'Stock Manager', 'woocommerce-stock-manager' ),
+			function ( $post = null ) {
+				if ( ( ! $post instanceof WP_Post ) || empty( $post->ID ) ) {
+					return;
+				}
+				echo '<a href="' . esc_url( admin_url() . 'admin.php?page=stock-manager-log&product-history=' . $post->ID ) . '" rel="permalink">' . esc_html_x( 'Stock log', 'product meta box', 'woocommerce-stock-manager' ) . '</a>';
+			},
+			'product',
+			'side'
+		);
+	}
+
+	/**
+	 * Function to show "Stock log" link in admin products list
+	 *
+	 * @param array   $actions Array of actions.
+	 * @param WP_Post $post Post object.
+	 * @return array $actions Updated array of actions.
+	 */
+	public function add_stock_log_link_to_product_list( $actions = array(), $post = null ) {
+		if ( empty( $post ) ) {
+			return $actions;
+		}
+		if ( ( empty( $post->post_type ) ) || ( ( ! empty( $post->post_type ) ) && ( 'product' !== $post->post_type ) ) || ( empty( $post->ID ) ) ) {
+			return $actions;
+		}
+
+		$actions['stock_log'] = '<a href="' . esc_url( admin_url() . 'admin.php?page=stock-manager-log&product-history=' . $post->ID ) . '" rel="permalink">'
+			. esc_html_x( 'Stock log', 'product list', 'woocommerce-stock-manager' ) . '</a>';
+
+		return $actions;
+	}
+
+	/**
 	 * Function to get menu position for Stock Manager.
 	 *
 	 * @param double $start     Starting position.
@@ -262,14 +305,6 @@ class Stock_Manager_Admin {
 		);
 		add_submenu_page(
 			'stock-manager',
-			__( 'Stock Manager Setting', 'woocommerce-stock-manager' ),
-			__( 'Setting', 'woocommerce-stock-manager' ),
-			$manage,
-			'stock-manager-setting',
-			array( $this, 'display_setting_page' )
-		);
-		add_submenu_page(
-			'stock-manager',
 			__( 'StoreApps Plugins', 'woocommerce-stock-manager' ),
 			__( 'StoreApps Plugins', 'woocommerce-stock-manager' ),
 			$manage,
@@ -280,24 +315,17 @@ class Stock_Manager_Admin {
 	}
 
 	/**
-	 * Render the settings page for this plugin.
+	 * Render the admin page for this plugin.
 	 */
 	public function display_plugin_admin_page() {
 		include_once 'views/admin.php';
 	}
 
 	/**
-	 * Render the impoer export page for this plugin.
+	 * Render the import export page for this plugin.
 	 */
 	public function display_import_export_page() {
 		include_once 'views/import-export.php';
-	}
-
-	/**
-	 * Render the setting page for this plugin.
-	 */
-	public function display_setting_page() {
-		include_once 'views/setting.php';
 	}
 
 	/**

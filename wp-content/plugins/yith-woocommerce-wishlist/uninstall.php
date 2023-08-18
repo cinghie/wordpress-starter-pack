@@ -2,7 +2,7 @@
 /**
  * Uninstall plugin
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist
  * @version 2.0.16
  */

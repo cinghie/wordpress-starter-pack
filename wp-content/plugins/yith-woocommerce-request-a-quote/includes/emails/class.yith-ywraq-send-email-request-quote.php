@@ -5,7 +5,7 @@
  * @class   YITH_YWRAQ_Send_Email_Request_Quote
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
@@ -64,7 +64,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		 *
 		 * @return void
 		 * @since  1.0
-		 * @author Emanuela Castorina <emanuela.castorina@yithemes.com>
 		 */
 		public function trigger( $args ) {
 			$this->raq                = $args;
@@ -113,7 +112,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		 *
 		 * @return string HTML content of the mail
 		 * @since  1.0
-		 * @author Emanuela Castorina <emanuela.castorina@yithemes.com>
 		 */
 		public function get_content_html() {
 			ob_start();
@@ -138,7 +136,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		 *
 		 * @return string Plain text content of the mail
 		 * @since  1.0
-		 * @author Emanuela Castorina <emanuela.castorina@yithemes.com>
 		 */
 		public function get_content_plain() {
 			ob_start();
@@ -187,7 +184,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Send_Email_Request_Quote' ) ) {
 		 *
 		 * @return void
 		 * @since  1.0
-		 * @author Emanuela Castorina <emanuela.castorina@yithemes.com>
 		 */
 		public function init_form_fields() {
 			$this->form_fields = array(

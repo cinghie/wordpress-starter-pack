@@ -5,7 +5,7 @@
  * @package YITH WooCommerce Request A Quote
  * @version 1.5.3
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  *
  * @var $email_heading string
  * @var $raq_data array

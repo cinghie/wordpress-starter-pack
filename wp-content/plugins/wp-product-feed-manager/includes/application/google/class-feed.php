@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 25.0
+ * @version 27.0
  */
 
 // Prevent direct access
@@ -18,12 +18,12 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '25.0';
+		private $_version = '27.0';
 
 		public function __construct() {
 			parent::__construct();
 
-			add_filter( 'wppfm_feed_price_decimal_separator', array( $this, 'wppfm_set_price_decimal_separator_from_google_feed' ), 10, 1  );
+			add_filter( 'wppfm_feed_price_decimal_separator', array( $this, 'wppfm_set_price_decimal_separator_from_google_feed' ), 10, 1 );
 			add_filter( 'wppfm_feed_price_thousands_separator', array( $this, 'wppfm_remove_price_thousands_separator_from_google_feed' ), 10, 1 );
 			add_filter( 'wppfm_feed_price_decimals', array( $this, 'wppfm_set_price_decimals_from_google_feed' ), 10, 1 );
 		}
@@ -40,19 +40,19 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 			$fields = new stdClass();
 
 			// ALERT! Any changes made to this object also need to be done to the woocommerceToGoogleFields() function in the google-source.js file
-			$fields->id                        = '_sku';
-			$fields->title                     = 'post_title';
-			$fields->google_product_category   = 'category';
-			$fields->description               = 'post_content';
-			$fields->link                      = 'permalink';
-			$fields->image_link                = 'attachment_url';
-			$fields->additional_image_link     = '_wp_attachement_metadata';
-			$fields->price                     = '_regular_price';
-			$fields->identifier_exists         = 'Fill with a static value';
-			$fields->item_group_id             = 'item_group_id';
-			$fields->mpn                       = 'ID';
-			$fields->tax                       = 'Use the settings in the Merchant Center';
-			$fields->shipping                  = 'Use the settings in the Merchant Center';
+			$fields->id                      = '_sku';
+			$fields->title                   = 'post_title';
+			$fields->google_product_category = 'category';
+			$fields->description             = 'post_content';
+			$fields->link                    = 'permalink';
+			$fields->image_link              = 'attachment_url';
+			$fields->additional_image_link   = '_wp_attachement_metadata';
+			$fields->price                   = '_regular_price';
+			$fields->identifier_exists       = 'Fill with a static value';
+			$fields->item_group_id           = 'item_group_id';
+			$fields->mpn                     = 'ID';
+			$fields->tax                     = 'Use the settings in the Merchant Center';
+			$fields->shipping                = 'Use the settings in the Merchant Center';
 
 			return $fields;
 		}
@@ -71,7 +71,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 						case 'is_bundle':
 						case 'multipack':
-							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_product_countries() ) ? 1 : 4;
+							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_product_countries(), true ) ? 1 : 4;
 							break;
 
 						case 'brand':
@@ -79,14 +79,14 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 							break;
 
 						case 'item_group_id':
-							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_clothing_group_countries() ) ? 1 : 4;
+							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_clothing_group_countries(), true ) ? 1 : 4;
 							break;
 
 						case 'gender':
 						case 'age_group':
 						case 'color':
 						case 'size':
-							if ( in_array( $country, $this->special_clothing_group_countries() )
+							if ( in_array( $country, $this->special_clothing_group_countries(), true )
 								&& $this->google_clothing_and_accessories( $main_data->mainCategory ) === true ) {
 								$main_data->attributes[ $i ]->fieldLevel = 1;
 							} else {
@@ -102,14 +102,14 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 						case 'shipping':
 							// In accordance with the Google Feed Specifications update of september 2015
-							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_shipping_countries() ) ? 1 : 4;
+							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_shipping_countries(), true ) ? 1 : 4;
 							break;
 
 						case 'subscription_cost':
 						case 'subscription_cost-period':
 						case 'subscription_cost-period_length':
 						case 'subscription_cost-amount':
-							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_subscription_countries() ) ? 4 : 0;
+							$main_data->attributes[ $i ]->fieldLevel = in_array( $country, $this->special_subscription_countries(), true ) ? 4 : 0;
 							break;
 
 						default:
@@ -190,7 +190,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		}
 
 		protected function header( $title, $description = '' ) {
-			// the check for convert_to_data_string function can be remove when all users have switched to plugin version 1.6 or higher
+			// the check for convert_to_data_string function can be removed when all users have switched to plugin version 1.6 or higher
 			$title_string       = method_exists( $this, 'data_string' ) ? $this->data_string( $title )
 				: $this->convert_to_character_data_string( $title );
 			$home_link          = method_exists( $this, 'data_string' ) ? $this->data_string( get_option( 'home' ) )

@@ -2,7 +2,7 @@
 /**
  * WAPO Block Class
  *
- * @author  Corrado Porzio <corradoporzio@gmail.com>
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ProductAddOns
  * @version 2.0.0
  */
@@ -34,7 +34,7 @@ if ( ! class_exists( 'YITH_WAPO_Block' ) ) {
 		/**
 		 *  Visibility
 		 *
-		 * @var array
+		 * @var boolean
 		 */
 		public $visibility = 1;
 
@@ -50,7 +50,7 @@ if ( ! class_exists( 'YITH_WAPO_Block' ) ) {
 		 *
 		 * @var int
 		 */
-		public $priority = 0;
+		public $priority = '';
 
 		/**
 		 * Rules
@@ -59,18 +59,24 @@ if ( ! class_exists( 'YITH_WAPO_Block' ) ) {
 		 */
 		public $rules = array();
 
-		/**
-		 * Constructor
-		 *
-		 * @param int $id Block ID.
-		 */
-		public function __construct( $id ) {
-
+        /**
+         *  Constructor
+         *
+         * @param array $args The args to instantiate the class.
+         */
+		public function __construct( $args ) {
 			global $wpdb;
+
+            /**
+             * $id -> The block id.
+             */
+            extract( $args );
 
 			if ( $id > 0 ) {
 
-				$query = "SELECT * FROM {$wpdb->prefix}yith_wapo_blocks WHERE id='$id'";
+                $blocks_name = $wpdb->prefix . YITH_WAPO_DB()::YITH_WAPO_BLOCKS;
+				$query = "SELECT * FROM $blocks_name WHERE id='$id'";
+
 				$row   = $wpdb->get_row( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 
 				if ( isset( $row ) && $row->id === $id ) {
@@ -78,18 +84,27 @@ if ( ! class_exists( 'YITH_WAPO_Block' ) ) {
 					$this->id         = $row->id;
 					$this->user_id    = $row->user_id;
 					$this->vendor_id  = $row->vendor_id;
-					$this->settings   = @unserialize( $row->settings ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize, WordPress.PHP.NoSilencedErrors.Discouraged
 					$this->priority   = $row->priority;
 					$this->visibility = $row->visibility;
+                    $this->name       = $row->name ?? '';
+                    $this->settings   = @unserialize( $row->settings ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize, WordPress.PHP.NoSilencedErrors.Discouraged
 
-					// Settings.
-					$this->name  = $this->settings['name'] ?? '';
+                    // Settings.
 					$this->rules = $this->settings['rules'] ?? array();
 
-				}
+                }
 			}
 
 		}
+
+        /**
+         * Return id of the current block.
+         *
+         * @return string
+         */
+        public function get_id() {
+            return $this->id ?? 0;
+        }
 
 		/**
 		 * Get Setting
@@ -110,6 +125,51 @@ if ( ! class_exists( 'YITH_WAPO_Block' ) ) {
 		public function get_rule( $name, $default = '' ) {
 			return isset( $this->rules[ $name ] ) ? $this->rules[ $name ] : $default;
 		}
+
+        /**
+         * Return name of the current block.
+         *
+         * @return string
+         */
+        public function get_name() {
+            return $this->name ?? '';
+        }
+
+        /**
+         * Return user_id of the current block.
+         *
+         * @return string
+         */
+        public function get_user_id() {
+            return $this->user_id ?? 0;
+        }
+
+        /**
+         * Return visibility of the current block.
+         *
+         * @return string
+         */
+        public function get_visibility() {
+            return $this->visibility ?? 0;
+        }
+
+        /**
+         * Return priority of the current block.
+         *
+         * @return string
+         */
+        public function get_priority() {
+            return $this->priority ?? 0;
+        }
+
+        /**
+         * Return vendor_id of the current block.
+         *
+         * @return string
+         */
+        public function get_vendor_id() {
+            return 0;
+        }
 
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Wishlist data store
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes\DataStores
  * @version 3.0.0
  */

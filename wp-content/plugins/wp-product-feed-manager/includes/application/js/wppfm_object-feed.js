@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 /**
  * Feed Object
  *
@@ -37,7 +39,8 @@ function Feed( feedId, title, includeVariations, aggregator, channel, mainCatego
 	this.url               = url;
 	this.dataSource        = dataSource;
 	this.channel           = channel;
-	this.country           = channel !== '3' ? country : 'NL'; // for Beslist.nl only register the Netherlands
+	this.country           = channel !== 3 ? country : 'NL'; // for Beslist.nl only register the Netherlands
+	// noinspection DuplicatedCode
 	this.language          = language;
 	this.currency          = currency;
 	this.status            = status;
@@ -96,6 +99,7 @@ function Feed( feedId, title, includeVariations, aggregator, channel, mainCatego
 	this.addChangeValue               = addAttributesChangeValue;
 }
 
+// noinspection DuplicatedCode
 function FeedAttribute( attributeId, fieldName, advisedSource, value, fieldLevel, isActive,
 	nrQueries, nrValueEdits, nrValueConditions ) {
 
@@ -176,7 +180,7 @@ function changeCustomCategoryMap( shopCategoryId, feedCategories ) {
 
 	var mo = JSON.parse( this.categoryMapping );
 
-	// check if this.categoryMapping already has a maped category with this id
+	// check if this.categoryMapping already has a mapped category with this id
 	var categoryMapForGivenId = jQuery.grep(
 		mo,
 		function( e ) {
@@ -741,7 +745,7 @@ function setFeedCustomCategory( rowId, category ) {
 
 	var id = rowId ? rowId : getCustomCategoryAttributeId( this.attributes, category );
 
-	// when a output is initialised as category, then set the category in the correct row
+	// when an output is initialised as category, then set the category in the correct row
 	if ( id ) {
 
 		console.log( id );
@@ -870,11 +874,11 @@ function cleanUnusedAttributes() {
 
 		for ( var i = 0; i < this.attributes.length; i ++ ) {
 
-			if ( this.attributes[ i ][ 'isActive' ] !== true ) {
+			if ( true !== this.attributes[ i ][ 'isActive' ] ) {
 
 				this.attributes.splice( i, 1 );
 				i --; // reset i for the removed attribute
-			} else if ( this.attributes[ i ][ 'advisedSource' ] === undefined && getSourceString( this.attributes[ i ][ 'value' ] ) === '' ) {
+			} else if ( undefined === this.attributes[ i ][ 'advisedSource' ] && '' === this.attributes[ i ][ 'value' ] ) {
 
 				this.attributes.splice( i, 1 );
 				i --; // reset i for the removed attribute

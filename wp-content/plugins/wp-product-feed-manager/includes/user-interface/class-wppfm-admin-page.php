@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 
 		public function __construct() {
 
-			$wppfm_active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : null;
+			$wppfm_active_tab = $_GET['tab'] ?? null;
 
 			$this->tab_data = apply_filters(
 				'wppfm_main_form_tabs',
@@ -47,6 +47,8 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 		 *
 		 * @param   string  $header_text
 		 *
+		 * @since 2.37.0. Added a plugin version data element to support E2E testing.
+		 * @since 2.38.0. Added a plugin version number data element to support E2E testing.
 		 * @return  string
 		 */
 		protected function admin_page_header( $header_text = 'WP Product Feed Manager' ) {
@@ -54,14 +56,14 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			$ticket_link = WPPFM_EDD_SL_ITEM_NAME === 'WP Product Feed Manager' ? 'https://wordpress.org/support/plugin/wp-product-feed-manager'
 				: WPPFM_EDD_SL_STORE_URL . '/support/'; // Get the link to the ticket system depending on the version of the plugin.
 			$feed_queue  = implode( ',', get_site_option( 'wppfm_feed_queue', array() ) ); // Get the active feed queue.
-			$plugin_version_id = 'free'; // Plugin version id
 
 			return
 				'<div class="wrap">
 			<div class="feed-spinner" id="feed-spinner" style="display:none;">
 				<img id="img-spinner" src="' . $spinner_gif . '" alt="Loading" />
 			</div>
-			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue">' . $feed_queue . '</div><div id="wppfm-plugin-version-id" value="' . $plugin_version_id . '">' . $plugin_version_id . '</div></div>
+			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue">' . $feed_queue . '</div><div id="wppfm-plugin-version-id" data-value="' . WPPFM_PLUGIN_VERSION_ID . '">' . WPPFM_PLUGIN_VERSION_ID . '</div>
+			<div id="wppfm-plugin-version-nr" data-value="' . WPPFM_VERSION_NUM . '">' . WPPFM_VERSION_NUM . '</div></div>
 			<div class="wppfm-main-wrapper wppfm-header-wrapper" id="header-wrapper">
 			<div class="header-text"><h1>' . $header_text . '</h1></div>
 			<div class="sub-header-text"><h3>' . esc_html__( 'Manage your feeds with ease', 'wp-product-feed-manager' ) . '</h3></div>
@@ -99,7 +101,7 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 		 * Returns the html code for the tab header.
 		 *
 		 * @param   string  $header_title       String for the tab header text.
-		 * @param   string  $header_sub_title   String for the sub title below the tab header text.
+		 * @param   string  $header_sub_title   String for the subtitle below the tab header text.
 		 *
 		 * @return  string  Html code containing the tab header.
 		 *@since 2.11.0.

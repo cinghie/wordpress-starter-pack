@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 /**
  * WP Db Management Class.
@@ -129,18 +129,18 @@ if ( ! class_exists( 'WPPFM_Db_Management' ) ) :
 
 				return $file_class->write_full_backup_file( $backup_path, $backup_file_text );
 			} else {
-				echo wppfm_show_wp_warning( __( 'A backup file with the selected name already exists. Please choose an other name or delete the existing file first.', 'wp-product-feed-manager' ) );
+				echo __( 'A backup file with the selected name already exists. Please choose an other name or delete the existing file first.', 'wp-product-feed-manager' );
 
 				return false;
 			}
 		}
 
 		/**
-		 * Checks the existing backup files for non compliant versions
+		 * Checks the existing backup files for non-compliant versions
 		 *
 		 * @since 1.8.0
 		 *
-		 * @return boolean true if a non compliant backup file exists
+		 * @return boolean true if a non-compliant backup file exists
 		 */
 		public static function invalid_backup_exist() {
 			if ( ! file_exists( WPPFM_BACKUP_DIR ) ) {

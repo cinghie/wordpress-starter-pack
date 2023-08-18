@@ -2,7 +2,7 @@
 /**
  * Admin init class
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes
  * @version 3.0.0
  */
@@ -58,15 +58,6 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 		 * @since 1.0.0
 		 */
 		public $options;
-
-		/**
-		 * List of available tab for wishlist panel
-		 *
-		 * @var array
-		 * @access public
-		 * @since 2.0.0
-		 */
-		public $available_tabs = array();
 
 		/**
 		 * Returns single instance of the class
@@ -139,24 +130,6 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 		public function init() {
 			$prefix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'unminified/' : '';
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-			/**
-			 * APPLY_FILTERS: yith_wcwl_available_admin_tabs
-			 *
-			 * Filter the available tabs in the plugin panel.
-			 *
-			 * @param array $tabs Admin tabs
-			 *
-			 * @return array
-			 */
-			$this->available_tabs = apply_filters(
-				'yith_wcwl_available_admin_tabs',
-				array(
-					'settings'        => __( 'General settings', 'yith-woocommerce-wishlist' ),
-					'add_to_wishlist' => __( 'Add to wishlist options', 'yith-woocommerce-wishlist' ),
-					'wishlist_page'   => __( 'Wishlist page options', 'yith-woocommerce-wishlist' ),
-				)
-			);
 
 			wp_register_style( 'yith-wcwl-font-awesome', YITH_WCWL_URL . 'assets/css/font-awesome.min.css', array(), '4.7.0' );
 			wp_register_style( 'yith-wcwl-material-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons', array(), '3.0.1' );
@@ -238,6 +211,23 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 		/* === WISHLIST SUBPANEL SECTION === */
 
 		/**
+		 * Retrieve the admin panel tabs.
+		 *
+		 * @return array
+		 */
+		protected function get_admin_panel_tabs(): array {
+			return apply_filters(
+				'yith_wcwl_admin_panel_tabs',
+				array(
+					'settings'      => array(
+						'title' => _x( 'Settings', 'Settings tab name', 'yith-woocommerce-wishlist' ),
+						'icon'  => 'settings',
+					),
+				)
+			);
+		}
+
+		/**
 		 * Register wishlist panel
 		 *
 		 * @return void
@@ -245,7 +235,14 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 		 */
 		public function register_panel() {
 
+			if ( ! empty( $this->panel ) ) {
+				return;
+			}
+
+			$admin_tabs = $this->get_admin_panel_tabs();
+
 			$args = array(
+				'ui_version'       => 2,
 				'create_menu_page'   => true,
 				'parent_slug'        => '',
 				'page_title'         => 'YITH WooCommerce Wishlist',
@@ -268,7 +265,7 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 				'class'              => function_exists( 'yith_set_wrapper_class' ) ? yith_set_wrapper_class() : '',
 				'parent_page'        => 'yith_plugin_panel',
 				'page'               => 'yith_wcwl_panel',
-				'admin-tabs'         => $this->available_tabs,
+				'admin-tabs'         => $admin_tabs,
 				'options-path'       => YITH_WCWL_DIR . 'plugin-options',
 				'help_tab'           => array(
 					'main_video' => array(
@@ -291,8 +288,8 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 			// registers premium tab.
 			if ( ! defined( 'YITH_WCWL_PREMIUM' ) ) {
 				$args['premium_tab'] = array(
-					'landing_page_url' => $this->get_premium_landing_uri(),
-					'premium_features' => array(
+					'landing_page_url'          => $this->get_premium_landing_uri(),
+					'premium_features'          => array(
 						__( 'Enable the wishlist feature for all users or <b>only for registered users</b>', 'yith-woocommerce-wishlist' ),
 						__( 'Allow users to create <b>multiple wishlists</b> (Ex: Christmas, Birthday, etc.) <br>Users can choose the wishlist from a dropdown menu when they click on "Add to wishlist"', 'yith-woocommerce-wishlist' ),
 						__( 'Allow users to set <b>visibility options for each wishlist</b>, by making them either public (visible to everyone), private or shared (visible only to people it has been shared with)', 'yith-woocommerce-wishlist' ),
@@ -304,7 +301,8 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 						__( '<b>Send an automatic email to the wishlist owner</b> whenever a product in the list is back in stock or on sale', 'yith-woocommerce-wishlist' ),
 						'<b>' . __( 'Regular updates, Translations and Premium Support', 'yith-woocommerce-wishlist' ) . '</b>',
 					),
-					'main_image_url'   => YITH_WCWL_URL . 'assets/images/premium/get-premium-wishlist.jpg',
+					'main_image_url'            => YITH_WCWL_URL . 'assets/images/premium/get-premium-wishlist.jpg',
+					'show_free_vs_premium_link' => true,
 				);
 			}
 
@@ -346,7 +344,7 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 				wp_enqueue_style( 'yith-wcwl-admin' );
 				wp_enqueue_script( 'yith-wcwl-admin' );
 
-				if ( isset( $_GET['tab'] ) && 'popular' === $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				if ( isset( $_GET['tab'], $_GET['sub_tab'] ) && 'dashboard' === $_GET['tab'] && 'dashboard-popular' === $_GET['sub_tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					wp_enqueue_style( 'yith-wcwl-material-icons' );
 					wp_enqueue_editor();
 				}
@@ -357,7 +355,6 @@ if ( ! class_exists( 'YITH_WCWL_Admin' ) ) {
 		 * Get the premium landing uri
 		 *
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {

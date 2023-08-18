@@ -43,6 +43,7 @@ class Facebook extends Settings implements Pixel {
 	
 	    add_action( 'pys_register_pixels', function( $core ) {
 	    	/** @var PYS $core */
+
 	    	$core->registerPixel( $this );
 	    } );
         add_action( 'wp_head', array( $this, 'output_meta_tag' ) );
@@ -91,10 +92,10 @@ class Facebook extends Settings implements Pixel {
 			'wooVariableAsSimple' => $this->getOption( 'woo_variable_as_simple' ),
             'downloadEnabled' => $this->getOption( 'download_event_enabled' ),
             'formEventEnabled' => $this->getOption( 'form_event_enabled' ),
-            "ajaxForServerEvent"  => $this->getOption( "server_event_use_ajax" ),
             'serverApiEnabled'    => $this->isServerApiEnabled() && count($this->getApiToken()) > 0,
-            'wooCRSendFromServer' => $this->getOption("woo_complete_registration_send_from_server") && $this->getOption("woo_complete_registration_fire_every_time")
-		);
+            'wooCRSendFromServer' => $this->getOption("woo_complete_registration_send_from_server") && $this->getOption("woo_complete_registration_fire_every_time"),
+		    'send_external_id'          => $this->getOption('send_external_id')
+        );
 		
 	}
 
@@ -805,8 +806,21 @@ class Facebook extends Settings implements Pixel {
 		if ( ! $this->getOption( 'woo_purchase_enabled' ) ) {
 			return false;
 		}
-        $key = sanitize_key($_REQUEST['key']);
-        $order_id = (int) wc_get_order_id_by_order_key( $key );
+        $order_key = sanitize_key($_REQUEST['key']);
+        $cache_key = 'order_id_' . $order_key;
+        $order_id = get_transient( $cache_key );
+        global $wp;
+        if (is_order_received_page() && empty($order_id) && $wp->query_vars['order-received']) {
+
+            $order_id = absint( $wp->query_vars['order-received'] );
+            if ($order_id) {
+                set_transient( $cache_key, $order_id, HOUR_IN_SECONDS );
+            }
+        }
+        if ( empty($order_id) ) {
+            $order_id = (int) wc_get_order_id_by_order_key( $order_key );
+            set_transient( $cache_key, $order_id, HOUR_IN_SECONDS );
+        }
         $order    = new \WC_Order( $order_id );
         
         $content_ids        = array();
@@ -982,17 +996,17 @@ class Facebook extends Settings implements Pixel {
 
 		$params = array(
 			'content_type' => 'product',
-			'content_ids'  =>  Helpers\getFacebookEddDownloadContentId( $post->ID ),
+			'content_ids'  =>  Helpers\getFacebookEddDownloadContentId( $download_id ),
 		);
 
 		// content_name, category_name
-		$params['tags'] = implode( ', ', getObjectTerms( 'download_tag', $post->ID ) );
-		$params = array_merge( $params, Helpers\getEddCustomAudiencesOptimizationParams( $post->ID ) );
+		$params['tags'] = implode( ', ', getObjectTerms( 'download_tag', $download_id ) );
+		$params = array_merge( $params, Helpers\getEddCustomAudiencesOptimizationParams( $download_id ) );
 
 		// currency, value
 		if ( PYS()->getOption( 'edd_add_to_cart_value_enabled' ) ) {
             
-            $amount = getEddDownloadPriceToDisplay( $post->ID, $price_index );
+            $amount = getEddDownloadPriceToDisplay( $download_id, $price_index );
 			$value_option = PYS()->getOption( 'edd_add_to_cart_value_option' );
 			$global_value = PYS()->getOption( 'edd_add_to_cart_value_global', 0 );
 

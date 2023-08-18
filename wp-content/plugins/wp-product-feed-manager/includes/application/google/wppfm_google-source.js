@@ -257,8 +257,14 @@ function googleStaticFieldOptions( fieldName ) {
 }
 
 function switchToGoogleFeedFormMainInputs( isNew, channel ) {
-	jQuery( '#country-list-row' ).show();
+	jQuery( '#wppfm-feed-types-list-row' ).show()
+	jQuery( '#wppfm-feed-types-selector' ).prop( 'disabled', false );
+	jQuery( '#wppfm-country-list-row' ).show()
+	jQuery( '#wppfm-countries-selector' ).prop( 'disabled', false );
+	jQuery( '#country-list-row' ).show()
+	jQuery( '#countries-selector' ).prop( 'disabled', false );
 	jQuery( '#category-list-row' ).show();
+	jQuery( '#lvl_0' ).prop( 'disabled', false );
 	jQuery( '#google-feed-title-row' ).show();
 	jQuery( '#google-feed-description-row' ).show();
 	jQuery( '#aggregator-selector-row' ).hide();
@@ -266,10 +272,22 @@ function switchToGoogleFeedFormMainInputs( isNew, channel ) {
 	appendCategoryLists( parseInt( channel ), 'en-US', isNew );
 }
 
+function verifyMinPluginVersion( requiredVersion ) {
+	var versionNr = jQuery( '#wppfm-plugin-version-nr').text()
+	console.log( versionNr );
+}
+
 function googleInputChanged( feedId, categoryChanged ) {
-	var fileName             = jQuery( '#file-name' ).val();
+	var fileName             = jQuery( '#wppfm-feed-file-name' ).val();
+
+	if ( ! fileName ) {
+		fileName             = jQuery( '#file-name' ).val();
+	}
+
 	var selectedCountry      = jQuery( '#wppfm-countries-selector' ).val();
+	var selectedFeedType     = jQuery( '#wppfm-feed-types-selector' ).val();
 	var selectedMainCategory = '';
+	var selectedChannel      = jQuery( '#wppfm-merchants-selector' ).val();
 
 	var categorySelectors       = jQuery( '#lvl_0' );
 	var categorySelectedDisplay = jQuery( '#selected-categories' );
@@ -284,31 +302,45 @@ function googleInputChanged( feedId, categoryChanged ) {
 		selectedMainCategory = categorySelectedDisplay.text();
 	}
 
-	// enable or disable the correct buttons for the google channel
+	// enable or disable the correct buttons for the Google channel
+	//if ( fileName && selectedCountry !== '0' && ( selectedMainCategory !== '' && selectedMainCategory !== '0' ) ) {
 	if ( fileName && selectedCountry !== '0' && ( selectedMainCategory !== '' && selectedMainCategory !== '0' ) ) {
 		updateFeedFormAfterInputChanged( feedId, categoryChanged );
 	} else {
 		// keep the Generate and Save buttons disabled
 		disableFeedActionButtons();
 	}
+
+	jQuery( '#wppfm-feed-types-list-row' ).show();
+
+	if ( '1' !== selectedFeedType ) {
+		googleActivateSupportFeed( selectedFeedType );
+	}
 }
 
-// ALERT! This function is equivalent to the special_clothing_group_countries() function in class-feed.php in the google channels folder
+function googleActivateSupportFeed( feedTypeId ) {
+	switch( feedTypeId ) {
+		case 2: // Google Merchant Promotion Feed
+			wpppfm_feedFormBuild();
+	}
+}
+
+// ALERT! This function is equivalent to the special_clothing_group_countries() function in class-feed.php in the Google channels folder
 function googleSpecialClothingGroupCountries() {
 	return [ 'US', 'GB', 'DE', 'FR', 'JP', 'BR' ]; // Brazil added based on the new Feed Specifications from september 2015
 }
 
-// ALERT! This function is equivalent to the special_shipping_countries() function in class-feed.php in the google channels folder
+// ALERT! This function is equivalent to the special_shipping_countries() function in class-feed.php in the Google channels folder
 function googleSpecialShippingCountries() {
 	return [ 'US', 'GB', 'DE', 'AU', 'FR', 'CH', 'CZ', 'NL', 'IT', 'ES', 'JP' ];
 }
 
-// ALERT! This function is equivalent to the special_product_countries() function in class-feed.php in the google channels folder
+// ALERT! This function is equivalent to the special_product_countries() function in class-feed.php in the Google channels folder
 function googleSpecialProductCountries() {
 	return [ 'US', 'GB', 'DE', 'AU', 'FR', 'CH', 'CZ', 'NL', 'IT', 'ES', 'JP', 'BR' ];
 }
 
-// ALERT! This function is equivalent to the special_subscription_countries() function in class-feed.php in the google channels folder
+// ALERT! This function is equivalent to the special_subscription_countries() function in class-feed.php in the Google channels folder
 function googleSpecialSubscriptionCountries() {
 	return [ 'ZA', 'HK', 'IN', 'JP', 'MY', 'NZ', 'SG', 'KR', 'TW', 'TH', 'AT', 'BE', 'CZ', 'DK', 'FI', 'DE', 'FR', 'GR', 'HU', 'IE',
 		'IT', 'NO', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE', 'CH', 'TR', 'GB', 'IL', 'SA', 'AE', 'CA' ];

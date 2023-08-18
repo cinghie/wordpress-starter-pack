@@ -2,15 +2,45 @@
 /**
  * WAPO Template
  *
- * @author  Corrado Porzio <corradoporzio@gmail.com>
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ProductAddOns
  * @version 2.0.0
+ *
+ * @var object $addon
+ * @var int    $x
+ * @var string $setting_hide_images
+ * @var string $required_message
+ * @var array  $settings
+ * @var string $image_replacement
+ * @var string $option_description
+ * @var string $addon_image_position
+ * @var string $option_image
+ * @var string $price
+ * @var string $price_method
+ * @var string $price_sale
+ * @var string $price_type
+ * @var string $currency
  */
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
-$required = $addon->get_option( 'required', $x ) === 'yes';
-$checked  = $addon->get_option( 'default', $x ) === 'yes';
+//Settings configuration.
+extract($settings );
+
+$hide_options_prices = apply_filters( 'yith_wapo_hide_option_prices', $hide_option_prices, $addon );
+$show_in_a_grid      = wc_string_to_bool( $show_in_a_grid );
+$options_width_css   = $show_in_a_grid ? 'width: ' . ( $options_width ) . '%; min-width: ' . ( $options_width ) . '%;' : '';
+
+$hide_option_images  = wc_string_to_bool( $hide_option_images );
+$hide_option_label   = wc_string_to_bool( $hide_option_label );
+$hide_option_prices  = wc_string_to_bool( $hide_option_prices );
+$hide_product_prices = wc_string_to_bool( $hide_product_prices );
+
+$image_replacement = $addon->get_image_replacement( $addon, $x );
+
+// Options configuration.
+$required = $addon->get_option( 'required', $x, 'no', false ) === 'yes';
+$checked  = $addon->get_option( 'default', $x, 'no', false ) === 'yes';
 $selected = $checked ? 'selected' : '';
 
 ?>
@@ -19,73 +49,78 @@ $selected = $checked ? 'selected' : '';
 	class="yith-wapo-option selection-<?php echo esc_attr( $selection_type ); ?> <?php echo esc_attr( $selected ); ?>"
 	data-replace-image="<?php echo esc_attr( $image_replacement ); ?>">
 
-	<!-- LEFT/ABOVE IMAGE -->
-	<?php if ( ! empty( $option_image ) ) {
-		if ( 'left' === $addon_options_images_position || 'above' === $addon_options_images_position ) : ?>
-		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
-			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
-		</label>
-		<?php endif; ?>
-	<?php } ?>
 
+	<div class="label <?php echo wp_kses_post( ! empty( $addon_image_position ) ? 'position-' . $addon_image_position : '' ); ?>">
+		<div class="option-container">
 
-	<span class="radiobutton <?php echo $checked ? 'checked' : ''; ?>">
+			<!-- ABOVE / LEFT IMAGE -->
+			<?php
+			if ( 'above' === $addon_options_images_position || 'left' === $addon_options_images_position ) {
+				//TODO: use wc_get_template() function.
+				include YITH_WAPO_DIR . '/templates/front/option-image.php'; }
+			?>
 
-		<!-- INPUT -->
-		<input type="radio"
-			id="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>"
-			name="yith_wapo[][<?php echo esc_attr( $addon->id ); ?>]"
-			value="<?php echo esc_attr( $x ); ?>"
-			data-price="<?php echo esc_attr( $price ); ?>"
-			data-price-sale="<?php echo esc_attr( $price_sale ); ?>"
-			data-price-type="<?php echo esc_attr( $price_type ); ?>"
-			data-price-method="<?php echo esc_attr( $price_method ); ?>"
-			data-first-free-enabled="<?php echo esc_attr( $addon->get_setting( 'first_options_selected', 'no' ) ); ?>"
-			data-first-free-options="<?php echo esc_attr( $addon->get_setting( 'first_free_options', 0 ) ); ?>"
-			data-addon-id="<?php echo esc_attr( $addon->id ); ?>"
-			<?php echo $required ? 'required' : ''; ?>
-			<?php echo $checked ? 'checked="checked"' : ''; ?>>
+            <div class="radio-button-container">
+                <span class="radiobutton <?php echo $checked ? 'checked' : ''; ?>">
+                    <!-- INPUT -->
+                    <input type="radio"
+                           id="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>"
+                           class="yith-wapo-option-value"
+                           name="yith_wapo[][<?php echo esc_attr( $addon->id ); ?>]"
+                           value="<?php echo esc_attr( $x ); ?>"
+                           data-price="<?php echo esc_attr( $price ); ?>"
+                    <?php
+                    if ( $price > 0 ) {
+                        ?>
+                        data-price-sale="<?php echo esc_attr( $price_sale ); ?>"
+                        <?php
+                    }
+                    ?>
+                    data-price-type="<?php echo esc_attr( $price_type ); ?>"
+                           data-price-method="<?php echo esc_attr( $price_method ); ?>"
+                           data-first-free-enabled="<?php echo esc_attr( $first_options_selected ); ?>"
+                           data-first-free-options="<?php echo esc_attr( $first_free_options ); ?>"
+                           data-addon-id="<?php echo esc_attr( $addon->id ); ?>"
+                    <?php echo $required ? 'required' : ''; ?>
+                        <?php echo $checked ? 'checked="checked"' : ''; ?>>
 
-	</span>
+                </span>
+                <!-- LABEL -->
+                <label class="yith-wapo-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+                    <?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
+                    <?php echo $required ? '<span class="required">*</span>' : ''; ?>
 
-	<!-- RIGHT IMAGE -->
-	<?php if ( ! empty( $option_image ) ) {
-		if ( 'right' === $addon_options_images_position ) : ?>
-		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
-			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
-		</label>
-		<?php endif; ?>
-	<?php } ?>
+                    <!-- PRICE -->
+                    <?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x, $currency ) ) : ''; ?>
+                </label>
+            </div>
 
+			<!-- UNDER / RIGHT IMAGE -->
+			<?php
+			if ( 'under' === $addon_options_images_position || 'right' === $addon_options_images_position ) {
+				//TODO: use wc_get_template() function.
+				include YITH_WAPO_DIR . '/templates/front/option-image.php';
+			}
+			?>
 
-	<!-- LABEL -->
-	<label class="yith-wapo-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
-		<?php echo ! $hide_option_label ? wp_kses_post( $addon->get_option( 'label', $x ) ) : ''; ?>
-		<?php echo $required ? '<span class="required">*</span>' : ''; ?>
-
-		<!-- PRICE -->
-		<?php echo ! $hide_option_prices ? wp_kses_post( $addon->get_option_price_html( $x ) ) : ''; ?>
-	</label>
-
-	<!-- TOOLTIP -->
-	<?php if ( $addon->get_option( 'tooltip', $x ) !== '' ) : ?>
-		<span class="tooltip position-<?php echo esc_attr( get_option( 'yith_wapo_tooltip_position' ) ); ?>" style="width: 100%">
+		</div>
+		<!-- TOOLTIP -->
+		<?php if ( $addon->get_option( 'tooltip', $x ) !== '' ) : ?>
+			<span class="tooltip position-<?php echo esc_attr( get_option( 'yith_wapo_tooltip_position' ) ); ?>">
 			<span><?php echo wp_kses_post( $addon->get_option( 'tooltip', $x ) ); ?></span>
 		</span>
-	<?php endif; ?>
-
-	<!-- UNDER IMAGE -->
-	<?php if ( ! empty( $option_image ) ) {
-		if ( 'under' === $addon_options_images_position ) : ?>
-		<label class="yith-wapo-img-label" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
-			<?php include YITH_WAPO_DIR . '/templates/front/option-image.php'; ?>
-		</label>
 		<?php endif; ?>
-	<?php } ?>
+
+
+	</div>
 
 	<!-- DESCRIPTION -->
 	<?php if ( '' !== $option_description ) : ?>
 		<p class="description"><?php echo wp_kses_post( $option_description ); ?></p>
+	<?php endif; ?>
+	<!-- Sold individually -->
+	<?php if ( 'yes' === $sell_individually ) : ?>
+		<input type="hidden" name="yith_wapo_sell_individually[<?php echo esc_attr( $addon->id . '-' . $x ); ?>]" value="yes">
 	<?php endif; ?>
 
 </div>

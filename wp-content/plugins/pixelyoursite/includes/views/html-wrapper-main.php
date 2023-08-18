@@ -85,7 +85,15 @@ include "html-popovers.php";
 
                             case 'head_footer':
                                 /** @noinspection PhpIncludeInspection */
-                                include PYS_FREE_PATH . '/modules/head_footer/views/html-admin-page.php';
+                                if ( current_user_can( 'manage_pys' ) && current_user_can('unfiltered_html') )
+                                {
+                                    include PYS_FREE_PATH . '/modules/head_footer/views/html-admin-page.php';
+                                }
+                                else
+                                {
+                                    include PYS_FREE_PATH . '/modules/head_footer/views/html-admin-not-permission-page.php';
+                                }
+
                                 break;
 
                             case 'facebook_settings':

@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Converts a string containing a date-time stamp as stored in the meta data to a date time string
+ * Converts a string containing a date-time stamp as stored in the metadata to a date time string
  * that can be used in a feed file
  *
  * @param string $date_stamp The timestamp that needs to be converted to a string that can be stored in a feed file
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function wppfm_convert_price_date_to_feed_format( $date_stamp ) {
 	if ( $date_stamp ) {
-		return date( 'Y-m-d\TH:iO', $date_stamp );
+		return gmdate( 'Y-m-d\TH:iO', $date_stamp );
 	} else {
 		return '';
 	}
@@ -53,7 +53,7 @@ function wppfm_check_db_version() {
 }
 
 /**
- * Checks if a specific source key is a money related key or not
+ * Checks if a specific source key is money related key or not
  *
  * @param string $key The source key to be checked
  *
@@ -82,7 +82,7 @@ function wppfm_meta_key_is_money( $key ) {
 		'sale_price',
 	);
 
-	return in_array( $key, $special_price_keys );
+	return in_array( $key, $special_price_keys, true );
 }
 
 /**
@@ -164,7 +164,7 @@ function wppfm_list_sql_files( $path ) {
 	if ( is_dir( $path ) ) {
 		$handle = opendir( $path );
 		if ( $handle ) {
-			while ( false !== ( $name = readdir( $handle ) ) ) {
+			while ( false !== ( $name = readdir( $handle ) ) ) { // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 				if ( preg_match( '/[a-zA-Z0-9-_ ]{2,}[.](sql)$/', $name ) ) {
 					$files[] = $path . '/' . $name;
 				}
@@ -176,7 +176,7 @@ function wppfm_list_sql_files( $path ) {
 }
 
 /**
- * Forces the database to load and update and adds the auto update cron event if it does not exists
+ * Forces the database to load and update and adds the auto update cron event if it does not exist
  *
  * @return boolean
  * @since 1.9.0
@@ -209,7 +209,7 @@ function wppfm_reinitiate_plugin() {
 }
 
 /**
- * Checks if the feed update schedule is registered. If its missing it will reactivate it again.
+ * Checks if the feed update schedule is registered. If it's missing it will reactivate it again.
  *
  * @since 2.20.0
  */
@@ -247,7 +247,7 @@ function wppfm_recursive_implode( array $array, $glue = ',', $include_keys = fal
 
 	// Removes last $glue from string
 	if ( strlen( $glue ) > 0 && $glued_string ) {
-		substr( $glued_string, 0, - strlen( $glue ) );
+		$glued_string = substr( $glued_string, 0, - strlen( $glue ) );
 	}
 
 	// Trim ALL whitespace
@@ -255,12 +255,12 @@ function wppfm_recursive_implode( array $array, $glue = ',', $include_keys = fal
 		preg_replace( '/(\s)/ixsm', '', $glued_string );
 	}
 
-	return (string) $glued_string;
+	return $glued_string;
 }
 
 function wppfm_clear_feed_process_data() {
 	WPPFM_Feed_Controller::clear_feed_queue();
-	WPPFM_Feed_Controller::set_feed_processing_flag( false );
+	WPPFM_Feed_Controller::set_feed_processing_flag();
 	WPPFM_Db_Management::clean_options_table();
 	WPPFM_Db_Management::reset_status_of_failed_feeds();
 
@@ -361,6 +361,7 @@ function wppfm_forbidden_file_name_characters() {
  *
  * @since 2.1.0
  *
+ * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
  */
 function wppfm_correct_old_feeds_list_status( &$list ) {
 	for ( $i = 0; $i < count( $list ); $i ++ ) {
@@ -375,7 +376,7 @@ function wppfm_correct_old_feeds_list_status( &$list ) {
  * @since 2.3.0
  */
 function wppfm_wc_installed_and_active() {
-	return is_plugin_active( 'woocommerce/woocommerce.php' ) || is_plugin_active_for_network( 'woocommerce/woocommerce.php' ) ? true : false;
+	return is_plugin_active( 'woocommerce/woocommerce.php' ) || is_plugin_active_for_network( 'woocommerce/woocommerce.php' );
 }
 
 /**
@@ -393,5 +394,5 @@ function wppfm_wc_min_version_required() {
 
 	$wc_version = get_plugin_data( WPPFM_PLUGIN_DIR . '../woocommerce/woocommerce.php' )['Version'];
 
-	return version_compare( $wc_version, WPPFM_MIN_REQUIRED_WC_VERSION, '>=' ) ? true : false;
+	return version_compare( $wc_version, WPPFM_MIN_REQUIRED_WC_VERSION, '>=' );
 }

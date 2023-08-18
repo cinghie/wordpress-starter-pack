@@ -2,7 +2,7 @@
 /**
  * Share template
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Templates
  * @version 3.0.0
  */

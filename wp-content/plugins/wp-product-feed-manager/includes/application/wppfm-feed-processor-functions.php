@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package WP Product Review Feed Manager/Functions
+ * @package WP Product Feed Manager/Functions
  * @version 1.0.0
  */
 

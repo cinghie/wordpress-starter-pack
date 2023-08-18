@@ -2,7 +2,7 @@
 /**
  * Main class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */
@@ -73,13 +73,13 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 				require_once 'class.yith-infs-frontend.php';
 				YITH_INFS_Frontend();
 			}
+			add_action( 'before_woocommerce_init', array( $this, 'declare_wc_features_support' ) );
 		}
 
 		/**
 		 * Check if is admin
 		 *
 		 * @since  1.0.6
-		 * @author Francesco Licandro
 		 * @return boolean
 		 */
 		public function is_admin() {
@@ -93,7 +93,6 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 * Check if load frontend class
 		 *
 		 * @since  1.0.6
-		 * @author Francesco Licandro
 		 * @return boolean
 		 */
 		public function load_frontend() {
@@ -105,7 +104,6 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @access public
-		 * @author Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return void
 		 */
 		public function plugin_fw_loader() {
@@ -115,6 +113,15 @@ if ( ! class_exists( 'YITH_INFS' ) ) {
 					$plugin_fw_file = array_shift( $plugin_fw_data );
 					require_once $plugin_fw_file;
 				}
+			}
+		}
+
+		/**
+		 * Declare support for WooCommerce features.
+		 */
+		public function declare_wc_features_support() {
+			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', YITH_INFS_FREE_INIT, true );
 			}
 		}
 	}

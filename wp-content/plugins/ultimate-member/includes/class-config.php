@@ -1,12 +1,11 @@
 <?php
 namespace um;
 
-
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'um\Config' ) ) {
-
 
 	/**
 	 * Class Config
@@ -17,83 +16,75 @@ if ( ! class_exists( 'um\Config' ) ) {
 	 */
 	class Config {
 
+		/**
+		 * @var array
+		 */
+		public $core_forms;
 
 		/**
 		 * @var array
 		 */
-		var $core_forms;
-
-
-		/**
-		 * @var array
-		 */
-		var $core_directories;
-
+		public $core_directories;
 
 		/**
 		 * @var mixed|void
 		 */
-		var $core_pages;
-
-
-		/**
-		 * @var array
-		 */
-		var $core_directory_meta = array();
-
+		public $core_pages;
 
 		/**
 		 * @var array
 		 */
-		var $core_global_meta_all;
+		public $core_directory_meta = array();
 
+		/**
+		 * @var array
+		 */
+		public $core_global_meta_all;
 
 		/**
 		 * @var mixed|void
 		 */
-		var $core_form_meta_all;
-
+		public $core_form_meta_all;
 
 		/**
 		 * @var array
 		 */
-		var $core_form_meta = array();
-
+		public $core_form_meta = array();
 
 		/**
 		 * @var
 		 */
-		var $perms;
-
+		public $perms;
 
 		/**
 		 * @var
 		 */
-		var $nonadmin_perms;
-
-
-		/**
-		 * @var mixed|void
-		 */
-		var $email_notifications;
-
+		public $nonadmin_perms;
 
 		/**
 		 * @var mixed|void
 		 */
-		var $settings_defaults;
+		public $email_notifications;
 
+		/**
+		 * @var mixed|void
+		 */
+		public $settings_defaults;
 
 		/**
 		 * @var array
 		 */
-		var $permalinks;
+		public $permalinks;
 
+		/**
+		 * @var array|array[]
+		 */
+		public $default_roles_metadata = array();
 
 		/**
 		 * Config constructor.
 		 */
-		function __construct() {
+		public function __construct() {
 			$this->core_forms = array(
 				'register',
 				'login',
@@ -104,38 +95,36 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'members',
 			);
 
-
 			/**
-			 * UM hook
+			 * Filters Ultimate Member predefined pages.
 			 *
-			 * @type filter
-			 * @title um_core_pages
-			 * @description Extend UM core pages
-			 * @input_vars
-			 * [{"var":"$pages","type":"array","desc":"UM core pages"}]
-			 * @change_log
-			 * ["Since: 2.0"]
-			 * @usage
-			 * <?php add_filter( 'um_core_pages', 'function_name', 10, 1 ); ?>
-			 * @example
-			 * <?php
-			 * add_filter( 'um_core_pages', 'my_core_pages', 10, 1 );
+			 * @param {array} $pages Predefined pages.
+			 *
+			 * @return {array} Predefined pages.
+			 *
+			 * @since 1.3.x
+			 * @hook um_core_pages
+			 *
+			 * @example <caption>Extend UM core pages.</caption>
 			 * function my_core_pages( $pages ) {
 			 *     // your code here
 			 *     $pages['my_page_key'] = array( 'title' => __( 'My Page Title', 'my-translate-key' ) );
 			 *     return $pages;
 			 * }
-			 * ?>
+			 * add_filter( 'um_core_pages', 'my_core_pages' );
 			 */
-			$this->core_pages = apply_filters( 'um_core_pages', array(
-				'user'              => array( 'title' => __( 'User', 'ultimate-member' ) ),
-				'login'             => array( 'title' => __( 'Login', 'ultimate-member' ) ),
-				'register'          => array( 'title' => __( 'Register', 'ultimate-member' ) ),
-				'members'           => array( 'title' => __( 'Members', 'ultimate-member' ) ),
-				'logout'            => array( 'title' => __( 'Logout', 'ultimate-member' ) ),
-				'account'           => array( 'title' => __( 'Account', 'ultimate-member' ) ),
-				'password-reset'    => array( 'title' => __( 'Password Reset', 'ultimate-member' ) ),
-			) );
+			$this->core_pages = apply_filters(
+				'um_core_pages',
+				array(
+					'user'           => array( 'title' => __( 'User', 'ultimate-member' ) ),
+					'login'          => array( 'title' => __( 'Login', 'ultimate-member' ) ),
+					'register'       => array( 'title' => __( 'Register', 'ultimate-member' ) ),
+					'members'        => array( 'title' => __( 'Members', 'ultimate-member' ) ),
+					'logout'         => array( 'title' => __( 'Logout', 'ultimate-member' ) ),
+					'account'        => array( 'title' => __( 'Account', 'ultimate-member' ) ),
+					'password-reset' => array( 'title' => __( 'Password Reset', 'ultimate-member' ) ),
+				)
+			);
 
 			$this->core_directory_meta['members'] = array(
 				'_um_core'                      => 'members',
@@ -203,7 +192,6 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'_um_help_tip_color',
 				'_um_secondary_color',
 			);
-
 
 			/**
 			 * UM hook
@@ -457,7 +445,7 @@ if ( ! class_exists( 'um\Config' ) ) {
 					                   'If you did not make this change and believe your {site_name} account has been compromised, please contact us at the following email address: {admin_email}<br /><br />' .
 					                   'Thanks,<br />' .
 					                   '{site_name}',
-					'description'   => __('Whether to send the user an email when he request to reset password (Recommended, please keep on)','ultimate-member'),
+					'description'   => __('Whether to send the user an email when he requests to reset password (Recommended, please keep on)','ultimate-member'),
 					'recipient'   => 'user',
 					'default_active' => true
 				),
@@ -505,9 +493,17 @@ if ( ! class_exists( 'um\Config' ) ) {
 					'body'          => '{display_name} has just deleted their {site_name} account.',
 					'description'   => __('Whether to receive notification when an account is deleted','ultimate-member'),
 					'recipient'   => 'admin'
-				)
+				),
+				'suspicious-activity'   => array(
+					'key'            => 'suspicious-activity',
+					'title'          => __( 'Secure: Suspicious Account Activity', 'ultimate-member' ),
+					'subject'        => __( '[{site_name}] Suspicious Account Activity', 'ultimate-member' ),
+					'body'           => 'This is to inform you that there are suspicious activities with the following accounts: {user_profile_link}',
+					'description'    => __( 'Whether to receive notification when suspicious account activity is detected.', 'ultimate-member' ),
+					'recipient'      => 'admin',
+					'default_active' => true,
+				),
 			) );
-
 
 			//settings defaults
 			$this->settings_defaults = array(
@@ -518,10 +514,11 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'display_name'                          => 'full_name',
 				'display_name_field'                    => '',
 				'author_redirect'                       => 1,
-				'members_page'                          => 1,
+				'members_page'                          => true,
 				'use_gravatars'                         => 0,
 				'use_um_gravatar_default_builtin_image' => 'default',
 				'use_um_gravatar_default_image'         => 0,
+				'toggle_password'                       => false,
 				'require_strongpass'                    => 0,
 				'password_min_chars'                    => 8,
 				'password_max_chars'                    => 30,
@@ -568,9 +565,9 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'form_asterisk'                         => 0,
 				'profile_title'                         => '{display_name} | {site_name}',
 				'profile_desc'                          => '{display_name} is on {site_name}. Join {site_name} to view {display_name}\'s profile',
-				'admin_email'                           => get_bloginfo('admin_email'),
-				'mail_from'                             => get_bloginfo('name'),
-				'mail_from_addr'                        => get_bloginfo('admin_email'),
+				'admin_email'                           => get_bloginfo( 'admin_email' ),
+				'mail_from'                             => get_bloginfo( 'name' ),
+				'mail_from_addr'                        => get_bloginfo( 'admin_email' ),
 				'email_html'                            => 1,
 				'image_orientation_by_exif'             => 0,
 				'image_compression'                     => 60,
@@ -582,9 +579,18 @@ if ( ! class_exists( 'um\Config' ) ) {
 				'um_profile_object_cache_stop'          => 0,
 				'rest_api_version'                      => '2.0',
 				'member_directory_own_table'            => 0,
+				'profile_show_bio'                      => false,
 				'profile_show_html_bio'                 => 0,
+				'profile_bio_maxchars'                  => 180,
 				'profile_noindex'                       => 0,
 				'activation_link_expiry_time'           => '',
+				'lock_register_forms'                   => false,
+				'display_login_form_notice'             => false,
+				'secure_ban_admins_accounts'            => false,
+				'banned_capabilities'                   => array( 'manage_options', 'promote_users', 'level_10' ),
+				'secure_notify_admins_banned_accounts'  => false,
+				'secure_notify_admins_banned_accounts__interval' => 'instant',
+				'secure_allowed_redirect_hosts'         => '',
 			);
 
 			add_filter( 'um_get_tabs_from_config', '__return_true' );

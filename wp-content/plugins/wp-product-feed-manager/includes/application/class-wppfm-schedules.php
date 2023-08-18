@@ -20,6 +20,8 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 
 		/**
 		 * Initiates the automatic feed updates
+		 *
+		 * @since 2.37.0. Added a check to exclude Review Feeds from getting in the queue whilst the Review Feed option is not on.
 		 */
 		public function update_active_feeds() {
 			$data_class = new WPPFM_Data();

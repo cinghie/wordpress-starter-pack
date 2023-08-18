@@ -7,10 +7,13 @@ require_once SEEDPROD_PLUGIN_PATH . 'app/admin-bar-menu.php';
 require_once SEEDPROD_PLUGIN_PATH . 'app/class-seedprod-notifications.php';
 
 // helper functions
+require_once SEEDPROD_PLUGIN_PATH . 'app/functions-inline-help.php';
 require_once SEEDPROD_PLUGIN_PATH . 'app/functions-wpforms.php';
 require_once SEEDPROD_PLUGIN_PATH . 'app/functions-rafflepress.php';
 
 require_once SEEDPROD_PLUGIN_PATH . 'app/render-lp.php';
+
+
 
 require_once SEEDPROD_PLUGIN_PATH . 'app/render-csp-mm.php';
 

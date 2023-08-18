@@ -2,7 +2,7 @@
 /**
  * Add to wishlist template
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Templates\AddToWishlist
  * @version 3.0.0
  */

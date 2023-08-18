@@ -1,4 +1,6 @@
 /*global wppfm_feed_settings_form_vars */
+// noinspection JSUnresolvedReference
+
 var _mandatoryFields             = [];
 var _highlyRecommendedFields     = [];
 var _recommendedFields           = [];
@@ -16,7 +18,7 @@ var _feedHolder                  = [];
  * Gets triggered when one of the main inputs on the edit feed page has changed. This function starts a new feed when all
  * main inputs are given or updates the existing feed if required, based on the changed main input.
  *
- * @param {boolean}   categoryChanged     True if the the Default Category input changed.
+ * @param {boolean}   categoryChanged     True if the Default Category input changed.
  */
 function wppfm_mainInputChanged( categoryChanged ) {
 	var channel = jQuery( '#wppfm-merchants-selector' ).val();
@@ -28,7 +30,7 @@ function wppfm_mainInputChanged( categoryChanged ) {
 /**
  * Makes sure the feed name does not contain any special characters or already exists.
  *
- * @param {string}          fileNameElement     The feed name name.
+ * @param {string}          fileNameElement     The feed name.
  *
  * @return {void|boolean}   Returns false when the file name is not valid.
  */
@@ -40,10 +42,12 @@ function wppfm_validateFileName( fileNameElement ) {
 		if ( -1 === jQuery.inArray( fileNameElement, existingFileNames ) ) {
 			_feedHolder[ 'title' ] = fileNameElement;
 		} else {
+			//noinspection JSUnresolvedVariable
 			alert( wppfm_feed_settings_form_vars.feed_name_exists );
 			return false;
 		}
 	} else {
+		//noinspection JSUnresolvedVariable
 		alert( wppfm_feed_settings_form_vars.prohibited_feed_name_characters );
 		return false;
 	}
@@ -90,6 +94,7 @@ function wppfm_constructNewFeed() {
 	var currency          = document.getElementById( 'currency' ) === null ? '' : jQuery( '#wppfm-feed-currency-selector' ).val();
 	var feedTitle         = jQuery( '#google-feed-title-selector' ).val();
 	var feedDescription   = jQuery( '#google-feed-description-selector' ).val();
+	//noinspection DuplicatedCode
 	var daysInterval      = daysIntervalElement.val() !== '' ? daysIntervalElement.val() : '1';
 	var hours             = updateScheduleHourElement.val() !== '' ? updateScheduleHourElement.val() : '00';
 	var minutes           = updateScheduleMinutesElement.val() !== '' ? updateScheduleMinutesElement.val() : '00';
@@ -111,7 +116,7 @@ function wppfm_constructNewFeed() {
 }
 
 /**
- * This function can be used by special feed add-on plugins to handle construction of a new non standard feed.
+ * This function can be used by special feed add-on plugins to handle construction of a new non-standard feed.
  *
  * @param {object}  specialFeedFeedHolder
  */
@@ -143,19 +148,6 @@ function wppfm_setSpecialFeedProperty( key, value, type ) {
 	}
 }
 
-/**
- * Unset an item from a special feed property of type array or object.
- *
- * @param {string}      key    name of the property
- * @param {string|int}  value  value to be removed from the array or object
- */
-function wppfm_unsetSpecialFeedArrayProperty( key, value ) {
-	if ( _feedHolder.hasOwnProperty( key ) && 'object' === typeof _feedHolder[ key ] ) {
-		var index = _feedHolder[ key ].indexOf( value );
-		_feedHolder[ key ].splice( index, 1 );
-	}
-}
-
 function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 	var selectedChannelElement = jQuery( '#wppfm-merchants-selector' );
 	var lvl0Element            = jQuery( '#lvl_0' );
@@ -181,7 +173,7 @@ function wppfm_finishOrUpdateFeedPage( categoryChanged ) {
 
 		// add the default attributes if attributes are not set
 		if ( undefined === _feedHolder[ 'attributes' ] || 0 === _feedHolder[ 'attributes' ].length ) {
-			wppfm_addFeedAttributes( outputs, selectedChannelValue, 1 );
+			wppfm_addFeedAttributes( outputs, selectedChannelValue );
 		}
 
 		wppfm_customSourceFields( _feedHolder[ 'dataSource' ], function( customFields ) {
@@ -297,7 +289,7 @@ function wppfm_initiateFeed() {
 			'1'
 		);
 
-		wppfm_addFeedAttributes( feedData['attribute_data'], feedData['channel_id'], 1 );
+		wppfm_addFeedAttributes( feedData['attribute_data'], feedData['channel_id'] );
 
 		_feedHolder.setFeedFilter( feedData['feed_filter'] );
 
@@ -320,7 +312,7 @@ function wppfm_handleJsonParseError(error, failingString) {
 		var errorLocation = messageBreakup[messageBreakup.length - 1].match(/\d+/g);
 
 		if ( null != errorLocation ) {
-			var failingPartOfJSONString = failingString.substr(errorLocation - 20, 40);
+			var failingPartOfJSONString = failingString.substring(errorLocation - 20, 40);
 			console.log('The incorrect part in the JSON string is on position 20 of this part: "' + failingPartOfJSONString + '"');
 		} else {
 			console.log(error);
@@ -670,6 +662,7 @@ function wppfm_alert_update_finished( feedId, repeatTime ) {
 
 			switch ( status[ 'status_id' ] ) {
 				case '0': // unknown
+					//noinspection JSUnresolvedVariable
 					wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_status_unknown.replace( '%feedname%', status[ 'title' ] ) );
 					window.clearInterval( wppfmStatusCheck );
 					break;
@@ -680,27 +673,32 @@ function wppfm_alert_update_finished( feedId, repeatTime ) {
 					var feedUrlStorageElement = document.getElementById( 'wppfm-feed-url' );
 					feedUrlStorageElement.textContent = status[ 'url' ];
 
+					//noinspection JSUnresolvedVariable
 					wppfm_show_success_message(
 						wppfm_feed_settings_form_vars.feed_status_ready.replace( '%feedname%', status[ 'title' ] ).replace( '%prodnr%', status[ 'products' ] ) );
 					window.clearInterval( wppfmStatusCheck );
 					break;
 
 				case '3': // processing
+					//noinspection JSUnresolvedVariable
 					wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_status_still_processing );
 					break;
 
 				case '4': // in queue
+					//noinspection JSUnresolvedVariable
 					wppfm_show_success_message( wppfm_feed_settings_form_vars.feed_status_added_to_queue );
 					break;
 
 				case '5': // error
 					successErrorMessageElement.hide();
+					//noinspection JSUnresolvedVariable
 					wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_status_error.replace( '%feedname%', status[ 'title' ] ) );
 					window.clearInterval( wppfmStatusCheck );
 					break;
 
 				case '6': // failed
 					successErrorMessageElement.hide();
+					//noinspection JSUnresolvedVariable
 					wppfm_show_error_message( wppfm_feed_settings_form_vars.feed_status_failed.replace( '%feedname%', status[ 'title' ] ) );
 					window.clearInterval( wppfmStatusCheck );
 					break;
@@ -715,9 +713,11 @@ function wppfm_saveFeed() {
 
 	var newFeed = _feedHolder[ 'feedId' ] === - 1;
 
+	//noinspection JSUnresolvedVariable
 	_feedHolder[ 'mainCategory' ] = ! wppfm_channelUsesOwnCategories( _feedHolder[ 'channel' ] ) ? _feedHolder[ 'mainCategory' ] : wppfm_feed_settings_form_vars.no_category_required;
 
 	if ( newFeed ) {
+		//noinspection JSUnresolvedVariable
 		_feedHolder[ 'url' ] = wppfm_feed_settings_form_vars.no_feed_generated;
 	}
 
@@ -727,6 +727,7 @@ function wppfm_saveFeed() {
 			// the wppfm_saveFeedToDb returns the entered feed id
 			if ( dbResult === 0 ) {
 				console.log( 'Saving the data to the data base has failed!' );
+				//noinspection JSUnresolvedVariable
 				wppfm_show_error_message( wppfm_feed_settings_form_vars.save_data_failed );
 			} else {
 
@@ -775,7 +776,7 @@ function wppfm_nextCategory( currentLevelId ) {
 		wppfm_showFeedSpinner();
 	}
 
-	// show the correct sub level selectors, hide the others
+	// show the correct sublevel selectors, hide the others
 	wppfm_hideSubs( currentLevelId );
 
 	// fill the special filter variables
@@ -793,6 +794,7 @@ function wppfm_nextCategory( currentLevelId ) {
 		if ( currentLevelId.indexOf( 'catmap' ) > - 1 ) { // the selection is from the category map
 			wppfm_setChildCategories( currentLevelId, selectedCategory );
 		} else { // the selection is from the default category
+			console.log( _feedHolder );
 			_feedHolder.setMainCategory( currentLevelId, selectedCategory, channel );
 
 			if ( _feedHolder[ 'attributes' ].length > 0 && _feedHolder[ 'attributes' ][ 3 ][ 'value' ] !== undefined && _feedHolder[ 'attributes' ][ 3 ][ 'value' ] !== '' ) {
@@ -857,6 +859,7 @@ function wppfm_setChildrenToParentCategory( parentId, childId, level, selectedCa
 
 	var preSelectionParentCategory = curCatStr.substring( 0, curCatStr.length - 3 );
 
+	//noinspection JSUnresolvedVariable
 	if ( currentChildCategory === preSelectionParentCategory || currentChildCategory === wppfm_feed_settings_form_vars.map_to_default_category ) {
 		if ( catmapTextSpanSelector.length === 0 ) {
 			wppfm_mapToDefaultCategoryElement( childId, newCategory );
@@ -950,13 +953,13 @@ function wppfm_fillFeedFields( isNew, categoryChanged ) {
 	}
 
 	// get the link to the update schedule selectors
-	var hrsSelector  = document.getElementById( 'update-schedule-hours' );
-	var mntsSelector = document.getElementById( 'update-schedule-minutes' );
+	var hoursSelector  = document.getElementById( 'update-schedule-hours' );
+	var minutesSelector = document.getElementById( 'update-schedule-minutes' );
 	var freqSelector = document.getElementById( 'update-schedule-frequency' );
 
 	// set the values of the update schedule selectors
-	hrsSelector.value  = schedule[ 1 ];
-	mntsSelector.value = schedule[ 2 ];
+	hoursSelector.value  = schedule[ 1 ];
+	minutesSelector.value = schedule[ 2 ];
 	freqSelector.value = schedule[ 3 ] ? schedule[ 3 ] : '1'; // standard setting is once a day
 
 	// set the layout of the update schedule selectors
@@ -976,8 +979,10 @@ function wppfm_fillFeedFields( isNew, categoryChanged ) {
  * @returns {string} Html for a category selector
  */
 function wppfm_categorySelectCntrl( categories ) {
+	//noinspection JSUnresolvedVariable
 	var htmlCode = '<option value="0">' + wppfm_feed_settings_form_vars.select_a_sub_category + '</option>';
 	if ( '1' === _feedHolder['channel'] ) {
+		//noinspection JSUnresolvedVariable
 		htmlCode += '<option value="cat_number">' + wppfm_feed_settings_form_vars.select_by_category_number + '</option>';
 	}
 
@@ -1000,6 +1005,7 @@ function wppfm_editCategoryMapping( id ) {
 	var currentCategoryString = jQuery( '#category-text-span-' + id ).text();
 	var currentCategoryArray  = currentCategoryString.split( ' > ' );
 
+	//noinspection JSUnresolvedVariable
 	if ( currentCategoryString && currentCategoryString !== wppfm_feed_settings_form_vars.map_to_default_category ) {
 		// the current Shop Category already has a category set. So keep that category as the default setting
 		wppfm_getCategoryListsFromString( channel, currentCategoryString, language, function( categories ) {
@@ -1043,7 +1049,7 @@ function wppfm_showCategoryMappingSelectors( id, catList, currentCategoryArray )
 		catMapSelectorElement.prop( 'disabled', false );
 	}
 
-	jQuery( '#feed-category-' + id ).html( '' ); // remove the category string so it can be replaced by the selector
+	jQuery( '#feed-category-' + id ).html( '' ); // remove the category string, so it can be replaced by the selector
 	jQuery( '#category-selector-catmap-' + id ).show(); // now show the category selectors
 }
 
@@ -1059,6 +1065,7 @@ function wppfm_activateOptionalFieldRow( level, name ) {
 
 	// get the html code for the new source row that needs to be added to the form
 	var code = wppfm_fieldRow( _feedHolder[ 'attributes' ][ attributeId ], true );
+	//noinspection DuplicatedCode
 	var ind  = - 1;
 
 	// find the index of the selected item in the correct undefined outputs list
@@ -1110,6 +1117,7 @@ function wppfm_activateCustomFieldRow( fieldName ) {
 		newCustomRowItem.append( wppfm_fieldRow( _feedHolder[ 'attributes' ][ attributeId ], true ) );
 		newCustomRowItem.show();
 	} else {
+		//noinspection JSUnresolvedVariable
 		alert( wppfm_feed_settings_form_vars.duplicated_field.replace( '%fieldname%', fieldName ) );
 	}
 
@@ -1189,6 +1197,7 @@ function wppfm_resetOutputField( fieldId, level, isActive ) {
  */
 function wppfm_fieldRow( attributeData, removable ) {
 	var rowId          = attributeData[ 'rowId' ];
+	//noinspection DuplicatedCode
 	var sourceRowsData = _feedHolder.getSourceObject( rowId );
 	var nrOfSources    = countSources( sourceRowsData.mapping );
 
@@ -1238,37 +1247,31 @@ function wppfm_addSourceDataAndQueriesColumn( sourceLevel, sourceRowsData ) {
 
 	if ( sourceIsCategory ) {
 		htmlCode += wppfm_categorySource();
-	} else if ( (
-		            sourceRowsData.advisedSource && ! sourceMappingHasSourceData && sourceRowsData.advisedSource !== wppfm_feed_settings_form_vars.fill_with_static_value
-	            )
-	            || sourceRowsData.advisedSource === sourceValue ) {
+	} else if (( sourceRowsData.advisedSource
+		&& ! sourceMappingHasSourceData
+		&& sourceRowsData.advisedSource !== wppfm_feed_settings_form_vars.fill_with_static_value )
+		|| sourceRowsData.advisedSource === sourceValue ) {
 
 		// remove underscore where applicable
 		//var advisedSourceWithoutUnderscore = sourceRowsData.advisedSource.charAt(0) === '_' ? sourceRowsData.advisedSource.substr(1) : sourceRowsData.advisedSource;
 		var advisedSourceLabel = jQuery.grep( _inputFields, function( e ) {
 			return e.value === sourceRowsData.advisedSource;
 		} );
-		advisedSourceLabel     = advisedSourceLabel[ 0 ] ? advisedSourceLabel[ 0 ].label : sourceRowsData.advisedSource;
+		advisedSourceLabel = advisedSourceLabel[ 0 ] ? advisedSourceLabel[ 0 ].label : sourceRowsData.advisedSource;
 
-		htmlCode += wppfm_advisedSourceSelector( sourceRowsData.rowId, sourceLevel, advisedSourceLabel,
-			channel, sourceRowsData.mapping );
-	} else if ( (
-		            ! sourceRowsData.advisedSource && ! sourceValue
-	            )
-	            || sourceMappingHasSourceData
-	            || sourceRowsData.advisedSource === wppfm_feed_settings_form_vars.fill_with_static_value ) {
+		htmlCode += wppfm_advisedSourceSelector( sourceRowsData.rowId, sourceLevel, advisedSourceLabel, channel, sourceRowsData.mapping );
+	} else if ( ( ! sourceRowsData.advisedSource && ! sourceValue )
+		|| sourceMappingHasSourceData
+		|| sourceRowsData.advisedSource === wppfm_feed_settings_form_vars.fill_with_static_value ) {
 
-		htmlCode += wppfm_inputFieldCntrl( sourceRowsData.rowId, sourceLevel, sourceValue, staticValue, sourceRowsData.advisedSource, combinedValue,
-			wppfm_isCustomChannel( channel ) );
+		//noinspection DuplicatedCode
+		htmlCode += wppfm_inputFieldCntrl( sourceRowsData.rowId, sourceLevel, sourceValue, staticValue, sourceRowsData.advisedSource, combinedValue, wppfm_isCustomChannel( channel ) );
 
 		if ( staticValue ) {
-
-			htmlCode += wppfm_feedStaticValueSelector( sourceRowsData.fieldName, sourceRowsData.rowId, sourceLevel, 0,
-				staticValue, channel );
+			htmlCode += wppfm_feedStaticValueSelector( sourceRowsData.fieldName, sourceRowsData.rowId, sourceLevel, 0, staticValue, channel );
 		}
 
 		if ( combinedValue ) {
-
 			htmlCode += wppfm_combinedField( sourceRowsData.rowId, sourceLevel, 0, combinedValue, false, channel );
 		}
 	}
@@ -1327,6 +1330,7 @@ function wppfm_addCombinedField( id, sourceLevel, combinedLevel ) {
 
 		jQuery( '#add-combined-field-' + id + '-' + sourceLevel ).hide();
 	} else {
+		//noinspection JSUnresolvedVariable
 		alert( wppfm_feed_settings_form_vars.select_all_source_fields_warning );
 	}
 }
@@ -1352,8 +1356,7 @@ function wppfm_combinedField( rowId, sourceLevel, combinedLevel, fields, manualA
 		var fieldSplit;
 
 		if ( str ) {
-			fieldSplit = str.substr( 0, ind ) !== 'static' ? [ str.substr( 0, ind ), str.substr( ind + 1 ) ]
-				: [ '0', fieldsArray[ i ] ];
+			fieldSplit = str.substring( 0, ind ) !== 'static' ? [ str.substring( 0, ind ), str.substring( ind + 1 ) ] : [ '0', fieldsArray[ i ] ];
 		} else {
 			fieldSplit = [];
 		}
@@ -1423,6 +1426,7 @@ function wppfm_ifConditionSelector( rowId, sourceLevel, conditionLevel, numberOf
 
 	var htmlCode          = '';
 	var query             = wppfm_isEmptyQueryObject( queryObject ) ? wppfm_makeCleanQueryObject() : queryObject;
+	//noinspection JSUnresolvedVariable
 	var conditionSelector = wppfm_feed_settings_form_vars.if_pref + ' ';
 
 	if ( conditionLevel > 1 ) {
@@ -1568,6 +1572,7 @@ function wppfm_addOptionalFieldRow( level ) {
 
 	if ( addRow === true ) {
 
+		//noinspection DuplicatedCode
 		if ( level === 3 ) {
 			htmlCode += '<div class="field-table-row-wrapper" id="new-recommended-row" style="display:none;"></div>';
 		} else if ( level === 4 ) {
@@ -1588,6 +1593,7 @@ function wppfm_addOptionalFieldRow( level ) {
 	return htmlCode;
 }
 
+//noinspection JSUnusedGlobalSymbols
 /**
  * Is called when the user wants to edit an advised source. Changes the advised output string to a source selector
  *
@@ -1604,6 +1610,7 @@ function wppfm_editOutput( rowId, sourceLevel ) {
 	jQuery( '#source-select-' + rowId + '-' + sourceLevel ).html( htmlCode );
 }
 
+//noinspection JSUnusedGlobalSymbols
 function wppfm_removeCondition( rowId, sourceLevel, conditionLevel ) {
 
 	// remove the selected query
@@ -1644,6 +1651,7 @@ function wppfm_removeCondition( rowId, sourceLevel, conditionLevel ) {
 	}
 }
 
+//noinspection JSUnusedGlobalSymbols
 function wppfm_removeValueQuery( rowId, sourceLevel, queryLevel ) {
 
 	// remove the selected query
@@ -1688,6 +1696,7 @@ function wppfm_removeValueQuery( rowId, sourceLevel, queryLevel ) {
 	}
 }
 
+//noinspection JSUnusedGlobalSymbols
 function wppfm_removeRow( rowId, fieldName ) {
 	// find the index of the selected item in the correct undefined outputs list
 	var ind   = _definedRecommendedOutputs.indexOf( fieldName );
@@ -1704,7 +1713,7 @@ function wppfm_removeRow( rowId, fieldName ) {
 	// remove the source row from the form
 	jQuery( '#row-' + rowId ).remove();
 
-	// reset the lists that contain the selected and non selected output fields
+	// reset the lists that contain the selected and non-selected output fields
 	if ( level === 3 ) {
 		_definedRecommendedOutputs.splice( ind, 1 );
 		_undefinedRecommendedOutputs.push( fieldName );
@@ -1723,8 +1732,8 @@ function wppfm_removeRow( rowId, fieldName ) {
 /**
  * Adds the condition controls to the attribute mapping rows.
  *
- * @param   {int}       rowId           Id of the row of the attribute.
- * @param   {int}       sourceLevel     Level of the source.
+ * @param   {string}       rowId           Id of the row of the attribute.
+ * @param   {string}       sourceLevel     Level of the source.
  * @param   {int}       conditionLevel  Level of the condition.
  * @param   {string}    query           String containing the query
  */
@@ -1734,14 +1743,14 @@ function wppfm_addCondition( rowId, sourceLevel, conditionLevel, query ) {
 	var condition = wppfm_conditionCode( rowId, sourceLevel, conditionLevel, query, 0 );
 
 	if ( condition ) {
-		// and if its the first condition level
+		// and if it's the first condition level
 		if ( '0' === String( conditionLevel ) ) {
 
 			// add a "for all other products" row
-			jQuery( wppfm_addFeedSourceRow( rowId, sourceLevel + 1, _feedHolder.getSourceObject( rowId ) ) ).insertAfter( '#source-' + rowId + '-' + sourceLevel, false );
+			jQuery( wppfm_addFeedSourceRow( rowId, sourceLevel + 1, _feedHolder.getSourceObject( rowId ) ) ).insertAfter( '#source-' + rowId + '-' + sourceLevel );
 		}
 
-		// if this input has an advised value, than store this advised value in the meta data
+		// if this input has an advised value, then store this advised value in the metadata
 		if ( _feedHolder[ 'attributes' ][ rowId ][ 'advisedSource' ] ) {
 
 			_feedHolder.setSourceValue( rowId, (
@@ -1795,12 +1804,13 @@ function wppfm_conditionCode( rowId, sourceLevel, conditionLevel, query, nrQueri
 
 			return true;
 		} else {
+			//noinspection JSUnresolvedVariable
 			alert( wppfm_feed_settings_form_vars.fill_current_condition_warning );
 
 			return false;
 		}
 	} else {
-
+		//noinspection JSUnresolvedVariable
 		alert( wppfm_feed_settings_form_vars.select_a_source_field_warning );
 
 		return false;
@@ -1840,9 +1850,11 @@ function wppfm_addValueQuery( rowId, sourceLevel, queryLevel, query ) {
 			jQuery( '#value-options-add-edit-condition-' + rowId + '-' + sourceLevel + '-' + queryLevel ).hide(); // hides the add button on this condition level
 			jQuery( '#value-editor-queries-' + rowId + '-' + sourceLevel + '-0' ).append( wppfm_ifValueQuerySelector( rowId, sourceLevel, queryLevel + 1, queryArray, true ) );
 		} else {
+			//noinspection JSUnresolvedVariable
 			alert( wppfm_feed_settings_form_vars.fill_current_condition_warning );
 		}
 	} else {
+		//noinspection JSUnresolvedVariable
 		alert( wppfm_feed_settings_form_vars.elect_a_source_field_warning );
 	}
 }
@@ -1853,28 +1865,6 @@ function wppfm_conditionSelectorCode( id, sourceLevel, level, nrQueries, query )
 
 	return wppfm_ifConditionSelector( id, sourceLevel, level + 1, nrQueries, queryArray );
 }
-
-// Removed @since 2.26.0.
-// function wppfm_orSelectorRowCode( rowId, sourceLevel, borderStyleClass ) {
-// 	// source wrapper
-// 	var htmlCode = '<div class="feed-source-row" id="source-' + rowId + '-' + sourceLevel + '">';
-//
-// 	// first column wrapper
-// 	htmlCode += '<div class="add-to-feed-column colw col20w">&nbsp;</div>';
-//
-// 	// the source data and queries wrapper
-// 	htmlCode += '<div class="source-data-column colw col80w' + borderStyleClass + '" id="source-data-' + rowId + '-' + sourceLevel + '">';
-//
-// 	htmlCode += '<div class="source-selector colw col30w" id="source-select-' + rowId + '-' + sourceLevel + '"></div>';
-// 	htmlCode += wppfm_orSelectorCode( rowId, '' );
-// 	htmlCode += '<div></div>';
-//
-// 	htmlCode += wppfm_endrow( rowId );
-//
-// 	htmlCode += '</div></div>';
-//
-// 	return htmlCode;
-// }
 
 function wppfm_orSelectorCode( id, alternativeInputs ) {
 
@@ -1928,7 +1918,7 @@ function wppfm_changedOutput( rowId, sourceLevel, advisedSource ) {
 	switch ( selectedValue ) {
 		case 'advised':
 
-			if ( rowId !== 3 ) {
+			if ( rowId !== '3' ) {
 
 				var htmlCode = '';
 
@@ -2011,10 +2001,10 @@ function wppfm_changedOutput( rowId, sourceLevel, advisedSource ) {
 
 		case 'category_mapping':
 
-			_feedHolder.setCustomCategory( rowId, _feedHolder.mainCategory );          // Deze optie geeft een foutmelding!!!!!, maar zou wel de goede optie moeten zijn!!!!
-			//            _feedHolder.setCategoryValue( rowId, _feedHolder.mainCategory );    // nieuwe feed maken, aantal outputs invoeren, een van de outputs aan de category map koppelen
-			// feed wordt nu wel gemaakt, maar de value van dit attribute wordt geen "t" waarde, maar blijft een
-			// een 'm' met 's' waarde
+			_feedHolder.setCustomCategory( rowId, _feedHolder.mainCategory );          // This option generates an error message, but it should be correct!!!!!!!!!
+			//            _feedHolder.setCategoryValue( rowId, _feedHolder.mainCategory );    // Generate a new feed, make some outputs, link one of the outputs to the category map
+			// The feed wil now be generated, but the value of this attribute will not be a 't' value, but will remain a
+			// 'm' with 's' value
 
 			staticInputFieldElement.remove();
 			staticConditionInputElement.remove();
@@ -2075,8 +2065,8 @@ function wppfm_changedAlternativeSource( rowId ) {
 	}
 }
 
-function wppfm_changedCombinationSeparator( rowId, sourveLevel, combinationLevel ) {
-	wppfm_changedCombinedOutput( rowId, sourveLevel, combinationLevel );
+function wppfm_changedCombinationSeparator( rowId, sourceLevel, combinationLevel ) {
+	wppfm_changedCombinedOutput( rowId, sourceLevel, combinationLevel );
 }
 
 function wppfm_changedCombinedOutput( rowId, sourceLevel, combinationLevel ) {
@@ -2108,10 +2098,11 @@ function wppfm_changedCombinedOutput( rowId, sourceLevel, combinationLevel ) {
 		_feedHolder.removeCombinedOutputValue( rowId, sourceLevel, combinationLevel );
 		if ( sourceLevel === '0' ) {
 			_feedHolder.deactivateAttribute( rowId );
-		} // only deactivate when when on the first (0) level
+		} // only deactivate when on the first (0) level
 	}
 }
 
+//noinspection JSUnusedGlobalSymbols
 function wppfm_removeCombinedField( id, sourceLevel, combinedLevel ) {
 
 	_feedHolder.removeCombinedOutputValue( id, sourceLevel, combinedLevel );
@@ -2242,6 +2233,7 @@ function wppfm_storeCondition( rowId, sourceLevel, conditionLevel ) {
 		jQuery( '#input-field-cntrl-' + rowId + '-' + sourceLevel + '-1' ).prop( 'selectedIndex', 0 );
 		jQuery( '#condition-value-' + rowId + '-' + sourceLevel + '-1' ).val( '' );
 
+		//noinspection JSUnresolvedVariable
 		alert( wppfm_feed_settings_form_vars.select_a_valid_source_warning );
 	}
 
@@ -2261,7 +2253,7 @@ function wppfm_validSourceSelected( rowId, sourceLevel ) {
 			var staticConditionInputElement = jQuery( '#static-condition-input-' + rowId + '-' + sourceLevel + '-0' );
 			var staticInputFieldElement     = jQuery( '#static-input-field-' + rowId + '-' + sourceLevel + '-0' );
 
-			// TODO: uitzoeken waarom ik de ene keer een static-condition-input en de ander keer een static-input-field als id gebruik
+			// TODO: check why I use the static-condition-input and the static-input-field as id sometimes
 			if ( staticConditionInputElement.val() ) {
 				return ! ! staticConditionInputElement.val();
 			} else if ( staticInputFieldElement.val() ) {
@@ -2443,6 +2435,7 @@ function wppfm_drawAttributeMappingSection() {
 	jQuery( '#wppfm-attribute-map' ).show( 300 );
 }
 
+//noinspection DuplicatedCode
 function wppfm_resetFields() {
 
 	_mandatoryFields             = [];
@@ -2457,10 +2450,10 @@ function wppfm_resetFields() {
 
 function wppfm_queryConditionChanged( id, sourceLevel, conditionLevel ) {
 
-	// TODO: wppfm_queryConditionChanged en wppfm_queryValueConditionChanged en andere functies die aan de conditions zijn
-	// gerelateerd kunnen volgens mij samengevoegd worden door in de query-condition niveaus toch een unieke subQuery
-	// nummer toe te voegen (bijvoorbeeld een lettercombinatie) waardoor ze van de value-query-condition niveaus
-	// kunnen worden gescheiden. Daarna is het combineren van beide condition opties mogelijk.
+	// TODO: wppfm_queryConditionChanged and wppfm_queryValueConditionChanged and other functions that are related to the conditions
+	// can probably be combined by adding a unique subQuery number to the query-condition levels (for example a letter combination)
+	// so that they can be separated from the value-query-condition levels.
+	// After that combining the two condition options is possible.
 
 	// get the selected query option
 	var value = jQuery( '#query-condition-' + id + '-' + sourceLevel + '-' + conditionLevel ).val();
@@ -2491,7 +2484,7 @@ function wppfm_queryConditionChanged( id, sourceLevel, conditionLevel ) {
 	) ).length ) {
 
 		// add a new source row to the fieldRow
-		jQuery( wppfm_addFeedSourceRow( id, sourceLevel + 1, _feedHolder.getSourceObject( id ) ) ).insertAfter( '#source-' + id + '-' + sourceLevel, false );
+		jQuery( wppfm_addFeedSourceRow( id, sourceLevel + 1, _feedHolder.getSourceObject( id ) ) ).insertAfter( '#source-' + id + '-' + sourceLevel );
 	}
 }
 
@@ -2585,6 +2578,7 @@ function wppfm_makeFeedFilterWrapper( feedId, filter ) {
 function wppfm_getCombinedSeparatorList( selectedValue ) {
 
 	// ALERT These options have to be the same as in the make_combined_result_string() array
+	//noinspection JSUnresolvedVariable
 	var separatorOptions = {
 		'0': '-- ' + wppfm_feed_settings_form_vars.no_separator + ' --',
 		'1': wppfm_feed_settings_form_vars.space,

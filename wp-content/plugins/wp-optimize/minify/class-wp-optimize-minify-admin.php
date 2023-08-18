@@ -75,7 +75,7 @@ class WP_Optimize_Minify_Admin {
 		$errors = array();
 		
 		if (!WPO_MINIFY_PHP_VERSION_MET) {
-			$errors[] = sprintf(__('WP-Optimize Minify requires PHP 5.4 or higher. You’re using version %s.', 'wp-optimize'), PHP_VERSION);
+			$errors[] = __('WP-Optimize Minify requires PHP 5.4 or higher.', 'wp-optimize') . ' ' . sprintf(__("You're using version %s.", 'wp-optimize'), PHP_VERSION);
 		}
 
 		if (!extension_loaded('mbstring')) {
@@ -83,7 +83,7 @@ class WP_Optimize_Minify_Admin {
 		}
 		
 		if (version_compare($wp_version, $this->wp_version_required, '<')) {
-			$errors[] = sprintf(__('WP-Optimize Minify requires WordPress version %s or higher. You’re using version %s.', 'wp-optimize'), $this->wp_version_required, $wp_version);
+			$errors[] = sprintf(__('WP-Optimize Minify requires WordPress version %s or higher.', 'wp-optimize'), $this->wp_version_required) . ' ' . sprintf(__("You're using version %s.", 'wp-optimize'),  $wp_version);
 		}
 
 		foreach ($errors as $error) {
@@ -136,7 +136,7 @@ class WP_Optimize_Minify_Admin {
 	 * @return void
 	 */
 	public function output_status() {
-		$this->found_incompatible_plugins = WP_Optimize_Detect_Minify_Plugins::get_instance()->get_active_minify_plugins();
+		$found_incompatible_plugins = WP_Optimize_Detect_Minify_Plugins::get_instance()->get_active_minify_plugins();
 		$wpo_minify_options = wp_optimize_minify_config()->get();
 		$cache_path = WP_Optimize_Minify_Cache_Functions::cache_path();
 		WP_Optimize()->include_template(
@@ -147,7 +147,7 @@ class WP_Optimize_Minify_Admin {
 				'show_information_notice' => !get_user_meta(get_current_user_id(), 'wpo-hide-minify-information-notice', true),
 				'cache_dir' => $cache_path['cachedir'],
 				'can_purge_the_cache' => WP_Optimize()->get_minify()->can_purge_cache(),
-				'active_minify_plugins' => apply_filters('wpo_minify_found_incompatible_plugins', $this->found_incompatible_plugins),
+				'active_minify_plugins' => apply_filters('wpo_minify_found_incompatible_plugins', $found_incompatible_plugins),
 			)
 		);
 	}

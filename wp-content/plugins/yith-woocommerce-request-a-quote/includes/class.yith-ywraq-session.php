@@ -8,7 +8,7 @@
  * @class   YITH_YWRAQ_Session
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {

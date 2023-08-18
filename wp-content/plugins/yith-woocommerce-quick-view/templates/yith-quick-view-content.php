@@ -2,7 +2,7 @@
 /**
  * Quick view content.
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
  * @version 1.0.0
  */

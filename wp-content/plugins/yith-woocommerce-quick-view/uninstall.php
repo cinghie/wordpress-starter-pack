@@ -2,7 +2,7 @@
 /**
  * Uninstall plugin
  *
- * @author Your Inspiration Themes
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
  * @version 1.0.0
  */

@@ -418,6 +418,7 @@ class IS_Search_Editor
                     $terms = get_terms( array(
                         'taxonomy' => $key,
                         'lang'     => '',
+                        'number'   => 1000,
                     ) );
                     
                     if ( !empty($terms) && !empty($tax_obj->labels->name) ) {
@@ -2054,6 +2055,7 @@ class IS_Search_Editor
                     $terms = get_terms( array(
                         'taxonomy' => $key,
                         'lang'     => '',
+                        'number'   => 1000,
                     ) );
                     
                     if ( !empty($terms) && !empty($tax_obj->labels->name) ) {

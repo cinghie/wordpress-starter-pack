@@ -19,29 +19,29 @@ class EventsManager {
 
 
     public function __construct() {
+		$this->set_pbid();
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueueScripts' ),10 );
         add_action( 'wp_enqueue_scripts', array( $this, 'setupEventsParams' ),14 );
         add_action( 'wp_enqueue_scripts', array( $this, 'outputData' ),15 );
-
 		add_action( 'wp_footer', array( $this, 'outputNoScriptData' ), 10 );
-
 	}
 
 	public function enqueueScripts() {
-	    
+
         wp_register_script( 'jquery-bind-first', PYS_FREE_URL . '/dist/scripts/jquery.bind-first-0.2.3.min.js', array( 'jquery' ) );
-		wp_enqueue_script( 'jquery-bind-first' );
-  
-        wp_register_script( 'js-cookie', PYS_FREE_URL . '/dist/scripts/js.cookie-2.1.3.min.js', array(), '2.1.3' );
-        wp_enqueue_script( 'js-cookie' );
+        wp_enqueue_script( 'jquery-bind-first' );
+
+        wp_register_script( 'js-cookie-pys', PYS_FREE_URL . '/dist/scripts/js.cookie-2.1.3.min.js', array(), '2.1.3' );
+        wp_enqueue_script( 'js-cookie-pys' );
+
         if ( PYS()->getOption( 'compress_front_js' )){
             wp_enqueue_script( 'pys', PYS_FREE_URL . '/dist/scripts/public.bundle.js',
-                array( 'jquery', 'js-cookie', 'jquery-bind-first' ), PYS_FREE_VERSION );
+                array( 'jquery','js-cookie-pys', 'jquery-bind-first' ), PYS_FREE_VERSION );
         }
         else
         {
             wp_enqueue_script( 'pys', PYS_FREE_URL . '/dist/scripts/public.js',
-                array( 'jquery', 'js-cookie', 'jquery-bind-first' ), PYS_FREE_VERSION );
+                array( 'jquery','js-cookie-pys', 'jquery-bind-first' ), PYS_FREE_VERSION );
         }
 
 
@@ -73,7 +73,9 @@ class EventsManager {
             'ajax_event'                        => wp_create_nonce('ajax-event-nonce'),
             'enable_remove_download_url_param'  => PYS()->getOption( 'enable_remove_download_url_param' ),
             'cookie_duration'                   => PYS()->getOption( 'cookie_duration' ),
-            'last_visit_duration'               => PYS()->getOption('last_visit_duration')
+            'last_visit_duration'               => PYS()->getOption('last_visit_duration'),
+            'enable_success_send_form'          => PYS()->getOption( 'enable_success_send_form' ),
+			'ajaxForServerEvent'                => PYS()->getOption( 'server_event_use_ajax'),
 		);
 
 		$options['gdpr'] = array(
@@ -85,6 +87,8 @@ class EventsManager {
 			'pinterest_disabled_by_api' => apply_filters( 'pys_disable_pinterest_by_gdpr', false ),
             'bing_disabled_by_api' => apply_filters( 'pys_disable_bing_by_gdpr', false ),
 
+            'externalID_disabled_by_api' => apply_filters( 'pys_disable_externalID_by_gdpr', false ),
+
 			'facebook_prior_consent_enabled'   => PYS()->getOption( 'gdpr_facebook_prior_consent_enabled' ),
 			'analytics_prior_consent_enabled'  => PYS()->getOption( 'gdpr_analytics_prior_consent_enabled' ),
 			'google_ads_prior_consent_enabled' => PYS()->getOption( 'gdpr_google_ads_prior_consent_enabled' ),
@@ -95,7 +99,8 @@ class EventsManager {
 			'cookiebot_integration_enabled'         => isCookiebotPluginActivated() && PYS()->getOption( 'gdpr_cookiebot_integration_enabled' ),
 			'cookiebot_facebook_consent_category'   => PYS()->getOption( 'gdpr_cookiebot_facebook_consent_category' ),
 			'cookiebot_analytics_consent_category'  => PYS()->getOption( 'gdpr_cookiebot_analytics_consent_category' ),
-			'cookiebot_google_ads_consent_category' => PYS()->getOption( 'gdpr_cookiebot_google_ads_consent_category' ),
+            'cookiebot_tiktok_consent_category'   => PYS()->getOption( 'gdpr_cookiebot_tiktok_consent_category' ),
+            'cookiebot_google_ads_consent_category' => PYS()->getOption( 'gdpr_cookiebot_google_ads_consent_category' ),
 			'cookiebot_pinterest_consent_category'  => PYS()->getOption( 'gdpr_cookiebot_pinterest_consent_category' ),
             'cookiebot_bing_consent_category' => PYS()->getOption( 'gdpr_cookiebot_bing_consent_category' ),
             'consent_magic_integration_enabled' => isConsentMagicPluginActivated() && PYS()->getOption( 'consent_magic_integration_enabled' ),
@@ -103,7 +108,15 @@ class EventsManager {
             'cookie_notice_integration_enabled' => isCookieNoticePluginActivated() && PYS()->getOption( 'gdpr_cookie_notice_integration_enabled' ),
 			'cookie_law_info_integration_enabled' => isCookieLawInfoPluginActivated() && PYS()->getOption( 'gdpr_cookie_law_info_integration_enabled' ),
 		);
-
+        $options['cookie'] = array(
+            'disabled_all_cookie'       => apply_filters( 'pys_disable_all_cookie', false ),
+            'disabled_advanced_form_data_cookie' => apply_filters( 'pys_disable_advanced_form_data_cookie', false ),
+            'disabled_landing_page_cookie'  => apply_filters( 'pys_disable_landing_page_cookie', false ),
+            'disabled_first_visit_cookie'  => apply_filters( 'pys_disable_first_visit_cookie', false ),
+            'disabled_trafficsource_cookie' => apply_filters( 'pys_disable_trafficsource_cookie', false ),
+            'disabled_utmTerms_cookie' => apply_filters( 'pys_disable_utmTerms_cookie', false ),
+            'disabled_utmId_cookie' => apply_filters( 'pys_disable_utmId_cookie', false ),
+        );
         /**
          * @var EventsFactory[] $eventsFactory
          */
@@ -123,12 +136,14 @@ class EventsManager {
 	}
 	
 	public function outputNoScriptData() {
-
-		foreach ( PYS()->getRegisteredPixels() as $pixel ) {
-			/** @var Pixel|Settings $pixel */
-			$pixel->outputNoScriptEvents();
-		}
-
+        if(!apply_filters( 'pys_disable_by_gdpr', false)) {
+            foreach (PYS()->getRegisteredPixels() as $pixel) {
+                /** @var Pixel|Settings $pixel */
+                if (!apply_filters('pys_disable_' . $pixel->getSlug() . '_by_gdpr', false)) {
+                    $pixel->outputNoScriptEvents();
+                }
+            }
+        }
     }
 
 
@@ -140,25 +155,6 @@ class EventsManager {
 
         $this->standardParams = getStandardParams();
         $this->facebookServerEvents = array();
-
-		// initial event
-        $initEvent = new SingleEvent('init_event',EventTypes::$STATIC,'');
-        if(get_post_type() == "post") {
-            global $post;
-            $catIds = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
-            $initEvent->addParams([
-                'post_category' => implode(", ",$catIds)
-            ]);
-        }
-
-        foreach ( PYS()->getRegisteredPixels() as $pixel ) {
-
-            $events = $pixel->generateEvents( $initEvent );
-            foreach ($events as $event) {
-                $event->addParams($this->standardParams);
-                $this->addStaticEvent( $event,$pixel,"" );
-            }
-        }
 
 
         /**
@@ -172,6 +168,24 @@ class EventsManager {
             $this->addEvents($events,$factory->getSlug());
         }
 
+		// initial event
+		$initEvent = new SingleEvent('init_event',EventTypes::$STATIC,'');
+		if(get_post_type() == "post") {
+			global $post;
+			$catIds = wp_get_object_terms( $post->ID, 'category', array( 'fields' => 'names' ) );
+			$initEvent->addParams([
+				'post_category' => implode(", ",$catIds)
+			]);
+		}
+
+		foreach ( PYS()->getRegisteredPixels() as $pixel ) {
+
+			$events = $pixel->generateEvents( $initEvent );
+			foreach ($events as $event) {
+				$event->addParams($this->standardParams);
+				$this->addStaticEvent( $event,$pixel,"" );
+			}
+		}
 
         if(EventsEdd()->isEnabled()) {
             // AddToCart on button
@@ -284,7 +298,7 @@ class EventsManager {
         $this->staticEvents[ $pixel->getSlug() ][ $event->getId() ][] = $eventData;
         // fire fb server api event
         if($pixel->getSlug() == "facebook") {
-            if( $eventData['delay'] == 0 && !Facebook()->getOption( "server_event_use_ajax" )) {
+            if( $eventData['delay'] == 0 && !PYS()->getOption( "server_event_use_ajax" )) {
                 $this->facebookServerEvents[] = $event;
             }
         }
@@ -482,22 +496,21 @@ class EventsManager {
 
 	}
 
-    public function setupEddSingleDownloadData() {
-        global $post;
-
+    public function setupEddSingleDownloadData($purchase_link) {
+        $download = $purchase_link;
         $download_ids = array();
 
-        if ( edd_has_variable_prices( $post->ID ) ) {
+        if ( edd_has_variable_prices( $download ) ) {
 
-            $prices = edd_get_variable_prices( $post->ID );
+            $prices = edd_get_variable_prices( $download );
 
             foreach ( $prices as $price_index => $price_data ) {
-                $download_ids[] = $post->ID . '_' . $price_index;
+                $download_ids[] = $download . '_' . $price_index;
             }
 
         } else {
 
-            $download_ids[] = $post->ID;
+            $download_ids[] = $download;
 
         }
 
@@ -526,11 +539,45 @@ class EventsManager {
         <script type="application/javascript" style="display:none">
             /* <![CDATA[ */
             window.pysEddProductData = window.pysEddProductData || [];
-            window.pysEddProductData[<?php echo $post->ID; ?>] = <?php echo json_encode( $params ); ?>;
+            window.pysEddProductData[<?php echo $download; ?>] = <?php echo json_encode( $params ); ?>;
             /* ]]> */
         </script>
 
         <?php
 
+    }
+    function get_pbid(){
+        $pbidCookieName = 'pbid';
+        if (isset($_COOKIE[$pbidCookieName])) {
+            return $_COOKIE[$pbidCookieName];
+        }
+        else return false;
+
+    }
+    function set_pbid()
+    {
+        $pbidCookieName = 'pbid';
+        $externalIdExpire = PYS()->getOption("external_id_expire");
+        $isTrackExternalId = EventsManager::isTrackExternalId();
+        $isEnabledTags = Facebook()->enabled() || Pinterest()->enabled();
+
+        if (!$isTrackExternalId || !$isEnabledTags) {
+            if (isset($_COOKIE[$pbidCookieName])) {
+                setcookie($pbidCookieName, '', time() - 3600, '/');
+            }
+        }
+
+        if (!isset($_COOKIE[$pbidCookieName]) && $isTrackExternalId) {
+            $uniqueId = bin2hex(random_bytes(16));
+            $encryptedUniqueId = hash('sha256', $uniqueId);
+            setcookie($pbidCookieName, $encryptedUniqueId, time() + ($externalIdExpire * 24 * 60 * 60), '/');
+
+            return $encryptedUniqueId;
+        }
+
+        return null;
+    }
+    static function isTrackExternalId(){
+        return PYS()->getOption("send_external_id") && !apply_filters( 'pys_disable_externalID_by_gdpr', false ) && !apply_filters( 'pys_disable_all_cookie', false );
     }
 }

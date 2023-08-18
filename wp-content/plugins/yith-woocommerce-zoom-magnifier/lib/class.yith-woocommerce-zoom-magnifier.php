@@ -2,7 +2,7 @@
 /**
  * Main class
  *
- * @author YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ZoomMagnifier\Classes
  * @version 1.1.2
  */
@@ -77,6 +77,8 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 			}
 
 			return $this->obj;
+
+			add_action( 'before_woocommerce_init', array( $this, 'declare_wc_features_support' ) );
 		}
 
 		/**
@@ -98,7 +100,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 		 *
 		 * @param array $links Action links.
 		 * @since    1.4.1
-		 * @author   Carlos Rodríguez <carlos.rodriguez@youirinspiration.it>
 		 *
 		 * @return array
 		 */
@@ -117,7 +118,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 		 * @param mixed $init_file Init file.
 		 *
 		 * @since    1.4.1
-		 * @author   Carlos Rodríguez <carlos.rodriguez@youirinspiration.it>
 		 *
 		 * @return array
 		 */
@@ -133,7 +133,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 		 * Ajax method to retrieve the product main imavge
 		 *
 		 * @access public
-		 * @author Daniel Sanchez Saez
 		 * @since  1.3.4
 		 */
 		public function yith_wc_zoom_magnifier_get_main_image_call_back() {
@@ -172,6 +171,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Zoom_Magnifier' ) ) {
 				)
 			);
 
+		}
+
+		/**
+		 * Declare support for WooCommerce features.
+		 */
+		public function declare_wc_features_support() {
+			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', YITH_YWZM_FREE_INIT, true );
+			}
 		}
 	}
 }

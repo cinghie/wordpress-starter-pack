@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		public function delete_channel( $channel_short ) {
 			$result = $this->_queries_class->remove_channel_from_db( $channel_short );
 
-			if ( ! $result || 0 == $result ) {
+			if ( ! $result ) {
 				$result = $this->_queries_class->clean_channel_table();
 			}
 
@@ -88,10 +88,6 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 		public function set_nr_of_feed_products( $feed_id, $nr ) {
 			return $this->_queries_class->set_nr_feed_products( $feed_id, $nr );
-		}
-
-		public function get_nr_of_feed_products( $feed_id ) {
-			return $this->_queries_class->get_nr_feed_products( $feed_id );
 		}
 
 		public function update_feed_data( $feed_id, $feed_url, $nr_products ) {
@@ -156,7 +152,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		/**
-		 * Fills output fields with stored meta data
+		 * Fills output fields with stored metadata
 		 *
 		 * @access public
 		 *
@@ -166,17 +162,17 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 * @return array
 		 */
 		public function fill_output_fields_with_metadata( $feed_id, $outputs ) {
-			// read the meta data from the database
+			// read the metadata from the database
 			$metadata = $this->_queries_class->read_metadata( $feed_id );
 
 			// loop through the output rows
 			for ( $i = 0; $i < count( $outputs ); $i ++ ) {
-				// check if there is specific meta data for this output row
+				// check if there is specific metadata for this output row
 				if ( count( $metadata ) > 0 ) {
 					foreach ( $metadata as $meta ) {
 						// look for a match
 						if ( $meta['meta_key'] === $outputs[ $i ]->field_label ) {
-							// put the meta data in the value variable of the output row
+							// put the metadata in the value variable of the output row
 							$outputs[ $i ]->value = $meta['meta_value'];
 							break; // break is required to stop the foreach loop and prevent the following loop from clearing the value
 						} else {
@@ -226,20 +222,20 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				default:
 					if ( 'valid' === get_option( 'wppfm_lic_status' ) ) { // error message for paid versions
 						echo '<div id="error">' . __(
-								'Could not add custom fields because I could not identify the channel.
+							'Could not add custom fields because I could not identify the channel.
 								If not already done add the correct channel in the Manage Channels page.
-								Also try to deactivate and then activate the plugin.',
-								'wp-product-feed-manager'
-							) . '</div>';
+							Also try to deactivate and then activate the plugin.',
+							'wp-product-feed-manager'
+						) . '</div>';
 
 						wppfm_write_log_file( sprintf( 'Could not define the channel in a valid Premium plugin version. Feed id = %s', $source_id ) );
 					} else { // error message for free version
 						echo '<div id="error">' . __(
-								'Could not identify the channel.
+							'Could not identify the channel.
 								Try to deactivate and then activate the plugin.
 								If that does not work remove the plugin through the WordPress Plugins page and than reinstall and activate it again.',
-								'wp-product-feed-manager'
-							) . '</div>';
+							'wp-product-feed-manager'
+						) . '</div>';
 
 						wppfm_write_log_file( sprintf( 'Could not define the channel in a free plugin version. Feed id = %s', $source_id ) );
 					}
@@ -259,16 +255,16 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 * @return  array   The attribute data.
 		 */
 		public function get_attribute_data( $feed_id, $channel_id ) {
-			$is_custom    = function_exists( 'wppfm_channel_is_custom_channel' ) ? wppfm_channel_is_custom_channel( $channel_id ) : false;
+			$is_custom    = function_exists( 'wppfm_channel_is_custom_channel' ) && wppfm_channel_is_custom_channel( $channel_id );
 			$channel_name = trim( $this->_queries_class->get_channel_short_name_from_db( $channel_id ) );
 
 			if ( ! $is_custom ) {
 				// read the output fields
 				$attributes_data = $this->_files_class->get_output_fields_for_specific_channel( $channel_name );
 
-				// if the feed is a stored feed, look for meta data to add (a feed an id of -1 is a new feed that not yet has been saved)
+				// if the feed is a stored feed, look for metadata to add (a feed an id of -1 is a new feed that not yet has been saved)
 				if ( $feed_id >= 0 ) {
-					// add meta data to the feeds output fields
+					// add metadata to the feeds output fields
 					$attributes_data = $this->fill_output_fields_with_metadata( $feed_id, $attributes_data );
 				}
 			} else {
@@ -304,7 +300,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				$parent_product_data = apply_filters( 'wppfm_transpress_translation', $parent_product_data, $language );
 			}
 
-			$parent_product_data = (array)$parent_product_data;
+			$parent_product_data = (array) $parent_product_data;
 
 			$sources_that_always_use_parent_data = apply_filters( 'sources_that_always_use_data_from_parent', array( 'post_excerpt' ) );
 
@@ -312,14 +308,14 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 			foreach ( $columns as $column ) {
 				if ( ( '' === $product_data[ $column ] && array_key_exists( $column, $parent_product_data ) && '' !== $parent_product_data[ $column ] )
-				     || in_array( $column, $sources_that_always_use_parent_data ) ) {
-					$product_data[ $column ] = array_key_exists( $column, $parent_product_data) ? $parent_product_data[ $column ] : '';
+					|| in_array( $column, $sources_that_always_use_parent_data, true ) ) {
+					$product_data[ $column ] = array_key_exists( $column, $parent_product_data ) ? $parent_product_data[ $column ] : '';
 				}
 			}
 		}
 
 		public function get_custom_fields_with_metadata( $feed_id ) {
-			// read the meta data from the database
+			// read the metadata from the database
 			$metadata = $this->_queries_class->read_metadata( $feed_id );
 			$outputs  = array();
 
@@ -332,7 +328,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				$object->field_label = $metadata[ $i ]['meta_key'];
 				$object->value       = $metadata[ $i ]['meta_value'];
 
-				array_push( $outputs, $object );
+				$outputs[] = $object;
 			}
 
 			return $outputs;
@@ -344,7 +340,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			// YITH Brands plugin
 			$yith_brand_label = get_option( 'yith_wcbr_brands_label' );
 			if ( $yith_brand_label ) {
-				array_push( $custom_fields, $yith_brand_label );
+				$custom_fields[] = $yith_brand_label;
 			}
 
 			// WooCommerce Brands
@@ -353,9 +349,10 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				apply_filters(
 					'active_plugins',
 					get_option( 'active_plugins' )
-				)
+				),
+				true
 			) ) {
-				array_push( $custom_fields, 'Brand' );
+				$custom_fields[] = 'Brand';
 			}
 
 			return $custom_fields;
@@ -410,7 +407,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 						$data_item->value = $this->get_country_id_from_short_code( $data_item->value )->country_id;
 					}
 
-					$result[ $data_item->name ] = '%d' != $data_item->type ? $data_item->value : intval( $data_item->value );
+					$result[ $data_item->name ] = '%d' !== $data_item->type ? $data_item->value : intval( $data_item->value );
 				}
 			}
 
@@ -434,11 +431,11 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				$feed_item = array_filter(
 					$ajax_feed_data,
 					function ( $item ) use ( $data_key ) {
-						return $item->name == $data_key;
+						return $item->name === $data_key;
 					}
 				);
 
-				array_push( $result, reset( $feed_item )->type );
+				$result[] = reset( $feed_item )->type;
 			}
 
 			return $result;
@@ -450,13 +447,13 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			$main_data      = $this->convert_data_to_feed_data( $main_feed_data[0] );
 
 			if ( false === $main_data ) {
-				return $main_data;
+				return false;
 			}
 
 			$main_data->attributes = array();
 
 			$channel   = trim( $this->_queries_class->get_channel_short_name_from_db( $main_feed_data[0]['channel'] ) );
-			$is_custom = function_exists( 'wppfm_channel_is_custom_channel' ) ? wppfm_channel_is_custom_channel( $channel ) : false;
+			$is_custom = function_exists( 'wppfm_channel_is_custom_channel' ) && wppfm_channel_is_custom_channel( $channel );
 
 			// read the output fields
 			if ( ! $is_custom ) {
@@ -465,7 +462,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				$outputs = $this->get_custom_fields_with_metadata( $feed_id );
 			}
 
-			// add meta data to the feeds output fields
+			// add metadata to the feeds output fields
 			$output_fields = $this->fill_output_fields_with_metadata( $feed_id, $outputs );
 			$inputs        = $this->get_advised_inputs( $main_data->channel, $main_feed_data[0]['feed_type_id'] );
 
@@ -480,8 +477,8 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 					$is_active = true;
 				}
 
-				$advised_source = property_exists( $inputs, $output_title ) ? $advised_source = $inputs->{$output_title} : '';
-				$this->add_attribute( $main_data->attributes, $i, $output_title, $advised_source, $output_fields[ $i ]->value, $output_fields[ $i ]->category_id, $is_active, 0, 0, 0 );
+				$advised_source = property_exists( $inputs, $output_title ) ? $inputs->{$output_title} : '';
+				$this->add_attribute( $main_data->attributes, $i, $output_title, $advised_source, $output_fields[ $i ]->value, $output_fields[ $i ]->category_id, $is_active );
 			}
 
 			$this->set_output_attribute_levels( $main_data );
@@ -501,21 +498,23 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		 * @since 2.26.0. Updated the get_terms() call to include empty categories.
 		 */
 		public function verify_categories_in_mapping( $category_mapping ) {
-			$categories        = (array)json_decode( $category_mapping );
+			$categories        = (array) json_decode( $category_mapping );
 			$categories_length = count( $categories );
-			$shop_categories = get_terms( array(
-				'taxonomy' => 'product_cat',
-				'hide_empty' => false,
-			) );
+			$shop_categories   = get_terms(
+				array(
+					'taxonomy'   => 'product_cat',
+					'hide_empty' => false,
+				)
+			);
 
 			for ( $i = 0; $i < $categories_length; $i++ ) {
-				$cat_mapping_id = $categories[$i]->shopCategoryId;
+				$cat_mapping_id = $categories[ $i ]->shopCategoryId;
 
 				$cat_exists = false;
 
 				foreach ( $shop_categories as $shop_category ) {
 
-					if ( $cat_mapping_id === (string)$shop_category->term_id ) {
+					if ( $cat_mapping_id === (string) $shop_category->term_id ) {
 						$cat_exists = true;
 						break;
 					}
@@ -523,9 +522,9 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 				if ( ! $cat_exists ) {
 					// Remove the non-existing category.
-					unset( $categories[$i] );
+					unset( $categories[ $i ] );
 					// Resort the categories object.
-					$categories = array_values($categories);
+					$categories = array_values( $categories );
 				}
 			}
 
@@ -548,23 +547,22 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		private function add_attribute(
-			&$attribute, $id, $title, $advised_source, $value, $field_level, $is_active,
-			$nr_queries, $nr_value_edits, $nr_value_conditions
+			&$attribute, $id, $title, $advised_source, $value, $field_level, $is_active
 		) {
-
 			$attribute_object = new stdClass();
 
+			/* phpcs:disable */
 			$attribute_object->rowId             = $id;
 			$attribute_object->fieldName         = $title;
 			$attribute_object->advisedSource     = $advised_source;
 			$attribute_object->value             = $value;
 			$attribute_object->fieldLevel        = $field_level;
 			$attribute_object->isActive          = $is_active;
-			$attribute_object->nrQueries         = $nr_queries;
-			$attribute_object->nrValueEdits      = $nr_value_edits;
-			$attribute_object->nrValueConditions = $nr_value_conditions;
+			$attribute_object->nrQueries         = 0;
+			$attribute_object->nrValueEdits      = 0;
+			$attribute_object->nrValueConditions = 0;
 
-			array_push( $attribute, $attribute_object );
+			$attribute[] = $attribute_object;
 		}
 
 		private function convert_data_to_feed_data( $data ) {
@@ -636,18 +634,18 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 				$obj->attribute_name  = $feed;
 				$obj->attribute_label = $feed;
 
-				array_push( $attributes, $obj );
-				array_push( $prev_dup_array, $obj->attribute_label );
+				$attributes[]     = $obj;
+				$prev_dup_array[] = $obj->attribute_label;
 			}
 
 			foreach ( $product_taxonomies as $taxonomy ) {
-				if ( ! in_array( $taxonomy, $prev_dup_array ) ) {
+				if ( ! in_array( $taxonomy, $prev_dup_array, true ) ) {
 					$obj                  = new stdClass();
 					$obj->attribute_name  = $taxonomy;
 					$obj->attribute_label = $taxonomy;
 
-					array_push( $attributes, $obj );
-					array_push( $prev_dup_array, $taxonomy );
+					$attributes[]     = $obj;
+					$prev_dup_array[] = $taxonomy;
 				}
 			}
 
@@ -656,14 +654,14 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 
 				if ( $attribute_object && ( is_object( $attribute_object ) || is_array( $attribute_object ) ) ) {
 					foreach ( $attribute_object as $attribute ) {
-						if ( is_array( $attribute ) && array_key_exists( 'name', $attribute ) && ! in_array( $attribute['name'], $prev_dup_array ) ) {
+						if ( is_array( $attribute ) && array_key_exists( 'name', $attribute ) && ! in_array( $attribute['name'], $prev_dup_array, true ) ) {
 							$obj                  = new stdClass();
 							$obj->attribute_name  = $attribute['name'];
 							$obj->attribute_label = $attribute['name'];
 
-							array_push( $attributes, $obj );
-							array_push( $prev_dup_array, $attribute['name'] );
-						} else if ( ! is_array( $attribute ) ) {
+							$attributes[]     = $obj;
+							$prev_dup_array[] = $attribute['name'];
+						} elseif ( ! is_array( $attribute ) ) {
 							wppfm_write_log_file( sprintf( 'An attribute object could not be processed as it\'s not in an array format. The content of the attribute object = %s', $attribute ), 'debug' );
 						}
 					}
@@ -675,13 +673,13 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			}
 
 			foreach ( $third_party_fields as $field_label ) {
-				if ( ! in_array( $field_label, $prev_dup_array ) ) {
+				if ( ! in_array( $field_label, $prev_dup_array, true ) ) {
 					$obj                  = new stdClass();
 					$obj->attribute_name  = $field_label;
 					$obj->attribute_label = $field_label;
 
-					array_push( $attributes, $obj );
-					array_push( $prev_dup_array, $field_label );
+					$attributes[]     = $obj;
+					$prev_dup_array[] = $field_label;
 				}
 			}
 

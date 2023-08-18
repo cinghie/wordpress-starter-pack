@@ -5,7 +5,7 @@
  * @class   YITH_Request_Quote
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
@@ -62,7 +62,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 * Initialize plugin and registers actions and filters to be used
 		 *
 		 * @since  1.0.0
-		 * @author Emanuela Castorina
 		 */
 		public function __construct() {
 
@@ -97,13 +96,14 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 				add_filter( 'woocommerce_get_price_html', array( $this, 'show_product_price' ), 0 );
 				add_filter( 'woocommerce_get_variation_price_html', array( $this, 'show_product_price' ), 0 );
 			}
+
+			add_action( 'before_woocommerce_init', array( $this, 'declare_wc_features_support' ) );
 		}
 
 		/**
 		 * Initialize session and cookies
 		 *
 		 * @since  1.0.0
-		 * @author Emanuela Castorina
 		 */
 		public function start_session() {
 			if ( headers_sent() ) {
@@ -120,7 +120,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 * Initialize functions
 		 *
 		 * @since  1.0.0
-		 * @author Emanuela Castorina
 		 */
 		public function init() {
 
@@ -133,7 +132,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return void
-		 * @author Andrea Grillo <andrea.grillo@yithemes.com>
 		 */
 		public function plugin_fw_loader() {
 			if ( ! defined( 'YIT_CORE_PLUGIN' ) ) {
@@ -150,7 +148,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return array
-		 * @author Emanuela Castorina
 		 */
 		public function get_raq_return() {
 			return $this->raq_content;
@@ -176,7 +173,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return bool
-		 * @author Emanuela Castorina
 		 */
 		public function is_empty() {
 			return empty( $this->raq_content );
@@ -187,7 +183,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return bool
-		 * @author Emanuela Castorina
 		 */
 		public function get_raq_item_number() {
 			return count( $this->raq_content );
@@ -198,7 +193,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return array
-		 * @author Emanuela Castorina
 		 */
 		public function get_raq_for_session() {
 			if ( isset( $this->session_class ) ) {
@@ -215,7 +209,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @return void
 		 * @since  1.0.0
-		 * @author Emanuela Castorina
 		 */
 		public function set_session( $raq_session = array(), $can_be_empty = false ) {
 			if ( empty( $raq_session ) && ! $can_be_empty ) {
@@ -233,7 +226,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return void
-		 * @author Emanuela Castorina
 		 */
 		public function unset_session() {
 			// Set raq and coupon session data.
@@ -245,7 +237,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 *
 		 * @since  1.0.0
 		 * @return void
-		 * @author Emanuela Castorina
 		 */
 		public function maybe_set_raq_cookies() {
 			$set = true;
@@ -271,7 +262,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 * @param   bool $set Flag to check if a cookie must be set.
 		 *
 		 * @return void
-		 * @author Emanuela Castorina
 		 */
 		private function set_rqa_cookies( $set = true ) {
 			if ( $set ) {
@@ -539,17 +529,8 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 * @since 1.0.0
 		 */
 		public function get_raq_page_url() {
-			$option_value = get_option( 'ywraq_page_id' );
-
-			if ( function_exists( 'wpml_object_id_filter' ) ) {
-				global $sitepress;
-				if ( ! is_null( $sitepress ) && is_callable( array( $sitepress, 'get_current_language' ) ) ) {
-					$option_value = wpml_object_id_filter( $option_value, 'post', true, $sitepress->get_current_language() );
-				}
-			}
-
+			$option_value = apply_filters( 'wpml_object_id', get_option( 'ywraq_page_id' ), 'post', true );
 			$base_url = get_the_permalink( $option_value );
-
 			return apply_filters( 'ywraq_request_page_url', $base_url );
 		}
 
@@ -752,16 +733,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 * @since 1.9.0
 		 */
 		public function get_raq_page_id() {
-			$page_id = get_option( 'ywraq_page_id' );
-
-			if ( function_exists( 'wpml_object_id_filter' ) ) {
-				global $sitepress;
-
-				if ( ! is_null( $sitepress ) && is_callable( array( $sitepress, 'get_current_language' ) ) ) {
-					$page_id = wpml_object_id_filter( $page_id, 'post', true, $sitepress->get_current_language() );
-				}
-			}
-
+			$page_id = apply_filters( 'wpml_object_id', get_option( 'ywraq_page_id' ), 'post', true );
 			return apply_filters( 'ywraq_request_page_id', $page_id );
 		}
 
@@ -815,6 +787,15 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 
 			return ( $hide_price ) ? '' : $price;
 
+		}
+
+		/**
+		 * Declare support for WooCommerce features.
+		 */
+		public function declare_wc_features_support() {
+			if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', YITH_YWRAQ_INIT, true );
+			}
 		}
 	}
 }

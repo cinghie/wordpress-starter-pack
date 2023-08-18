@@ -2,7 +2,7 @@
 /**
  * Shortcode class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\Brands\Classes
  * @version 1.0.0
  */
@@ -43,6 +43,15 @@ if ( ! class_exists( 'YITH_WCBR_Shortcode' ) ) {
 		 * @since 1.0.0
 		 */
 		public static function register_vc_shortcodes() {
+			/**
+			 * APPLY_FILTERS: yith_wcbr_vc_shortcodes_params
+			 *
+			 * Filter the array with the available parameters for the Visual Composer shortcodes.
+			 *
+			 * @param array $vc_map_params Array of parameters
+			 *
+			 * @return array
+			 */
 			$vc_map_params = apply_filters(
 				'yith_wcbr_vc_shortcodes_params',
 				array(
@@ -204,8 +213,10 @@ if ( ! class_exists( 'YITH_WCBR_Shortcode' ) ) {
 			// include widgets.
 			include_once YITH_WCBR_INC . 'widget/elementor/class-yith-wcbr-elementor-product-brand.php';
 
+			$register_widget_hook = version_compare( ELEMENTOR_VERSION, '3.5.0', '>=' ) ? 'elementor/widgets/register' : 'elementor/widgets/widgets_registered';
+
 			// register widgets.
-			add_action( 'elementor/widgets/widgets_registered', array( 'YITH_WCBR_Shortcode', 'register_elementor_widgets' ) );
+			add_action( $register_widget_hook, array( 'YITH_WCBR_Shortcode', 'register_elementor_widgets' ) );
 		}
 
 		/**
@@ -214,7 +225,13 @@ if ( ! class_exists( 'YITH_WCBR_Shortcode' ) ) {
 		 * @return void
 		 */
 		public static function register_elementor_widgets() {
-			\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new YITH_WCBR_Elementor_Product_Brand() );
+			$widgets_manager = \Elementor\Plugin::instance()->widgets_manager;
+
+			if ( is_callable( array( $widgets_manager, 'register' ) ) ) {
+				$widgets_manager->register( new YITH_WCBR_Elementor_Product_Brand() );
+			} else {
+				$widgets_manager->register_widget_type( new YITH_WCBR_Elementor_Product_Brand() );
+			}
 		}
 
 		/**

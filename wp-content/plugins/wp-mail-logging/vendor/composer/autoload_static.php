@@ -4,17 +4,16 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit01bc374ba5fa2715648a87bf9d4beac8
+class ComposerStaticInit69a7d59a98d30eebcee330fbb3951b1e
 {
     public static $prefixLengthsPsr4 = array (
         'N' => 
         array (
             'No3x\\WPML\\Tests\\Helper\\' => 23,
             'No3x\\WPML\\Tests\\' => 16,
-        ),
-        'C' => 
-        array (
-            'Composer\\Installers\\' => 20,
+            'No3x\\WPML\\Migration\\' => 20,
+            'No3x\\WPML\\Helpers\\' => 18,
+            'No3x\\WPML\\Admin\\' => 16,
         ),
     );
 
@@ -27,17 +26,37 @@ class ComposerStaticInit01bc374ba5fa2715648a87bf9d4beac8
         array (
             0 => __DIR__ . '/../..' . '/tests/phpunit/tests',
         ),
-        'Composer\\Installers\\' => 
+        'No3x\\WPML\\Migration\\' => 
         array (
-            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+            0 => __DIR__ . '/../..' . '/src/inc/Migration',
         ),
+        'No3x\\WPML\\Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/inc/Helpers',
+        ),
+        'No3x\\WPML\\Admin\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/inc/Admin',
+        ),
+    );
+
+    public static $classMap = array (
+        'No3x\\WPML\\Admin\\EmailLogsTab' => __DIR__ . '/../..' . '/src/inc/Admin/EmailLogsTab.php',
+        'No3x\\WPML\\Admin\\SMTPTab' => __DIR__ . '/../..' . '/src/inc/Admin/SMTPTab.php',
+        'No3x\\WPML\\Admin\\SettingsTab' => __DIR__ . '/../..' . '/src/inc/Admin/SettingsTab.php',
+        'No3x\\WPML\\Helpers\\PluginSilentUpgrader' => __DIR__ . '/../..' . '/src/inc/Helpers/PluginSilentUpgrader.php',
+        'No3x\\WPML\\Helpers\\PluginSilentUpgraderSkin' => __DIR__ . '/../..' . '/src/inc/Helpers/PluginSilentUpgraderSkin.php',
+        'No3x\\WPML\\Migration\\Migration' => __DIR__ . '/../..' . '/src/inc/Migration/Migration.php',
+        'No3x\\WPML\\Tests\\Helper\\WPML_IntegrationTestCase' => __DIR__ . '/../..' . '/tests/helper/WPML_IntegrationTestCase.php',
+        'No3x\\WPML\\Tests\\Helper\\WPMailArrayBuilder' => __DIR__ . '/../..' . '/tests/helper/WPMailArrayBuilder.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit01bc374ba5fa2715648a87bf9d4beac8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit01bc374ba5fa2715648a87bf9d4beac8::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit69a7d59a98d30eebcee330fbb3951b1e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit69a7d59a98d30eebcee330fbb3951b1e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit69a7d59a98d30eebcee330fbb3951b1e::$classMap;
 
         }, null, ClassLoader::class);
     }

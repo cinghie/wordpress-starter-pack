@@ -115,9 +115,11 @@ class WP_Optimize_Page_Cache_Preloader extends WP_Optimize_Preloader {
 			 * Filters the allowed time difference between the cache exiry and the current time, in seconds.
 			 * If the cache expires in less than $allowed_time_difference, preload. Otherwise leave it.
 			 *
-			 * @param integer $allowed_time_difference The time difference, in seconds (default = 600)
+			 * @param integer $allowed_time_difference The time difference, in seconds (default is same as changed time limit)
 			 */
-			$allowed_time_difference = apply_filters('wpo_preload_allowed_time_difference', 600);
+			$time_limit = (defined('WP_OPTIMIZE_SET_TIME_LIMIT') && WP_OPTIMIZE_SET_TIME_LIMIT > 15) ? WP_OPTIMIZE_SET_TIME_LIMIT : 1800;
+
+			$allowed_time_difference = apply_filters('wpo_preload_allowed_time_difference', $time_limit);
 			$page_cache_lifespan = WPO_Cache_Config::instance()->get_option('page_cache_length', 0);
 			$last_preload_time = $this->options->get_option('wpo_last_page_cache_preload', 0);
 			$time_since_last_preload = time() - $last_preload_time;
@@ -301,10 +303,10 @@ class WP_Optimize_Page_Cache_Preloader extends WP_Optimize_Preloader {
 
 			if (empty($response)) return $urls;
 
-			$xml = @simplexml_load_string($response); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+			$xml = @simplexml_load_string($response); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress warnings when error found in XML data
 		} else {
 			// parse xml answer.
-			$xml = @simplexml_load_string(wp_remote_retrieve_body($response)); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+			$xml = @simplexml_load_string(wp_remote_retrieve_body($response)); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress warnings when error found in XML data
 		}
 
 		// xml file has not valid xml content then return false.

@@ -2,7 +2,7 @@
 /**
  * Main class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
  * @version 1.0.0
  */
@@ -82,7 +82,6 @@ if ( ! class_exists( 'YITH_WCQV' ) ) {
 		 * Check if the plugin can load. Exit if is WooCommerce AJAX.
 		 *
 		 * @since  1.5
-		 * @author Francesco Licandro
 		 * @return boolean
 		 */
 		public function can_load() {
@@ -108,7 +107,6 @@ if ( ! class_exists( 'YITH_WCQV' ) ) {
 		 * Check if context is admin
 		 *
 		 * @since  1.2.0
-		 * @author Francesco Licandro
 		 * @return boolean
 		 */
 		public function is_admin() {
@@ -121,7 +119,6 @@ if ( ! class_exists( 'YITH_WCQV' ) ) {
 		 * Check if load or not frontend
 		 *
 		 * @since  1.2.0
-		 * @author Francesco Licandro
 		 * @return boolean
 		 */
 		public function load_frontend() {
@@ -138,7 +135,6 @@ if ( ! class_exists( 'YITH_WCQV' ) ) {
 		 *
 		 * @since  1.0
 		 * @access public
-		 * @author Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return void
 		 */
 		public function plugin_fw_loader() {

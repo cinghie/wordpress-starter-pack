@@ -2,7 +2,7 @@
  * YITH Magnifier
  *
  * @version 0.1
- * @author YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ZoomMagnifier\Assets\JS
  *
  * MIT License.

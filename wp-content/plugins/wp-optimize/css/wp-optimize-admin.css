@@ -1809,6 +1809,15 @@ textarea.cache-settings {
   border-bottom: 1px solid #cdcdcd;
   padding-bottom: 6px;
 }
+#wp-optimize-wrap .processed .wpo_min_log .wpo_min_file_error {
+  color: #9B3600;
+}
+#wp-optimize-wrap .processed .wpo_min_log .wpo_min_file_error a {
+  color: #9B3600;
+}
+#wp-optimize-wrap .processed .wpo_min_log .wpo_min_file_error a:hover {
+  color: #682400;
+}
 #wp-optimize-wrap .processed .wpo_min_log .wpo_min_file_debug {
   color: #9c9c9c;
   display: inline-block;

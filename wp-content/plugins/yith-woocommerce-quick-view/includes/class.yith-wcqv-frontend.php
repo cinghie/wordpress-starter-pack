@@ -2,7 +2,7 @@
 /**
  * Frontend class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
  * @version 1.1.1
  */
@@ -84,7 +84,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function enqueue_styles_scripts() {
@@ -113,7 +112,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function enqueue_gift_card_script() {
@@ -142,12 +140,13 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 * Add quick view button hooks
 		 *
 		 * @since 1.5.0
-		 * @author Francesco Licandro
 		 * @return void
 		 */
 		public function add_button() {
 			if ( $this->is_proteo_add_to_cart_hover() ) {
 				add_action( 'yith_proteo_products_loop_add_to_cart_actions', array( $this, 'yith_add_quick_view_button' ), 55 );
+			} elseif ( yith_plugin_fw_wc_is_using_block_template_in_product_catalogue() ) {
+				add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'wc_block_add_button_after_add_to_cart' ), 10, 2 );
 			} else {
 				add_action( 'woocommerce_after_shop_loop_item', array( $this, 'yith_add_quick_view_button' ), 15 );
 			}
@@ -160,7 +159,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 * Check if current theme is YITH Proteo and if the add to cart button is visible on image hover
 		 *
 		 * @since 1.6.7
-		 * @author Francesco Licandro
 		 * @return boolean
 		 */
 		public function is_proteo_add_to_cart_hover() {
@@ -172,7 +170,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @param integer|string $product_id The product id.
 		 * @param string         $label      The button label.
 		 * @param boolean        $return     True to return, false to echo.
@@ -211,7 +208,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 * Add quick view button in wishlist
 		 *
 		 * @since 1.5.1
-		 * @author Francesco Licandro
 		 * @param YITH_WCWL_Wishlist_Item $item THe wishlist item.
 		 * @return string|void
 		 */
@@ -226,7 +222,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return bool
 		 */
 		public function yith_woocommerce_quick_view() {
@@ -271,7 +266,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function yith_load_product_quick_view_ajax() {
@@ -326,7 +320,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function yith_quick_view() {
@@ -339,7 +332,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return void
 		 */
 		public function yith_quick_view_action_template() {
@@ -361,7 +353,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 * Get Quick View button label
 		 *
 		 * @since  1.2.0
-		 * @author Francesco Licandro
 		 * @return string
 		 */
 		public function get_button_label() {
@@ -376,7 +367,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.7
-		 * @author Francesco Licandro
 		 * @param array $atts An array of shortcode attributes.
 		 * @return string
 		 */
@@ -400,7 +390,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 *
 		 * @access public
 		 * @since  1.3.1
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @return bool
 		 */
 		public function yith_is_quick_view() {
@@ -412,7 +401,6 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 		 * Avoid redirect to single product page on add to cart action in quick view
 		 *
 		 * @since  1.3.1
-		 * @author Francesco Licandro
 		 * @param string $value The redirect url value.
 		 * @return string
 		 */
@@ -421,6 +409,24 @@ if ( ! class_exists( 'YITH_WCQV_Frontend' ) ) {
 				return '';
 			}
 			return $value;
+		}
+
+
+		/**
+		 * Add quick view button after add to cart button in case Woo Blocks are used.
+		 *
+		 * @param string     $add_to_cart Add to cart HTML.
+		 * @param WC_Product $product Global product.
+		 *
+		 * @return string
+		 */
+		public function wc_block_add_button_after_add_to_cart( $add_to_cart, $product ) {
+			ob_start();
+			echo '<div style="text-align: center">';
+			$this->yith_add_quick_view_button( $product->get_id() );
+			echo '</div>';
+			$button = ob_get_clean();
+			return $add_to_cart . $button;
 		}
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @author YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ZoomMagnifier\Classes
  * @version 1.1.2
  */

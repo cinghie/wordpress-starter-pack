@@ -86,7 +86,7 @@ trait WPPFM_Processing_Support {
 	 */
 	protected function is_product_filtered( $feed_filter_strings, $product_data ) {
 		if ( $feed_filter_strings ) {
-			return $this->filter_result( json_decode( $feed_filter_strings[0]['meta_value'] ), $product_data ) ? true : false;
+			return $this->filter_result( json_decode( $feed_filter_strings[0]['meta_value'] ), $product_data );
 		} else {
 			return false;
 		}
@@ -99,7 +99,7 @@ trait WPPFM_Processing_Support {
 		$ids          = array();
 
 		foreach ( $query_result as $result ) {
-			array_push( $ids, $result['ID'] );
+			$ids[] = $result['ID'];
 		}
 
 		return $ids;
@@ -123,7 +123,7 @@ trait WPPFM_Processing_Support {
 				if ( is_object( $source ) && property_exists( $source, 's' ) ) {
 					if ( property_exists( $source->s, 'source' ) ) {
 						if ( 'combined' !== $source->s->source ) {
-							array_push( $source_columns, $source->s->source );
+							$source_columns[] = $source->s->source;
 						} else {
 							if ( property_exists( $source->s, 'f' ) ) {
 								$source_columns = array_merge( $source_columns, $this->get_combined_sources_from_combined_string( $source->s->f ) );
@@ -153,7 +153,7 @@ trait WPPFM_Processing_Support {
 			foreach ( $value_object->m as $source ) {
 				if ( is_object( $source ) && property_exists( $source, 'c' ) ) {
 					for ( $i = 0; $i < count( $source->c ); $i ++ ) {
-						array_push( $condition_columns, $this->get_names_from_string( $source->c[ $i ]->{$i + 1} ) );
+						$condition_columns[] = $this->get_names_from_string( $source->c[ $i ]->{$i + 1} );
 					}
 				}
 			}
@@ -178,7 +178,7 @@ trait WPPFM_Processing_Support {
 			foreach ( $value_object->v as $changed_value ) {
 				if ( property_exists( $changed_value, 'q' ) ) {
 					for ( $i = 0; $i < count( $changed_value->q ); $i ++ ) {
-						array_push( $query_columns, $this->get_names_from_string( $changed_value->q[ $i ]->{$i + 1} ) );
+						$query_columns[] = $this->get_names_from_string( $changed_value->q[ $i ]->{$i + 1} );
 					}
 				}
 			}
@@ -211,12 +211,12 @@ trait WPPFM_Processing_Support {
 		$result                = array();
 		$combined_string_array = explode( '|', $combined_string );
 
-		array_push( $result, $combined_string_array[0] );
+		$result[] = $combined_string_array[0];
 
 		for ( $i = 1; $i < count( $combined_string_array ); $i ++ ) {
 			$a = explode( '#', $combined_string_array[ $i ] );
 			if ( array_key_exists( 1, $a ) ) {
-				array_push( $result, $a[1] );
+				$result[] = $a[1];
 			}
 		}
 
@@ -224,7 +224,7 @@ trait WPPFM_Processing_Support {
 	}
 
 	/**
-	 * Gets the meta data from a specific field
+	 * Gets the metadata from a specific field
 	 *
 	 * @param string $field
 	 * @param stdClass $attributes
@@ -259,10 +259,11 @@ trait WPPFM_Processing_Support {
 	 * @param string $feed_currency
 	 * @param array $relation_table
 	 *
-	 * @return array Returns an key=>value array of a specific product field where the key contains the field name and the value the field value
+	 * @return array Returns a key=>value array of a specific product field where the key contains the field name and the value the field value
 	 */
 	protected function process_product_field( $product_data, $field_meta_data, $main_category_feed_title, $row_category, $feed_language, $feed_currency, $relation_table ) {
 
+		//@noinspection PhpVariableNameInspection
 		$product_object[ $field_meta_data->fieldName ] = $this->get_correct_field_value(
 			$field_meta_data,
 			$product_data,
@@ -411,7 +412,7 @@ trait WPPFM_Processing_Support {
 
 			$row_result = $support_class->check_query_result_on_specific_row( $query_split, $product_data ) === true ? 'false' : 'true';
 
-			array_push( $query_results, $query_split[0] . '#' . $row_result );
+			$query_results[] = $query_split[0] . '#' . $row_result;
 		}
 
 		// return the final filter result, based on the specific results
@@ -422,7 +423,7 @@ trait WPPFM_Processing_Support {
 	 * Receives an array with condition results and generates a single end result based on the "and" or "or"
 	 * connection between the conditions
 	 *
-	 * @param array with $results
+	 * @param array $results
 	 *
 	 * @return boolean
 	 */
@@ -555,7 +556,7 @@ trait WPPFM_Processing_Support {
 
 		$meta_obj = json_decode( $meta_data->value );
 
-		return property_exists( $meta_obj, 't' ) ? true : false;
+		return property_exists( $meta_obj, 't' );
 	}
 
 	protected function get_edited_end_row_value( $change_parameters, $original_output, $product_data, $combination_string, $feed_language, $feed_currency ) {
@@ -806,7 +807,7 @@ trait WPPFM_Processing_Support {
 	 */
 	protected function make_xml_string_row( $product, $category_name, $description_name, $channel ) {
 		$product_node_name    = function_exists( 'product_node_name' ) ? product_node_name( $channel ) : 'item';
-		$node_pre_tag_name    = function_exists( 'get_node_pretag' ) ? get_node_pretag( $channel ) : 'g:';
+		$node_pre_tag_name    = function_exists( 'get_node_pre_tag' ) ? get_node_pre_tag( $channel ) : 'g:';
 		$product_node         = apply_filters( 'wppfm_xml_product_node_name', $product_node_name, $channel );
 		$node_pre_tag         = apply_filters( 'wppfm_xml_product_pre_tag_name', $node_pre_tag_name, $channel );
 		$tags_with_sub_tags   = $this->_channel_class->keys_that_have_sub_tags();
@@ -994,13 +995,14 @@ trait WPPFM_Processing_Support {
 	 */
 	protected function make_xml_string( $key, $xml_value, $category_name, $description_name, $google_node_pre_tag, $tags_with_sub_tags, $tags_repeated_fields, $channel ) {
 		$xml_string     = '';
-		$repeated_field = ! in_array( $key, $tags_repeated_fields ) ? false : true;
+		$key            = str_replace( ' ', '_', $key ); // @since 2.40.0
+		$repeated_field = in_array( $key, $tags_repeated_fields, true );
 		$subtag_sep     = apply_filters( 'wppfm_sub_tag_separator', '||' );
 
 		if ( substr( $xml_value, 0, 5 ) === '!sub:' ) {
-			$sub_array = explode( "|", $xml_value );
+			$sub_array = explode( '|', $xml_value );
 			$sa        = $sub_array[0];
-			$st        = explode( ":", $sa );
+			$st        = explode( ':', $sa );
 			$sub_tag   = $st[1];
 			$xml_value = "<$google_node_pre_tag$sub_tag>$sub_array[1]</$google_node_pre_tag$sub_tag>";
 		}
@@ -1046,17 +1048,20 @@ trait WPPFM_Processing_Support {
 	 * @param string $xml_value
 	 * @param string $google_node_pre_tag
 	 *
+	 * @since 2.13.0 Added the wppfm_xml_element_attribute filter
+	 * @since 2.38.0 Removed a code part that would replace a - character by a _ character as the - character is not recommended for a xml file. But the Vivino XML channel requires the use of an _ in some of their keys
 	 * @return string
 	 */
 	protected function add_xml_string( $key, $xml_value, $google_node_pre_tag ) {
-		$not_allowed_characters = array( ' ', '-' );
-		$clean_key              = str_replace( $not_allowed_characters, '_', $key );
+//		$not_allowed_characters = array( ' ', '-' );
+//		$clean_key              = str_replace( $not_allowed_characters, '_', $key );
 
 		// @since 2.13.0
 		$element_attribute        = apply_filters( 'wppfm_xml_element_attribute', '', $key, $xml_value );
 		$element_attribute_string = '' !== $element_attribute ? ' ' . $element_attribute : '';
 
-		return "<$google_node_pre_tag$clean_key$element_attribute_string>$xml_value</$google_node_pre_tag$clean_key>";
+//		return "<$google_node_pre_tag$clean_key$element_attribute_string>$xml_value</$google_node_pre_tag$clean_key>";
+		return "<$google_node_pre_tag$key$element_attribute_string>$xml_value</$google_node_pre_tag$key>";
 	}
 
 	/**
@@ -1345,9 +1350,10 @@ trait WPPFM_Processing_Support {
 		}
 
 		// @since 2.36.0.
+		// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
 		if ( in_array( '_sale_price', $active_field_names ) ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
-				$product->_sale_price = wppfm_prep_money_values(  $woocommerce_product->get_variation_sale_price( 'max' ), $selected_language, $selected_currency );
+				$product->_sale_price = wppfm_prep_money_values(  $this->get_variation_sale_price( $woocommerce_product, 'max' ), $selected_language, $selected_currency );;
 			} else {
 				$product->_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
 			}
@@ -1449,12 +1455,14 @@ trait WPPFM_Processing_Support {
 				$product->_max_variation_regular_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_regular_price( 'max' ), $selected_language, $selected_currency );
 			}
 
+			// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
 			if ( in_array( '_min_variation_sale_price', $active_field_names ) ) {
-				$product->_min_variation_sale_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_sale_price(), $selected_language, $selected_currency );
+				$product->_min_variation_sale_price = wppfm_prep_money_values( $this->get_variation_sale_price( $woocommerce_product_parent ), $selected_language, $selected_currency );
 			}
 
+			// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
 			if ( in_array( '_max_variation_sale_price', $active_field_names ) ) {
-				$product->_max_variation_sale_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_sale_price( 'max' ), $selected_language, $selected_currency );
+				$product->_max_variation_sale_price = wppfm_prep_money_values( $this->get_variation_sale_price( $woocommerce_product_parent, 'max' ), $selected_language, $selected_currency );
 			}
 
 			if ( in_array( 'item_group_id', $active_field_names ) ) {
@@ -1579,9 +1587,10 @@ trait WPPFM_Processing_Support {
 		// @since 2.26.0
 		// @since 2.36.0 Changed the way the sale price is fetched for variation products
 		// @since 2.37.0 Added a check if the sale price is empty because the wc_get_price_including_tax function will return an unwanted regular price if sale price is empty
+		// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
 		if ( in_array( '_sale_price_with_tax', $active_field_names )  ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
-				$sale_price = $woocommerce_product->get_variation_sale_price( 'max' );
+				$sale_price = $this->get_variation_sale_price( $woocommerce_product, 'max' );
 			} else {
 				$sale_price = $woocommerce_product->get_sale_price();
 			}
@@ -1595,9 +1604,10 @@ trait WPPFM_Processing_Support {
 		// @since 2.26.0
 		// @since 2.36.0 Changed the way the sale price is fetched for variation products
 		// @since 2.37.0 Added a check if the sale price is empty because the wc_get_price_including_tax function will return an unwanted regular price if sale price is empty
+		// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
 		if ( in_array( '_sale_price_without_tax', $active_field_names )  ) {
 			if( $woocommerce_product->is_type( 'variable' ) ) {
-				$sale_price = $woocommerce_product->get_variation_sale_price( 'max' );
+				$sale_price = $this->get_variation_sale_price( $woocommerce_product, 'max' );
 			} else {
 				$sale_price = $woocommerce_product->get_sale_price();
 			}
@@ -1704,5 +1714,19 @@ trait WPPFM_Processing_Support {
 		}
 
 		return 'min' === $min_max ? min( $product_prices ) : max( $product_prices );
+	}
+
+	/**
+	 * Fixes the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
+	 *
+	 * @param $wc_product
+	 * @param $min_or_max
+	 *
+	 * @since 2.40.0
+	 * @return mixed|string
+	 */
+	protected function get_variation_sale_price( $wc_product, $min_or_max = 'min' ) {
+		$variation_sale_price = $wc_product->get_variation_sale_price( $min_or_max );
+		return $variation_sale_price < $wc_product->get_variation_regular_price( $min_or_max ) ? $variation_sale_price : '';
 	}
 }

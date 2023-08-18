@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the YITH WooCommerce Product Gallery & Image Zoom package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Product Gallery & Image Zoom 2.18.0\n"
+"Project-Id-Version: YITH WooCommerce Product Gallery & Image Zoom 2.23.0\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2023-02-14 15:34:03+00:00\n"
+"POT-Creation-Date: 2023-07-20 15:13:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: init.php:51
+#: init.php:52
 msgid ""
 "YITH WooCommerce Product Gallery & Image Zoom is enabled but not effective. "
 "It requires WooCommerce in order to work."
@@ -36,34 +36,34 @@ msgid ""
 "Image Zoom while you are using the premium one."
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:136
+#: lib/class.yith-ywzm-plugin-fw-loader.php:134
 msgid "Main image options"
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:137
+#: lib/class.yith-ywzm-plugin-fw-loader.php:135
 #: plugin-options/gallery-options.php:19
 msgid "Product gallery options"
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:138
+#: lib/class.yith-ywzm-plugin-fw-loader.php:136
 msgid "Premium Version"
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:191
+#: lib/class.yith-ywzm-plugin-fw-loader.php:189
 msgid ""
 "YITH WooCommerce Product Gallery & Image Zoom  is available in an "
 "outstanding PREMIUM version with many new options, discover it now."
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:192
+#: lib/class.yith-ywzm-plugin-fw-loader.php:190
 msgid "Premium version"
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:200
+#: lib/class.yith-ywzm-plugin-fw-loader.php:198
 msgid "YITH WooCommerce Product Gallery & Image Zoom "
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:201
+#: lib/class.yith-ywzm-plugin-fw-loader.php:199
 msgid ""
 "In YIT Plugins tab you can find  YITH WooCommerce Product Gallery & Image "
 "Zoom  options.<br> From this menu you can access all settings of the YITH "

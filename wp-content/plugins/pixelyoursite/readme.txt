@@ -3,8 +3,8 @@ Contributors: PixelYourSite
 Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel Events, Facebook Dynamic Product Ads, Facebook Conversion Value, WooCommerce Facebook Pixel, Easy Digital Downloads Facebook Pixel, Google Analytics, Google Analytics Enhanced Ecommerce, GA4, WooCommerce Google Analytics, Easy Digital Downloads Google Analytics, head & footer scripts, Pinterest tag
 Requires at least: 3.0.1
 Requires PHP: 5.4
-Tested up to: 6.1
-Stable tag: 9.3.2
+Tested up to: 6.3
+Stable tag: 9.4.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -465,7 +465,124 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 23. You’ll have an option to insert scripts on any pages or posts.
 
 
+
 == Changelog ==
+
+= PixelYourSite 9.4.2 =
+
+* Declaring compatibility with WordPress 6.3.
+
+* Declaring compatibility with WooCommerce 8.0.
+
+* Fixing a bug that could result in a warning regarding "Cannot modify header information". 
+
+
+= PixelYourSite 9.4.1 =
+
+* Fixing a few small code issues that could result in warnings.
+
+* Ensuring compatibility with the recent versions of Pinterest and Bing paid add-ons.
+
+* Video link updates.
+
+* Declaring compatibility with WooCommerce 7.9.
+
+
+= PixelYourSite 9.4.0.1 =
+
+* Fix for a possible issue, Fatal error: Uncaught Error: Call to undefined function PixelYourSite\Tiktok()..
+
+
+= PixelYourSite 9.4.0 =
+
+* External ID support for Meta browser and API events.
+
+* Fix for an issue with Contact Form 7 forms within Elementor popups where the form was not correctly tracked. 
+
+* Code changes required by the Pinterest add-on for API support.
+
+
+= PixelYourSite 9.3.9 =
+
+* New consent filters that can control the plugin’s cookies, explained on the plugin’s Consent page. 
+
+* Fixing a possible issue with non-script tags and consent filters.
+
+* Fixing a possible issue resulting in traffic source, landing page and UTMs not being tracked as events parameters, or stored for WooCommerce orders.
+
+* WooCommerce 7.8.0 compatibility check.
+
+
+= PixelYourSite 9.3.8.1 =
+
+* Fixing a possible error related to GA4 WooCommerce category tracking, resulting in a warning triggered on the order confirmation page. 
+
+
+= PixelYourSite 9.3.8=
+
+* New options related to WooCommerce variable products and Google Analytics 4 (GA4).
+
+* Support for multiple WooCommerce categories tracking with Google Analytics 4 (GA4).
+
+* Fixing some issues related to Head and Footer scripts.
+
+* Fixing a possible issue with the WooCommerce purchase event resulting in the event being fired on the wrong pay page.
+
+* Meta SDK update.
+
+
+= PixelYourSite 9.3.7=
+
+* Support for Elementor Pro WooCommerce custom thank you pages ensuring the purchase event is fired.
+
+* Additional checks for user role permissions for the Head and Footer option. Only roles with unfiltered_html permission will be able to use it. That’s admin for single WordPress or super admin for multisite. These permissions can be controlled with dedicated plugins. 
+
+* Fix for a possible issue with Easy Digital Downloads add-to-cart events, where the events were not fired in some instances. 
+
+* Fix for a potential problem related to CompleteRegistration events not respecting settings.
+
+* UI and text changes to reflect paid version new features related to Google Measurement Protocol.
+
+
+= PixelYourSite 9.3.6=
+
+* Notification for users that don't have the Meta CAPI token.
+
+* Small code changes to ensure compatibility with ConsentMagic.
+
+* Fixing a potential problem with traffic data stored for WooCommerce orders.
+
+* Small UI changes.
+
+
+= PixelYourSite 9.3.5=
+
+* Fix for an issue with the additional data we track for WooCommerce or Easy Digital Downloads orders. 
+
+
+= PixelYourSite 9.3.4 =
+
+* WooCommerce 7.5 compatibility check.
+
+* Fixing a possible conflict with Oxygen Builder.
+
+* Fixing a possible bug with sites using themes that are missing some default scripts, resulting in tags not being fired. 
+
+* Fixing various deprecation warnings.
+
+* Fix for Fatal error: Access level to PixelYourSite\FormEventForminator::__construct
+
+
+= PixelYourSite 9.3.3 =
+
+* The Form automatic event will fire when forms are successfully submitted for the following plugins: Contact Form 7, Forminator, WP Forms, Formidable Pro, Ninja Forms, and Fluent Forms. For forms added by different means, we will fire the event when the submit button is clicked.
+
+* New option that allows to remove the plugin's name from the browser's console. 
+
+* Changes to ensure compatibility with the recent changes from the ConsentMagic plugin.
+
+* WooCommerce 7.4 compatibility. 
+
 
 = PixelYourSite 9.3.2 =
 

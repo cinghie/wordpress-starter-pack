@@ -7,7 +7,7 @@
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Ajax Search
  * @version 1.0.0
  */
@@ -20,7 +20,6 @@ global $yith_wcas;
 return array(
 
 	'settings' => array(
-
 		'section_general_settings'         => array(
 			'name'              => __( 'General settings', 'yith-woocommerce-ajax-search' ),
 			'type'              => 'title',

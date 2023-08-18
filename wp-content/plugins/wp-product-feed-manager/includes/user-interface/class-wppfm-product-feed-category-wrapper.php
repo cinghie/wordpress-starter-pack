@@ -26,7 +26,7 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Category_Wrapper' ) ) :
 			// Start with the section code.
 			echo '<section class="wppfm-edit-feed-form-element-wrapper wppfm-category-mapping-wrapper" id="wppfm-category-map" style="display:none;">';
 			echo '<div id="category-mapping-header" class="header"><h3>' . __( 'Category Mapping', 'wp-product-feed-manager' ) . ':</h3></div>';
-			echo '<table class="fm-category-mapping-table widefat" cellspacing="0" id="category-mapping-table">';
+			echo '<table class="fm-category-mapping-table widefat" id="category-mapping-table">';
 
 			// The category mapping table header.
 			echo WPPFM_Category_Selector_Element::category_selector_table_head( 'mapping' );

@@ -1,13 +1,13 @@
 <?php
 namespace Automattic\WooCommerce\Blocks;
 
-use Automattic\WooCommerce\Blocks\BlockTypes\AtomicBlock;
 use Automattic\WooCommerce\Blocks\Package;
 use Automattic\WooCommerce\Blocks\Assets\AssetDataRegistry;
 use Automattic\WooCommerce\Blocks\Assets\Api as AssetApi;
 use Automattic\WooCommerce\Blocks\Integrations\IntegrationRegistry;
 use Automattic\WooCommerce\Blocks\BlockTypes\Cart;
 use Automattic\WooCommerce\Blocks\BlockTypes\Checkout;
+use Automattic\WooCommerce\Blocks\BlockTypes\MiniCartContents;
 
 /**
  * BlockTypesController class.
@@ -60,10 +60,10 @@ final class BlockTypesController {
 		$block_types = $this->get_block_types();
 
 		foreach ( $block_types as $block_type ) {
-			$block_type_class    = __NAMESPACE__ . '\\BlockTypes\\' . $block_type;
-			$block_type_instance = new $block_type_class( $this->asset_api, $this->asset_data_registry, new IntegrationRegistry() );
-		}
+			$block_type_class = __NAMESPACE__ . '\\BlockTypes\\' . $block_type;
 
+			new $block_type_class( $this->asset_api, $this->asset_data_registry, new IntegrationRegistry() );
+		}
 	}
 
 	/**
@@ -82,6 +82,8 @@ final class BlockTypesController {
 		 *
 		 * This hook defines which block namespaces should have block name and attribute `data-` attributes appended on render.
 		 *
+		 * @since 5.9.0
+		 *
 		 * @param array $allowed_namespaces List of namespaces.
 		 */
 		$allowed_namespaces = array_merge( [ 'woocommerce', 'woocommerce-checkout' ], (array) apply_filters( '__experimental_woocommerce_blocks_add_data_attributes_to_namespace', [] ) );
@@ -90,6 +92,8 @@ final class BlockTypesController {
 		 * Filters the list of allowed Block Names
 		 *
 		 * This hook defines which block names should have block name and attribute data- attributes appended on render.
+		 *
+		 * @since 5.9.0
 		 *
 		 * @param array $allowed_namespaces List of namespaces.
 		 */
@@ -165,6 +169,7 @@ final class BlockTypesController {
 
 		$block_types = [
 			'ActiveFilters',
+			'AddToCartForm',
 			'AllProducts',
 			'AllReviews',
 			'AttributeFilter',
@@ -177,7 +182,6 @@ final class BlockTypesController {
 			'FilterWrapper',
 			'HandpickedProducts',
 			'MiniCart',
-			'MiniCartContents',
 			'StoreNotices',
 			'PriceFilter',
 			'ProductAddToCart',
@@ -185,49 +189,49 @@ final class BlockTypesController {
 			'ProductButton',
 			'ProductCategories',
 			'ProductCategory',
-			'ProductCategoryList',
 			'ProductImage',
 			'ProductImageGallery',
 			'ProductNew',
 			'ProductOnSale',
 			'ProductPrice',
 			'ProductQuery',
+			'ProductAverageRating',
 			'ProductRating',
+			'ProductRatingCounter',
+			'ProductRatingStars',
 			'ProductResultsCount',
+			'ProductReviews',
 			'ProductSaleBadge',
 			'ProductSearch',
 			'ProductSKU',
 			'ProductStockIndicator',
 			'ProductSummary',
 			'ProductTag',
-			'ProductTagList',
 			'ProductTitle',
 			'ProductTopRated',
 			'ProductsByAttribute',
 			'RatingFilter',
 			'ReviewsByCategory',
 			'ReviewsByProduct',
+			'RelatedProducts',
+			'ProductDetails',
+			'SingleProduct',
 			'StockFilter',
 		];
 
-		$block_types = array_merge( $block_types, Cart::get_cart_block_types(), Checkout::get_checkout_block_types() );
+		$block_types = array_merge(
+			$block_types,
+			Cart::get_cart_block_types(),
+			Checkout::get_checkout_block_types(),
+			MiniCartContents::get_mini_cart_block_types()
+		);
 
 		if ( Package::feature()->is_experimental_build() ) {
-			$block_types[] = 'SingleProduct';
-		}
-
-		/**
-		 * This disables specific blocks in Widget Areas by not registering them.
-		 */
-		if ( in_array( $pagenow, [ 'widgets.php', 'themes.php', 'customize.php' ], true ) && ( empty( $_GET['page'] ) || 'gutenberg-edit-site' !== $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$block_types = array_diff(
-				$block_types,
-				[
-					'AllProducts',
-					'Cart',
-					'Checkout',
-				]
-			);
+			$block_types[] = 'ProductCollection';
+			$block_types[] = 'ProductTemplate';
+			$block_types[] = 'ProductGallery';
+			$block_types[] = 'ProductGalleryLargeImage';
+			$block_types[] = 'ProductGalleryThumbnails';
 		}
 
 		/**
@@ -251,10 +255,12 @@ final class BlockTypesController {
 			$block_types = array_diff(
 				$block_types,
 				[
+					'AddToCartForm',
 					'Breadcrumbs',
 					'CatalogSorting',
 					'ClassicTemplate',
 					'ProductResultsCount',
+					'ProductDetails',
 					'StoreNotices',
 				]
 			);

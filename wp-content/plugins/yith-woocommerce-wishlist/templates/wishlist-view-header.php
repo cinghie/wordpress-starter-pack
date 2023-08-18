@@ -2,7 +2,7 @@
 /**
  * Wishlist header
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Templates\Wishlist\View
  * @version 3.0.0
  */

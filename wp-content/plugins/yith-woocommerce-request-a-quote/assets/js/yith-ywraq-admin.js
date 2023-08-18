@@ -4,7 +4,7 @@
 * @package YITH WooCommerce Request A Quote
 * @since   1.0.0
 * @version 1.0.0
-* @author  YITH
+* @author  YITH <plugins@yithemes.com>
 */
 jQuery(function($) {
     "use strict";

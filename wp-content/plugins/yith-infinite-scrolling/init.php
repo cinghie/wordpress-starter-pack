@@ -3,15 +3,15 @@
  * Plugin Name: YITH Infinite Scrolling
  * Plugin URI: https://yithemes.com/themes/plugins/yith-infinite-scrolling/
  * Description: The <code><strong>YITH Infinite Scrolling</strong></code> plugin lets you easily add infinite scroll on your pages. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 1.8.0
+ * Version: 1.14.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-infinite-scrolling
  * Domain Path: /languages/
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH Infinite Scrolling
- * @version 1.8.0
+ * @version 1.14.0
  */
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -24,7 +24,6 @@ if ( ! function_exists( 'is_plugin_active' ) ) {
  * Add admin notice on installation error
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_infs_install_free_admin_notice() {
@@ -42,7 +41,7 @@ register_activation_hook( __FILE__, 'yith_plugin_registration_hook' );
 
 
 if ( ! defined( 'YITH_INFS_VERSION' ) ) {
-	define( 'YITH_INFS_VERSION', '1.8.0' );
+	define( 'YITH_INFS_VERSION', '1.14.0' );
 }
 
 if ( ! defined( 'YITH_INFS_FREE_INIT' ) ) {
@@ -95,7 +94,6 @@ yit_maybe_plugin_fw_loader( YITH_INFS_DIR );
  * Plugin init
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_infs_init() {
@@ -117,7 +115,6 @@ add_action( 'yith_infs_init', 'yith_infs_init' );
  * Plugin install
  *
  * @since 1.0.0
- * @author Francesco Licandro
  * @return void
  */
 function yith_infs_install() {

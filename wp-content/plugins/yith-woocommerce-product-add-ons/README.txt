@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
-Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 2.19.0
+Requires at least: 6.1
+Tested up to: 6.3
+Stable tag: 4.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,11 +115,89 @@ You must enable the dependency on the option you are interested in by inserting 
 
 == Screenshots ==
 
-1. Setting Options
-2. YITH WooCommerce Product Add-Ons in "Add-Ons" edit page
-3. YITH WooCommerce Product Add-Ons in "Single Prodcut" page
+1. Blocks table
+2. Block configuration page
+3. Add-on editor
+4. General options
+5. Cart & Order options
+6. Style options
+7. Product page with different options (1/5)
+8. Product page with different options (2/5)
+9. Product page with different options (3/5)
+10. Product page with different options (4/5)
+11. Product page with different options (5/5)
 
 == Changelog ==
+
+= 4.0.1 – Released on 09 August 2023 =
+
+* Fix: added variations for Conditional logic feature
+
+= 4.0.0 – Released on 01 August 2023 =
+
+* New: support for WordPress 6.3
+* New: support for WooCommerce 8.0
+* New: support for WooCommerce block templates
+* New: support for WooCommerce HPOS feature
+* Tweak: blocks table improved
+* Tweak: conditional logic information on selectors
+* Tweak: organization of options for each add-on
+* Tweak: organization of tabs in the add-on editor
+* Tweak: organization of options on Style tab
+* Tweak: option dependencies and coherences
+* Update: YITH plugin framework
+* Update: upload framework field
+* Update: files and folders organization
+* Fix: add-on taxes calculation depending on product price
+* Fix: block is created when no options are set
+* Fix: custom styles not applied correctly
+* Fix: minor bugs
+* Dev: remove switch to version 1.x
+* Dev: applied new panel style
+* Dev: improved performance of the database (new table)
+* Dev: code refactor
+* Dev: CSS changes
+* Dev: new filter 'yith_wapo_custom_inline_styles'
+* Remove: ‘show block titles in the cart page’ option
+* Remove: unused files and code
+
+= 2.24.1 – Released on 16 Jul 2023 =
+
+* Fix: fatal error "Call to a member function get_price() on bool"
+
+= 2.24.0 – Released on 16 Jul 2023 =
+
+* New: support for WooCommerce 7.9
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.23.0 – Released on 27 Jun 2023 =
+
+* New: support for WooCommerce 7.8
+* Update: YITH plugin framework
+* Fix: price calculated wrongly on Cart in case of variable product
+* Fix: plugin author name
+* Fix: minor bugs
+
+= 2.22.0 – Released on 16 May 2023 =
+
+* New: support for WooCommerce 7.7
+* Update: YITH plugin framework
+* Fix: prevent error when product doesn't exists
+* Fix: minor bugs
+
+= 2.21.0 – Released on 19 Apr 2023 =
+
+* New: support for WooCommerce 7.6
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.20.0 – Released on 21 Mar 2023 =
+
+* New: support for WordPress 6.2
+* New: support for WooCommerce 7.5
+* Update: YITH plugin framework
+* Fix: minor bugs
 
 = 2.19.0 – Released on 21 Feb 2023 =
 

@@ -6,6 +6,19 @@ define('WP_OPTIMIZE_MINIFY_DIR', dirname(__FILE__));
 if (!defined('WP_OPTIMIZE_SHOW_MINIFY_ADVANCED')) define('WP_OPTIMIZE_SHOW_MINIFY_ADVANCED', false);
 
 class WP_Optimize_Minify {
+
+	/**
+	 * Minify commands object
+	 *
+	 * @var WP_Optimize_Minify_Commands
+	 */
+	public $minify_commands;
+
+	/**
+	 * @var bool
+	 */
+	private $enabled;
+
 	/**
 	 * Constructor - Initialize actions and filters
 	 *
@@ -46,7 +59,10 @@ class WP_Optimize_Minify {
 
 		// cron job to delete old wpo_min cache
 		add_action('wpo_minify_purge_old_cache', array('WP_Optimize_Minify_Cache_Functions', 'purge_old'));
-		// front-end actions; skip on certain post_types or if there are specific keys on the url or if editor or admin
+		
+		if ($this->enabled) {
+			$this->schedule_purge_old_cache_event();
+		}
 
 		// Handle minify cache purging.
 		add_action('wp_loaded', array($this, 'handle_purge_minify_cache'));
@@ -160,7 +176,7 @@ class WP_Optimize_Minify {
 	 * @return void
 	 */
 	private function load_premium() {
-		$this->premium = new WP_Optimize_Minify_Premium();
+		new WP_Optimize_Minify_Premium();
 	}
 
 	/**
@@ -177,11 +193,18 @@ class WP_Optimize_Minify {
 		
 		// old cache purge event cron
 		wp_clear_scheduled_hook('wpo_minify_purge_old_cache');
-		if (!wp_next_scheduled('wpo_minify_purge_old_cache')) {
-			wp_schedule_event(time() + 86400, 'daily', 'wpo_minify_purge_old_cache');
-		}
+		$this->schedule_purge_old_cache_event();
 	}
 
+	/**
+	 * If the WP cron event for scheduling purging of the minify cache does not exist, then create it
+	 */
+	private function schedule_purge_old_cache_event() {
+		if (!wp_next_scheduled('wpo_minify_purge_old_cache')) {
+			wp_schedule_event(time() + 43200, 'daily', 'wpo_minify_purge_old_cache');
+		}
+	}
+	
 	/**
 	 * Run during plugin deactivation
 	 *

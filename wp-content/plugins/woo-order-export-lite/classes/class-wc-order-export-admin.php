@@ -1,4 +1,7 @@
 <?php
+
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -24,6 +27,12 @@ class WC_Order_Export_Admin {
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 
+        add_action( 'before_woocommerce_init', function() {
+            if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
+                FeaturesUtil::declare_compatibility( 'custom_order_tables', WOE_PLUGIN_PATH, true );
+            }
+        } );
+
 		if ( is_admin() ) { // admin actions
 			add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
@@ -48,6 +57,13 @@ class WC_Order_Export_Admin {
 			), 10, 3 );
 			add_action( 'admin_notices', array( $this, 'export_orders_bulk_action_notices' ) );
 
+			//HPOS bulk actions
+			add_filter( 'bulk_actions-woocommerce_page_wc-orders', array( $this, 'export_orders_bulk_action' ) );     
+			add_filter( 'handle_bulk_actions-woocommerce_page_wc-orders', array(
+				$this,
+				'export_orders_bulk_action_process',
+			), 10, 3 );
+
 			//do once
 			if ( ! get_option( $this->activation_notice_option ) ) {
 				add_action( 'admin_notices', array( $this, 'display_plugin_activated_message' ) );
@@ -58,11 +74,14 @@ class WC_Order_Export_Admin {
 
 			// Add 'Export Status' orders page column header
 			add_filter( 'manage_edit-shop_order_columns', array( $this, 'add_order_status_column_header' ), 20 );
-			add_filter( 'manage_edit-shop_order_sortable_columns', array( $this, 'add_order_status_sortable_columns' ) );
+            add_filter( 'manage_edit-shop_order_sortable_columns', array( $this, 'add_order_status_sortable_columns' ) );
+            add_filter( 'manage_woocommerce_page_wc-orders_columns', array( $this, 'add_order_status_column_header' ), 20 );
+			add_filter( 'manage_woocommerce_page_wc-orders_sortable_columns', array( $this, 'add_order_status_sortable_columns' ) );
 			add_filter( 'request', array( $this, 'add_order_status_request_query' ) );
 
 			// Add 'Export Status' orders page column content
 			add_action( 'manage_shop_order_posts_custom_column', array( $this, 'add_order_status_column_content' ) );
+            add_action( 'manage_woocommerce_page_wc-orders_custom_column', array( $this, 'add_order_status_column_content' ), 10, 2 );
 
 			// Style for 'Export Status' column
 			if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'shop_order' ) {
@@ -72,7 +91,6 @@ class WC_Order_Export_Admin {
 		}
 
 		do_action( 'woe_order_export_admin_init', $this );
-
 		$this->settings = WC_Order_Export_Main_Settings::get_settings();
 
 	}
@@ -159,13 +177,14 @@ class WC_Order_Export_Admin {
 		return $query_vars;
 	}
 
-	public function add_order_status_column_content( $column ) {
+	public function add_order_status_column_content( $column, $order = null ) {
 		global $post;
 
 		if ( 'woe_export_status' === $column ) {
 			$is_exported = false;
 
-			if ( get_post_meta( $post->ID, 'woe_order_exported', true ) ) {
+			if ( $order ? $order->get_meta('woe_order_exported') :
+                get_post_meta( $post->ID, 'woe_order_exported', true ) ) {
 				$is_exported = true;
 			}
 
@@ -240,6 +259,7 @@ class WC_Order_Export_Admin {
 	public function render_menu() {
 
 		$active_tab = isset( $_REQUEST['tab'] ) && $this->is_tab_exists( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : $this->settings['default_tab'];
+
 		$this->render( 'main', array(
 			'WC_Order_Export' => $this,
 			'ajaxurl'         => admin_url( 'admin-ajax.php' ),
@@ -518,19 +538,20 @@ class WC_Order_Export_Admin {
 		$settings = WC_Order_Export_Manage::get( WC_Order_Export_Manage::EXPORT_NOW );
 		WC_Order_Export_Manage::set_correct_file_ext( $settings );
 
+		$new_actions = array();
 		// default
 		if ( ! empty( $settings['format'] ) ) {
-			$actions['woe_export_selected_orders'] = sprintf( __( 'Export as %s', 'woo-order-export-lite' ),
+			$new_actions['woe_export_selected_orders'] = sprintf( __( 'Export as %s', 'woo-order-export-lite' ),
 				$settings['format'] );
 		}
 
 		// mark/unmark
 		if ( $this->settings['show_export_actions_in_bulk'] ) {
-			$actions['woe_mark_exported']   = __( 'Mark exported', 'woo-order-export-lite' );
-			$actions['woe_unmark_exported'] = __( 'Unmark exported', 'woo-order-export-lite' );
+			$new_actions['woe_mark_exported']   = __( 'Mark exported', 'woo-order-export-lite' );
+			$new_actions['woe_unmark_exported'] = __( 'Unmark exported', 'woo-order-export-lite' );
 		}
 
-		return $actions;
+		return $new_actions + $actions;
 	}
 
 	function export_orders_bulk_action_process( $redirect_to, $action, $ids ) {

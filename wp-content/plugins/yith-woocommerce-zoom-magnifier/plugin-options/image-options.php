@@ -9,7 +9,7 @@
  *
  * @package YITH WooCommerce Product Gallery & Image Zoom
  * @since   2.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 // Exit if accessed directly.

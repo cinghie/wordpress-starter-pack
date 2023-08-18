@@ -2,79 +2,56 @@
 /**
  * WAPO Functions
  *
- * @author  Corrado Porzio <corradoporzio@gmail.com>
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ProductAddOns
  * @version 2.0.0
  */
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
-if ( ! function_exists( 'yith_wapo_get_addons_by_block_id' ) ) {
+if ( ! function_exists( 'yith_wapo_get_view' ) ) {
 	/**
-	 * Get Addons by Block ID Function
+	 * Get the view
 	 *
-	 * @param int $block_id Block ID.
-	 * @return array
-	 */
-	function yith_wapo_get_addons_by_block_id( $block_id ) {
+	 * @param string $view View name.
+	 * @param array  $args Parameters to include in the view.
+     * @param string $prefix Prefix for the view path.
+     */
+	function yith_wapo_get_view( $view, $args = array(), $prefix = '' ) {
+		$view_path = trailingslashit( YITH_WAPO_VIEWS_PATH ) . $prefix . $view;
 
-		global $wpdb;
+		extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 
-		$query   = "SELECT id FROM {$wpdb->prefix}yith_wapo_addons WHERE block_id='$block_id' AND deleted='0' ORDER BY priority ASC";
-		$results = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
-
-		$addons = array();
-		foreach ( $results as $key => $addon ) {
-			$addons[] = new YITH_WAPO_Addon( $addon->id );
+		if ( file_exists( $view_path ) ) {
+			include $view_path;
 		}
-		return apply_filters( 'yith_wapo_addons_by_block_id', $addons, $block_id );
 	}
 }
 
-if ( ! function_exists( 'yith_wapo_get_blocks' ) ) {
-	/**
-	 * Get Blocks Function
-	 *
-	 * @return array
-	 */
-	function yith_wapo_get_blocks() {
-
-		global $wpdb;
-
-		// YITH Multi Vendor integration.
-		$vendor_check = '';
-		if ( ! current_user_can( 'administrator' ) && class_exists( 'YITH_Vendors' ) && ! is_product() ) {
-			$vendor = yith_get_vendor( 'current', 'user' );
-			if ( $vendor->is_valid() ) {
-				$vendor_check = "AND vendor_id='$vendor->id'";
-			}
-		}
-
-		$query   = "SELECT id FROM {$wpdb->prefix}yith_wapo_blocks WHERE deleted='0' $vendor_check ORDER BY priority ASC";
-		$results = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
-
-		$blocks = array();
-		foreach ( $results as $key => $block ) {
-			$blocks[] = new YITH_WAPO_Block( $block->id );
-		}
-		return $blocks;
-	}
-}
-
+//TODO: Create integration with WOOCS - Currency Switcher for WooCommerce
 if ( ! function_exists( 'yith_wapo_get_currency_rate' ) ) {
 	/**
 	 * Get Currency Rate Function
 	 *
+	 * @param string $type The type.
+	 *
 	 * @return float|int
 	 */
-	function yith_wapo_get_currency_rate() {
+	function yith_wapo_get_currency_rate( $type = '' ) {
 		$currency_rate = 1;
-		if ( function_exists( 'yith_wcmcs_get_current_currency' ) ) {
-			if ( ! empty( yith_wcmcs_get_current_currency() ) ) {
-				$currency_rate = (float) yith_wcmcs_get_current_currency()->get_data()['rate'];
+		global $WOOCS; // phpcs:ignore
+		if ( $WOOCS && 'product' === $type ) { // phpcs:ignore
+
+			$default_currency = $WOOCS->default_currency; // phpcs:ignore
+			$current_currency = $WOOCS->current_currency; // phpcs:ignore
+			if ( $default_currency !== $current_currency ) {
+				$currencies = $WOOCS->get_currencies(); // phpcs:ignore
+				if ( is_array( $currencies ) && isset( $currencies[ $current_currency ] ) ) {
+					$currency_rate = $currencies[ $current_currency ]['rate'];
+				}
 			}
 		}
-		return $currency_rate;
+		return apply_filters( 'yith_wapo_get_currency_rate', $currency_rate, $type );
 	}
 }
 
@@ -82,30 +59,45 @@ if ( ! function_exists( 'yith_wapo_get_option_info' ) ) {
 	/**
 	 * Get Option Info
 	 *
-	 * @param int $addon_id Addon ID.
-	 * @param int $option_id Option ID.
+	 * @param int     $addon_id Addon ID.
+	 * @param int     $option_id Option ID.
+	 * @param boolean $calculate_taxes Boolean to calculate taxes on prices.
 	 * @return array
 	 */
-	function yith_wapo_get_option_info( $addon_id, $option_id ) {
+	function yith_wapo_get_option_info( $addon_id, $option_id, $calculate_taxes = true ) {
 
 		$info = array();
 
 		if ( $addon_id > 0 ) {
 
-			$addon = new YITH_WAPO_Addon( $addon_id );
+			$addon = yith_wapo_instance_class( 'YITH_WAPO_Addon',
+                array(
+                    'id'   => $addon_id,
+                )
+            );
 
 			// Option.
-			$info['color']        = $addon->get_option( 'color', $option_id );
-			$info['label']        = $addon->get_option( 'label', $option_id );
-			$info['tooltip']      = $addon->get_option( 'tooltip', $option_id );
-			$info['price_method'] = $addon->get_option( 'price_method', $option_id );
-			$info['price_type']   = $addon->get_option( 'price_type', $option_id );
-			$info['price']        = $addon->get_option( 'price', $option_id );
-			$info['price_sale']   = $addon->get_option( 'price_sale', $option_id );
+			$info['color']             = $addon->get_option( 'color', $option_id );
+            $info['color_b']           = $addon->get_option( 'color_b', $option_id, '', false );
+            $info['label']             = $addon->get_option( 'label', $option_id );
+			$info['label_in_cart']     = $addon->get_option( 'label_in_cart', $option_id );
+			$info['label_in_cart_opt'] = $addon->get_option( 'label_in_cart_opt', $option_id );
+			$info['tooltip']           = $addon->get_option( 'tooltip', $option_id );
+			$info['price_method']      = $addon->get_option( 'price_method', $option_id, 'free', false );
+			$info['price_type']        = $addon->get_option( 'price_type', $option_id, 'fixed', false );
+			$info['price']             = $addon->get_price( $option_id, $calculate_taxes );
+			$info['price_sale']        = $addon->get_sale_price( $option_id, $calculate_taxes );
 
 			// Addon settings.
-			$info['addon_label'] = $addon->get_setting( 'title' );
-			$info['addon_type']  = $addon->get_setting( 'type' );
+			$info['addon_label']       = $addon->get_setting( 'title', '' );
+			$info['title_in_cart']     = $addon->get_setting( 'title_in_cart', 'yes', false );
+			$info['title_in_cart_opt'] = $addon->get_setting( 'title_in_cart_opt', '' );
+			$info['addon_type']        = $addon->get_setting( 'type', '' );
+			$info['sell_individually'] = $addon->get_setting( 'sell_individually', 'no', false );
+
+			if ( 'product' === $info['addon_type'] ) {
+				$info['product_id'] = $addon->get_option( 'product', $option_id );
+			}
 
 			// Addon advanced.
 			$info['addon_first_options_selected'] = $addon->get_setting( 'first_options_selected' );
@@ -127,29 +119,31 @@ if ( ! function_exists( 'yith_wapo_get_option_label' ) ) {
 	function yith_wapo_get_option_label( $addon_id, $option_id ) {
 
 		$label = '';
-		$info = yith_wapo_get_option_info( $addon_id, $option_id );
+		$info  = yith_wapo_get_option_info( $addon_id, $option_id );
 
 		if ( ! empty( $info ) && is_array( $info ) ) {
-			if ( in_array( $info['addon_type'], array(
-				'checkbox',
-				'radio',
-				'color',
-				'select',
-				'label',
-				'file',
-				'product'
-			), true ) ) {
-				$label = isset( $info['addon_label'] ) && ! empty( $info['addon_label'] ) ? $info['addon_label'] : __( 'Option', 'yith-woocommerce-product-add-ons' );
+			if ( in_array(
+				$info['addon_type'],
+				array(
+					'checkbox',
+					'radio',
+					'color',
+					'select',
+					'label',
+					'file',
+					'product',
+				),
+				true
+			) ) {
+				$label = isset( $info['addon_label'] ) && ! empty( $info['addon_label'] ) ? $info['addon_label'] : _x( 'Option', '[FRONT] Show it in the cart page if the add-on has not a label set', 'yith-woocommerce-product-add-ons' );
 			} else {
-				$label = isset( $info['label'] ) && ! empty( $info['label'] ) ? $info['label'] : __( 'Option', 'yith-woocommerce-product-add-ons' );
+				$label = isset( $info['label'] ) && ! empty( $info['label'] ) ? $info['label'] : _x( 'Option', '[FRONT] Show it in the cart page if the add-on has not a label set', 'yith-woocommerce-product-add-ons' );
 			}
 		}
 
 		return $label;
 	}
 }
-
-
 
 if ( ! function_exists( 'yith_wapo_get_option_price' ) ) {
 	/**
@@ -197,8 +191,10 @@ if ( ! function_exists( 'yith_wapo_get_option_price' ) ) {
 if ( ! function_exists( 'yith_wapo_get_tax_rate' ) ) {
 	/**
 	 * Get WooCommerce Tax Rate
+	 *
+	 * @param float $price The price.
 	 */
-	function yith_wapo_get_tax_rate() {
+	function yith_wapo_get_tax_rate( $price = false ) {
 		$wc_tax_rate = false;
 
 		if ( get_option( 'woocommerce_calc_taxes', 'no' ) === 'yes' ) {
@@ -212,7 +208,9 @@ if ( ! function_exists( 'yith_wapo_get_tax_rate' ) ) {
 					$wc_tax_rate = reset( $wc_tax_rates )['rate'] ?? 0;
 				}
 				if ( get_option( 'woocommerce_prices_include_tax' ) === 'yes' && get_option( 'woocommerce_tax_display_cart' ) === 'excl' ) {
+
 					$wc_tax_rate = - reset( $wc_tax_rates )['rate'] ?? 0;
+
 				}
 			} else {
 				if ( get_option( 'woocommerce_prices_include_tax' ) === 'no' && get_option( 'woocommerce_tax_display_shop' ) === 'incl' ) {
@@ -244,7 +242,7 @@ if ( ! function_exists( 'yith_wapo_is_addon_type_available' ) ) {
 
 if ( ! function_exists( 'yith_wapo_previous_version_exists' ) ) {
 	/**
-	 * Previous version check
+	 * Previous version 1 check
 	 */
 	function yith_wapo_previous_version_exists() {
 
@@ -276,48 +274,14 @@ if ( ! function_exists( 'yith_wapo_product_has_blocks' ) ) {
 		$product = wc_get_product( $product_id );
 
 		if ( $product instanceof WC_Product ) {
-			$product_categories = $product->get_category_ids();
-			$exclude_global     = apply_filters( 'yith_wapo_exclude_global', get_post_meta( $product_id, '_wapo_disable_global', true ) === 'yes' ? 1 : 0 );
+            //TODO: remove this global exclusion from v1.
+            $exclude_global = apply_filters( 'yith_wapo_exclude_global', get_post_meta( $product_id, '_wapo_disable_global', true ) === 'yes' ? 1 : 0 );
+            $blocks         = YITH_WAPO_DB()->yith_wapo_get_blocks_by_product( $product, null, true );
 
-			foreach ( yith_wapo_get_blocks() as $key => $block ) {
-
-				if ( '1' === $block->visibility ) {
-
-					$show_in                   = $block->get_rule( 'show_in' );
-					$included_product_check    = in_array( (string) $product->get_id(), (array) $block->get_rule( 'show_in_products' ), true );
-					$included_category_check   = count( array_intersect( (array) $block->get_rule( 'show_in_categories' ), $product_categories ) ) > 0;
-					$exclude_in                = $block->get_rule( 'exclude_products' );
-					$excluded_product_check    = ( 'all' === $show_in || 'categories' === $show_in ) && in_array( absint( $product->get_id() ), array_map( 'absint', (array) $block->get_rule( 'exclude_products_products' ) ), true );
-					$excluded_categories_check = 'all' === $show_in && count( array_intersect( (array) $block->get_rule( 'exclude_products_categories' ), $product_categories ) ) > 0;
-
-					$show_to            = $block->get_rule( 'show_to' );
-					$show_to_user_roles = $block->get_rule( 'show_to_user_roles' );
-					$show_to_membership = $block->get_rule( 'show_to_membership' );
-
-					// Include.
-					if ( ( 'all' === $show_in && ! $exclude_global ) || ( 'products' === $show_in && ( $included_product_check || $included_category_check ) ) ) {
-						// Exclude.
-						if ( 'yes' !== $exclude_in || ( ! $excluded_product_check && ! $excluded_categories_check ) ) {
-							// Show to.
-							if (
-								'' === $show_to
-								|| 'all' === $show_to
-								|| ( 'guest_users' === $show_to && ! is_user_logged_in() )
-								|| ( 'logged_users' === $show_to && is_user_logged_in() )
-								|| ( 'user_roles' === $show_to && count( array_intersect( (array) $show_to_user_roles, (array) wp_get_current_user()->roles ) ) > 0 )
-								|| ( 'membership' === $show_to && yith_wcmbs_user_has_membership( get_current_user_id(), $show_to_membership ) )
-							) {
-								$addons = yith_wapo_get_addons_by_block_id( $block->id );
-								if ( count( $addons ) > 0 ) {
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
+            if ( ! $exclude_global && count( $blocks ) > 0 ) {
+                return true;
+            }
+        }
 		return false;
 
 	}
@@ -336,22 +300,528 @@ if ( ! function_exists( 'yith_wapo_wpml_register_string' ) ) {
 	}
 }
 
-if( !function_exists('yith_wapo_calculate_price_depending_on_tax') ) {
+if ( ! function_exists( 'yith_wapo_get_term_meta' ) ) {
+	/**
+	 * Get term meta.
+	 *
+	 * @author Francesco Licandro
+	 * @param integer|string $term_id The term ID.
+	 * @param string         $key The term meta key.
+	 * @param boolean        $single Optional. Whether to return a single value.
+	 * @param string         $taxonomy Optional. The taxonomy slug.
+	 * @return mixed
+	 */
+	function yith_wapo_get_term_meta( $term_id, $key, $single = true, $taxonomy = '' ) {
+		$value = get_term_meta( $term_id, $key, $single );
+
+		// Compatibility with old format. To be removed on next version.
+		if ( apply_filters( 'yith_wapo_get_term_meta', true, $term_id ) && ( false === $value || '' === $value ) && ! empty( $taxonomy ) ) {
+			$value = get_term_meta( $term_id, $taxonomy . $key, $single );
+			// If meta is not empty, save it with the new key.
+			if ( false !== $value && '' !== $value ) {
+				yith_wapo_update_term_meta( $term_id, $key, $value );
+				// Delete old meta.
+				// delete_term_meta( $term_id, $taxonomy . $key );.
+			}
+		}
+
+		return $value;
+	}
+}
+
+if ( ! function_exists( 'yith_wapo_update_term_meta' ) ) {
+	/**
+	 * Update term meta.
+	 *
+	 * @param integer|string $term_id The term ID.
+	 * @param string         $key The term meta key.
+	 * @param mixed          $meta_value Metadata value.
+	 * @param mixed          $prev_value Optional. Previous value to check before updating.
+	 * @return mixed
+	 */
+	function yith_wapo_update_term_meta( $term_id, $key, $meta_value, $prev_value = '' ) {
+		if ( '' === $meta_value || false === $meta_value ) {
+			return delete_term_meta( $term_id, $key );
+		}
+
+		return update_term_meta( $term_id, $key, $meta_value, $prev_value );
+	}
+}
+
+if ( ! function_exists( 'yith_wapo_calculate_price_depending_on_tax' ) ) {
 	/**
 	 * Calculate the price with the tax included if necessary.
 	 *
-	 * @author Ivan Sosa
 	 * @param float $price The price added.
 	 * @return float
 	 */
-	function yith_wapo_calculate_price_depending_on_tax( $price ) {
+	function yith_wapo_calculate_price_depending_on_tax( $price = 0 ) {
+
 		if ( ! wc_tax_enabled() ) {
 			return $price;
 		}
 
 		if ( 0 !== $price && '' !== $price ) {
-			$price += floatval( $price ) * floatval( yith_wapo_get_tax_rate() / 100 );
+
+			if ( get_option( 'woocommerce_calc_taxes', 'no' ) === 'yes' ) {
+				$price             = floatval( $price );
+				$wc_tax_rates      = WC_Tax::get_rates();
+				$wc_tax_rate       = reset( $wc_tax_rates )['rate'] ?? 0;
+				$price_include_tax = get_option( 'woocommerce_prices_include_tax' );
+				if ( is_cart() || is_checkout() ) {
+					$tax_display_cart = get_option( 'woocommerce_tax_display_cart' );
+
+					if ( 'no' === $price_include_tax && 'incl' === $tax_display_cart ) {
+						$price += floatval( $price ) * floatval( $wc_tax_rate / 100 );
+					}
+					if ( 'yes' === $price_include_tax && 'excl' === $tax_display_cart ) {
+						$price = $wc_tax_rate > 0 ? ( 100 * $price ) / ( 100 + $wc_tax_rate ) : $price;
+					}
+				} else {
+					$tax_display_shop = get_option( 'woocommerce_tax_display_shop' );
+					if ( 'no' === $price_include_tax && 'incl' === $tax_display_shop ) {
+						$price += floatval( $price ) * floatval( $wc_tax_rate / 100 );
+					}
+
+					if ( 'yes' === $price_include_tax && 'excl' === $tax_display_shop ) {
+						$price = $wc_tax_rate > 0 ? ( 100 * $price ) / ( 100 + $wc_tax_rate ) : $price;
+					}
+				}
+			}
 		}
+
 		return $price;
 	}
+}
+
+if ( ! function_exists( 'yith_wapo_get_addon_tabs' ) ) {
+	/**
+	 * Get add-ons tabs.
+	 *
+	 * @param int    $addon_id The add-on id.
+	 * @param string $addon_type The add-on type.
+	 *
+	 * @return array
+	 */
+	function yith_wapo_get_addon_tabs( $addon_id, $addon_type ) {
+
+		$tabs = array(
+			'populate'          => array(
+				'id'    => 'options-list',
+				'class' => 'selected',
+                // translators: Populate options tab of the add-on configuration
+				'label' => esc_html__( 'Populate options', 'yith-woocommerce-product-add-ons' ),
+			),
+			'advanced'          => array(
+				'id'    => 'advanced-settings',
+				'class' => '',
+                // translators: Options configuration tab of the add-on configuration
+                'label' => esc_html__( 'Options configuration', 'yith-woocommerce-product-add-ons' ),
+			),
+			'conditional-logic' => array(
+				'id'    => 'conditional-logic',
+				'class' => '',
+                // translators: Conditional logic tab of the add-on configuration
+				'label' => esc_html__( 'Conditional logic', 'yith-woocommerce-product-add-ons' ),
+            )
+		);
+
+        if ( ! defined( 'YITH_WAPO_PREMIUM' ) && 'radio' === $addon_type ) {
+            unset( $tabs['advanced'] );
+        }
+
+		return apply_filters( 'yith_wapo_get_addon_tabs', $tabs, $addon_id, $addon_type );
+	}
+}
+
+if ( ! function_exists( 'yith_wapo_get_attributes' ) ) {
+
+	function yith_wapo_get_attributes() {
+
+		$tooltip_options = get_option( 'yith_wapo_tooltip_color', array(
+            'text' => '#ffffff',
+            'background' => '#03bfac'
+        ) );
+        $dimensions_array_default = array(
+            'dimensions' => array(
+                'top'    => '',
+                'right'  => '',
+                'bottom' => '',
+                'left'   => '',
+            ),
+        );
+
+        $block_padding = get_option( 'yith_wapo_style_addon_padding', $dimensions_array_default );
+
+		// Options declared as multi-colorpicker.
+		$multi_atts = array(
+			'block-background'    => get_option( 'yith_wapo_style_addon_background', array(
+                'color' => '#ffffff'
+            ) ),
+			'accent-color'        => get_option( 'yith_wapo_style_accent_color', array(
+                'color' => '#03bfac'
+            ) ),
+			'form-border-color'   => get_option( 'yith_wapo_style_borders_color', array(
+                'color' => '#7a7a7a'
+            ) ),
+			'price-box-colors'    => get_option( 'yith_wapo_price_box_colors', array(
+                'text'       => '#474747',
+                'background' => '#ffffff'
+            ) ),
+			'uploads-file-colors' => get_option( 'yith_wapo_upload_file_colors', array(
+                'background' => '#f3f3f3',
+                'border'     => '#c4c4c4'
+            ) ),
+			'tooltip-colors'      => $tooltip_options
+		);
+
+		$attributes[ 'required-option-color' ] = get_option( 'yith_wapo_required_option_color', '#AF2323' );
+		$attributes[ 'checkbox-style' ]        = get_option( 'yith_wapo_style_checkbox_style' ) === 'rounded' ? '50%' : '5px';
+		$attributes[ 'color-swatch-style' ]    = get_option( 'yith_wapo_style_color_swatch_style' ) === 'rounded' ? '50%' : '2px';
+		$attributes[ 'label-font-size' ]       = get_option( 'yith_wapo_style_label_font_size', 16 ) . 'px';
+		$attributes[ 'description-font-size' ] = get_option( 'yith_wapo_style_description_font_size', 12 ) . 'px';
+		$attributes[ 'color-swatch-size' ]     = get_option( 'yith_wapo_style_color_swatch_size', 40 ) . 'px';
+		$attributes[ 'block-padding' ]         = $block_padding['dimensions']['top'] . 'px ' .
+            $block_padding['dimensions']['right'] . 'px ' .
+            $block_padding['dimensions']['bottom'] . 'px ' .
+            $block_padding['dimensions']['left'] . 'px ';
+
+		foreach( $multi_atts as $atts => $options ) {
+			foreach ( $options as $key => $value ) {
+				$attributes[ $atts . '-' . $key ] = $value;
+			}
+		}
+
+		return apply_filters( 'yith_wapo_get_attributes', $attributes );
+	}
+}
+
+if ( ! function_exists( 'get_configuration_options_by_type' ) ) {
+	/**
+	 * Get the options of each add-on type.
+	 *
+	 * @param string $addon_type The add-on type
+	 * @param string $option_tab The add-on tab
+	 *
+	 * @return array
+	 */
+	function get_configuration_options_by_type( $addon_type = '', $option_tab = '' ) {
+		$options = array();
+
+		if ( $addon_type ) {
+			if ( 'configuration' === $option_tab ) {
+				switch ( $addon_type ) {
+					case 'checkbox':
+					case 'text':
+						array_push( $options,
+							'addon-selection-type',
+							'addon-first-options-selected',
+							'addon-first-free-options',
+							'addon-enable-min-max',
+							'addon-min-exa-rules',
+							'addon-max-rule',
+							'addon-sell-individually'
+						);
+						break;
+					case 'radio':
+						$options[] = 'addon-sell-individually';
+						break;
+					case 'select':
+						array_push( $options,
+							'addon-required',
+							'addon-sell-individually'
+						);
+						break;
+				};
+
+			} elseif ( 'style' === $option_tab ) {
+
+				switch ( $addon_type ) {
+					case 'checkbox':
+					case 'text':
+					case 'radio':
+						array_push( $options,
+							'addon-show-image',
+							'addon-image',
+							'addon-image-replacement',
+							'addon-hide-options-images',
+							'addon-options-images-position',
+							'addon-show-as-toggle',
+							'addon-hide-options-label',
+							'addon-hide-options-prices',
+							'addon-options-per-row',
+							'addon-show-in-a-grid',
+							'addon-options-width',
+						);
+						break;
+					case 'select':
+						array_push( $options,
+							'addon-show-image',
+							'addon-image',
+							'addon-image-replacement',
+							'addon-hide-options-images',
+							'addon-options-images-position',
+							'addon-show-as-toggle',
+							'addon-hide-options-label',
+							'addon-hide-options-prices',
+							'addon-select-width'
+						);
+						break;
+				};
+
+			}
+		}
+
+		return $options;
+	}
+}
+
+if ( ! function_exists( 'get_default_configuration_options' ) ) {
+	/**
+	 * Get the default options for Options configuration tab.
+	 *
+	 * @return array[]
+	 */
+	function get_default_configuration_options() {
+
+		$options = array(
+			'parent' => array(
+				'enabled-by' => '',
+				'title' => '',
+                'field-wrap-class' => '',
+                'div-class' => '',
+				'field' => array(
+					array()
+				),
+				'description' => '',
+			),
+			'field' => array(
+				'title' => '',
+				'div-class' => '',
+				'name' => '',
+				'class' => '',
+				'type' => '',
+				'min'   => '',
+				'max'   => '',
+				'step'  => '',
+				'value' => '',
+				'default' => '',
+				'options' => array(),
+				'units' => '',
+			)
+		);
+
+		return $options;
+	}
+}
+
+if ( ! function_exists( 'yith_wapo_get_addon_grid_rules' ) ) {
+    /**
+     * @param  $addon
+     * @return string
+     */
+    function yith_wapo_get_addon_grid_rules( $addon ) {
+
+        $grid = '
+            display: grid;
+        ';
+
+        $per_row   = $addon->get_setting( 'options_per_row', 1, false );
+        $show_grid = wc_string_to_bool( $addon->get_setting( 'show_in_a_grid', 'no', false ) );
+        $width     = $addon->get_setting( 'options_width', 100, false );
+
+        $width = $show_grid ? $width : ( $per_row > 1 ? 100 : 50 );
+        $width_percentage = $width / $per_row;
+
+        if ( $show_grid ) {
+            if ( $per_row > 1 ) {
+                $grid .= '
+                  justify-content: start;
+                  grid-template-columns: repeat(' . $per_row . ', minmax(0, ' . $width_percentage . '%) );
+                  gap: 10px;
+            '   ;
+            } else {
+                $grid .= '
+                gap: 10px;
+                ';
+            }
+        } else {
+            $grid .= '
+            grid-template-columns: repeat(' . $per_row . ', minmax(0, ' . $width_percentage . '%) );
+            gap: 10px;
+            ';
+        }
+
+        return $grid;
+
+    }
+}
+
+if ( ! function_exists( 'yith_wapo_get_string_by_addon_type' ) ) {
+    /**
+     * Return a string depending on add-on type.
+     *
+     * @param string $key The key of the array of values.
+     * @param string $addon_type The add-on type.
+     * @return string
+     */
+    function yith_wapo_get_string_by_addon_type( $key, $addon_type )
+    {
+        $str_values = array(
+            'checkbox' => array(
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'add_new' => _x( 'Add a new', 'Add-on editor panel > Add a new + add-on name (fem)', 'yith-woocommerce-product-add-ons' ),
+            ),
+            'text' => array(
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'single_option' => __( 'Single - Users can fill ONE of the available fields', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'multiple_options' => __( 'Multiple - Users can fill MULTIPLE fields', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'selection_description' => __( 'Choose if users can fill one or multiple fields.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'first_options' => __( 'Set the first fields selected as free', 'yith-woocommerce-product-add-ons' ),
+                'first_options_description' => sprintf(
+                // translators: %1$s and %2$s are line breaks.
+                    esc_html__( 'Enable to set a specific number of fields as free. %1$s For example, the first three "pizza toppings" are free, included in the product price. %2$s Users will pay from the fourth topping on.', 'yith-woocommerce-product-add-ons' ),
+                    '<br>',
+                    '<br>'
+                ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'select_free' => __( 'Users can fill for free', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'can_select_for_free' => __( 'Set how many fields users can fill for free.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'force_select' => __( 'Force user to fill fields of this block', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'force_select_description' => __( 'Enable to force users to fill fields to proceed with the purchase.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'proceed_purchase' => __( 'To proceed with the purchase, users have to fill', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'proceed_purchase_description' => __( 'Set how many fields need to be filled in order to add a product to cart.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'can_select_max' => __( 'Users can fill a max of', 'yith-woocommerce-product-add-ons' ),
+                'can_select_max_description' => sprintf(
+                // translators: %s is a line break. [ADMIN] Add-on editor > Options configuration option (description)
+                    esc_html__( 'Optional: set the max number of fields fillable by users in this block. %s Leave empty if users can fill all fields without any limits.', 'yith-woocommerce-product-add-ons' ),
+                    '<br>'
+                ),
+
+                // translators: [ADMIN] text description on several "Options configuration" options, depending on add-on type
+                'options' => __( 'fields' , 'yith-woocommerce-product-add-ons' ),
+            ),
+            'default' => array(
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'single_option' => __( 'Single - Users can select ONE of the available options', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'multiple_options' => __( 'Multiple - Users can select MULTIPLE options', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'selection_description' => __( 'Choose if users can select one or multiple options.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'first_options' =>  __( 'Set the first options selected as free', 'yith-woocommerce-product-add-ons' ),
+                'first_options_description' => sprintf(
+                // translators: %1$s and %2$s are line breaks.
+                    esc_html__( 'Enable to set a specific number of options as free. %1$s For example, the first three "pizza toppings" are free, included in the product price. %2$s Users will pay from the fourth topping on.', 'yith-woocommerce-product-add-ons' ),
+                    '<br>',
+                    '<br>'
+                ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'select_free' => __( 'Users can select for free', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'can_select_for_free' => __( 'Set how many options users can select for free.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'force_select' => __( 'Force user to select options of this block', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'force_select_description' => __( 'Enable to force users to select options to proceed with the purchase.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'proceed_purchase' => __( 'To proceed with the purchase, users have to select', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'proceed_purchase_description' => __( 'Set how many options need to be selected in order to add a product to cart.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'can_select_max' => __( 'Users can select a max of', 'yith-woocommerce-product-add-ons' ),
+                'can_select_max_description' => sprintf(
+                // translators: %s is a line break. [ADMIN] Add-on editor > Options configuration option (description)
+                    esc_html__( 'Optional: set the max number of options selectable by users in this block. %s Leave empty if users can select all options without any limits.', 'yith-woocommerce-product-add-ons' ),
+                    '<br>'
+                ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'min_max_all' => __( 'Set a min/max value among all options', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option (description)
+                'min_max_all_description' => __( 'Enable to force users to enter values that are within a specific range when all options are added together.', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'min_max_number' => __( 'Sum of options between', 'yith-woocommerce-product-add-ons' ),
+
+                // translators: [ADMIN] Part of text on block editor, depending on add-on type
+                'options' => __( 'options', 'yith-woocommerce-product-add-ons' ),
+                // translators: [ADMIN] Add-on editor > Options configuration option
+                'add_new' => _x( 'Add a new', 'Add-on editor panel > Add a new + add-on name (masc)', 'yith-woocommerce-product-add-ons' ),
+            )
+        );
+
+        return $str_values[$addon_type][$key] ?? $str_values['default'][$key];
+    }
+}
+
+if ( ! function_exists( 'yith_wapo_create_time_range' ) ) {
+
+    /**
+     * Create a time range
+     *
+     * @param mixed $start start time, e.g., 7:30am or 7:30
+     * @param mixed $end   end time, e.g., 8:30pm or 20:30
+     * @param string $interval_type time interval type => hour, minutes, seconds.
+     * @param string $interval time intervals, 1 hour, 1 mins, 1 secs, etc.
+     * @param string $format time format, e.g., 12 or 24
+     */
+    function yith_wapo_create_time_range( $start, $end, $interval_type = 'hours', $interval = '30 mins', $format = '12' ) {
+
+        $startTime        = strtotime( $start );
+        $endTime          = strtotime( $end );
+        $returnTimeFormat = ( $format == '12' ) ? 'g:i a' : 'G:i';
+        if ( 'seconds' === $interval_type ) {
+            $returnTimeFormat = ( $format == '12' ) ? 'g:i:s a' : 'G:i:s';
+        }
+
+        $current   = time();
+        $addTime   = strtotime('+' . $interval, $current );
+        $diff      = $addTime - $current;
+
+        $times = array();
+
+        while ( $startTime + $diff <= $endTime ) {
+            $times[] = date( $returnTimeFormat, $startTime );
+            $startTime += $diff;
+        }
+        $times[] = date( $returnTimeFormat, $startTime );
+
+        return $times;
+    }
+}
+
+if ( ! function_exists( 'yith_wapo_array_insert_after' ) ) {
+    /**
+     * Insert a value or key/value pair after a specific key in an array.  If key doesn't exist, value is appended
+     * to the end of the array.
+     *
+     * @param array $array
+     * @param string $key
+     * @param array $new
+     *
+     * @return array
+     */
+    function yith_wapo_array_insert_after( array $array, $key, array $new ) {
+        $keys = array_keys( $array );
+        $index = array_search( $key, $keys );
+        $pos = false === $index ? count( $array ) : $index + 1;
+
+        return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
+    }
+}
+
+if ( ! function_exists( 'yith_wapo_instance_class' ) ) {
+    function yith_wapo_instance_class( $class, $args = array() ) {
+        $class_name = $class . ( class_exists( $class . '_Premium' ) ? '_Premium' : '' );
+
+        return new $class_name( $args );
+    }
 }

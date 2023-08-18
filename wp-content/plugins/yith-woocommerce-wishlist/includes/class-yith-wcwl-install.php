@@ -2,7 +2,7 @@
 /**
  * Install file
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes
  * @version 3.0.0
  */

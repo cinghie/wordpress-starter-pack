@@ -108,12 +108,10 @@ class WP_Optimize_WebP_Images {
 		foreach ($this->sizes as $size) {
 			$original_format = $this->directory . $this->filename . '-' . $size['width'] . 'x' . $size['height'] . $this->original_extension;
 			$this->images[] = $original_format;
-			$webp_format = $this->directory . $this->filename . '-' . $size['width'] . 'x' . $size['height'] . $this->original_extension . $this->webp_extension;
+			$webp_format = $this->directory . preg_replace('/-scaled$/', '', $this->filename) . '-' . $size['width'] . 'x' . $size['height'] . $this->original_extension . $this->webp_extension;
 			$this->images[] = $webp_format;
 		}
 
-		$original_format = $this->directory . $this->filename . '-updraft-pre-smush-original' . $this->original_extension;
-		$this->images[] = $original_format;
 	}
 
 	/**

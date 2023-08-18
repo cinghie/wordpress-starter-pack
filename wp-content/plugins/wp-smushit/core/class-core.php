@@ -143,9 +143,9 @@ class Core extends Stats {
 	 *
 	 * This is enforced at api level too.
 	 *
-	 * @var int $max_free_bulk
+	 * @var int
 	 */
-	public static $max_free_bulk = 50;
+	const MAX_FREE_BULK = 50;
 
 	/**
 	 * Initialize modules.
@@ -280,13 +280,13 @@ class Core extends Stats {
 			'all_resmushed'           => esc_html__( 'All images are fully optimized.', 'wp-smushit' ),
 			'all_smushed'             => esc_html__( 'All attachments have been smushed. Awesome!', 'wp-smushit' ),
 			'error_size_limit'        => WP_Smush::is_pro() ? '' : sprintf(
-			/* translators: %1$s - opening link tag, %2$s - </a> */
-				esc_html__( 'Are you hitting the 5MB "size limit exceeded" warning? %1$sUpgrade to Smush Pro for FREE%2$s to optimize unlimited image files up to 32Mb each.', 'wp-smushit' ),
+				/* translators: %1$s - opening a link <a>, %2$s - Close the link </a> */
+				esc_html__( 'Are you hitting the 5MB "size limit exceeded" warning? %1$sUpgrade to Smush Pro%2$s to optimize unlimited image files up to 32Mb each.', 'wp-smushit' ),
 				'<a href="' . esc_url( $upgrade_url ) . '" target="_blank">',
 				'</a>'
 			),
-			'processing_cdn_for_free' => esc_html__( 'Want to serve images even faster? Get up to 2x more speed with Smush Pro’s CDN, which spans 45 servers worldwide.', 'wp-smushit' ),
-			'processed_cdn_for_free'  => esc_html__( 'Let images reach your audience faster no matter where your hosting servers are. Smush Pro’s global CDN serves images closer to site visitors via 45 worldwide server locations.', 'wp-smushit' ),
+			'processing_cdn_for_free' => esc_html__( 'Want to serve images even faster? Get up to 2x more speed with Smush Pro’s CDN, which spans 114 servers worldwide.', 'wp-smushit' ),
+			'processed_cdn_for_free'  => esc_html__( 'Let images reach your audience faster no matter where your hosting servers are. Smush Pro’s global CDN serves images closer to site visitors via 114 worldwide server locations.', 'wp-smushit' ),
 			'restore'                 => esc_html__( 'Restoring image...', 'wp-smushit' ),
 			'smushing'                => esc_html__( 'Smushing image...', 'wp-smushit' ),
 			'btn_ignore'              => esc_html__( 'Ignore', 'wp-smushit' ),
@@ -320,6 +320,15 @@ class Core extends Stats {
 				'<a href=' . esc_url( menu_page_url( 'smush-tutorials', false ) ) . '>',
 				'</a>'
 			),
+			'smush_cdn_activation_notice'  => WP_Smush::is_pro() && ! $this->mod->cdn->is_active() ?
+				sprintf(
+					/* translators: %1$s - opening a tag, %2$s - closing a tag */
+					esc_html__( 'Activate Smush CDN to bulk smush and serve animated GIF’s via 114 worldwide locations. %1$sActivate CDN%2$s', 'wp-smushit' ),
+					'<a href="'. esc_url( network_admin_url( 'admin.php?page=smush-cdn' ) ) .'" />',
+					'</a>'
+				) :
+				''
+			,
 			// URLs.
 			'smush_url'               => network_admin_url( 'admin.php?page=smush' ),
 			'bulk_smush_url'          => network_admin_url( 'admin.php?page=smush-bulk' ),
@@ -329,6 +338,7 @@ class Core extends Stats {
 			'debug_mode'              => defined( 'WP_DEBUG' ) && WP_DEBUG,
 			'cancel'                  => esc_html__( 'Cancel', 'wp-smushit' ),
 			'cancelling'              => esc_html__( 'Cancelling ...', 'wp-smushit' ),
+			'recheck_images_link'     => Helper::get_recheck_images_link(),
 		);
 
 		wp_localize_script( $handle, 'wp_smush_msgs', $wp_smush_msgs );
@@ -342,6 +352,8 @@ class Core extends Stats {
 				'token'            => $product_analytics->get_token(),
 				'unique_id'        => $product_analytics->get_unique_id(),
 				'super_properties' => $product_analytics->get_super_properties(),
+				'debug'            => defined( 'WP_SMUSH_MIXPANEL_DEBUG' ) && WP_SMUSH_MIXPANEL_DEBUG
+										&& defined( 'WP_SMUSH_VERSION' ) && strpos( WP_SMUSH_VERSION, 'beta' ),
 			)
 		);
 
@@ -361,37 +373,11 @@ class Core extends Stats {
 				$this->resmush_ids = $resmush_ids;
 			}
 
-			if ( ! defined( 'WP_SMUSH_DISABLE_STATS' ) || ! WP_SMUSH_DISABLE_STATS ) {
-				// Setup all the stats.
-				$this->setup_global_stats( true );
-			}
-
 			// Get attachments if all the images are not smushed.
 			$this->unsmushed_attachments = $this->remaining_count > 0 ? $this->get_unsmushed_attachments() : array();
 			$this->unsmushed_attachments = ! empty( $this->unsmushed_attachments ) && is_array( $this->unsmushed_attachments ) ? array_values( $this->unsmushed_attachments ) : $this->unsmushed_attachments;
 
-			// Array of all smushed, unsmushed and lossless IDs.
-			$data = array(
-				'count_supersmushed' => $this->super_smushed,
-				'count_smushed'      => $this->smushed_count,
-				'count_total'        => $this->total_count - $this->skipped_count,
-				'count_images'       => $this->stats['total_images'],
-				'count_resize'       => $this->stats['resize_count'],
-				'count_skipped'      => $this->skipped_count,
-				'unsmushed'          => $this->unsmushed_attachments,
-				'resmush'            => $this->resmush_ids,
-				'size_before'        => $this->stats['size_before'],
-				'size_after'         => $this->stats['size_after'],
-				'savings_bytes'      => $this->stats['bytes'],
-				'savings_resize'     => $this->stats['resize_savings'],
-				'savings_conversion' => $this->stats['conversion_savings'],
-				'savings_dir_smush'  => $this->dir_stats,
-				'savings_percent'    => $this->stats['percent'] > 0 ? number_format_i18n( $this->stats['percent'], 1 ) : 0,
-				'percent_grade'      => $this->percent_grade,
-				'percent_metric'     => $this->percent_metric,
-				'percent_optimized'  => $this->percent_optimized,
-				'remaining_count'    => $this->remaining_count,
-			);
+			$data = $this->get_global_stats();
 		} else {
 			$data = array(
 				'count_supersmushed' => '',
@@ -428,55 +414,57 @@ class Core extends Stats {
 	}
 
 	/**
+	 * Check bulk sent count, whether to allow further smushing or not
+	 *
+	 * @param bool   $reset  To hard reset the transient.
+	 * @param string $key    Transient Key - bulk_sent_count/dir_sent_count.
+	 * 
+	 * TODO: remove this (and all related code) because the limit has been lifted in 3.12.0
+	 *
+	 * @return bool
+	 */
+	public static function check_bulk_limit( $reset = false, $key = 'bulk_sent_count' ) {
+		$is_pre_3_12_6_site = get_site_option( 'wp_smush_pre_3_12_6_site' );
+		if ( $is_pre_3_12_6_site ) {
+			return true;
+		}
+		
+		$transient_name = 'wp-smush-' . $key;
+
+		// If we JUST need to reset the transient.
+		if ( $reset ) {
+			set_transient( $transient_name, 0, 60 );
+			return false;
+		}
+
+		$bulk_sent_count = (int) get_transient( $transient_name );
+
+		// Check if bulk smush limit is less than limit.
+		if ( ! $bulk_sent_count || $bulk_sent_count < self::MAX_FREE_BULK ) {
+			$continue = true;
+		} elseif ( $bulk_sent_count === self::MAX_FREE_BULK ) {
+			// If user has reached the limit, reset the transient.
+			$continue = false;
+			$reset    = true;
+		} else {
+			$continue = false;
+		}
+
+		// If we need to reset the transient.
+		if ( $reset ) {
+			set_transient( $transient_name, 0, 60 );
+		}
+
+		return $continue;
+	}
+
+	/**
 	 * Get registered image sizes with dimension
 	 *
 	 * @return array
 	 */
 	public function image_dimensions() {
-		// Get from cache if available to avoid duplicate looping.
-		$sizes = wp_cache_get( 'get_image_sizes', 'smush_image_sizes' );
-		if ( $sizes ) {
-			return $sizes;
-		}
-
-		global $_wp_additional_image_sizes;
-		$additional_sizes = get_intermediate_image_sizes();
-		$sizes            = array();
-
-		if ( empty( $additional_sizes ) ) {
-			return $sizes;
-		}
-
-		// Create the full array with sizes and crop info.
-		foreach ( $additional_sizes as $_size ) {
-			if ( in_array( $_size, array( 'thumbnail', 'medium', 'large' ), true ) ) {
-				$sizes[ $_size ]['width']  = get_option( $_size . '_size_w' );
-				$sizes[ $_size ]['height'] = get_option( $_size . '_size_h' );
-				$sizes[ $_size ]['crop']   = (bool) get_option( $_size . '_crop' );
-			} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
-				$sizes[ $_size ] = array(
-					'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
-					'height' => $_wp_additional_image_sizes[ $_size ]['height'],
-					'crop'   => $_wp_additional_image_sizes[ $_size ]['crop'],
-				);
-			}
-		}
-
-		// Medium Large.
-		if ( ! isset( $sizes['medium_large'] ) || empty( $sizes['medium_large'] ) ) {
-			$width  = (int) get_option( 'medium_large_size_w' );
-			$height = (int) get_option( 'medium_large_size_h' );
-
-			$sizes['medium_large'] = array(
-				'width'  => $width,
-				'height' => $height,
-			);
-		}
-
-		// Set cache to avoid this loop next time.
-		wp_cache_set( 'get_image_sizes', $sizes, 'smush_image_sizes' );
-
-		return $sizes;
+		return Helper::get_image_sizes();
 	}
 
 	/**
@@ -533,13 +521,33 @@ class Core extends Stats {
 	}
 
 	/**
+	 * Update the image smushed count in transient
+	 *
+	 * @param string $key  Database key.
+	 */
+	public static function update_smush_count( $key = 'bulk_sent_count' ) {
+		$transient_name = 'wp-smush-' . $key;
+
+		$bulk_sent_count = get_transient( $transient_name );
+
+		// If bulk sent count is not set.
+		if ( false === $bulk_sent_count ) {
+			// Start transient at 0.
+			set_transient( $transient_name, 1, 200 );
+		} elseif ( $bulk_sent_count < self::MAX_FREE_BULK ) {
+			// If lte MAX_FREE_BULK images are sent, increment.
+			set_transient( $transient_name, $bulk_sent_count + 1, 200 );
+		}
+	}
+
+	/**
 	 * Set the big image threshold.
 	 *
-	 * @since 3.3.2
-	 *
-	 * @param int $threshold  The threshold value in pixels. Default 2560.
+	 * @param int $threshold The threshold value in pixels. Default 2560.
 	 *
 	 * @return int|bool  New threshold. False if scaling is disabled.
+	 * @since 3.3.2
+	 *
 	 */
 	public function big_image_size_threshold( $threshold ) {
 		if ( Settings::get_instance()->get( 'no_scale' ) ) {

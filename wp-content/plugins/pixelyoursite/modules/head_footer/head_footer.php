@@ -35,7 +35,7 @@ class HeadFooter extends Settings {
 			/** @var PYS $core */
 			$core->registerPlugin( $this );
 		} );
-		
+
 		if ( $this->getOption( 'enabled' ) ) {
 			add_action( 'add_meta_boxes', array( $this, 'register_meta_box' ) );
 			add_action( 'save_post', array( $this, 'save_meta_box' ) );
@@ -52,7 +52,7 @@ class HeadFooter extends Settings {
 	 */
 	public function register_meta_box() {
 		
-		if ( current_user_can( 'manage_pys' ) ) {
+		if ( current_user_can( 'manage_pys' ) && current_user_can('unfiltered_html') ) {
 			
 			$screens = get_post_types( array( 'public' => true ) );
 			
@@ -76,7 +76,7 @@ class HeadFooter extends Settings {
 			return;
 		}
 		
-		if ( ! current_user_can( 'manage_pys' ) ) {
+		if ( ! current_user_can( 'manage_pys' ) && ! current_user_can('unfiltered_html')) {
 			return;
 		}
 
@@ -86,16 +86,31 @@ class HeadFooter extends Settings {
 		}
 
 		$data = $_POST['pys_head_footer'];
-
-		$meta = array(
-			'disable_global' => isset( $data['disable_global'] ) ? true : false,
-			'head_any'       => isset( $data['head_any'] ) ? trim( $data['head_any'] ) : '',
-			'head_desktop'   => isset( $data['head_desktop'] ) ? trim( $data['head_desktop'] ) : '',
-			'head_mobile'    => isset( $data['head_mobile'] ) ? trim( $data['head_mobile'] ) : '',
-			'footer_any'     => isset( $data['footer_any'] ) ? trim( $data['footer_any'] ) : '',
-			'footer_desktop' => isset( $data['footer_desktop'] ) ? trim( $data['footer_desktop'] ) : '',
-			'footer_mobile'  => isset( $data['footer_mobile'] ) ? trim( $data['footer_mobile'] ) : '',
-		);
+        $meta = array(
+            'disable_global' => isset( $data['disable_global'] ) ? true : false,
+        );
+        foreach ( $data as $key => $val ) {
+			switch ($key) {
+				case "head_any":
+					$meta['head_any'] = isset($val) ? trim($val) : '';
+					break;
+				case "head_desktop":
+					$meta['head_desktop'] = isset($val) ? trim($val) : '';
+					break;
+				case "head_mobile":
+					$meta['head_mobile'] = isset($val) ? trim($val) : '';
+					break;
+				case "footer_any":
+					$meta['footer_any'] = isset($val) ? trim($val) : '';
+					break;
+				case "footer_desktop":
+					$meta['footer_desktop'] = isset($val) ? trim($val) : '';
+					break;
+				case "footer_mobile":
+					$meta['footer_mobile'] = isset($val) ? trim($val) : '';
+					break;
+			}
+        }
 
 		update_post_meta( $post_id, '_pys_head_footer', $meta );
 
@@ -156,7 +171,7 @@ class HeadFooter extends Settings {
 
 	public function output_head_woo_order_received() {
 
-		$scripts_any = $this->getOption( 'woo_order_received_head_any' );
+		$scripts_any = esc_js($this->getOption( 'woo_order_received_head_any' ));
 
 		if ( $scripts_any ) {
             echo "\r\n{$scripts_any}\r\n";

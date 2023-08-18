@@ -7,10 +7,13 @@ class Renderer {
         this.onSmartButtonClick = onSmartButtonClick;
         this.onSmartButtonsInit = onSmartButtonsInit;
 
+        this.buttonsOptions = {};
+        this.onButtonsInitListeners = {};
+
         this.renderedSources = new Set();
     }
 
-    render(contextConfig, settingsOverride = {}) {
+    render(contextConfig, settingsOverride = {}, contextConfigOverride = () => {}) {
         const settings = merge(this.defaultSettings, settingsOverride);
 
         const enabledSeparateGateways = Object.fromEntries(Object.entries(
@@ -50,7 +53,7 @@ class Renderer {
         }
 
         if (this.creditCardRenderer) {
-            this.creditCardRenderer.render(settings.hosted_fields.wrapper, contextConfig);
+            this.creditCardRenderer.render(settings.hosted_fields.wrapper, contextConfigOverride);
         }
 
         for (const [fundingSource, data] of Object.entries(enabledSeparateGateways)) {
@@ -77,7 +80,12 @@ class Renderer {
             style,
             ...contextConfig,
             onClick: this.onSmartButtonClick,
-            onInit: this.onSmartButtonsInit,
+            onInit: (data, actions) => {
+                if (this.onSmartButtonsInit) {
+                    this.onSmartButtonsInit(data, actions);
+                }
+                this.handleOnButtonsInit(wrapper, data, actions);
+            },
         });
         if (!btn.isEligible()) {
             return;
@@ -99,30 +107,50 @@ class Renderer {
         return this.renderedSources.has(wrapper + fundingSource ?? '');
     }
 
-    hideButtons(element) {
-        const domElement = document.querySelector(element);
-        if (! domElement ) {
-            return false;
-        }
-        domElement.style.display = 'none';
-        return true;
-    }
-
-    showButtons(element) {
-        const domElement = document.querySelector(element);
-        if (! domElement ) {
-            return false;
-        }
-        domElement.style.display = 'block';
-        return true;
-    }
-
     disableCreditCardFields() {
         this.creditCardRenderer.disableFields();
     }
 
     enableCreditCardFields() {
         this.creditCardRenderer.enableFields();
+    }
+
+    onButtonsInit(wrapper, handler, reset) {
+        this.onButtonsInitListeners[wrapper] = reset ? [] : (this.onButtonsInitListeners[wrapper] || []);
+        this.onButtonsInitListeners[wrapper].push(handler);
+    }
+
+    handleOnButtonsInit(wrapper, data, actions) {
+
+        this.buttonsOptions[wrapper] = {
+            data: data,
+            actions: actions
+        }
+
+        if (this.onButtonsInitListeners[wrapper]) {
+            for (let handler of this.onButtonsInitListeners[wrapper]) {
+                if (typeof handler === 'function') {
+                    handler({
+                        wrapper: wrapper,
+                        ...this.buttonsOptions[wrapper]
+                    });
+                }
+            }
+        }
+    }
+
+    disableSmartButtons(wrapper) {
+        if (!this.buttonsOptions[wrapper]) {
+            return;
+        }
+        this.buttonsOptions[wrapper].actions.disable();
+    }
+
+    enableSmartButtons(wrapper) {
+        if (!this.buttonsOptions[wrapper]) {
+            return;
+        }
+        this.buttonsOptions[wrapper].actions.enable();
     }
 }
 

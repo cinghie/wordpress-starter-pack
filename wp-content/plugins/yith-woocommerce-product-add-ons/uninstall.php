@@ -2,7 +2,7 @@
 /**
  * Uninstall plugin
  *
- * @author Your Inspiration Themes
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Color and Label Variations Premium
  * @version 1.0.0
  */

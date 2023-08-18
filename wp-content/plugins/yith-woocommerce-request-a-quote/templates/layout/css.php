@@ -9,7 +9,7 @@
  *
  * @package YITH Woocommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
@@ -44,10 +44,8 @@ $css                          = ".woocommerce .add-request-quote-button.button, 
 $show_button_near_add_to_cart = get_option( 'ywraq_show_button_near_add_to_cart', 'no' );
 if ( yith_plugin_fw_is_true( $show_button_near_add_to_cart ) ) {
 	$css .= '.woocommerce.single-product button.single_add_to_cart_button.button {margin-right: 5px;}
-	.woocommerce.single-product .product .yith-ywraq-add-to-quote {display: inline-block; vertical-align: middle;margin: 1em 0.5em;}
-	.single-product form.cart {display: inline;float: left;}
-
-		';
+	.woocommerce.single-product .product .yith-ywraq-add-to-quote {display: inline-block; vertical-align: middle;margin-top: 5px;}
+	';
 	if ( defined( 'YITH_PROTEO_VERSION' ) ) {
 		$css .= '.theme-yith-proteo .product .yith-ywraq-add-to-quote{ margin-bottom:0}';
 

@@ -43,9 +43,8 @@ function wppfm_mainFeedFilters( feedId, callback ) {
  *
  * @param {array} outputs containing output strings outputs
  * @param {string} channel id
- * @param {int} source id
  */
-function wppfm_addFeedAttributes( outputs, channel, source ) {
+function wppfm_addFeedAttributes( outputs, channel ) {
 
 	var inputs = wppfm_getAdvisedInputs( channel );
 	var i      = 0;
@@ -112,7 +111,7 @@ function wppfm_filterActiveMetaData( metaData, categoryMapping ) {
 		// if the advised source is not equal to the advised inputs, the user has selected his own input so this needs to be stored
 		if ( metaData[ i ][ 'value' ] !== undefined && metaData[ i ][ 'value' ] !== '' && metaData[ i ][ 'isActive' ] === true ) {
 
-			// store the meta data in a Wppfm_AttributeMeta object
+			// store the metadata in a Wppfm_AttributeMeta object
 			activeMeta.push( new Wppfm_AttributeMeta( metaData[ i ][ 'fieldName' ], metaData[ i ][ 'value' ] ) );
 		}
 	}

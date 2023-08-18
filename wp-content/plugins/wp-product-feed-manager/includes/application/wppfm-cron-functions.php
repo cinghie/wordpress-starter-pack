@@ -41,10 +41,6 @@ function wppfm_update_feeds() {
 		exit;
 	}
 
-	if ( is_plugin_active( 'wp-product-review-feed-manager/wp-product-review-feed-manager.php' ) ) {
-		wppfm_include_files_for_feed_review_manager();
-	}
-
 	WC_Post_types::register_taxonomies(); // Make sure the woocommerce taxonomies are loaded.
 	WC_Post_types::register_post_types(); // Make sure the woocommerce post types are loaded.
 
@@ -62,23 +58,3 @@ function wppfm_update_feeds() {
 	$wppfm_schedules->update_active_feeds();
 }
 
-/**
- * Includes the files required for automatic feed updates for Google Review Feeds made by the WP Google Review Feed Manager.
- *
- * @since 2.33.0.
- */
-function wppfm_include_files_for_feed_review_manager() {
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/wpprfm-review-feed-form-functions.php';
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/wpprfm-setup-feed-manager.php';
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/wpprfm-include-classes-functions.php';
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/wpprfm-feed-generation-functions.php';
-
-	// Include the traits.
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/traits/wpprfm-processing-support.php';
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/traits/wpprfm-xml-element-functions.php';
-
-	require_once __DIR__ . '/../../../wp-product-review-feed-manager/includes/wpprfm-include-classes-functions.php';
-
-	// Include the required classes.
-	wpprfm_include_classes();
-}

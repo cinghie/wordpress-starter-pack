@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */
@@ -122,7 +122,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * Enqueue style
 		 *
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithems.com>
 		 * @access public
 		 */
 		public function enqueue_style() {
@@ -136,7 +135,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * add the action links to plugin admin page
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @param array $links Links plugin array.
 		 * @return mixed
 		 */
@@ -150,7 +148,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * Add a panel under YITH Plugins tab
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return   void
 		 */
 		public function register_panel() {
@@ -194,7 +191,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * Load the premium tab template on admin page
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return   void
 		 */
 		public function premium_tab() {
@@ -209,7 +205,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * Add the action links to plugin admin page
 		 *
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      plugin_row_meta
 		 * @param array    $new_row_meta_args An array of plugin row meta.
 		 * @param string[] $plugin_meta An array of the plugin's metadata,
@@ -239,7 +234,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 * Get the premium landing uri
 		 *
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link.
 		 */
 		public function get_premium_landing_uri() {
@@ -251,7 +245,6 @@ if ( ! class_exists( 'YITH_INFS_Admin' ) ) {
 		 *
 		 * @access public
 		 * @since  1.0.0
-		 * @author Francesco Licandro <francesco.licandro@yithemes.com>
 		 * @param string $option  The option key.
 		 * @param mixed  $default The default value.
 		 * @return mixed

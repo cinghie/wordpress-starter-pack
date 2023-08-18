@@ -151,6 +151,8 @@ class Field extends Model {
 			'default'                  => '',
 			'position'                 => '',
 			'clear'                    => false,
+			'autocomplete'             => 'off',
+			'user_meta'            => true,
 			'options'                  => array(
 				0 => array(
 					'label'           => esc_html__( 'Option', 'woocommerce-checkout-manager' ),
@@ -168,17 +170,24 @@ class Field extends Model {
 			'class'                    => array(),
 			// Input/Textarea
 			'maxlength'                => null,
+			'minlength'                => null,
 			// Display
 			// -------------------------------------------------------------------
 			'show_cart_minimum'        => 0,
 			'show_cart_maximun'        => 0,
 			'show_role'                => array(),
 			'hide_role'                => array(),
-			'more_product'             => false,
+			'apply_conditions_if_more_than_one_product'             => false,
 			'show_product'             => array(),
 			'hide_product'             => array(),
 			'show_product_cat'         => array(),
 			'hide_product_cat'         => array(),
+			'show_product_type'        => array(),
+			'hide_product_type'        => array(),
+			'show_product_subtype'     => '',
+			'hide_product_subtype'     => '',
+			'is_downloadable'          => false,
+			'is_virtual'               => false,
 			'hide_account'             => false,
 			'hide_checkout'            => false,
 			'hide_email'               => false,
@@ -315,8 +324,31 @@ class Field extends Model {
 	}
 
 	public function delete_fields() {
+		$this->delete_checkout_field();
 		$this->delete();
 		$this->save_items( $this->get_default_fields() );
+	}
+
+	protected function delete_checkout_field( $field_id = null ) {
+
+		$fields_data = $this->get_fields();
+
+		if ( null !== $field_id ) {
+			foreach ( $fields_data as $field ) {
+				if ( $field['id'] == $field_id ) {
+					$fields_data = array( $field );
+					continue;
+				}
+			}
+		}
+
+		$users = get_users( array( 'fields' => array( 'ID' ) ) );
+
+		foreach ( $users as $user ) {
+			foreach ( $fields_data as $field ) {
+					delete_user_meta( $user->ID, $field['key'] );
+			}
+		}
 	}
 
 	// Field
@@ -335,6 +367,7 @@ class Field extends Model {
 	}
 
 	public function delete_field( $field_id ) {
+		$this->delete_checkout_field( $field_id );
 		return $this->delete_item( $field_id );
 	}
 

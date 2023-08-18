@@ -40,6 +40,7 @@ function wppfm_showChannelInputs( channel, isNew ) {
 		'30': 'switchToSnapchatFeedFormMainInputs',
 		'31': 'switchToPinterestFeedFormMainInputs',
 		'32': 'switchToVivinoXmlFeedFormMainInputs',
+		'33': 'switchToIdealoXmlFeedFormMainInputs',
 		'996': 'switchToMarketingrobotTsvFeedFormMainInputs',
 		'997': 'switchToMarketingrobotTxtFeedFormMainInputs',
 		'998': 'switchToMarketingrobotCsvFeedFormMainInputs',
@@ -66,8 +67,8 @@ function wppfm_showChannelInputs( channel, isNew ) {
 }
 
 /**
- * depending on channel show or hide the category map directly after channel selection
- * Add the channel to the "show" part when it does not have an own category list
+ * Depending on channel show or hide the category map directly after channel selection
+ * add the channel to the "show" part when it does not have an own category list
  *
  * @param {string} channel
  * @returns nothing
@@ -87,6 +88,7 @@ function wppfm_show_or_hide_category_map( channel ) {
 		case '28': // Galaxus Product Properties
 		case '29': // Vivino
 		case '32': // Vivino XML
+		case '33': // Idealo XML
 			category_map_selector.show();
 			break;
 
@@ -160,6 +162,7 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 			'30': 'snapchatInputChanged',
 			'31': 'pinterestInputChanged',
 			'32': 'vivinoXmlInputChanged',
+			'33': 'idealoXmlInputChanged',
 			'996': 'marketingrobotTsvInputChanged',
 			'997': 'marketingrobotTxtInputChanged',
 			'998': 'marketingrobotCsvInputChanged',
@@ -261,7 +264,7 @@ function wppfm_channelCountryCode( channel ) {
  * @returns {Boolean} true when this channel uses categories from the shop
  */
 function wppfm_channelUsesOwnCategories( channel ) {
-	// only add the channel when it uses the shop categories in stead of specific channel categories
+	// only add the channel when it uses the shop categories instead of specific channel categories
 	switch ( channel ) {
 		case '10': // kieskeurig.nl
 		case '15': // Commerce Connector
@@ -275,6 +278,7 @@ function wppfm_channelUsesOwnCategories( channel ) {
 		case '28': // Galaxus Product Properties
 		case '29': // Vivino
 		case '32': // Vivino XML
+		case '33': // Idealo XML
 			return true;
 
 		default:
@@ -380,6 +384,7 @@ function wppfm_getAdvisedInputs( channel ) {
 		'30': 'woocommerceToSnapchatFields',
 		'31': 'woocommerceToPinterestFields',
 		'32': 'woocommerceToVivinoXmlFields',
+		'33': 'woocommerceToIdealoXmlFields',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -403,62 +408,80 @@ function wppfm_getAdvisedInputs( channel ) {
 function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {
 	switch ( channel ) {
 		case '1':
+			//noinspection JSUnresolvedFunction
 			return setGoogleOutputAttributeLevels( feedHolder, selectArgument );
 
 		case '2':
+			//noinspection JSUnresolvedFunction
 			return setBingOutputAttributeLevels( feedHolder, selectArgument );
 
 		case '3':
+			//noinspection JSUnresolvedFunction
 			return setBeslisOutputAttributeLevels( feedHolder );
 
 		case '4':
+			//noinspection JSUnresolvedFunction
 			return setPricegrabberOutputAttributeLevels( feedHolder );
 
 		case '5':
+			//noinspection JSUnresolvedFunction
 			return setShoppingOutputAttributeLevels( feedHolder );
 
 		case '6':
+			//noinspection JSUnresolvedFunction
 			return setAmazonOutputAttributeLevels( feedHolder );
 
 		case '7':
+			//noinspection JSUnresolvedFunction
 			return setConnexityOutputAttributeLevels( feedHolder );
 
 		case '9':
+			//noinspection JSUnresolvedFunction
 			return setNextagOutputAttributeLevels( feedHolder );
 
 		case '10':
+			//noinspection JSUnresolvedFunction
 			return setKieskeurigOutputAttributeLevels( feedHolder );
 
 		case '11':
+			//noinspection JSUnresolvedFunction
 			return setVergelijkOutputAttributeLevels( feedHolder );
 
 		case '13':
+			//noinspection JSUnresolvedFunction
 			return setAvantLinkOutputAttributeLevels( feedHolder,
 				selectArgument );
 
 		case '14':
+			//noinspection JSUnresolvedFunction
 			return setZboziOutputAttributeLevels( feedHolder, selectArgument );
 
 		case '26':
-			return setGalaxusProductDataAttributeLevels( feedHolder,
-				selectArgument );
+			//noinspection JSUnresolvedFunction
+			return setGalaxusProductDataAttributeLevels( feedHolder, selectArgument );
 
 		case '27':
+			//noinspection JSUnresolvedFunction
 			return setGalaxusProductStockPricingAttributeLevels( feedHolder );
 
 		case '28':
+			//noinspection JSUnresolvedFunction
 			return setGalaxusProductPropertiesAttributeLevels( feedHolder );
 
 		case '996':
+			//noinspection JSUnresolvedFunction
 			return setMarketingrobotTsvOutputAttributeLevels( feedHolder );
 
 		case '997':
+			//noinspection JSUnresolvedFunction
 			return setMarketingrobotTxtOutputAttributeLevels( feedHolder );
 
 		case '998':
+			//noinspection JSUnresolvedFunction
 			return setMarketingrobotCsvOutputAttributeLevels( feedHolder );
 
 		case '999':
+			//noinspection JSUnresolvedFunction
 			return setMarketingrobotOutputAttributeLevels( feedHolder );
 
 		default:
@@ -503,6 +526,7 @@ function wppfm_restrictedStaticFields( channel, fieldName ) {
 		'30': 'snapchatStaticFieldOptions',
 		'31': 'pinterestStaticFieldOptions',
 		'32': 'vivinoXmlStaticFieldOptions',
+		'33': 'idealoXmlStaticFieldOptions',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -515,7 +539,7 @@ function wppfm_restrictedStaticFields( channel, fieldName ) {
 }
 
 /**
- * Set a preset condition, other than the advised input, for fields for a specific channel (eg. condition = static field with 'new' selected).
+ * Set a preset condition, other than the advised input, for fields for a specific channel (e.g. condition = static field with 'new' selected).
  *
  * @param {array} outputsField
  * @param {string} channel
@@ -544,6 +568,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'seller_name' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setBingPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -553,6 +578,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'Conditie' || outputsField[ 'field_label' ] === 'Levertijd' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setBeslisPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -563,6 +589,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setAvantLinkPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -572,6 +599,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'EROTIC' || outputsField[ 'field_label' ] === 'VISIBILITY' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setZboziPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -581,6 +609,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'Delivery time' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setComconPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -594,6 +623,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setFacebookPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -603,6 +633,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'Condition' || outputsField[ 'field_label' ] === 'Deliverycode' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setBolPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -612,6 +643,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'instock' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setAdtractionPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -622,6 +654,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setRicardoPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -634,6 +667,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'Availability' || outputsField[ 'field_label' ] === 'Condition' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setShopzillaPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -643,6 +677,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			if ( outputsField[ 'field_label' ] === 'Availability' || outputsField[ 'field_label' ] === 'Condition' ) {
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setShopzillaPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -651,6 +686,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 		case '24': // Heureka
 			if ( 'ITEM_TYPE' === outputsField[ 'field_label' ] ) {
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setHeurekaPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -659,6 +695,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 		case '25': // Pepperjam
 			if ( 'ITEM_TYPE' === outputsField[ 'discontinued' ] ) {
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setPepperjamPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -667,6 +704,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 		case '26': // Galaxus Product Data
 			if ( 'ITEM_TYPE' === outputsField[ 'discontinued' ] ) {
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setGalaxusProductDataPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -675,6 +713,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 		case '27': // Galaxus Product Stock Pricing
 			if ( 'ITEM_TYPE' === outputsField[ 'discontinued' ] ) {
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setGalaxusProductStockPricingPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -683,6 +722,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 		case '28': // Galaxus Product Properties
 			if ( 'ITEM_TYPE' === outputsField[ 'discontinued' ] ) {
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setGalaxusProductPropertiesPresets( outputsField[ 'field_label' ] );
 				}
 			}
@@ -694,6 +734,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setSnapchatPresets(	outputsField[ 'field_label' ] );
 				}
 			}
@@ -705,6 +746,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setPinterestPresets(	outputsField[ 'field_label' ] );
 				}
 			}
@@ -715,6 +757,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
+					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setVivinoXmlPresets(	outputsField[ 'field_label' ] );
 				}
 			}

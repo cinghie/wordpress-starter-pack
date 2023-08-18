@@ -19,9 +19,10 @@ class MailChimp_WooCommerce_Customer {
 	protected $orders_count  = null;
 	protected $total_spent   = null;
 	protected $address;
-	protected $requires_double_optin      = false;
-	protected $original_subscriber_status = null;
-	protected $wordpress_user             = null;
+	protected $marketing_status_updated_at = null;
+	protected $requires_double_optin       = false;
+	protected $original_subscriber_status  = null;
+	protected $wordpress_user              = null;
 
 	/**
 	 * @return array
@@ -34,7 +35,7 @@ class MailChimp_WooCommerce_Customer {
 			'company'       => 'string',
 			'first_name'    => 'string',
 			'last_name'     => 'string',
-			// 'orders_count' => 'integer',
+            // 'orders_count' => 'integer',
 			// 'total_spent' => 'integer',
 		);
 	}
@@ -81,21 +82,45 @@ class MailChimp_WooCommerce_Customer {
 	}
 
 	/**
+	 * @return DateTime|false|mixed|null
+	 */
+    public function getOptInStatusTime() {
+		if ($this->marketing_status_updated_at) {
+			return $this->marketing_status_updated_at;
+		}
+
+		if (($user = $this->getWordpressUser())) {
+			return $this->marketing_status_updated_at = mailchimp_get_marketing_status_updated_at($user->ID);
+		}
+        return null;
+    }
+
+	/**
+	 * @return string
+	 */
+	public function getOptInStatusTimeAsString()
+	{
+		if (($date = $this->getOptInStatusTime())) {
+			return $date->format('D, M j, Y g:i A');
+		}
+		return '';
+	}
+
+
+    /**
 	 * @param null $opt_in_status
 	 * @return MailChimp_WooCommerce_Customer
 	 */
 	public function setOptInStatus( $opt_in_status ) {
-
         if ( is_bool( $opt_in_status ) ) {
             $this->opt_in_status = $opt_in_status;
         } else {
             $this->opt_in_status = $opt_in_status === '1';
         }
-
 		return $this;
 	}
 
-	/**
+    /**
 	 * @return null
 	 */
 	public function getCompany() {
@@ -230,7 +255,9 @@ class MailChimp_WooCommerce_Customer {
 	 */
 	public function wasSubscribedOnOrder( $id ) {
 		// we are saving the post meta for subscribers on each order... so if they have subscribed on checkout
-		$subscriber_meta = get_post_meta( $id, 'mailchimp_woocommerce_is_subscribed', true );
+        $order           = wc_get_order($id);
+		$subscriber_meta = $order->get_meta('mailchimp_woocommerce_is_subscribed');
+
 		$subscribed      = $subscriber_meta === '' ? false : $subscriber_meta;
 
 		return $this->original_subscriber_status = $subscribed;
@@ -282,8 +309,9 @@ class MailChimp_WooCommerce_Customer {
 				'id'            => (string) $this->getId(),
 				'email_address' => (string) $this->getEmailAddress(),
 				'opt_in_status' => $this->getOptInStatus(),
-				'company'       => (string) $this->getCompany(),
-				'first_name'    => (string) $this->getFirstName(),
+                'marketing_status_updated_at' => $this->getOptInStatusTimeAsString(),
+                'company'       => (string) $this->getCompany(),
+                'first_name'    => (string) $this->getFirstName(),
 				'last_name'     => (string) $this->getLastName(),
 				// 'orders_count' => (int) $this->getOrdersCount(),
 				// 'total_spent' => floatval(number_format($this->getTotalSpent(), 2, '.', '')),

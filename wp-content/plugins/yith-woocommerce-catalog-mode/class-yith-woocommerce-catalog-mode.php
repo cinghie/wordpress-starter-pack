@@ -16,7 +16,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 	 *
 	 * @class   YITH_WooCommerce_Catalog_Mode
 	 * @since   1.0.0
-	 * @author  YITH
+	 * @author  YITH <plugins@yithemes.com>
 	 * @package YITH\CatalogMode
 	 */
 	class YITH_WooCommerce_Catalog_Mode {
@@ -75,7 +75,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function __construct() {
 
@@ -113,7 +112,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   2.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function include_files() {
 			include_once 'includes/ywctm-functions.php';
@@ -128,7 +126,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   2.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function enqueue_scripts_admin() {
 
@@ -145,7 +142,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 * @use     /Yit_Plugin_Panel class
 		 * @see     plugin-fw/lib/yit-plugin-panel.php
 		 */
@@ -189,6 +185,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			$args = array(
 				'create_menu_page' => true,
 				'plugin_slug'      => YWCTM_SLUG,
+				'is_free'          => true,
 				'parent_slug'      => '',
 				'page_title'       => 'YITH WooCommerce Catalog Mode',
 				'menu_title'       => 'Catalog Mode',
@@ -235,7 +232,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   2.0.3
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_disable_shop() {
 			if ( $this->disable_shop() ) {
@@ -253,7 +249,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   2.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_user_admin_enable() {
 
@@ -269,7 +264,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  array
 		 * @since   1.0.4
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function hide_cart_checkout_pages( $pages ) {
 
@@ -279,10 +273,10 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			);
 
 			foreach ( $pages as $key => $page ) {
-
 				if ( in_array( current_filter(), array( 'wp_get_nav_menu_items', 'wp_nav_menu_objects' ), true ) ) {
-					$page_id = $page->object_id;
-					if ( 'page' !== $page->obect_id ) {
+					$page_id = isset( $page->object_id ) ? $page->object_id : 0;
+
+					if ( 'page' !== $page->object || 0 === $page_id ) {
 						continue;
 					}
 				} else {
@@ -304,7 +298,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   1.0.2
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_hide_cart_checkout_pages() {
 
@@ -317,7 +310,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.4
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_pages_redirect() {
 
@@ -338,7 +330,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function disable_shop() {
 
@@ -346,15 +337,15 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 
 			if ( get_option( 'ywctm_disable_shop' ) === 'yes' ) {
 
-				global $post;
+				global $product;
 
-				$post_id = $post && $post instanceof WP_Post ? $post->ID : '';
+				$product_id = $product && $product instanceof WC_Product ? $product->get_id() : '';
 
 				if ( ywctm_is_wpml_active() && apply_filters( 'ywctm_wpml_use_default_language_settings', false ) ) {
-					$post_id = yit_wpml_object_id( $post_id, 'product', true, wpml_get_default_language() );
+					$product_id = yit_wpml_object_id( $product_id, 'product', true, wpml_get_default_language() );
 				}
 
-				$disabled = $this->apply_catalog_mode( $post_id );
+				$disabled = $this->apply_catalog_mode( $product_id );
 
 			}
 
@@ -365,23 +356,22 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		/**
 		 * Check if Catalog mode must be applied to current user
 		 *
-		 * @param integer $post_id The post ID.
+		 * @param integer $product_id The product ID.
 		 *
 		 * @return  boolean
 		 * @since   1.3.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
-		public function apply_catalog_mode( $post_id ) {
+		public function apply_catalog_mode( $product_id ) {
 
 			$apply = false;
 
 			if ( ! $this->check_user_admin_enable() ) {
-				$target_users = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_apply_users', 'all' ), $post_id, 'ywctm_apply_users' );
+				$target_users = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_apply_users', 'all' ), $product_id, 'ywctm_apply_users' );
 
 				$apply = 'all' === $target_users || ! is_user_logged_in();
 
 				if ( is_callable( array( $this, 'country_check' ) ) ) {
-					$apply = $this->country_check( $apply, $post_id );
+					$apply = $this->country_check( $apply, $product_id );
 				}
 
 				// Applies date and time check only if the user needs to have Catalog Mode applied.
@@ -396,7 +386,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				}
 			}
 
-			return apply_filters( 'ywctm_applied_roles', $apply, $post_id );
+			return apply_filters( 'ywctm_applied_roles', $apply, $product_id );
 
 		}
 
@@ -405,7 +395,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function hide_add_to_cart_loop() {
 
@@ -437,7 +426,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  string
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function hide_add_to_cart_loop_alt( $html, $product ) {
 			return $this->check_hide_add_cart( false, $product->get_id() ) ? '' : $html;
@@ -452,7 +440,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_hide_add_cart( $single = false, $product_id = false, $ignore_variations = false ) {
 
@@ -466,25 +453,30 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				$hide = true;
 			} else {
 
-				global $post;
-
-				if ( ! $product_id && ! isset( $post ) ) {
-					return false;
+				if ( $product_id ) {
+					$product = wc_get_product( $product_id );
+				} else {
+					global $product;
+					if ( ! $product instanceof WC_Product ) {
+						global $post;
+						$product = $post instanceof WP_Post ? wc_get_product( $post->ID ) : false;
+					}
 				}
 
-				$product_id = ( $product_id ) ? $product_id : $post->ID;
+				if ( ! $product || ( $product && ! $product instanceof WC_Product ) ) {
+					return false;
+				}
 
 				if ( ywctm_is_wpml_active() && apply_filters( 'ywctm_wpml_use_default_language_settings', false ) ) {
-					$product_id = yit_wpml_object_id( $product_id, 'product', true, wpml_get_default_language() );
+					$base_product_id = yit_wpml_object_id( $product->get_id(), 'product', true, wpml_get_default_language() );
+					$product         = wc_get_product( $base_product_id );
+
+					if ( ! $product ) {
+						return false;
+					}
 				}
 
-				$product = wc_get_product( $product_id );
-
-				if ( ! $product ) {
-					return false;
-				}
-
-				$atc_settings_general = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_hide_add_to_cart_settings' ), $product_id, 'ywctm_hide_add_to_cart_settings' );
+				$atc_settings_general = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_hide_add_to_cart_settings' ), $product->get_id(), 'ywctm_hide_add_to_cart_settings' );
 				$behavior             = $atc_settings_general['action'];
 				$where                = $atc_settings_general['where'];
 				$items                = $atc_settings_general['items'];
@@ -492,7 +484,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				$exclusion            = false;
 
 				if ( ! $single ) {
-					$hide_variations = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_hide_variations' ), $product_id, 'ywctm_hide_variations' );
+					$hide_variations = apply_filters( 'ywctm_get_vendor_option', get_option( 'ywctm_hide_variations' ), $product->get_id(), 'ywctm_hide_variations' );
 					/**
 					 * APPLY_FILTERS: ywctm_hide_variations_on_loop
 					 *
@@ -513,7 +505,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				}
 
 				if ( 'all' !== $items ) {
-					$exclusion = apply_filters( 'ywctm_get_exclusion', ( 'hide' === $behavior ? 'show' : 'hide' ), $product_id, 'atc', $behavior );
+					$exclusion = apply_filters( 'ywctm_get_exclusion', ( 'hide' === $behavior ? 'show' : 'hide' ), $product->get_id(), 'atc', $behavior );
 				}
 
 				if ( ! $single ) {
@@ -551,19 +543,19 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 				}
 
 				// Set "Add to cart" button as hidden.
-				if ( $hide_add_to_cart && $this->apply_catalog_mode( $product_id ) && $can_hide ) {
+				if ( $hide_add_to_cart && $this->apply_catalog_mode( $product->get_id() ) && $can_hide ) {
 					$hide = true;
 				}
 
 				// If "Add to cart" button is set as visible but price is hidden then hide it anyway.
-				if ( apply_filters( 'ywctm_check_price_hidden', false, $product_id ) && $can_hide ) {
+				if ( apply_filters( 'ywctm_check_price_hidden', false, $product->get_id() ) && $can_hide ) {
 					$hide = true;
 				}
 
 				if ( ! $single ) {
-					$hide = apply_filters( 'ywctm_hide_on_loop_anyway', $hide, $product_id );
+					$hide = apply_filters( 'ywctm_hide_on_loop_anyway', $hide, $product->get_id() );
 				} else {
-					$hide = apply_filters( 'ywctm_hide_on_single_anyway', $hide, $product_id );
+					$hide = apply_filters( 'ywctm_hide_on_single_anyway', $hide, $product->get_id() );
 				}
 			}
 
@@ -576,7 +568,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   2.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function enqueue_styles_frontend() {
 
@@ -606,7 +597,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  array
 		 * @since   1.3.7
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function hide_cart_widget( $classes ) {
 
@@ -649,7 +639,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  array
 		 * @since   1.4.4
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function hide_atc_single_page( $classes ) {
 
@@ -702,7 +691,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   1.0.5
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function avoid_add_to_cart( $passed, $product_id ) {
 
@@ -711,9 +699,7 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 			}
 
 			if ( $this->disable_shop() ) {
-
 				$passed = false;
-
 			} else {
 
 				if ( ywctm_is_wpml_active() && apply_filters( 'ywctm_wpml_use_default_language_settings', false ) ) {
@@ -763,7 +749,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  bool
 		 * @since   1.0.2
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_add_to_cart_single( $x = true, $product_id = false ) {
 			return $this->check_hide_add_cart( true, $product_id );
@@ -774,7 +759,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   1.0.6
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function check_hide_add_cart_loop() {
 			return $this->check_hide_add_cart();
@@ -789,7 +773,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  boolean
 		 * @since   1.0.7
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function is_quick_view() {
 
@@ -806,7 +789,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  string
 		 * @since   1.2.2
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function hide_add_to_cart_wishlist( $value, $product ) {
 
@@ -827,7 +809,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.7
-		 * @author  Francesco Licandro
 		 */
 		public function hide_add_to_cart_quick_view() {
 
@@ -887,7 +868,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  void
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function plugin_fw_loader() {
 			if ( ! defined( 'YIT_CORE_PLUGIN' ) ) {
@@ -904,7 +884,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  string The premium landing link
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 */
 		public function get_premium_landing_uri() {
 			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YWCTM_SLUG );
@@ -919,7 +898,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  array
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 * @use     plugin_action_links_{$plugin_file_name}
 		 */
 		public function action_links( $links ) {
@@ -944,7 +922,6 @@ if ( ! class_exists( 'YITH_WooCommerce_Catalog_Mode' ) ) {
 		 *
 		 * @return  array
 		 * @since   1.0.0
-		 * @author  Alberto Ruggiero <alberto.ruggiero@yithemes.com>
 		 * @use     plugin_row_meta
 		 */
 		public function plugin_row_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YWCTM_FREE_INIT' ) {

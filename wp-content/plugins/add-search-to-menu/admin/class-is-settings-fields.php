@@ -915,7 +915,9 @@ class IS_Settings_Fields
 		<span class="toggle-check-text"></span><?php 
         esc_html_e( 'Display search form in site header on mobile devices', 'add-search-to-menu' );
         ?></label>
-		</div><br />
+		</div>
+		<span class="site-uses-cache-wrapper" style="display: none;">
+		<br />
 		<?php 
         $content = __( 'If this site uses cache then please select the below option to display search form on mobile.', 'add-search-to-menu' );
         IS_Help::help_info( $content );
@@ -930,6 +932,7 @@ class IS_Settings_Fields
         esc_html_e( 'This site uses cache', 'add-search-to-menu' );
         ?></label>
 		</div>
+		</span>
 		<?php 
     }
     

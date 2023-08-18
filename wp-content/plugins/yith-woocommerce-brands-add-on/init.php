@@ -3,35 +3,18 @@
  * Plugin Name: YITH WooCommerce Brands Add-On
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-brands-add-on/
  * Description: <code><strong>YITH WooCommerce Brands Add-On</strong></code> allows organizing products by brand and improves your shop user experience and your visibility on search engines. Let your customers browse your shop based on their favourite brands with only a few clicks. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce on <strong>YITH</strong></a>
- * Version: 2.9.0
+ * Version: 2.15.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-brands-add-on
  * Domain Path: /languages/
- * WC requires at least: 7.2
- * WC tested up to: 7.4
+ * WC requires at least: 7.8
+ * WC tested up to: 8.0
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Brands
  * @version 1.0.0
  */
-
-/*
-	Copyright 2015-2023 Your Inspiration Solutions (email : plugins@yithemes.com)
-
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as
-	published by the Free Software Foundation.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -46,8 +29,12 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 	define( 'YITH_WCBR', true );
 }
 
+if ( ! defined( 'YITH_WCBR_PLUGIN_NAME' ) ) {
+	define( 'YITH_WCBR_PLUGIN_NAME', 'YITH WooCommerce Brands Add-On' );
+}
+
 if ( ! defined( 'YITH_WCBR_VERSION' ) ) {
-	define( 'YITH_WCBR_VERSION', '2.9.0' );
+	define( 'YITH_WCBR_VERSION', '2.15.0' );
 }
 
 if ( ! defined( 'YITH_WCBR_URL' ) ) {
@@ -99,6 +86,7 @@ if ( ! function_exists( 'yith_brands_constructor' ) ) {
 		require_once YITH_WCBR_INC . 'functions.yith-wcbr.php';
 		require_once YITH_WCBR_INC . 'class-yith-wcbr.php';
 		require_once YITH_WCBR_INC . 'class-yith-wcbr-shortcode.php';
+		require_once YITH_WCBR_INC . 'class-yith-wcbr-template-loader.php';
 
 		// Let's start the game.
 		YITH_WCBR();
@@ -127,6 +115,11 @@ if ( ! function_exists( 'yith_brands_install' ) ) {
 			add_action( 'admin_notices', 'yith_wcbr_install_free_admin_notice' );
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 		} else {
+			/**
+			 * DO_ACTION: yith_wcbr_init
+			 *
+			 * Allows the plugin initialization.
+			 */
 			do_action( 'yith_wcbr_init' );
 		}
 	}
@@ -141,7 +134,12 @@ if ( ! function_exists( 'yith_wcbr_install_woocommerce_admin_notice' ) ) {
 		?>
 		<div class="error">
 			<?php /* translators: %s: plugin name */ ?>
-			<p><?php echo sprintf( esc_html__( '%s is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-brands-add-on' ), 'YITH WooCommerce Brands Add-On' ); ?></p>
+			<p>
+				<?php
+					// translators: %s is the plugin name.
+					echo esc_html( sprintf( __( '%s is enabled but not effective. It requires WooCommerce in order to work.', 'yith-woocommerce-brands-add-on' ), YITH_WCBR_PLUGIN_NAME ) );
+				?>
+			</p>
 		</div>
 		<?php
 	}
@@ -154,8 +152,12 @@ if ( ! function_exists( 'yith_wcbr_install_free_admin_notice' ) ) {
 	function yith_wcbr_install_free_admin_notice() {
 		?>
 		<div class="error">
-			<?php /* translators: %s: plugin name */ ?>
-			<p><?php echo sprintf( esc_html__( 'You can\'t activate the free version of %s while you are using the premium one.', 'yith-woocommerce-brands-add-on' ), 'YITH WooCommerce Brands Add-On' ); ?></p>
+			<p>
+				<?php
+					// translators: %s is the plugin name.
+					echo esc_html( sprintf( __( 'You can\'t activate the free version of %s while you are using the premium one.', 'yith-woocommerce-brands-add-on' ), YITH_WCBR_PLUGIN_NAME ) );
+				?>
+			</p>
 		</div>
 		<?php
 	}

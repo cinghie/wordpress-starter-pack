@@ -50,7 +50,7 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 
 				echo $this->tab_header( __( 'Feed List Table', 'wp-product-feed-manager' ), __( 'Use the table below to manage your existing feeds.', 'wp-product-feed-manager' ) );
 
-				echo $this->main_admin_page();
+				$this->main_admin_page();
 
 				echo $this->main_admin_buttons();
 			} else {
@@ -86,11 +86,9 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 
 		/**
 		 * Returns a html string containing the main admin page body code
-		 *
-		 * @return string html
 		 */
 		private function main_admin_page() {
-			return $this->main_admin_body_top();
+			$this->main_admin_body_top();
 		}
 
 		/**

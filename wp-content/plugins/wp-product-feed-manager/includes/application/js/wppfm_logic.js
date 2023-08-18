@@ -288,8 +288,14 @@ function wppfm_regenerateFeed( feedId ) {
 	})
 }
 
+/**
+ * Opens the feed in a new window
+ *
+ * @since 2.39.0 Fixed an issue where the "View feed" functions would not work if the user has the "Relative URL" plugin active.
+ * @param url
+ */
 function wppfm_viewFeed( url ) {
-	if ( -1 !== url.indexOf( 'http' ) ) { // Filter out duplicate feeds that have not been generated yet.
+	if ( -1 !== url.indexOf( 'wp-content/uploads/' ) ) { // Filter out duplicate feeds that have not been generated yet.
 		window.open(url);
 	} else {
 		alert( wppfm_feed_list_form_vars.feed_not_generated );

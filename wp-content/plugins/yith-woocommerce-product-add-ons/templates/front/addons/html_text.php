@@ -2,18 +2,18 @@
 /**
  * WAPO Template
  *
- * @author  Corrado Porzio <corradoporzio@gmail.com>
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ProductAddOns
  * @version 2.0.0
+ *
+ * @var object $addon
+ * @var array  $settings
  */
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
-$text_content = $addon->get_setting( 'text_content' );
-
-if ( YITH_WAPO::$is_wpml_installed ) {
-	$text_content = YITH_WAPO_WPML::string_translate( $text_content );
-}
+//Settings configuration.
+extract($settings );
 
 ?>
 

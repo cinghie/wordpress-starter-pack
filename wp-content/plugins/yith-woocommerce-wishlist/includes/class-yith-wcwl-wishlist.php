@@ -2,7 +2,7 @@
 /**
  * Wishlist class
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes\Wishlists
  * @version 3.0.0
  */

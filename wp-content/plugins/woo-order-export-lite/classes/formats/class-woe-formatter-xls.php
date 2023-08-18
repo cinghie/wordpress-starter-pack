@@ -15,6 +15,13 @@ class WOE_Formatter_Xls extends WOE_Formatter_Plain_Format {
 	private $string_format_force = false;
 	private $string_format_fields;
 	private $date_format_fields;
+	private $money_format_fields;
+	private $number_format_fields;
+	private $image_format_fields;
+	private $link_format_fields;
+	private $money_format;
+	private $number_format;
+	private $format_number_fields_original;
 
 	/**
 	 * @var WOE_Formatter_Storage

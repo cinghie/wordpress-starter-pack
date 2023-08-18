@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace WooCommerce\PayPalCommerce\ApiClient\Factory;
 
+use WC_Session_Handler;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\Item;
 use WooCommerce\PayPalCommerce\ApiClient\Entity\PurchaseUnit;
 use WooCommerce\PayPalCommerce\ApiClient\Exception\RuntimeException;
 use WooCommerce\PayPalCommerce\ApiClient\Repository\PayeeRepository;
+use WooCommerce\PayPalCommerce\Webhooks\CustomIds;
 
 /**
  * Class PurchaseUnitFactory
@@ -110,7 +112,7 @@ class PurchaseUnitFactory {
 		$items    = array_filter(
 			$this->item_factory->from_wc_order( $order ),
 			function ( Item $item ): bool {
-				return $item->unit_amount()->value() > 0;
+				return $item->unit_amount()->value() >= 0;
 			}
 		);
 		$shipping = $this->shipping_factory->from_wc_order( $order );
@@ -153,10 +155,11 @@ class PurchaseUnitFactory {
 	 * Creates a PurchaseUnit based off a WooCommerce cart.
 	 *
 	 * @param \WC_Cart|null $cart The cart.
+	 * @param bool          $with_shipping_options Include WC shipping methods.
 	 *
 	 * @return PurchaseUnit
 	 */
-	public function from_wc_cart( ?\WC_Cart $cart = null ): PurchaseUnit {
+	public function from_wc_cart( ?\WC_Cart $cart = null, bool $with_shipping_options = false ): PurchaseUnit {
 		if ( ! $cart ) {
 			$cart = WC()->cart ?? new \WC_Cart();
 		}
@@ -165,14 +168,14 @@ class PurchaseUnitFactory {
 		$items  = array_filter(
 			$this->item_factory->from_wc_cart( $cart ),
 			function ( Item $item ): bool {
-				return $item->unit_amount()->value() > 0;
+				return $item->unit_amount()->value() >= 0;
 			}
 		);
 
 		$shipping = null;
 		$customer = \WC()->customer;
 		if ( $this->shipping_needed( ... array_values( $items ) ) && is_a( $customer, \WC_Customer::class ) ) {
-			$shipping = $this->shipping_factory->from_wc_customer( \WC()->customer );
+			$shipping = $this->shipping_factory->from_wc_customer( \WC()->customer, $with_shipping_options );
 			if (
 				2 !== strlen( $shipping->address()->country_code() ) ||
 				( ! $shipping->address()->postal_code() && ! $this->country_without_postal_code( $shipping->address()->country_code() ) )
@@ -186,7 +189,14 @@ class PurchaseUnitFactory {
 
 		$payee = $this->payee_repository->payee();
 
-		$custom_id       = '';
+		$custom_id = '';
+		$session   = WC()->session;
+		if ( $session instanceof WC_Session_Handler ) {
+			$session_id = $session->get_customer_unique_id();
+			if ( $session_id ) {
+				$custom_id = CustomIds::CUSTOMER_ID_PREFIX . $session_id;
+			}
+		}
 		$invoice_id      = '';
 		$soft_descriptor = '';
 		$purchase_unit   = new PurchaseUnit(

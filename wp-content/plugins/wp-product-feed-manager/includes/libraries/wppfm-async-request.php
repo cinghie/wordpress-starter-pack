@@ -121,7 +121,23 @@ abstract class WPPFM_Async_Request {
 			do_action( 'wppfm_register_remote_post_args', $feed_id, $url, $args );
 
 			// activate the background process
-			wp_remote_post( esc_url_raw( $url ), $args );
+			$response = wp_remote_post( esc_url_raw( $url ), $args );
+
+			// @since 2.40.0
+			if ( is_wp_error( $response ) ) {
+				do_action( 'wppfm_wp_remote_post_failed', $feed_id, $response );
+				wppfm_handle_wp_errors_response(
+					$response,
+					sprintf(
+					/* translators: %s: url to the wp marketingrobot server */
+						__(
+							'2845 - Failed to initiate the feed generation background process. Please wait a few minutes and try again. If the issue persists, open a support ticket at %s.',
+							'wp-product-feed-manager'
+						),
+						WPPFM_SUPPORT_PAGE_URL
+					)
+				);
+			}
 		} else { // start a foreground process
 			$this->maybe_handle();
 		}

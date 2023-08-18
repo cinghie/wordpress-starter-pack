@@ -49,7 +49,6 @@
   "fdp_purchase_value" : "0",
 
   "use_server_api": false,
-  "server_event_use_ajax": true,
   "server_access_api_token": "",
   "test_api_event_code": "",
   "test_api_event_code_expiration_at": "",

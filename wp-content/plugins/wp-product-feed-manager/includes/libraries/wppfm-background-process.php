@@ -113,7 +113,6 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * @param   string $feed_id    Feed id to enable using the filter on a specific feed.
 	 *
 	 * @since 2.10.0.
-	 * @return  mixed|void  Filtered queue.
 	 */
 	public function apply_filter_to_queue( $feed_id ) {
 		// Remove the feed header from the queue.
@@ -263,7 +262,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Generate key
 	 *
-	 * Generates a unique key based on microtime. Queue items are
+	 * Generates a unique key based on micro time. Queue items are
 	 * given a unique key so that they can be merged upon save.
 	 *
 	 * @param string $feed_id   The feed id.
@@ -296,6 +295,8 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		}
 
 		if ( $this->is_queue_empty() ) {
+			$message = 'Tried to start a new batch but the queue is empty!';
+			do_action( 'wppfm_feed_generation_message', 'async-request', $message, 'ERROR' );
 			// No data to process.
 			wp_die();
 		}
@@ -335,12 +336,12 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$count = $wpdb->get_var(
 			$wpdb->prepare(
 				// phpcs:ignore
-				"	SELECT COUNT(*)	FROM {$table} WHERE {$column} LIKE %s",
+				"SELECT COUNT(*) FROM $table WHERE $column LIKE %s",
 				$key
 			)
 		);
 
-		return ( $count > 0 ) ? false : true;
+		return ! ( ( $count > 0 ) );
 	}
 
 	/**
@@ -390,7 +391,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Get batch
 	 *
-	 * @return  stdClass|bool   Return the first batch from the queue or false if it does not exists.
+	 * @return  stdClass|bool   Return the first batch from the queue or false if it does not exist.
 	 */
 	protected function get_batch() {
 		global $wpdb;
@@ -413,7 +414,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 		$query = $wpdb->get_row(
 			$wpdb->prepare(
 				// phpcs:ignore
-				"	SELECT * FROM {$table} WHERE {$column} LIKE %s ORDER BY {$key_column} ASC LIMIT 1",
+				"	SELECT * FROM $table WHERE $column LIKE %s ORDER BY $key_column ASC LIMIT 1",
 				$key
 			)
 		);
@@ -451,7 +452,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 				return false;
 			}
 
-			$properties_key  = get_site_option( 'wppfm_background_process_key' );
+			$properties_key = get_site_option( 'wppfm_background_process_key' );
 
 			// @since 2.10.0
 			if ( ! $properties_key ) {
@@ -461,14 +462,17 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 				return false;
 			}
 
+			$feed_data = get_site_option( 'feed_data_' . $properties_key );
+			// phpcs:ignore
+			do_action( 'wppfm_feed_generation_message', $feed_data->feedId, 'Feed handle has been started. Async request has been passed through.' ); // @since 2.40.0
+
 			$feed_file_path  = get_site_option( 'file_path_' . $properties_key );
-			$feed_data       = get_site_option( 'feed_data_' . $properties_key );
 			$pre_data        = get_site_option( 'pre_data_' . $properties_key );
 			$channel_details = get_site_option( 'channel_details_' . $properties_key );
 			$relations_table = get_site_option( 'relations_table_' . $properties_key );
 
 			// @since 2.34.0
-			if ( $feed_data && ! empty( $feed_data ) && property_exists( $feed_data, 'feedId' ) ) {
+			if ( ! empty( $feed_data ) && property_exists( $feed_data, 'feedId' ) ) {
 				// phpcs:ignore
 				$feed_id = $feed_data->feedId;
 			} else {
@@ -484,7 +488,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			// @since 2.12.0
 			update_option( 'wppfm_batch_counter', get_option( 'wppfm_batch_counter', 0 ) + 1 );
 
-			// When in fore-ground mode increase the set time limit to enable larger feeds.
+			// When in foreground mode increase the set time limit to enable larger feeds.
 			// @since 2.11.0.
 			if ( 'true' === get_option( 'wppfm_disabled_background_mode', 'false' ) && function_exists( 'wc_set_time_limit' ) ) {
 				wc_set_time_limit( 30 * MINUTE_IN_SECONDS );
@@ -495,7 +499,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			do_action( 'wppfm_feed_processing_batch_activated', $feed_id, $initial_memory, count( $batch->data ) );
 
 			foreach ( $batch->data as $key => $value ) {
-				// If it's not an array, then its a product id.
+				// If it's not an array, then it's a product id.
 				if ( ! is_array( $value ) ) {
 					$value = array( 'product_id' => $value );
 				}
@@ -513,7 +517,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 				// If there was no failure and the id is known, add the product id to the list of processed products.
 				if ( 'product added' === $task && array_key_exists( 'product_id', $value ) ) {
 					$this->products_handled_in_batch++;
-					array_push( $this->processed_products, $value['product_id'] );
+					$this->processed_products[] = $value['product_id'];
 				}
 
 				unset( $batch->data[ $key ] ); // Remove this product from the queue.

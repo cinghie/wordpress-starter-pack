@@ -2,7 +2,7 @@
 /**
  * Static class that will handle all ajax calls for the list
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes
  * @version 3.0.0
  */

@@ -23,6 +23,7 @@ $versions = array (
 );
 
 $license_information = get_option( 'license_information' );
+$nonce = wp_create_nonce( 'woosea_ajax_nonce' );
 
 $notifications_obj = new WooSEA_Get_Admin_Notifications;
 if (!in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -109,7 +110,8 @@ if (array_key_exists('project_hash', $_GET)){
 		<div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'General feed settings','woo-product-feed-pro' );?></div>
        
 		<form action="" id="myForm" method="post" name="myForm">
-		
+		<?php wp_nonce_field( 'woosea_ajax_nonce' ); ?>
+
               	<div class="woo-product-feed-pro-table-wrapper">
                 <div class="woo-product-feed-pro-table-left">
 

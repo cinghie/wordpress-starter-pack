@@ -87,12 +87,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                     </div>
 
-                    <div class="row mt-3 mb-3">
-                        <div class="col-12">
-                            <?php Facebook()->render_checkbox_input("server_event_use_ajax","Use Ajax when conversion API is enabled. Keep this option active if you use a cache");?>
-                        </div>
-                    </div>
-
                     <div class="row align-items-center mb-3">
                         <div class="col-12">
                             <h4 class="label">test_event_code :</h4>
@@ -105,6 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </small>
                         </div>
                     </div>
+
                     <?php if(isWPMLActive()) : ?>
                         <div class="row mb-3">
                             <div class="col-12">
@@ -137,6 +132,13 @@ if ( ! defined( 'ABSPATH' ) ) {
         <input type="checkbox" id="gan_settings_switch" style="display: none">
         <div class="settings_content">
             <div class="plate pt-3 pb-3">
+                <div class="row  mb-2">
+                    <div class="col-12">
+                        <?php renderDummySwitcher(false); ?>
+                        <h4 class="switcher-label">Enable Measurement Protocol (add the api_secret)</h4>
+                        <?php renderProBadge(); ?>
+                    </div>
+                </div>
                 <div class="row mb-3">
                     <div class="col-12">
                         <h4 class="label mb-3 mt-3">Google Analytics tracking ID:</h4>
@@ -145,13 +147,26 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <a href="https://www.pixelyoursite.com/pixelyoursite-free-version/add-your-google-analytics-code?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
                                target="_blank">How to get it?</a>
                         </small>
+                        <div class="row align-items-center mb-3">
+                            <div class="col-12">
+                                <h4 class="label">Measurement Protocol API secret: <?php renderProBadge(); ?></h4>
+
+                                <?php renderDummyTextInput("API secret") ?>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                Generate the API secret inside your Google Analytics account: navigate to <b>Admin > Data Streams > choose your stream > Measurement Protocol API secrets</b>. The Measurement Protocol is used for WooCommerce and Easy Digital Downloads "Google Analytics Advanced Purchase Tracking" and refund tracking. Required for GA4 properties only.
+                            </div>
+                        </div>
                         <div class ="mt-2">
                             <input type="checkbox" class="custom-control-input" name="pys[ga][is_enable_debug_mode][-1]" value="0" checked />
                             <?php GA()->render_checkbox_input_array("is_enable_debug_mode","Enable Analytics Debug mode for this property");?>
                         </div>
                         <p>
                             Learn how to get the Google Analytics 4 tag ID and how to test it:
-                            <a href="https://www.youtube.com/watch?v=fwegcsO-yrc" target="_blank">watch video</a>
+                            <a href="https://www.youtube.com/watch?v=KkiGbfl1q48" target="_blank">watch video</a>
                         </p>
                         <p class="mt-3 ">Add multiple Google Analytics tags with the <a href="https://www.pixelyoursite.com/?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-ids"
                                                                                         target="_blank">pro version</a>.</p>
@@ -161,6 +176,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </p>
                     </div>
                 </div>
+
                 <?php if(isWPMLActive()) : ?>
                     <div class="row mb-3">
                         <div class="col-12">
@@ -211,7 +227,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         target="_blank">pro version</a>.
                 <div class="small">TikTok Tag integration is in beta.</div>
                 <div class="mt-3">
-                    How to install the TikTok tag and how to get the ID: <a href="https://www.youtube.com/watch?v=zkb67djRnd0" target="_blank">watch video</a>
+                    How to install the TikTok tag and how to enable TikTok API: <a href="https://www.youtube.com/watch?v=OCSR6zacnFM" target="_blank">watch video</a>
                 </div>
             </div>
         </div>
@@ -258,6 +274,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </p>
                 <p><a href="https://www.youtube.com/watch?v=snUKcsTbvCk" target="_blank">Improve META (Facebook) EMQ score
                         with form automatic data detection (11:48) - watch now</a></p>
+                <p><a href="https://www.youtube.com/watch?v=X65h4uhsMJY" target="_blank">
+                        Track ANY WordPress Form - Meta, Google, Pinterest, Bing (3:52) - watch video</a></p>
+                <p><a href="https://www.youtube.com/watch?v=c4Hrb8WK5bw" target="_blank">
+                        Fire a LEAD event on form submit - WordPress & PixelYourSite (5:58) - watch video</a></p>
             </div>
         </div>
         <div class="row">
@@ -289,11 +309,32 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <?php PYS()->render_switcher_input('automatic_event_form_enabled'); ?>Track Forms <?php cardCollapseBtn(); ?>
             </div>
             <div class="card-body">
+                <p>
+                    The Form event will fire when a form is successfully submitted for the following plugins: Contact Form 7, Forminator, WP Forms, Formidable Pro, Ninja Forms, and Fluent Forms. For forms added by different means, we will fire the event when the submit button is clicked. Watch <a href="https://www.youtube.com/watch?v=c4Hrb8WK5bw" target="_blank">this video</a> to learn more.
+                </p>
                 <?php
                 enableEventForEachPixel('automatic_event_form_enabled', true, true, true, true, true, true);
                 ?>
                 <br/>
                 <p>Fires when the website visitor clicks form submit buttons.</p>
+                <br>
+                <?php
+                $eventsFormFactory = apply_filters("pys_form_event_factory",[]);
+                foreach ($eventsFormFactory as $activeFormPlugin) : ?>
+                    <p><strong><?php echo $activeFormPlugin->getName();?> detected</strong> - we will fire the Form event for each successfully submited form.</p>
+
+                <?php
+                endforeach;
+                if($eventsFormFactory) :
+                    ?>
+                    <div class="col">
+                        <?php PYS()->render_checkbox_input( 'enable_success_send_form',
+                            'Fire the event only for the supported plugins, when the form is succesfully submited.' ); ?>
+                    </div>
+                    <br>
+                    <p>Configure Lead or other events using our <a href="<?php echo buildAdminUrl( 'pixelyoursite', 'events' );?>">events triggers</a>. Learn how from <a href="https://www.youtube.com/watch?v=c4Hrb8WK5bw" target="_blank">this video</a></p>
+                    <br>
+                <?php endif;?>
                 <p><strong>Event name: </strong>Form</p>
                 <p><strong>Event name on TikTok: </strong>FormSubmit</p>
                 <p><strong>Specific parameters: </strong><i>text, from_class, form_id</i></p>
@@ -776,6 +817,26 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
         <div class="row">
             <div class="col">
+                <div class="form-inline">
+                    <?php PYS()->render_switcher_input( 'send_external_id' ); ?>
+                    <h4 class="switcher-label">external_id</h4>
+                </div>
+
+                <small class="mt-1">We will store it in cookie called pbid</small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-inline">
+                    <label>external_id expire cookie:</label>
+                    <?php PYS()->render_number_input( 'external_id_expire', '', false, 365, 1); ?>
+                </div>
+
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <?php renderDummySwitcher(); ?>
                 <h4 class="switcher-label">landing_page(PRO)</h4>
                 <hr>
@@ -857,6 +918,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div class="panel">
     <div class="row mb-3">
+        <div class="col-12">
+            <?php PYS()->render_switcher_input("server_event_use_ajax" ); ?>
+            <h4 class="switcher-label">Use Ajax when API is enabled, or when external_id's are used. Keep this option active if you use a cache.</h4>
+            <div><small class="mt-1">Use Ajax when Meta conversion API, or Pinterest API are enabled, or when external_id's are used. This helps serving unique event_id values for each pair of browser/server events, ensuring deduplication works. It also ensures uniques external_id's are used for each user. Keep this option active if you use a cache solution that can serve the same event_id or the same external_id multiple times.</small></div>
+            <hr>
+        </div>
+    </div>
+    <div class="row mb-3">
         <div class="col">
 			<?php PYS()->render_switcher_input( 'debug_enabled' ); ?>
             <h4 class="switcher-label">Debugging mode. You will be able to see details about the events inside your
@@ -888,13 +957,23 @@ if ( ! defined( 'ABSPATH' ) ) {
             <small class="mt-1">Compress JS files (please test all your events if you enable this option because it can create conflicts with various caches).</small>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="form-inline">
+                <?php PYS()->render_switcher_input('hide_version_plugin_in_console'); ?>
+                <h4 class="switcher-label">Remove the name of the plugin from the console</h4>
+            </div>
+
+            <small class="mt-1">Once ON, we remove all mentions about the plugin or add-ons from the console.</small>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <?php renderDummySwitcher(false); ?>
             <h4 class="switcher-label">Advanced user-data detection <a href="https://www.youtube.com/watch?v=snUKcsTbvCk" target="_blank">Watch video</a></h4>
             <?php renderProBadge(); ?>
             <small class="mt-1 d-block">
-                The plugin will try to detect user-related data like email, phone, first name, or last name and use it for subsequent Meta CAPI events personal parameters, and Meta browser events Advanced Matching. It works with most WordPress forms (email, phone number) and WooCommerce orders.
+                The plugin will try to detect user-related data like email, phone, first name, or last name and use it for subsequent Meta CAPI events personal parameters, and Meta browser events Advanced Matching. This data is also used for Google Ads enhanced converions, Pinterest and TikTok events.</small>
             </small>
             <hr>
         </div>

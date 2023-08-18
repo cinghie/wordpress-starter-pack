@@ -90,6 +90,8 @@ jQuery(document).on("click", ".accordion", function(){
 	if(location_name !== ''){
 		if (jQuery(this).next('.panel').hasClass('active')) {
 			//
+			jQuery(".accordion").removeClass('active');
+			jQuery(".accordion").next('.panel').removeClass('active').slideUp("slow");
 		} else {
 			jQuery('#wclp_store_name').next(".alp_error_msg").hide();
 			jQuery('#wclp_store_name').css('border-color','');
@@ -136,6 +138,18 @@ jQuery(document).on("click", ".accordion", function(){
 	};
 })( jQuery );
 
+jQuery(document).on("change", "#wclp_pickup_status_label_font_color", function(){
+	var font_color = jQuery(this).val();
+	jQuery('.order-status-table .order-label.wc-pickup').css('color',font_color);
+	save_custom_order_status();
+});
+
+jQuery(document).on("change", "#wclp_ready_pickup_status_label_font_color", function(){
+	var font_color = jQuery(this).val();
+	jQuery('.order-status-table .order-label.wc-ready-pickup').css('color',font_color);
+	save_custom_order_status();
+});
+
 jQuery(document).on("click", "#wclp_status_pickup", function(){
 	if(jQuery(this).prop("checked") == true){
         jQuery(this).closest('tr').removeClass('disable_row');				
@@ -152,7 +166,7 @@ jQuery(document).on("click", "#wclp_setting_tab_form .wclp-save", function(){
 	var form = jQuery('#wclp_setting_tab_form');
 	jQuery.ajax({
 		url: ajaxurl,//csv_workflow_update,		
-		data: form.serialize(),
+		data: form.serialize() + '&nonce=' + alp_object.nonce,
 		type: 'POST',
 		dataType:"json",	
 		success: function(response) {
@@ -253,7 +267,7 @@ jQuery(document).on("click", "#wclp_location_tab_form .btn_location_submit", fun
 		var form = jQuery('#wclp_location_tab_form');
 		jQuery.ajax({
 			url: ajaxurl,
-			data: form.serialize(),
+			data: form.serialize() + '&nonce=' + alp_object.nonce,
 			type: 'POST',
 			dataType:"json",	
 			success: function(response) {
@@ -356,6 +370,7 @@ jQuery(document).on("change", "#wclp_default_single_country", function(){
 	var data = {
 		action: 'wclp_update_state_dropdown',
 		country: country,
+		nonce: alp_object.nonce,
 	};		
 	
 	jQuery.ajax({
@@ -409,6 +424,7 @@ jQuery(document).on("change", "#wclp_default_time_format", function(){
 		action: 'wclp_update_work_hours_list',
 		hour_format: hour_format,
 		id: id,
+		nonce: alp_object.nonce,
 	};		
 	
 	jQuery.ajax({
@@ -459,6 +475,7 @@ function wclp_update_edit_location_form(){
 	var data = {
 		action: 'wclp_update_edit_location_form',
 		id: id,
+		nonce: alp_object.nonce,
 	};		
 	
 	jQuery.ajax({
@@ -527,6 +544,8 @@ jQuery(document).on("click", ".wclp-apply", function(){
 		wclp_store_hour_end: wclp_store_hour_end.val(),
 		wclp_store_hour2: wclp_store_hour2.val(),
 		wclp_store_hour_end2: wclp_store_hour_end2.val(),
+		security: jQuery("#wclp_apply_work_hours_nonce").val(),
+		//nonce: alp_object.nonce,
 	};
 	if(wclp_store_hour.val() !== '' && wclp_store_hour_end.val() !== '' && hasClassMorning === false ){
 		var st1 = minFromMidnight(wclp_store_hour.val());

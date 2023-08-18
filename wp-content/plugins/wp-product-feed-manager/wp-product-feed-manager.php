@@ -4,12 +4,12 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy-to-use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.47.1
- * Modified: 15-02-2023
+ * Version: 1.50.0
+ * Modified: 01-08-2023
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 5.4.0
- * Tested up to: 6.1
+ * Tested up to: 6.2
  *
  * @package WordPress
  *
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0.0
- * WC tested up to: 7.3.0
+ * WC tested up to: 7.9.0
  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 *
 		 * @var string  Containing the version number of the plugin.
 		 */
-		public $version = '1.47.1';
+		public $version = '1.50.0';
 
 		/**
 		 * Author Name.
@@ -129,6 +129,9 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			// Set up localisation.
 			add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
 
+			// Declare compatibility with custom order tables.
+			add_action( 'before_woocommerce_init', array( $this, 'declare_compatibility_for_custom_order_tables' ) );
+
 			do_action( 'wp_product_feed_manager_loaded' );
 		}
 
@@ -161,6 +164,12 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 				define( 'WPPFM_VERSION_NUM', $this->version );
 			}
 
+			// Store the version id of my plugin.
+			// @since 2.38.0.
+			if ( ! defined( 'WPPFM_PLUGIN_VERSION_ID' ) ) {
+				define( 'WPPFM_PLUGIN_VERSION_ID', 'free' );
+			}
+
 			// Store the transient alive time.
 			if ( ! defined( 'WPPFM_TRANSIENT_LIVE' ) ) {
 				define( 'WPPFM_TRANSIENT_LIVE', 20 * MINUTE_IN_SECONDS );
@@ -168,7 +177,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 			// Store the time before a feed gets a failed label.
 			if ( ! defined( 'WPPFM_DELAY_FAILED_LABEL' ) ) {
-				define( 'WPPFM_DELAY_FAILED_LABEL', 1 * MINUTE_IN_SECONDS );
+				define( 'WPPFM_DELAY_FAILED_LABEL', MINUTE_IN_SECONDS );
 			}
 
 			// Store the url to wpmarketingrobot.com.
@@ -191,7 +200,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 				define( 'WPPFM_MIN_REQUIRED_WC_VERSION', '3.0.0' );
 			}
 
-			// Store the base uploads folder, should also work in a multi site environment.
+			// Store the base uploads' folder, should also work in a multi-site environment.
 			if ( ! defined( 'WPPFM_UPLOADS_DIR' ) ) {
 				$wp_upload_dir = wp_get_upload_dir(); // @since 2.10.0 switched from wp_upload_dir to wp_get_upload_dir.
 				$upload_dir    = is_multisite() && defined( 'UPLOADS' ) ? UPLOADS : $wp_upload_dir['basedir'];
@@ -217,7 +226,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 				define( 'WPPFM_UPLOADS_URL', apply_filters( 'wppfm_corrected_uploads_url', $url ) );
 			}
 
-			// Store the folder that contains the channels data.
+			// Store the folder that contains the channels' data.
 			if ( ! defined( 'WPPFM_CHANNEL_DATA_DIR' ) ) {
 				define( 'WPPFM_CHANNEL_DATA_DIR', WPPFM_PLUGIN_DIR . 'includes/application' );
 			}
@@ -309,6 +318,17 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		}
 
 		/**
+		 * Registers a dismiss notice action, declaring compatibility with the WooCommerce custom order tables feature.
+		 *
+		 * @since 2.36.0
+		 */
+		public function declare_compatibility_for_custom_order_tables() {
+			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__ );
+			}
+		}
+
+		/**
 		 * Performs the required actions on activation of the plugin
 		 */
 		public function on_activation() {
@@ -364,7 +384,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 					WPPFM_Feed_Controller::clear_feed_queue();
 
 					// The background process clearly has stopped.
-					WPPFM_Feed_Controller::set_feed_processing_flag( false );
+					WPPFM_Feed_Controller::set_feed_processing_flag();
 
 					// Remove all keyed option items from the option table.
 					WPPFM_Db_Management::clean_options_table();

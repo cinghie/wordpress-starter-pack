@@ -28,7 +28,16 @@ use PixelYourSite\Facebook\Helpers;
             </div>
         </div>
         <p class="small">
-            If the Purchase event doesn't fire for a transaction when the order is placed by your client, the plugin will send it to Facebook and Google Analytics Universal (not yet supported for GA4) when the order's status changes to Complete.
+            If the default Purchase event doesn't fire when an order is placed by the client, a Purchase event will be sent to Meta and Google using API when the order status is changed to "Completed". Meta Conversion API token and GA4 Measurement Protocol secret are required.
+        </p>
+        <div  class="row">
+            <div class="col">
+                <?php renderDummySwitcher( false ); ?>
+                <h4 class="switcher-label">Track refunds on Goolge Analytics</h4><?php renderProBadge(); ?>
+            </div>
+        </div>
+        <p class="small">
+            A "Refund" event will be sent to Google via the API when the order status changes to "Refund". GA4 measurement protocol secret required.
         </p>
     </div>
 </div>
@@ -47,7 +56,7 @@ use PixelYourSite\Facebook\Helpers;
 
         <div class="row mt-2">
             <div class="col">
-                <?php PYS()->render_switcher_input( 'woo_enabled_save_data_to_orders' ); ?>
+                <?php PYS()->render_switcher_input( 'woo_enabled_save_data_to_orders',false ); ?>
                 <h4 class="switcher-label">Save data to orders</h4>
                 <small class="form-check">Save the <i>landing page, UTMs, client's browser's time, day, and month, the number of orders, lifetime value, and average order</i>. You can view this data when you edit an order. With the professional version you can view it under the <a href="<?=admin_url("admin.php?page=pixelyoursite_woo_reports")?>">WooCommerce Reports</a> section.</small>
             </div>
@@ -106,7 +115,24 @@ use PixelYourSite\Facebook\Helpers;
         </div>
     </div>
 </div>
-
+<!--  Brand -->
+<div class="card ">
+    <div class="card-header">
+        Brand tracking for Google Analytics <?php renderProBadge(); ?> <?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-11 form-inline">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Enable Brand tracking <?php renderProBadge(); ?></h4>
+                <div class="col-11 form-inline" style="margin-bottom: 20px; margin-top: 20px;">
+                    <label>Brand taxonomy </label>
+                    <?php renderDummySelectInput( 'Select taxonomy'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!--  Transaction ID -->
 <div class="card ">
     <div class="card-header">
@@ -250,6 +276,11 @@ use PixelYourSite\Facebook\Helpers;
                 </div>
             </div>
             <div class="row mb-3">
+                <div class="col-12">
+                    <?php GA()->render_checkbox_input( 'woo_variations_use_parent_name', "When tracking variations, use the parent name" ); ?>
+                </div>
+            </div>
+            <div class="row mb-3">
                 <div class="col col-offset-left form-inline">
                     <label>ecomm_prodid</label>
                     <?php GA()->render_select_input( 'woo_content_id',
@@ -286,7 +317,7 @@ e&utm_campaign=pro-feature' ); ?>
 
 <?php if ( Pinterest()->enabled() ) : ?>
 
-    <div class="card" id="pys-section-ga-id">
+    <div class="card" id="pys-section-pinterest-id">
         <div class="card-header">
             Pinterest Tag ID setting<?php cardCollapseBtn(); ?>
         </div>
@@ -452,6 +483,11 @@ e&utm_campaign=pro-feature' ); ?>
         <div class="row mb-3">
             <div class="col-12">
                 <?php renderDummyCheckbox( "Don't fire the event for 0 value transactions", true ); ?>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <?php renderDummyCheckbox( "Don't fire the event when the number of items is 0", true ); ?>
             </div>
         </div>
 
@@ -962,21 +998,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
-        <?php if ( GA()->enabled() ) : ?>
-            <div class="row mb-1">
-                <div class="col">
-                    <?php GA()->render_switcher_input( 'woo_view_category_enabled' ); ?>
-                    <h4 class="switcher-label">Enable the view_item_list event on Google Analytics</h4>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col col-offset-left">
-                    <?php GA()->render_checkbox_input( 'woo_view_category_non_interactive',
-                        'Non-interactive event' ); ?>
-                </div>
-            </div>
-        <?php endif; ?>
+
 
 	    <?php if ( Bing()->enabled() ) : ?>
             <div class="row">

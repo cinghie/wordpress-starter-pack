@@ -2,32 +2,32 @@
 # This file is distributed under the same license as the Plugins - WP-Optimize &#8211; Cache, Clean, Compress. - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-09-17 19:01:04+0000\n"
+"PO-Revision-Date: 2023-07-06 12:35:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.3\n"
+"X-Generator: GlotPress/4.0.0-alpha.7\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - WP-Optimize &#8211; Cache, Clean, Compress. - Stable (latest release)\n"
 
-#: includes/class-wp-optimize-notices.php:61
+#: includes/class-wp-optimize-notices.php:68
 msgid "Thank you so much!"
 msgstr "Grazie mille!"
 
-#: cache/class-wpo-page-cache.php:176
+#: cache/class-wpo-page-cache.php:182
 msgid "(%d files)"
 msgstr "(%d file)"
 
-#: cache/class-wpo-page-cache.php:176 minify/class-wp-optimize-minify.php:82
+#: cache/class-wpo-page-cache.php:182 minify/class-wp-optimize-minify.php:98
 msgid "Cache size:"
 msgstr "Dimensione della cache:"
 
-#: includes/class-updraft-smush-manager.php:716
+#: includes/class-updraft-smush-manager.php:737
 msgid "Do you really want to restore all the compressed images?"
 msgstr "Vuoi davvero ripristinare tutte le immagini compresse?"
 
-#: templates/minify/js-settings-tab.php:122
+#: templates/minify/js-settings-tab.php:143
 msgid "Supported by all modern browsers."
 msgstr "Supportato da tutti i browser moderni."
 
@@ -39,7 +39,7 @@ msgstr "Non caricare Google Fonts"
 msgid "Currently: %s"
 msgstr "Attualmente: %s"
 
-#: templates/minify/status-tab.php:167
+#: templates/minify/status-tab.php:177
 msgid "View the files"
 msgstr "Visualizza i file"
 
@@ -55,15 +55,15 @@ msgstr "CSS"
 msgid "JavaScript"
 msgstr "JavaScript"
 
-#: cache/file-based-page-cache-functions.php:279
+#: cache/file-based-page-cache-functions.php:282
 msgid "In the settings, caching is disabled for the front page"
 msgstr "Nelle impostazioni, la cache è disabilitata per la prima pagina"
 
-#: wp-optimize.php:1246
+#: wp-optimize.php:1148
 msgid "N/A"
 msgstr "N/D"
 
-#: cache/class-wpo-page-cache.php:726
+#: cache/class-wpo-page-cache.php:754
 msgid "The file advanced-cache.php needs to be updated, but the automatic process failed."
 msgstr "Il file advanced-cache.php deve essere aggiornato, ma il processo automatico non è riuscito."
 
@@ -71,11 +71,11 @@ msgstr "Il file advanced-cache.php deve essere aggiornato, ma il processo automa
 msgid "The minification cache was deleted."
 msgstr "La cache di minificazione è stata eliminata."
 
-#: wp-optimize.php:795
+#: includes/class-wpo-ajax.php:306
 msgid "The command \"%s\" was not found"
 msgstr "Il comando \"%s\" non è stato trovato"
 
-#: wp-optimize.php:735
+#: includes/class-wpo-ajax.php:147
 msgid "You are not allowed to run this command."
 msgstr "Non puoi eseguire questo comando."
 
@@ -103,7 +103,7 @@ msgstr "Forza HTTPS"
 msgid "Force HTTP"
 msgstr "Forza HTTP"
 
-#: templates/minify/js-settings-tab.php:89
+#: templates/minify/js-settings-tab.php:99
 msgid "e.g.: /js/main.js"
 msgstr "es.: /js/main.js"
 
@@ -119,11 +119,11 @@ msgstr "Varie"
 msgid "e.g.: /wp-content/themes/my-theme/css/custom-font.css"
 msgstr "es.: /wp-content/themes/my-theme/css/custom-font.css"
 
-#: templates/minify/advanced-tab.php:271
+#: templates/minify/advanced-tab.php:278
 msgid "CDN Options"
 msgstr "Opzioni CDN"
 
-#: templates/minify/advanced-tab.php:266
+#: templates/minify/advanced-tab.php:273
 msgid "e.g.: example.com"
 msgstr "es.: example.com"
 
@@ -131,15 +131,15 @@ msgstr "es.: example.com"
 msgid "e.g.: /bootstrap.css"
 msgstr "es.: /bootstrap.css"
 
-#: templates/minify/js-settings-tab.php:55
+#: templates/minify/js-settings-tab.php:60
 msgid "e.g.: /wp-includes/js/jquery/jquery.js"
 msgstr "es.: /wp-includes/js/jquery/jquery.js"
 
-#: templates/minify/advanced-tab.php:43
+#: templates/minify/advanced-tab.php:44
 msgid "CSS files"
 msgstr "File CSS"
 
-#: templates/minify/cached-file.php:4 wp-optimize.php:877
+#: templates/minify/cached-file.php:4 wp-optimize.php:775
 msgid "Show information"
 msgstr "Mostra informazioni"
 
@@ -147,15 +147,15 @@ msgstr "Mostra informazioni"
 msgid "JavaScript files"
 msgstr "File JavaScript"
 
-#: templates/images/smush.php:107
+#: templates/images/smush.php:128
 msgid "or"
 msgstr "o"
 
-#: templates/images/smush.php:107 templates/minify/advanced-tab.php:90
+#: templates/images/smush.php:128 templates/minify/advanced-tab.php:92
 msgid "days"
 msgstr "giorni"
 
-#: templates/images/smush.php:97
+#: templates/images/smush.php:118
 msgid "More options"
 msgstr "Altre opzioni"
 
@@ -168,7 +168,7 @@ msgstr "Feedback"
 msgid "Read the documentation"
 msgstr "Leggi la documentazione"
 
-#: cache/class-wp-optimize-page-cache-preloader.php:255
+#: cache/class-wp-optimize-page-cache-preloader.php:260
 #: includes/class-wp-optimize-preloader.php:356
 msgid "%d url found."
 msgid_plural "%d urls found."
@@ -221,7 +221,7 @@ msgstr "Titolo"
 #: optimizations/revisions.php:62 optimizations/spam.php:85
 #: optimizations/trackbacks.php:52 optimizations/transient.php:142
 #: optimizations/transient.php:148 optimizations/trash.php:81
-#: optimizations/unapproved.php:81
+#: optimizations/unapproved.php:81 optimizations/usermeta.php:45
 msgid "ID"
 msgstr "ID"
 
@@ -232,23 +232,19 @@ msgstr "ID"
 msgid "no title"
 msgstr "nessun titolo"
 
-#: includes/class-updraft-smush-manager.php:705
+#: includes/class-updraft-smush-manager.php:726
 msgid "Please try again later."
 msgstr "Riprova più tardi."
 
-#: includes/class-updraft-smush-manager.php:735
+#: includes/class-updraft-smush-manager.php:757
 msgid "Compress Image"
 msgstr "Comprimi immagine"
 
-#: templates/database/status-box-contents.php:30
+#: templates/database/status-box-contents.php:27
 msgid "There was no scheduled optimization"
 msgstr "Non ci sono ottimizzazioni pianificate"
 
-#: templates/database/status-box-contents.php:25
-msgid "Last scheduled optimization was at"
-msgstr "L'ultima ottimizzazione pianificata è stata il"
-
-#: wp-optimize.php:970
+#: wp-optimize.php:870
 msgid "Repair"
 msgstr "Ripara"
 
@@ -292,27 +288,27 @@ msgstr "Tabelle non trovate."
 msgid "WP-Optimize Premium:"
 msgstr "WP-Optimize Premium:"
 
-#: wp-optimize.php:863
+#: wp-optimize.php:761
 msgid "Please, select settings file."
 msgstr "Seleziona il file delle impostazioni."
 
 #: templates/admin-metabox-smush.php:103
 #: templates/cache/page-cache-preload.php:7
-#: templates/database/tables-list-after.php:58 templates/images/smush.php:181
-#: templates/images/smush.php:214 templates/minify/preload-tab.php:18
-#: wp-optimize.php:859
+#: templates/database/tables-list-after.php:58 templates/images/smush.php:218
+#: templates/images/smush.php:251 templates/minify/preload-tab.php:26
+#: templates/settings/settings-logging.php:51 wp-optimize.php:757
 msgid "Cancel"
 msgstr "Annulla"
 
-#: wp-optimize.php:857
+#: wp-optimize.php:754
 msgid "Run optimizations"
 msgstr "Esegui le ottimizzazioni"
 
-#: wp-optimize.php:1853
+#: includes/class-wpo-activation.php:38
 msgid "go back"
 msgstr "torna indietro"
 
-#: wp-optimize.php:1127
+#: wp-optimize.php:1029
 msgid "Warning"
 msgstr "Attenzione"
 
@@ -363,11 +359,11 @@ msgid "Yes"
 msgstr "Sì"
 
 #: templates/admin-page-header.php:29 templates/settings/may-also-like.php:26
-#: wp-optimize.php:947
+#: wp-optimize.php:847
 msgid "Premium"
 msgstr "Premium"
 
-#: templates/settings/may-also-like.php:318
+#: templates/settings/may-also-like.php:323
 msgid "UpdraftCentral Dashboard\n"
 msgstr "Bacheca di UpdraftCentral\n"
 
@@ -415,13 +411,14 @@ msgstr "Rimuovi articoli eliminati"
 #: optimizations/trackbacks.php:71 optimizations/trackbacks.php:119
 #: optimizations/transient.php:180 optimizations/trash.php:100
 #: optimizations/trash.php:173 optimizations/unapproved.php:102
-#: optimizations/unapproved.php:148
+#: optimizations/unapproved.php:148 optimizations/usermeta.php:65
+#: optimizations/usermeta.php:100
 msgid "across %s site"
 msgid_plural "across %s sites"
 msgstr[0] "su %s sito"
 msgstr[1] "su %s siti"
 
-#: wp-optimize.php:854
+#: wp-optimize.php:751
 msgid "Optimization complete"
 msgstr "Ottimizzazione completata"
 
@@ -429,7 +426,7 @@ msgstr "Ottimizzazione completata"
 msgid "Backup before running optimizations"
 msgstr "Fai un backup prima di avviare le ottimizzazioni"
 
-#: templates/database/optimize-table.php:54
+#: templates/database/optimize-table.php:67
 msgid "You may wish to run a backup before optimizing."
 msgstr "Forse desideri fare un backup prima di eseguire l'ottimizzazione"
 
@@ -449,17 +446,9 @@ msgstr "Aggiorna UpdraftPlus alla versione più recente."
 msgid "Take a backup with UpdraftPlus before doing this"
 msgstr "Fai un backup con UpdraftPlus prima di fare questo"
 
-#: wp-optimize.php:853
+#: wp-optimize.php:750
 msgid "An unexpected response was received."
 msgstr "È stata ricevuta una risposta inaspettata."
-
-#: templates/database/optimize-table.php:54
-msgid "Items marked with this icon perform more intensive database operations. In very rare cases, if your database server happened to crash or be forcibly powered down at the same time as an optimization operation was running, data might be corrupted. "
-msgstr "Le voci contrassegnate con questa icona eseguono operazioni più pesanti sul database. In casi molto rari, se il server del database va in crash o se ne viene forzato l'arresto mentre si esegue un'operazione di ottimizzazione, i dati possono venire danneggiati. "
-
-#: includes/class-wp-optimize-notices.php:61
-msgid "here"
-msgstr "qui"
 
 #: templates/settings/settings-logging.php:3
 msgid "Logging settings"
@@ -477,7 +466,7 @@ msgstr "Rimuovi spam e commenti cestinati"
 msgid "Remove spam and trashed comments which are older than %d weeks"
 msgstr "Rimuovi spam e commenti cestinati più vecchi di %d settimane"
 
-#: wp-optimize.php:856
+#: wp-optimize.php:753
 msgid "Optimizing table:"
 msgstr "Ottimizzazione tabella:"
 
@@ -493,20 +482,20 @@ msgstr "Registra gli eventi nel file di errore PHP"
 msgid "Tables will be optimized (%s)."
 msgstr "Le tabelle saranno ottimizzate (%s)."
 
-#: wp-optimize.php:954
+#: wp-optimize.php:854
 msgid "Optimize"
 msgstr "Ottimizza"
 
-#: templates/database/optimize-table.php:38
+#: templates/database/optimize-table.php:42
 msgid "Run all selected optimizations"
 msgstr "Avvia tutte le ottimizzazioni selezionate"
 
 #: includes/class-wp-optimize-admin.php:42
-#: templates/database/optimize-table.php:34
+#: templates/database/optimize-table.php:38
 msgid "Optimizations"
 msgstr "Ottimizzazioni"
 
-#: templates/database/optimizations-table.php:82
+#: templates/database/optimizations-table.php:80
 msgid "Go"
 msgstr "Vai"
 
@@ -521,6 +510,14 @@ msgstr "Newsletter "
 #: templates/settings/settings-trackback-and-comments.php:42
 msgid "Comments"
 msgstr "Commenti"
+
+#: templates/notices/thanks-for-using-main-dash.php:30
+msgid "More quality plugins"
+msgstr "Altri plug-in di qualità"
+
+#: templates/notices/thanks-for-using-main-dash.php:30
+msgid "Premium WooCommerce plugins"
+msgstr "Premium WooCommerce plugins"
 
 #: templates/settings/may-also-like.php:296
 msgid "UpdraftPlus"
@@ -550,7 +547,7 @@ msgstr "Trackback"
 msgid "Use these buttons to enable or disable any future trackbacks on all your previously published posts."
 msgstr "Utilizza questi pulsanti per abilitare o disattivare i trailback futuri su tutti i post precedentemente pubblicati."
 
-#: includes/class-wp-optimize-notices.php:41
+#: includes/class-wp-optimize-notices.php:48
 msgid "UpdraftPlus is the world's most trusted backup plugin from the owners of WP-Optimize"
 msgstr "UpdraftPlus è il plugin di backup più affidabile del mondo dai proprietari di WP-Optimize"
 
@@ -602,11 +599,11 @@ msgid_plural "%s trashed posts in your database"
 msgstr[0] "%s articolo cestinato nel tuo database"
 msgstr[1] "%s articoli cestinati nel tuo database"
 
-#: includes/class-wp-optimize-notices.php:40
+#: includes/class-wp-optimize-notices.php:47
 msgid "Make sure you backup before you optimize your database"
 msgstr "Assicurati di eseguire un backup prima di ottimizzare il tuo database"
 
-#: templates/database/optimizations-table.php:80
+#: templates/database/optimizations-table.php:78
 msgid "Run optimization"
 msgstr "Avvia ottimizzazione"
 
@@ -618,9 +615,9 @@ msgstr "Nessun articolo eliminato trovato"
 msgid "No trashed comments found"
 msgstr "Nessun commento eliminato trovato"
 
-#: includes/class-wp-optimize-commands.php:200
-#: includes/class-wp-optimize-commands.php:248
-#: includes/class-wp-optimize-commands.php:290
+#: includes/class-wp-optimize-commands.php:221
+#: includes/class-wp-optimize-commands.php:269
+#: includes/class-wp-optimize-commands.php:311
 msgid "No optimization was indicated."
 msgstr "Non è stata indicata alcuna ottimizzazione."
 
@@ -655,11 +652,11 @@ msgstr "https://updraftplus.com"
 msgid "David Anderson, Ruhani Rabin, Team Updraft"
 msgstr "David Anderson, Ruhani Rabin, Team Updraft"
 
-#: wp-optimize.php:1182
+#: wp-optimize.php:1084
 msgid "template not found"
 msgstr "template non trovato"
 
-#: wp-optimize.php:1182
+#: wp-optimize.php:1084
 msgid "Error:"
 msgstr "Errore:"
 
@@ -750,11 +747,11 @@ msgstr "raccontaci perché a questo link."
 msgid "Tables using the InnoDB engine (%d) will not be optimized."
 msgstr "Le tabelle che utilizzano il motore InnoDB (%d) non saranno ottimizzate."
 
-#: templates/database/settings.php:19 templates/minify/advanced-tab.php:322
-#: templates/minify/css-settings-tab.php:162
+#: templates/database/settings.php:19 templates/minify/advanced-tab.php:334
+#: templates/minify/css-settings-tab.php:173
 #: templates/minify/font-settings-tab.php:140
-#: templates/minify/js-settings-tab.php:153
-#: templates/minify/settings-tab.php:108 templates/settings/settings.php:38
+#: templates/minify/js-settings-tab.php:183
+#: templates/minify/settings-tab.php:108 templates/settings/settings.php:47
 msgid "Save settings"
 msgstr "Salva le impostazioni"
 
@@ -774,15 +771,11 @@ msgstr "Pulisci i meta dati dei commenti"
 msgid "Clean post meta data"
 msgstr "Pulisci i post meta data."
 
-#: templates/database/optimize-table.php:30
-msgid "Warning: This operation is permanent. Continue?"
-msgstr "Attenzione: questa operazione è permanente. Vuoi continuare?"
-
 #: optimizations/orphandata.php:65
 msgid "Clean orphaned relationship data"
 msgstr "Ripuliti i relationship data orfani"
 
-#: templates/database/status-box-contents.php:85
+#: templates/database/status-box-contents.php:87
 msgid "Keeping last %s weeks data"
 msgstr "Mantenere l'ultima %s dati della settimana"
 
@@ -814,16 +807,16 @@ msgid_plural "%s trackbacks deleted"
 msgstr[0] "%s trackback cancellato"
 msgstr[1] "%s trackback cancellati"
 
-#: templates/database/optimize-table.php:54
+#: templates/database/optimize-table.php:60
 msgid "Warning:"
 msgstr "Attenzione:"
 
 #: includes/class-wp-optimize-admin.php:44
 #: includes/class-wp-optimize-admin.php:63
 #: includes/class-wp-optimize-admin.php:69
-#: includes/class-wp-optimize-admin.php:653
-#: includes/class-wp-optimize-admin.php:654 templates/minify/status-tab.php:111
-#: templates/minify/status-tab.php:133 wp-optimize.php:951
+#: includes/class-wp-optimize-admin.php:655
+#: includes/class-wp-optimize-admin.php:656 templates/minify/status-tab.php:121
+#: templates/minify/status-tab.php:143 wp-optimize.php:851
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -831,12 +824,12 @@ msgstr "Impostazioni"
 msgid "Refresh"
 msgstr "Aggiorna"
 
-#: templates/database/tables-body.php:68 templates/database/tables-body.php:81
+#: templates/database/tables-body.php:69 templates/database/tables-body.php:82
 #: templates/database/tables.php:44
 msgid "Type"
 msgstr "Tipo"
 
-#: templates/database/tables-body.php:104
+#: templates/database/tables-body.php:105
 msgid "Total:"
 msgstr "Totale:"
 
@@ -844,17 +837,17 @@ msgstr "Totale:"
 msgid "Remove unused tags"
 msgstr "Rimuovi tag non utilizzati"
 
-#: templates/cache/browser-cache.php:39 templates/cache/gzip-compression.php:47
+#: templates/cache/browser-cache.php:39 templates/cache/gzip-compression.php:51
 #: templates/settings/settings-trackback-and-comments.php:18
 #: templates/settings/settings-trackback-and-comments.php:49
-#: wp-optimize.php:861
+#: wp-optimize.php:759
 msgid "Enable"
 msgstr "Abilita"
 
-#: templates/cache/gzip-compression.php:47
+#: templates/cache/gzip-compression.php:51
 #: templates/settings/settings-trackback-and-comments.php:20
 #: templates/settings/settings-trackback-and-comments.php:51
-#: wp-optimize.php:862
+#: wp-optimize.php:760
 msgid "Disable"
 msgstr "Disabilita"
 
@@ -874,13 +867,9 @@ msgstr "Rimuovere i commenti non approvati"
 msgid "Optimize database tables"
 msgstr "Ottimizza tabelle database"
 
-#: templates/database/tables-body.php:65 templates/database/tables.php:43
+#: templates/database/tables-body.php:66 templates/database/tables.php:43
 msgid "Index Size"
 msgstr "Grandezza Indice"
-
-#: templates/database/status-box-contents.php:78
-msgid "Scheduled cleaning disabled"
-msgstr "Pulizia schedulata disabilitata"
 
 #: templates/database/settings-auto-cleanup.php:22
 msgid "Select schedule type (default is Weekly)"
@@ -926,11 +915,11 @@ msgstr "Nessuna revisione dei post trovata"
 msgid "Table"
 msgstr "Tabella"
 
-#: templates/database/tables-body.php:64 templates/database/tables.php:42
+#: templates/database/tables-body.php:65 templates/database/tables.php:42
 msgid "Data Size"
 msgstr "Dimensione dati"
 
-#: templates/database/tables-body.php:63 templates/database/tables.php:41
+#: templates/database/tables-body.php:64 templates/database/tables.php:41
 msgid "Records"
 msgstr "Records"
 
@@ -938,7 +927,7 @@ msgstr "Records"
 msgid "No."
 msgstr "No."
 
-#: templates/database/status-box-contents.php:88
+#: templates/database/status-box-contents.php:90
 msgid "Not keeping recent data"
 msgstr "Non conservare i dati recenti"
 
@@ -958,7 +947,7 @@ msgstr "Non sono stati trovati commenti non approvati"
 msgid "No spam comments found"
 msgstr "Non sono stati trovati commenti spam"
 
-#: templates/database/tables-body.php:70 templates/database/tables-body.php:82
+#: templates/database/tables-body.php:71 templates/database/tables-body.php:83
 #: templates/database/tables.php:45
 msgid "Overhead"
 msgstr "Eccedenza"
@@ -988,20 +977,16 @@ msgstr "Non sono state trovate bozze automatiche di articoli"
 msgid "No orphaned post meta data in your database"
 msgstr "Non ci sono meta dati orfani nel tuo database"
 
-#: templates/database/status-box-contents.php:109
-msgid "Total clean up overall:"
-msgstr "Pulizia totale complessiva:"
-
 #: optimizations/transient.php:161 optimizations/transient.php:388
 msgid "No transient options found"
 msgstr "Nessuna opzione temporanea trovata"
 
-#: templates/database/tables-body.php:89 templates/database/tables-body.php:118
+#: templates/database/tables-body.php:90 templates/database/tables-body.php:119
 #: templates/database/tables.php:46 templates/settings/settings-logging.php:25
 msgid "Actions"
 msgstr "Azioni"
 
-#: templates/database/tables-body.php:105
+#: templates/database/tables-body.php:106
 msgid "%s Table"
 msgid_plural "%s Tables"
 msgstr[0] "Tabella %s"
@@ -1010,10 +995,6 @@ msgstr[1] "Tabelle %s"
 #: templates/database/tables.php:24
 msgid "Database name:"
 msgstr "Nome del database:"
-
-#: templates/database/tables-list-after.php:26
-msgid "Total space saved:"
-msgstr "Spazio totale recuperato:"
 
 #: optimizations/unapproved.php:99
 msgid "%s unapproved comment deleted"
@@ -1093,7 +1074,7 @@ msgid_plural "%s auto drafts deleted"
 msgstr[0] "%s bozza automatica eliminata"
 msgstr[1] "%s bozze automatiche eliminate"
 
-#: cache/class-wpo-page-cache.php:1268 cache/class-wpo-page-cache.php:1289
+#: cache/class-wpo-page-cache.php:1347 cache/class-wpo-page-cache.php:1368
 msgid "WP-Optimize:"
 msgstr "WP-Optimize:"
 

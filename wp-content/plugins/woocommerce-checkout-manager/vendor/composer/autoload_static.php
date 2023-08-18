@@ -4,11 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd428951efc6d663ec0f28587618a9c54
+class ComposerStaticInitabb7ab9f426ab7d003dc1be0eb556d11
 {
     public static $files = array (
         '3773ef3f09c37da5478d578e32b03a4b' => __DIR__ . '/../..' . '/jetpack_vendor/automattic/jetpack-assets/actions.php',
-        '02de31f978c9996d3c90b9ae7e83529d' => __DIR__ . '/../..' . '/lib/compatibility/functions.php',
+        'a7b5e344bf0356201afb442ca78f3772' => __DIR__ . '/../..' . '/compatibility/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -79,6 +79,7 @@ class ComposerStaticInitd428951efc6d663ec0f28587618a9c54
         'QuadLayers\\WOOCCM\\View\\Frontend\\Fields_Handler' => __DIR__ . '/../..' . '/lib/view/frontend/class-fields-handler.php',
         'QuadLayers\\WOOCCM\\View\\Frontend\\Fields_I18n' => __DIR__ . '/../..' . '/lib/view/frontend/class-fields-i18n.php',
         'QuadLayers\\WOOCCM\\View\\Frontend\\Fields_Register' => __DIR__ . '/../..' . '/lib/view/frontend/class-fields-register.php',
+        'QuadLayers\\WOOCCM\\View\\Frontend\\Fields_Validation' => __DIR__ . '/../..' . '/lib/view/frontend/class-fields-validation.php',
         'QuadLayers\\WP_Dashboard_Widget_News\\Load' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-dashboard-widget-news/src/Load.php',
         'QuadLayers\\WP_Notice_Plugin_Promote\\Load' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-notice-plugin-promote/src/Load.php',
         'QuadLayers\\WP_Notice_Plugin_Promote\\PluginByFile' => __DIR__ . '/../..' . '/jetpack_vendor/quadlayers/wp-notice-plugin-promote/src/PluginByFile.php',
@@ -98,9 +99,9 @@ class ComposerStaticInitd428951efc6d663ec0f28587618a9c54
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd428951efc6d663ec0f28587618a9c54::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd428951efc6d663ec0f28587618a9c54::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd428951efc6d663ec0f28587618a9c54::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitabb7ab9f426ab7d003dc1be0eb556d11::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitabb7ab9f426ab7d003dc1be0eb556d11::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitabb7ab9f426ab7d003dc1be0eb556d11::$classMap;
 
         }, null, ClassLoader::class);
     }

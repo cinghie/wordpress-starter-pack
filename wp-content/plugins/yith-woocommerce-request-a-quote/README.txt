@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: request a quote button, woocommerce request for quote, woocommerce request a quote shortcode, request a quote, quote, YITH, woocommerce, shop, ecommerce, e-commerce, quotations, request for quote, rfq, raq, proposal, ask an estimate, budget, email quote
-Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 2.18.0
+Requires at least: 6.0
+Tested up to: 6.3
+Stable tag: 2.24.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -145,7 +145,6 @@ During this transition step, .po and .mo files will be used as always, but in or
 * yith-woocommerce-request-a-quote-[WORDPRESS LOCALE].mo
 
 == Screenshots ==
-
 1. General Options page
 2. Buttons and Labels
 3. "Request a quote" page options
@@ -154,6 +153,38 @@ During this transition step, .po and .mo files will be used as always, but in or
 6. "Quote request" email
 
 == Changelog ==
+
+= 2.24.1 – Released on 11 August 2023 =
+ * Update: YITH plugin framework
+ * Fix: button not visible in single product pages
+
+= 2.24.0 - Released on 7 August 2023 =
+ * New: support for WordPress 6.3
+ * New: support for WooCommerce 8.0
+ * Update: YITH plugin framework
+
+= 2.23.0 - Released on 10 July 2023 =
+ * New: support for WooCommerce 7.9
+ * Update: YITH plugin framework
+
+= 2.22.0 - Released on 13 June 2023 =
+ * New: support for WooCommerce 7.8
+ * Update: YITH plugin framework
+
+= 2.21.0 - Released on 8 May 2023 =
+ * New: support for WooCommerce 7.7
+ * Update: YITH plugin framework
+
+= 2.20.0 - Released on 13 April 2023 =
+ * New: support for WooCommerce 7.6
+ * Update: YITH plugin framework
+ * Dev: Added hooks to Polylang Plugin integration
+
+= 2.19.0 - Released on 10 March 2023 =
+ * New: support for WordPress 6.2
+ * New: support for WooCommerce 7.5
+ * Update: YITH plugin framework
+
 = 2.18.0 - Released on 9 February 2023 =
 * New: support for WooCommerce 7.4
 * Update: YITH plugin framework

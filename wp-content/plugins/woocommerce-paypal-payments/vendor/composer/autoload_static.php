@@ -4,11 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3
+class ComposerStaticInit07b8df1a9ce008622ea874a0c1467215
 {
     public static $files = array (
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        'ad27a566e2c29b3589d96cf971fa8042' => __DIR__ . '/../..' . '/api/order-functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -28,6 +29,7 @@ class ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3
             'WooCommerce\\PayPalCommerce\\Onboarding\\' => 38,
             'WooCommerce\\PayPalCommerce\\Compat\\' => 34,
             'WooCommerce\\PayPalCommerce\\Button\\' => 34,
+            'WooCommerce\\PayPalCommerce\\Blocks\\' => 34,
             'WooCommerce\\PayPalCommerce\\ApiClient\\' => 37,
             'WooCommerce\\PayPalCommerce\\AdminNotices\\' => 40,
             'WooCommerce\\PayPalCommerce\\' => 27,
@@ -113,6 +115,10 @@ class ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3
         array (
             0 => __DIR__ . '/../..' . '/modules/ppcp-button/src',
         ),
+        'WooCommerce\\PayPalCommerce\\Blocks\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/modules/ppcp-blocks/src',
+        ),
         'WooCommerce\\PayPalCommerce\\ApiClient\\' => 
         array (
             0 => __DIR__ . '/../..' . '/modules/ppcp-api-client/src',
@@ -169,6 +175,7 @@ class ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
@@ -178,9 +185,9 @@ class ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit995e43cfbaabae2d9a4edf78411ff8e3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit07b8df1a9ce008622ea874a0c1467215::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit07b8df1a9ce008622ea874a0c1467215::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit07b8df1a9ce008622ea874a0c1467215::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -59,6 +59,7 @@
   "gdpr_bing_prior_consent_enabled": "checkbox",
   "gdpr_cookiebot_integration_enabled": "checkbox",
   "gdpr_cookiebot_facebook_consent_category": "text",
+  "gdpr_cookiebot_tiktok_consent_category": "text",
   "gdpr_cookiebot_analytics_consent_category": "text",
   "gdpr_cookiebot_pinterest_consent_category": "text",
   "gdpr_cookiebot_bing_consent_category": "text",
@@ -123,5 +124,13 @@
 
   "automatic_event_download_extensions": "tag_select",
   "automatic_event_scroll_value": "number",
-  "automatic_event_time_on_page_value": "number"
+  "automatic_event_time_on_page_value": "number",
+
+  "enable_success_send_form": "checkbox",
+  "hide_version_plugin_in_console": "checkbox",
+
+
+  "send_external_id": "checkbox",
+  "external_id_expire": "number",
+  "server_event_use_ajax" : "checkbox"
 }

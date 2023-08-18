@@ -140,7 +140,27 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php endif; ?>
     </div>
 </div>
+<!-- Hide this tag -->
+<div class="card card-static">
+    <div class="card-header">
+        Hide tag <?php renderSpBadge(); ?>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Hide this tag if the landing URL includes these URL tags</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Hide this tag if the URL includes</h4>
+            </div>
+        </div>
 
+    </div>
+</div>
 <!-- Remove Pixel -->
 <div class="card card-static">
     <div class="card-header">

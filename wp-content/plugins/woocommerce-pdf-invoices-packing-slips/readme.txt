@@ -3,9 +3,9 @@ Contributors: pomegranate, alexmigf, yordansoares, kluver, dpeyou, dwpriv, jhosa
 Donate link: https://wpovernight.com/downloads/woocommerce-pdf-invoices-packing-slips-bundle/
 Tags: woocommerce, pdf, invoices, packing slips, print, delivery notes, invoice, packing slip, export, email, bulk, automatic
 Requires at least: 3.5
-Tested up to: 6.1
+Tested up to: 6.3
 Requires PHP: 7.1
-Stable tag: 3.4.0
+Stable tag: 3.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,75 @@ There's a setting on the Status tab of the settings page that allows you to togg
 
 == Changelog ==
 
+= 3.6.1 (2023-08-16) =
+* Fix: string encoding issues in PDF
+
+= 3.6.0 (2023-08-15) =
+* New: setting for improved document link access type
+* New: implemented autoloader for plugin classes
+* New: adds a new Status tool to reset plugin settings
+* New: invoice number column added to the WooCommerce order analytics
+* Fix: replaces `utf8_decode()` which is deprecated in PHP 8.2 
+* Fix: allows the translation for the Shipping Notes strings
+* Fix: bug when trying to delete temporary files when using mPDF extension
+* Fix: bug on `$updater` returning `null` in Upgrade tab function
+* Fix: deprecates `woocommerce_resend_order_emails_available` filter
+* Fix: several string typos
+* Fix: revert breaking long characters in order data labels
+* Fix: PHP8.2 creation of dynamic property deprecated warnings
+* Translations: Updated translation template (POT)
+* Tested up to WooCommerce 8.0 & WordPress 6.3
+
+= 3.5.6 (2023-06-21) =
+* New: adds a generic shortcode `[wcpdf_download_pdf]` for PDF download links 
+* New: bump preview PDFJS library to v3.7.107
+* Tweak: optimize PDFJS library size
+* Tweak: remove WPO hiring banner from the Status tab
+* Tweak: composer dependencies update
+* Fix: font deletion bug after plugin upgrade
+* Fix: bug on previewing Credit Note if the order has multiple refunds
+* Fix: PHP error on `log_document_creation_trigger_to_order_meta()` function when trying to get order ID and type
+* Translations: Updated translation template (POT)
+* Tested up to WooCommerce 7.8
+
+= 3.5.5 (2023-06-01) =
+* New: toggle display date and created via on document data
+* New: adds support for legacy Sidekick activated licenses in Upgrade tab
+* Tweak: log invoice number generation on setting
+
+= 3.5.4 (2023-05-19) =
+* Tweak: improves code for the upgrade tab get license info function
+* Fix: bug on templates using legacy versions of the Premium Templates extension
+* Fix: string translation issues & updated POT
+* Fix: bug in slug property not set when defining the document number lock name
+
+= 3.5.3 (2023-05-15) =
+* New: display creation trigger in document data and order meta
+* New: detects the extension license status in the Upgrade tab
+* New: invoice number search document setting
+* New: adds new filter to stick Document data metabox: `wpo_wcpdf_sticky_document_data_metabox`
+* Fix: adds semaphore to Invoice number init to prevent concurrent number issues
+* Fix: invoice column hooks only on setting condition
+* Tested up to WooCommerce 7.7
+
+= 3.5.2 (2023-04-12) =
+* New: added upgrade tab
+
+= 3.5.1 (2023-04-07) =
+* Tweak: adds user permission check on AJAX document printed
+* Fix: bug on trying to save bulk document setting on `document_can_be_manually_marked_printed()`
+* Fix: disallow document creation for anonymized orders
+
+= 3.5.0 (2023-04-05) =
+* New: save invoice display date option
+* New: mark/unmark Invoice as printed
+* New: adds notice when RTL is detected
+* New: `wpo_wcpdf_preview_after_reload_settings` action
+* New: `wpo_wcpdf_export_settings` filter
+* Fix: fatal error on WC deactivation
+* Fix: invoice number/date screen options bug with HPOS enabled
+* Tested up to WooCommerce 7.6 & WordPress 6.2
+
 = 3.4.0 (2023-02-20) =
 * New: filter `wpo_wcpdf_settings_user_role_capabilities` to change role capabilities to access plugin settings
 * New: improved debug tools UI
@@ -147,7 +216,7 @@ There's a setting on the Status tab of the settings page that allows you to togg
 * Tweak: update translation template and files
 * Fix: break long URLs in different lines if it reaches the available space in Simple template
 * Fix: restore deleted strings and load them using standalone strings.php file 
-* Fix: warning on deprecated argument from product get_dimentions() method
+* Fix: warning on deprecated argument from product get_dimensions() method
 * Tested up to WooCommerce 7.1
 
 = 3.2.3 (2022-10-28) =
@@ -443,7 +512,7 @@ There's a setting on the Status tab of the settings page that allows you to togg
 
 = 2.5.4 =
 * Fix: check for existence of WooCommerce functions preventing incidental crashes in specific deployment setups
-* Fix: documents could still be generated programmatically when document disabled and not specifically checking for `$documment->is_allowed()`
+* Fix: documents could still be generated programmatically when document disabled and not specifically checking for `$document->is_allowed()`
 * Dev: Filter to disable reloading attachment translations
 * Tested up to WooCommerce 4.4 & WP 5.5
 
@@ -622,7 +691,7 @@ There's a setting on the Status tab of the settings page that allows you to togg
 * Feature: Test mode to automatically apply updated settings to existing documents
 * Feature: Admin bar indicator for debug mode setting
 * Fix: always use latest email settings
-* Fix: WooCommerce Composit Products item name compatibility
+* Fix: WooCommerce Composite Products item name compatibility
 * Fix: Use woocommerce_thumbnail for WC3.3+
 * Tweak: apply woocommerce_order_item_name filter (fixes compatibility with WooCommerce Product Addons 3.0)
 * Tweak: Use WooCommerce date format instead of WP date format
@@ -657,7 +726,7 @@ There's a setting on the Status tab of the settings page that allows you to togg
 * Feature: Include invoice number and date in WooCommerce data remover and exporter 
 * Fix: Row class for Chained Products compatibility
 * Fix: Improved compatibility with Advanced Custom Fields
-* Fix: Setting for diabling for free invoices should be applied even when other plugins are applying rules
+* Fix: Setting for disabling for free invoices should be applied even when other plugins are applying rules
 
 = 2.1.9 =
 * Feature: Automatic cleanup of temporary attachments folder (settings in Status tab)

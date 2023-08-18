@@ -5,7 +5,7 @@
  * @class   YITH_YWRAQ_Admin
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
@@ -102,7 +102,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		 *
 		 * @access public
 		 * @return void
-		 * @since 1.0.0
+		 * @since  1.0.0
 		 */
 		public function enqueue_styles_scripts() {
 			// load the script in selected pages.
@@ -121,7 +121,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		 * Print admin menu items
 		 *
 		 * @since  1.0
-		 * @author Emanuela Castorina
 		 */
 		private function create_menu_items() {
 
@@ -135,7 +134,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		 *
 		 * @return   void
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      /Yit_Plugin_Panel class
 		 * @see      plugin-fw/lib/yit-plugin-panel.php
 		 */
@@ -164,6 +162,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 				'admin-tabs'       => $admin_tabs,
 				'class'            => yith_set_wrapper_class(),
 				'options-path'     => YITH_YWRAQ_DIR . '/plugin-options',
+				'is_free'          => true,
 			);
 
 			/* === Fixed: not updated theme  === */
@@ -198,6 +197,7 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 				if ( ! $option_value ) {
 					update_option( 'ywraq_page_id', $page_found );
 				}
+
 				return;
 			endif;
 
@@ -223,7 +223,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		 *
 		 * @return   void
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 */
 		public function premium_tab() {
 			$premium_tab_template = YITH_YWRAQ_TEMPLATE_PATH . 'admin/' . $this->premium;
@@ -238,11 +237,10 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		 *
 		 * Add the action links to plugin admin page.
 		 *
-		 * @param array $links Links plugin array.
+		 * @param   array  $links  Links plugin array.
 		 *
 		 * @return   mixed Array
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      plugin_action_links_{$plugin_file_name}
 		 */
 		public function action_links( $links ) {
@@ -256,21 +254,18 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		}
 
 
-
-
 		/**
 		 * Add the action links to plugin admin page
 		 *
-		 * @param   array $new_row_meta_args  Plugin Meta New args.
-		 * @param   string $plugin_meta        Plugin Meta.
-		 * @param   string $plugin_file        Plugin file.
-		 * @param   array  $plugin_data        Plugin data.
-		 * @param   string $status             Status.
-		 * @param   string $init_file          Init file.
+		 * @param   array   $new_row_meta_args  Plugin Meta New args.
+		 * @param   string  $plugin_meta        Plugin Meta.
+		 * @param   string  $plugin_file        Plugin file.
+		 * @param   array   $plugin_data        Plugin data.
+		 * @param   string  $status             Status.
+		 * @param   string  $init_file          Init file.
 		 *
 		 * @return   Array
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use      plugin_row_meta
 		 */
 		public function plugin_row_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YITH_YWRAQ_FREE_INIT' ) {
@@ -284,9 +279,8 @@ if ( ! class_exists( 'YITH_YWRAQ_Admin' ) ) {
 		/**
 		 * Get the premium landing uri
 		 *
-		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link
+		 * @since   1.0.0
 		 */
 		public function get_premium_landing_uri() {
 			return apply_filters( 'yith_plugin_fw_premium_landing_uri', $this->premium_landing, YITH_YWRAQ_SLUG );

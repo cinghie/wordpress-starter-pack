@@ -13,9 +13,8 @@ class IS_Search_Form {
 	private $id;
 	private $name;
 	private $title;
-	private $is_locale;
+	private $locale;
 	private $properties = array();
-	private $unit_tag;
 
 	private function __construct( $post = null ) {
 		$post = get_post( $post );
@@ -24,7 +23,7 @@ class IS_Search_Form {
 			$this->id = $post->ID;
 			$this->name = $post->post_name;
 			$this->title = $post->post_title;
-			$this->is_locale = get_post_meta( $post->ID, '_is_locale', true );
+			$this->locale = get_post_meta( $post->ID, '_is_locale', true );
 
 			$properties = $this->get_properties();
 
@@ -348,13 +347,14 @@ class IS_Search_Form {
 
                     if ( 'n' !== $display_id ) {
                         $result = preg_replace('/<\/form>/', '<input type="hidden" name="id" value="' . esc_attr( $args['id'] ) . '" /></form>', $result );
-                    }
-                    if ( ! isset( $_includes['post_type_url']  ) && isset( $_includes['post_type'] ) && count( $_includes['post_type'] ) < 2 ) {
-                            $result = preg_replace('/<\/form>/', '<input type="hidden" name="post_type" value="' . esc_attr( reset( $_includes['post_type'] ) ) . '" /></form>', $result );
-                    }
-                    if ( $is_site_lang ) {
-                        $result = preg_replace('/<\/form>/', '<input type="hidden" name="lang" value="' . esc_attr( $is_site_lang ) . '" /></form>', $result );
-                    }
+
+						if ( ! isset( $_includes['post_type_url']  ) && isset( $_includes['post_type'] ) && count( $_includes['post_type'] ) < 2 ) {
+								$result = preg_replace('/<\/form>/', '<input type="hidden" name="post_type" value="' . esc_attr( reset( $_includes['post_type'] ) ) . '" /></form>', $result );
+						}
+						if ( $is_site_lang ) {
+							$result = preg_replace('/<\/form>/', '<input type="hidden" name="lang" value="' . esc_attr( $is_site_lang ) . '" /></form>', $result );
+						}
+					}
 
                     $result = apply_filters( 'is_default_search_form', $result );
 

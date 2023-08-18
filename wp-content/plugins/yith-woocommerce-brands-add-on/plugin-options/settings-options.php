@@ -2,7 +2,7 @@
 /**
  * General options tab
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\Brands\PluginOptions
  * @version 1.0.0
  */
@@ -34,4 +34,13 @@ $general_options = array(
 	),
 );
 
+/**
+ * APPLY_FILTERS: yith_wcbr_general_settings
+ *
+ * Filter the options available in the General options tab.
+ *
+ * @param array $general_options General settings options
+ *
+ * @return array
+ */
 return apply_filters( 'yith_wcbr_general_settings', $general_options );

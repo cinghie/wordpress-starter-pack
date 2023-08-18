@@ -2,7 +2,7 @@
 /**
  * Legacy Functions
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH\Wishlist\Classes\Legacy
  * @version 3.0.0
  */

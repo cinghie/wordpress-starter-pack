@@ -343,18 +343,13 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
      */
     protected function ad_delay_has_finished()
     {
+        // The delay could be empty, ~2 weeks (initial delay) or ~12 weeks
+        $delay = get_option("ms_hide_all_ads_until");
+
         if ($this->force_ads()) {
             // If there's an override, return true
             return true;
         }
-
-        if (metaslider_pro_is_installed()) {
-            // If they are pro don't check anything but show the pro ad.
-            return true;
-        }
-
-        // The delay could be empty, ~2 weeks (initial delay) or ~12 weeks
-        $delay = get_option("ms_hide_all_ads_until");
 
         if (!$this->is_page_with_ads() && !$delay) {
             // Only start the timer if they see a page that can serve ads
@@ -379,6 +374,11 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
         } elseif (get_option("ms_ads_first_seen_on")) {
             // This means the initial delay has elapsed,
             // and the dismissed period expired
+            return true;
+        }
+
+        if (metaslider_pro_is_installed()) {
+            // If they are pro don't check anything but show the pro ad.
             return true;
         }
 

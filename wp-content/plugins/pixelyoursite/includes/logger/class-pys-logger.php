@@ -16,9 +16,11 @@ class PYS_Logger
      */
     protected $handle = null;
 
-    public function __construct( ) {
+	protected $log_path = null;
 
-    }
+	public function __construct( ) {
+		$this->log_path = trailingslashit( PYS_FREE_PATH ).'logs/';
+	}
 
     public function init() {
         $this->isEnabled = PYS()->getOption('pys_logs_enable');
@@ -43,7 +45,7 @@ class PYS_Logger
         $this->log('error',$message,$args);
     }
 
-    private function log($level,$message,$args = null) {
+	protected function log($level,$message,$args = null) {
         if(!$this->isEnabled) return;
         if($args) {
             $message .= " \nArgs: ".print_r($args,true);
@@ -63,7 +65,7 @@ class PYS_Logger
      *
      * @return bool False if value was not handled and true if value was handled.
      */
-    private function handle( $timestamp, $level, $message, $context ) {
+	protected function handle( $timestamp, $level, $message, $context ) {
 
         $time_string = date( 'c', $timestamp );
         $entry = "{$time_string} {$level} {$message}";
@@ -82,13 +84,13 @@ class PYS_Logger
             return true;
         }
 
-        $file = self::get_log_file_path(  );
+        $file = static::get_log_file_path(  );
 
         if ( $file ) {
             if ( ! file_exists( $file ) ) {
-                if(!is_dir(trailingslashit( PYS_FREE_PATH ).'logs/')) {
-                    mkdir(trailingslashit( PYS_FREE_PATH ).'logs/', 0777, true);
-                }
+				if( !is_dir( $this->log_path ) ) {
+					mkdir( $this->log_path, 0777, true );
+				}
                 $temphandle = @fopen( $file, 'w+' ); // @codingStandardsIgnoreLine.
                 if ( is_resource( $temphandle ) ) {
                     @fclose( $temphandle ); // @codingStandardsIgnoreLine.
@@ -114,11 +116,11 @@ class PYS_Logger
      * @return string The log file path or false if path cannot be determined.
      */
     public static function get_log_file_path( ) {
-        return trailingslashit( PYS_FREE_PATH ).'logs/' . self::get_log_file_name( );
+        return trailingslashit( PYS_FREE_PATH ).'logs/' . static::get_log_file_name( );
     }
     public static function get_log_file_url( ) {
 
-        return trailingslashit( PYS_FREE_URL ) .'logs/'. self::get_log_file_name( );
+        return trailingslashit( PYS_FREE_URL ) .'logs/'. static::get_log_file_name( );
     }
 
 
@@ -177,8 +179,8 @@ class PYS_Logger
     }
 
     public function getLogs( ) {
-        if(is_file( self::get_log_file_path() ))
-            return file_get_contents(self::get_log_file_path());
+        if(is_file( static::get_log_file_path() ))
+            return file_get_contents(static::get_log_file_path());
         return "";
     }
 

@@ -23,15 +23,20 @@ class AjaxHookEventManager {
      * @return mixed|null
      */
     static function getPendingEvent($name,$unset) {
-        $events = WC()->session->get( 'pys_events', array() );
-
-        if(isset($events[$name]) ) {
-            $event = $events[$name];
-            if($unset){
-                unset($events[$name]);
-                WC()->session->set( 'pys_events', $events );
+        if ( function_exists( 'WC' ) ) {
+            if(!WC()->session) return null;
+            $session_data = WC()->session->get_session_data();
+            $events = isset( $session_data['pys_events'] ) ? WC()->session->get( 'pys_events', array() ) : array();
+            PYS()->getLog()->debug('events hook called', $events);
+            if (isset($events[$name])) {
+                $event = $events[$name];
+                if ($unset) {
+                    unset($events[$name]);
+                    WC()->session->set('pys_events', $events);
+                }
+                return $event;
             }
-            return $event;
+            return null;
         }
         return null;
     }
@@ -138,6 +143,15 @@ class AjaxHookEventManager {
                     FacebookServer()->sendEventsAsync([$event]);
                 }
             }
+
+			if($pixel->getSlug() == "pinterest" && Pinterest()->isServerApiEnabled()) {
+
+				if($is_ajax_request) {
+					PinterestServer()->sendEventsNow(array($event));
+				} else {
+					PinterestServer()->sendEventsAsync(array($event));
+				}
+			}
         }
         AjaxHookEventManager::addPendingEvent("woo_add_to_cart_on_button_click",$dataList);
     }

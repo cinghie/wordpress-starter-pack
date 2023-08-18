@@ -5,9 +5,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( !class_exists( '\\WPO\\WC\\PDF_Invoices\\Install' ) ) :
+if ( ! class_exists( '\\WPO\\WC\\PDF_Invoices\\Install' ) ) :
 
 class Install {
+	
+	protected static $_instance = null;
+		
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 	
 	public function __construct() {
 		// run lifecycle methods
@@ -216,9 +225,12 @@ class Install {
 		} else {
 			// don't try merging fonts with local when updating pre 2.0
 			$pre_2 = ( $installed_version == 'versionless' || version_compare( $installed_version, '2.0-dev', '<' ) );
-			$merge_with_local = $pre_2 ? false : true;
+			$merge_with_local = !$pre_2;
 			WPO_WCPDF()->main->copy_fonts( $font_path, $merge_with_local );
 		}
+
+        // to ensure fonts will be copied to the upload directory
+        delete_transient( 'wpo_wcpdf_subfolder_fonts_has_files' );
 		
 		// 1.5.28 update: copy next invoice number to separate setting
 		if ( $installed_version == 'versionless' || version_compare( $installed_version, '1.5.28', '<' ) ) {
@@ -342,11 +354,8 @@ class Install {
 
 		// 2.0-beta-2 update: copy next number to separate db store
 		if ( version_compare( $installed_version, '2.0-beta-2', '<' ) ) {
-			// load number store class (just in case)
-			include_once( WPO_WCPDF()->plugin_path() . '/includes/documents/class-wcpdf-sequential-number-store.php' );
-
 			$next_number = get_option( 'wpo_wcpdf_next_invoice_number' );
-			if (!empty($next_number)) {
+			if ( ! empty( $next_number ) ) {
 				$number_store = new \WPO\WC\PDF_Invoices\Documents\Sequential_Number_Store( 'invoice_number' );
 				$number_store->set_next( (int) $next_number );
 			}
@@ -424,6 +433,16 @@ class Install {
 				WPO_WCPDF()->settings->schedule_yearly_reset_numbers();
 			}
 		}
+		
+		// 3.5.7-dev-1: migrate 'guest_access' setting to 'document_link_access_type'
+		if ( version_compare( $installed_version, '3.5.7-dev-1', '<' ) ) {
+			$debug_settings = get_option( 'wpo_wcpdf_settings_debug', array() );
+			if ( ! empty( $debug_settings['guest_access'] ) ) {
+				unset( $debug_settings['guest_access'] );
+				$debug_settings['document_link_access_type'] = 'guest';
+				update_option( 'wpo_wcpdf_settings_debug', $debug_settings );
+			}
+		}
 	}
 
 	/**
@@ -456,4 +475,3 @@ class Install {
 
 endif; // class_exists
 
-return new Install();

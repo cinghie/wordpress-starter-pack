@@ -102,7 +102,9 @@ function wppfm_backup() {
 				wppfm_resetBackupsList();
 
 				if ( response !== '1' ) {
-					wppfm_show_error_message( 'New backup file made ' + response );
+					wppfm_show_error_message( response );
+				} else {
+					wppfm_show_success_message( 'New backup file "' + backupFileNameElement.val() + '" stored.' );
 				}
 			}
 		);

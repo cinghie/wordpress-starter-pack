@@ -94,7 +94,7 @@ function wppfm_feedListTable( list, specialFeedAddOnsActive ) {
 		} // alternate background color per row
 
 		htmlCode += '>';
-		htmlCode += '<td id="title">' + list [ i ] [ 'title' ] + '</td>';
+		htmlCode += '<td id="title-' + feedId + '">' + list [ i ] [ 'title' ] + '</td>';
 		htmlCode += '<td id="url">' + feedUrl + '</td>';
 		htmlCode += '<td id="updated-' + feedId + '">' + list [ i ] [ 'updated' ] + '</td>';
 		htmlCode += '<td id="products-' + feedId + '">' + nrProducts + '</td>';
@@ -172,6 +172,83 @@ function wppfm_updateFeedRowData( rowData ) {
 		jQuery( '#products-' + feedId ).html( rowData[ 'products' ] );
 		jQuery( '#actions-' + feedId ).html( feedReadyActions( feedId, rowData[ 'url' ], status, rowData[ 'title' ], rowData[ 'feed_type_name' ] ) );
 	}
+}
+
+/**
+ * Sorts a selected column.
+ *
+ * @since 2.38.0.
+ * @param columnId Column id of the selected column.
+ */
+function wppfm_sortOnColumn( columnId ) {
+	var tbody = jQuery( '#wppfm-feed-list' );
+	var sortedColumn = jQuery( '#wppfm_feed_list_table_sort_column' ).val();
+	var sortDirection = jQuery( '#wppfm_feed_list_table_sort_direction' ).val();
+	var sortedColumns = jQuery( '#wppfm_feed_list_table_sortable_columns' ).val().split('-');
+
+	// Reset the not selected columns to the starting position
+	for ( var i=0; i<sortedColumns.length; i++) {
+		if ( columnId.toString() !== sortedColumns[ i ] ) {
+			wppfm_resetSortableColumns( sortedColumns[ i ] );
+		}
+	}
+
+	// Sort the table rows
+	tbody.find('tr').sort( function( a, b ) {
+		var aElement = jQuery('td:nth-child(' + columnId + ')', a)
+		var bElement = jQuery('td:nth-child(' + columnId + ')', b)
+		jQuery('#wppfm_feed_list_table_sort_column').val( columnId );
+
+		if ( sortedColumn === columnId.toString() && ( 'asc' === sortDirection || 'none' === sortDirection ) ) {
+			// Sort descending
+			jQuery('#wppfm_feed_list_table_sort_direction').val('desc');
+			return bElement.text().localeCompare( aElement.text(),false, { numeric: true } );
+		} else {
+			// Sort ascending
+			jQuery( '#wppfm_feed_list_table_sort_direction' ).val( 'asc' );
+			return aElement.text().localeCompare( bElement.text(), false, { numeric: true } );
+		}
+
+	}).appendTo( tbody );
+
+	wppfm_setSortedColumn( columnId );
+
+	wppfm_redrawAlternateRowBackground();
+}
+
+/**
+ * Redraws the alternating light and dark table rows after sorting.
+ */
+function wppfm_redrawAlternateRowBackground() {
+	jQuery( 'tbody#wppfm-feed-list tr:odd' ).removeClass('alternate');
+	jQuery( 'tbody#wppfm-feed-list tr:even' ).addClass('alternate');
+}
+
+/**
+ * Sets the correct classes for the column that has been selected to be sorted.
+ *
+ * @param columnId
+ * @param selectedColumnId
+ */
+function wppfm_setSortedColumn( columnId, selectedColumnId ) {
+	if ( columnId === selectedColumnId ) {
+		return;
+	}
+
+	var sortColumnHeader = jQuery( 'table thead tr th:nth-child(' + columnId + ')' );
+
+	if ( sortColumnHeader.hasClass( 'asc' ) ) {
+		sortColumnHeader.removeClass( 'asc').addClass( 'desc' );
+	} else {
+		sortColumnHeader.removeClass( 'desc').addClass( 'asc' );
+	}
+	sortColumnHeader.removeClass( 'sortable' ).addClass( 'sorted' );
+}
+
+function wppfm_resetSortableColumns( columnId ) {
+	var columnHeader = jQuery( 'table thead tr th:nth-child(' + columnId + ')' );
+	columnHeader.removeClass('sorted' ).addClass( 'sortable' );
+	columnHeader.removeClass('asc' ).addClass( 'desc' );
 }
 
 function wppfm_switchStatusAction( feedId, status ) {

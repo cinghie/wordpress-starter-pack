@@ -93,6 +93,8 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                             <select class="form-control-sm" name="" autocomplete="off" style="width: 100%;">
                                 <option value="contains">URL Contains</option>
                                 <option value="match">URL Match</option>
+                                <option value="param_contains"  disabled="disabled">URL Parameters Contains (PRO)</option>
+                                <option value="param_match"  disabled="disabled">URL Parameters Match (PRO)</option>
                             </select>
                         </div>
                         <div class="col-6">
@@ -120,6 +122,8 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                                         autocomplete="off" style="width: 100%;">
                                     <option value="contains" <?php selected( $trigger['rule'], 'contains' ); ?>>URL Contains</option>
                                     <option value="match"  <?php selected( $trigger['rule'], 'match' ); ?>>URL Match</option>
+                                    <option value="param_contains"  disabled="disabled">URL Parameters Contains (PRO)</option>
+                                    <option value="param_match"  disabled="disabled">URL Parameters Match (PRO)</option>
                                 </select>
                             </div>
                             <div class="col-6">
@@ -249,7 +253,20 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                 </div>
             </div>
         </div>
+        <?php $eventsFormFactory = apply_filters("pys_form_event_factory",[]);
+        foreach ($eventsFormFactory as $activeFormPlugin) : ?>
+            <div id="<?php echo $activeFormPlugin->getSlug();?>_panel" class="event_triggers_panel" data-trigger_type="<?php echo $activeFormPlugin->getSlug();?>" style="display: none;">
+                <div class="row mt-3 event_trigger" data-trigger_id="0">
+                    <div class="col">
+                        <?php renderDummySelectInput('Forms');?>
+                    </div>
 
+                </div>
+                <small class="form-text">Select Forms to Trigger the Event.</small>
+            </div>
+        <?php
+        endforeach;
+        ?>
         <div id="url_filter_panel" class="event_triggers_panel" style="display: none;">
             <div class="row mt-3">
                 <div class="col">

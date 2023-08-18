@@ -2,8 +2,8 @@
 /**
 Plugin Name: WP-Optimize - Clean, Compress, Cache
 Plugin URI: https://getwpo.com
-Description: WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract more traffic and users.
-Version: 3.2.12
+Description: WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract moretraffic and users.
+Version: 3.2.18
 Update URI: https://wordpress.org/plugins/wp-optimize/
 Author: David Anderson, Ruhani Rabin, Team Updraft
 Author URI: https://updraftplus.com
@@ -16,9 +16,10 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 // Check to make sure if WP_Optimize is already call and returns.
 if (!class_exists('WP_Optimize')) :
-define('WPO_VERSION', '3.2.12');
+define('WPO_VERSION', '3.2.18');
 define('WPO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WPO_PLUGIN_MAIN_PATH', plugin_dir_path(__FILE__));
+define('WPO_PLUGIN_SLUG', plugin_basename(__FILE__));
 define('WPO_PREMIUM_NOTIFICATION', false);
 define('WPO_MINIFY_PHP_VERSION_MET', version_compare(PHP_VERSION, '5.4', '>=') ? true : false);
 if (!defined('WPO_USE_WEBP_CONVERSION')) define('WPO_USE_WEBP_CONVERSION', true);
@@ -40,9 +41,9 @@ class WP_Optimize {
 		// Checks if premium is installed along with plugins needed.
 		add_action('plugins_loaded', array($this, 'plugins_loaded'), 1);
 		
-		register_activation_hook(__FILE__, 'wpo_activation_actions');
-		register_deactivation_hook(__FILE__, 'wpo_deactivation_actions');
-		register_uninstall_hook(__FILE__, 'wpo_uninstall_actions');
+		register_activation_hook(__FILE__, array('WPO_Activation', 'actions'));
+		register_deactivation_hook(__FILE__, array('WPO_Deactivation', 'actions'));
+		register_uninstall_hook(__FILE__, array('WPO_Uninstall', 'actions'));
 		
 		$this->load_admin();
 		add_action('admin_init', array($this, 'admin_init'));
@@ -109,7 +110,7 @@ class WP_Optimize {
 		$dirs = $this->get_class_directories();
 
 		foreach ($dirs as $dir) {
-			$class_file = WPO_PLUGIN_MAIN_PATH . $dir . '/class-' . str_replace('_', '-', strtolower($class_name)) . '.php';
+			$class_file = WPO_PLUGIN_MAIN_PATH . trailingslashit($dir) . 'class-' . str_replace('_', '-', strtolower($class_name)) . '.php';
 			if (file_exists($class_file)) {
 				require_once($class_file);
 				return;
@@ -125,6 +126,7 @@ class WP_Optimize {
 	private function get_class_directories() {
 		return array(
 			'cache',
+			'compatibility',
 			'includes',
 			'minify',
 			'optimizations',
@@ -216,6 +218,17 @@ class WP_Optimize {
 
 	public function get_optimizer() {
 		return WP_Optimizer::instance();
+	}
+
+	/**
+	 * Adds 3rd party plugin compatibilities.
+	 */
+	public function load_compatibilities() {
+		WPO_Polylang_Compatibility::instance();
+		WPO_Page_Builder_Compatibility::instance();
+		WPO_Custom_Permalink_Compatibility::instance();
+		
+		do_action('wpo_load_compatibilities');
 	}
 
 	/**
@@ -529,6 +542,9 @@ class WP_Optimize {
 		// Loads the language file.
 		load_plugin_textdomain('wp-optimize', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
+		// Load 3rd party plugin compatibilities.
+		$this->load_compatibilities();
+
 		// Load page cache.
 		$this->get_page_cache();
 		$this->init_page_cache();
@@ -536,6 +552,10 @@ class WP_Optimize {
 		// Include minify
 		$this->get_minify();
 		$this->run_updates();
+
+		// We need this here because webp can be unavailable because of server moves
+		// This deletes already converted webp images and original image file when a media is deleted
+		WP_Optimize_WebP_Images::get_instance();
 
 		// Include WebP
 		if (WP_Optimize_WebP::is_shell_functions_available() && WPO_USE_WEBP_CONVERSION) {
@@ -668,7 +688,7 @@ class WP_Optimize {
 				add_action('all_admin_notices', array($this, 'show_admin_notice_upgradead'));
 			}
 		}
-		$this->install_or_update_notice = $this->get_install_or_update_notice();
+
 		if ($this->is_wp_smush_installed()) {
 			add_filter('transient_wp-smush-conflict_check', array($this, 'modify_wp_smush_conflict_check'), 9, 1);
 		}
@@ -724,6 +744,7 @@ class WP_Optimize {
 	 * @return array
 	 */
 	public function wpo_js_translations() {
+		$log_message = __('For more details, please check your logs configured in logging destinations settings.', 'wp-optimize');
 		return apply_filters('wpo_js_translations', array(
 			'automatic_backup_before_optimizations' => __('Automatic backup before optimizations', 'wp-optimize'),
 			'error_unexpected_response' => __('An unexpected response was received.', 'wp-optimize'),
@@ -732,6 +753,7 @@ class WP_Optimize {
 			'optimizing_table' => __('Optimizing table:', 'wp-optimize'),
 			'run_optimizations' => __('Run optimizations', 'wp-optimize'),
 			'table_optimization_timeout' => 120000,
+			'add' => __('Add', 'wp-optimize'),
 			'cancel' => __('Cancel', 'wp-optimize'),
 			'cancelling' => __('Cancelling...', 'wp-optimize'),
 			'enable' => __('Enable', 'wp-optimize'),
@@ -739,9 +761,9 @@ class WP_Optimize {
 			'please_select_settings_file' => __('Please, select settings file.', 'wp-optimize'),
 			'are_you_sure_you_want_to_remove_logging_destination' => __('Are you sure you want to remove this logging destination?', 'wp-optimize'),
 			'fill_all_settings_fields' => __('Before saving, you need to complete the currently incomplete settings (or remove them).', 'wp-optimize'),
-			'table_was_not_repaired' => __('%s was not repaired. For more details, please check the logs (configured in your logging destinations settings).', 'wp-optimize'),
-			'table_was_not_deleted' => __('%s was not deleted. For more details, please check your logs configured in logging destinations settings.', 'wp-optimize'),
-			'table_was_not_converted' => __('%s was not converted to InnoDB. For more details, please check your logs configured in logging destinations settings.', 'wp-optimize'),
+			'table_was_not_repaired' => __('%s was not repaired.', 'wp-optimize') . ' ' . $log_message,
+			'table_was_not_deleted' => __('%s was not deleted.', 'wp-optimize') . ' ' . $log_message,
+			'table_was_not_converted' => __('%s was not converted to InnoDB.', 'wp-optimize') . ' ' . $log_message,
 			'please_use_positive_integers' => __('Please use positive integers.', 'wp-optimize'),
 			'please_use_valid_values' => __('Please use valid values.', 'wp-optimize'),
 			'update' => __('Update', 'wp-optimize'),
@@ -768,12 +790,12 @@ class WP_Optimize {
 			'network_site_url' => network_site_url(),
 			'export_settings_file_name' => 'wpoptimize-settings-'.sanitize_title(get_bloginfo('name')).'.json',
 			'import_select_file' => __('You have not yet selected a file to import.', 'wp-optimize'),
-			'import_invalid_json_file' => __('Error: The chosen file is corrupt. Please choose a valid WP-Optimize export file.', 'wp-optimize'),
+			'import_invalid_json_file' => __('Error: The chosen file is corrupt.', 'wp-optimize') . ' ' . __('Please choose a valid WP-Optimize export file.', 'wp-optimize'),
 			'importing' => __('Importing...', 'wp-optimize'),
 			'importing_data_from' => __('This will import data from:', 'wp-optimize'),
 			'exported_on' => __('Which was exported on:', 'wp-optimize'),
 			'continue_import' => __('Do you want to carry out the import?', 'wp-optimize'),
-
+			'select_destination' => __('Select destination', 'wp-optimize'),
 		));
 	}
 
@@ -1004,7 +1026,7 @@ class WP_Optimize {
 	 */
 	public function show_admin_warning_overdue_crons($howmany) {
 		$ret = '<div class="updated below-h2"><p>';
-		$ret .= '<strong>'.__('Warning', 'wp-optimize').':</strong> '.sprintf(__('WordPress has a number (%d) of scheduled tasks which are overdue. Unless this is a development site, this probably means that the scheduler in your WordPress install is not working.', 'wp-optimize'), $howmany).' <a href="'.apply_filters('wpoptimize_com_link', "https://getwpo.com/faqs/the-scheduler-in-my-wordpress-installation-is-not-working-what-should-i-do/").'">'.__('Read this page for a guide to possible causes and how to fix it.', 'wp-optimize').'</a>';
+		$ret .= '<strong>'.__('Warning', 'wp-optimize').':</strong> '.sprintf(__('WordPress has a number (%d) of scheduled tasks which are overdue.', 'wp-optimize'), $howmany).' '. __('Unless this is a development site, this probably means that the scheduler in your WordPress install is not working.', 'wp-optimize').' <a href="'.apply_filters('wpoptimize_com_link', "https://getwpo.com/faqs/the-scheduler-in-my-wordpress-installation-is-not-working-what-should-i-do/").'">'.__('Read this page for a guide to possible causes and how to fix it.', 'wp-optimize').'</a>';
 		$ret .= '</p></div>';
 		return $ret;
 	}
@@ -1203,21 +1225,63 @@ class WP_Optimize {
 	 * @param String  $url					  - URL to be check to see if it an updraftplus match.
 	 * @param String  $text					  - Text to be entered within the href a tags.
 	 * @param String  $html					  - Any specific HTML to be added.
-	 * @param String  $class				  - Specify a class for the href (including the attribute label)
-	 * @param Boolean $return_instead_of_echo - if set, then the result will be returned, not echo-ed.
-	 *
+	 * @param String|Array	$attrs                  - Specify the HTML attributes as an array or string. Use the array format for multiple attributes (e.g., array( "class" => "lorem-ipsum", "title" => "Highlighting text" )), and use the string format for a single attribute (e.g., 'class="lorem-ipsum"').
+	 * @param Boolean	$return_instead_of_echo - if set, then the result will be returned, not echo-ed.
 	 * @return String|void
 	 */
-	public function wp_optimize_url($url, $text, $html = '', $class = '', $return_instead_of_echo = false) {
+	public function wp_optimize_url($url, $text = '', $html = '', $attrs = '', $return_instead_of_echo = false) {
 		// Check if the URL is UpdraftPlus.
 		$url = $this->maybe_add_affiliate_params($url);		// Return URL - check if there is HTML such as images.
-		if ('' != $html) {
-			$result = '<a '.$class.' href="'.esc_attr($url).'">'.$html.'</a>';
+		
+		// Check if the variable $text is empty (null value included), otherwise assign $html.
+		$content = empty($text) ? $html : esc_html($text);
+		
+		// Check if $attrs is an array to convert the attributes into a string line.
+		$str_attrs = '';
+		if (is_array($attrs)) {
+			foreach ($attrs as $attr => $value) {
+				$str_attrs .= $attr . '="' . esc_attr($value) . '" ';
+			}
 		} else {
-			$result = '<a '.$class.' href="'.esc_attr($url).'">'.htmlspecialchars($text).'</a>';
+			// If $attrs is empty, the explode function will only return an empty array.
+			$attrs = explode('=', $attrs);
+			// Check if $attrs in positions 1 and 2 are not empty and exist; otherwise, return an empty string.
+			$str_attrs = !empty($attrs[0]) && !empty($attrs[1]) ? $attrs[0] . '=' . esc_attr($attrs[1]) : '';
 		}
+		
+		// Check if it is necessary to add a target value if the url is external
+		$is_external_url = $this->is_external_url($url);
+		if ($is_external_url) {
+			$str_attrs .= ' target="_blank"';
+		}
+		
+		$result = sprintf(
+			'<a href="%s" %s>%s</a>',
+			esc_url($url),
+			$str_attrs,
+			$content
+		);
+
 		if ($return_instead_of_echo) return $result;
 		echo $result;
+	}
+	
+	/**
+	 * Check if a URL is external
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public function is_external_url($url) {
+		if (empty($url)) {
+			return false;
+		}
+		
+		$current_domain = wp_parse_url(home_url(), PHP_URL_HOST);
+		$url = wp_parse_url($url, PHP_URL_HOST);
+
+		// Compare the domains and return true if they are different
+		return $current_domain !== $url;
 	}
 
 	/**
@@ -1527,7 +1591,7 @@ class WP_Optimize {
 		// 32MB
 		if ($mp < 33554432) {
 			$save = $wpdb->show_errors(false);
-			@$wpdb->query("SET GLOBAL max_allowed_packet=33554432");// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+			@$wpdb->query("SET GLOBAL max_allowed_packet=33554432");// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress errors from displaying
 			$wpdb->show_errors($save);
 
 			$mp = (int) $wpdb->get_var("SELECT @@session.max_allowed_packet");
@@ -1625,11 +1689,11 @@ class WP_Optimize {
 
 		$headers = wp_remote_retrieve_headers($response);
 
-		if (is_a($headers, 'Requests_Utility_CaseInsensitiveDictionary')) {
+		if (method_exists($headers, 'getAll')) {
 			$headers = $headers->getAll();
 		}
 
-		return $headers;
+		return is_array($headers) ? $headers : array();
 	}
 
 	/**
@@ -1638,8 +1702,7 @@ class WP_Optimize {
 	public function change_time_limit() {
 		$time_limit = (defined('WP_OPTIMIZE_SET_TIME_LIMIT') && WP_OPTIMIZE_SET_TIME_LIMIT > 15) ? WP_OPTIMIZE_SET_TIME_LIMIT : 1800;
 
-		// Try to reduce the chances of PHP self-terminating via reaching max_execution_time.
-		@set_time_limit($time_limit); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		@set_time_limit($time_limit); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- Try to reduce the chances of PHP self-terminating via reaching max_execution_time.
 	}
 
 	/**
@@ -1688,6 +1751,7 @@ class WP_Optimize {
 			'_transient_timeout_wpo_%',
 			'_transient_wpo_%',
 			'updraft_lock_wpo_%',
+			'wpo_last_scheduled_%',
 		);
 
 		$where_parts = array();
@@ -1744,69 +1808,10 @@ class WP_Optimize {
 	}
 }
 
-/**
- * Plugin activation actions.
- */
-function wpo_activation_actions() {
-	// If plugin activated by not a Network Administrator then deactivate plugin and show message.
-	if (is_multisite() && !is_network_admin()) {
-		deactivate_plugins(plugin_basename(__FILE__));
-		wp_die(__('Only Network Administrator can activate WP-Optimize plugin.', 'wp-optimize').
-					' <a href="'.admin_url('plugins.php').'">'.__('go back', 'wp-optimize').'</a>');
-	}
-
-	// On activation, check if last-optimized option exists. If not, add 'newly-activated' option.
-	if (!WP_Optimize()->get_options()->get_option('last-optimized', false)) {
-		WP_Optimize()->get_options()->update_option('newly-activated', true);
-	}
-
-	WP_Optimize()->get_options()->set_default_options();
-	WP_Optimize()->get_minify()->plugin_activate();
-
-	WP_Optimize()->get_gzip_compression()->restore();
-	WP_Optimize()->get_browser_cache()->restore();
-
-	if (!class_exists('Updraft_Tasks_Activation')) require_once(WPO_PLUGIN_MAIN_PATH . 'vendor/team-updraft/common-libs/src/updraft-tasks/class-updraft-tasks-activation.php');
-	Updraft_Tasks_Activation::init_db();
-	Updraft_Tasks_Activation::reinstall_if_needed();
-
-	// run premium activation actions.
-	if (file_exists(WPO_PLUGIN_MAIN_PATH.'premium.php')) {
-		if (!class_exists('WP_Optimize_Premium')) {
-			include_once(WPO_PLUGIN_MAIN_PATH.'premium.php');
-		}
-		WP_Optimize_Premium()->plugin_activation_actions();
-	}
-}
-
-/**
- * Plugin deactivation actions.
- */
-function wpo_deactivation_actions() {
-	WP_Optimize()->wpo_cron_deactivate();
-	WP_Optimize()->get_page_cache()->disable();
-	WP_Optimize()->get_minify()->plugin_deactivate();
-	WP_Optimize()->get_gzip_compression()->disable();
-	WP_Optimize()->get_browser_cache()->disable();
-	WP_Optimize()->get_webp_instance()->empty_htaccess_file();
-}
-
 function wpo_cron_deactivate() {
 	WP_Optimize()->log('running wpo_cron_deactivate()');
 	wp_clear_scheduled_hook('wpo_cron_event2');
 	wp_clear_scheduled_hook('wpo_weekly_cron_tasks');
-}
-
-/**
- * Plugin uninstall actions.
- */
-function wpo_uninstall_actions() {
-	WP_Optimize()->get_gzip_compression()->disable();
-	WP_Optimize()->get_browser_cache()->disable();
-	WP_Optimize()->get_options()->delete_all_options();
-	WP_Optimize()->get_minify()->plugin_uninstall();
-	WP_Optimize()->get_options()->wipe_settings();
-	WP_Optimize()->delete_transients_and_semaphores();
 }
 
 function WP_Optimize() {

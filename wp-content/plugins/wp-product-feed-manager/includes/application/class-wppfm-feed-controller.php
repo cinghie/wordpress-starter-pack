@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		 */
 		public static function remove_id_from_feed_queue( $feed_id ) {
 			$feed_queue = self::get_feed_queue();
-			$key        = array_search( $feed_id, $feed_queue );
+			$key        = array_search( $feed_id, $feed_queue, true );
 
 			if ( false !== $key ) {
 				unset( $feed_queue[ $key ] );
@@ -41,15 +41,15 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		}
 
 		/**
-		 * Adds an feed id to the feed queue
+		 * Adds a feed id to the feed queue
 		 *
 		 * @param string $feed_id
 		 */
 		public static function add_id_to_feed_queue( $feed_id ) {
 			$feed_queue = self::get_feed_queue();
 
-			if ( ! in_array( $feed_id, $feed_queue ) ) {
-				array_push( $feed_queue, $feed_id );
+			if ( ! in_array( $feed_id, $feed_queue, true ) ) {
+				$feed_queue[] = $feed_id;
 				update_site_option( 'wppfm_feed_queue', $feed_queue );
 			}
 		}
@@ -78,7 +78,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		public static function feed_queue_is_empty() {
 			$queue = self::get_feed_queue();
 
-			return ( count( $queue ) < 1 ) ? true : false;
+			return ( count( $queue ) < 1 );
 		}
 
 		/**

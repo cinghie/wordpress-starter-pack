@@ -220,7 +220,10 @@ function renderTriggerTypeInput( &$event, $key ) {
         'scroll_pos'    => 'Page Scroll - PRO',
         'post_type'    => 'Post type - PRO',
 	);
-
+    $eventsFormFactory = apply_filters("pys_form_event_factory",[]);
+    foreach ($eventsFormFactory as $activeFormPlugin) :
+        $options[$activeFormPlugin->getSlug()] = $activeFormPlugin->getName().' - PRO';
+    endforeach;
 	renderSelectInput( $event, $key, $options );
 
 }

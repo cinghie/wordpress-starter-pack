@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: YITH WooCommerce Zoom Magnifier\n"
 "Report-Msgid-Bugs-To: YITH <plugins@yithemes.com>\n"
-"POT-Creation-Date: 2021-12-21 16:04:21+00:00\n"
+"POT-Creation-Date: 2023-07-20 15:13:36+00:00\n"
 "PO-Revision-Date: 2015-10-07 15:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: plugin-fw\n"
 
-#: init.php:51
+#: init.php:52
 #, fuzzy
 msgid ""
 "YITH WooCommerce Product Gallery & Image Zoom is enabled but not effective. "
@@ -37,20 +37,20 @@ msgstr ""
 "Non è possibile attivare la versione gratuita di YITH WooCommerce Zoom "
 "Magnifier mentre si utilizza quella premium."
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:136
+#: lib/class.yith-ywzm-plugin-fw-loader.php:134
 msgid "Main image options"
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:137
+#: lib/class.yith-ywzm-plugin-fw-loader.php:135
 #: plugin-options/gallery-options.php:19
 msgid "Product gallery options"
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:138
+#: lib/class.yith-ywzm-plugin-fw-loader.php:136
 msgid "Premium Version"
 msgstr "Versione Premium"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:191
+#: lib/class.yith-ywzm-plugin-fw-loader.php:189
 #, fuzzy
 msgid ""
 "YITH WooCommerce Product Gallery & Image Zoom  is available in an "
@@ -59,15 +59,15 @@ msgstr ""
 "YITH WooCommerce Zoom Magnifier è disponibile in una straordinaria versione "
 "PREMIUM con molte nuove opzioni, scoprila subito."
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:192
+#: lib/class.yith-ywzm-plugin-fw-loader.php:190
 msgid "Premium version"
 msgstr "Versione premium"
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:200
+#: lib/class.yith-ywzm-plugin-fw-loader.php:198
 msgid "YITH WooCommerce Product Gallery & Image Zoom "
 msgstr ""
 
-#: lib/class.yith-ywzm-plugin-fw-loader.php:201
+#: lib/class.yith-ywzm-plugin-fw-loader.php:199
 #, fuzzy
 msgid ""
 "In YIT Plugins tab you can find  YITH WooCommerce Product Gallery & Image "

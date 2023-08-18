@@ -17,28 +17,39 @@ class Settings {
 	public $general;
 	public $documents;
 	public $debug;
+	public $upgrade;
 	public $general_settings;
 	public $debug_settings;
 	public $lock_name;
 	public $lock_context;
 	public $lock_time;
 	public $lock_retries;
-	private $installed_templates = array();
-	private $template_list_cache = array();
-
+	private $installed_templates       = array();
+	private $installed_templates_cache = array();
+	private $template_list_cache       = array();
 	
-	function __construct()	{
-		$this->callbacks        = include( 'class-wcpdf-settings-callbacks.php' );
-		$this->general          = include( 'class-wcpdf-settings-general.php' );
-		$this->documents        = include( 'class-wcpdf-settings-documents.php' );
-		$this->debug            = include( 'class-wcpdf-settings-debug.php' );
+	protected static $_instance = null;
+		
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+	
+	public function __construct() {
+		$this->callbacks        = \WPO\WC\PDF_Invoices\Settings\Settings_Callbacks::instance();
+		$this->general          = \WPO\WC\PDF_Invoices\Settings\Settings_General::instance();
+		$this->documents        = \WPO\WC\PDF_Invoices\Settings\Settings_Documents::instance();
+		$this->debug            = \WPO\WC\PDF_Invoices\Settings\Settings_Debug::instance();
+		$this->upgrade          = \WPO\WC\PDF_Invoices\Settings\Settings_Upgrade::instance();
 		
 		$this->general_settings = get_option( 'wpo_wcpdf_settings_general' );
 		$this->debug_settings   = get_option( 'wpo_wcpdf_settings_debug' );
 		
 		$this->lock_name        = 'wpo_wcpdf_semaphore_lock';
 		$this->lock_context     = array( 'source' => 'wpo-wcpdf-semaphore' );
-		$this->lock_time        = apply_filters( 'wpo_wcpdf_semaphore_lock_time', 300 );
+		$this->lock_time        = apply_filters( 'wpo_wcpdf_semaphore_lock_time', 2 );
 		$this->lock_retries     = apply_filters( 'wpo_wcpdf_semaphore_lock_retries', 0 );
 
 		// Settings menu item
@@ -168,9 +179,14 @@ class Settings {
 			),
 		) );
 
-		// add status tab last in row
+		// add status and upgrade tabs last in row
 		$settings_tabs['debug'] = array(
 			'title'          => __( 'Status', 'woocommerce-pdf-invoices-packing-slips' ),
+			'preview_states' => 1,
+		);
+
+		$settings_tabs['upgrade'] = array(
+			'title'          => __( 'Upgrade', 'woocommerce-pdf-invoices-packing-slips' ),
 			'preview_states' => 1,
 		);
 
@@ -216,6 +232,18 @@ class Settings {
 			// get order ID
 			if ( ! empty( $_POST['order_id'] ) ) {
 				$order_id = sanitize_text_field( $_POST['order_id'] );
+				
+				if ( $document_type == 'credit-note' ) {
+					// get last refund ID of the order if available
+					$refund = wc_get_orders(
+						array(
+							'type'   => 'shop_order_refund',
+							'parent' => $order_id,
+							'limit'  => 1,
+						)
+					);
+					$order_id = ! empty( $refund ) ? $refund[0]->get_id() : $order_id;
+				}
 			} else {
 				// default to last order
 				$default_order_id = wc_get_orders( apply_filters( 'wpo_wcpdf_preview_default_order_id_query_args', array(
@@ -260,8 +288,10 @@ class Settings {
 					// reload settings
 					$this->general_settings = get_option( 'wpo_wcpdf_settings_general' );
 					$this->debug_settings   = get_option( 'wpo_wcpdf_settings_debug' );
+					
+					do_action( 'wpo_wcpdf_preview_after_reload_settings' );
 				}
-
+				
 				$document = wcpdf_get_document( $document_type, $order );
 
 				if ( $document ) {
@@ -269,7 +299,7 @@ class Settings {
 						$document->set_date( current_time( 'timestamp', true ) );
 						$number_store_method = WPO_WCPDF()->settings->get_sequential_number_store_method();
 						$number_store_name   = apply_filters( 'wpo_wcpdf_document_sequential_number_store', "{$document->slug}_number", $document );
-						$number_store        = new \WPO\WC\PDF_Invoices\Documents\Sequential_Number_Store( $number_store_name, $number_store_method );
+						$number_store        = new Sequential_Number_Store( $number_store_name, $number_store_method );
 						$document->set_number( $number_store->get_next() );
 					}
 
@@ -819,7 +849,7 @@ class Settings {
 							);
 						} else {
 							wcpdf_log_error(
-								"An error ocurred while trying to reset yearly number for '{$document_type}' with database table name: {$number_store->table_name}",
+								"An error occurred while trying to reset yearly number for '{$document_type}' with database table name: {$number_store->table_name}",
 								'error'
 							);
 						}
@@ -935,18 +965,6 @@ class Settings {
 		return $new_settings;
 	}
 
-	/**
-	 * Checks if guest access is enabled
-	 * 
-	 * @return bool
-	 */
-	public function is_guest_access_enabled() {
-		$guest_access = isset( $this->debug_settings['guest_access'] ) ? true : false;
-
-		return apply_filters( 'wpo_wcpdf_guest_access_enabled', $guest_access, $this );
-	}
 }
 
 endif; // class_exists
-
-return new Settings();

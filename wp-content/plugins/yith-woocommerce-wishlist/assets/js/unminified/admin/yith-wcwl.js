@@ -1,7 +1,7 @@
 /**
  * Admin YITH WooCommerce Wishlist JS
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Wishlist
  * @version 3.0.0
  */
@@ -103,9 +103,9 @@ jQuery( function( $ ) {
             v = t.val();
 
         if ('shortcode' === v) {
-            t.parent().next().find('.addon').show();
+            t.parent().parent().next().find('.addon').show();
         } else {
-            t.parent().next().find('.addon').hide();
+            t.parent().parent().next().find('.addon').hide();
         }
     }).change();
 
@@ -146,27 +146,11 @@ jQuery( function( $ ) {
         });
     } );
 
-    disable_wishlist_for_unauthenticated_users.dependency([
-        '#yith_wcwl_enable_multi_wishlist_for_unauthenticated_users-yes'
-    ], function(){
-        return isRadioNo( disable_wishlist_for_unauthenticated_users ) && isChecked( multi_wishlist_enable );
-    }, function(){
-        enable_multi_wishlist_for_unauthenticated_users.change();
-    } );
-
-    multi_wishlist_enable.dependency([
-        '#yith_wcwl_enable_multi_wishlist_for_unauthenticated_users-yes'
-    ], function(){
-        return isRadioNo( disable_wishlist_for_unauthenticated_users ) && isChecked( multi_wishlist_enable );
-    }, function(){
-        enable_multi_wishlist_for_unauthenticated_users.change();
-    } );
-
-    enable_multi_wishlist_for_unauthenticated_users.dependency([
+	multi_wishlist_enable.dependency([
         '#yith_wcwl_show_login_notice',
         '#yith_wcwl_login_anchor_text'
     ], function(){
-        return isChecked( multi_wishlist_enable ) && isRadioNo( disable_wishlist_for_unauthenticated_users ) && isRadioNo( enable_multi_wishlist_for_unauthenticated_users );
+		return isChecked( multi_wishlist_enable ) && isRadioNo( enable_multi_wishlist_for_unauthenticated_users );
     });
 
     modal_enable.dependency([
@@ -410,4 +394,60 @@ jQuery( function( $ ) {
             }
         } ).change();
     } );
+
+	// Email settings actions
+	$( document ).on( 'click', '.toggle-settings', function( e ){
+		e.preventDefault();
+		$( this ).closest( '.yith-wcwl-row' ).toggleClass( 'active' );
+		const target = $( this ).data( 'target' );
+		$( '#'+target ).slideToggle();
+	} )
+
+	$( document ).on( 'click', '.yith-wcwl-row:not(.active)', function( e ){
+		e.preventDefault();
+		$( this ).toggleClass( 'active' );
+		const target = $( this ).find( '.yith-plugin-fw__action-button--edit-action' ).data( 'target' );
+		$( '#'+target ).slideToggle();
+	} )
+
+	$( document ).on( 'click', '.yith-wcwl-save-settings', function( e ){
+		e.preventDefault();
+		$( this ).closest( 'form' ).find( '.wp-switch-editor.switch-html' ).trigger('click');
+		const email_key = $( this.closest( '.email-settings' ) ).attr( 'id' );
+		const data = {
+			'action' : 'yith_wcwl_save_email_settings',
+			'params' : $( this ).closest( 'form' ).serialize(),
+			'email_key'    : email_key,
+		}
+		$.ajax( {
+			type    : "POST",
+			data    : data,
+			url     : ajaxurl,
+			success : function ( response ) {
+				const row_active = $( '.yith-wcwl-row.active' );
+				row_active.find( '.email-settings' ).slideToggle();
+				row_active.toggleClass( 'active' );
+			},
+		});
+	} )
+
+	$( document ).on( 'change', '#yith-wcwl-email-status', function(){
+
+		const data = {
+			'action'    : 'yith_wcwl_save_mail_status',
+			'enabled'   : $(this).val(),
+			'email_key' : $(this).closest('.yith-plugin-fw-onoff-container ').data('email_key'),
+		}
+
+		$.ajax( {
+			type    : "POST",
+			data    : data,
+			url     : ajaxurl,
+			success : function ( response ) {
+				console.log('Email status updated');
+			}
+		});
+
+	} )
+
 } );

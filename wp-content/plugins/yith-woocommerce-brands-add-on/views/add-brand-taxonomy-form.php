@@ -2,7 +2,7 @@
 /**
  * Taxonomy creation form.
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  *
  * @package YITH\Brands\Views
  * @version 1.0.0
@@ -15,6 +15,17 @@ if ( ! defined( 'YITH_WCBR' ) ) {
 ?>
 
 <div class="form-field">
+	<?php
+	/**
+	 * APPLY_FILTERS: yith_wcbr_thumbnail_label
+	 *
+	 * Filter the label for the field to select the brand thumbnail.
+	 *
+	 * @param string $label Field label
+	 *
+	 * @return string
+	 */
+	?>
 	<label>
 		<strong><?php echo esc_html( apply_filters( 'yith_wcbr_thumbnail_label', __( 'Thumbnail', 'yith-woocommerce-brands-add-on' ) ) ); ?></strong>
 	</label>

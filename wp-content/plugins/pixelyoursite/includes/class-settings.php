@@ -434,6 +434,35 @@ abstract class Settings {
         <?php
 
     }
+
+	public function render_switcher_input_array( $key, $index = 0) {
+
+		$attr_name  = "pys[$this->slug][$key][]";
+		$attr_id = 'pys_' . $this->slug . '_' . $key."_".$index;
+		$attr_values = (array)$this->getOption( $key );
+		$value = "index_".$index;
+		$valueIndex = array_search($value,$attr_values);
+
+		$classes = array( 'custom-switch' );
+
+		$classes = implode( ' ', $classes );
+
+		?>
+
+        <div class="<?php esc_attr_e( $classes ); ?>">
+            <input type="checkbox"
+                   name="<?php esc_attr_e( $attr_name ); ?>"
+                   value="<?=$value?>"
+				<?=$valueIndex !== false ? "checked" : "" ?>
+                   id="<?php esc_attr_e( $attr_id ); ?>"
+                   class="custom-switch-input">
+
+            <label class="custom-switch-btn" for="<?php esc_attr_e( $attr_id ); ?>"></label>
+        </div>
+
+		<?php
+
+	}
 	
 	/**
 	 * Output checkbox input
@@ -498,7 +527,7 @@ abstract class Settings {
 	 * @param string $placeholder
 	 * @param bool $disabled
 	 */
-	public function render_number_input( $key, $placeholder = '', $disabled = false ) {
+	public function render_number_input( $key, $placeholder = '', $disabled = false,$max = null,$min = 0 ) {
 
 		$attr_name  = "pys[$this->slug][$key]";
 		$attr_id    = 'pys_' . $this->slug . '_' . $key;
@@ -510,7 +539,9 @@ abstract class Settings {
                                                id="<?php esc_attr_e( $attr_id ); ?>"
                                                value="<?php esc_attr_e( $attr_value ); ?>"
                                                placeholder="<?php esc_attr_e( $placeholder ); ?>"
-                                               min="0" class="form-control">
+											   min="<?=$min?>" class="form-control"
+												<?php if($max != null) : ?> max="<?=$max?>" <?php endif;?>
+		>
 		
 		<?php
 		
@@ -575,7 +606,7 @@ abstract class Settings {
 		?>
 
         <input type="hidden" name="<?php esc_attr_e( $attr_name ); ?>" value="">
-        <select class="form-control pys-select2" name="<?php esc_attr_e( $attr_name ); ?>"
+        <select class="form-control pys-pysselect2" name="<?php esc_attr_e( $attr_name ); ?>"
                 id="<?php esc_attr_e( $attr_id ); ?>" <?php disabled( $disabled ); ?> style="width: 100%;"
                 multiple>
 			
@@ -610,7 +641,7 @@ abstract class Settings {
 		?>
 
         <input type="hidden" name="<?php esc_attr_e( $attr_name ); ?>" value="">
-        <select class="form-control pys-tags-select2" name="<?php esc_attr_e( $attr_name ); ?>"
+        <select class="form-control pys-tags-pysselect2" name="<?php esc_attr_e( $attr_name ); ?>"
                 id="<?php esc_attr_e( $attr_id ); ?>" <?php disabled( $disabled ); ?> style="width: 100%;"
                 multiple>
 
@@ -783,7 +814,31 @@ abstract class Settings {
 
         return $sanitized;
     }
+	/**
+	 * Sanitize array field value with duplicates value
+	 *
+	 * @param $values
+	 *
+	 * @return array
+	 */
+	public function sanitize_array_v_field( $values ) {
 
+		$values = is_array( $values ) ? $values : array();
+		$sanitized = array();
+
+		foreach ( $values as $key => $value ) {
+
+			$new_value = $this->sanitize_text_field( $value );
+
+			if ( ! empty( $new_value ) ) {
+				$sanitized[ $key ] = $new_value;
+			}
+
+		}
+
+		return $sanitized;
+
+	}
     public function render_checkbox_input_array( $key, $label, $index = 0, $disabled = false ) {
 
         $attr_name  = "pys[$this->slug][$key][]";
@@ -803,6 +858,106 @@ abstract class Settings {
 
         <?php
 
+    }
+    function renderDummyTextInput( $placeholder = '' ) {
+        ?>
+
+        <input type="text" disabled="disabled" placeholder="<?php esc_html_e( $placeholder ); ?>" class="form-control">
+
+        <?php
+    }
+    function renderDummyNumberInput($default = 0) {
+        ?>
+
+        <input type="number" disabled="disabled" min="0" max="100" class="form-control" value="<?=$default?>">
+
+        <?php
+    }
+
+    function renderDummySwitcher($isEnable = false) {
+        $attr = $isEnable ? " checked='checked'" : "";
+        ?>
+
+        <div class="custom-switch disabled">
+            <input type="checkbox" value="1" <?=$attr?> disabled="disabled" class="custom-switch-input">
+            <label class="custom-switch-btn"></label>
+        </div>
+
+        <?php
+    }
+
+    function renderDummyCheckbox( $label, $with_pro_badge = false ) {
+        ?>
+
+        <label class="custom-control custom-checkbox <?php echo $with_pro_badge ? 'custom-checkbox-badge' : ''; ?>">
+            <input type="checkbox" value="1"
+                   class="custom-control-input" disabled="disabled">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">
+            <?php echo wp_kses_post( $label ); ?>
+            <?php if ( $with_pro_badge ) {
+                renderProBadge();
+            } ?>
+        </span>
+        </label>
+
+        <?php
+    }
+
+    function renderDummyRadioInput( $label, $checked = false ) {
+        ?>
+
+        <label class="custom-control custom-radio">
+            <input type="radio" disabled="disabled"
+                   class="custom-control-input" <?php checked( $checked ); ?>>
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description"><?php echo wp_kses_post( $label ); ?></span>
+        </label>
+
+        <?php
+    }
+
+    function renderDummyTagsFields( $tags = array() ) {
+        ?>
+
+        <select class="form-control pys-tags-pysselect2" disabled="disabled" style="width: 100%;" multiple>
+
+            <?php if(!empty($tags)){
+                foreach ( $tags as $tag ) : ?>
+                    <option value="<?php echo esc_attr( $tag ); ?>" selected>
+                        <?php echo esc_attr( $tag ); ?>
+                    </option>
+                <?php endforeach;
+                }
+            ?>
+
+        </select>
+
+        <?php
+    }
+
+    function renderDummySelectInput( $value, $full_width = false ) {
+
+        $attr_width = $full_width ? 'width: 100%;' : '';
+
+        ?>
+
+        <select class="form-control form-control-sm" disabled="disabled" autocomplete="off" style="<?php esc_attr_e( $attr_width ); ?>">
+            <option value="" disabled selected><?php esc_html_e( $value ); ?></option>
+        </select>
+
+        <?php
+    }
+
+    function renderProBadge( $url = null,$label = "Pro Feature" ) {
+
+        if ( ! $url ) {
+            $url = 'https://www.pixelyoursite.com/';
+        }
+
+        $url = untrailingslashit( $url ) . '/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature';
+
+        echo '&nbsp;<a href="' . esc_url( $url ) . '" target="_blank" class="badge badge-pill badge-pro">'.$label.' <i class="fa fa-external-link" aria-hidden="true"></i></a>';
     }
     public function convertTimeToSeconds($timeValue = 24, $type = 'hours')
     {

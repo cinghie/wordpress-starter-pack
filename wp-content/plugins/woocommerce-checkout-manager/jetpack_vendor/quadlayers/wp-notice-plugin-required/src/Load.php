@@ -3,10 +3,7 @@
  * QuadLayers WP Notice Plugin Required
  *
  * @package   quadlayers/wp-notice-plugin-required
- * @author    QuadLayers
  * @link      https://github.com/quadlayers/wp-notice-plugin-required
- * @copyright Copyright (c) 2023
- * @license   GPL-3.0
  */
 
 namespace QuadLayers\WP_Notice_Plugin_Required;
@@ -37,7 +34,7 @@ class Load {
 	 * @param string $current_plugin_name Current Plugin name.
 	 * @param array  $plugins             Required Plugins.
 	 */
-	public function __construct( string $current_plugin_name, array $plugins = array() ) {
+	public function __construct( $current_plugin_name, array $plugins = array() ) {
 		$this->current_plugin_name = $current_plugin_name;
 		$this->plugins             = $plugins;
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
@@ -96,8 +93,8 @@ class Load {
 			?>
 			<div class="error">
 				<p>
-					<a href="<?php echo esc_url( $plugin->get_plugin_activate_link() ); ?>" class='button button - secondary'><?php printf( esc_html__( 'Activate % s', 'wp - notice - plugin - required' ), esc_html( $plugin->get_plugin_name() ) ); ?></a>
-					<?php printf( esc_html__( '%1$s not working because you need to activate the %2$s plugin . ', 'wp - notice - plugin - required' ), esc_html( $this->current_plugin_name ), esc_html( $plugin->get_plugin_name() ) ); ?>
+					<a href="<?php echo esc_url( $plugin->get_plugin_activate_link() ); ?>" class='button button - secondary'><?php printf( esc_html__( 'Activate % s', 'wp-notice-plugin-required' ), esc_html( $plugin->get_plugin_name() ) ); ?></a>
+					<?php printf( esc_html__( 'The %1$s is not working because you need to activate the %2$s plugin. ', 'wp-notice-plugin-required' ), esc_html( $this->current_plugin_name ), esc_html( $plugin->get_plugin_name() ) ); ?>
 				</p>
 			</div>
 			<?php
@@ -110,8 +107,8 @@ class Load {
 		?>
 		<div class="error">
 			<p>
-				<a href="<?php echo esc_url( $plugin->get_plugin_install_link() ); ?>" class='button button - secondary'><?php printf( esc_html__( 'Install % s', 'wp - notice - plugin - required' ), esc_html( $plugin->get_plugin_name() ) ); ?></a>
-				<?php printf( esc_html__( '%1$s not working because you need to install the %2$s plugin . ', 'wp - notice - plugin - required' ), esc_html( $this->current_plugin_name ), esc_html( $plugin->get_plugin_name() ) ); ?>
+				<a href="<?php echo esc_url( $plugin->get_plugin_install_link() ); ?>" class='button button - secondary'><?php printf( esc_html__( 'Install % s', 'wp-notice-plugin-required' ), esc_html( $plugin->get_plugin_name() ) ); ?></a>
+				<?php printf( esc_html__( 'The %1$s is not working because you need to install the %2$s plugin. ', 'wp-notice-plugin-required' ), esc_html( $this->current_plugin_name ), esc_html( $plugin->get_plugin_name() ) ); ?>
 			</p>
 		</div>
 		<?php

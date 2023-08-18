@@ -42,6 +42,9 @@ class Controller_Settings {
 	const OPTION_SHARED_SYMMETRIC_SECRET_KEY = 'shared-symmetric-secret';
 	const OPTION_DISMISSED_FRESH_INSTALL_MODAL = 'dismissed-fresh-install-modal';
 	const OPTION_CAPTCHA_STATS = 'captcha-stats';
+	const OPTION_SCHEMA_VERSION = 'schema-version';
+	const OPTION_USER_COUNT_QUERY_STATE = 'user-count-query-state';
+	const OPTION_DISABLE_TEMPORARY_TABLES = 'disable-temporary-tables';
 
 	const DEFAULT_REQUIRE_2FA_USER_GRACE_PERIOD = 10;
 	const MAX_REQUIRE_2FA_USER_GRACE_PERIOD = 99;
@@ -95,7 +98,10 @@ class Controller_Settings {
 			self::OPTION_ENABLE_WOOCOMMERCE_ACCOUNT_INTEGRATION => array('value' => false, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false),
 			self::OPTION_ENABLE_SHORTCODE => array('value' => false, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false),
 			self::OPTION_ENABLE_LOGIN_HISTORY_COLUMNS => array('value' => true, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false),
-			self::OPTION_STACK_UI_COLUMNS => array('value' => true, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false)
+			self::OPTION_STACK_UI_COLUMNS => array('value' => true, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false),
+			self::OPTION_SCHEMA_VERSION => array('value' => 0, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false),
+			self::OPTION_USER_COUNT_QUERY_STATE => array('value' => 0, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false),
+			self::OPTION_DISABLE_TEMPORARY_TABLES => array('value' => 0, 'autoload' => Model_Settings::AUTOLOAD_YES, 'allowOverwrite' => false)
 		));
 	}
 	
@@ -172,11 +178,15 @@ class Controller_Settings {
 			case self::OPTION_ENABLE_SHORTCODE:
 			case self::OPTION_ENABLE_LOGIN_HISTORY_COLUMNS:
 			case self::OPTION_STACK_UI_COLUMNS:
+			case self::OPTION_USER_COUNT_QUERY_STATE:
+			case self::OPTION_DISABLE_TEMPORARY_TABLES:
 				return true;
 				
 			//Int
 			case self::OPTION_LAST_SECRET_REFRESH:
-				return is_numeric($value);
+				return is_numeric($value); //Left using is_numeric to prevent issues with existing values
+			case self::OPTION_SCHEMA_VERSION:
+				return Utility_Number::isInteger($value, 0);
 				
 			//Array
 			case self::OPTION_GLOBAL_NOTICES:
@@ -189,19 +199,19 @@ class Controller_Settings {
 				$parsed = array_filter(array_map(function($s) { return trim($s); }, preg_split('/[\r\n]/', $value)));
 				foreach ($parsed as $entry) {
 					if (!Controller_Whitelist::shared()->is_valid_range($entry)) {
-						return sprintf(__('The IP/range %s is invalid.', 'wordfence-2fa'), esc_html($entry));
+						return sprintf(__('The IP/range %s is invalid.', 'wordfence'), esc_html($entry));
 					}
 				}
 				return true;
 			case self::OPTION_IP_SOURCE:
 				if (!in_array($value, array(Model_Request::IP_SOURCE_AUTOMATIC, Model_Request::IP_SOURCE_REMOTE_ADDR, Model_Request::IP_SOURCE_X_FORWARDED_FOR, Model_Request::IP_SOURCE_X_REAL_IP))) {
-					return __('An invalid IP source was provided.', 'wordfence-2fa');
+					return __('An invalid IP source was provided.', 'wordfence');
 				}
 				return true;
 			case self::OPTION_REQUIRE_2FA_GRACE_PERIOD:
 				$gracePeriodEnd = strtotime($value);
 				if ($gracePeriodEnd <= \WordfenceLS\Controller_Time::time()) {
-					return __('The grace period end time must be in the future.', 'wordfence-2fa');
+					return __('The grace period end time must be in the future.', 'wordfence');
 				}
 				return true;
 			case self::OPTION_REMEMBER_DEVICE_DURATION:
@@ -223,11 +233,11 @@ class Controller_Settings {
 					
 					$data = wp_remote_retrieve_body($response);
 					if (strpos($data, 'grecaptcha') === false) {
-						return __('Unable to validate the reCAPTCHA site key. Please check the key and try again.', 'wordfence-2fa');
+						return __('Unable to validate the reCAPTCHA site key. Please check the key and try again.', 'wordfence');
 					}
 					return true;
 				}
-				return sprintf(__('An error was encountered while validating the reCAPTCHA site key: %s', 'wordfence-2fa'), $response->get_error_message());
+				return sprintf(__('An error was encountered while validating the reCAPTCHA site key: %s', 'wordfence'), $response->get_error_message());
 			case self::OPTION_REQUIRE_2FA_USER_GRACE_PERIOD:
 				return is_numeric($value) && $value >= 0 && $value <= self::MAX_REQUIRE_2FA_USER_GRACE_PERIOD;
 		}
@@ -274,12 +284,15 @@ class Controller_Settings {
 			case self::OPTION_ENABLE_SHORTCODE;
 			case self::OPTION_ENABLE_LOGIN_HISTORY_COLUMNS:
 			case self::OPTION_STACK_UI_COLUMNS:
+			case self::OPTION_USER_COUNT_QUERY_STATE:
+			case self::OPTION_DISABLE_TEMPORARY_TABLES:
 				return $this->_truthy_to_bool($value);
 				
 			//Int
 			case self::OPTION_REMEMBER_DEVICE_DURATION:
 			case self::OPTION_LAST_SECRET_REFRESH:
 			case self::OPTION_REQUIRE_2FA_USER_GRACE_PERIOD:
+			case self::OPTION_SCHEMA_VERSION:
 				return (int) $value;
 				
 			//Float

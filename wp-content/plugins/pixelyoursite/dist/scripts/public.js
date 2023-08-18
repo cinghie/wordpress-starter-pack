@@ -190,9 +190,9 @@ if (!Array.prototype.includes) {
 
         let isNewSession = checkSession();
 
-        let utmTerms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+        var utmTerms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
-        let utmId = ['fbadid', 'gadid', 'padid', 'bingid'];
+        var utmId = ['fbadid', 'gadid', 'padid', 'bingid'];
 
         function validateEmail(email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -389,7 +389,8 @@ if (!Array.prototype.includes) {
             PRODUCT_VARIABLE : 1,
             PRODUCT_BUNDLE : 2,
             PRODUCT_GROUPED : 3,
-
+            utmTerms : utmTerms,
+            utmId : utmId,
             fireEventForAllPixel:function(functionName,events){
                 if (events.hasOwnProperty(Facebook.tag()))
                     Facebook[functionName](events[Facebook.tag()]);
@@ -428,44 +429,137 @@ if (!Array.prototype.includes) {
                 let landing = window.location.href.split('?')[0];
                 try {
                     // save data for first visit
-                    if(Cookies.get('pys_first_visit') === undefined) {
-                        Cookies.set('pys_first_visit', true, { expires: expires });
-                        Cookies.set('pysTrafficSource', getTrafficSource(), { expires: expires });
-                        Cookies.set('pys_landing_page',landing,{ expires: expires });
-                        $.each(utmTerms, function (index, name) {
-                            if (queryVars.hasOwnProperty(name)) {
-                                Cookies.set('pys_' + name, queryVars[name], { expires: expires });
-                            } else {
+                    if(Cookies.get('pys_first_visit') === undefined && (!options.cookie.disabled_all_cookie)) {
+
+                        if(!options.cookie.disabled_first_visit_cookie)
+                        {
+                            Cookies.set('pys_first_visit', true, { expires: expires });
+                        }
+                        else {
+                            Cookies.remove('pys_first_visit')
+                        }
+
+                        if(!options.cookie.disabled_trafficsource_cookie)
+                        {
+                            Cookies.set('pysTrafficSource', getTrafficSource(), { expires: expires });
+                        }
+                        else {
+                            Cookies.remove('pysTrafficSource')
+                        }
+
+                        if(!options.cookie.disabled_landing_page_cookie)
+                        {
+                            Cookies.set('pys_landing_page',landing,{ expires: expires });
+                        }
+                        else {
+                            Cookies.remove('pys_landing_page')
+                        }
+
+                        if(!options.cookie.disabled_utmTerms_cookie)
+                        {
+                            $.each(utmTerms, function (index, name) {
+                                if (queryVars.hasOwnProperty(name)) {
+                                    Cookies.set('pys_' + name, queryVars[name], { expires: expires });
+                                } else {
+                                    Cookies.remove('pys_' + name)
+                                }
+                            });
+                        }
+                        else {
+                            $.each(utmTerms, function (index, name) {
                                 Cookies.remove('pys_' + name)
-                            }
-                        });
-                        $.each(utmId,function(index,name) {
-                            if (queryVars.hasOwnProperty(name)) {
-                                Cookies.set('pys_' + name, queryVars[name], { expires: expires });
-                            } else {
+                            });
+                        }
+
+                        if(!options.cookie.disabled_utmId_cookie)
+                        {
+                            $.each(utmId,function(index,name) {
+                                if (queryVars.hasOwnProperty(name)) {
+                                    Cookies.set('pys_' + name, queryVars[name], { expires: expires });
+                                } else {
+                                    Cookies.remove('pys_' + name)
+                                }
+                            })
+                        }
+                        else {
+                            $.each(utmId, function (index, name) {
                                 Cookies.remove('pys_' + name)
-                            }
-                        })
+                            });
+                        }
                     }
 
                     // save data for last visit if it new session
-                    if(isNewSession) {
-                        Cookies.set('last_pysTrafficSource', getTrafficSource(), { expires: expires });
-                        $.each(utmTerms, function (index, name) {
-                            if (queryVars.hasOwnProperty(name)) {
-                                Cookies.set('last_pys_' + name, queryVars[name], { expires: expires });
-                            } else {
+                    if(isNewSession && (!options.cookie.disabled_all_cookie)) {
+                        if(!options.cookie.disabled_trafficsource_cookie)
+                        {
+                            Cookies.set('last_pysTrafficSource', getTrafficSource(), { expires: expires });
+                        }
+                        else {
+                            Cookies.remove('last_pysTrafficSource')
+                        }
+
+                        if(!options.cookie.disabled_landing_page_cookie)
+                        {
+                            Cookies.set('last_pys_landing_page',landing,{ expires: expires });
+                        }
+                        else {
+                            Cookies.remove('last_pys_landing_page')
+                        }
+
+                        if(!options.cookie.disabled_utmTerms_cookie)
+                        {
+                            $.each(utmTerms, function (index, name) {
+                                if (queryVars.hasOwnProperty(name)) {
+                                    Cookies.set('last_pys_' + name, queryVars[name], { expires: expires });
+                                } else {
+                                    Cookies.remove('last_pys_' + name)
+                                }
+                            });
+                        }
+                        else {
+                            $.each(utmTerms, function (index, name) {
                                 Cookies.remove('last_pys_' + name)
-                            }
+                            });
+                        }
+
+                        if(!options.cookie.disabled_utmId_cookie)
+                        {
+                            $.each(utmId,function(index,name) {
+                                if (queryVars.hasOwnProperty(name)) {
+                                    Cookies.set('last_pys_' + name, queryVars[name], { expires: expires });
+                                } else {
+                                    Cookies.remove('last_pys_' + name)
+                                }
+                            })
+                        }
+                        else {
+                            $.each(utmId, function (index, name) {
+                                Cookies.remove('last_pys_' + name)
+                            });
+                        }
+
+                    }
+                    if(options.cookie.disabled_all_cookie)
+                    {
+                        Cookies.remove('pys_first_visit')
+                        Cookies.remove('pysTrafficSource')
+                        Cookies.remove('pys_landing_page')
+                        Cookies.remove('last_pys_landing_page')
+                        Cookies.remove('last_pysTrafficSource')
+                        Cookies.remove('pys_start_session')
+                        Cookies.remove('pys_session_limit')
+                        $.each(Utils.utmTerms, function (index, name) {
+                            Cookies.remove('pys_' + name)
                         });
-                        $.each(utmId,function(index,name) {
-                            if (queryVars.hasOwnProperty(name)) {
-                                Cookies.set('last_pys_' + name, queryVars[name], { expires: expires });
-                            } else {
-                                Cookies.remove('last_pys_' + name)
-                            }
+                        $.each(Utils.utmId,function(index,name) {
+                            Cookies.remove('pys_' + name)
                         })
-                        Cookies.set('last_pys_landing_page',landing,{ expires: expires });
+                        $.each(Utils.utmTerms, function (index, name) {
+                            Cookies.remove('last_pys_' + name)
+                        });
+                        $.each(Utils.utmId,function(index,name) {
+                            Cookies.remove('last_pys_' + name)
+                        });
                     }
                 } catch (e) {
                     console.error(e);
@@ -531,28 +625,31 @@ if (!Array.prototype.includes) {
 
                 // Non-default binding used to avoid situations when some code in external js
                 // stopping events propagation, eg. returns false, and our handler will never called
-                $(document).onFirst('mouseover', triggers.join(','), function () {
+                document.addEventListener('mouseover', function(event) {
+                    var matchedElements = Array.from(document.querySelectorAll(triggers));
+                    if (matchedElements.includes(event.target)) {
+                        if (event.target.classList.contains('pys-mouse-over-' + eventId)) {
+                            return true;
+                        } else {
+                            event.target.classList.add('pys-mouse-over-' + eventId);
+                        }
 
-                    // do not fire event multiple times
-                    if ($(this).hasClass('pys-mouse-over-' + eventId)) {
-                        return true;
-                    } else {
-                        $(this).addClass('pys-mouse-over-' + eventId);
+                        Utils.fireTriggerEvent(eventId);
                     }
-
-                    Utils.fireDynamicEvent(eventId);
-
                 });
 
             },
 
             setupCSSClickEvents: function (eventId, triggers) {
-
                 // Non-default binding used to avoid situations when some code in external js
                 // stopping events propagation, eg. returns false, and our handler will never called
-                $(document).onFirst('click', triggers.join(','), function () {
-                    Utils.fireTriggerEvent(eventId);
-                });
+                document.addEventListener('click', function(event) {
+                    var matchedElements = Array.from(document.querySelectorAll(triggers));
+                    if (matchedElements.includes(event.target)) {
+                        console.log(event.target)
+                        Utils.fireTriggerEvent(eventId);
+                    }
+                }, true);
             },
 
             setupURLClickEvents: function () {
@@ -769,28 +866,72 @@ if (!Array.prototype.includes) {
                 /**
                  * ConsentMagic
                  */
-                if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
+                if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined" ) {
 
-                    var cs_cookie = Cookies.get('cs_viewed_cookie_policy'+test_prefix);
+                    var test_prefix = CS_Data.test_prefix;
+                    if ((typeof CS_Data.cs_google_analytics_consent_mode !== "undefined" && CS_Data.cs_google_analytics_consent_mode == 1) && pixel == 'analytics') {
+                        return true;
+                    }
+                    if ((typeof CS_Data.cs_google_ads_consent_mode !== "undefined" && CS_Data.cs_google_ads_consent_mode == 1) && pixel == 'google_ads') {
+                        return true;
+                    }
 
-                    if (options.gdpr[pixel + '_prior_consent_enabled']) {
-                        if (typeof cs_cookie === 'undefined' || cs_cookie === 'yes') {
-                            return true;
+                    if ( CS_Data.cs_cache_enabled == 1 ) {
+                        var substring = "cs_enabled_cookie_term";
+                        var theCookies = document.cookie.split(';');
+
+                        for (var i = 1 ; i <= theCookies.length; i++) {
+                            if ( theCookies[ i - 1 ].indexOf( substring ) !== -1 ) {
+                                var categoryCookie = theCookies[ i - 1 ].replace( 'cs_enabled_cookie_term' + test_prefix + '_', '' );
+                                categoryCookie = Number( categoryCookie.replace( /\D+/g, "" ) );
+                                var cs_cookie_val = Cookies.get( 'cs_enabled_cookie_term' + test_prefix + '_' + categoryCookie );
+
+                                if ( categoryCookie === CS_Data.cs_script_cat.facebook && pixel == 'facebook' ) {
+                                    if ( cs_cookie_val == 'yes' ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                } else if ( categoryCookie === CS_Data.cs_script_cat.bing && pixel == 'bing' ) {
+                                    if ( cs_cookie_val == 'yes' ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                } else if ( categoryCookie === CS_Data.cs_script_cat.analytics && pixel == 'analytics' ) {
+                                    if ( cs_cookie_val == 'yes' ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                } else if ( categoryCookie === CS_Data.cs_script_cat.gads && pixel == 'google_ads' ) {
+                                    if ( cs_cookie_val == 'yes' ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                } else if ( categoryCookie === CS_Data.cs_script_cat.pinterest && pixel == 'pinterest' ) {
+                                    if ( cs_cookie_val == 'yes' ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                } else if ( categoryCookie === CS_Data.cs_script_cat.tiktok && pixel == 'tiktok' ) {
+                                    if ( cs_cookie_val == 'yes' ) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                }
+                            }
                         }
                     } else {
+                        var cs_cookie = Cookies.get('cs_viewed_cookie_policy'+test_prefix);
                         if (typeof cs_cookie === 'undefined' || cs_cookie === 'yes') {
                             return true;
                         }
                     }
-                    if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
-                        if ((typeof CS_Data.cs_google_analytics_consent_mode !== "undefined" && CS_Data.cs_google_analytics_consent_mode == 1) && pixel == 'analytics') {
-                            return true;
-                        }
 
-                        if ((typeof CS_Data.cs_google_ads_consent_mode !== "undefined" && CS_Data.cs_google_ads_consent_mode == 1) && pixel == 'google_ads') {
-                            return true;
-                        }
-                    }
                     return false;
 
                 }
@@ -974,6 +1115,8 @@ if (!Array.prototype.includes) {
                             .then(Facebook.loadPixel.bind(Facebook), Facebook.disable.bind(Facebook));
                         consentApi.consent("http", "_pinterest_sess", ".pinterest.com")
                             .then(Pinterest.loadPixel.bind(Pinterest), Pinterest.disable.bind(Pinterest));
+                        consentApi.consent("http", "_uetsid", "*")
+                            .then(Bing.loadPixel.bind(Bing), Bing.disable.bind(Bing));
                     }
                 }
                 /**
@@ -1094,7 +1237,7 @@ if (!Array.prototype.includes) {
              * Enrich
              */
             isCheckoutPage: function () {
-                return $('body').hasClass('woocommerce-checkout') ||
+                return $('body').hasClass('woocommerce-checkout') || document.querySelector('.woocommerce-checkout') ||
                     $('body').hasClass('edd-checkout');
             },
             addCheckoutFields : function() {
@@ -1225,7 +1368,7 @@ if (!Array.prototype.includes) {
                         // web event created by ajax from server
                     }
                 } else {
-                    if(  options.facebook.ajaxForServerEvent
+                    if( options.ajaxForServerEvent
                         || isApiDisabled
                         || allData.delay > 0
                         || allData.type !== "static")
@@ -1381,30 +1524,46 @@ if (!Array.prototype.includes) {
 
                 // initialize pixel
                 options.facebook.pixelIds.forEach(function (pixelId) {
-
+                    advancedMatching = options.facebook.advancedMatching;
                     if (options.facebook.removeMetadata) {
                         fbq('set', 'autoConfig', false, pixelId);
                     }
                     if (options.gdpr.consent_magic_integration_enabled && typeof CS_Data !== "undefined") {
-                        if(options.facebook.advancedMatching.length === 0) {
+                        if(advancedMatching.length === 0) {
                             fbq('init', pixelId);
                         } else {
                             var cs_advanced_matching = Cookies.get('cs_enabled_advanced_matching'+test_prefix);
+
                             if (jQuery('#cs_enabled_advanced_matching'+test_prefix).length > 0) {
                                 if (cs_advanced_matching == 'yes') {
-                                    fbq('init', pixelId, options.facebook.advancedMatching);
+                                    if(!advancedMatching.hasOwnProperty("external_id")){
+                                        if (Cookies.get('pbid')) {
+                                            advancedMatching["external_id"] = Cookies.get('pbid');
+                                        }
+                                    }
+                                    fbq('init', pixelId, advancedMatching);
                                 } else {
                                     fbq('init', pixelId);
                                 }
                             } else {
-                                fbq('init', pixelId, options.facebook.advancedMatching);
+                                if(!advancedMatching.hasOwnProperty("external_id")){
+                                    if (Cookies.get('pbid')) {
+                                        advancedMatching["external_id"] = Cookies.get('pbid');
+                                    }
+                                }
+                                fbq('init', pixelId, advancedMatching);
                             }
                         }
                     } else {
-                        if (options.facebook.advancedMatching.length === 0) {
+                        if (advancedMatching.length === 0) {
                             fbq('init', pixelId);
                         } else {
-                            fbq('init', pixelId, options.facebook.advancedMatching);
+                            if(!advancedMatching.hasOwnProperty("external_id")){
+                                if (Cookies.get('pbid')) {
+                                    advancedMatching["external_id"] = Cookies.get('pbid');
+                                }
+                            }
+                            fbq('init', pixelId, advancedMatching);
                         }
                     }
                 });
@@ -1686,6 +1845,7 @@ if (!Array.prototype.includes) {
                 delete param.ecomm_prodid;
                 delete param.ecomm_pagetype;
                 delete param.ecomm_totalvalue;
+                delete param.non_interaction;
                 if(name === 'search') {
                     param['search'] = param.search_term;
                     delete param.search_term;
@@ -1809,7 +1969,20 @@ if (!Array.prototype.includes) {
 
                 // configure tracking ids
                 options.ga.trackingIds.forEach(function (trackingId,index) {
-                    config.debug_mode = options.ga.isDebugEnabled.includes("index_" + index);
+                    var obj = options.ga.isDebugEnabled;
+                    var searchValue = "index_"+index;
+                    config.debug_mode = false;
+
+                    for (var key in obj) {
+                        if (obj.hasOwnProperty(key) && obj[key] === searchValue) {
+                            config.debug_mode = true;
+                            break;
+                        }
+                    }
+                    if(!config.debug_mode)
+                    {
+                        delete config.debug_mode;
+                    }
                     if(isv4(trackingId)) {
                         if(options.ga.disableAdvertisingFeatures) {
                             config.allow_google_signals = false
@@ -2044,6 +2217,52 @@ if (!Array.prototype.includes) {
 
         var Pinterest = Utils.setupPinterestObject();
         var Bing = Utils.setupBingObject();
+
+        if(options.hasOwnProperty('cookie'))
+        {
+            if(options.cookie.externalID_disabled_by_api || options.cookie.disabled_all_cookie)
+            {
+                Cookies.remove('pbid')
+            }
+            if(options.cookie.disabled_advanced_form_data_cookie || options.cookie.disabled_all_cookie)
+            {
+                Cookies.remove('pys_advanced_form_data')
+            }
+            if(options.cookie.disabled_landing_page_cookie || options.cookie.disabled_all_cookie)
+            {
+                Cookies.remove('pys_landing_page')
+                Cookies.remove('last_pys_landing_page')
+            }
+            if(options.cookie.disabled_trafficsource_cookie || options.cookie.disabled_all_cookie)
+            {
+                Cookies.remove('pysTrafficSource')
+                Cookies.remove('last_pysTrafficSource')
+            }
+            if(options.cookie.disabled_first_visit_cookie || options.cookie.disabled_all_cookie)
+            {
+                Cookies.remove('pys_first_visit')
+
+            }
+            if(options.cookie.disabled_utmTerms_cookie || options.cookie.disabled_all_cookie)
+            {
+                $.each(Utils.utmTerms, function (index, name) {
+                    Cookies.remove('pys_' + name)
+                });
+                $.each(Utils.utmTerms, function (index, name) {
+                    Cookies.remove('last_pys_' + name)
+                });
+            }
+            if(options.cookie.disabled_utmId_cookie || options.cookie.disabled_all_cookie)
+            {
+                $.each(Utils.utmId,function(index,name) {
+                    Cookies.remove('pys_' + name)
+                })
+                $.each(Utils.utmId,function(index,name) {
+                    Cookies.remove('last_pys_' + name)
+                });
+            }
+        }
+
 
         Utils.manageCookies();
         Utils.setupGdprCallbacks();
@@ -2433,66 +2652,88 @@ if (!Array.prototype.includes) {
                 if ($form.hasClass('edd_form') || $form.hasClass('edd_download_purchase_form')) {
                     return;
                 }
+// exclude CF7 forms
+                if ($form.hasClass('wpcf7-form')) {
+                    return;
+                }
+                // exclude Forminator forms
+                if ($form.hasClass('forminator-custom-form') || $form.hasClass('forminator_ajax')) {
+                    return;
+                }
+                // exclude WPforms forms
+                if ($form.hasClass('wpforms-form') || $form.hasClass('wpforms-ajax-form')) {
+                    return;
+                }
+                // exclude Formidable forms
+                /*if ($form.hasClass('frm-show-form')) {
+                    return;
+                }*/
+                // exclude Ninja Forms forms
+                if ($form.parent().hasClass('nf-form-layout')) {
+                    return;
+                }
+                // exclude Fluent forms
+                if ($form.hasClass('frm-fluent-form')) {
+                    return;
+                }
+                if(!options.enable_success_send_form) {
+                    var params = {
+                        form_id: $form.attr('id'),
+                        form_class: $form.attr('class'),
+                        text: $form.find('[type="submit"]').is('input') ?
+                            $form.find('[type="submit"]').val() : $form.find('[type="submit"]').text()
+                    };
 
-                var params = {
-                    form_id: $form.attr('id'),
-                    form_class: $form.attr('class'),
-                    text: $form.find('[type="submit"]').is('input') ?
-                        $form.find('[type="submit"]').val() : $form.find('[type="submit"]').text()
-                };
+                    if (options.dynamicEvents.hasOwnProperty("automatic_event_form")) {
+                        var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
+                        for (var i = 0; i < pixels.length; i++) {
+                            var event = Utils.clone(options.dynamicEvents.automatic_event_form[pixels[i]]);
 
-                if(options.dynamicEvents.hasOwnProperty("automatic_event_form") ) {
-                    var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
-                    for (var i = 0; i < pixels.length; i++) {
-                        var event = Utils.clone(options.dynamicEvents.automatic_event_form[pixels[i]]);
-
-                        if(pixels[i] === "tiktok") {
-                            getPixelBySlag(pixels[i]).fireEvent(event.name, event);
-                        } else {
-                            Utils.copyProperties(params, event.params,)
-                            Utils.copyProperties(Utils.getRequestParams(), event.params);
-                            getPixelBySlag(pixels[i]).onFormEvent(event);
+                            if (pixels[i] === "tiktok") {
+                                getPixelBySlag(pixels[i]).fireEvent(event.name, event);
+                            } else {
+                                Utils.copyProperties(params, event.params,)
+                                Utils.copyProperties(Utils.getRequestParams(), event.params);
+                                getPixelBySlag(pixels[i]).onFormEvent(event);
+                            }
                         }
                     }
                 }
             });
 
+            document.addEventListener( 'wpcf7mailsent', function( event ) {
+                var form_id = event.detail.contactFormId;
+                sendFormAction($(event.target), form_id);
+            }, false );
             //Forminator
-            $(document).on( 'forminator:form:submit:success', function( formData ){
-                var params = {
-                    form_id: $(formData.target).find('input[name="form_id"]').val(),
-                    text: $(formData.target).find('.forminator-button-submit').text()
-                };
-
-                if(options.dynamicEvents.hasOwnProperty("automatic_event_form") ) {
-                    var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
-                    for (var i = 0; i < pixels.length; i++) {
-                        var event = Utils.clone(options.dynamicEvents.automatic_event_form[pixels[i]]);
-                        Utils.copyProperties(params, event.params)
-                        Utils.copyProperties(Utils.getRequestParams(), event.params);
-                        getPixelBySlag(pixels[i]).onFormEvent(event);
-                    }
-                }
+            $(document).on( 'forminator:form:submit:success', function( event ){
+                var form_id = $(event.target).find('input[name="form_id"]').val();
+                sendFormAction($(event.target), form_id);
             });
 
+            //WPForm
+            $('form.wpforms-form').on('wpformsAjaxSubmitSuccess', (event) => {
+                var form_id = $(event.target).attr('data-formid');
+                sendFormAction($(event.target), form_id);
+            })
+            $(document).on( 'frmFormComplete', function( event, form, response ) {
+                const form_id = $(form).find('input[name="form_id"]').val();
+                sendFormAction($(event.target), form_id);
+            });
             // Ninja Forms
-            $(document).onFirst('nfFormSubmitResponse', function (e, data) {
+            $(document).onFirst('nfFormSubmitResponse', function (event, data) {
+                const form_id = data.response.data.form_id;
+                sendFormAction($(event.target), form_id);
+            });
 
-                var params = {
-                    form_id: data.response.data.form_id,
-                    text: data.response.data.settings.title
-                };
-
-                if(options.dynamicEvents.hasOwnProperty("automatic_event_form") ) {
-                    var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
-                    for(var i = 0;i<pixels.length;i++) {
-                        var event = options.dynamicEvents.automatic_event_form[pixels[i]];
-                        Utils.copyProperties(params,event.params)
-                        Utils.copyProperties(Utils.getRequestParams(), event.params);
-                        getPixelBySlag(pixels[i]).onFormEvent(event);
-                    }
-                }
-
+            var fluentForms = $('form.frm-fluent-form');
+            fluentForms.each(function() {
+                var $form = $(this);
+                $form.on('fluentform_submission_success', function(event) {
+                    var $formItem = $(this);
+                    var form_id = $formItem.attr('data-form_id');
+                    sendFormAction($(event.target), form_id);
+                });
             });
 
         }
@@ -2505,6 +2746,29 @@ if (!Array.prototype.includes) {
             Utils.addCheckoutFields();
         }
     });
+
+    var sendFormAction = function (form_target, formId){
+        var params = {
+            form_id: formId,
+            text: form_target.find('[type="submit"]').is('input') ? form_target.find('[type="submit"]').val() :
+                form_target.find('.forminator-button-submit').text() != '' ? form_target.find('.forminator-button-submit').text() :
+                    form_target.find('[type="submit"]').text()
+        };
+
+        if (options.dynamicEvents.hasOwnProperty("automatic_event_form")) {
+            var pixels = Object.keys(options.dynamicEvents.automatic_event_form);
+            for (var i = 0; i < pixels.length; i++) {
+                var event = options.dynamicEvents.automatic_event_form[pixels[i]];
+                if (pixels[i] === "tiktok") {
+                    getPixelBySlag(pixels[i]).fireEvent(event.name, event);
+                } else {
+                    Utils.copyProperties(params, event.params)
+                    Utils.copyProperties(Utils.getRequestParams(), event.params);
+                    getPixelBySlag(pixels[i]).onFormEvent(event);
+                }
+            }
+        }
+    }
 
 }(jQuery, pysOptions);
 

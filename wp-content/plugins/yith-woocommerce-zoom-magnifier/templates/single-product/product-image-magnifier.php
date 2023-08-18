@@ -2,7 +2,7 @@
 /**
  * Single Product Image
  *
- * @author YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ZoomMagnifier\Templates
  */
 

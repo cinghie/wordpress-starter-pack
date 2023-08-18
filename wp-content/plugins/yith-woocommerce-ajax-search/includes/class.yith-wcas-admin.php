@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Ajax Search
  * @version 1.1.1
  */
@@ -70,7 +70,6 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( YITH_WCAS_DIR . '/' . basename( YITH_WCAS_FILE ) ), array( $this, 'action_links' ) );
 			add_filter( 'yith_show_plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 5 );
 
-			add_action( 'yith_ajax_search_premium', array( $this, 'premium_tab' ) );
 			add_action( 'after_setup_theme', array( $this, 'add_editor_styles' ) );
 
 			// YITH WCAS Loaded.
@@ -99,6 +98,24 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		}
 
 		/**
+		 * Retrieve the admin panel tabs.
+		 *
+		 * @return array
+		 */
+		protected function get_admin_panel_tabs(): array {
+			return apply_filters(
+				'yith_wcas_admin_panel_tabs',
+				array(
+					'settings'      => array(
+						'title' => _x( 'Settings', 'Settings tab name', 'yith-woocommerce-ajax-search' ),
+						'description'        => _x( 'Configure the plugin settings.', 'Tab description in plugin settings panel', 'yith-woocommerce-ajax-search' ),
+						'icon'  => 'settings',
+					),
+				)
+			);
+		}
+
+		/**
 		 * Action Links
 		 *
 		 * Add the action links to plugin admin page
@@ -107,7 +124,6 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		 *
 		 * @return   mixed
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use plugin_action_links_{$plugin_file_name}
 		 */
 		public function action_links( $links ) {
@@ -120,7 +136,6 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		 *
 		 * @return   void
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use     /Yit_Plugin_Panel class
 		 * @see      plugin-fw/lib/yit-plugin-panel.php
 		 */
@@ -130,12 +145,11 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 				return;
 			}
 
-			$admin_tabs = array(
-				'settings' => __( 'Settings', 'yith-woocommerce-ajax-search' ),
-				'premium'  => __( 'Premium Version', 'yith-woocommerce-ajax-search' ),
-			);
+			$admin_tabs = $this->get_admin_panel_tabs();
+
 
 			$args = array(
+				'ui_version'       => 2,
 				'create_menu_page' => true,
 				'parent_slug'      => '',
 				'plugin_slug'      => YITH_WCAS_SLUG,
@@ -148,6 +162,38 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 				'admin-tabs'       => $admin_tabs,
 				'class'            => yith_set_wrapper_class(),
 				'options-path'     => YITH_WCAS_DIR . '/plugin-options',
+				'premium_tab' => array(
+					'features' => array(
+						array(
+							'title'       => __( 'Convert the search field into an advanced search engine', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Choose whether to show the filter for the search fields and the list of categories (only the main ones or all of them), a solution inspired by Amazon\'s search form.', 'yith-woocommerce-ajax-search' ),
+						),
+						array(
+							'title'       => __( 'Extend the search to pages and posts', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Choose whether to search for the keyword also in the pages’ content and blog articles. ', 'yith-woocommerce-ajax-search' ),
+						),
+						array(
+							'title'       => __( 'Extend the search to categories and product tags', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Choose to also search the keyword in the categories and product tags of your shop. ', 'yith-woocommerce-ajax-search' ),
+						),
+						array(
+							'title'       => __( 'Extend the search to product excerpts and descriptions', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Choose whether to search for the keyword in summaries and product descriptions.', 'yith-woocommerce-ajax-search' ),
+						),
+						array(
+							'title'       => __( 'Allow searching by product SKU ', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Enable the option to enter an SKU in the search field so users can quickly locate products they are interested in. ', 'yith-woocommerce-ajax-search' ),
+						),
+						array(
+							'title'       => __( 'Choose what to show in the suggestion list', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Decide whether or not to show product images, prices, and short descriptions (summaries) in the suggestion list.', 'yith-woocommerce-ajax-search' ),
+						),
+						array(
+							'title'       => __( 'Use custom badges to enhance search results', 'yith-woocommerce-ajax-search' ),
+							'description' => __( 'Show and customize the "On sale" badge to enhance products with a discount or the "Featured" badge for products marked as such on WooCommerce.', 'yith-woocommerce-ajax-search' ),
+						),
+					),
+				),
 			);
 
 			/* === Fixed: not updated theme  === */
@@ -156,23 +202,6 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 			}
 
 			$this->_panel = new YIT_Plugin_Panel_WooCommerce( $args );
-		}
-
-		/**
-		 * Premium Tab Template
-		 *
-		 * Load the premium tab template on admin page
-		 *
-		 * @return   void
-		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
-		 */
-		public function premium_tab() {
-			$premium_tab_template = YITH_WCAS_TEMPLATE_PATH . '/admin/' . $this->_premium;
-			if ( file_exists( $premium_tab_template ) ) {
-				include_once $premium_tab_template;
-			}
-
 		}
 
 		/**
@@ -187,7 +216,6 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		 *
 		 * @return   array
 		 * @since    1.0
-		 * @author   Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @use plugin_row_meta
 		 */
 		public function plugin_row_meta( $new_row_meta_args, $plugin_meta, $plugin_file, $plugin_data, $status, $init_file = 'YITH_WCAS_FREE_INIT' ) {
@@ -204,7 +232,6 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 		 * Get the premium landing uri
 		 *
 		 * @since   1.0.0
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @return  string The premium landing link
 		 */
 		public function get_premium_landing_uri() {

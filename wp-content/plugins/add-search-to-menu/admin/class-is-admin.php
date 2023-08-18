@@ -238,7 +238,7 @@ class IS_Admin
                     echo  '<div class="is-notice notice"><div class="is-notice-image"></div><div class="is-notice-body">' ;
                     echo  '<a class="is-notice-dismiss" href="' . esc_url( add_query_arg( 'is_dismiss', 'notice_review' ) ) . '">' . esc_html__( 'Dismiss', 'add-search-to-menu' ) . '</a>' ;
                     echo  '<div class="is-notice-content">' ;
-                    printf( __( "Hey %s, it's Vinod Dalvi from %s. You have used this free plugin for some time now, and I hope you like it!", 'add-search-to-menu' ), '<strong>' . $current_user->display_name . '</strong>', '<strong>Ivory Search</strong>' );
+                    printf( __( "Hey %s, it's Vinod Dalvi from %s. You have used this plugin for some time now, and I hope you like it!", 'add-search-to-menu' ), '<strong>' . $current_user->display_name . '</strong>', '<strong>Ivory Search</strong>' );
                     ?><br/><br/><?php 
                     printf( __( "I have spent countless hours developing it, and it would mean a lot to me if you %ssupport it with a quick review on WordPress.org.%s", 'add-search-to-menu' ), '<strong><a target="_blank" href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5">', '</a></strong>' );
                     echo  '</div>' ;

@@ -2,17 +2,18 @@
 /**
  * WAPO Template
  *
- * @author  Corrado Porzio <corradoporzio@gmail.com>
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ProductAddOns
  * @version 2.0.0
+ *
+ * @var object $addon
+ * @var array  $settings
  */
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
-$separator_style = $addon->get_setting( 'separator_style' );
-$separator_width = $addon->get_setting( 'separator_width', 100 );
-$separator_size  = $addon->get_setting( 'separator_size', 2 );
-$separator_color = $addon->get_setting( 'separator_color' );
+//Settings configuration.
+extract($settings );
 
 if ( 'empty_space' === $separator_style ) {
 	$css = 'height: ' . $separator_size . 'px';

@@ -128,7 +128,9 @@ function checkLicense()
     {
         $license_data = singleCheckLicense(PYS()->getOption('license_key'), PYS());
         update_option(PYS()->getSlug().'_last_check_license', array('name'=>PYS()->getPluginName(), 'time'=>time()));
-        set_data_license(PYS(), $license_data);
+        if(!empty($license_data_single)) {
+            set_data_license(PYS(), $license_data);
+        }
     }
 
 
@@ -139,7 +141,9 @@ function checkLicense()
         {
             update_option($plugin->getSlug().'_last_check_license', array('name'=>$plugin->getPluginName(), 'time'=>time()));
             $license_data_single = singleCheckLicense($plugin->getOption('license_key'), $plugin);
-            set_data_license($plugin, $license_data_single);
+            if(!empty($license_data_single)) {
+                set_data_license($plugin, $license_data_single);
+            }
         }
     }
 
@@ -363,148 +367,149 @@ function updateLicense( $plugin ) {
         }
 		$license_data = licenseDeactivate( $license_key, $plugin );
 	}
+    if(!empty($license_data)) {
+        update_option($plugin->getSlug() . '_last_check_license', array('name' => $plugin->getPluginName(), 'time' => $last_check_license));
+        $license_status = $plugin->getOption('license_status');
+        $license_expires = $plugin->getOption('license_expires');
 
-    update_option($plugin->getSlug().'_last_check_license', array('name'=>$plugin->getPluginName(), 'time'=> $last_check_license));
-	$license_status = $plugin->getOption( 'license_status' );
-	$license_expires = $plugin->getOption( 'license_expires' );
+        $admin_notice = array();
 
-	$admin_notice = array();
+        if (is_wp_error($license_data)) {
 
-	if ( is_wp_error( $license_data ) ) {
+            $admin_notice = array(
+                'class' => 'danger',
+                'msg' => 'Something went wrong during license update request. [' . $license_data->get_error_message() . ']'
+            );
 
-		$admin_notice = array(
-			'class' => 'danger',
-			'msg'   => 'Something went wrong during license update request. [' . $license_data->get_error_message() . ']'
-		);
+        } else {
 
-	} else {
+            /**
+             * Overwrite empty license status only on successful activation.
+             * For existing status overwrite with any value except error.
+             */
+            if (empty($license_status) && $license_data->license == 'valid') {
+                $license_status = 'valid';
+            } elseif (!empty($license_status)) {
+                $license_status = $license_data->license;
+            }
 
-		/**
-		 * Overwrite empty license status only on successful activation.
-		 * For existing status overwrite with any value except error.
-		 */
-		if ( empty( $license_status ) && $license_data->license == 'valid' ) {
-			$license_status = 'valid';
-		} elseif ( ! empty( $license_status ) ) {
-			$license_status = $license_data->license;
-		}
+            if ($license_data->success) {
 
-		if ( $license_data->success ) {
+                switch ($license_data->license) {
+                    case
+                    'valid':
+                        $admin_notice = array(
+                            'class' => 'success',
+                            'msg' => 'Your license is working fine. Good job!'
+                        );
+                        break;
 
-			switch ( $license_data->license ) {
-				case
-				'valid':
-					$admin_notice = array(
-						'class' => 'success',
-						'msg'   => 'Your license is working fine. Good job!'
-					);
-					break;
+                    case 'deactivated':
+                        $admin_notice = array(
+                            'class' => 'success',
+                            'msg' => 'Your license was successfully deactivated for this site.'
+                        );
+                        break;
+                }
 
-				case 'deactivated':
-					$admin_notice = array(
-						'class' => 'success',
-						'msg'   => 'Your license was successfully deactivated for this site.'
-					);
-					break;
-			}
+                $license_expires = strtotime($license_data->expires);
 
-			$license_expires = strtotime( $license_data->expires );
+            } else {
 
-		} else {
+                switch ($license_data->license) {
+                    case 'invalid':                 // key do not exist
+                    case 'missing':
+                    case 'key_mismatch':
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => "License keys don't match. Make sure you're using the correct license."
+                        );
+                        break;
 
-			switch ( $license_data->license ) {
-				case 'invalid':                 // key do not exist
-				case 'missing':
-				case 'key_mismatch':
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => "License keys don't match. Make sure you're using the correct license."
-					);
-					break;
+                    case 'license_not_activable':   // trying to activate bundle license
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'If you have a bundle package, please use each individual license for your products.'
+                        );
+                        break;
 
-				case 'license_not_activable':   // trying to activate bundle license
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'If you have a bundle package, please use each individual license for your products.'
-					);
-					break;
+                    case 'revoked':                 // license key revoked
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'This license was revoked.'
+                        );
+                        break;
 
-				case 'revoked':                 // license key revoked
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'This license was revoked.'
-					);
-					break;
+                    case 'no_activations_left':     // no activations left
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'No activations left. Log in to your account to extent your license.'
+                        );
+                        break;
 
-				case 'no_activations_left':     // no activations left
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'No activations left. Log in to your account to extent your license.'
-					);
-					break;
+                    case 'invalid_item_id':
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'Invalid item ID.'
+                        );
+                        break;
 
-				case 'invalid_item_id':
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'Invalid item ID.'
-					);
-					break;
+                    case 'item_name_mismatch':      // item names don't match
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => "Item names don't match."
+                        );
+                        break;
 
-				case 'item_name_mismatch':      // item names don't match
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => "Item names don't match."
-					);
-					break;
+                    case 'expired':                 // license has expired
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'Your License has expired. <a href="http://www.pixelyoursite.com/checkout/?edd_license_key=' . urlencode($license_key) . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew" target="_blank">Renew it now.</a>'
+                        );
+                        break;
 
-				case 'expired':                 // license has expired
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'Your License has expired. <a href="http://www.pixelyoursite.com/checkout/?edd_license_key=' . urlencode( $license_key ) . '&utm_campaign=admin&utm_source=licenses&utm_medium=renew" target="_blank">Renew it now.</a>'
-					);
-					break;
+                    case 'inactive':                // license is not active
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'This license is not active. Activate it now.'
+                        );
+                        break;
 
-				case 'inactive':                // license is not active
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'This license is not active. Activate it now.'
-					);
-					break;
+                    case 'disabled':                // license key disabled
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'License key disabled.'
+                        );
+                        break;
 
-				case 'disabled':                // license key disabled
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'License key disabled.'
-					);
-					break;
+                    case 'site_inactive':
+                        $admin_notice = array(
+                            'class' => 'danger',
+                            'msg' => 'The license is not active for this site. Activate it now.'
+                        );
+                        break;
 
-				case 'site_inactive':
-					$admin_notice = array(
-						'class' => 'danger',
-						'msg'   => 'The license is not active for this site. Activate it now.'
-					);
-					break;
+                }
 
-			}
+                // add error code
+                $admin_notice['msg'] .= " [error: $license_data->license]";
 
-			// add error code
-			$admin_notice['msg'] .= " [error: $license_data->license]";
+            }
 
-		}
+        }
 
-	}
+        if (!empty($admin_notice)) {
+            set_transient("pys_{$slug}_license_notice", $admin_notice, 60 * 5);
+        }
 
-	if ( ! empty( $admin_notice ) ) {
-		set_transient( "pys_{$slug}_license_notice", $admin_notice, 60 * 5 );
-	}
-
-	$plugin->updateOptions(
-		array (
-			'license_key'     => $license_key,
-			'license_status'  => $license_status,
-			'license_expires' => $license_expires
-		)
-	);
+        $plugin->updateOptions(
+            array(
+                'license_key' => $license_key,
+                'license_status' => $license_status,
+                'license_expires' => $license_expires
+            )
+        );
+    }
 
 }
 

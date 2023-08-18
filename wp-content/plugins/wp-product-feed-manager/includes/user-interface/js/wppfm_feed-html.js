@@ -74,7 +74,7 @@ function wppfm_forAllProductsCondition( rowId, level, isVisible ) {
 	return '<div class="colw col40w allproducts" id="condition-col-' + rowId + '-' + level + '" style="display:' + isVisible + '"> '
 		+ wppfm_feed_settings_form_vars.all_other_products.replace( '%other%', other_val )
 		+ ' (<a class="edit-prod-query wppfm-btn wppfm-btn-small" href="javascript:void(0)" id="edit-prod-query-' + rowId + '" '
-		+ 'onclick="wppfm_addCondition(' + rowId + ', ' + level + ', 0, \'\')">'
+		+ 'onclick="wppfm_addCondition( ' + rowId + ', ' + level + ', 0, \'\' )">'
 		+ wppfm_feed_settings_form_vars.edit + '</a>)'
 		+ '</div>';
 }
@@ -352,9 +352,8 @@ function wppfm_mapToCategoryElement( categoryId, categoryString ) {
 		+ '" onclick="wppfm_editCategoryMapping(' + categoryId + ')">' + wppfm_feed_settings_form_vars.edit + '</a>)</div>';
 }
 
-//function wppfm_categorySource( rowId, sourceValue ) {
 function wppfm_categorySource() {
-	return '<span id="category-source-string">' + wppfm_feed_settings_form_vars.defined_by_category_mapping_tble + '</span>';
+	return '<span id="category-source-string">' + wppfm_feed_settings_form_vars.defined_by_category_mapping_table + '</span>';
 }
 
 function wppfm_freeCategoryInputCntrl( type, id, value ) {

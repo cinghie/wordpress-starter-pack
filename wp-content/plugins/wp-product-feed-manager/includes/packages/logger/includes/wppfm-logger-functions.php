@@ -90,8 +90,8 @@ add_action( 'wppfm_feed_processing_failed_file_size_stopped_increasing', 'wppfm_
 function wppfm_logger_feed_generation_warning_message( $feed_id, $message ) {
 	if ( $feed_id ) {
 		if ( is_wp_error( $message ) ) {
-			$err_msgs = method_exists( $message, 'get_error_messages' ) ? $message->get_error_messages() : array( 'Error unknown' );
-			$message  = ! empty( $err_msgs ) ? implode( ' :: ', $err_msgs ) : 'Error unknown!';
+			$err_message = method_exists( $message, 'get_error_messages' ) ? $message->get_error_messages() : array( 'Error unknown' );
+			$message     = ! empty( $err_message ) ? implode( ' :: ', $err_message ) : 'Error unknown!';
 		}
 
 		WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message, 'WARNING' );
@@ -99,6 +99,21 @@ function wppfm_logger_feed_generation_warning_message( $feed_id, $message ) {
 }
 
 add_action( 'wppfm_feed_generation_warning', 'wppfm_logger_feed_generation_warning_message', 10, 2 );
+
+function wppfm_logger_wp_remote_post_failed( $feed_id, $response ) {
+	if ( $feed_id ) {
+		if ( is_wp_error( $response ) ) {
+			$err_message = method_exists( $response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
+			$err_code    = method_exists( $response, 'get_error_code' ) ? $response->get_error_code() : 'Error unknown';
+			$message     = ! empty( $err_message ) ? implode( ' :: ', $err_message ) : 'Error unknown!';
+			$message    .= '. Error code: ' . $err_code;
+
+			WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message, 'ERROR' );
+		}
+	}
+}
+
+add_action( 'wppfm_wp_remote_post_failed', 'wppfm_logger_wp_remote_post_failed', 10, 2 );
 
 /**
  * Logs the feeds url.

@@ -181,7 +181,7 @@ class WP_Optimize_Minify_Cache_Functions {
 		// Purge Godaddy Managed WordPress Hosting (Varnish + APC)
 		if (class_exists('WPaaS\Plugin')) {
 			self::godaddy_request('BAN');
-			return sprintf(__('A cache purge request has been sent to %s. Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize'), '<strong>Go Daddy Varnish</strong>');
+			return sprintf(__('A cache purge request has been sent to %s.', 'wp-optimize'), '<strong>Go Daddy Varnish</strong>') . ' ' . __('Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize');
 		}
 
 		// purge cache enabler
@@ -203,7 +203,7 @@ class WP_Optimize_Minify_Cache_Functions {
 			}
 
 			if (method_exists('WpeCommon', 'purge_memcached') || method_exists('WpeCommon', 'clear_maxcdn_cache') || method_exists('WpeCommon', 'purge_varnish_cache')) {
-					return sprintf(__('A cache purge request has been sent to %s. Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize'), '<strong>WP Engine</strong>');
+					return sprintf(__('A cache purge request has been sent to %s.', 'wp-optimize'), '<strong>WP Engine</strong>') . ' ' . __('Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize');
 			}
 		}
 
@@ -236,7 +236,7 @@ class WP_Optimize_Minify_Cache_Functions {
 
 		// Purge Savvii
 		if (defined('\Savvii\CacheFlusherPlugin::NAME_DOMAINFLUSH_NOW')) {
-			$purge_savvii = new \Savvii\CacheFlusherPlugin(); // phpcs:ignore PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound
+			$purge_savvii = new \Savvii\CacheFlusherPlugin();
 			if (is_callable(array($purge_savvii, 'domainflush'))) {
 				$purge_savvii->domainflush();
 				return sprintf(__('A cache purge request was also sent to %s', 'wp-optimize'), '<strong>Savvii</strong>');
@@ -247,7 +247,7 @@ class WP_Optimize_Minify_Cache_Functions {
 		 * Action triggered when purging other plugins cache, and nothing was triggered
 		 */
 		do_action('wpo_min_after_purge_others');
-
+		return '';
 	}
 
 	/**
@@ -401,7 +401,7 @@ class WP_Optimize_Minify_Cache_Functions {
 	public static function godaddy_request($method, $url = null) {
 		$url  = empty($url) ? home_url() : $url;
 		$host = parse_url($url, PHP_URL_HOST);
-		$url  = set_url_scheme(str_replace($host, WPaas\Plugin::vip(), $url), 'http'); // phpcs:ignore PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound
+		$url  = set_url_scheme(str_replace($host, WPaas\Plugin::vip(), $url), 'http');
 		wp_cache_flush();
 		update_option('gd_system_last_cache_flush', time()); // purge apc
 		wp_remote_request(esc_url_raw($url), array('method' => $method, 'blocking' => false, 'headers' => array('Host' => $host)));
@@ -441,10 +441,7 @@ class WP_Optimize_Minify_Cache_Functions {
 				$file = $cache_dir.'/'.$file;
 				$ext = pathinfo($file, PATHINFO_EXTENSION);
 				if (in_array($ext, array('js', 'css'))) {
-					$log = false;
-					if (file_exists($file.'.json')) {
-						$log = json_decode(file_get_contents($file.'.json'));
-					}
+					$log = self::generate_log($file.'.json' );
 					$min_css = substr($file, 0, -4).'.min.css';
 					$minjs = substr($file, 0, -3).'.min.js';
 					$file_name = basename($file);
@@ -464,6 +461,44 @@ class WP_Optimize_Minify_Cache_Functions {
 		}
 		set_transient('wpo_minify_get_cached_files', $return, DAY_IN_SECONDS);
 		return $return;
+	}
+
+	/**
+	 * Generate log information from a json file.
+	 *
+	 * @param string $file Full path of log file.
+	 *
+	 * @return object Could be either a 'json_decode' object upon successful parsing of the JSON file, or a stdClass object
+	 *                upon failure. In the case of stdClass object, $obj->error will contain the error message.
+	 */
+	public static function generate_log($file) {
+		$error_log = new stdClass();
+
+		$cache_path = self::cache_path();
+		$file_name = basename($file);
+		$file_url = trailingslashit($cache_path['cachedirurl']) . $file_name;
+		$file_link_html = '<a href="' . esc_url($file_url) . '" target="_blank">' . $file_name . '</a>';
+
+		if (!file_exists($file)) {
+			$error_log->error = sprintf(__('Log file %s is missing', 'wp-optimize'), $file_link_html);
+			return $error_log;
+		}
+
+		$log = json_decode(file_get_contents($file));
+
+		$is_valid_json = json_last_error() === JSON_ERROR_NONE ? true : false;
+
+		if (!$is_valid_json) {
+			$error_log->error = sprintf(__('JSON error in file %s | Error details: %s', 'wp-optimize'), $file_link_html, json_last_error_msg());
+			return $error_log;
+		}
+
+		if (!isset($log->header) || !isset($log->files)) {
+			$error_log->error = sprintf(__('Some data is missing in the log file %s', 'wp-optimize'), $file_link_html);
+			return $error_log;
+		}
+
+		return $log;
 	}
 
 	/**

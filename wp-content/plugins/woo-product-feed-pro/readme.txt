@@ -4,8 +4,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Meta feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Twitter, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
-Tested up to: 6.1
-Stable tag: 12.3.0
+Tested up to: 6.3
+Stable tag: 12.8.2
 
 == Description ==
 
@@ -172,6 +172,9 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * Data manipulation feature
 * WooCommerce structured data bug fix
 
+=== Security and Vulnerability issues ===
+Please report your security reports or plugin vulnerabilities to security@adtribes.io
+
 === Channels ===
 * Custom feeds
 * Google Shopping
@@ -217,11 +220,12 @@ Some of the above mentioned feature can only be used by users who upgraded to th
 * <a href="https://www.heureka.cz" target="_blank">Heureka.cz</a>
 * <a href="https://www.glami.gr" target="_blank">Glami.gr</a>
 * <a href="https://www.bestprice.gr" target="_blank">Bestprice.gr</a>
+* <a href="https://www.shopflix.gr" target="_blank">Shopflix.gr</a>
 * <a href="https://www.mall.sk" target="_blank">Mall.sk</a>
 * AdForm
 * Smartly.io
 * <a href="https://www.shareasale.com" target="_blank">Shareasale.com</a>
-* Pricerunner
+* <a href="https://www.pricerunner.com/info/getting-started" target="_blank">Pricerunner</a>
 * <a href="https://www.miinto.dk" target="_blank">Miinto Denmark</a>
 * <a href="https://www.miinto.nl" target="_blank">Miinto Netherlands</a>
 * <a href="https://www.miinto.pl" target="_blank">Miinto Poland</a>
@@ -352,6 +356,177 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 12.8.2 (2023-08-17) =
+* Fixed the product creation data calculation
+
+= 12.8.1 (2023-08-10) =
+* Tested for compatibility with Wordpress 6.3
+
+= 12.8.0 (2023-08-09) =
+* Tested for compatibility with WooCommerce 8.0
+
+= 12.7.9 (2023-08-01) =
+* Tested for compatibility with WooCommerce 7.9
+
+= 12.7.8 (2023-06-29) =
+* Completed pre-mapping for all Pricerunner templates
+* Removed some obsolete error logging
+
+= 12.7.7 (2023-06-28) =
+* Added support for multiple Pricerunner country templates
+
+= 12.7.6 (2023-06-26) =
+* Added a new field to the Google Shopping template: g:auto_pricing_min_price
+
+= 12.7.5 (2023-06-22) =
+* Removed stand-alone attribute from Fruugo feeds
+
+= 12.7.4 (2023-06-20) =
+* WooCommerce changed sale date outputs from ints to strings, adapt code to it
+
+= 12.7.3 (2023-06-20) =
+* Fixed a Fruugo XML header issue
+* Fixed a Flycart issue for prices that had a point as decimal and a point as thousand seperator
+
+= 12.7.2 (2023-06-16) =
+* Fixed an issue with the sale price effective date which was empty. WooCommerce is returning them as strings in the new WC instead of integers
+
+= 12.7.1 (2023-06-15) =
+* A small group of users reported unexpected drops in products in feeds introduced in version 12.6.8. This should be fixed now.
+
+= 12.7.0 (2023-06-14) =
+* Checked for compatibility with WooCommerce 7.8
+* Solved a price rounding issue for the Flycart discount plugin
+
+= 12.6.9 (2023-06-13) =
+* Added extensive support for up to 10 product details for Google Shopping feeds
+
+= 12.6.8 (2023-06-12) =
+* Performance tweaks
+* Add consumer notice option for Google Shopping feeds
+* Fixed Fruugo XML templates so it meets Fruugo's changed feed requirements
+* Removed Fruugo CSV option
+* Fixed an issue for Google Shopping feeds, no empty product details are allowed in feeds
+
+= 12.6.7 (2023-05-26) =
+* Sales date's that were not a timestamp caused the plugin to get stuck on processing. This has been fixex now.
+
+= 12.6.6 (2023-05-25) =
+* Product feeds are no longer being cached when user uses popular caching plugin
+
+= 12.6.5 (2023-05-25) =
+* Availability dates are only added to products that are on backorder
+* Fixed the default field mapping for Google's g:product_type field
+
+= 12.6.4 (2023-05-17) =
+* Solved missing class issue
+
+= 12.6.3 (2023-05-17) =
+* Solved an issue where parent variable products showed in Google Shopping / Meta feeds again
+* Fixed an issue for Fruugo CSV feeds
+
+= 12.6.2 (2023-05-11) =
+* Removing BOM characters for Fruugo CSV feeds
+
+= 12.6.1 (2023-05-10) =
+* Fixed issues with Fruugo VAT fields and availability values
+
+= 12.6.0 (2023-05-10) =
+* Fixed an issue for Bestprice feeds where feeds were accidentally empty
+
+= 12.5.9 (2023-05-10) =
+* Checked for compatibility with WooCommerce 7.7
+
+= 12.5.8 (2023-05-09) =
+* Fixed an issue with shipping costs calculations when multiple countries were configured
+* Fixed an issue for Skroutz feeds where quantities where summed for non-apparel products
+
+= 12.5.7 (2023-05-04) =
+* Annoying review request notification kept showing up
+
+= 12.5.6 (2023-05-02) =
+* Fixed an issue with ACF fields for product variations
+
+= 12.5.5 (2023-04-28) =
+* Fixed an issue with the shipping table rate support, for some settings it was returning a false 0 shipping costs.
+
+= 12.5.4 (2023-04-25) =
+* Changed the Twitter template so it meets up to Twitters new availability value requirements
+
+= 12.5.3 (2023-04-21) =
+* Next to the unfiltered product description attribute the normal description and short description are now truncated to 5000 characters for Google Shopping feeds
+
+= 12.5.2 (2023-04-21) =
+* Added the possibility to create filters on reviews content
+
+= 12.5.1 (2023-04-20) =
+* Solved a critical error for users that did not configure any feed yet
+
+= 12.5.0 (2023-04-18) =
+* Fixed an issue where not all products with wholesale prices are making it to feeds
+
+= 12.4.9 (2023-04-14) =
+* Checked for compatibility with WooCommerce 7.6
+
+= 12.4.8 (2023-04-11) =
+* Some AJAX accessible functions lacked security checks, those have been added now
+
+= 12.4.7 (2023-04-07) =
+* Tested for compatibility with Wordpress 6.2
+
+= 12.4.6 (2023-04-06) =
+* Changed the Shopflix main_photo_url field name to image
+
+= 12.4.5 (2023-04-05) =
+* Fixed a Cross Site Request Forgery vulnerability, not all nonce's where properly checked
+
+= 12.4.4 (2023-04-05) =
+* Added more optional fields for Shopflix.gr
+
+= 12.4.3 (2023-04-04) =
+* Added a template for the Greek Shopflix.gr marketplace
+
+= 12.4.2 (2023-03-24) =
+* Fixed an issue with the size attribute for Skroutz apparel products
+
+= 12.4.1 (2023-03-24) =
+* Fixed a Cross Site Request Forgery vulnerability, not all nonce's where properly checked
+
+= 12.4.0 (2023-03-23) =
+* Made the availability date attribute available for all availability values and not just for products that are on backorder
+* Added the feed label and product country attributes for Google Shopping feeds
+
+= 12.3.9 (2023-03-21) =
+* Solved a fatal error issue that happened with Yandex feeds when attribute values were empty
+
+= 12.3.8 (2023-03-17) =
+* Fixed an issue for the WooCommerce Table Rate Shipping plugin where table rates for some countries were not calculated correct
+
+= 12.3.7 (2023-03-17) =
+* Checked for compatibility with WooCommerce 7.5
+* Changed and &amp; to & in the Google Analytics utm parameters for WPML feeds
+* Fixed an ACF issue where not all product images were added to feeds correctly
+
+= 12.3.6 (2023-03-10) =
+* Fixed an issue with the shipping costs calculation for the WooCommerce Table Rate Shipping plugin, VAT was added to it twice
+
+= 12.3.5 (2023-03-06) =
+* Added two decimal rounding of shipping formula costs
+
+= 12.3.4 (2023-03-05) =
+* Fixed an issue with ACF image fields for product variations
+
+= 12.3.3 (2023-03-02) =
+* Fixed an apparel product grouping issue for Skroutz feeds
+
+= 12.3.2 (2023-03-01) =
+* Fixed an issue where availability filters and rules for Skroutz feeds were not working
+* Added komma's between size values for Skroutz feeds
+
+= 12.3.1 (2023-02-28) =
+* Fixed an issue where non registered users ended up as Anonymous in review fieds
+* Changed Google Local Product Inventory Feed ID column to ItemID column
 
 = 12.3.0 (2023-02-24) =
 * Fixed an issue where filters on Google category ID's did not work
@@ -3941,6 +4116,177 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 12.8.2 =
+Fixed the product creation data calculation
+
+= 12.8.1 =
+Tested for compatibility with Wordpress 6.3
+
+= 12.8.0 =
+Tested for compatibility with WooCommerce 8.0
+
+= 12.7.9 =
+Tested for compatibility with WooCommerce 7.9
+
+= 12.7.8 =
+Completed pre-mapping for all Pricerunner templates
+Removed some obsolete error logging
+
+= 12.7.7 =
+Added support for multiple Pricerunner country templates
+
+= 12.7.6 =
+Added a new field to the Google Shopping template: g:auto_pricing_min_price
+
+= 12.7.5 =
+Removed stand-alone attribute from Fruugo feeds
+
+= 12.7.4 =
+WooCommerce changed sale date outputs from ints to strings, adapt code to it
+
+= 12.7.3 =
+Fixed a Fruugo XML header issue
+Fixed a Flycart issue for prices that had a point as decimal and a point as thousand seperator
+
+= 12.7.2 =
+Fixed an issue with the sale price effective date which was empty. WooCommerce is returning them as strings in the new WC instead of integers
+
+= 12.7.1 =
+A small group of users reported unexpected drops in products in feeds introduced in version 12.6.8. This should be fixed now.
+
+= 12.7.0 =
+Checked for compatibility with WooCommerce 7.8
+Solved a price rounding issue for the Flycart discount plugin
+
+= 12.6.9 =
+Added extensive support for up to 10 product details for Google Shopping feeds
+
+= 12.6.8 =
+Performance tweaks
+Add consumer notice option for Google Shopping feeds
+Fixed Fruugo XML templates so it meets Fruugo's changed feed requirements
+Removed Fruugo CSV option
+Fixed an issue for Google Shopping feeds, no empty product details are allowed in feeds
+
+= 12.6.7 =
+Sales date's that were not a timestamp caused the plugin to get stuck on processing. This has been fixex now.
+
+= 12.6.6 =
+Product feeds are no longer being cached when user uses popular caching plugin
+
+= 12.6.5 =
+Availability dates are only added to products that are on backorder
+Fixed the default field mapping for Google's g:product_type field
+
+= 12.6.4 =
+Solved missing class issue
+
+= 12.6.3 =
+Solved an issue where parent variable products showed in Google Shopping / Meta feeds again
+Fixed an issue for Fruugo CSV feeds
+
+= 12.6.2 =
+Removing BOM characters for Fruugo CSV feeds
+
+= 12.6.1 =
+Fixed issues with Fruugo VAT fields and availability values
+
+= 12.6.0 =
+Fixed an issue for Bestprice feeds where feeds were accidentally empty
+
+= 12.5.9 =
+Checked for compatibility with WooCommerce 7.7
+
+= 12.5.8 =
+Fixed an issue with shipping costs calculations when multiple countries were configured
+Fixed an issue for Skroutz feeds where quantities where summed for non-apparel products
+
+= 12.5.7 =
+Annoying review request notification kept showing up
+
+= 12.5.6 =
+Fixed an issue with ACF fields for product variations
+
+= 12.5.5 =
+Fixed an issue with the shipping table rate support, for some settings it was returning a false 0 shipping costs.
+
+= 12.5.4 =
+Changed the Twitter template so it meets up to Twitters new availability value requirements
+
+= 12.5.3 =
+Next to the unfiltered product description attribute the normal description and short description are now truncated to 5000 characters for Google Shopping feeds
+
+= 12.5.2 =
+Added the possibility to create filters on reviews content
+
+= 12.5.1 =
+Solved a critical error for users that did not configure any feed yet
+
+= 12.5.0 =
+Fixed an issue where not all products with wholesale prices are making it to feeds
+
+= 12.4.9 =
+Checked for compatibility with WooCommerce 7.6
+
+= 12.4.8 =
+Some AJAX accessible functions lacked security checks, those have been added now
+
+= 12.4.7 =
+Tested for compatibility with Wordpress 6.2
+
+= 12.4.6 =
+Changed the Shopflix main_photo_url field name to image
+
+= 12.4.5 =
+Fixed a Cross Site Request Forgery vulnerability, not all nonce's where properly checked
+
+= 12.4.4 =
+Added more optional fields for Shopflix.gr
+
+= 12.4.3 =
+Added a template for the Greek Shopflix.gr marketplace
+
+= 12.4.2 =
+Fixed an issue with the size attribute for Skroutz apparel products
+
+= 12.4.1 =
+Fixed a Cross Site Request Forgery vulnerability, not all nonce's where properly checked
+
+= 12.4.0 =
+Made the availability date attribute available for all availability values and not just for products that are on backorder
+Added the feed label and product country attributes for Google Shopping feeds
+
+= 12.3.9 =
+Solved a fatal error issue that happened with Yandex feeds when attribute values were empty
+
+= 12.3.8 =
+Fixed an issue for the WooCommerce Table Rate Shipping plugin where table rates for some countries were not calculated correct
+
+= 12.3.7 =
+Checked for compatibility with WooCommerce 7.5
+Changed and &amp; to & in the Google Analytics utm parameters for WPML feeds
+Fixed an ACF issue where not all product images were added to feeds correctly
+
+= 12.3.6 =
+Fixed an issue with the shipping costs calculation for the WooCommerce Table Rate Shipping plugin, VAT was added to it twice
+
+= 12.3.5 =
+Added two decimal rounding of shipping formula costs
+
+= 12.3.4 =
+Fixed an issue with ACF image fields for product variations
+
+= 12.3.3 =
+Fixed an apparel product grouping issue for Skroutz feeds
+
+= 12.3.2 =
+Fixed an issue where availability filters and rules for Skroutz feeds were not working
+Added komma's between size values for Skroutz feeds
+
+= 12.3.1 =
+Fixed an issue where non registered users ended up as Anonymous in review fieds
+Changed Google Local Product Inventory Feed ID column to ItemID column
 
 = 12.3.0 =
 Fixed an issue where filters on Google category ID's did not work

@@ -2,7 +2,7 @@
 /**
  * WAPO Template
  *
- * @author  Corrado Porzio <corradoporzio@gmail.com>
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\ProductAddOns
  * @version 2.0.0
  *
@@ -15,12 +15,11 @@
 
 defined( 'YITH_WAPO' ) || exit; // Exit if accessed directly.
 
-$setting_hide_images = get_option( 'yith_wapo_hide_images' );
-
-if ( $addon->get_option( 'show_image', $x ) && '' !== $option_image && ! $hide_option_images && 'yes' !== $setting_hide_images ) : ?>
-
-	<div class="image position-<?php echo esc_attr( $addon_options_images_position ); ?>">
-		<img src="<?php echo esc_attr( $option_image ); ?>">
+if ( ! empty( $addon_image_position ) ) : ?>
+<label class="image-container" for="yith-wapo-<?php echo esc_attr( $addon->id ); ?>-<?php echo esc_attr( $x ); ?>">
+	<div class="image">
+		<img src="<?php echo esc_attr( $option_image ); ?>" style="<?php echo $images_height_style ?? '' ?>">
 	</div>
+</label>
 
 <?php endif; ?>

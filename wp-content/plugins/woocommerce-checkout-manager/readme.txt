@@ -4,12 +4,12 @@ Donate link: https://quadlayers.com/portfolio/woocommerce-checkout-manager/
 Tags: checkout field editor, woocommerce checkout field editor, checkout manager, woocommerce checkout manager, checkout field customizer, checkout form editor, checkout form customizer, checkout, WooCommerce checkout, checkout form designer, woocommerce checkout fields, woocommerce checkout addons
 Requires at least: 4.7
 Requires PHP: 5.6
-Tested up to: 6.1
-Stable tag: 7.0.6
+Tested up to: 6.3
+Stable tag: 7.2.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 WC requires at least: 4.7.0
-WC tested up to: 7.4
+WC tested up to: 8.0
 
 Checkout Field Manager (Checkout Manager) for WooCommerce is the best plugin most advanced "Checkout Manager" to customize checkout fields on your WooCommerce checkout page.
 
@@ -24,6 +24,10 @@ WooCommerce Checkout Manager is the best checkout form customizer and editor for
 Checkout Field Manager (Checkout Manager) for WooCommerce  allows you to include custom fields to the checkout page, related to billing, Shipping or Additional fields sections.
 
 Our plugin allows to reorder, remove or change the field type of the WooCommerce core fields. You can choose between this field types: Text, Textarea, Password, Radio, Checkbox, Select, Country, State, Multiselect, Multicheckbox, Heading, Colorpicker, File uploader.
+
+[youtube https://youtu.be/j2WuL2kFtnY]
+
+== WooCommerce Checkout Fields ==
 
 The field types supported to include in the checkout are:
 
@@ -148,6 +152,62 @@ Your Order data can be reviewed in each order within the default WooCommerce Ord
 10. Handle uploaded files in order admin dashboard.
 
 == Changelog ==
+
+=  7.2.3
+* WooCommerce compatibility
+* WordPress compatibility
+
+=  7.2.2
+* Fix: WooCommerce checkout manager premium compatibility
+* Fix: WooCommerce checkout duplicated additional fields alerts
+
+=  7.2.1
+* Fix: WooCommerce checkout fields modal
+
+=  7.2.0
+* Fix: WooCommerce compatibility
+* New: WooCommerce checkout field user meta
+* New: WooCommerce checkout field autocomplete
+
+=  7.1.9
+* Fix: WooCommerce checkout fields autocomplete
+* Fix: WooCommerce checkout fields user meta
+
+=  7.1.8
+* New: WooCommerce HPOS compatibility
+* New: WooCommerce COT compatibility
+
+=  7.1.6
+* Fix: Multicheckbox and multiradio fields
+
+=  7.1.5
+* Fix: WooCommerce compatibility
+
+=  7.1.4
+* Fix: WooCommerce compatibility
+
+=  7.1.3
+* Fix: Address 2 checkout field label
+* Fix: Remove admin order values
+* Fix: Default options in multicheckbox, select, radio fields
+
+=  7.1.2
+* Fix: WooCommerce Paypal Payments compatibility
+
+=  7.1.1
+* Fix: WordPress compatibility
+
+=  7.1.0
+* Fix: Minlengh for input text fields
+
+=  7.0.9
+* Fix: Hide empty order extra fields
+
+=  7.0.8
+* Fix: Composer packages update
+
+=  7.0.7
+* Fix: Composer packages update
 
 =  7.0.6
 * Fix: Language package update

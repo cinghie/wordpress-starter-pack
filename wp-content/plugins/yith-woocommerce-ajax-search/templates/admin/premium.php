@@ -4,7 +4,7 @@
  *
  * @package YITH WooCommerce Ajax Search
  * @since   1.0.0
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 ?>

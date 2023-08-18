@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the YITH WooCommerce Ajax Search package.
 msgid ""
 msgstr ""
-"Project-Id-Version: YITH WooCommerce Ajax Search 1.28.0\n"
+"Project-Id-Version: YITH WooCommerce Ajax Search 1.34.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-ajax-search\n"
-"POT-Creation-Date: 2023-02-13 13:51:30+00:00\n"
+"POT-Creation-Date: 2023-08-02 13:58:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,15 +14,79 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/class.yith-wcas-admin.php:134
-msgid "Settings"
+#: includes/class.yith-wcas-admin.php:168
+msgid "Convert the search field into an advanced search engine"
 msgstr ""
 
-#: includes/class.yith-wcas-admin.php:135
-msgid "Premium Version"
+#: includes/class.yith-wcas-admin.php:169
+msgid ""
+"Choose whether to show the filter for the search fields and the list of "
+"categories (only the main ones or all of them), a solution inspired by "
+"Amazon's search form."
 msgstr ""
 
-#: includes/class.yith-wcas.php:231
+#: includes/class.yith-wcas-admin.php:172
+msgid "Extend the search to pages and posts"
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:173
+msgid ""
+"Choose whether to search for the keyword also in the pages’ content and "
+"blog articles. "
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:176
+msgid "Extend the search to categories and product tags"
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:177
+msgid ""
+"Choose to also search the keyword in the categories and product tags of "
+"your shop. "
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:180
+msgid "Extend the search to product excerpts and descriptions"
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:181
+msgid ""
+"Choose whether to search for the keyword in summaries and product "
+"descriptions."
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:184
+msgid "Allow searching by product SKU "
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:185
+msgid ""
+"Enable the option to enter an SKU in the search field so users can quickly "
+"locate products they are interested in. "
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:188
+msgid "Choose what to show in the suggestion list"
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:189
+msgid ""
+"Decide whether or not to show product images, prices, and short "
+"descriptions (summaries) in the suggestion list."
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:192
+msgid "Use custom badges to enhance search results"
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:193
+msgid ""
+"Show and customize the \"On sale\" badge to enhance products with a "
+"discount or the \"Featured\" badge for products marked as such on "
+"WooCommerce."
+msgstr ""
+
+#: includes/class.yith-wcas.php:233
 msgid "No results"
 msgstr ""
 
@@ -60,60 +124,60 @@ msgid ""
 "WooCommerce in order to work."
 msgstr ""
 
-#: plugin-options/settings-options.php:25
+#: plugin-options/settings-options.php:24
 msgid "General settings"
 msgstr ""
 
-#: plugin-options/settings-options.php:34
+#: plugin-options/settings-options.php:33
 msgid "Search input label"
 msgstr ""
 
-#: plugin-options/settings-options.php:36
-#: plugin-options/settings-options.php:44
+#: plugin-options/settings-options.php:35
+#: plugin-options/settings-options.php:43
 msgid "Label for Search input field."
 msgstr ""
 
-#: plugin-options/settings-options.php:38
+#: plugin-options/settings-options.php:37
 msgid "Search for products"
 msgstr ""
 
-#: plugin-options/settings-options.php:42
+#: plugin-options/settings-options.php:41
 msgid "Search submit label"
 msgstr ""
 
-#: plugin-options/settings-options.php:46
+#: plugin-options/settings-options.php:45
 msgid "Search"
 msgstr ""
 
-#: plugin-options/settings-options.php:50
+#: plugin-options/settings-options.php:49
 msgid "Minimum number of characters"
 msgstr ""
 
-#: plugin-options/settings-options.php:51
+#: plugin-options/settings-options.php:50
 msgid "Minimum number of characters required to trigger autosuggest."
 msgstr ""
 
-#: plugin-options/settings-options.php:64
+#: plugin-options/settings-options.php:63
 msgid "Maximum number of results"
 msgstr ""
 
-#: plugin-options/settings-options.php:65
+#: plugin-options/settings-options.php:64
 msgid "Maximum number of results showed within the autosuggest box."
 msgstr ""
 
-#: plugin-options/settings-options.php:78
+#: plugin-options/settings-options.php:77
 msgid "Enable transients to cache autocomplete results"
 msgstr ""
 
-#: plugin-options/settings-options.php:79
+#: plugin-options/settings-options.php:78
 msgid "Save the results of a query in a transient"
 msgstr ""
 
-#: plugin-options/settings-options.php:88
+#: plugin-options/settings-options.php:87
 msgid "Set the duration of transient"
 msgstr ""
 
-#: plugin-options/settings-options.php:89
+#: plugin-options/settings-options.php:88
 msgid "(hours)"
 msgstr ""
 
@@ -208,6 +272,16 @@ msgid ""
 "the contents they are interested in without wasting time among site pages. "
 "<a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for "
 "your e-commerce shop on <strong>YITH</strong></a>."
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:110
+msgctxt "Settings tab name"
+msgid "Settings"
+msgstr ""
+
+#: includes/class.yith-wcas-admin.php:111
+msgctxt "Tab description in plugin settings panel"
+msgid "Configure the plugin settings."
 msgstr ""
 
 #: plugin-options/gutenberg/blocks.php:21

@@ -2,7 +2,7 @@
 /**
  * Admin class
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\Brands\Classes
  * @version 1.0.0
  */
@@ -93,6 +93,8 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 			add_filter( 'tag_row_actions', array( $this, 'remove_row_actions' ), 10, 2 );
 
 			add_filter( 'term_updated_messages', array( $this, 'updated_term_messages' ) );
+
+			add_filter( 'woocommerce_screen_ids', array( $this, 'add_screen_ids' ), 99, 1 );
 		}
 
 		/**
@@ -141,6 +143,8 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 				'admin-tabs'       => $admin_tabs,
 				'options-path'     => YITH_WCBR_DIR . 'plugin-options',
 				'plugin_slug'      => YITH_WCBR_SLUG,
+				'is_free'          => defined( 'YITH_WCBR_FREE_INIT' ),
+				'is_premium'       => defined( 'YITH_WCBR_PREMIUM_INIT' ),
 			);
 
 			if ( ! defined( 'YITH_WCBR_PREMIUM_INIT' ) ) {
@@ -213,7 +217,6 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 		 * Get the premium landing uri
 		 *
 		 * @return  string The premium landing link
-		 * @author  Andrea Grillo <andrea.grillo@yithemes.com>
 		 * @since   1.0.0
 		 */
 		public function get_premium_landing_uri() {
@@ -516,6 +519,23 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 
 			return $messages;
 		}
+
+		/**
+		 * Add custom screen ids to standard WC
+		 *
+		 * @access public
+		 *
+		 * @param array $screen_ids Screen IDs.
+		 *
+		 * @return array
+		 */
+		public function add_screen_ids( $screen_ids ) {
+			if ( 'yith_product_brand' === YITH_WCBR::$brands_taxonomy ) {
+				$screen_ids[] = 'edit-' . YITH_WCBR::$brands_taxonomy;
+			}
+
+			return $screen_ids;
+		}
 	}
 }
 
@@ -526,5 +546,8 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
  * @since 1.0.0
  */
 function YITH_WCBR_Admin() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+	if ( class_exists( 'YITH_WCBR_Admin_Premium' ) ) {
+		return YITH_WCBR_Admin_Premium::get_instance();
+	}
 	return YITH_WCBR_Admin::get_instance();
 }

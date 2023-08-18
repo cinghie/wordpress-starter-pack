@@ -2,9 +2,9 @@
 
 Contributors: yithemes
 Tags: woocommerce,yith woocommerce colors and labels variations,yith woocommerce zoom magnifier,yith woocommerce wishlist,yith woocommerce ajax product filter,yith woocommerce ajax search,yith woocommerce catalog mode, yith woocommerce badges management,yith woocommerce cart messages,yith woocommerce quick view,yith woocommerce stripe,yith woocommerce request a quote,yith woocommerce tab manager
-Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 2.17.0
+Requires at least: 6.1
+Tested up to: 6.3
+Stable tag: 2.23.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,38 @@ You can get additional features of the plugins installed with the premium versio
 YITH Essential Kit for WooCommerce #1 will add a new submenu called "YITH Essential Kit for WooCommerce #1" under "YIT Plugins" menu. Here you are able to activate/deactivate all the plugins within.
 
 == Changelog ==
+
+= 2.23.0 - Released on 08 Aug 2023 =
+* New: support for WordPress 6.3
+* New: support for WooCommerce 8.0
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.22.0 - Released on 18 Jul 2023 =
+* New: support for WooCommerce 7.9
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.21.0 - Released on 22 Jun 2023 =
+* New: support for WooCommerce 7.8
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.20.0 - Released on 17 May 2023 =
+* New: support for WooCommerce 7.7
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.19.0 - Released on 19 Apr 2023 =
+* New: support for WooCommerce 7.6
+* Update: YITH plugin framework
+* Fix: minor bugs
+
+= 2.18.0 - Released on 21 Mar 2023 =
+* New: support for WordPress 6.2
+* New: support for WooCommerce 7.5
+* Update: YITH plugin framework
+* Fix: minor bugs
 
 = 2.17.0 - Released on 21 February 2023 =
 * New: support for WooCommerce 7.4

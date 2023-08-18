@@ -1,7 +1,7 @@
 /**
  * frontend.js
  *
- * @author Your Inspiration Themes
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Ajax Search
  * @version 1.1.1
  */

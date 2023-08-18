@@ -1477,7 +1477,7 @@ class MailChimp_WooCommerce_MailChimpApi {
 		$api      = mailchimp_get_api();
 
 		try {
-			$response = $api->addStoreProduct( $store_id, $product );
+			$response = $api->addStoreProduct( $store_id, $product, false );
 			mailchimp_set_data( 'empty_line_item_placeholder', true );
 			return $response;
 		} catch ( Exception $e ) {
@@ -1963,6 +1963,21 @@ class MailChimp_WooCommerce_MailChimpApi {
 			}
 		}
 		return $deleted;
+	}
+
+	/**
+	 * @param $list_id
+	 * @param $id
+	 *
+	 * @return array|bool|mixed|object|null
+	 * @throws MailChimp_WooCommerce_Error
+	 * @throws MailChimp_WooCommerce_RateLimitError
+	 * @throws MailChimp_WooCommerce_ServerError
+	 */
+	public function deleteWebhookByID($list_id, $id)
+	{
+		mailchimp_log('admin', "deleting webhook id {$id}");
+		return $this->delete("lists/{$list_id}/webhooks/{$id}");
 	}
 
 	/**

@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: yithemes
 Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
-Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 1.8.0
+Requires at least: 6.1
+Tested up to: 6.3
+Stable tag: 1.14.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,40 @@ Full documentation is available [here](https://docs.yithemes.com/yith-infinite-s
 1. The plugin admin page.
 
 == Changelog ==
+
+= 1.14.0 = Released on 10 August 2023
+
+* New: support for WordPress 6.3
+* New: support for WooCommerce 8.0
+* Update: YITH plugin framework
+
+= 1.13.0 = Released on 18 July 2023
+
+* New: support for WooCommerce 7.9
+* Update: YITH plugin framework
+
+= 1.12.0 = Released on 14 June 2023
+
+* New: support for WooCommerce 7.8
+* New: support for WooCommerce HPOS feature
+* Update: YITH plugin framework
+
+= 1.11.0 = Released on 16 May 2023
+
+* New: support for WooCommerce 7.7
+* Update: YITH plugin framework
+
+= 1.10.0 = Released on 19 April 2023
+
+* New: support for WooCommerce 7.6
+* New: support for PHP 8.1
+* Update: YITH plugin framework
+
+= 1.9.0 = Released on 21 March 2023
+
+* New: support for WordPress 6.2
+* New: support for WooCommerce 7.5
+* Update: YITH plugin framework
 
 = 1.8.0 = Released on 17 November 2022
 

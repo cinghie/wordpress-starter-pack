@@ -2,7 +2,7 @@
 /**
  * Functions
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Ajax Search
  * @version 1.1.1
  */

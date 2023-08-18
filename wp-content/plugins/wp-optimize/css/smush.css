@@ -72,7 +72,7 @@
   height: 100%;
   background: #FFF;
   text-align: left;
-  box-shadow: 0px 3px 10px -2px hsla(150deg, 5%, 65%, 0.5);
+  box-shadow: 0px 3px 10px -2px hsla(150, 5%, 65%, 0.5);
 }
 
 .wpo-fieldgroup .compression_server input[type=radio] + label {
@@ -788,7 +788,7 @@ img#wpo_smush_images_clear_stats_spinner {
   z-index: 9999;
   border-radius: 3px;
   background-color: #000;
-  background-color: hsla(0deg, 0%, 20%, 0.95);
+  background-color: hsla(0, 0%, 20%, 0.95);
   color: #FFF;
   content: attr(data-tooltip);
   text-align: center;
@@ -810,7 +810,7 @@ img#wpo_smush_images_clear_stats_spinner {
   margin-left: -5px;
   width: 0;
   border-top: 5px solid #000;
-  border-top: 5px solid hsla(0deg, 0%, 20%, 0.9);
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
   content: " ";

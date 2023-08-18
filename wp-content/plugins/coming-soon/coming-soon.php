@@ -3,7 +3,7 @@
 Plugin Name: Coming Soon Page, Maintenance Mode, Landing Pages & WordPress Website Builder by SeedProd
 Plugin URI: https://www.seedprod.com/lite-upgrade/?utm_source=WordPress&utm_campaign=liteplugin&utm_medium=plugin-uri-link
 Description: The Easiest WordPress Drag & Drop Page Builder that allows you to build your webiste, create Landing Pages, Coming Soon Pages, Maintenance Mode Pages and more.
-Version:  6.15.7
+Version:  6.15.13.1
 Author: SeedProd
 Author URI: https://www.seedprod.com/lite-upgrade/?utm_source=WordPress&utm_campaign=liteplugin&utm_medium=author-uri-link
 Text Domain: coming-soon
@@ -17,7 +17,7 @@ License: GPLv2 or later
 
 define( 'SEEDPROD_BUILD', 'lite' );
 define( 'SEEDPROD_SLUG', 'coming-soon/coming-soon.php' );
-define( 'SEEDPROD_VERSION', '6.15.7' );
+define( 'SEEDPROD_VERSION', '6.15.13.1' );
 define( 'SEEDPROD_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 // Example output: /Applications/MAMP/htdocs/wordpress/wp-content/plugins/seedprod/
 define( 'SEEDPROD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -77,15 +77,33 @@ function seedprod_lite_activation() {
 	if ( ! wp_next_scheduled( 'seedprod_notifications' ) ) {
 		if ( SEEDPROD_BUILD === 'pro' ) {
 			wp_schedule_event( time() + 7200, 'daily', 'seedprod_notifications' );
-		}else{
+		} else {
 			wp_schedule_event( time(), 'daily', 'seedprod_notifications' );
 		}
-		
+	}
+
+	// Copy help docs on installation.
+	$upload_dir = wp_upload_dir();
+	$path       = trailingslashit( $upload_dir['basedir'] ) . 'seedprod-help-docs/'; // target directory.
+	$cache_file = wp_normalize_path( trailingslashit( $path ) . 'articles.json' );
+	
+	// Copy articles file.
+	if ( true === seedprod_lite_set_up_upload_dir( $path, $cache_file ) ) {
+		$initial_location = SEEDPROD_PLUGIN_PATH . 'resources/data-templates/articles.json';
+		copy( $initial_location, $cache_file );
+	}
+
+	// Set cron to fetch help docs.
+	if ( ! wp_next_scheduled( 'seedprod_lite_fetch_help_docs' ) ) {
+		if ( SEEDPROD_BUILD === 'pro' ) {
+			wp_schedule_event( time() + 7200, 'weekly', 'seedprod_lite_fetch_help_docs' );
+		} else {
+			wp_schedule_event( time(), 'weekly', 'seedprod_lite_fetch_help_docs' );
+		}
 	}
 
 	// flush rewrite rules
 	flush_rewrite_rules();
-
 }
 
 register_activation_hook( __FILE__, 'seedprod_lite_activation' );
@@ -96,6 +114,7 @@ register_activation_hook( __FILE__, 'seedprod_lite_activation' );
  */
 function seedprod_lite_deactivate() {
 	wp_clear_scheduled_hook( 'seedprod_notifications' );
+	wp_clear_scheduled_hook( 'seedprod_fetch_help_docs' );
 }
 
 register_deactivation_hook( __FILE__, 'seedprod_lite_deactivate' );
@@ -108,6 +127,8 @@ register_deactivation_hook( __FILE__, 'seedprod_lite_deactivate' );
 require_once SEEDPROD_PLUGIN_PATH . 'app/bootstrap.php';
 require_once SEEDPROD_PLUGIN_PATH . 'app/routes.php';
 require_once SEEDPROD_PLUGIN_PATH . 'app/load_controller.php';
+
+
 
 /**
  * Maybe Migrate

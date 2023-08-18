@@ -2,7 +2,7 @@
 /**
  * Brands tab
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH\Brands\PluginOptions
  * @version 1.0.0
  */

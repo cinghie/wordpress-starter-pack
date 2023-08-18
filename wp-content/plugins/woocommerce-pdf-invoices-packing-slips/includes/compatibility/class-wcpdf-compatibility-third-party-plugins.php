@@ -11,7 +11,17 @@ if ( ! class_exists( '\\WPO\\WC\\PDF_Invoices\\Compatibility\\Third_Party_Plugin
  * @since 2.0
  */
 class Third_Party_Plugins {
-	function __construct()	{
+	
+	protected static $_instance = null;
+		
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+	
+	public function __construct()	{
 		// WooCommerce Subscriptions compatibility
 		if ( class_exists( 'WC_Subscriptions' ) ) {
 			if ( version_compare( \WC_Subscriptions::$version, '2.0', '<' ) ) {
@@ -69,11 +79,11 @@ class Third_Party_Plugins {
 			$order = wc_get_order( $order );
 		}
 		// delete invoice number, invoice date & invoice exists meta
-		$order->delete_meta_data( $order, '_wcpdf_invoice_number' );
-		$order->delete_meta_data( $order, '_wcpdf_invoice_number_data' );
-		$order->delete_meta_data( $order, '_wcpdf_formatted_invoice_number' );
-		$order->delete_meta_data( $order, '_wcpdf_invoice_date' );
-		$order->delete_meta_data( $order, '_wcpdf_invoice_exists' );
+		$order->delete_meta_data( '_wcpdf_invoice_number' );
+		$order->delete_meta_data( '_wcpdf_invoice_number_data' );
+		$order->delete_meta_data( '_wcpdf_formatted_invoice_number' );
+		$order->delete_meta_data( '_wcpdf_invoice_date' );
+		$order->delete_meta_data( '_wcpdf_invoice_exists' );
 
 		$order->save_meta_data();
 	}
@@ -305,5 +315,3 @@ class Third_Party_Plugins {
 
 
 endif; // Class exists check
-
-return new Third_Party_Plugins();

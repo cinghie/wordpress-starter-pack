@@ -2,7 +2,7 @@
 /**
  * Common functions
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH Infinite Scrolling
  * @version 1.0.0
  */
@@ -14,7 +14,6 @@ if ( ! function_exists( 'yinfs_get_option' ) ) {
 	 * Get plugin options
 	 *
 	 * @since  1.0.6
-	 * @author Francesco Licandro
 	 * @param string $option The requested option key.
 	 * @param mixed  $default The default value.
 	 * @return mixed

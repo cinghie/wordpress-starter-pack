@@ -2,7 +2,7 @@
 /**
  * Functions
  *
- * @author YITH
+ * @author YITH <plugins@yithemes.com>
  */
 
 if ( ! defined( 'YITH_WCMG' ) ) {

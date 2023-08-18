@@ -3,16 +3,18 @@
  * Plugin Name: YITH WooCommerce Product Gallery & Image Zoom
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-zoom-magnifier/
  * Description: <code><strong>YITH WooCommerce Product Gallery & Image Zoom</strong></code> allows you to add a zoom effect to product images and a thumbnail slider for the product image gallery. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>.
- * Version: 2.18.0
+ * Version: 2.23.0
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-zoom-magnifier
  * Domain Path: /languages/
- * WC requires at least: 7.2
- * WC tested up to: 7.4
+ * WC requires at least: 7.7
+ * WC tested up to: 7.9
+ * 
+ * @author YITH <plugins@yithemes.com>
  **/
 
-/*  Copyright 2013-2023  Your Inspiration Themes  (email : plugins@yithemes.com)
+/*  Copyright 2015-2023 Your Inspiration Themes S.L.U. (email : plugins@yithemes.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -42,7 +44,6 @@ if ( ! function_exists ( 'yith_ywzm_install_woocommerce_admin_notice' ) ) {
     /**
      * WooCommerce is not enabled, the plugin will not be effective
      *
-     * @author Lorenzo Giuffrida
      * @since  1.0.0
      */
     function yith_ywzm_install_woocommerce_admin_notice () {
@@ -58,7 +59,6 @@ if ( ! function_exists ( 'yith_ywzm_install_free_admin_notice' ) ) {
     /**
      * Unable to activate the free version while the premium version is active
      *
-     * @author Lorenzo Giuffrida
      * @since  1.0.0
      */
     function yith_ywzm_install_free_admin_notice () {
@@ -76,9 +76,10 @@ if ( ! function_exists ( 'yith_plugin_registration_hook' ) ) {
 
 register_activation_hook ( __FILE__, 'yith_plugin_registration_hook' );
 
+defined( 'YITH_YWZM_FREE' ) || define( 'YITH_YWZM_FREE', '1' );
 defined ( 'YITH_YWZM_FREE_INIT' ) || define ( 'YITH_YWZM_FREE_INIT', plugin_basename ( __FILE__ ) );
 defined ( 'YITH_YWZM_SLUG' ) || define ( 'YITH_YWZM_SLUG', 'yith-woocommerce-zoom-magnifier' );
-defined ( 'YITH_YWZM_VERSION' ) || define ( 'YITH_YWZM_VERSION', '2.18.0' );
+defined ( 'YITH_YWZM_VERSION' ) || define ( 'YITH_YWZM_VERSION', '2.23.0' );
 defined ( 'YITH_YWZM_SCRIPT_VERSION' ) || define ( 'YITH_YWZM_SCRIPT_VERSION', '2.1.1' );
 
 defined ( 'YITH_YWZM_FILE' ) || define ( 'YITH_YWZM_FILE', __FILE__ );
@@ -99,7 +100,6 @@ if ( ! function_exists ( 'yith_ywzm_init' ) ) {
     /**
      * Init the plugin
      *
-     * @author Lorenzo Giuffrida
      * @since  1.0.0
      */
     function yith_ywzm_init () {
@@ -135,7 +135,6 @@ if ( ! function_exists ( 'yith_ywzm_install' ) ) {
     /**
      * install the plugin
      *
-     * @author Lorenzo Giuffrida
      * @since  1.0.0
      */
     function yith_ywzm_install () {

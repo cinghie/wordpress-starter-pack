@@ -5,7 +5,7 @@
  * @package YITH WooCommerce Request A Quote
  * @since   1.0.0
  * @version 1.5.3
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  */
 
 $ywraq_current_user = array(); //phpcs:ignore

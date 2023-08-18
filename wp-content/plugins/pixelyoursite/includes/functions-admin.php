@@ -240,7 +240,21 @@ function adminRenderNotices() {
      */
     
     $now = time();
-    
+    $apiTokens = Facebook()->getOption('server_access_api_token');
+    if(Facebook()->enabled() && !$apiTokens)
+    {
+        $meta_key = 'pys_notice_dont_CAPI_start_delay';
+        $user_id = get_current_user_id();
+        $start_delay = get_user_meta( $user_id, $meta_key );
+        $day_ago = time() - DAY_IN_SECONDS;
+        if($start_delay && $start_delay > $day_ago) {
+            adminRenderNotCAPI(PYS());
+        }
+        else if(!$start_delay){
+            update_user_meta($user_id, $meta_key, time());
+        }
+
+    }
     if ( isPinterestActive( false ) && isPinterestVersionIncompatible() ) {
         adminIncompatibleVersionNotice( 'PixelYourSite Pinterest Add-On', PYS_FREE_PINTEREST_MIN_VERSION );
     } elseif ( isPinterestActive() ) {
@@ -433,6 +447,84 @@ function adminNoticeDismissHandler() {
     
 }
 
+function adminRenderNotCAPI( $plugin ) {
+
+    $slug = $plugin->getSlug();
+    $user_id = get_current_user_id();
+
+    // show only if never dismissed or dismissed more than a week ago
+    $meta_key = 'pys_' . $slug . '_CAPI_notice_dismissed_at';
+    $dismissed_at = get_user_meta( $user_id, $meta_key );
+    if ( $dismissed_at ) {
+
+        if ( is_array( $dismissed_at ) ) {
+            $dismissed_at = reset( $dismissed_at );
+        }
+
+        $week_ago = time() - WEEK_IN_SECONDS;
+
+        if ( $week_ago < $dismissed_at ) {
+            return;
+        }
+        else
+        {
+            ?>
+            <div class="notice notice-error is-dismissible pys_<?php esc_attr_e( $slug ); ?>_CAPI_notice">
+                <p><b>PixelYourSite Tip: </b>Don't forget to enable Meta Conversion API events. They can improve your ads performance and conversion tracking. Watch this video to learn how: <a href="https://www.youtube.com/watch?v=1rKd57SS094" target="_blank">watch the video</a>.</p>
+            </div>
+            <?php
+        }
+
+    }
+    else
+    {
+        ?>
+        <div class="notice notice-error is-dismissible pys_<?php esc_attr_e( $slug ); ?>_CAPI_notice">
+            <p><b>PixelYourSite Tip: </b>Improve your Meta Ads conversion tracking and performance with Conversion API events. Simply add your token to enable CAPI. Watch this video to learn how to do it: <a href="https://www.youtube.com/watch?v=1rKd57SS094" target="_blank">watch the video</a>.</p>
+        </div>
+        <?php
+    }
+    ?>
+
+    <script type="application/javascript">
+        jQuery(document).on('click', '.pys_<?php esc_attr_e( $slug ); ?>_CAPI_notice .notice-dismiss', function () {
+
+            jQuery.ajax({
+                url: ajaxurl,
+                data: {
+                    action: 'pys_notice_CAPI_dismiss',
+                    nonce: '<?php esc_attr_e( wp_create_nonce( 'pys_notice_CAPI_dismiss' ) ); ?>',
+                    user_id: '<?php esc_attr_e( $user_id ); ?>',
+                    addon_slug: '<?php esc_attr_e( $slug ); ?>',
+                    meta_key: 'CAPI_notice'
+                }
+            })
+
+        })
+    </script>
+
+    <?php
+}
+
+add_action( 'wp_ajax_pys_notice_CAPI_dismiss', 'PixelYourSite\adminNoticeCAPIDismissHandler' );
+
+function adminNoticeCAPIDismissHandler() {
+
+    if ( empty( $_REQUEST['nonce'] ) || ! wp_verify_nonce( $_REQUEST['nonce'], 'pys_notice_CAPI_dismiss' ) ) {
+        return;
+    }
+
+    if ( empty( $_REQUEST['user_id'] ) || empty( $_REQUEST['addon_slug'] ) || empty( $_REQUEST['meta_key'] ) ) {
+        return;
+    }
+
+    // save time when notice was dismissed
+    $meta_key = 'pys_' . sanitize_text_field( $_REQUEST['addon_slug'] ) . '_' . sanitize_text_field( $_REQUEST['meta_key'] ) . '_dismissed_at';
+    update_user_meta( sanitize_text_field($_REQUEST['user_id']), $meta_key, time() );
+    die();
+}
+
+
 function adminRenderActivatePinterestLicence() {
 
     if ( 'pixelyoursite_licenses' == getCurrentAdminPage() ) {
@@ -583,7 +675,14 @@ function renderDummyTextInput( $placeholder = '' ) {
     
     <?php
 }
+function renderDummyTextAreaInput( $placeholder = '' ) {
+    ?>
 
+    <textarea type="text" disabled="disabled" placeholder="<?php esc_html_e( $placeholder ); ?>" class="form-control">
+    </textarea>
+
+    <?php
+}
 function renderDummyNumberInput($default = 0) {
     ?>
 
@@ -638,7 +737,7 @@ function renderDummyRadioInput( $label, $checked = false ) {
 function renderDummyTagsFields( $tags = array() ) {
     ?>
 
-    <select class="form-control pys-tags-select2" disabled="disabled" style="width: 100%;" multiple>
+    <select class="form-control pys-tags-pysselect2" disabled="disabled" style="width: 100%;" multiple>
         
         <?php foreach ( $tags as $tag ) : ?>
             <option value="<?php echo esc_attr( $tag ); ?>" selected>

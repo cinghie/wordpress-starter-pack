@@ -2,7 +2,7 @@
 /**
  * Premium tab array
  *
- * @author  YITH
+ * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Quick View
  * @version 1.1.1
  */
