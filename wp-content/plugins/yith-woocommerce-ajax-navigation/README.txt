@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce ajax product filter download, woocommerce, widget, ajax, ajax filtered nav, ajax navigation, ajax filtered navigation, woocommerce layered navigation, woocommerce layered nav, product filter, product filters, ajax product filter, woocommerce ajax product filter, woocommerce filters, sidebar filter, sidebar ajax filter, ajax price filter, price filter, product sorting, woocommerce filter, taxonomy filter, attribute filter, attributes filter, woocommerce product sort, ajax sort, woocommerce ajax product filter, advanced product filters, ajax product filters, filters, woocommerce ajax product filters, woocommerce product filters, woocommerce product filters, category filter, attribute filters, woocommerce products filter, woocommerce price filter, yit, yith, yithemes
 Requires at least: 6.1
 Tested up to: 6.3
-Stable tag: 4.25.0
+Stable tag: 4.25.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -151,6 +151,11 @@ If none of the previous listed actions helps you solve the problem, then, submit
 14. Gutenberg block
 
 == Changelog ==
+
+= 4.25.1 - Released on 17 August 2023 =
+
+* Update: YITH plugin framework
+* Fix: fixed deprecated "Automatic conversion of false to array" in PHP 8.1
 
 = 4.25.0 - Released on 17 August 2023 =
 

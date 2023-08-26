@@ -95,7 +95,7 @@ if ( ! class_exists( 'YITH_WCAN_Cache_Helper' ) ) {
 				return false;
 			}
 
-			if ( is_null( $index ) ) {
+			if ( is_null( $index ) || ! isset( self::$transients[ $transient ]['value'][ $index ] ) ) {
 				self::$transients[ $transient ]['value'] = $value;
 			} else {
 				self::$transients[ $transient ]['value'][ $index ] = $value;
