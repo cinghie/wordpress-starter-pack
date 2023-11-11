@@ -61,7 +61,7 @@ $post_category = get_theme_mod( 'project_category', true );
 	<div class="entry-content">
 		<?php if ( $post_title ) : ?>
 			<h2 class="post-title">
-				<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo wp_trim_words( get_the_title(), 9 ); ?></a>
+				<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( wp_trim_words( get_the_title(), 9 ) ); ?></a>
 			</h2>
 		<?php endif ?>
 
@@ -132,7 +132,7 @@ $post_category = get_theme_mod( 'project_category', true );
 
 	if ( $enable_tags ) :
 		$tags_list = get_the_term_list( get_the_ID(), 'jetpack-portfolio-tag', '', ' ' );
-		echo ! empty( $tags_list ) ? '<div class="shapely-tags"><span class="fa fa-tags"></span>' . $tags_list . '</div>' : '';
+		echo ! empty( $tags_list ) ? '<div class="shapely-tags"><span class="fa fa-tags"></span>' . wp_kses_post( $tags_list ) . '</div>' : '';
 	endif;
 	?>
 

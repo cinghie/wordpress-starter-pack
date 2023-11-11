@@ -52,14 +52,41 @@ $hooray = true;
 					<?php if ( ! empty( $value['help'] ) ) { ?>
 
 						<?php
+					$allowed = array(
+						'input' => array(
+							'type'  => array(),
+							'name'  => array(),
+							'id'    => array(),
+							'class' => array(),
+							'value' => array(),
+							'checked' => array()
+						),
+
+						'a' => array(
+							'id'    => array(),
+							'class' => array(),
+							'href' => array()
+						),
+
+						'div' => array(
+							'id'    => array(),
+							'class' => array(),
+						),
+
+						'h4' => array(
+							'id'    => array(),
+							'class' => array(),
+						),
+					);
 
 						if ( is_array( $value['help'] ) && is_a( $value['help'][0], 'Epsilon_Import_Data' ) ) {
 							$class = $value['help'][0];
 							$func  = $value['help'][1];
 
-							echo $class->$func();
+							echo wp_kses( $class->$func(), $allowed );
 						} else {
-							echo $value['help'];
+							echo wp_kses( $value['help'], $allowed );
+
 						}
 						?>
 

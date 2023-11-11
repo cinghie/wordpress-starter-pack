@@ -78,13 +78,13 @@ class Epsilon_Repeater_Templates {
 					<# if( data.customization.enabled ) { #>
 					<nav>
 						<# if( data.customization.enabled ) { #>
-							<a href="#" class="active" data-item="regular"><span class="dashicons dashicons-welcome-write-blog"></span> <?php echo __('Fields' ,'epsilon-framework'); ?></a>
+							<a href="#" class="active" data-item="regular"><span class="dashicons dashicons-welcome-write-blog"></span> <?php echo esc_html__('Fields' ,'epsilon-framework'); ?></a>
 						<# } #>
 						<# if( ! _.isEmpty(data.customization.styling) ) { #>
-							<a href="#" data-item="styling"><span class="dashicons dashicons-admin-customizer"></span> <?php echo __('Styles' ,'epsilon-framework'); ?></a>
+							<a href="#" data-item="styling"><span class="dashicons dashicons-admin-customizer"></span> <?php echo esc_html__('Styles' ,'epsilon-framework'); ?></a>
 						<# } #>
 							<# if( ! _.isEmpty(data.customization.layout) ) { #>
-							<a href="#" data-item="layout"><span class="dashicons dashicons-layout"></span> <?php echo __('Layout' ,'epsilon-framework'); ?></a>
+							<a href="#" data-item="layout"><span class="dashicons dashicons-layout"></span> <?php echo esc_html__('Layout' ,'epsilon-framework'); ?></a>
 						<# } #>
 					<# } #>
 					</nav>

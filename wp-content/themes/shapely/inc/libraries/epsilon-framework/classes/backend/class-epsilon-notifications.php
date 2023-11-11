@@ -64,7 +64,7 @@ class Epsilon_Notifications {
 				continue;
 			}
 
-			printf( $this->html, esc_attr( $notice['type'] ), esc_attr( $notice['id'] ), wp_kses_post( $notice['message'] ) );
+			printf( wp_kses_post( $this->html ), esc_attr( $notice['type'] ), esc_attr( $notice['id'] ), wp_kses_post( $notice['message'] ) );
 		}
 	}
 

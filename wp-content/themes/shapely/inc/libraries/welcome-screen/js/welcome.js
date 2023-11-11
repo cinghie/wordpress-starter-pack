@@ -56,7 +56,7 @@ var welcomeScreenFunctions = {
 
     jQuery.ajax({
       type: 'POST',
-      data: { action: 'shapely_companion_import_content', import: needImported },
+      data: { action: 'shapely_companion_import_content', import: needImported, nonce: welcomeScreen.ajax_nonce, },
       dataType: 'json',
       url: ajaxurl,
       success: function (json) {

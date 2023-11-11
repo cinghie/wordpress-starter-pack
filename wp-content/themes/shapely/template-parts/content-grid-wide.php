@@ -56,7 +56,7 @@
 			</header><!-- .entry-header -->
 			<div class="entry-content">
 				<h2 class="post-title">
-					<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo wp_trim_words( get_the_title(), 9 ); ?></a>
+					<a href="<?php echo esc_url( get_the_permalink() ); ?>"><?php echo esc_html( wp_trim_words( get_the_title(), 9 ) ); ?></a>
 				</h2>
 
 				<div class="entry-meta">

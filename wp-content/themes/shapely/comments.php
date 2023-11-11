@@ -27,18 +27,18 @@ if ( post_password_required() ) {
 			$comments_number = get_comments_number();
 			if ( '1' === $comments_number ) {
 				/* translators: %s: post title */
-				echo _x( '1 COMMENT', 'comments title', 'shapely' );
+				echo esc_html( _x( '1 COMMENT', 'comments title', 'shapely' ) );
 			} else {
 				printf(
 					/* translators: number of comments */
-					_nx(
+					esc_html( _nx(
 						'%1$s COMMENT',
 						'%1$s COMMENTS',
 						$comments_number,
 						'comments title',
 						'shapely'
-					),
-					number_format_i18n( $comments_number )
+					) ),
+					absint( number_format_i18n( $comments_number ) )
 				);
 			}
 			?>

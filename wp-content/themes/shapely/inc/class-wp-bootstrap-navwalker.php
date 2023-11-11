@@ -210,8 +210,7 @@ class Wp_Bootstrap_Navwalker extends Walker_Nav_Menu {
 			if ( isset( $args['container'] ) ) {
 				$fb_output .= '</' . $args['container'] . '>';
 			}
-
-			echo $fb_output;
+			echo wp_kses_post( $fb_output );
 		}// End if().
 	}
 }

@@ -560,7 +560,7 @@ function shapely_cb_comment( $comment, $args, $depth ) {
 					<time datetime="2016-01-28T12:43:17+00:00">
 						<?php
 						/* translators: 1: date, 2: time */
-						printf( __( '%1$s at %2$s', 'shapely' ), get_comment_date(), get_comment_time() );
+						printf( esc_html__( '%1$s at %2$s', 'shapely' ), esc_html( get_comment_date() ), esc_html( get_comment_time() ) );
 						?>
 					</time>
 					<?php
@@ -665,7 +665,7 @@ function shapely_get_header_logo() {
 		$html = sprintf( '<a href="%1$s" class="custom-logo-link"><span class="site-title">%2$s</span></a>', esc_url( home_url( '/' ) ), esc_html( get_bloginfo( 'name' ) ) );
 	}
 
-	echo $html;
+	echo wp_kses_post( $html );
 
 }
 
@@ -779,14 +779,14 @@ function shapely_top_callout() {
 								} elseif ( is_archive() ) {
 									if ( is_post_type_archive( 'jetpack-portfolio' ) ) {
 										$portfolio_title = get_theme_mod( 'portfolio_name', esc_html__( 'Portfolio', 'shapely' ) );
-										echo $portfolio_title;
+										echo esc_html( $portfolio_title );
 									} else {
-										echo get_the_archive_title();
+										echo esc_html( get_the_archive_title() );
 									}
 								} elseif ( is_singular() ) {
 									echo single_post_title();
 								} else {
-									echo get_the_title();
+									echo esc_html( get_the_title() );
 								}
 								?>
 							</h3>

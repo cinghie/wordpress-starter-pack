@@ -48,7 +48,7 @@ endif;
 					?>
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( $item_classes ); ?>>
-						<div class="image-tile inner-title hover-reveal text-center" style="<?php echo $item_style; ?>">
+						<div class="image-tile inner-title hover-reveal text-center" style="<?php echo esc_attr( $item_style ); ?>">
 							<?php
 							if ( has_post_thumbnail() ) {
 
@@ -69,7 +69,7 @@ endif;
 										<?php
 										the_title( '<h5 class="mb0">', '</h5>' );
 										if ( ! empty( $project_types ) ) {
-											echo '<span>' . implode( ' / ', $project_types ) . '</span>';
+											echo '<span>' . esc_html( implode( ' / ', $project_types ) ) . '</span>';
 										}
 										?>
 									</div>

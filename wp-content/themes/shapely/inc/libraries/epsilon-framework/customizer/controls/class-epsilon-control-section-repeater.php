@@ -556,7 +556,7 @@ class Epsilon_Control_Section_Repeater extends WP_Customize_Control {
 			return true;
 		}
 
-		$id = absint( url_to_postid( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
+		$id = isset( $_SERVER['REQUEST_URI'] ) ? absint( url_to_postid( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) : 0;
 		if ( 0 === $id ) {
 			$id = absint( get_option( 'page_on_front', 0 ) );
 		}

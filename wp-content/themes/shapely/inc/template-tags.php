@@ -30,7 +30,7 @@ if ( ! function_exists( 'shapely_posted_on' ) ) :
 					href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"
 					title="<?php echo esc_attr( get_the_author() ); ?>"><?php esc_html( the_author() ); ?></a></span>
 		</li>
-		<li><i class="fa fa-calendar"></i><span class="posted-on"><?php echo $time_string; ?></span></li>
+		<li><i class="fa fa-calendar"></i><span class="posted-on"><?php echo wp_kses_post( $time_string ); ?></span></li>
 		<?php shapely_post_category(); ?>
 		</ul>
 		<?php
@@ -70,7 +70,7 @@ if ( ! function_exists( 'shapely_posted_on_no_cat' ) ) :
 
 		<ul class="post-meta">
 		<?php if ( $post_date ) : ?>
-			<li><span class="posted-on"><?php echo $time_string; ?></span></li>
+			<li><span class="posted-on"><?php echo wp_kses_post( $time_string ); ?></span></li>
 		<?php endif ?>
 		<?php if ( $post_author ) : ?>
 			<li><span><?php echo esc_html__( 'by', 'shapely' ); ?> <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" title="<?php echo esc_attr( get_the_author() ); ?>"><?php esc_html( the_author() ); ?></a></span></li>
@@ -91,14 +91,14 @@ if ( ! function_exists( 'shapely_entry_footer' ) ) :
 			/* translators: used between list items, there is a space after the comma */
 			$categories_list = get_the_category_list( esc_html__( ', ', 'shapely' ) );
 			if ( $categories_list && shapely_categorized_blog() ) {
-				printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'shapely' ) . '</span>', $categories_list ); // WPCS: XSS OK.
+				printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'shapely' ) . '</span>', esc_html( $categories_list ) ); // WPCS: XSS OK.
 			}
 
 			/* translators: used between list items, there is a space after the comma */
 			$tags_list = get_the_tag_list( '', esc_html__( ', ', 'shapely' ) );
 
 			if ( $tags_list ) {
-				printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'shapely' ) . '</span>', $tags_list ); // WPCS: XSS OK.
+				printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'shapely' ) . '</span>', wp_kses_post( $tags_list ) ); // WPCS: XSS OK.
 			}
 		}
 

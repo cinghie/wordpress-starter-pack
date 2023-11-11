@@ -203,7 +203,7 @@ class Epsilon_Welcome_Screen {
 			);
 		}
 
-		$args_action = array_map( 'sanitize_text_field', wp_unslash( $_POST['args']['action'] ) );
+		$args_action = isset( $_POST['args']['action'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['args']['action'] ) ) : array();
 
 		if ( count( $args_action ) !== 2 ) {
 			wp_die(
@@ -242,7 +242,7 @@ class Epsilon_Welcome_Screen {
 		$method = $args_action[1];
 		$args   = array();
 
-		if ( is_array( $_POST['args']['args'] ) ) {
+		if ( isset(  $_POST['args']['args'] ) && is_array( $_POST['args']['args'] ) ) {
 			$args = Epsilon_Sanitizers::array_map_recursive( 'sanitize_text_field', wp_unslash( $_POST['args']['args'] ) );
 		}
 
