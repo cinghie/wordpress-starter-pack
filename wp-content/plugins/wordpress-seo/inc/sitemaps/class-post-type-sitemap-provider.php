@@ -37,7 +37,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		add_filter( 'save_post', [ $this, 'save_post' ] );
+		add_action( 'save_post', [ $this, 'save_post' ] );
 
 		/**
 		 * Filter - Allows excluding images from the XML sitemap.
@@ -94,7 +94,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 		global $wpdb;
-
 		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types          = array_filter( $post_types, [ $this, 'is_valid_post_type' ] );
 		$last_modified_times = WPSEO_Sitemaps::get_last_modified_gmt( $post_types, true );
@@ -103,6 +102,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		foreach ( $post_types as $post_type ) {
 
 			$total_count = $this->get_post_type_count( $post_type );
+
+			if ( $total_count === 0 ) {
+				continue;
+			}
 
 			$max_pages = 1;
 			if ( $total_count > $max_entries ) {
@@ -114,7 +117,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			if ( $max_pages > 1 ) {
 				$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
 
-				$sql = "
+				if ( version_compare( $wpdb->db_version(), '8.0', '>=' ) ) {
+					$sql = "
+					WITH ordering AS (SELECT ROW_NUMBER() OVER (ORDER BY post_modified_gmt) AS n, post_modified_gmt
+									  FROM {$wpdb->posts} USE INDEX ( type_status_date )
+									  WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
+										 AND post_type = %s
+									  ORDER BY post_modified_gmt)
+					SELECT post_modified_gmt
+					FROM ordering
+					WHERE MOD(n, %d) = 0;";
+				}
+				else {
+					$sql = "
 				SELECT post_modified_gmt
 				    FROM ( SELECT @rownum:=0 ) init
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
@@ -123,13 +138,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY post_modified_gmt ASC
 				";
+				}
 
 				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
 			}
 
 			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 
-				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
+				$current_page = ( $page_counter === 0 ) ? '' : ( $page_counter + 1 );
 				$date         = false;
 
 				if ( empty( $current_page ) || $current_page === $max_pages ) {
@@ -159,9 +175,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
-	 * @return array
-	 *
 	 * @throws OutOfBoundsException When an invalid page is requested.
+	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
@@ -414,7 +429,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			];
 		}
 
-		return $links;
+		/**
+		 * Filters the first post type links.
+		 *
+		 * @param array  $links     The first post type links.
+		 * @param string $post_type The post type this archive is for.
+		 */
+		return apply_filters( 'wpseo_sitemap_post_type_first_links', $links, $post_type );
 	}
 
 	/**

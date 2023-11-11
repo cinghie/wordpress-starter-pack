@@ -50,6 +50,32 @@
                     <small v-if="Object.prototype.hasOwnProperty.call(optinInfo, 'id')" class="italic">Activated by user id #{{ optinInfo.id }} ({{ optinInfo.email }}) on {{ new Date(optinInfo.time * 1000).toLocaleDateString() }}</small>
                 </template>
 			</switch-single-input>
+			<switch-single-input v-model="globalSettings.gallery" @change="saveGlobalSettings()">
+				<template slot="header">{{ __('Enable Gallery (Beta)', 'ml-slider') }}</template>
+				<template slot="description">{{ __('Fast, SEO-focused, fully WCAG accessible and easy to use galleries.', 'ml-slider') }}</template>
+			</switch-single-input>
+			<switch-single-input v-model="globalSettings.legacy" @change="saveGlobalSettings()" v-bind:class="{ 'disableSwitch': legacySlideshows !== 0}">
+				<template slot="header">{{ __('Disable Legacy Libraries (Beta)', 'ml-slider') }}</template>
+				<template slot="description">{{ __('This setting allows you to disable the legacy slideshow libraries: Nivo Slider, Coin Slider, and Responsive Slides', 'ml-slider') }}</template>
+				<template slot="legacy-notices" v-if="legacySlideshows === 0">
+					<div class="notice notice-success ml-legacy-notice">
+                    	<p>{{ __('You can safely enable this setting. None of your slideshows use the legacy libraries.', 'ml-slider') }}</p>
+					</div>
+                </template>
+				<template slot="legacy-notices" v-if="legacySlideshows !== 0">
+					<div class="notice notice-warning  ml-legacy-notice">
+                    	<p>{{ sprintf(__('You currently have %s slideshows that use legacy libraries.', 'ml-slider'), legacySlideshows) }}</p>
+					</div>
+                </template>
+			</switch-single-input>
+			<switch-single-input v-model="globalSettings.adminBar" @change="saveGlobalSettings()">
+				<template slot="header">{{ __('Enable MetaSlider on Admin Bar', 'ml-slider') }}</template>
+				<template slot="description">{{ __('Add and edit slideshows easier by showing MetaSlider on your admin bar.', 'ml-slider') }}</template>
+			</switch-single-input>
+			<switch-single-input v-model="globalSettings.editLink" @change="saveGlobalSettings()">
+				<template slot="header">{{ __('Enable Frontend Edit Links', 'ml-slider') }}</template>
+				<template slot="description">{{ __('Edit slideshows easily by showing MetaSlider link under each slideshow.', 'ml-slider') }}</template>
+			</switch-single-input>
 		</template>
 	</split-layout>
 </div>
@@ -59,12 +85,15 @@
 import { default as SplitLayout } from '../layouts/_split'
 import { default as TextSingle } from '../inputs/_textSingle'
 import { default as SwitchSingle } from '../inputs/_switchSingle'
+import { default as WarningAlert } from '../inputs/alerts/_warningSmall'
 import { Settings } from '../../api'
+import { Slideshow } from '../../api'
 export default {
 	components: {
 		'split-layout' : SplitLayout,
 		'text-single-input' : TextSingle,
 		'switch-single-input' : SwitchSingle,
+		'alert-warning-small': WarningAlert
 	},
 	props: {},
 	data() {
@@ -80,7 +109,13 @@ export default {
             globalSettings: {
 				license: '',
 				optIn: false,
-			}
+				gallery: false,
+				adminBar: true,
+				editLink: false,
+				legacy: false
+			},
+			legacySlideshows: {}
+
 		}
 	},
 	computed: {
@@ -96,8 +131,14 @@ export default {
 		optInDescription() {
 			return this.sprintf(
                 this.__('Opt-in to let MetaSlider responsibly collect information about how you use our plugin. This is disabled by default, but may have been enabled by via a notification. %s', 'ml-slider'),
-                `<a target="_blank" href="${this.hoplink}">${this.__('View our detailed privacy policy', 'ml-slider')}</a>`
+                `<a target="_blank" href="${this.privacyLink}">${this.__('View our detailed privacy policy', 'ml-slider')}</a>`
             )
+		},
+		isDisabled() {
+			if(legacySlideshows == 0){
+
+			}
+			return this.form.validated;
 		}
 	},
 	created() {
@@ -123,6 +164,9 @@ export default {
         })
 		Settings.get('optin_user_extras').then(({data}) => {
 			this.optinInfo = data.data
+		})
+		Slideshow.legacy().then(({data}) => {
+			this.legacySlideshows = data.data
 		})
 	},
 	mounted() {},

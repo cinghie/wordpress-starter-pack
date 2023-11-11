@@ -117,6 +117,7 @@ class IS_Ajax {
 
             $all_terms = get_terms( $taxonomy, array(
                 'taxonomy' => $taxonomy,
+				'hierarchical' => false,
             ) );
 
             foreach ( $all_terms as $term ) {
@@ -153,17 +154,16 @@ class IS_Ajax {
 		$wrapper_class = $args['wrapper_class'];
 
 		$tags = $this->get_taxonomies( $taxonomy, $search_term, $args['strict'] );
-		$is_markup = apply_filters( 'is_customize_term_title_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_term_title_markup', $taxonomy, $search_term, $term_title, $wrapper_class, $tags );
-		} else if( $tags ) { ?>
+		$is_term_title = apply_filters( 'is_term_title_markup', '', $taxonomy, $search_term, $term_title, $wrapper_class, $tags );
+
+		if( ! $is_term_title && $tags ) { ?>
 			<div class="<?php esc_attr_e( $wrapper_class ); ?>">
 			<?php foreach ($tags as $key => $tag) { ?>
 				<div data-id="<?php echo esc_attr( $tag['term_id'] ); ?>" class="is-ajax-search-post">
 					<span class="is-ajax-term-label"><?php echo esc_html( $term_title ); ?></span>
-                                        <div class="is-title">
-					<a href="<?php echo esc_url( $tag['url'] ); ?>" data-id="<?php echo esc_attr( $tag['term_id'] ); ?>" data-slug="<?php echo esc_attr( $tag['slug'] ); ?>"><?php echo esc_attr( $tag['name'] ); ?> (<span class="is-term-count"><?php echo esc_attr( $tag['count'] ); ?></span>)</a>
-                                        </div>
+                    	<div class="is-title">
+							<a href="<?php echo esc_url( $tag['url'] ); ?>" data-id="<?php echo esc_attr( $tag['term_id'] ); ?>" data-slug="<?php echo esc_attr( $tag['slug'] ); ?>"><?php echo esc_attr( $tag['name'] ); ?> (<span class="is-term-count"><?php echo esc_attr( $tag['count'] ); ?></span>)</a>
+                    	</div>
 				</div>
 			<?php } ?>
 			</div>
@@ -186,11 +186,9 @@ class IS_Ajax {
 		$wrapper_class = $args['wrapper_class'];
 
 		$terms = $this->get_taxonomies( $taxonomy, $search_term );
+		$is_markup = apply_filters( 'is_product_details_markup', '', $taxonomy, $search_term, $field, $wrapper_class, $terms );
 
-		$is_markup = apply_filters( 'is_customize_product_details_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_product_details_markup', $taxonomy, $search_term, $field, $wrapper_class, $terms );
-		} else if ( $terms ) {
+		if ( ! $is_markup && $terms ) {
 				ob_start();
 				foreach ($terms as $key => $term) {
 					$this->get_product_by_tax_id( $field, $term['term_id'], $taxonomy );
@@ -308,22 +306,19 @@ class IS_Ajax {
 
 					<div class="is-search-sections">
 						<?php
-                                                $product = wc_get_product( get_the_ID() );
-                                                global $post;
+						$product = wc_get_product( get_the_ID() );
+						global $post;
 						$this->image_markup( $field, $product ); ?>
 
 	            		<div class="right-section">
-                                                            <?php
-                                                            $this->title_markup( $field, $post, $product ); 
-                                                            ?>
-
+							<?php $this->title_markup( $field, $post, $product ); ?>
 					        	<div class="meta">
-                                                            <div>
-                                                                <?php $this->product_price_markup( $field, $product ); ?>
-								<?php $this->product_stock_status_markup( $field, $product ); ?>
-                                                            	<?php $this->product_sku_markup( $field, $product ); ?>
-                                                            </div>
-                                                                <?php $this->date_markup( $field, $post ); ?>
+									<div>
+										<?php $this->product_price_markup( $field, $product ); ?>
+										<?php $this->product_stock_status_markup( $field, $product ); ?>
+										<?php $this->product_sku_markup( $field, $product ); ?>
+									</div>
+									<?php $this->date_markup( $field, $post ); ?>
 				        			<?php $this->author_markup( $field ); ?>
 				        			<?php $this->tags_markup( $field, $post ); ?>
 				        			<?php $this->categories_markup( $field, $post ); ?>
@@ -331,23 +326,21 @@ class IS_Ajax {
 
 					        	<!-- Content -->
 					        	<div class="is-search-content">
-					        		<?php $this->description_markup( $field, $post ); ?>
-                                                        </div>
-							<?php $this->product_sale_badge_markup( $field, $product );
+									<?php $this->description_markup( $field, $post ); ?>
+								</div>
+								<?php $this->product_sale_badge_markup( $field, $product );
 
 							if( $product ) { ?>
 								<div class="is-ajax-woocommerce-actions">
 									<?php
-                                                                        if ( function_exists( 'woocommerce_quantity_input' ) ) {
-									woocommerce_quantity_input( array(
-                                                                            'input_name'  => 'is-ajax-search-product-quantity',
-                                                                        ), $product, true );
-									echo WC_Shortcodes::product_add_to_cart( array(
+									if ( function_exists( 'woocommerce_quantity_input' ) ) {
+										woocommerce_quantity_input( array('input_name'  => 'is-ajax-search-product-quantity',), $product, true );
+										echo WC_Shortcodes::product_add_to_cart( array(
 											'id'		 => get_the_ID(),
 											'show_price' => false,
 											'style'		 => '',
 										) ); 
-                                                                        } ?>
+									} ?>
 								</div>
 							<?php } ?>
 	            		</div>
@@ -357,7 +350,6 @@ class IS_Ajax {
 			}
 
 		}
-
 		wp_reset_postdata();
 	}
 
@@ -385,10 +377,8 @@ class IS_Ajax {
 		} else if( has_post_thumbnail( $temp_id) ) {
 			$image = get_the_post_thumbnail( $temp_id, $image_size );
 		}
-		$is_markup = apply_filters( 'is_customize_image_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_image_markup', $image, $field, $temp_id );
-		} else if ( isset( $field['show_image'] ) && $field['show_image'] ) { ?>
+		$is_markup = apply_filters( 'is_image_markup', '', $image, $field, $temp_id );
+		if ( ! $is_markup && isset( $field['show_image'] ) && $field['show_image'] ) { ?>
                     <div class="left-section">
                         <div class="thumbnail">
                             <a href="<?php echo get_the_permalink( $temp_id ); ?>"><?php echo wp_kses_post( $image ); ?></a>
@@ -408,10 +398,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function title_markup( $field, $post, $product ) {
-		$is_markup = apply_filters( 'is_customize_title_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_title_markup', $field, $post, $product );
-		} else if ( '' !== get_the_title( $post->ID ) ) {
+		$is_markup = apply_filters( 'is_title_markup', '', $field, $post, $product );
+		if ( ! $is_markup && '' !== get_the_title( $post->ID ) ) {
 		?>
                 <div class="is-title">
                         <a href="<?php echo get_the_permalink( $post->ID ); ?>">
@@ -436,10 +424,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function author_markup( $field ) {
-		$is_markup = apply_filters( 'is_customize_author_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_author_markup', $field );
-		} else if ( isset( $field['show_author'] ) && $field['show_author'] ) { ?>
+		$is_markup = apply_filters( 'is_author_markup', '', $field );
+		if ( ! $is_markup && isset( $field['show_author'] ) && $field['show_author'] ) { ?>
 		    <span class="author vcard">
 		        <?php echo sprintf( '<i>%s</i>', _ex( 'By', 'Article written by', 'add-search-to-menu' ) ); ?>
 		        <a class="url fn n" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>">
@@ -459,10 +445,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function date_markup( $field, $post ) {
-		$is_markup = apply_filters( 'is_customize_date_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_date_markup', $field, $post );
-		} else if ( isset( $field['show_date'] ) && $field['show_date'] ) { ?>
+		$is_markup = apply_filters( 'is_date_markup', '', $field, $post );
+		if ( ! $is_markup && isset( $field['show_date'] ) && $field['show_date'] ) { ?>
 		<span class="meta-date">
 			<span class="posted-on">
 				<?php
@@ -492,10 +476,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function tags_markup( $field, $post ) {
-		$is_markup = apply_filters( 'is_customize_tags_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_tags_markup', $field, $post );
-		} else if ( isset( $field['show_tags'] ) && $field['show_tags'] ) { ?>
+		$is_markup = apply_filters( 'is_tags_markup', '', $field, $post );
+		if ( ! $is_markup && isset( $field['show_tags'] ) && $field['show_tags'] ) { ?>
                 <?php $terms = get_the_terms( $post->ID, $post->post_type.'_tag' );
                 if ( $terms && ! is_wp_error( $terms ) ) { ?>
                 <span class="is-meta-tag">
@@ -518,10 +500,8 @@ class IS_Ajax {
         * @return void
         */
 	function categories_markup( $field, $post ) {
-		$is_markup = apply_filters( 'is_customize_categories_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_categories_markup', $field, $post );
-		} else if ( isset( $field['show_categories'] ) && $field['show_categories'] ) { ?>
+		$is_markup = apply_filters( 'is_categories_markup', '', $field, $post );
+		if ( ! $is_markup && isset( $field['show_categories'] ) && $field['show_categories'] ) { ?>
                 <?php 
                 $tax_name = ( 'post' === $post->post_type ) ? 'category' : $post->post_type.'_cat';
                 $terms = get_the_terms( $post->ID, $tax_name );
@@ -546,19 +526,15 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function description_markup( $field, $post, $single = false ) {
-		$is_markup = apply_filters( 'is_customize_description_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_description_markup', $field, $post, $single );
-		} else	if ( isset( $field['show_description'] ) && $field['show_description'] ) {		// Description either content or excerpt.
+		$is_markup = apply_filters( 'is_description_markup', '', $field, $post, $single );
+		if ( ! $is_markup && isset( $field['show_description'] ) && $field['show_description'] ) {		// Description either content or excerpt.
 
     		$excerpt_length = ( isset( $field['description_length'] ) && $field['description_length'] ) ? absint( $field['description_length'] ) : 20;
 
 			$is_post_content = $post->post_content;
 			if ( 'product_variation' === $post->post_type ) {
 
-				$_product = wc_get_product( $post->ID, array(
-					'parent_id' => $post->post_parent
-				) );
+				$_product = wc_get_product( $post->ID );
 
 				$is_post_content =  $_product->description;
 			}
@@ -593,10 +569,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function product_stock_status_markup( $field, $product ) {
-		$is_markup = apply_filters( 'is_customize_product_stock_status_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_product_stock_status_markup', $field, $product );
-		} else if( $product ) {
+		$is_markup = apply_filters( 'is_product_stock_status_markup', '', $field, $product );
+		if( ! $is_markup && $product ) {
 			// Show stock status.
 			if( isset( $field['show_stock_status'] ) && $field['show_stock_status'] ) {
 				$stock_status = ( $product->is_in_stock() ) ? 'in-stock' : 'out-of-stock';
@@ -616,10 +590,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function product_sku_markup( $field, $product ) {
-		$is_markup = apply_filters( 'is_customize_product_sku_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_product_sku_markup', $field, $product );
-		} else if ( $product ) {
+		$is_markup = apply_filters( 'is_product_sku_markup', '', $field, $product );
+		if ( ! $is_markup && $product ) {
 			// Show SKU.
 			if( isset( $field['show_sku'] ) && $field['show_sku'] ) {
 				$sku = $product->get_sku();
@@ -638,21 +610,16 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function product_price_markup( $field, $product ) {
-
-		$is_markup = apply_filters( 'is_customize_product_price_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_product_price_markup', $field, $product );
-		} else if ( $product ) {
+		$is_markup = apply_filters( 'is_product_price_markup', '', $field, $product );
+		if ( ! $is_markup && $product ) {
 			if ( isset( $field['show_price'] ) && $field['show_price'] ) { 
-					$hide_price_out_of_stock = isset( $field['hide_price_out_of_stock'] ) && $field['hide_price_out_of_stock'] ? $field['hide_price_out_of_stock'] : false;
-					if ( $product->is_in_stock() || false === $hide_price_out_of_stock ) {?>
-                                        <span class="is-prices">
+				$hide_price_out_of_stock = isset( $field['hide_price_out_of_stock'] ) && $field['hide_price_out_of_stock'] ? $field['hide_price_out_of_stock'] : false;
+				if ( $product->is_in_stock() || false === $hide_price_out_of_stock ) {?>
+					<span class="is-prices">
+						<?php echo wp_kses_post( $product->get_price_html() ); ?>
+					</span>
 					<?php
-						echo wp_kses_post( $product->get_price_html() );
-                                                ?>
-                                        </span>
-                                        <?php
-					} 
+				} 
 			}
 		}
 	}
@@ -667,10 +634,8 @@ class IS_Ajax {
 	 * @return void
 	 */
 	function product_sale_badge_markup( $field, $product ) {
-		$is_markup = apply_filters( 'is_customize_product_sale_badge_markup', false );
-		if ( $is_markup ) {
-			do_action( 'is_product_sale_badge_markup', $field, $product );
-		} else if ( $product ) {
+		$is_markup = apply_filters( 'is_product_sale_badge_markup', '', $field, $product );
+		if ( ! $is_markup && $product ) {
 			// Show sale badge.
 			if ( isset( $field['show_sale_badge'] ) && $field['show_sale_badge'] ) {
 				$on_sale = ( $product->is_in_stock() ) ? $product->is_on_sale() : '';

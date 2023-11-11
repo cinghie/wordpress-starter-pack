@@ -36,8 +36,7 @@ class CFDB7_Wp_Sub_Page
                 <div id="icon-users" class="icon32"></div>
                 <h2><?php echo get_the_title( $this->form_post_id ); ?></h2>
                 <form method="post" action="">
-
-                    <?php $ListTable->search_box('Search', 'search'); ?>
+                    <?php $ListTable->search_box(__( 'Search', 'contact-form-cfdb7' ), 'search'); ?>
                     <?php $ListTable->display(); ?>
                 </form>
             </div>
@@ -297,7 +296,7 @@ class CFDB7_List_Table extends WP_List_Table
 
         if ( !empty( $action ) ) {
 
-            $nonce        = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_STRING );
+            $nonce        = isset( $_REQUEST['_wpnonce'] ) ? $_REQUEST['_wpnonce'] : '';
             $nonce_action = 'bulk-' . $this->_args['plural'];
 
             if ( !wp_verify_nonce( $nonce, $nonce_action ) ){

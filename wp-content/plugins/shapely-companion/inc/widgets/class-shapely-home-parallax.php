@@ -57,7 +57,7 @@ class Shapely_Home_Parallax extends WP_Widget {
 
 		$instance = wp_parse_args( $instance, $this->defaults );
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 		/* Classes */
 		$class1 = ( 'background-full' == $instance['image_pos'] ) ? 'cover fullscreen image-bg' : ( ( 'background-small' == $instance['image_pos'] ) ? 'small-screen image-bg p0' : ( ( 'right' == $instance['image_pos'] ) ? 'bg-secondary' : ( ( 'bottom' == $instance['image_pos'] ) ? 'bg-secondary pb0' : '' ) ) );
@@ -130,7 +130,7 @@ class Shapely_Home_Parallax extends WP_Widget {
 		<div class="clearfix"></div>
 		<?php
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 	}
 
 
@@ -171,7 +171,7 @@ class Shapely_Home_Parallax extends WP_Widget {
 				?>
 				:</label>
 
-			<img data-default="<?php echo $placeholder_url; ?>" src="<?php echo '' != $instance['image_src'] ? esc_url( $instance['image_src'] ) : $placeholder_url; ?>" />
+			<img data-default="<?php echo esc_url( $placeholder_url ); ?>" src="<?php echo '' != $instance['image_src'] ? esc_url( $instance['image_src'] ) : esc_url( $placeholder_url ); ?>" />
 
 			<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'image_src' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'image_src' ) ); ?>" value="<?php echo esc_url( $instance['image_src'] ); ?>" class="image-id blazersix-media-control-target">
 

@@ -35,8 +35,6 @@ $smushit_keys = array(
 	'wp-smush-super_smushed',
 	'wp-smush-super_smushed_nextgen',
 	'wp-smush-settings_updated',
-	'wp-smush-hide_smush_welcome',
-	'wp-smush-hide_upgrade_notice',
 	'wp-smush-hide_update_info',
 	'wp-smush-install-type',
 	'wp-smush-version',
@@ -47,12 +45,27 @@ $smushit_keys = array(
 	'wp-smush-last_run_sync',
 	'wp-smush-networkwide',
 	'wp-smush-cron_update_running',
-	'wp-smush-hide-conflict-notice',
+	'wp-smush-dismissed-notices',
 	'wp-smush-show_upgrade_modal',
 	'wp-smush-preset_configs',
 	'wp-smush-webp_hide_wizard',
 	'wp-smush-hide-tutorials',
 	'wp-smush-hide_tutorials_from_bulk_smush', // Possible leftover from 3.8.4.
+	'wp-smush-png2jpg-rewrite-rules-flushed',
+	'wp-smush-optimization-global-stats',
+	'wp-smush-resize-global-stats',
+	'wp-smush-png2jpg-global-stats',
+	'wp_smush_skip_image_sizes_recheck',
+	'wp_smush_image_sizes_state',
+	'wp_smush_global_stats',
+	'wp-smush-optimize-list',
+	'wp-smush-reoptimize-list',
+	'wp-smush-error-items-list',
+	'wp-smush-plugin-activated',
+	'wp_smush_run_optimize_on_scan_completed',
+	'wp-smush-nextgen-reoptimize-list',
+	'wp-smush-nextgen-super-smushed-list',
+	'wp_smush_scan_slice_size',
 );
 
 $db_keys = array(
@@ -165,7 +178,7 @@ if ( is_multisite() ) {
 	delete_metadata( $meta_type, null, 'wp-smush-pngjpg_savings', '', $delete_all );
 }
 // Delete Directory smush table.
-$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}smush_dir_images" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->base_prefix}smush_dir_images" );
 
 // Delete directory scan data.
 delete_option( 'wp-smush-scan-step' );

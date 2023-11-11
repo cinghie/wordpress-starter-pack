@@ -55,7 +55,7 @@ if( 1 == $page ) { ?>
 
 	$post_args = apply_filters( 'is_ajax_search_args', $post_args );
 	$posts = new WP_Query( $post_args );
-
+	do_action( 'is_ajax_search_results', $posts );
 	if ( $posts->posts ) {
 
 		if( 1 == $page ) { ?>

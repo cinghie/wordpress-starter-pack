@@ -21,10 +21,10 @@
 
 namespace No3x\WPML;
 
+use No3x\WPML\Migration\Migration;
 use No3x\WPML\Model\DefaultMailService;
 use No3x\WPML\Renderer\WPML_MailRenderer;
 use No3x\WPML\Renderer\WPML_MailRenderer_AJAX_Handler;
-use No3x\WPML\Settings\WPML_Redux_Framework_config;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -107,9 +107,6 @@ class WPML_Init {
         $this->container['emailDispatcher'] = function () {
             return new WPML_Email_Dispatcher();
         };
-        $this->container['redux'] = function ($c) {
-            return new WPML_Redux_Framework_config( $c['plugin-meta'] );
-        };
         $this->container['logRotation'] = function ($c) {
             return new WPML_LogRotation( $c['plugin-meta'] );
         };
@@ -122,6 +119,11 @@ class WPML_Init {
         $this->container['mailRenderer'] = function ($c) {
             return new WPML_MailRenderer( new DefaultMailService() );
         };
+        $this->container['userFeedback'] = function ($c) {
+            return new WPML_UserFeedback();
+        };
+        $this->container['productEducation'] = new WPML_ProductEducation();
+
         $this->container->addActionsAndFilters();
 
         add_filter( 'wpml_get_di_container', function() {
@@ -131,6 +133,11 @@ class WPML_Init {
         add_filter( 'wpml_get_di_service', function( $service ) {
             return $this->getService( $service );
         } );
+
+        // Set plugin activation time for all installs.
+        if ( is_admin() && empty( get_option( 'wp_mail_logging_activated_time' ) ) ) {
+            add_option( 'wp_mail_logging_activated_time', time() );
+        }
 
         /*
          * Install the plugin
@@ -145,6 +152,9 @@ class WPML_Init {
         } else {
             // Perform any version-upgrade activities prior to activation (e.g. database changes).
             $this->container['plugin']->upgrade();
+
+            // Perform DB migrations.
+            new Migration();
         }
 
         if ( $file ) {

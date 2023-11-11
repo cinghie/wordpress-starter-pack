@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Admin page router.
  */
@@ -117,7 +118,14 @@ class AdminRouter
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if (!isset($_SERVER['REQUEST_METHOD']) || !isset($_GET['route'])) {
-            \wp_safe_redirect(\admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive'));
+            $redirect = add_query_arg(
+                [
+                    'page' => METAGALLERY_PAGE_NAME,
+                    'route' => 'archive'
+                ],
+                \admin_url('admin.php')
+            );
+            \wp_safe_redirect($redirect);
             exit;
         }
 
@@ -163,9 +171,14 @@ class AdminRouter
         }
 
         // Default to archive page.
-        \wp_safe_redirect(
-            \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive')
+        $redirect = add_query_arg(
+            [
+                'page' => METAGALLERY_PAGE_NAME,
+                'route' => 'archive'
+            ],
+            \admin_url('admin.php')
         );
+        \wp_safe_redirect($redirect);
         exit;
     }
 
@@ -183,6 +196,22 @@ class AdminRouter
                 $this->addAdminPage();
             },
             9999
+        );
+
+        \add_action(
+            'init',
+            function () {
+                // First, unload textdomain - Based on https://core.trac.wordpress.org/ticket/34213#comment:26
+                unload_textdomain('metagallery');
+
+                // Call the core translations from plugins languages/ folder
+                if (file_exists(__DIR__ . '/../languages/' . 'metagallery' . '-' . get_locale() . '.mo')) {
+                    load_textdomain(
+                        'metagallery',
+                        __DIR__ . '/../languages/' . 'metagallery' . '-' . get_locale() . '.mo'
+                    );
+                }
+            }
         );
 
         \add_action(
@@ -236,7 +265,7 @@ class AdminRouter
         $addPage = $this->parent ? '\add_submenu_page' : '\add_menu_page';
         $args = [
             App::$name,
-            'Gallery',
+            __('Gallery', 'metagallery'),
             App::$capability,
             App::$slug,
             '\Extendify\MetaGallery\View::admin',
@@ -306,7 +335,9 @@ class AdminRouter
         );
         \wp_enqueue_script(App::$slug . '-scripts');
 
-        \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain);
+        if (function_exists('wp_set_script_translations')) {
+            \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain, __DIR__ . '/../languages');
+        }
 
         \wp_enqueue_style(
             App::$slug . '-theme',
@@ -318,16 +349,15 @@ class AdminRouter
     }
 
     /**
-     * Adds various inline JS/CSS scripts directly to the head
-     *
-     * @since 0.1.0
-     * @return void
-     */
+    * Adds various inline JS/CSS scripts directly to the head
+    *
+    * @since 0.1.0
+    * @return void
+    */
     public function addScopedInlineScripts()
     {
         // helper style for Alpinejs.
         // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
-        echo '<link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Rubik:wght@500&display=swap" rel="stylesheet">';
         echo '<style>[x-cloak] { display: none!important; }</style>';
     }
 
@@ -360,6 +390,14 @@ class AdminRouter
     {
         ?>
         <style>
+            @font-face {
+              font-family: 'Rubik';
+              src: url('<?php echo esc_url(METAGALLERY_BASE_URL . "resources/fonts/"); ?>Rubik.ttf') format('truetype');
+            }
+            @font-face {
+              font-family: 'IBM Plex Sans';
+              src: url('<?php echo esc_url(METAGALLERY_BASE_URL . "resources/fonts/"); ?>IBMPlexSans-Regular.ttf') format('truetype');
+            }
             .wp-has-submenu a[href="admin.php?page=metagallery"] {
                 margin-top: 10px !important;
             }

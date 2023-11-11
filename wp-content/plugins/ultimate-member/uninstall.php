@@ -9,16 +9,16 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-if ( ! defined( 'um_path' ) ) {
-	define( 'um_path', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'UM_PATH' ) ) {
+	define( 'UM_PATH', plugin_dir_path( __FILE__ ) );
 }
 
-if ( ! defined( 'um_url' ) ) {
-	define( 'um_url', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'UM_URL' ) ) {
+	define( 'UM_URL', plugin_dir_url( __FILE__ ) );
 }
 
-if ( ! defined( 'um_plugin' ) ) {
-	define( 'um_plugin', plugin_basename( __FILE__ ) );
+if ( ! defined( 'UM_PLUGIN' ) ) {
+	define( 'UM_PLUGIN', plugin_basename( __FILE__ ) );
 }
 
 //for delete Email options only for Core email notifications
@@ -68,16 +68,66 @@ if ( ! empty( $delete_options ) ) {
 		wp_delete_post( $um_post->ID, 1 );
 	}
 
+	global $wp_roles;
+
+	if ( class_exists( '\WP_Roles' ) ) {
+		if ( ! isset( $wp_roles ) ) {
+			$wp_roles = new \WP_Roles();
+		}
+
+		$role_keys = get_option( 'um_roles', array() );
+		if ( $role_keys ) {
+			foreach ( $role_keys as $roleID ) {
+				$role_meta = get_option( "um_role_{$roleID}_meta" );
+				if ( ! empty( $role_meta ) && ! empty( $wp_roles->roles[ $roleID ] ) ) {
+					$wp_roles->roles[ $roleID ] = array_diff( $wp_roles->roles[ $roleID ], $role_meta );
+				}
+			}
+		}
+
+		update_option( $wp_roles->role_key, $wp_roles->roles );
+	}
+
 	//remove user role meta
 	$role_keys = get_option( 'um_roles', array() );
 	if ( $role_keys ) {
 		foreach ( $role_keys as $role_key ) {
 			delete_option( 'um_role_' . $role_key . '_meta' );
 		}
+
+		$um_custom_role_users = get_users(
+			array(
+				'role__in' => $role_keys,
+			)
+		);
+
+		if ( ! empty( $um_custom_role_users ) ) {
+			foreach ( $um_custom_role_users as $custom_role_user ) {
+				foreach ( $role_keys as $role_key ) {
+					if ( user_can( $custom_role_user, $role_key ) ) {
+						$custom_role_user->remove_role( $role_key );
+					}
+				}
+			}
+		}
 	}
 
 	delete_option( '__ultimatemember_sitekey' );
 	delete_option( 'um_flush_rewrite_rules' );
+
+	$statuses = array(
+		'approved',
+		'awaiting_admin_review',
+		'awaiting_email_confirmation',
+		'inactive',
+		'rejected',
+	);
+
+	foreach ( $statuses as $status ) {
+		delete_transient( "um_count_users_{$status}" );
+	}
+	delete_transient( 'um_count_users_pending_dot' );
+	delete_transient( 'um_count_users_unassigned' );
 
 	//remove all users cache
 	UM()->user()->remove_cache_all_users();
@@ -85,37 +135,37 @@ if ( ! empty( $delete_options ) ) {
 	global $wpdb;
 
 	$wpdb->query(
-		"DELETE 
-        FROM {$wpdb->usermeta} 
-        WHERE meta_key LIKE '_um%' OR 
-              meta_key LIKE 'um%' OR 
-              meta_key LIKE 'reviews%' OR 
-              meta_key = 'submitted' OR 
-              meta_key = 'account_status' OR 
-              meta_key = 'password_rst_attempts' OR 
-              meta_key = 'profile_photo' OR 
-              meta_key = '_enable_new_follow' OR 
-              meta_key = '_enable_new_friend' OR 
-              meta_key = '_mylists' OR 
-              meta_key = '_enable_new_pm' OR 
-              meta_key = '_hidden_conversations' OR 
-              meta_key = '_pm_blocked' OR 
-              meta_key = '_notifications_prefs' OR 
-              meta_key = '_profile_progress' OR 
-              meta_key = '_completed' OR 
-              meta_key = '_cannot_add_review' OR 
-              meta_key = 'synced_profile_photo' OR 
+		"DELETE
+        FROM {$wpdb->usermeta}
+        WHERE meta_key LIKE '_um%' OR
+              meta_key LIKE 'um%' OR
+              meta_key LIKE 'reviews%' OR
+              meta_key = 'submitted' OR
+              meta_key = 'account_status' OR
+              meta_key = 'password_rst_attempts' OR
+              meta_key = 'profile_photo' OR
+              meta_key = '_enable_new_follow' OR
+              meta_key = '_enable_new_friend' OR
+              meta_key = '_mylists' OR
+              meta_key = '_enable_new_pm' OR
+              meta_key = '_hidden_conversations' OR
+              meta_key = '_pm_blocked' OR
+              meta_key = '_notifications_prefs' OR
+              meta_key = '_profile_progress' OR
+              meta_key = '_completed' OR
+              meta_key = '_cannot_add_review' OR
+              meta_key = 'synced_profile_photo' OR
               meta_key = 'full_name' OR
-              meta_key = '_reviews' OR 
-              meta_key = '_reviews_compound' OR 
-              meta_key = '_reviews_total' OR 
+              meta_key = '_reviews' OR
+              meta_key = '_reviews_compound' OR
+              meta_key = '_reviews_total' OR
               meta_key = '_reviews_avg'"
 	);
 
 	$wpdb->query(
-		"DELETE 
-        FROM {$wpdb->postmeta} 
-        WHERE meta_key LIKE '_um%' OR 
+		"DELETE
+        FROM {$wpdb->postmeta}
+        WHERE meta_key LIKE '_um%' OR
               meta_key LIKE 'um%'"
 	);
 

@@ -601,6 +601,12 @@ function seedprod_lite_save_lpage() {
 			$has_permission = true;
 		}
 
+		$sp_post         = $_POST;
+		$sp_current_user = wp_get_current_user();
+
+		// Save personalization preferences.
+		update_user_meta( $sp_current_user->ID, 'seedprod_personalization_preferences', $sp_post['personalization_preferences'] );
+
 		if ( false === $has_permission ) {
 			header( 'Content-Type: application/json' );
 			header( 'Status: 400 Bad Request' );
@@ -609,10 +615,9 @@ function seedprod_lite_save_lpage() {
 		}
 
 		// clean slashes post
-		$sp_post               = $_POST;
 		$sp_post['lpage_html'] = stripslashes_deep( $sp_post['lpage_html'] );
 
-		// remove uneeded code
+		// remove unneeded code
 		$html = $sp_post['lpage_html'];
 		if ( ! empty( $html ) ) {
 			$html = preg_replace( "'<span class=\"sp-hidden\">START-REMOVE</span>[\s\S]+?<span class=\"sp-hidden\">END-REMOVE</span>'", '', $html );
@@ -621,12 +626,18 @@ function seedprod_lite_save_lpage() {
 			$html = preg_replace( "'<!---->'", '', $html );
 			$html = preg_replace( "'<!--'", '', $html );
 			$html = preg_replace( "'-->'", '', $html );
+			// html custom comment
+			$html = preg_replace( "'--!'", '-->', $html );
+			$html = preg_replace( "'!--'", '<!--', $html );
+			// end html custom comment
 			$html = preg_replace( "'contenteditable=\"true\"'", '', $html );
 			$html = preg_replace( "'spellcheck=\"false\"'", '', $html );
 			$html = str_replace( 'function(e,n,r,i){return fn(t,e,n,r,i,!0)}', '', $html );
+			// remove preview animation
+			$html = str_replace( 'animate__', '', $html );
 			// remove sp-theme-template id
 			require_once SEEDPROD_PLUGIN_PATH . 'app/includes/simple_html_dom.php';
-			$phtml                   = str_get_html( $html );
+			$phtml                   = seedprod_str_get_html( $html );
 			$sp_theme_templates_divs = $phtml->find( '#sp-theme-template' );
 			foreach ( $sp_theme_templates_divs as $k => $v ) {
 				$html = $v->innertext;
@@ -668,6 +679,7 @@ function seedprod_lite_save_lpage() {
 			$check_post_type = json_decode( stripslashes( $settings ) );
 			if ( 'post' == $check_post_type->page_type ) {
 				update_post_meta( $lpage_id, '_seedprod_edited_with_seedprod', '1' );
+				delete_post_meta( $lpage_id, '_seedprod_page' );
 			} else {
 				update_post_meta( $lpage_id, '_seedprod_page', '1' );
 			}
@@ -677,9 +689,24 @@ function seedprod_lite_save_lpage() {
 				$status            = 'autosave';
 			} else {
 
-				wp_update_post( $update );
+				// remove action so they don't conflict with the save. Yoast SEO was trying to analytize this content.
+				remove_all_actions( 'wp_insert_post' );
+				if ( is_multisite() ) {
+					kses_remove_filters();
+					wp_update_post( $update );
+					kses_init_filters();
+				} else {
+					wp_update_post( $update );
+				}
 				$status = 'updated';
+			}
 
+			if ( class_exists( 'SeedProd_Tracking' ) ) {
+				$tracking = new SeedProd_Tracking();
+				if ( ! empty( $check_post_type->document->sections ) ) {
+					$block_usage_data = $tracking->get_block_data( $check_post_type->document->sections );
+					update_post_meta( $lpage_id, '_seedprod_block_usage', $block_usage_data );
+				}
 			}
 		}
 
@@ -848,7 +875,9 @@ function seedprod_lite_save_template() {
 			if ( 99999 != $template_id ) {
 				unset( $settings['document'] );
 				$template_code_merge = json_decode( $template_code, true );
-				$settings            = $settings + $template_code_merge;
+				if ( is_array( $template_code_merge ) ) {
+					$settings = $settings + $template_code_merge;
+				}
 			}
 			// TODO pull in current pages content if any exists, make sure sections is empty before adding
 			if ( ! empty( $_POST['lpage_type'] ) && 'post' == $_POST['lpage_type'] ) {
@@ -965,7 +994,8 @@ function seedprod_lite_get_namespaced_custom_css() {
 			require_once SEEDPROD_PLUGIN_PATH . 'app/includes/seedprod_lessc.inc.php';
 			$less  = new seedprod_lessc();
 			$style = $less->parse( '.sp-html {' . $css . '}' );
-			echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			//echo $style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '';
 			exit();
 		}
 	}

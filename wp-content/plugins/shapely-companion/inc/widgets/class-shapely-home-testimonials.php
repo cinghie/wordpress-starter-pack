@@ -36,7 +36,7 @@ class Shapely_Home_Testimonials extends WP_Widget {
 		$limit     = $instance['limit'];
 		$image_src = $instance['image_src'];
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 		/**
 		 * Widget Content
@@ -101,7 +101,7 @@ class Shapely_Home_Testimonials extends WP_Widget {
 		<?php
 		endif;
 		wp_reset_postdata();
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 	}
 
@@ -139,7 +139,7 @@ class Shapely_Home_Testimonials extends WP_Widget {
 				<?php echo esc_html__( 'Background Parallax Image:', 'shapely-companion' ); ?>
 			</label>
 
-			<img data-default="<?php echo $placeholder_url; ?>" src="<?php echo '' != $instance['image_src'] ? esc_url( $instance['image_src'] ) : $placeholder_url; ?>"/>
+			<img data-default="<?php echo esc_url( $placeholder_url ); ?>" src="<?php echo '' != $instance['image_src'] ? esc_url( $instance['image_src'] ) : esc_url( $placeholder_url ); ?>"/>
 
 			<input type="hidden" name="<?php echo esc_attr( $this->get_field_name( 'image_src' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'image_src' ) ); ?>" value="<?php echo esc_url( $instance['image_src'] ); ?>" class="image-id blazersix-media-control-target">
 

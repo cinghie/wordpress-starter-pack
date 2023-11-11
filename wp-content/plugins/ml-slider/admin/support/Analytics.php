@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
  */
 class MetaSlider_Analytics
 {
-
     /**
      * @var Appsero\Insights $appsero
      */
@@ -35,7 +34,6 @@ class MetaSlider_Analytics
         );
 
         // Show notice only if they are not already opt in (pro will override this to show the opt-out notice once)
-        add_action('admin_notices', array($this, 'showOptInNotice'));
         add_action('wp_ajax_handle_optin_action', array($this, 'handleOptinDismiss'));
         add_action('admin_enqueue_scripts', array($this, 'addAdminNonce'));
     }
@@ -57,66 +55,15 @@ class MetaSlider_Analytics
     }
 
     /**
-     * Show the dang thing
-     *
-     * @return void
-     */
-    public function showOptInNotice()
-    {
-        if (!get_user_option('extendifysdk_announcement')) {
-            // If they haven't seen the the extendify notice, then hold off on showing this one.
-            return;
-        }
-        if (self::siteIsOptin()) {
-            return;
-        }
-        $current_page = get_current_screen();
-        if ($current_page && in_array($current_page->base, $this->whereToShow)) {
-            if (!get_user_option('metaslider_optin_notice_dismissed') && !get_user_option('wp_metaslider_analytics_onboarding_status')) { ?>
-            <div
-                id="metaslider-optin-notice"
-                class="notice updated"
-                style="display:flex;align-items:stretch;justify-content:space-between;position:relative">
-                <div style="display:flex;align-items:center;position:relative">
-                    <img
-                        src="<?php echo METASLIDER_BASE_URL.'admin/images/metaslider_logo.png'?>"
-                        width="60" height="60"
-                        style="margin-right:0.5rem;"
-                        alt="<?php _e('MetaSlider Logo', 'ml-slider');?>" />
-                    <div>
-                        <h3 style="margin-bottom:0.25rem;"><?php _e('Thanks for using MetaSlider', 'ml-slider'); ?></h3>
-                        <p style="max-width:850px;">
-                            <?php printf(__('We are currently building the next version of MetaSlider. Can you help us out by sharing non-sensitive diagnostic information? We\'d also like to send you infrequent emails with important security and feature updates. See our %s for more details.', 'ml-slider'), '<a target="_blank" href="https://www.metaslider.com/privacy-policy">' . __('privacy policy', 'ml-slider') . '</a>'); ?>
-                        </p>
-                    </div>
-                </div>
-                <div style="display:flex;flex-direction:column;justify-content: space-between;align-items:flex-end;margin:8px 0 12px;">
-                    <button
-                        style="max-width:15px;border:0;background:0;color: #7b7b7b;white-space:nowrap;cursor: pointer;padding: 0"
-                        title="Dismiss notice"
-                        aria-label="Dismiss MetaSlider activation notice"
-                        onclick="jQuery('#metaslider-optin-notice').remove();jQuery.post(window.ajaxurl, {action: 'handle_optin_action', activate: false, _wpnonce: metaslider_optin_notice_nonce });">
-                        <svg style="width:100%" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                    <button class="button button-primary" onclick="jQuery('#metaslider-optin-notice').remove();jQuery.post(window.ajaxurl, {action: 'handle_optin_action', activate: true, _wpnonce: metaslider_optin_notice_nonce });"><?php _e('Agree', 'ml-slider'); ?></button>
-                </div>
-            </div>
-        <?php }
-        }
-    }
-
-    /**
      * Handle the skip on the notice
      *
      * @return void
      */
     public function handleOptinDismiss()
     {
-        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'metaslider_optin_notice_nonce')) {
+        if (! isset($_REQUEST['_wpnonce']) || ! wp_verify_nonce(sanitize_key($_REQUEST['_wpnonce']), 'metaslider_optin_notice_nonce')) {
             wp_send_json_error(array(
-                'message' => __('The security check failed. Please refresh the page and try again.', 'ml-slider')
+                'message' => esc_html__('The security check failed. Please refresh the page and try again.', 'ml-slider')
             ), 401);
         }
         // They opted in, so we can instruct Appsero to communicate with the server
@@ -142,11 +89,11 @@ class MetaSlider_Analytics
         if (is_multisite()) {
             return $this;
         }
-        if (!class_exists('MSAppsero/Client')) {
+        if (!class_exists('Appsero\\Client')) {
             require_once(METASLIDER_PATH . 'lib/appsero/src/Client.php');
         }
         add_filter('ml-slider_tracker_data', array($this, 'filterTrackingData'));
-        $client = new MSAppsero\Client($key, $name, $path);
+        $client = new Appsero\Client($key, $name, $path);
         $this->appsero = $client->insights();
         return $this;
     }
@@ -204,7 +151,7 @@ class MetaSlider_Analytics
     /**
      * Add some extra fields - This is called async now so no need to cache it.
      *
-     * @return void
+     * @return array
      */
     public function extraDataToCollect()
     {
@@ -233,7 +180,7 @@ class MetaSlider_Analytics
             );
 
             return $data;
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return array();
         }
     }
@@ -283,10 +230,19 @@ class MetaSlider_Analytics
     public function optin()
     {
         $current_user = wp_get_current_user();
+
+        //check if there is a custom email added for optin
+        $optin_email = get_option('metaslider_optin_email');
+        if (!empty($optin_email)) {
+            $use_email = filter_var($optin_email, FILTER_SANITIZE_EMAIL);
+        } else {
+            $use_email = $current_user->user_email;
+        }
+
         update_option('metaslider_optin_user_extras', array(
             'id' => $current_user->ID,
-            'email' => $current_user->user_email,
-            'ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
+            'email' => $use_email,
+            'ip' => isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '', // phpcs:ignore WordPressVIPMinimum.Variables.ServerVariables.UserControlledHeaders
             'time' => time()
         ));
 

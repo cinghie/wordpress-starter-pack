@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!class_exists('Updraft_Notices_1_0')) {
-    require_once(METASLIDER_PATH.'admin/lib/Updraft_Notices.php');
+    require_once(METASLIDER_PATH . 'admin/lib/Updraft_Notices.php');
 }
 
 /**
@@ -13,7 +13,6 @@ if (!class_exists('Updraft_Notices_1_0')) {
  */
 class MetaSlider_Notices extends Updraft_Notices_1_0
 {
-
     /**
      * All Ads
      *
@@ -38,7 +37,6 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
          * The second two require the first to be set to true
          *
          * define('METASLIDER_FORCE_NOTICES', true);
-         * define('METASLIDER_DISABLE_SEASONAL_NOTICES', true);
          *
          * Be sure not to set both of these at the same time
          * define('METASLIDER_FORCE_LITE_NOTICES', true);
@@ -51,11 +49,6 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
         // To avoid showing the user ads off the start, lets wait
         $this->notices_content = ($this->ad_delay_has_finished()) ? $this->ads : array();
 
-        // If $notices_content is empty, we still want to offer seasonal ads
-        if (empty($this->notices_content) && !metaslider_pro_is_installed()) {
-            $this->notices_content = $this->valid_seasonal_notices();
-        }
-
         add_action('admin_enqueue_scripts', array($this, 'add_notice_assets'));
         add_action('wp_ajax_notice_handler', array($this, 'ajax_notice_handler'));
         add_action('admin_notices', array($this, 'show_dashboard_notices'));
@@ -66,7 +59,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
      */
     public function add_notice_assets()
     {
-        wp_enqueue_style('ml-slider-notices-css', METASLIDER_ADMIN_URL . 'assets/css/notices.css', false, METASLIDER_VERSION);
+        wp_enqueue_style('ml-slider-notices-css', METASLIDER_ADMIN_URL . 'assets/css/notices.css', false, METASLIDER_ASSETS_VERSION);
         wp_register_script('metaslider-notices-extra-js', '');
         wp_enqueue_script('metaslider-notices-extra-js');
         $nonce = wp_create_nonce('metaslider_handle_notices_nonce');
@@ -93,54 +86,55 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     protected function lite_notices()
     {
         if (defined('METASLIDER_FORCE_PRO_NOTICES') && METASLIDER_FORCE_PRO_NOTICES) {
-
             // Override to force pro, but make sure both overrides arent set
             return (!defined('METASLIDER_FORCE_LITE_NOTICES')) ? $this->pro_notices() : array();
         }
 
-        return array_merge(array(
-            'rate_plugin' => array(
-                'title' => _x('Like MetaSlider and have a minute to spare?', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
-                'text' => _x('Please help MetaSlider by giving a positive review at wordpress.org.', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
-                'image' => 'metaslider_logo.png',
+        return [
+            'rate_plugin' => [
+                'title' => _x('Like MetaSlider? Please help us by giving a positive review at WordPress.org', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
+                'text' => '',
+                'image' => 'notices/metaslider_logo.png',
                 'button_link' => 'metaslider_rate',
                 'button_meta' => 'review',
                 'dismiss_time' => 'rate_plugin',
                 'hide_time' => 12,
-                'supported_positions' => array('header'),
-            ),
-            'pro_layers' => array(
-                'title' => __('Spice up your site with animated layers and video slides', 'ml-slider'),
-                'text' => _x('With the MetaSlider Add-on pack you can give your slideshows a professional look!', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
-                'image' => 'metaslider_logo.png',
+                'supported_positions' => ['header'],
+            ],
+            'pro_layers' => [
+                'title' => __('Spice up your site with animated layers and video slides with MetaSlider Pro', 'ml-slider'),
+                'text' => '',
+                'image' => 'notices/metaslider_logo.png',
                 'button_link' => 'metaslider',
                 'button_meta' => 'buy-w-discount',
                 'dismiss_time' => 'pro_layers',
                 'hide_time' => 12,
-                'supported_positions' => array('header'),
-            ),
-            'pro_features' => array(
-                'title' => __('Increase your revenue and conversion with video slides and many more features', 'ml-slider'),
-                'text' => __('Upgrade today to benefit from many more premium features. Find out more.', 'ml-slider'),
-                'image' => 'metaslider_logo.png',
+                'supported_positions' => ['header'],
+                'validity_function' => 'metaslider_pro_is_not_installed',
+            ],
+            'pro_features' => [
+                'title' => __('Increase your revenue and conversion with video slides and many more MetaSlider Pro features', 'ml-slider'),
+                'text' => '',
+                'image' => 'notices/metaslider_logo.png',
                 'button_link' => 'metaslider',
                 'button_meta' => 'buy-w-discount',
                 'dismiss_time' => 'pro_features',
                 'hide_time' => 12,
-                'supported_positions' => array('header'),
-            ),
-            'translation' => array(
+                'supported_positions' => ['header'],
+                'validity_function' => 'metaslider_pro_is_not_installed',
+            ],
+            'translation' => [
                 'title' => __('Can you translate? Want to improve MetaSlider for speakers of your language?', 'ml-slider'),
-                'text' => __('Please go here for instructions - it is easy.', 'ml-slider'),
-                'image' => 'metaslider_logo.png',
+                'text' => '',
+                'image' => 'notices/metaslider_logo.png',
                 'button_link' => 'metaslider_translate',
                 'button_meta' => 'lets_start',
                 'dismiss_time' => 'translation',
                 'hide_time' => 12,
-                'supported_positions' => array('header'),
+                'supported_positions' => ['header'],
                 'validity_function' => 'translation_needed',
-            ),
-        ), $this->valid_seasonal_notices());
+            ],
+        ];
     }
 
     /**
@@ -151,77 +145,11 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     protected function pro_notices()
     {
         if (defined('METASLIDER_FORCE_LITE_NOTICES') && METASLIDER_FORCE_LITE_NOTICES) {
-
             // Override to force pro, but make sure both overrides arent set
-            return (!defined('METASLIDER_FORCE_PRO_NOTICES')) ? $this->lite_notices() : array();
+            return (!defined('METASLIDER_FORCE_PRO_NOTICES')) ? $this->lite_notices() : [];
         }
 
-        return array();
-    }
-
-    /**
-     * Seasonal Notices. Note that if dismissed, they will stay dismissed for 9999 weeks.
-     * An empty string for 'hide_time' will show "Dismiss" instead of "Dismiss (12 weeks)"
-     * Each year the key and dismiss time should be updated
-     *
-     * @return array
-     */
-    protected function seasonal_notices()
-    {
-        if (defined('METASLIDER_DISABLE_SEASONAL_NOTICES') && METASLIDER_DISABLE_SEASONAL_NOTICES) {
-            return array();
-        }
-
-        $coupons = json_decode(file_get_contents(METASLIDER_PATH .'seasonal-discounts.json'), true);
-        $coupon_object =  array(
-            'blackfriday' => array(
-                'title' => _x('Black Friday — Get 60% off the MetaSlider Add-on Pack until November 30th!', 'Keep the phrase "MetaSlider Add-on Pack" when possible. Also, "Black Friday" is the name of an event in the United States', 'ml-slider'),
-                'text' => __('With discount code:', 'ml-slider').' ',
-                'image' => 'seasonal/black_friday.png',
-                'button_link' => 'metaslider',
-                'button_meta' => 'buy-w-discount',
-                'hide_time' => '',
-                'supported_positions' => array('header', 'dashboard'),
-            ),
-            'christmas' => array(
-                'title' => _x('Christmas sale - 60% off the MetaSlider Add-on Pack until December 25th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('With discount code:', 'ml-slider').' ',
-                'image' => 'seasonal/christmas.png',
-                'button_link' => 'metaslider',
-                'button_meta' => 'buy-w-discount',
-                'hide_time' => '',
-                'supported_positions' => array('header', 'dashboard'),
-            ),
-            'newyear' => array(
-                'title' => _x('Happy New Year - 60% off the MetaSlider Add-on Pack until January 14th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('With discount code:', 'ml-slider').' ',
-                'image' => 'seasonal/new_year.png',
-                'button_link' => 'metaslider',
-                'button_meta' => 'buy-w-discount',
-                'hide_time' => '',
-                'supported_positions' => array('header', 'dashboard'),
-            ),
-            'spring' => array(
-                'title' => _x('Spring sale - 20% off the MetaSlider Add-on Pack until April 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('With discount code:', 'ml-slider').' ',
-                'image' => 'seasonal/spring.png',
-                'button_link' => 'metaslider',
-                'button_meta' => 'buy-w-discount',
-                'hide_time' => '',
-                'supported_positions' => array('header', 'dashboard'),
-            ),
-            'summer' => array(
-                'title' => _x('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
-                'text' => __('With discount code:', 'ml-slider').' ',
-                'image' => 'seasonal/summer.png',
-                'button_link' => 'metaslider',
-                'button_meta' => 'buy-w-discount',
-                'hide_time' => '',
-                'supported_positions' => array('header', 'dashboard'),
-            ),
-        );
-
-        return array_map(array($this, 'prepare_notice_fields'), array_merge_recursive($coupon_object, $coupons));
+        return [];
     }
 
     /**
@@ -236,6 +164,16 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
             $notice['dismiss_time'] = $notice['discount_code'];
         }
         return $notice;
+    }
+
+    /**
+     * Checks if MetaSlider Pro is NOT installed
+     *
+     * @return bool
+     */
+    protected function metaslider_pro_is_not_installed()
+    {
+        return ! metaslider_pro_is_installed();
     }
 
     /**
@@ -265,45 +203,6 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     }
 
     /**
-     * Returns all active seasonal ads
-     *
-     * @return array
-     */
-    protected function valid_seasonal_notices()
-    {
-        $valid = array();
-        $time_now = time();
-        // $time_now = strtotime('2021-11-20 00:00:01'); // Black Friday
-        // $time_now = strtotime('2021-12-01 00:00:01'); // XMAS
-        // $time_now = strtotime('2021-12-26 00:00:01'); // NY
-        // $time_now = strtotime('2022-04-01 00:00:01'); // Spring
-        // $time_now = strtotime('2022-07-01 00:00:01'); // Summer
-        foreach ($this->seasonal_notices() as $ad_identifier => $notice) {
-            if (!isset($notice['valid_from']) || !isset($notice['valid_to'])) {
-                continue;
-            }
-            $valid_from = strtotime($notice['valid_from']);
-            $valid_to = strtotime($notice['valid_to']);
-            if ($valid_from < $time_now && $time_now <= $valid_to) {
-                $valid[$ad_identifier] = $notice;
-            }
-        }
-        return $valid;
-    }
-
-    /**
-     * The logic is handled elsewhere. This being true does not skip
-     * the seasonal notices. Overrides parent function
-     *
-     * @param array $notice_data Notice data
-     * @return array
-     */
-    protected function skip_seasonal_notices($notice_data)
-    {
-        return !$this->check_notice_dismissed($notice_data['dismiss_time']);
-    }
-
-    /**
      * Checks whether this is an ad page - hard-coded
      *
      * @return bool
@@ -311,7 +210,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     protected function is_page_with_ads()
     {
         global $pagenow;
-        $page = isset($_GET['page']) ? $_GET['page'] : '';
+        $page = isset($_GET['page']) ? sanitize_key($_GET['page']) : '';
 
         // I'm thinking to limit the check to the actual settings page for now
         // This way, if they activate the plugin but don't start using it until
@@ -328,33 +227,23 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
      */
     protected function ad_delay_has_finished()
     {
-        if ($this->force_ads()) {
+        // The delay could be empty, ~2 weeks (initial delay) or ~12 weeks
+        $delay = get_option("ms_hide_all_ads_until");
 
+        if ($this->force_ads()) {
             // If there's an override, return true
             return true;
         }
 
-        if (metaslider_pro_is_installed()) {
-
-            // If they are pro don't check anything but show the pro ad.
-            return true;
-        }
-
-        // The delay could be empty, ~2 weeks (initial delay) or ~12 weeks
-        $delay = get_option("ms_hide_all_ads_until");
-
         if (!$this->is_page_with_ads() && !$delay) {
-
             // Only start the timer if they see a page that can serve ads
             return false;
         }
 
         if (!$delay) {
-
             // Set the delay for when they will first see an ad, 2 weeks; returns false
-            return !update_option("ms_hide_all_ads_until", time() + 2*7*86400);
+            return !update_option("ms_hide_all_ads_until", time() + 2 * 7 * 86400);
         } elseif ((time() > $delay) && !get_option("ms_ads_first_seen_on")) {
-
             // Serve ads now, and note the time they first saw ads
             update_option("ms_ads_first_seen_on", time());
 
@@ -364,13 +253,16 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
             $this->ads = array('rate_plugin' => $notices['rate_plugin']);
             return true;
         } elseif (time() < $delay) {
-
             // This means an ad was dismissed and there's a delay
             return false;
         } elseif (get_option("ms_ads_first_seen_on")) {
-
             // This means the initial delay has elapsed,
             // and the dismissed period expired
+            return true;
+        }
+
+        if (metaslider_pro_is_installed()) {
+            // If they are pro don't check anything but show the pro ad.
             return true;
         }
 
@@ -385,12 +277,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     {
         $current_page = get_current_screen();
         if ('dashboard' === $current_page->base && metaslider_user_is_ready_for_notices()) {
-
-            // Override the delay to show the thankyou notice on activation
-            // if (!empty($_GET['ms_activated'])) {
-            // $lite_notices = $this->lite_notices();
-            // $this->notices_content['thankyou'] = $lite_notices['thankyou'];
-            // }
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo $this->do_notice(false, 'dashboard', true);
         }
     }
@@ -422,15 +309,15 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
      */
     public function include_template($path, $return_instead_of_echo = false, $args = array())
     {
-        if ($return_instead_of_echo) {
+        if ( $return_instead_of_echo ) {
             ob_start();
         }
 
-        extract($args);
-        if (is_int($hide_time)) {
-            $hide_time = $hide_time . ' ' . __('weeks', 'ml-slider');
+        if ( ! empty( $args['hide_time']) && is_int($args['hide_time'])) {
+            $hide_time = $args['hide_time'] . ' ' . __('weeks', 'ml-slider');
         }
-        include METASLIDER_PATH.'admin/views/notices/'.$path;
+
+        include METASLIDER_PATH . 'admin/views/notices/' . $path;
 
         if ($return_instead_of_echo) {
             return ob_get_clean();
@@ -447,16 +334,16 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     public function get_button_link($link, $type)
     {
         $messages = array(
-            'lets_start' => __('Let\'s Start', 'ml-slider'),
-            'review' => _x('Review MetaSlider', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
+            'lets_start' => __('Let\'s Start &rarr;', 'ml-slider'),
+            'review' => _x('Review MetaSlider &rarr;', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
             'ml-slider' => __('Find out more &rarr;', 'ml-slider'),
-            'buy-w-discount' => __('Get it now &rarr;', 'ml-slider'),
-            'signup' => __('Sign up', 'ml-slider'),
-            'go_there' => __('Go there', 'ml-slider')
+            'buy-w-discount' => __('Get MetaSlider Pro &rarr;', 'ml-slider'),
+            'signup' => __('Sign up &rarr;', 'ml-slider'),
+            'go_there' => __('Go there &rarr;', 'ml-slider')
         );
         $message = isset($messages[$type]) ? $messages[$type] : __('Read more', 'ml-slider');
 
-        return '<a class="updraft_notice_link underline text-blue-dark" target="_blank" href="' . $this->get_notice_url($link) . '">' . $message . '</a>';
+        return '<a class="updraft_notice_link ml-discount-ad-button" target="_blank" href="' . esc_url($this->get_notice_url($link)) . '">' . esc_html($message) . '</a>';
     }
 
     /**
@@ -466,13 +353,31 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
      */
     public function ajax_notice_handler()
     {
-        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'metaslider_handle_notices_nonce')) {
+        if (! isset($_REQUEST['_wpnonce']) || ! wp_verify_nonce(sanitize_key($_REQUEST['_wpnonce']), 'metaslider_handle_notices_nonce')) {
             wp_send_json_error(array(
                 'message' => __('The security check failed. Please refresh the page and try again.', 'ml-slider')
             ), 401);
         }
 
-        if (is_wp_error($ad_data = $this->ad_exists($_POST['ad_identifier']))) {
+        $capability = apply_filters('metaslider_capability', MetaSliderPlugin::DEFAULT_CAPABILITY_EDIT_SLIDES);
+        if (! current_user_can($capability)) {
+            wp_send_json_error(
+                [
+                    'message' => __('Access denied', 'ml-slider')
+                ],
+                403
+            );
+        }
+
+        if (! isset($_POST['ad_identifier'])) {
+            wp_send_json_error(array(
+                'message' => __('Bad request', 'ml-slider')
+            ), 400);
+        }
+
+        $ad_data = $this->ad_exists(sanitize_key($_POST['ad_identifier']));
+
+        if (is_wp_error($ad_data)) {
             wp_send_json_error(array(
                 'message' => __('This item does not exist. Please refresh the page and try again.', 'ml-slider')
             ), 401);
@@ -515,9 +420,11 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
         // Filter out if the dismiss time has expired, then compare to the database
         $valid_ads = array();
         foreach ($ads as $ad_identifier => $values) {
-            $is_valid = isset($values['validity_function']) ? call_user_func(array($this, $values['validity_function'])) : true;
+            $is_valid = isset($values['validity_function'])
+                ? (bool)call_user_func([$this, $values['validity_function']]) : true;
             $not_dismissed = !$this->check_notice_dismissed($ad_identifier);
             $is_supported = in_array($location, $values['supported_positions']);
+
             if ($is_valid && $not_dismissed && $is_supported) {
                 $valid_ads[$ad_identifier] = $values;
             }
@@ -551,14 +458,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
             return $all_notices[$ad_identifier];
         }
 
-        // Handle seasonal notices
-        $ad_data = array();
-        foreach ($all_notices as $notice) {
-            if (isset($notice['discount_code']) && $notice['discount_code'] === $ad_identifier) {
-                $ad_data = $notice;
-            }
-        }
-        return $ad_data ? $ad_data : new WP_Error('bad_call', __('The requested data does not exist.', 'ml-slider'), array('status' => 401));
+        return new WP_Error('bad_call', __('The requested data does not exist.', 'ml-slider'), array('status' => 401));
     }
 
     /**
@@ -572,15 +472,15 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     {
 
         // If the time isn't specified it will hide "forever" (9999 weeks)
-        // Update 12/18/2017 - will set this an extra week, so that this individual ad will hide, for example, 13 weeks, while ALL ads (minus seasonal) will hide for 12 weeks. This ensures that the user doesn't see the same ad twice. Minor detail.
+        // Update 12/18/2017 - will set this an extra week, so that this individual ad will hide, for example, 13 weeks, while ALL ads will hide for 12 weeks. This ensures that the user doesn't see the same ad twice. Minor detail.
         $weeks = is_int($weeks) ? $weeks + 1 : 9999;
 
-        $result = update_option("ms_hide_{$ad_identifier}_ads_until", time() + $weeks*7*86400);
+        $result = update_option("ms_hide_{$ad_identifier}_ads_until", time() + $weeks * 7 * 86400);
 
         // Update 12/18/2017 - Hide all ads for 12 weeks (this used to be 24 hours)
         // This skips over the scenario when a user has seen a seasonal ad within the 2 week grace period. That way we can still show them the "rate plugin" ad after 2 weeks.
         if (get_option("ms_ads_first_seen_on")) {
-            update_option("ms_hide_all_ads_until", time() + 12*7*86400);
+            update_option("ms_hide_all_ads_until", time() + 12 * 7 * 86400);
         }
 
         return $result ? $result : new WP_Error('update_failed', __('The attempt to update the option failed.', 'ml-slider'), array('status' => 409));
@@ -626,8 +526,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0
     {
         return (defined('METASLIDER_FORCE_NOTICES') && METASLIDER_FORCE_NOTICES) ||
             (defined('METASLIDER_FORCE_PRO_NOTICES') && METASLIDER_FORCE_PRO_NOTICES) ||
-            (defined('METASLIDER_FORCE_LITE_NOTICES') && METASLIDER_FORCE_LITE_NOTICES) ||
-            (defined('METASLIDER_DISABLE_SEASONAL_NOTICES') && METASLIDER_DISABLE_SEASONAL_NOTICES);
+            (defined('METASLIDER_FORCE_LITE_NOTICES') && METASLIDER_FORCE_LITE_NOTICES);
     }
 
     /**

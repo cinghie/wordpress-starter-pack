@@ -219,7 +219,7 @@ class IS_Base_Options
     public function get_is_option( $option, $default = '' )
     {
         if ( empty(static::$opt) ) {
-            static::$opt = Ivory_Search::load_options();
+            static::$opt = get_option( 'is_settings', array() );
         }
         $value = $default;
         if ( !empty(static::$opt[$option]) ) {
@@ -229,19 +229,6 @@ class IS_Base_Options
             $value = wp_parse_args( $value, $default );
         }
         return $value;
-    }
-    
-    /**
-     * Set index option value.
-     *
-     * @since 5.0
-     * @param string $option The suboption name.
-     * @param string $value The value to set.
-     */
-    public function set_is_option( $option, $value )
-    {
-        static::$opt = Ivory_Search::load_options();
-        static::$opt[$option] = $value;
     }
     
     /**

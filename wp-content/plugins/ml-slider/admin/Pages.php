@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
  */
 class MetaSlider_Admin_Pages extends MetaSliderPlugin
 {
-
     /**
      * The MetaSlider plugin class
      *
@@ -24,6 +23,11 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      * @var string $current_page
      */
     private $current_page;
+
+    /**
+     * @var \MetaSlider_Notices
+     */
+    protected $notices;
 
     /**
      * Sets up the notices, security and loads assets for the admin page
@@ -42,8 +46,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_overlay()
     {
-        wp_enqueue_style('metaslider-colorbox-styles', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/colorbox.css', false, METASLIDER_VERSION);
-        wp_enqueue_script('metaslider-colorbox', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/jquery.colorbox-min.js', array('jquery'), METASLIDER_VERSION, true);
+        wp_enqueue_style('metaslider-colorbox-styles', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/colorbox.css', false, METASLIDER_ASSETS_VERSION);
+        wp_enqueue_script('metaslider-colorbox', METASLIDER_ADMIN_URL . 'assets/vendor/colorbox/jquery.colorbox-min.js', array('jquery'), METASLIDER_ASSETS_VERSION, true);
     }
 
     /**
@@ -51,8 +55,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_tooltips()
     {
-        wp_enqueue_style('metaslider-tipsy-styles', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/tipsy.css', false, METASLIDER_VERSION);
-        wp_enqueue_script('metaslider-tipsy', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/jquery.tipsy.js', array('jquery'), METASLIDER_VERSION, true);
+        wp_enqueue_style('metaslider-tipsy-styles', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/tipsy.css', false, METASLIDER_ASSETS_VERSION);
+        wp_enqueue_script('metaslider-tipsy', METASLIDER_ADMIN_URL . 'assets/vendor/tipsy/jquery.tipsy.js', array('jquery'), METASLIDER_ASSETS_VERSION, true);
     }
 
     /**
@@ -63,27 +67,31 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
         wp_enqueue_media();
         wp_enqueue_script('jquery-ui-core');
         wp_enqueue_script('jquery-ui-sortable');
-
-        wp_register_script('metaslider-admin-script', METASLIDER_ADMIN_URL . 'assets/dist/js/admin.js', array('jquery'), METASLIDER_VERSION, true);
+        wp_register_script('metaslider-admin-script', METASLIDER_ADMIN_URL . 'assets/dist/js/admin.js', array('jquery', 'plupload-all'), METASLIDER_ASSETS_VERSION, true);
+        
         wp_localize_script('metaslider-admin-script', 'metaslider', array(
-            'url' => __("URL", "ml-slider"),
-            'caption' => __("Caption", "ml-slider"),
-            'new_window' => __("New Window", "ml-slider"),
-            'confirm' => __("Please confirm that you would like to delete this slideshow.", "ml-slider"),
-            'restore_language' => __("Undo", "ml-slider"),
-            'restored_language' => __("Slide restored", "ml-slider"),
-            'deleted_language' => __("Slide deleted", "ml-slider"),
-            'success_language' => __("Success", "ml-slider"),
-            'copied_language' => __("Item was copied to your clipboard", "ml-slider"),
-            'click_to_undo_language' => __("Press to undo", "ml-slider"),
+            'url' => esc_html__("URL", "ml-slider"),
+            'caption' => esc_html__("Caption", "ml-slider"),
+            'new_window' => esc_html__("New Window", "ml-slider"),
+            'confirm' => esc_html__("Please confirm that you would like to delete this slideshow.", "ml-slider"),
+            'restore_language' => esc_html__("Undo", "ml-slider"),
+            'restored_language' => esc_html__("Slide restored", "ml-slider"),
+            'deleted_language' => esc_html__("Slide deleted", "ml-slider"),
+            'success_language' => esc_html__("Success", "ml-slider"),
+            'copied_language' => esc_html__("Item was copied to your clipboard", "ml-slider"),
+            'click_to_undo_language' => esc_html__("Press to undo", "ml-slider"),
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'update_image' => __("Select replacement image", "ml-slider"),
+            'update_image' => esc_html__("Select replacement image", "ml-slider"),
             'resize_nonce' => wp_create_nonce('metaslider_resize'),
             'create_slide_nonce' => wp_create_nonce('metaslider_create_slide'),
             'delete_slide_nonce' => wp_create_nonce('metaslider_delete_slide'),
             'undelete_slide_nonce' => wp_create_nonce('metaslider_undelete_slide'),
+            'permanent_delete_slide_nonce' => wp_create_nonce('metaslider_permanent_delete_slide'),
             'update_slide_image_nonce' => wp_create_nonce('metaslider_update_slide_image'),
-            'useWithCaution' => __("Caution: This setting is for advanced developers only. If you're unsure, leave it checked.", "ml-slider")
+            'quickstart_slideshow_nonce' => wp_create_nonce('metaslider_quickstart_slideshow'),
+            'legacy_notification_nonce' => wp_create_nonce('metaslider_legacy_notification'),
+            'useWithCaution' => esc_html__("Caution: This setting is for advanced developers only. If you're unsure, leave it checked.", "ml-slider"),
+            'locale' => preg_replace('/[^a-z]/', '', get_locale()),
         ));
         wp_enqueue_script('metaslider-admin-script');
         do_action('metaslider_register_admin_scripts');
@@ -91,7 +99,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
         // Register components and add support for the REST API / Admin AJAX
         do_action('metaslider_register_admin_components');
         $dev = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG;
-        wp_register_script('metaslider-admin-components', METASLIDER_ADMIN_URL . 'assets/dist/js/app' . ($dev ? '' : '.min') . '.js', array(), METASLIDER_VERSION, true);
+        wp_register_script('metaslider-admin-components', METASLIDER_ADMIN_URL . 'assets/dist/js/app' . ($dev ? '' : '.min') . '.js', array(), METASLIDER_ASSETS_VERSION, true);
 
         // Check if rest is available
         $is_rest_enabled = $this->is_rest_enabled();
@@ -102,6 +110,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             'ajaxurl' => admin_url('admin-ajax.php'),
             'proUser' => metaslider_pro_is_active(),
             'hoplink' => metaslider_get_upgrade_link(),
+            'privacy_link' => metaslider_get_privacy_link(),
             'metaslider_admin_assets' => METASLIDER_ADMIN_ASSETS_URL,
             'metaslider_page' => admin_url('admin.php?page=metaslider'),
             'theme_editor_link' => admin_url('admin.php?page=metaslider-theme-editor'),
@@ -109,7 +118,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             'supports_rest' => $is_rest_enabled,
             'locale' => $this->gutenberg_get_jed_locale_data('ml-slider'),
             'default_locale' => $this->gutenberg_get_jed_locale_data('default'),
-            'current_server_time' => current_time('mysql')
+            'current_server_time' => current_time('mysql'),
         ));
         wp_enqueue_script('metaslider-admin-components');
     }
@@ -119,8 +128,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_upgrade_page_assets()
     {
-        if ('upgrade-metaslider' == $this->current_page) {
-            wp_enqueue_style('metaslider-upgrade-styles', METASLIDER_ADMIN_URL . 'assets/css/upgrade.css', false, METASLIDER_VERSION);
+        if ('upgrade-metaslider' == $this->current_page || !is_plugin_active('ml-slider-pro/ml-slider-pro.php')){
+            wp_enqueue_style('metaslider-upgrade-styles', METASLIDER_ADMIN_URL . 'assets/css/upgrade.css', false, METASLIDER_ASSETS_VERSION);
         }
     }
 
@@ -129,8 +138,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_styles()
     {
-        wp_enqueue_style('metaslider-shepherd-css', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/css/shepherd-theme-arrows.css', false, METASLIDER_VERSION);
-        wp_enqueue_style('metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/dist/css/admin.css', false, METASLIDER_VERSION);
+        wp_enqueue_style('metaslider-shepherd-css', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/dist/css/shepherd-theme-arrows.css', false, METASLIDER_ASSETS_VERSION);
+        wp_enqueue_style('metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/dist/css/admin.css', false, METASLIDER_ASSETS_VERSION);
 
         // Hook to load more styles and scripts (from pro)
         do_action('metaslider_register_admin_styles');
@@ -141,7 +150,6 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function fix_conflicts()
     {
-
         // WP Posts Filter Fix (Advanced Settings not toggling)
         wp_dequeue_script('link');
 
@@ -159,12 +167,12 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
     public function add_page($title, $slug = '', $parent = '')
     {
         $slug = ('' == $slug) ? sanitize_title($title) : $slug;
-        $method = 'render_'.str_replace("-", "_", $slug).'_page';
+        $method = 'render_' . str_replace("-", "_", $slug) . '_page';
         if (!method_exists($this, $method)) {
             return false;
         }
         $this->current_page = $slug;
-        $capability = apply_filters('metaslider_capability', 'edit_others_posts');
+        $capability = apply_filters('metaslider_capability', MetaSliderPlugin::DEFAULT_CAPABILITY_EDIT_SLIDES);
 
         $dashboard_icon = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents(dirname(__FILE__) . '/assets/metaslider.svg'));
 
@@ -184,7 +192,34 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function render_metaslider_page()
     {
-        parent::render_admin_page();
+        $listtable = new MetaSlider_Admin_Table();
+        $listtable->prepare_items();
+        if (isset($_REQUEST['post_status'])) {
+            include METASLIDER_PATH . "admin/views/pages/parts/toolbar.php";
+            include METASLIDER_PATH . "admin/views/pages/dashboard.php";
+        } else {
+            if (empty($listtable->check_num_rows())) {
+                include METASLIDER_PATH . "admin/views/pages/parts/toolbar.php";
+                include METASLIDER_PATH . "admin/views/pages/dashboard.php";
+            } else {
+                if (isset($_REQUEST['id'])) {
+                    parent::render_admin_page();
+                } else {
+                    include METASLIDER_PATH . "admin/views/pages/parts/toolbar.php";
+                    include METASLIDER_PATH . "admin/views/pages/dashboard.php";
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets up any logic needed for the main page
+     * TODO continue refactoring from here
+     */
+    public function render_metaslider_start_page()
+    {
+        include METASLIDER_PATH . "admin/views/pages/parts/toolbar.php";
+        include METASLIDER_PATH . "admin/views/pages/start.php";
     }
 
     /**
@@ -193,7 +228,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function render_metaslider_settings_page()
     {
-        include METASLIDER_PATH."admin/views/pages/settings.php";
+        include METASLIDER_PATH . "admin/views/pages/settings.php";
     }
 
     /**
@@ -201,7 +236,8 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function render_upgrade_metaslider_page()
     {
-        include METASLIDER_PATH."admin/views/pages/upgrade.php";
+        include METASLIDER_PATH . "admin/views/pages/parts/toolbar.php";
+        include METASLIDER_PATH . "admin/views/pages/upgrade.php";
     }
 
     /**
@@ -227,9 +263,12 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             $locale['']['plural_forms'] = $translations->headers['Plural-Forms'];
         }
 
-        foreach ($translations->entries as $msgid => $entry) {
-            $locale[$msgid] = $entry->translations;
+        if (isset($translations->entries) && ! empty($translations->entries)) {
+            foreach ($translations->entries as $msgid => $entry) {
+                $locale[$msgid] = $entry->translations;
+            }
         }
+
         return $locale;
     }
 
@@ -265,7 +304,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
         if (function_exists('get_rest_url') && class_exists('WP_Rewrite')) {
             global $wp_rewrite;
             if (empty($wp_rewrite)) {
-                $wp_rewrite = new WP_Rewrite();
+                $wp_rewrite = new WP_Rewrite(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
             }
             if ('' == get_rest_url()) {
                 return false;

@@ -24,6 +24,11 @@ class WPO_Cache_Config {
 	 */
 	public static $instance;
 
+	/**
+	 * @var array
+	 */
+	public $config;
+
 
 	/**
 	 * Set config defaults
@@ -57,7 +62,7 @@ class WPO_Cache_Config {
 	 */
 	public function get_option($option_key, $default = false) {
 		$options = $this->get();
-		return isset($options[$option_key]) ? $options[$option_key] : $default;
+		return apply_filters("wpo_option_key_{$option_key}", (isset($options[$option_key]) ? $options[$option_key] : $default));
 	}
 
 	/**
@@ -154,15 +159,9 @@ class WPO_Cache_Config {
 	 *
 	 * @return boolean - returns false if an attempt to write failed
 	 */
-	private function write($config, $only_if_present = false) {
+	public function write($config, $only_if_present = false) {
 
-		$url = parse_url(network_site_url());
-
-		if (isset($url['port']) && '' != $url['port'] && 80 != $url['port']) {
-			$config_file = WPO_CACHE_CONFIG_DIR.'/config-'.$url['host'].'-port'.$url['port'].'.php';
-		} else {
-			$config_file = WPO_CACHE_CONFIG_DIR.'/config-'.$url['host'].'.php';
-		}
+		$config_file = WPO_CACHE_CONFIG_DIR.'/'.$this->get_cache_config_filename();
 
 		$this->config = wp_parse_args($config, $this->get_defaults());
 
@@ -172,9 +171,12 @@ class WPO_Cache_Config {
 		// advanced-cache.php doesn't exist then
 		// we write the cache config in a new format.
 		if (($advanced_cache_version && (version_compare($advanced_cache_version, '3.0.17', '>='))) || !$advanced_cache_version) {
+			// Apply the encoding required for placing within PHP single quotes - https://www.php.net/manual/en/language.types.string.php#language.types.string.syntax.single
+			$json_encoded_string = str_replace(array('\\', "'"), array('\\\\', '\\\''), json_encode($this->config));
+
 			$config_content = '<?php' . "\n"
 				. 'if (!defined(\'ABSPATH\')) die(\'No direct access allowed\');' . "\n\n"
-				. '$GLOBALS[\'wpo_cache_config\'] = json_decode(\'' . json_encode($this->config) . '\', true);' . "\n";
+				. '$GLOBALS[\'wpo_cache_config\'] = json_decode(\'' . $json_encoded_string . '\', true);' . "\n";
 		} else {
 			$config_content = json_encode($this->config);
 		}
@@ -238,6 +240,7 @@ class WPO_Cache_Config {
 			'page_cache_length_value'					=> 24,
 			'page_cache_length_unit'					=> 'hours',
 			'page_cache_length'							=> 86400,
+			'cache_exception_conditional_tags'			=> array(),
 			'cache_exception_urls'						=> array(),
 			'cache_exception_cookies'					=> array(),
 			'cache_exception_browser_agents'			=> array(),
@@ -246,11 +249,33 @@ class WPO_Cache_Config {
 			'preload_schedule_type'						=> '',
 			'enable_mobile_caching'						=> false,
 			'enable_user_caching'						=> false,
-			'site_url'									=> network_site_url('/'),
+			'site_url'									=> network_home_url('/'),
 			'enable_cache_per_country'					=> false,
+			'permalink_structure'						=> get_option('permalink_structure'),
+			'uploads'									=> wp_normalize_path(wp_upload_dir()['basedir']),
+			'gmt_offset'								=> get_option('gmt_offset'),
+			'timezone_string'                           => get_option('timezone_string'),
+			'date_format'                               => get_option('date_format'),
+			'time_format'                               => get_option('time_format'),
+			'use_webp_images'						    => false,
 		);
 
 		return apply_filters('wpo_cache_defaults', $defaults);
+	}
+
+	/**
+	 * Get advanced-cache.php file name with full path.
+	 *
+	 * @return string
+	 */
+	public function get_cache_config_filename() {
+		$url = parse_url(network_site_url());
+
+		if (isset($url['port']) && '' != $url['port'] && 80 != $url['port']) {
+			return 'config-'.strtolower($url['host']).'-port'.$url['port'].'.php';
+		} else {
+			return 'config-'.strtolower($url['host']).'.php';
+		}
 	}
 
 	/**

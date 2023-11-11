@@ -13,24 +13,10 @@ class IS_Admin
      */
     public  $opt ;
     /**
-     * Stores network activation status.
-     */
-    private  $networkactive ;
-    /**
      * Core singleton class
      * @var self
      */
     private static  $_instance ;
-    /**
-     * Initializes this class.
-     *
-     */
-    public function __construct()
-    {
-        $this->opt = Ivory_Search::load_options();
-        $this->networkactive = is_multisite() && array_key_exists( plugin_basename( IS_PLUGIN_FILE ), (array) get_site_option( 'active_sitewide_plugins' ) );
-    }
-    
     /**
      * Gets the instance of this class.
      *
@@ -230,12 +216,16 @@ class IS_Admin
      */
     function all_admin_notices()
     {
-        $hascaps = ( $this->networkactive ? is_network_admin() && current_user_can( 'manage_network_plugins' ) : current_user_can( 'manage_options' ) );
+        $isnetworkactive = is_multisite() && array_key_exists( plugin_basename( IS_PLUGIN_FILE ), (array) get_site_option( 'active_sitewide_plugins' ) );
+        $hascaps = ( $isnetworkactive ? is_network_admin() && current_user_can( 'manage_network_plugins' ) : current_user_can( 'manage_options' ) );
         
         if ( $hascaps ) {
             $screen = get_current_screen();
             $is_ivory = strpos( $screen->id, 'ivory-search' );
             $display_review = true;
+            if ( empty($this->opt) ) {
+                $this->opt = get_option( 'is_notices', array() );
+            }
             //Don't display if dismissed
             if ( isset( $this->opt['is_notices']['review'] ) && $this->opt['is_notices']['review'] || isset( $_GET['is_dismiss'] ) && 'notice_review' == $_GET['is_dismiss'] ) {
                 $display_review = false;
@@ -250,15 +240,15 @@ class IS_Admin
                 if ( strtotime( '-7 days' ) >= strtotime( $date ) ) {
                     global  $current_user ;
                     echo  '<div class="is-notice notice"><div class="is-notice-image"></div><div class="is-notice-body">' ;
-                    echo  '<a class="is-notice-dismiss" href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '">' . esc_html__( 'Dismiss', 'add-search-to-menu' ) . '</a>' ;
+                    echo  '<a class="is-notice-dismiss" href="' . esc_url( add_query_arg( 'is_dismiss', 'notice_review' ) ) . '">' . esc_html__( 'Dismiss', 'add-search-to-menu' ) . '</a>' ;
                     echo  '<div class="is-notice-content">' ;
-                    printf( __( "Hey %s, it's Vinod Dalvi from %s. You have used this free plugin for some time now, and I hope you like it!", 'add-search-to-menu' ), '<strong>' . $current_user->display_name . '</strong>', '<strong>Ivory Search</strong>' );
+                    printf( __( "Hey %s, it's Vinod Dalvi from %s. You have used this plugin for some time now, and I hope you like it!", 'add-search-to-menu' ), '<strong>' . $current_user->display_name . '</strong>', '<strong>Ivory Search</strong>' );
                     ?><br/><br/><?php 
                     printf( __( "I have spent countless hours developing it, and it would mean a lot to me if you %ssupport it with a quick review on WordPress.org.%s", 'add-search-to-menu' ), '<strong><a target="_blank" href="https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5">', '</a></strong>' );
                     echo  '</div>' ;
                     echo  '<div class="is-notice-links">' ;
                     echo  '<a href="' . esc_url( 'https://wordpress.org/support/plugin/add-search-to-menu/reviews/?filter=5' ) . '" class="button button-primary btn-highlight" target="_blank" >' . esc_html__( 'Review Ivory Search', 'add-search-to-menu' ) . '</a>' ;
-                    echo  '<a href="' . add_query_arg( 'is_dismiss', 'notice_review' ) . '" class="button button-primary">' . esc_html__( 'No, thanks', 'add-search-to-menu' ) . '</a>' ;
+                    echo  '<a href="' . esc_url( add_query_arg( 'is_dismiss', 'notice_review' ) ) . '" class="button button-primary">' . esc_html__( 'No, thanks', 'add-search-to-menu' ) . '</a>' ;
                     echo  '</div></div></div>' ;
                 }
             
@@ -342,12 +332,15 @@ class IS_Admin
         ob_start();
         
         if ( isset( $_GET['is_dismiss'] ) && '' !== $_GET['is_dismiss'] ) {
-            $is_notices = get_option( 'is_notices', array() );
+            if ( empty($this->opt) ) {
+                $this->opt = get_option( 'is_notices', array() );
+            }
+            $is_notices = $this->opt;
             if ( 'notice_review' === $_GET['is_dismiss'] ) {
                 $is_notices['is_notices']['review'] = 1;
             }
             update_option( 'is_notices', $is_notices );
-            wp_redirect( remove_query_arg( 'is_dismiss' ) );
+            wp_redirect( esc_url_raw( remove_query_arg( 'is_dismiss' ) ) );
         }
         
         
@@ -733,7 +726,7 @@ class IS_Admin
             }
             
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         
@@ -762,7 +755,7 @@ class IS_Admin
             }
             
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         
@@ -783,7 +776,7 @@ class IS_Admin
             }
             
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         
@@ -822,7 +815,7 @@ class IS_Admin
                 $query['message'] = 'deleted';
             }
             $redirect_to = add_query_arg( $query, menu_page_url( 'ivory-search', false ) );
-            wp_safe_redirect( $redirect_to );
+            wp_safe_redirect( esc_url_raw( $redirect_to ) );
             exit;
         }
         

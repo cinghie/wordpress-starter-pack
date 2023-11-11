@@ -2,10 +2,6 @@
 
 if (!defined('WPO_VERSION')) die('No direct access allowed');
 
-use \WebPConvert\Convert\ConverterFactory;
-
-require_once WPO_PLUGIN_MAIN_PATH . 'vendor/autoload.php';
-
 if (!class_exists('WPO_WebP_Test_Run')) :
 	/**
 	 * Test run
@@ -20,7 +16,7 @@ class WPO_WebP_Test_Run {
 	public static function get_converter_status() {
 		$source = WPO_PLUGIN_MAIN_PATH . 'images/logo/wpo_logo_small.png';
 		$upload_dir = wp_upload_dir();
-		$destination =  $upload_dir['basedir']. '/wpo/images/wpo_logo_small.webp';
+		$destination =  $upload_dir['basedir']. '/wpo/images/wpo_logo_small.png.webp';
 
 		$converters = array(
 			// 'cwebp',
@@ -40,13 +36,11 @@ class WPO_WebP_Test_Run {
 		foreach ($converters as $converter) {
 			$converter_id = $converter;
 			try {
-				$converter_instance = ConverterFactory::makeConverter(
-					$converter_id,
-					$source,
-					$destination
-				);
-				$converter_instance->doConvert();
+				WPO_WebP_Utils::perform_webp_conversion($converter_id, $source, $destination);
 				$working_converters[] = $converter_id;
+				// Copying source file to `uploads` folder. To be used test redirection
+				// We're doing it here, to make sure folders already exists `/wpo/images/`
+				copy($source, $upload_dir['basedir'] . '/wpo/images/wpo_logo_small.png');
 			} catch (\Exception $e) {
 				$errors[$converter_id] = $e->getMessage();
 			}

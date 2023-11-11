@@ -220,7 +220,6 @@ class IS_Index_Search {
 	}
 
 	/**
-	 * This method was copied from Relevanssi's plugin.
 	 *
 	 * Figures out the low and high boundaries for the search query.
 	 *

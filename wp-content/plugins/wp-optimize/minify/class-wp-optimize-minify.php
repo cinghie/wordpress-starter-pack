@@ -6,6 +6,19 @@ define('WP_OPTIMIZE_MINIFY_DIR', dirname(__FILE__));
 if (!defined('WP_OPTIMIZE_SHOW_MINIFY_ADVANCED')) define('WP_OPTIMIZE_SHOW_MINIFY_ADVANCED', false);
 
 class WP_Optimize_Minify {
+
+	/**
+	 * Minify commands object
+	 *
+	 * @var WP_Optimize_Minify_Commands
+	 */
+	public $minify_commands;
+
+	/**
+	 * @var bool
+	 */
+	private $enabled;
+
 	/**
 	 * Constructor - Initialize actions and filters
 	 *
@@ -13,7 +26,6 @@ class WP_Optimize_Minify {
 	 */
 	public function __construct() {
 
-		if (!class_exists('WP_Optimize_Minify_Commands')) include_once(WPO_PLUGIN_MAIN_PATH . 'minify/class-wp-optimize-minify-commands.php');
 		$this->minify_commands = new WP_Optimize_Minify_Commands();
 
 		if (!class_exists('WP_Optimize_Minify_Config')) {
@@ -34,7 +46,7 @@ class WP_Optimize_Minify {
 		}
 
 		/**
-		 * Directory that stores the cache, including gzipped files and mobile specifc cache
+		 * Directory that stores the cache, including gzipped files and mobile specific cache
 		 */
 		if (!defined('WPO_CACHE_MIN_FILES_DIR')) define('WPO_CACHE_MIN_FILES_DIR', untrailingslashit(WP_CONTENT_DIR).'/cache/wpo-minify');
 		if (!defined('WPO_CACHE_MIN_FILES_URL')) define('WPO_CACHE_MIN_FILES_URL', untrailingslashit(WP_CONTENT_URL).'/cache/wpo-minify');
@@ -47,11 +59,27 @@ class WP_Optimize_Minify {
 
 		// cron job to delete old wpo_min cache
 		add_action('wpo_minify_purge_old_cache', array('WP_Optimize_Minify_Cache_Functions', 'purge_old'));
-		// front-end actions; skip on certain post_types or if there are specific keys on the url or if editor or admin
+		
+		if ($this->enabled) {
+			$this->schedule_purge_old_cache_event();
+		}
 
 		// Handle minify cache purging.
 		add_action('wp_loaded', array($this, 'handle_purge_minify_cache'));
 
+	}
+
+	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimize_Minify Returns `WP_Optimize_Minify` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
 	}
 
 	/**
@@ -99,7 +127,7 @@ class WP_Optimize_Minify {
 				add_action('admin_notices', array($this, 'notice_purge_minify_cache_success'));
 				return;
 			} else {
-				$message = __('Minify cache purged', 'wp-optmize');
+				$message = __('Minify cache purged', 'wp-optimize');
 				printf('<script>alert("%s");</script>', $message);
 				return;
 			}
@@ -128,10 +156,6 @@ class WP_Optimize_Minify {
 	 */
 	private function load_admin() {
 		if (!is_admin()) return;
-
-		if (!class_exists('WP_Optimize_Minify_Admin')) {
-			include WP_OPTIMIZE_MINIFY_DIR.'/class-wp-optimize-minify-admin.php';
-		}
 		new WP_Optimize_Minify_Admin();
 	}
 
@@ -142,9 +166,6 @@ class WP_Optimize_Minify {
 	 */
 	private function load_frontend() {
 		if ($this->enabled) {
-			if (!class_exists('WP_Optimize_Minify_Front_End')) {
-				include WP_OPTIMIZE_MINIFY_DIR.'/class-wp-optimize-minify-front-end.php';
-			}
 			new WP_Optimize_Minify_Front_End();
 		}
 	}
@@ -155,10 +176,7 @@ class WP_Optimize_Minify {
 	 * @return void
 	 */
 	private function load_premium() {
-		if (!class_exists('WP_Optimize_Minify_Premium')) {
-			include WP_OPTIMIZE_MINIFY_DIR.'/class-wp-optimize-minify-premium.php';
-		}
-		$this->premium = new WP_Optimize_Minify_Premium();
+		new WP_Optimize_Minify_Premium();
 	}
 
 	/**
@@ -175,11 +193,18 @@ class WP_Optimize_Minify {
 		
 		// old cache purge event cron
 		wp_clear_scheduled_hook('wpo_minify_purge_old_cache');
-		if (!wp_next_scheduled('wpo_minify_purge_old_cache')) {
-			wp_schedule_event(time() + 86400, 'daily', 'wpo_minify_purge_old_cache');
-		}
+		$this->schedule_purge_old_cache_event();
 	}
 
+	/**
+	 * If the WP cron event for scheduling purging of the minify cache does not exist, then create it
+	 */
+	private function schedule_purge_old_cache_event() {
+		if (!wp_next_scheduled('wpo_minify_purge_old_cache')) {
+			wp_schedule_event(time() + 43200, 'daily', 'wpo_minify_purge_old_cache');
+		}
+	}
+	
 	/**
 	 * Run during plugin deactivation
 	 *
@@ -187,7 +212,7 @@ class WP_Optimize_Minify {
 	 */
 	public function plugin_deactivate() {
 		if (defined('WPO_MINIFY_PHP_VERSION_MET') && !WPO_MINIFY_PHP_VERSION_MET) return;
-		if (class_exists('WP_Optimize_Minify_Cache_Functions')) {
+		if (class_exists('WP_Optimize_Minify_Cache_Functions') && WP_Optimize()->get_page_cache()->should_purge) {
 			WP_Optimize_Minify_Cache_Functions::purge_temp_files();
 			WP_Optimize_Minify_Cache_Functions::purge_old();
 			WP_Optimize_Minify_Cache_Functions::purge_others();
@@ -255,5 +280,20 @@ class WP_Optimize_Minify {
 			</div>
 		<?php
 		endif;
+	}
+
+	/**
+	 * Check if current user can purge cache.
+	 *
+	 * @return bool
+	 */
+	public function can_purge_cache() {
+		$required_capability = is_multisite() ? 'manage_network_options' : 'manage_options';
+
+		if (WP_Optimize::is_premium()) {
+			return current_user_can($required_capability) || WP_Optimize_Premium()->can_purge_the_cache();
+		} else {
+			return current_user_can($required_capability);
+		}
 	}
 }

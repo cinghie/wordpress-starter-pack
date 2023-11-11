@@ -1,10 +1,10 @@
 === Cookie Notice & Compliance for GDPR / CCPA ===
 Contributors: humanityco
-Tags: gdpr, ccpa, cookies, consent, compliance
-Requires at least: 4.3
-Requires PHP: 5.3
-Tested up to: 5.8.2
-Stable tag: 2.2.0
+Tags: gdpr, ccpa, cookies, consent, compliance, privacy
+Requires at least: 4.9.6
+Requires PHP: 5.4
+Tested up to: 6.3
+Stable tag: 2.4.11.1
 License: MIT License
 License URI: http://opensource.org/licenses/MIT
 
@@ -61,31 +61,31 @@ For all businesses, the resources required to stay ahead of the latest regulatio
 
 <strong>Cookie Compliance covers all current and upcoming regulations:</strong>
 
-* GDPR (EU) 
-* ePrivacy Directive (EU) 
+* GDPR (EU)
+* ePrivacy Directive (EU)
 * ePrivacy Regulation (EU)
-* PECR (UK) 
-* LGPD (Brazil) 
-* PIPEDA (Canada) 
+* PECR (UK)
+* LGPD (Brazil)
+* PIPEDA (Canada)
 * PDPB (India)
-* CCPA (California, US) 
+* CCPA (California, US)
 * VCDPA (Virginia, US)
 * Colorado Privacy Act (US)
 * CPRA (California, US)
 
 <strong>Cookie Compliance incorporates all recent formatting guidance:</strong>
 
-* European Data Protection Supervisor (EDPS) 
-* ICO (United Kingdom) 
-* CNIL (France) 
-* GPDP (Italy) 
-* BfDl (Germany) 
-* AEPD (Spain) 
-* European Center for Digital Rights (noyb.eu) 
+* European Data Protection Supervisor (EDPS)
+* ICO (United Kingdom)
+* CNIL (France)
+* GPDP (Italy)
+* BfDl (Germany)
+* AEPD (Spain)
+* European Center for Digital Rights (noyb.eu)
 
 <strong>Cookie Compliance targets dark patterns</strong>
 
-Dark Patterns are user interface (UI) techniques that push site visitors to make decisions (such as agreeing to the installation of cookies on their devices) that they might not otherwise make. The most common Dark Pattern is the lack of an equal “reject all” button on the first layer of the consent notice. Dark Patterns are explicitly banned under GDPR and other data protection laws.  
+Dark Patterns are user interface (UI) techniques that push site visitors to make decisions (such as agreeing to the installation of cookies on their devices) that they might not otherwise make. The most common Dark Pattern is the lack of an equal “reject all” button on the first layer of the consent notice. Dark Patterns are explicitly banned under GDPR and other data protection laws.
 
 As a part of our proactive approach, Cookie Compliance is configured by default to prevent Dark Patterns through our unique Intentional Consent design.
 
@@ -106,17 +106,102 @@ Yes! Cookie Notice is a free software.
 = Is Cookie Compliance free? =
 Yes, but with limits. Cookie Compliance includes both free and paid plans to choose from depending on your needs and your website traffic.
 
-= Does the Cookie Notice make my site fully compliant with GDPR? =
-No. The plugin-only version DOES NOT include technical compliance features such as automatic script blocking, consent purpose categories, or consent record storage. These features are only available through the Cookie Compliance integration. 
+= Does the Cookie Notice make my site fully compliant with GDPR or US Privacy Laws? =
+No. The plugin-only version DOES NOT include technical compliance features such as automatic script blocking, consent purpose categories, or consent record storage. These features are only available through the Cookie Compliance integration.
 
-= Does the Cookie Compiance integration make my site fully compliant with GDPR? =
+= Does the Cookie Compiance integration make my site fully compliant with GDPR and US Privacy Laws? =
 Yes! The plugin + web appliaction version includes technical compliance features to meet requirements for over 100 countries and legal jurisdictions.
 
 == Screenshots ==
 
-1. screenshot-1.png
+1. Cookie Notice settings, Compliance itegration inactive
+2. Cookie Notice settings, Compliance itegration active
+3. Cookie Compliance dashboard overview
+4. Cookie Compliance settings
 
 == Changelog ==
+
+= 2.4.11 =
+* New: Dedicated Consent Logs page
+* New: Google AMP support for Cookie Compliance
+* New: Settings navigation through tabs and menu items
+* Fix: Saving App ID/Key not working in edge cases
+* Tweak: Chart.js updated to 4.4.0
+
+= 2.4.10 =
+* New: Option to enable/disable caching compatibility
+* New: WP Fastest Cache plugin compatibility
+* Fix: Potential security issue with purging cache
+* Fix: Improved refreshing Compliance analytics data
+* Tweak: Chart.js updated to 4.3.2
+
+= 2.4.9 =
+* New: WP Rocket plugin compatibility
+* New: LiteSpeed Cache plugin compatibility
+* New: Google Consent Mode support (Cookie Compliance only)
+* New: Facebook Pixel Consent Mode support (Cookie Compliance only)
+
+= 2.4.8 =
+* New: Added Pages to Conditional display
+* Fix: Homepage display issue
+* Fix: Background color issue
+* Tweak: Improved WP Rocket support
+* Tweak: Improved SG Optimizer support
+
+= 2.4.7 =
+* New: Conditional display of the banner
+* Tweak: Improved sanitization and validation of data
+* Tweak: PHP 8.1 and 8.2 compatibility
+* Tweak: Added async attribute when autoblocking is disabled
+
+= 2.4.6 =
+* Fix: Cookie Compliance inactive status issue
+
+= 2.4.5 =
+* Tweak: Remove the notice from the Elementor page builder
+* Tweak: Remove the notice from widgets screen
+* Fix: Improved Contact Form 7 reCaptcha compatibility
+
+= 2.4.4 =
+* Fix: Undefined index: status and subscription
+
+= 2.4.3 =
+* Fix: Deprecated preg_replace() notice in PHP 8.1
+
+= 2.4.2 =
+* New: Compatibility with Autoptimize plugin
+* Fix: Improved Contact Form 7 reCaptcha support
+* Fix: Fixed non-static method cookies_set()
+
+= 2.4.1 =
+* New: Contact Form 7 reCaptcha support
+* Tweak: Switched health status from critical to recommended when Cookie Compliance is not integrated
+* Tweak: Add SimeSite=Lax for created cookies
+
+= 2.4.0 =
+* New: Advanced Multisite support
+* Fix: Polylang translation not working for shortcode
+* Fix: Parse error: syntax error, unexpected ‘[‘
+
+= 2.3.1 =
+* New: Option to run consent banner in debug mode
+* Fix: Invalid validation of dismissable notices
+
+= 2.3.0 =
+* New: Compliance Multi-license pricing options
+* Tweak: WordPress 6.0 compatibility
+
+= 2.2.3 =
+* Fix: Undefined notice in WP dashboard
+* Fix: Close icon event not firing
+* Tweak: Remove aria-label from the close icon
+* Tweak: CSS tweaks in the admin
+
+= 2.2.2 =
+* Fix: Uncrawlable close notice link
+* Tweak: WordPress 5.9 compatibility
+* Tweak: Prevent displaying the notice in an iframe
+* Tweak: Send site language to a web app on signup
 
 = 2.2.1 =
 * Fix: Missing variable definition in frontend
@@ -241,7 +326,7 @@ Yes! The plugin + web appliaction version includes technical compliance features
 
 = 1.2.38 =
 * Tweak: Move frontend cookie js functions before the document ready call, thanks to [fgreinus](https://github.com/fgreinus)
-* Tweak: Adjust functional javascript code handling 
+* Tweak: Adjust functional javascript code handling
 * Fix: Chhromium infinity expiration date not valid
 * Fix: Remove deprecated screen_icon() function
 
@@ -253,7 +338,7 @@ Yes! The plugin + web appliaction version includes technical compliance features
 * Fix: Repository upload issue with 1.2.36
 
 = 1.2.36 =
-* Fix: String translation support for WMPL 3.2+ 
+* Fix: String translation support for WMPL 3.2+
 * Fix: Global var possible conflict with other plugins
 * Tweak: Add $options array to "cn_cookie_notice_output" filter, thanks to [chesio](https://github.com/chesio).
 * Tweak: Removed local translation files in favor of WP repository translations.
@@ -329,7 +414,7 @@ Yes! The plugin + web appliaction version includes technical compliance features
 * New: Hebrew translation, thanks to [Ahrale Shrem](http://atar4u.com/)
 
 = 1.2.16 =
-* Tweak: Dutch translation missing due to a typo 
+* Tweak: Dutch translation missing due to a typo
 
 = 1.2.15 =
 * New: Danish translation, thanks to Hans C. Jorgensen
@@ -400,5 +485,5 @@ Initial release
 
 == Upgrade Notice ==
 
-= 2.2.1 =
-* Fix: Missing variable definition in frontend
+= 2.4.11.1 =
+Dedicated Consent Logs page, Google AMP support for Cookie Compliance, Settings navigation through tabs and menu items

@@ -3,7 +3,7 @@
  * Plugin Name:       Shapely Companion
  * Plugin URI:        https://colorlib.com/wp/themes/shapely/
  * Description:       Shapely Companion is a companion plugin for Shapely theme.
- * Version:           1.2.6
+ * Version:           1.2.7
  * Author:            Colorlib
  * Author URI:        https://colorlib.com
  * License:           GPL-2.0+
@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'SHAPELY_COMPANION', '1.2.6' );
+define( 'SHAPELY_COMPANION', '1.2.7' );
 
 /**
  * Load the Dashboard Widget
@@ -83,7 +83,7 @@ if ( 'Shapely' == $current_theme->get( 'Name' ) || ( $current_parent && 'Shapely
 	function shapely_companion_admin_notice() {
 	?>
 		<div class="notice-warning notice">
-			<p><?php printf( __( 'In order to use the <strong>Shapely Companion</strong> plugin you have to also install the %1$sShapely Theme%2$s', 'shapely-companion' ), '<a href="https://wordpress.org/themes/shapely/" target="_blank">', '</a>' ); ?></p>
+			<p><?php printf( wp_kses_post( __( 'In order to use the <strong>Shapely Companion</strong> plugin you have to also install the %1$sShapely Theme%2$s', 'shapely-companion' ) ), '<a href="https://wordpress.org/themes/shapely/" target="_blank">', '</a>' ); ?></p>
 		</div>
 		<?php
 	}

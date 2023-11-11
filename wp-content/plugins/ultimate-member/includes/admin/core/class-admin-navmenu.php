@@ -1,17 +1,18 @@
 <?php
 namespace um\admin\core;
 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'um\admin\core\Admin_Navmenu' ) ) {
-
 
 	/**
 	 * Class Admin_Navmenu
 	 * @package um\admin\core
 	 */
 	class Admin_Navmenu {
+
 		/**
 		 * @var array
 		 */
@@ -22,24 +23,17 @@ if ( ! class_exists( 'um\admin\core\Admin_Navmenu' ) ) {
 		 * Admin_Navmenu constructor.
 		 */
 		function __construct() {
-			global $wp_version;
-
 			self::$fields = array(
 				'um_nav_public' => __( 'Display Mode', 'ultimate-member' ),
-				'um_nav_roles'  => __( 'By Role', 'ultimate-member' )
+				'um_nav_roles'  => __( 'By Role', 'ultimate-member' ),
 			);
 
-			if ( $wp_version < '5.4' ) {
-				add_action( 'admin_footer-nav-menus.php', array( &$this, '_wp_template' ) );
-				add_action( 'load-nav-menus.php', array( &$this, 'enqueue_nav_menus_scripts' ) );
-			} else {
-				add_action( 'load-customize.php', array( &$this, 'enqueue_nav_menus_scripts' ) );
-			}
+			add_action( 'customize_controls_print_footer_scripts', array( &$this, '_wp_template' ) );
+			add_action( 'load-customize.php', array( &$this, 'enqueue_nav_menus_scripts' ) );
 
 			add_action( 'wp_update_nav_menu_item', array( &$this, '_save' ), 10, 3 );
 
 			add_action( 'wp_nav_menu_item_custom_fields', array( $this, 'wp_nav_menu_item_custom_fields' ), 20, 5 );
-			//add_action( 'wp_nav_menu_item_custom_fields_customize_template', array( $this, 'wp_nav_menu_item_custom_fields_customize_template' ), 20 ); //waiting wp.org answer
 		}
 
 
@@ -47,16 +41,13 @@ if ( ! class_exists( 'um\admin\core\Admin_Navmenu' ) ) {
 		 * Fires just before the move buttons of a nav menu item in the menu editor.
 		 * Adds block "Ultimate Member Menu Settings"
 		 *
-		 * @since WP 5.4.0
-		 * @hook  wp_nav_menu_item_custom_fields
-		 *
-		 * @param int      $item_id Menu item ID.
+		 * @param int       $item_id Menu item ID.
 		 * @param \WP_Post  $item    Menu item data object.
-		 * @param int      $depth   Depth of menu item. Used for padding.
+		 * @param int       $depth   Depth of menu item. Used for padding.
 		 * @param \stdClass $args    An object of menu item arguments.
-		 * @param int      $id      Nav menu ID.
+		 * @param int       $id      Nav menu ID.
 		 */
-		function wp_nav_menu_item_custom_fields( $item_id, $item, $depth, $args, $id = null ) {
+		public function wp_nav_menu_item_custom_fields( $item_id, $item, $depth, $args, $id = null ) {
 
 			$um_nav_public = get_post_meta( $item->ID, 'menu-item-um_nav_public', true );
 			$_nav_roles_meta = get_post_meta( $item->ID, 'menu-item-um_nav_roles', true );
@@ -117,29 +108,6 @@ if ( ! class_exists( 'um\admin\core\Admin_Navmenu' ) ) {
 
 		/**
 		 *
-		 */
-		function wp_nav_menu_item_custom_fields_customize_template() {
-			?>
-			<div class="um-nav-edit">
-				<div class="clear"></div>
-				<h4 style="margin-bottom: 0.6em;"><?php _e( 'Ultimate Member Menu Settings', 'ultimate-member' ) ?></h4>
-
-				<# console.log( data ); #>
-
-				<div class="clear"></div>
-			</div>
-			<?php
-		}
-
-
-
-
-
-
-
-
-		/**
-		 *
 		 * Backward compatibility with WP < 5.4
 		 *
 		 */
@@ -194,7 +162,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Navmenu' ) ) {
 		 *
 		 */
 		function admin_enqueue_scripts() {
-			UM()->admin_enqueue()->load_nav_manus_scripts();
+			UM()->admin()->enqueue()->load_nav_manus_scripts();
 
 			$menu_restriction_data = array();
 

@@ -163,11 +163,9 @@ class URE_Editor {
             set_site_transient( 'ure_show_deprecated_caps', $this->show_deprecated_caps, URE_Lib::TRANSIENT_EXPIRATION );
         }
 
-        $this->hide_pro_banner = $this->lib->get_option( 'ure_hide_pro_banner', 0 );
         $this->wp_default_role = get_option( 'default_role' );        
         $this->caps_columns_quant = $this->get_caps_columns_quant();
         
-
         return true;
     }
     // end of init0() 
@@ -237,7 +235,8 @@ class URE_Editor {
                     esc_html__('does not exist', 'user-role-editor');
         } else {
             $this->current_role = $role_id;
-            $this->current_role_name = $this->roles[$this->current_role]['name'];
+            $roles = $this->lib->get_user_roles();
+            $this->current_role_name = $roles[$this->current_role]['name'];
             $mess = '';
         }
         
@@ -674,7 +673,7 @@ class URE_Editor {
         
         $select_primary_role = apply_filters( 'ure_users_select_primary_role', true );
         if ( $select_primary_role  || $this->lib->is_super_admin()) {
-            $role = isset( $_POST['values']['primary_role'] ) ? filter_var( $_POST['values']['primary_role'], FILTER_SANITIZE_STRING ) : false;  
+            $role = isset( $_POST['values']['primary_role'] ) ? URE_Base_Lib::filter_string_var( $_POST['values']['primary_role'] ) : false;  
             if ( empty( $role ) || !isset( $wp_roles->roles[$role] ) ) {
                 $role = '';
             }
@@ -982,7 +981,8 @@ class URE_Editor {
             $result['message'] = esc_html__('Error: Role ID is empty!', 'user-role-editor' );
             return $result;
         }        
-        $role_id = utf8_decode( $role_id );
+        // $role_id = utf8_decode( $role_id ); // DEPRECATED as of PHP 8.2.0.
+        $role_id = mb_convert_encoding( $role_id, 'ISO-8859-1', 'UTF-8');
         // sanitize user input for security
         $match = array();
         $valid_name = preg_match( '/[A-Za-z0-9_\-]*/', $role_id, $match );
@@ -1438,7 +1438,8 @@ class URE_Editor {
             } else {
                 $this->current_role = $this->get_last_role_id();
             }
-            $this->current_role_name = $this->roles[$this->current_role]['name'];
+            $roles = $this->lib->get_user_roles();
+            $this->current_role_name = $roles[$this->current_role]['name'];
         }
         
     }
@@ -1497,9 +1498,11 @@ class URE_Editor {
 ?>
                 </div>
 <?php
+/*
         if (!$this->lib->is_pro()) {
             $view->advertise_commercials();
-        }
+        } 
+ */
         $view->display_edit_dialogs();
         do_action( 'ure_dialogs_html' );
         URE_Role_View::output_confirmation_dialog();

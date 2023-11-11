@@ -1,5 +1,5 @@
 <?php
-		// Load WooCommerce default styles if WooCommerce is active
+		// Load WooCommerce default styles if WooCommerce is active.
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 	wp_enqueue_style(
 		'seedprod-woocommerce-layout',
@@ -23,7 +23,62 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		'all'
 	);
 }
-// get settings
+// Load EDD default styles if EDD is active.
+if ( in_array( 'easy-digital-downloads/easy-digital-downloads.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'easy-digital-downloads-pro/easy-digital-downloads.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	$css_suffix = is_rtl() ? '-rtl.min.css' : '.min.css';
+	$url        = trailingslashit( EDD_PLUGIN_URL ) . 'assets/css/edd' . $css_suffix;
+
+	wp_enqueue_style(
+		'seedprod-edd-general',
+		str_replace( array( 'http:', 'https:' ), '', $url ),
+		'',
+		defined( 'EDD_VERSION' ) ? EDD_VERSION : null,
+		'all'
+	);
+
+	global $post;
+	wp_enqueue_script( 'edd-ajax' );
+
+	// Load AJAX scripts, if enabled
+	if ( ! edd_is_ajax_disabled() ) {
+		// Get position in cart of current download
+		$position = isset( $post->ID )
+			? edd_get_item_position_in_cart( $post->ID )
+			: -1;
+
+		if ( ( ! empty( $post->post_content ) && ( has_shortcode( $post->post_content, 'purchase_link' ) || has_shortcode( $post->post_content, 'downloads' ) ) ) || is_post_type_archive( 'download' ) ) {
+			$has_purchase_links = true;
+		} else {
+			$has_purchase_links = false;
+		}
+
+		wp_localize_script(
+			'edd-ajax',
+			'edd_scripts',
+			apply_filters(
+				'edd_ajax_script_vars',
+				array(
+					'ajaxurl'                 => esc_url_raw( edd_get_ajax_url() ),
+					'position_in_cart'        => $position,
+					'has_purchase_links'      => $has_purchase_links,
+					'already_in_cart_message' => __( 'You have already added this item to your cart', 'easy-digital-downloads' ), // Item already in the cart message
+					'empty_cart_message'      => __( 'Your cart is empty', 'easy-digital-downloads' ), // Item already in the cart message
+					'loading'                 => __( 'Loading', 'easy-digital-downloads' ), // General loading message
+					'select_option'           => __( 'Please select an option', 'easy-digital-downloads' ), // Variable pricing error with multi-purchase option enabled
+					'is_checkout'             => '1',
+					'default_gateway'         => edd_get_default_gateway(),
+					'redirect_to_checkout'    => ( edd_straight_to_checkout() || edd_is_checkout() ) ? '1' : '0',
+					'checkout_page'           => esc_url_raw( edd_get_checkout_uri() ),
+					'permalinks'              => get_option( 'permalink_structure' ) ? '1' : '0',
+					'quantities_enabled'      => edd_item_quantities_enabled(),
+					'taxes_enabled'           => edd_use_taxes() ? '1' : '0', // Adding here for widget, but leaving in checkout vars for backcompat
+					'current_page'            => get_the_ID(),
+				)
+			)
+		);
+	}
+}
+// get settings.
 if ( ! empty( $settings ) && isset( $settings->no_conflict_mode ) ) {
 	$google_fonts_str = seedprod_lite_construct_font_str( $settings );
 	$content          = $page->post_content;
@@ -36,14 +91,14 @@ if ( ! empty( $settings ) && isset( $settings->no_conflict_mode ) ) {
 	$lpage_uuid       = get_post_meta( $post->ID, '_seedprod_page_uuid', true );
 }
 
-// remove vue comment bug
+// remove vue comment bug.
 $content = str_replace( 'function(e,n,r,i){return fn(t,e,n,r,i,!0)}', '', $content );
 
 $plugin_url = SEEDPROD_PLUGIN_URL;
 
 
 
-//check to see if we have a shortcode, form or giveaway
+// check to see if we have a shortcode, form or giveaway.
 $settings_str = wp_json_encode( $settings );
 if ( strpos( $settings_str, 'contact-form' ) !== false ) {
 	$settings->no_conflict_mode = false;
@@ -52,9 +107,18 @@ if ( strpos( $settings_str, 'giveaway' ) !== false ) {
 	$settings->no_conflict_mode = false;
 }
 
-$include_seed_fb_sdk           = false;
-$include_seed_twitter_sdk      = false;
-$include_seedprod_headline_sdk = false;
+$include_seed_fb_sdk                 = false;
+$include_seed_twitter_sdk            = false;
+$include_seedprod_headline_sdk       = false;
+$include_seedprod_animation_sdk      = false;
+$include_gallery_lightbox_sdk        = false;
+$include_gallery_sdk                 = false;
+$include_counter_sdk                 = false;
+$include_seedprod_image_lightbox_sdk = false;
+$include_beforeaftertoggle_sdk       = false;
+$include_hotspot_sdk                 = false;
+$include_particles_sdk               = false;
+$include_masonarylayout_sdk          = false;
 
 
 
@@ -82,6 +146,9 @@ if ( ! empty( $seedprod_subscribe_callback_ajax_url_parsed['path'] ) ) {
 
 // If site uses WP Rocket, disable minify
 seedprod_lite_wprocket_disable_minify();
+
+// allow acf shortcode to work in block themes
+add_filter( 'acf/shortcode/allow_in_block_themes_outside_content', '__return_true' );
 
 // Check if WooCommerce is active
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -176,10 +243,10 @@ if ( ! empty( $settings ) ) {
 		<?php
 		$sp_title = wp_title( '&raquo;', false );
 		if ( ! empty( $sp_title ) ) {
+			//remove extra title tag
 			?>
-<title><?php wp_title(); ?></title>
 <?php } ?>
-<?php endif; ?>
+	<?php endif; ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Default CSS -->
@@ -188,7 +255,28 @@ if ( ! empty( $settings ) ) {
 
 	<?php if ( true === $include_seedprod_headline_sdk ) { ?>
 	<link rel='stylesheet' id='seedprod-animate-css'  href='<?php echo esc_url( $plugin_url ); ?>public/css/sp-animate.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>' type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+	<?php } ?>
+
+	<?php if ( true === $include_seedprod_animation_sdk ) { ?>
+	<link rel='stylesheet'   href='<?php echo esc_url( $plugin_url ); ?>public/css/animate.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>' type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+	<?php } ?>
+
+	<?php if ( true === $include_gallery_sdk ) { ?>
+	<link rel="stylesheet" id='seedprod-gallerylightbox-css' href="<?php echo esc_url( $plugin_url ); ?>public/css/seedprod-gallery-block.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>" type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+	<?php } ?>
+
+	<?php if ( true === $include_hotspot_sdk ) { ?>
+	<link rel="stylesheet" id='seedprod-hotspot-tooltipster-css' href="<?php echo esc_url( $plugin_url ); ?>public/css/tooltipster.bundle.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>" type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+	<?php } ?>
+
+	<?php if ( true === $include_beforeaftertoggle_sdk ) { ?>
+	<link rel='stylesheet' id='seedprod-twentytwenty-css'  href='<?php echo esc_url( $plugin_url ); ?>public/css/before-after-toggle.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>' type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
 <?php } ?>
+
+
+	<?php if ( true === $include_seedprod_image_lightbox_sdk ) { ?>
+	<link rel='stylesheet' id='seedprod-image-lightbox-css'  href='<?php echo esc_url( $plugin_url ); ?>public/css/lightbox.min.css?ver=<?php echo esc_attr( SEEDPROD_VERSION ); ?>' type='text/css' media='all' /> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>
+	<?php } ?>
 
 	<?php if ( ! empty( $google_fonts_str ) ) : ?>
 <!-- Google Font -->
@@ -266,7 +354,20 @@ if ( ! empty( $settings ) ) {
 </script>
 	<?php
 	?>
+
+	<?php
+	?>
+
+	<?php if ( true === $include_gallery_lightbox_sdk ) { ?>
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/img-previewer.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+	<?php } ?>
+
+	<?php
+	$seedprod_theme_enabled = get_option( 'seedprod_theme_enabled' );
+	if ( ! $seedprod_theme_enabled || ! empty( $settings->no_conflict_mode ) ) {
+		?>
 	<script src="<?php echo esc_url( $plugin_url ); ?>public/js/sp-scripts.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+	<?php } ?>
 	<?php
 	?>
 
@@ -276,6 +377,28 @@ if ( ! empty( $settings ) ) {
 
 	<?php
 	?>
+
+	<?php
+	if ( true === $include_particles_sdk ) {
+		?>
+<script src="<?php echo esc_url( $plugin_url ); ?>public/js/tsparticles.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+
+		<?php
+	}
+	?>
+
+	<?php
+	if ( true === $include_masonarylayout_sdk ) {
+		?>
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/masonry.pkgd.js" defer></script> 
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/imagesloaded.pkgd.min.js" defer></script> 
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/isotope.pkgd.js" defer></script> 
+
+
+		<?php
+	}
+	?>
+
 
 
 	<?php
@@ -288,6 +411,7 @@ if ( ! empty( $settings ) ) {
 			echo '<script src="' . esc_url( $include_url ) . 'js/jquery/jquery.min.js"></script>' . "\n"; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
 		}
 	}
+
 
 	?>
 	<?php
@@ -312,7 +436,20 @@ if ( ! empty( $settings ) ) {
 	$server_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 	$actual_link        = rawurlencode( ( isset( $_SERVER['HTTPS'] ) && 'on' === $_SERVER['HTTPS'] ? 'https' : 'http' ) . "://$server_http_host$server_request_uri" );
 	$content            = str_replace( 'the_link', $actual_link, $content );
-	echo do_shortcode( $content );
+	$content            = do_shortcode( $content );
+	if ( empty( $content ) ) {
+		$content = '<h1 style="margin-top:80px; text-align:center; font-size: 22px">The content for this page is empty or has not been saved. Please edit this page and "Save" the contents in the builder.</h1>';
+	}
+	echo apply_filters( 'seedprod_lpage_content', $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+	// TODO: Add a way to run content in the loop
+	// if ( have_posts() ) {
+	// 	while ( have_posts() ) {
+	//      the_post();
+	// 		$content = do_shortcode( $content );
+	// 		echo apply_filters( 'seedprod_lpage_content', $content );
+	// 	} // end while
+	// } // end if
 	?>
 
 
@@ -349,6 +486,14 @@ if ( ! empty( $settings ) ) {
 </script>
 
 	<?php
+
+	if ( true === $include_seedprod_image_lightbox_sdk ) {
+		?>
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/lightbox.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+		<?php
+	}
+
+
 	if ( empty( $settings->no_conflict_mode ) ) {
 		wp_footer();
 	}
@@ -356,6 +501,16 @@ if ( ! empty( $settings ) ) {
 	<?php
 	if ( ! empty( $settings->footer_scripts ) ) {
 		echo $settings->footer_scripts; // phpcs:ignore
+	}
+
+
+	if ( true === $include_beforeaftertoggle_sdk ) {
+		?>
+
+<script src="<?php echo esc_url( $plugin_url ); ?>public/js/jquery.event.move.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+<script src="<?php echo esc_url( $plugin_url ); ?>public/js/jquery.twentytwenty.min.js" defer></script> <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
+
+		<?php
 	}
 	?>
 </body>

@@ -257,8 +257,8 @@ class URE_Grant_Roles {
             $bbp_roles = $bbpress->extract_bbp_roles( $user->roles );
         }
         $user->remove_all_caps();
-        $roles = array_merge(array( $primary_role ), $bbp_roles, $roles );
-        foreach( $roles as $role ) {
+        $roles2 = ure_array_merge( array( $primary_role ), $bbp_roles, $roles );
+        foreach( $roles2 as $role ) {
             $user->add_role( $role );
         }
         
@@ -359,7 +359,7 @@ class URE_Grant_Roles {
         $other_roles = array_values($user->roles);
         $primary_role = array_shift($other_roles);
         
-        $answer = array('result'=>'success', 'primary_role'=>$primary_role, 'other_roles'=>$other_roles);
+        $answer = array('result'=>'success', 'primary_role'=>$primary_role, 'other_roles'=>$other_roles, 'message'=>'User roles were sent');
         
         return $answer;
     }
@@ -401,7 +401,6 @@ class URE_Grant_Roles {
 <?php        
         $show_admin_role = $this->lib->show_admin_role_allowed();        
         $roles = $this->lib->get_all_editable_roles(); 
-        ksort( $roles );
         foreach ($roles as $role_id => $role) {
             if (!$show_admin_role && $role_id=='administrator') {
                 continue;

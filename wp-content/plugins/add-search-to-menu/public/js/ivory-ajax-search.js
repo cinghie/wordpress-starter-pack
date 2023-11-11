@@ -1,7 +1,7 @@
-( function( $ ) {
+window.IVS_AJAX_JS_LOAD = function() {
 	'use strict';
 
-        $( document ).ready( function() {
+        jQuery( document ).ready( function($) {
 		var _ref = null;
                 var old_search_term = '';
                 var old_form_id = -1;
@@ -336,6 +336,10 @@
                         $( '.is-ajax-search-result .is-ajax-search-post a' ).on( 'click', function( e ) {
                             $( '#is-popup-wrapper, .is-ajax-search-result, .is-ajax-search-details' ).fadeOut('slow');
                         });
+
+                        $( '.is-ajax-woocommerce-actions .qty' ).on( 'change', function() {
+                            $( this ).parent().next().find( '.add_to_cart_button' ).attr( 'data-quantity', $( this ).val() );
+                        });
 					},
                                         error: function( XMLHttpRequest, textStatus, errorThrown ) {
                                             console.log(XMLHttpRequest.statusText);
@@ -350,7 +354,9 @@
 			}
 		}
 	} );
-} )( jQuery );
+};
+
+IVS_AJAX_JS_LOAD();
 
 /**
  * SimpleBar.js - v5.3.5

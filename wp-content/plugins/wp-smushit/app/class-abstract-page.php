@@ -123,8 +123,6 @@ abstract class Abstract_Page {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Notices.
-		//add_action( 'admin_notices', array( $this, 'smush_upgrade_notice' ) );
-		//add_action( 'network_admin_notices', array( $this, 'smush_upgrade_notice' ) );
 		add_action( 'admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'network_admin_notices', array( $this, 'smush_deactivated' ) );
 		add_action( 'wp_smush_header_notices', array( $this, 'settings_updated' ) );
@@ -179,84 +177,17 @@ abstract class Abstract_Page {
 			}
 			extract( $args );
 
-			/* @noinspection PhpIncludeInspection */
 			include $file;
 
 			$content = ob_get_clean();
 		}
 
-		echo $content;
+		// Everything escaped in all template files.
+		echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
-	 * Shows Notice for free users, displays a discount coupon
-	 */
-	public function smush_upgrade_notice() {
-		// Return, If a pro user, or not super admin, or don't have the admin privileges.
-		if ( WP_Smush::is_pro() || ! current_user_can( 'edit_others_posts' ) || ! is_super_admin() ) {
-			return;
-		}
-
-		// Return if notice is already dismissed.
-		if ( get_site_option( 'wp-smush-hide_upgrade_notice' ) ) {
-			return;
-		}
-
-		$core = WP_Smush::get_instance()->core();
-
-		$install_type = get_site_option( 'wp-smush-install-type', false );
-
-		if ( ! $install_type ) {
-			$install_type = $core->smushed_count > 0 ? 'existing' : 'new';
-			update_site_option( 'wp-smush-install-type', $install_type );
-		}
-
-		// Prepare notice.
-		if ( 'new' === $install_type ) {
-			/* translators: 1. opening 'strong' tag, 2. closing 'strong' tag. */
-			$message = __( 'Thanks for installing Smush! %1$sGet a free trial + 30%% OFF%2$s Smush Pro for a limited time - an exclusive welcome discount for free version users! Grab it while it lasts.', 'wp-smushit' );
-		} else {
-			/* translators: 1. opening 'strong' tag, 2. closing 'strong' tag. */
-			$message = __( 'Thanks for updating Smush! %1$sGet 30%% OFF Smush Pro + Free Trial%2$s - Did you know we now offer Smush Pro only plans? With a limited time intro discount! Grab it while it lasts.', 'wp-smushit' );
-		}
-
-		$upgrade_url = add_query_arg(
-			array(
-				'coupon'       => 'SMUSH30OFF',
-				'checkout'     => 0,
-				'utm_source'   => 'smush',
-				'utm_medium'   => 'plugin',
-				'utm_campaign' => 'smush_dashboard_upgrade_notice',
-			),
-			$this->upgrade_url
-		);
-		?>
-		<div class="notice smush-notice">
-			<div class="smush-notice-logo">
-				<img
-					src="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/incsub-logo.png' ); ?>"
-					srcset="<?php echo esc_url( WP_SMUSH_URL . 'app/assets/images/incsub-logo@2x.png' ); ?> 2x"
-					alt="<?php esc_html_e( 'Smush CDN', 'wp-smushit' ); ?>"
-				>
-			</div>
-			<div class="smush-notice-message<?php echo 'new' === $install_type ? ' wp-smush-fresh' : ' wp-smush-existing'; ?>">
-				<?php printf( esc_html( $message ), '<strong>', '</strong>' ); ?><br/>
-				<small><?php esc_html_e( '*Only admin users can see this message', 'wp-smushit' ); ?></small>
-			</div>
-			<div class="smush-notice-cta">
-				<a href="<?php echo esc_url( $upgrade_url ); ?>" class="smush-notice-act button-primary" target="_blank">
-					<?php esc_html_e( 'Try Smush Pro Free', 'wp-smushit' ); ?>
-				</a>
-				<button class="smush-notice-dismiss smush-dismiss-welcome" data-msg="<?php esc_html_e( 'Saving', 'wp-smushit' ); ?>">
-					<?php esc_html_e( 'Dismiss', 'wp-smushit' ); ?>
-				</button>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Display a admin notice about plugin deactivation.
+	 * Display an admin notice about plugin deactivation.
 	 */
 	public function smush_deactivated() {
 		// Display only in backend for administrators.
@@ -437,36 +368,105 @@ abstract class Abstract_Page {
 	 * @since 3.7.0
 	 */
 	private function render_modals() {
-		$hide_quick_setup = false !== get_option( 'skip-smush-setup' );
-
-		// Show configure screen for only a new installation and for only network admins.
-		if ( ( ! is_multisite() && ! $hide_quick_setup ) || ( is_multisite() && ! is_network_admin() && ! $this->settings->is_network_enabled() && ! $hide_quick_setup ) ) {
-			$this->modals['onboarding']     = array();
-			$this->modals['checking-files'] = array();
-		}
-
-		// Show new features modal if the modal wasn't dismissed.
-		if ( get_site_option( 'wp-smush-show_upgrade_modal' ) ) {
-			// Display only on single installs and on Network admin for multisites.
-			if ( ( ! is_multisite() && $hide_quick_setup ) || ( is_multisite() && is_network_admin() ) ) {
-				$cta_url = $this->get_url( 'smush-bulk' );
-				if ( is_multisite() ) {
-					$access = get_site_option( 'wp-smush-networkwide' );
-					if ( '1' === $access || ( is_array( $access ) && in_array( 'bulk', $access, true ) ) ) {
-						$cta_url = $this->get_url( 'smush' );
-					}
-				}
-
-				$this->modals['updated'] = array(
-					'cta_url' => $cta_url,
-				);
-			}
-		}
+		$this->prepare_modals();
 
 		// Render all modals.
 		foreach ( $this->modals as $modal_file => $args ) {
 			$this->view( $modal_file, $args, 'modals' );
 		}
+	}
+
+	private function prepare_modals() {
+		$this->prepare_onboarding_modal();
+		$this->prepare_upgrade_modal();
+		$this->prepare_ultra_compression_modal();
+	}
+
+	/**
+	 * Onboarding Modal (show onload).
+	 *
+	 * List bulk smush features, and the related settings.
+	 *
+	 * => Expect to show it for the fresh installation.
+	 * And we will show it when users can access bulk smush page.
+	 * 1. Show it on single site.
+	 * 2. For MU site, it depends on Sub-site Controls:
+	 *      2.1. IF disable bulk smush page for sub-sites
+	 *              => Only show it on network side.
+	 *      2.2. IF enable bulk smush page for sub-sites:
+	 *          - Show it for sub-sites.
+	 *          - Now we do not show it for network side since we do not show bulk smush page there.
+	 *            TODO: Maybe show it when we support bulk smush page on network side, @see: SMUSH-369
+	 */
+	private function prepare_onboarding_modal() {
+		$skip_quick_setup = ! empty( get_option( 'skip-smush-setup' ) );
+		if (
+			$skip_quick_setup
+			|| $this->has_onload_modal()
+			|| ! $this->settings->has_bulk_smush_page()
+		) {
+			return;
+		}
+
+		$this->modals['onboarding'] = array(
+			'cta_url' => Helper::get_recheck_images_link(),
+		);
+	}
+
+	private function has_onload_modal( $modal = false ) {
+		if (
+			empty( $this->modals )
+			|| ( $modal && ! isset( $this->modals[ $modal ] ) )
+		) {
+			return false;
+		}
+
+		$onload_modals = array(
+			'onboarding',
+			'updated',
+		);
+		$rendered_onload_modals = array_intersect( $onload_modals, array_keys( $this->modals ) );
+
+		return ! empty( $rendered_onload_modals );
+	}
+
+	/**
+	 * Upgrade/New Feature modal (show onload).
+	 *
+	 * Show it when users can access bulk smush page, and network admin.
+	 */
+	private function prepare_upgrade_modal() {
+		$whitelabel_hide_doc_link = apply_filters( 'wpmudev_branding_hide_doc_link', false );
+		$hide_upgrade_modal       = empty( get_site_option( 'wp-smush-show_upgrade_modal' ) );
+		$is_on_subsite_screen     = ! is_network_admin();
+		if (
+			$this->has_onload_modal()
+			|| $hide_upgrade_modal
+			|| $whitelabel_hide_doc_link
+			|| ( $is_on_subsite_screen && ! $this->settings->has_bulk_smush_page() )
+		) {
+			$should_ignore_upgrade_modal = $whitelabel_hide_doc_link || $this->has_onload_modal( 'onboarding' );
+			if ( $should_ignore_upgrade_modal ) {
+				delete_site_option( 'wp-smush-show_upgrade_modal' );
+			}
+			return;
+		}
+
+		$cta_url                 = $this->settings->has_bulk_smush_page() ? Helper::get_page_url( 'smush-bulk' ) : '';
+		$this->modals['updated'] = array(
+			'cta_url' => $cta_url,
+		);
+	}
+
+	private function prepare_ultra_compression_modal() {
+		if ( WP_Smush::is_pro() ) {
+			return;
+		}
+
+		$is_dashboard_page                 = 'smush' === $this->get_slug();
+		$this->modals['ultra-compression'] = array(
+			'location' => $is_dashboard_page ? 'dashboard_summary' : 'summary_box',
+		);
 	}
 
 	/**
@@ -476,9 +476,9 @@ abstract class Abstract_Page {
 	 */
 	public function get_current_tab() {
 		$tabs = $this->get_tabs();
-		$view = filter_input( INPUT_GET, 'view', FILTER_SANITIZE_STRING );
+		$view = filter_input( INPUT_GET, 'view', FILTER_SANITIZE_SPECIAL_CHARS );
 
-		if ( array_key_exists( $view, $tabs ) ) {
+		if ( $view && array_key_exists( $view, $tabs ) ) {
 			return $view;
 		}
 
@@ -582,7 +582,7 @@ abstract class Abstract_Page {
 	 * @return bool
 	 */
 	protected function view_exists( $name ) {
-		$file = WP_SMUSH_DIR . "app/views/{$name}.php";
+		$file = WP_SMUSH_DIR . "app/views/$name.php";
 		return is_file( $file );
 	}
 
@@ -594,17 +594,9 @@ abstract class Abstract_Page {
 	private function get_menu_icon() {
 		ob_start();
 		?>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_2_23)">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 2C11.5823 2 13.129 2.46921 14.4446 3.34826C15.7601 4.22731 16.7855 5.47672 17.391 6.93853C17.9965 8.40034 18.155 10.0089 17.8463 11.5607C17.762 11.9845 17.6439 12.3988 17.494 12.8C17.498 12.7002 17.5 12.6002 17.5 12.5C17.5 10.5109 16.7098 8.60324 15.3033 7.19672C13.8968 5.7902 11.9891 5.00001 10 5.00001C8.51664 5.00001 7.06659 5.43987 5.83323 6.26398C4.59986 7.08809 3.63856 8.25944 3.0709 9.62989C2.65354 10.6375 2.46275 11.7195 2.506 12.8C2.1731 11.909 2.00001 10.961 2.00001 9.99999C2.00001 7.87826 2.84286 5.84343 4.34315 4.34314C5.84344 2.84285 7.87827 2 10 2ZM13.8268 19.2388C12.6157 19.7405 11.3239 19.9966 10.0256 20H10.0152C10.005 20 9.99483 20 9.98464 20H9.97449C9.33106 19.9983 8.68626 19.9346 8.04911 19.8078C6.1093 19.422 4.32746 18.4696 2.92893 17.0711C1.53041 15.6726 0.578002 13.8907 0.192151 11.9509C-0.193701 10.0111 0.00433534 8.00041 0.761211 6.17315C1.51809 4.34589 2.79982 2.78411 4.44431 1.6853C6.0888 0.586488 8.02219 0 10 0C12.6522 0 15.1957 1.05359 17.0711 2.92895C18.9464 4.80432 20 7.34783 20 9.99999C20 11.9778 19.4135 13.9112 18.3147 15.5557C17.2159 17.2002 15.6541 18.4819 13.8268 19.2388ZM10.0139 18H9.98611C9.59872 17.9982 9.21338 17.9214 8.85196 17.7717C8.30378 17.5446 7.83523 17.1601 7.50559 16.6667C7.17594 16.1734 7 15.5933 7 15C7 14.2043 7.31606 13.4413 7.87866 12.8787C8.44127 12.3161 9.20435 12 10 12C10.5933 12 11.1734 12.176 11.6667 12.5056C12.1601 12.8353 12.5446 13.3038 12.7716 13.852C12.9987 14.4002 13.0581 15.0033 12.9424 15.5853C12.8266 16.1672 12.5409 16.7018 12.1213 17.1213C11.7017 17.5409 11.1672 17.8266 10.5853 17.9424C10.3962 17.98 10.2049 17.9991 10.0139 18ZM14.996 14.8C14.9459 13.5466 14.426 12.3549 13.5355 11.4645C12.5978 10.5268 11.3261 10 10 10C9.01109 10 8.04439 10.2932 7.22214 10.8427C6.3999 11.3921 5.75903 12.173 5.38059 13.0866C5.15387 13.6339 5.02745 14.2142 5.004 14.8C4.67336 14.0818 4.50001 13.2975 4.50001 12.5C4.50265 11.0421 5.08296 9.64471 6.11384 8.61383C7.14471 7.58296 8.54212 7.00265 10 7.00001C11.0878 7.00001 12.1512 7.3226 13.0556 7.92695C13.9601 8.53129 14.665 9.39027 15.0813 10.3953C15.4976 11.4003 15.6065 12.5061 15.3943 13.573C15.3097 13.9984 15.1755 14.41 14.996 14.8Z" fill="#F0F6FC"/>
-            </g>
-            <defs>
-                <clipPath id="clip0_2_23">
-                    <rect width="20" height="20" fill="white"/>
-                </clipPath>
-            </defs>
-        </svg>
-
+		<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M10 2C11.5823 2 13.129 2.46921 14.4446 3.34826C15.7601 4.22731 16.7855 5.47672 17.391 6.93853C17.9965 8.40034 18.155 10.0089 17.8463 11.5607C17.762 11.9845 17.6439 12.3988 17.494 12.8C17.498 12.7002 17.5 12.6002 17.5 12.5C17.5 10.5109 16.7098 8.60324 15.3033 7.19672C13.8968 5.7902 11.9891 5.00001 10 5.00001C8.51664 5.00001 7.06659 5.43987 5.83323 6.26398C4.59986 7.08809 3.63856 8.25944 3.0709 9.62989C2.65354 10.6375 2.46275 11.7195 2.506 12.8C2.1731 11.909 2.00001 10.961 2.00001 9.99999C2.00001 7.87826 2.84286 5.84343 4.34315 4.34314C5.84344 2.84285 7.87827 2 10 2ZM13.8268 19.2388C12.6157 19.7405 11.3239 19.9966 10.0256 20H10.0152C10.005 20 9.99483 20 9.98464 20H9.97449C9.33106 19.9983 8.68626 19.9346 8.04911 19.8078C6.1093 19.422 4.32746 18.4696 2.92893 17.0711C1.53041 15.6726 0.578002 13.8907 0.192151 11.9509C-0.193701 10.0111 0.00433534 8.00041 0.761211 6.17315C1.51809 4.34589 2.79982 2.78411 4.44431 1.6853C6.0888 0.586488 8.02219 0 10 0C12.6522 0 15.1957 1.05359 17.0711 2.92895C18.9464 4.80432 20 7.34783 20 9.99999C20 11.9778 19.4135 13.9112 18.3147 15.5557C17.2159 17.2002 15.6541 18.4819 13.8268 19.2388ZM10.0139 18H9.98611C9.59872 17.9982 9.21338 17.9214 8.85196 17.7717C8.30378 17.5446 7.83523 17.1601 7.50559 16.6667C7.17594 16.1734 7 15.5933 7 15C7 14.2043 7.31606 13.4413 7.87866 12.8787C8.44127 12.3161 9.20435 12 10 12C10.5933 12 11.1734 12.176 11.6667 12.5056C12.1601 12.8353 12.5446 13.3038 12.7716 13.852C12.9987 14.4002 13.0581 15.0033 12.9424 15.5853C12.8266 16.1672 12.5409 16.7018 12.1213 17.1213C11.7017 17.5409 11.1672 17.8266 10.5853 17.9424C10.3962 17.98 10.2049 17.9991 10.0139 18ZM14.996 14.8C14.9459 13.5466 14.426 12.3549 13.5355 11.4645C12.5978 10.5268 11.3261 10 10 10C9.01109 10 8.04439 10.2932 7.22214 10.8427C6.3999 11.3921 5.75903 12.173 5.38059 13.0866C5.15387 13.6339 5.02745 14.2142 5.004 14.8C4.67336 14.0818 4.50001 13.2975 4.50001 12.5C4.50265 11.0421 5.08296 9.64471 6.11384 8.61383C7.14471 7.58296 8.54212 7.00265 10 7.00001C11.0878 7.00001 12.1512 7.3226 13.0556 7.92695C13.9601 8.53129 14.665 9.39027 15.0813 10.3953C15.4976 11.4003 15.6065 12.5061 15.3943 13.573C15.3097 13.9984 15.1755 14.41 14.996 14.8Z" fill="#F0F6FC"/>
+		</svg>
 		<?php
 		$svg = ob_get_clean();
 
@@ -620,7 +612,7 @@ abstract class Abstract_Page {
 	 */
 	public function get_doc_url() {
 		$doc = 'https://wpmudev.com/docs/wpmu-dev-plugins/smush/';
-		if ( WP_Smush::is_pro() ) {
+		if ( ! WP_Smush::is_pro() ) {
 			$doc = 'https://wpmudev.com/docs/wpmu-dev-plugins/smush/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_pluginlist_docs';
 		}
 
@@ -678,11 +670,22 @@ abstract class Abstract_Page {
 					( 'smush-bulk' === $this->get_slug() || in_array( $this->page_id, array( 'nextgen-gallery_page_wp-smush-nextgen-bulk', 'gallery_page_wp-smush-nextgen-bulk' ), true ) )
 				) :
 					?>
-					<?php $data_type = in_array( $current_screen->id, array( 'nextgen-gallery_page_wp-smush-nextgen-bulk', 'gallery_page_wp-smush-nextgen-bulk' ), true ) ? 'nextgen' : 'media'; ?>
-					<button class="sui-button wp-smush-scan" data-tooltip="<?php esc_attr_e( 'Lets you check if any images can be further optimized. Useful after changing settings.', 'wp-smushit' ); ?>" data-type="<?php echo esc_attr( $data_type ); ?>">
+					<?php
+					
+						$data_type = in_array( $current_screen->id, array( 'nextgen-gallery_page_wp-smush-nextgen-bulk', 'gallery_page_wp-smush-nextgen-bulk' ), true ) ? 'nextgen' : 'media';
+						$button_class_names = array(
+							'sui-button',
+							'wp-smush-scan'
+						);
+
+						if ( 'media' === $data_type ) {
+							$button_class_names[] = 'wp-smush-background-scan';
+						}
+					?>
+					<button class="<?php echo esc_attr( join( ' ', $button_class_names ) );?>" data-tooltip="<?php esc_attr_e( 'Lets you check if any images can be further optimized. Useful after changing settings.', 'wp-smushit' ); ?>" data-type="<?php echo esc_attr( $data_type ); ?>">
 						<span class="sui-loading-text wp-smush-default-text">
 							<i class="sui-icon-update" aria-hidden="true"></i>
-							<?php esc_html_e( 'Re-Check Images', 'wp-smushit' ); ?>
+							<span class="wp-smush-inner-text"><?php esc_html_e( 'Re-Check Images', 'wp-smushit' ); ?></span>
 						</span>
 						<span class="sui-hidden wp-smush-completed-text">
 							<i class="sui-icon-check-tick" aria-hidden="true"></i>
@@ -724,7 +727,7 @@ abstract class Abstract_Page {
 		}
 
 		$message      = empty( $api_message['message'] ) ? '' : $api_message['message'];
-		$message_type = ( is_array( $api_message ) && ! empty( $api_message['type'] ) ) ? $api_message['type'] : 'info';
+		$message_type = ! empty( $api_message['type'] ) ? $api_message['type'] : 'info';
 		$type_class   = 'warning' === $message_type ? 'sui-notice-warning' : 'sui-notice-info';
 		?>
 
@@ -771,7 +774,7 @@ abstract class Abstract_Page {
 		if ( 'smush-cdn' === $this->get_slug() ) {
 			$cdn = $this->settings->get_setting( 'wp-smush-cdn_status' );
 			if ( isset( $cdn->cdn_enabling ) && $cdn->cdn_enabling ) {
-				$message = esc_html__( 'Your settings have been saved and changes are now propagating to the CDN. Changes can take up to 30 minutes to take effect but your images will continue to be served in the mean time, please be patient.', 'wp-smushit' );
+				$message = esc_html__( 'Your settings have been saved and changes are now propagating to the CDN. Changes can take up to 30 minutes to take effect but your images will continue to be served in the meantime, please be patient.', 'wp-smushit' );
 			}
 		}
 
@@ -791,9 +794,9 @@ abstract class Abstract_Page {
 			document.addEventListener("DOMContentLoaded", function() {
 				window.SUI.openNotice(
 					'wp-smush-ajax-notice',
-					'<p><?php echo $message; ?></p>',
+					'<p><?php echo wp_kses_post( $message ); ?></p>',
 					{
-						type: '<?php echo $message_class; ?>',
+						type: '<?php echo esc_attr( $message_class ); ?>',
 						icon: 'info',
 					}
 				);
@@ -887,11 +890,7 @@ abstract class Abstract_Page {
 			$page = $this->get_slug();
 		}
 
-		if ( is_multisite() && is_network_admin() ) {
-			return network_admin_url( 'admin.php?page=' . $page );
-		}
-
-		return admin_url( 'admin.php?page=' . $page );
+		return Helper::get_page_url( $page );
 	}
 
 	/**
@@ -968,17 +967,18 @@ abstract class Abstract_Page {
 				'hideBranding' => apply_filters( 'wpmudev_branding_hide_branding', false ),
 				'isPro'        => WP_Smush::is_pro(),
 				'links'        => array(
-					'configsPage'  => network_admin_url( 'admin.php?page=smush-settings&view=configs' ),
-					'accordionImg' => WP_SMUSH_URL . 'app/assets/images/smush-config-icon@2x.png',
-					'hubConfigs'   => 'https://wpmudev.com/hub2/configs/my-configs',
-					'hubWelcome'   => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
+					'configsPage'   => network_admin_url( 'admin.php?page=smush-settings&view=configs' ),
+					'accordionImg'  => WP_SMUSH_URL . 'app/assets/images/smush-config-icon@2x.png',
+					'hubConfigs'    => 'https://wpmudev.com/hub2/configs/my-configs',
+					'hubWelcome'    => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
+					'freeNoticeHub' => 'https://wpmudev.com/hub-welcome/?utm_source=smush&utm_medium=plugin&utm_campaign=smush_hub_config',
 				),
 				'requestsData' => array(
-					'root'           => esc_url_raw( rest_url( 'wp-smush/v1/' . \Smush\Core\Configs::OPTION_NAME ) ),
+					'root'           => esc_url_raw( rest_url( 'wp-smush/v1/preset_configs' ) ),
 					'nonce'          => wp_create_nonce( 'wp_rest' ),
-					'apiKey'         => \Smush\Core\Helper::get_wpmudev_apikey(),
+					'apiKey'         => Helper::get_wpmudev_apikey(),
 					'hubBaseURL'     => defined( 'WPMUDEV_CUSTOM_API_SERVER' ) && WPMUDEV_CUSTOM_API_SERVER ? trailingslashit( WPMUDEV_CUSTOM_API_SERVER ) . 'api/hub/v1/package-configs' : null,
-					// Hardcoding these because the Free version doesn't have the WDP ID header in wp-smushit.php.
+					// Hard-coding these because the Free version doesn't have the WDP ID header in wp-smushit.php.
 					'pluginData'     => array(
 						'name' => 'Smush' . ( WP_Smush::is_pro() ? ' Pro' : '' ),
 						'id'   => '912164',
@@ -1021,5 +1021,42 @@ abstract class Abstract_Page {
 		}
 
 		return $locale;
+	}
+
+	protected function get_utm_link( $args = array() ) {
+		$default = array(
+			'utm_source' => 'smush',
+			'utm_medium' => 'plugin',
+		);
+		$args    = wp_parse_args( $args, $default );
+
+		return add_query_arg( $args, $this->upgrade_url );
+	}
+
+	public function get_connect_site_link() {
+		if ( WP_Smush::is_pro() || WP_Smush::is_expired() ) {
+			// Do not show connect site link for pro or expired users.
+			return;
+		}
+
+		if ( ! class_exists( '\WPMUDEV_Dashboard' ) ) {
+			return add_query_arg(
+				array(
+					'utm_source'   => 'smush',
+					'utm_medium'   => 'plugin',
+					'utm_campaign' => 'smush_ultra_existing',
+				),
+				'https://wpmudev.com/hub2/connect/'
+			);
+		}
+
+		$dashboard_path = 'admin.php?page=wpmudev';
+		if ( ! is_multisite() ) {
+			return admin_url( $dashboard_path );
+		}
+
+		if ( is_super_admin() ) {
+			return network_admin_url( $dashboard_path );
+		}
 	}
 }

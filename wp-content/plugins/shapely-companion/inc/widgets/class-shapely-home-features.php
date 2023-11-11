@@ -59,7 +59,7 @@ class Shapely_Home_Features extends WP_Widget {
 		$body_content[2] = $instance['body_content2'];
 		$body_content[3] = $instance['body_content3'];
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 		/**
 		 * Widget Content
@@ -101,7 +101,7 @@ class Shapely_Home_Features extends WP_Widget {
 
 		<?php
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
 	}
 
 
@@ -137,7 +137,7 @@ class Shapely_Home_Features extends WP_Widget {
 			<b>
 				<?php
 				// Translators: Number of feature icons
-				echo sprintf( __( 'Feature %s', 'shapely-companion' ), $i );
+				echo sprintf( esc_html__( 'Feature %s', 'shapely-companion' ), esc_html( $i ) );
 				?>
 			</b>
 

@@ -64,7 +64,7 @@ final class Plugin {
 	 * @since 1.0.0
 	 */
 	public function register() {
-		if ( $this->context->is_network_active() ) {
+		if ( $this->context->is_network_mode() ) {
 			add_action(
 				'network_admin_notices',
 				function() {
@@ -73,15 +73,12 @@ final class Plugin {
 						<p>
 							<?php
 							echo wp_kses(
-								__( 'The Site Kit by Google plugin is <strong>not yet compatible</strong> for use in a WordPress multisite network, but we&#8217;re actively working on that.', 'google-site-kit' ),
+								__( 'The Site Kit by Google plugin does <strong>not yet offer</strong> a network mode, but we&#8217;re actively working on that.', 'google-site-kit' ),
 								array(
 									'strong' => array(),
 								)
 							);
 							?>
-						</p>
-						<p>
-							<?php esc_html_e( 'Meanwhile, we recommend deactivating it in the network and re-activating it for an individual site.', 'google-site-kit' ); ?>
 						</p>
 					</div>
 					<?php
@@ -157,47 +154,67 @@ final class Plugin {
 				$user_options = new Core\Storage\User_Options( $this->context, get_current_user_id() );
 				$assets       = new Core\Assets\Assets( $this->context );
 
-				$authentication = new Core\Authentication\Authentication( $this->context, $options, $user_options, $transients );
-				$authentication->register();
+				$survey_queue = new Core\User_Surveys\Survey_Queue( $user_options );
+				$survey_queue->register();
 
-				$permissions = new Core\Permissions\Permissions( $this->context, $authentication );
-				$permissions->register();
+				$user_input = new Core\User_Input\User_Input( $this->context, $options, $user_options, $survey_queue );
+
+				if ( Feature_Flags::enabled( 'keyMetrics' ) ) {
+					$user_input->register();
+				}
+
+				$authentication = new Core\Authentication\Authentication( $this->context, $options, $user_options, $transients, $user_input );
+				$authentication->register();
 
 				$modules = new Core\Modules\Modules( $this->context, $options, $user_options, $authentication, $assets );
 				$modules->register();
 
+				$dismissals = new Core\Dismissals\Dismissals( $this->context, $user_options );
+				$dismissals->register();
+
+				$dismissed_items = $dismissals->get_dismissed_items();
+
+				$permissions = new Core\Permissions\Permissions( $this->context, $authentication, $modules, $user_options, $dismissed_items );
+				$permissions->register();
+
+				$nonces = new Core\Nonces\Nonces( $this->context );
+				$nonces->register();
+
 				// Assets must be registered after Modules instance is registered.
 				$assets->register();
 
-				$screens = new Core\Admin\Screens( $this->context, $assets, $modules );
+				$screens = new Core\Admin\Screens( $this->context, $assets, $modules, $authentication );
 				$screens->register();
 
-				if ( Feature_Flags::enabled( 'serviceSetupV2' ) ) {
-					( new Core\Authentication\Setup_V2( $this->context, $user_options, $authentication ) )->register();
-				} else {
-					( new Core\Authentication\Setup_V1( $this->context, $user_options, $authentication ) )->register();
-				}
+				$user_surveys = new Core\User_Surveys\User_Surveys( $authentication, $user_options, $survey_queue );
+				$user_surveys->register();
+
+				( new Core\Authentication\Setup( $this->context, $user_options, $authentication ) )->register();
 
 				( new Core\Util\Reset( $this->context ) )->register();
 				( new Core\Util\Reset_Persistent( $this->context ) )->register();
 				( new Core\Util\Developer_Plugin_Installer( $this->context ) )->register();
 				( new Core\Tracking\Tracking( $this->context, $user_options, $screens ) )->register();
-				( new Core\REST_API\REST_Routes( $this->context, $authentication, $modules ) )->register();
+				( new Core\REST_API\REST_Routes( $this->context ) )->register();
 				( new Core\Util\REST_Entity_Search_Controller( $this->context ) )->register();
 				( new Core\Admin_Bar\Admin_Bar( $this->context, $assets, $modules ) )->register();
 				( new Core\Admin\Available_Tools() )->register();
 				( new Core\Admin\Notices() )->register();
+				( new Core\Admin\Pointers() )->register();
 				( new Core\Admin\Dashboard( $this->context, $assets, $modules ) )->register();
 				( new Core\Notifications\Notifications( $this->context, $options, $authentication ) )->register();
-				( new Core\Util\Debug_Data( $this->context, $options, $user_options, $authentication, $modules ) )->register();
+				( new Core\Util\Debug_Data( $this->context, $options, $user_options, $authentication, $modules, $permissions ) )->register();
 				( new Core\Util\Health_Checks( $authentication ) )->register();
 				( new Core\Admin\Standalone( $this->context ) )->register();
 				( new Core\Util\Activation_Notice( $this->context, $activation_flag, $assets ) )->register();
-				( new Core\Dismissals\Dismissals( $this->context, $user_options ) )->register();
 				( new Core\Feature_Tours\Feature_Tours( $this->context, $user_options ) )->register();
-				( new Core\User_Surveys\REST_User_Surveys_Controller( $authentication ) )->register();
 				( new Core\Util\Migration_1_3_0( $this->context, $options, $user_options ) )->register();
 				( new Core\Util\Migration_1_8_1( $this->context, $options, $user_options, $authentication ) )->register();
+				( new Core\Dashboard_Sharing\Dashboard_Sharing( $this->context, $user_options ) )->register();
+
+				if ( Feature_Flags::enabled( 'keyMetrics' ) ) {
+					( new Core\Key_Metrics\Key_Metrics( $this->context, $user_options, $options ) )->register();
+				}
 
 				// If a login is happening (runs after 'init'), update current user in dependency chain.
 				add_action(

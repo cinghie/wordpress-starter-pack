@@ -12,10 +12,10 @@ namespace Google\Site_Kit\Modules;
 
 use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Module_Settings;
+use Google\Site_Kit\Core\Modules\Module_With_Data_Available_State;
+use Google\Site_Kit\Core\Modules\Module_With_Data_Available_State_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Deactivation;
 use Google\Site_Kit\Core\Modules\Module_With_Debug_Fields;
-use Google\Site_Kit\Core\Modules\Module_With_Screen;
-use Google\Site_Kit\Core\Modules\Module_With_Screen_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Scopes;
 use Google\Site_Kit\Core\Modules\Module_With_Scopes_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Settings;
@@ -24,18 +24,26 @@ use Google\Site_Kit\Core\Modules\Module_With_Assets;
 use Google\Site_Kit\Core\Modules\Module_With_Assets_Trait;
 use Google\Site_Kit\Core\Modules\Module_With_Owner;
 use Google\Site_Kit\Core\Modules\Module_With_Owner_Trait;
+use Google\Site_Kit\Core\Modules\Module_With_Service_Entity;
 use Google\Site_Kit\Core\REST_API\Exception\Invalid_Datapoint_Exception;
+use Google\Site_Kit\Core\Validation\Exception\Invalid_Report_Metrics_Exception;
+use Google\Site_Kit\Core\Validation\Exception\Invalid_Report_Dimensions_Exception;
 use Google\Site_Kit\Core\Authentication\Google_Proxy;
 use Google\Site_Kit\Core\Assets\Asset;
 use Google\Site_Kit\Core\Assets\Script;
 use Google\Site_Kit\Core\Authentication\Clients\Google_Site_Kit_Client;
 use Google\Site_Kit\Core\Permissions\Permissions;
 use Google\Site_Kit\Core\REST_API\Data_Request;
-use Google\Site_Kit\Core\Tags\Guards\Tag_Production_Guard;
+use Google\Site_Kit\Core\Tags\Guards\Tag_Environment_Type_Guard;
 use Google\Site_Kit\Core\Tags\Guards\Tag_Verify_Guard;
+use Google\Site_Kit\Core\Util\Date;
 use Google\Site_Kit\Core\Util\Debug_Data;
 use Google\Site_Kit\Core\Util\Feature_Flags;
 use Google\Site_Kit\Core\Util\Method_Proxy_Trait;
+use Google\Site_Kit\Core\Util\BC_Functions;
+use Google\Site_Kit\Core\Util\Sort;
+use Google\Site_Kit\Core\Util\URL;
+use Google\Site_Kit\Modules\Analytics\Account_Ticket;
 use Google\Site_Kit\Modules\Analytics\Google_Service_AnalyticsProvisioning;
 use Google\Site_Kit\Modules\Analytics\AMP_Tag;
 use Google\Site_Kit\Modules\Analytics\Settings;
@@ -62,7 +70,6 @@ use Google\Site_Kit_Dependencies\Google\Service\Exception as Google_Service_Exce
 use Google\Site_Kit_Dependencies\Psr\Http\Message\RequestInterface;
 use WP_Error;
 use Exception;
-use Google\Site_Kit\Core\Util\BC_Functions;
 
 /**
  * Class representing the Analytics module.
@@ -72,13 +79,13 @@ use Google\Site_Kit\Core\Util\BC_Functions;
  * @ignore
  */
 final class Analytics extends Module
-	implements Module_With_Screen, Module_With_Scopes, Module_With_Settings, Module_With_Assets, Module_With_Debug_Fields, Module_With_Owner, Module_With_Deactivation {
+	implements Module_With_Scopes, Module_With_Settings, Module_With_Assets, Module_With_Debug_Fields, Module_With_Owner, Module_With_Service_Entity, Module_With_Deactivation, Module_With_Data_Available_State {
 	use Method_Proxy_Trait;
 	use Module_With_Assets_Trait;
 	use Module_With_Owner_Trait;
 	use Module_With_Scopes_Trait;
-	use Module_With_Screen_Trait;
 	use Module_With_Settings_Trait;
+	use Module_With_Data_Available_State_Trait;
 
 	const PROVISION_ACCOUNT_TICKET_ID = 'googlesitekit_analytics_provision_account_ticket_id';
 
@@ -98,10 +105,6 @@ final class Analytics extends Module
 	 */
 	public function register() {
 		$this->register_scopes_hook();
-
-		if ( ! Feature_Flags::enabled( 'unifiedDashboard' ) ) {
-			$this->register_screen_hook();
-		}
 
 		/**
 		 * This filter only exists to be unhooked by the AdSense module if active.
@@ -123,13 +126,37 @@ final class Analytics extends Module
 		add_filter(
 			'googlesitekit_proxy_setup_mode',
 			function( $original_mode ) {
-				return Feature_Flags::enabled( 'serviceSetupV2' ) && ! $this->is_connected()
+				return ! $this->is_connected()
 					? 'analytics-step'
 					: $original_mode;
 			}
 		);
 
 		( new Advanced_Tracking( $this->context ) )->register();
+
+		// Ensure that the data available state is reset when the property changes.
+		add_action(
+			'update_option_googlesitekit_analytics_settings',
+			function( $old_value, $new_value ) {
+				if ( $old_value['propertyID'] !== $new_value['propertyID'] ) {
+					$this->reset_data_available();
+				}
+			},
+			10,
+			2
+		);
+
+		add_filter(
+			'googlesitekit_dashboard_sharing_data',
+			function ( $data ) {
+				if ( Feature_Flags::enabled( 'ga4Reporting' ) && ! $this->authentication->is_authenticated() ) {
+					$settings = $this->get_settings()->get();
+				}
+
+				return $data;
+			}
+		);
+
 	}
 
 	/**
@@ -211,6 +238,7 @@ final class Analytics extends Module
 	public function on_deactivation() {
 		$this->get_settings()->delete();
 		$this->options->delete( 'googlesitekit_analytics_adsense_linked' );
+		$this->reset_data_available();
 	}
 
 	/**
@@ -223,7 +251,7 @@ final class Analytics extends Module
 	public function get_debug_fields() {
 		$settings = $this->get_settings()->get();
 
-		return array(
+		$fields = array(
 			'analytics_account_id'  => array(
 				'label' => __( 'Analytics account ID', 'google-site-kit' ),
 				'value' => $settings['accountID'],
@@ -245,12 +273,15 @@ final class Analytics extends Module
 				'debug' => $settings['useSnippet'] ? 'yes' : 'no',
 			),
 		);
+
+		return $fields;
 	}
 
 	/**
 	 * Handles the provisioning callback after the user completes the terms of service.
 	 *
 	 * @since 1.9.0
+	 * @since 1.98.0 Extended to handle callback from Admin API (no UA entities).
 	 */
 	protected function handle_provisioning_callback() {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -267,65 +298,87 @@ final class Analytics extends Module
 			return;
 		}
 
-		// The handler should check the received Account Ticket id parameter against the id stored in the provisioning step.
-		$account_ticket_id        = $input->filter( INPUT_GET, 'accountTicketId', FILTER_SANITIZE_STRING );
-		$stored_account_ticket_id = get_transient( self::PROVISION_ACCOUNT_TICKET_ID . '::' . get_current_user_id() );
-		delete_transient( self::PROVISION_ACCOUNT_TICKET_ID . '::' . get_current_user_id() );
+		// First check that the accountTicketId matches one stored for the user.
+		// This is always provided, even in the event of an error.
+		$account_ticket_id = htmlspecialchars( $input->filter( INPUT_GET, 'accountTicketId' ) );
+		// The create-account-ticket request stores the created account ticket in a transient before
+		// sending the user off to the terms of service page.
+		$account_ticket_transient_key = self::PROVISION_ACCOUNT_TICKET_ID . '::' . get_current_user_id();
+		$account_ticket_params        = $this->transients->get( $account_ticket_transient_key );
+		$account_ticket               = new Account_Ticket( $account_ticket_params );
 
-		if ( $stored_account_ticket_id !== $account_ticket_id ) {
+		// Backwards compat for previous storage type which stored ID only.
+		if ( is_scalar( $account_ticket_params ) ) {
+			$account_ticket->set_id( $account_ticket_params );
+		}
+
+		if ( $account_ticket->get_id() !== $account_ticket_id ) {
 			wp_safe_redirect(
-				$this->context->admin_url( 'module-analytics', array( 'error_code' => 'account_ticket_id_mismatch' ) )
+				$this->context->admin_url( 'dashboard', array( 'error_code' => 'account_ticket_id_mismatch' ) )
 			);
 			exit;
 		}
 
-		// Check for a returned error.
-		$error = $input->filter( INPUT_GET, 'error', FILTER_SANITIZE_STRING );
+		// At this point, the accountTicketId is a match and params are loaded, so we can safely delete the transient.
+		$this->transients->delete( $account_ticket_transient_key );
+
+		// Next, check for a returned error.
+		$error = $input->filter( INPUT_GET, 'error' );
 		if ( ! empty( $error ) ) {
 			wp_safe_redirect(
-				$this->context->admin_url( 'module-analytics', array( 'error_code' => $error ) )
+				$this->context->admin_url( 'dashboard', array( 'error_code' => htmlspecialchars( $error ) ) )
 			);
 			exit;
 		}
 
-		$account_id      = $input->filter( INPUT_GET, 'accountId', FILTER_SANITIZE_STRING );
-		$web_property_id = $input->filter( INPUT_GET, 'webPropertyId', FILTER_SANITIZE_STRING );
-		$profile_id      = $input->filter( INPUT_GET, 'profileId', FILTER_SANITIZE_STRING );
+		$account_id = htmlspecialchars( $input->filter( INPUT_GET, 'accountId' ) );
 
-		if ( empty( $account_id ) || empty( $web_property_id ) || empty( $profile_id ) ) {
+		if ( empty( $account_id ) ) {
 			wp_safe_redirect(
-				$this->context->admin_url( 'module-analytics', array( 'error_code' => 'callback_missing_parameter' ) )
+				$this->context->admin_url( 'dashboard', array( 'error_code' => 'callback_missing_parameter' ) )
 			);
 			exit;
 		}
 
-		// Retrieve the internal web property id.
-		try {
-			$web_property = $this->get_service( 'analytics' )->management_webproperties->get( $account_id, $web_property_id );
-		} catch ( Exception $e ) {
-			wp_safe_redirect(
-				$this->context->admin_url( 'module-analytics', array( 'error_code' => 'property_not_found' ) )
-			);
-			exit;
+		$new_settings = array();
+
+		if ( ! Feature_Flags::enabled( 'ga4Reporting' ) ) {
+			// UA-SPECIFIC Provisioning callback only.
+			$web_property_id = htmlspecialchars( $input->filter( INPUT_GET, 'webPropertyId' ) );
+			$profile_id      = htmlspecialchars( $input->filter( INPUT_GET, 'profileId' ) );
+
+			if ( ! $web_property_id || ! $profile_id ) {
+				// If ga4Reporting is not enabled and UA property or profile IDs are missing, something went wrong.
+				wp_safe_redirect(
+					$this->context->admin_url( 'dashboard', array( 'error_code' => 'callback_missing_parameter' ) )
+				);
+				exit;
+			}
+
+			// Retrieve the internal web property id.
+			try {
+				$web_property = $this->get_service( 'analytics' )->management_webproperties->get( $account_id, $web_property_id );
+			} catch ( Exception $e ) {
+				wp_safe_redirect(
+					$this->context->admin_url( 'dashboard', array( 'error_code' => 'property_not_found' ) )
+				);
+				exit;
+			}
+
+			$new_settings['internalWebPropertyID'] = $web_property->getInternalWebPropertyId();
+			$new_settings['propertyID']            = $web_property_id;
+			$new_settings['profileID']             = $profile_id;
 		}
 
-		$internal_web_property_id = $web_property->getInternalWebPropertyId();
+		// At this point, account creation was successful.
+		$new_settings['accountID'] = $account_id;
 
-		$this->get_settings()->merge(
-			array(
-				'accountID'             => $account_id,
-				'propertyID'            => $web_property_id,
-				'profileID'             => $profile_id,
-				'internalWebPropertyID' => $internal_web_property_id,
-			)
-		);
+		$this->get_settings()->merge( $new_settings );
 
 		do_action(
 			'googlesitekit_analytics_handle_provisioning_callback',
 			$account_id,
-			$web_property_id,
-			$internal_web_property_id,
-			$profile_id
+			$account_ticket
 		);
 
 		wp_safe_redirect(
@@ -348,7 +401,9 @@ final class Analytics extends Module
 	 * @return array Map of datapoints to their definitions.
 	 */
 	protected function get_datapoint_definitions() {
-		return array(
+		$shareable = true;
+
+		$datapoints = array(
 			'GET:accounts-properties-profiles' => array( 'service' => 'analytics' ),
 			'POST:create-account-ticket'       => array(
 				'service'                => 'analyticsprovisioning',
@@ -367,16 +422,23 @@ final class Analytics extends Module
 			),
 			'GET:goals'                        => array(
 				'service'   => 'analytics',
-				'shareable' => Feature_Flags::enabled( 'dashboardSharing' ),
+				'shareable' => $shareable,
 			),
 			'GET:profiles'                     => array( 'service' => 'analytics' ),
 			'GET:properties-profiles'          => array( 'service' => 'analytics' ),
 			'GET:report'                       => array(
 				'service'   => 'analyticsreporting',
-				'shareable' => Feature_Flags::enabled( 'dashboardSharing' ),
+				'shareable' => $shareable,
 			),
-			'GET:tag-permission'               => array( 'service' => '' ),
 		);
+
+		if ( Feature_Flags::enabled( 'ga4Reporting' ) ) {
+			unset( $datapoints['POST:create-account-ticket'] );
+			unset( $datapoints['POST:create-profile'] );
+			unset( $datapoints['POST:create-property'] );
+		}
+
+		return $datapoints;
 	}
 
 	/**
@@ -550,6 +612,17 @@ final class Analytics extends Module
 					);
 
 					if ( ! empty( $dimensions ) ) {
+						if ( $this->is_shared_data_request( $data ) ) {
+							try {
+								$this->validate_shared_report_dimensions( $dimensions );
+							} catch ( Invalid_Report_Dimensions_Exception $exception ) {
+								return new WP_Error(
+									'invalid_analytics_report_dimensions',
+									$exception->getMessage()
+								);
+							}
+						}
+
 						$request_args['dimensions'] = $dimensions;
 					}
 				}
@@ -595,14 +668,7 @@ final class Analytics extends Module
 						$date_ranges[] = array( $compare_start_date, $compare_end_date );
 					}
 				} else {
-					$date_range    = $data['dateRange'] ?: 'last-28-days';
-					$date_ranges[] = $this->parse_date_range( $date_range, $data['compareDateRanges'] ? 2 : 1 );
-
-					// When using multiple date ranges, it changes the structure of the response,
-					// where each date range becomes an item in a list.
-					if ( ! empty( $data['multiDateRange'] ) ) {
-						$date_ranges[] = $this->parse_date_range( $date_range, 1, 1, true );
-					}
+					$date_ranges[] = Date::parse_date_range( 'last-28-days' );
 				}
 
 				$date_ranges = array_map(
@@ -648,6 +714,17 @@ final class Analytics extends Module
 					);
 
 					if ( ! empty( $metrics ) ) {
+						if ( $this->is_shared_data_request( $data ) ) {
+							try {
+								$this->validate_shared_report_metrics( $metrics );
+							} catch ( Invalid_Report_Metrics_Exception $exception ) {
+								return new WP_Error(
+									'invalid_analytics_report_metrics',
+									$exception->getMessage()
+								);
+							}
+						}
+
 						$request->setMetrics( $metrics );
 					}
 				}
@@ -686,7 +763,8 @@ final class Analytics extends Module
 				}
 				$profile = new Google_Service_Analytics_Profile();
 				$profile->setName( $profile_name );
-				return $profile = $this->get_service( 'analytics' )->management_profiles->insert( $data['accountID'], $data['propertyID'], $profile );
+				$profile = $this->get_service( 'analytics' )->management_profiles->insert( $data['accountID'], $data['propertyID'], $profile );
+				return $profile;
 			case 'POST:create-property':
 				if ( ! isset( $data['accountID'] ) ) {
 					return new WP_Error(
@@ -697,28 +775,9 @@ final class Analytics extends Module
 					);
 				}
 				$property = new Google_Service_Analytics_Webproperty();
-				$property->setName( wp_parse_url( $this->context->get_reference_site_url(), PHP_URL_HOST ) );
+				$property->setName( URL::parse( $this->context->get_reference_site_url(), PHP_URL_HOST ) );
 				$property->setWebsiteUrl( $this->context->get_reference_site_url() );
 				return $this->get_service( 'analytics' )->management_webproperties->insert( $data['accountID'], $property );
-			case 'GET:tag-permission':
-				return function() use ( $data ) {
-					if ( ! isset( $data['propertyID'] ) ) {
-						return new WP_Error(
-							'missing_required_param',
-							/* translators: %s: Missing parameter name */
-							sprintf( __( 'Request parameter is empty: %s.', 'google-site-kit' ), 'propertyID' ),
-							array( 'status' => 400 )
-						);
-					}
-					$property_id = $data['propertyID'];
-					return array_merge(
-						array(
-							'accountID'  => '', // Set the accountID to be an empty string and let has_access_to_property handle determining actual ID.
-							'propertyID' => $property_id,
-						),
-						$this->has_access_to_property( $property_id )
-					);
-				};
 		}
 
 		return parent::create_data_request( $data );
@@ -781,7 +840,10 @@ final class Analytics extends Module
 		switch ( "{$data->method}:{$data->datapoint}" ) {
 			case 'GET:accounts-properties-profiles':
 				/* @var Google_Service_Analytics_Accounts $response listManagementAccounts response. */
-				$accounts            = (array) $response->getItems();
+				$accounts            = Sort::case_insensitive_list_sort(
+					(array) $response->getItems(),
+					'name'
+				);
 				$account_ids         = array_map(
 					function ( Google_Service_Analytics_Account $account ) {
 						return $account->getId();
@@ -797,33 +859,22 @@ final class Analytics extends Module
 					return array_merge( compact( 'accounts' ), $properties_profiles );
 				}
 
-				if ( $data['existingAccountID'] && $data['existingPropertyID'] ) {
-					// If there is an existing tag, pass it through to ensure only the existing tag is matched.
-					$properties_profiles = $this->get_data(
-						'properties-profiles',
-						array(
-							'accountID'          => $data['existingAccountID'],
-							'existingPropertyID' => $data['existingPropertyID'],
-						)
-					);
+				// Get the account ID from the saved settings.
+				$option     = $this->get_settings()->get();
+				$account_id = $option['accountID'];
+				// If the saved account ID is in the list of accounts the user has access to, it's a match.
+				if ( in_array( $account_id, $account_ids, true ) ) {
+					$properties_profiles = $this->get_data( 'properties-profiles', array( 'accountID' => $account_id ) );
 				} else {
-					// Get the account ID from the saved settings.
-					$option     = $this->get_settings()->get();
-					$account_id = $option['accountID'];
-					// If the saved account ID is in the list of accounts the user has access to, it's a match.
-					if ( in_array( $account_id, $account_ids, true ) ) {
-						$properties_profiles = $this->get_data( 'properties-profiles', array( 'accountID' => $account_id ) );
-					} else {
-						$account_summaries = $this->get_service( 'analytics' )->management_accountSummaries->listManagementAccountSummaries();
-						$current_url       = $this->context->get_reference_site_url();
-						$current_urls      = $this->permute_site_url( $current_url );
+					$account_summaries = $this->get_service( 'analytics' )->management_accountSummaries->listManagementAccountSummaries();
+					$current_url       = $this->context->get_reference_site_url();
+					$current_urls      = URL::permute_site_url( $current_url );
 
-						foreach ( $account_summaries as $account_summary ) {
-							$found_property = $this->find_property( $account_summary->getWebProperties(), '', $current_urls );
-							if ( ! is_null( $found_property ) ) {
-								$properties_profiles = $this->get_data( 'properties-profiles', array( 'accountID' => $account_summary->getId() ) );
-								break;
-							}
+					foreach ( $account_summaries as $account_summary ) {
+						$found_property = $this->find_property( $account_summary->getWebProperties(), '', $current_urls );
+						if ( ! is_null( $found_property ) ) {
+							$properties_profiles = $this->get_data( 'properties-profiles', array( 'accountID' => $account_summary->getId() ) );
+							break;
 						}
 					}
 				}
@@ -844,12 +895,17 @@ final class Analytics extends Module
 				break;
 			case 'GET:profiles':
 				// TODO: Parse this response to a regular array.
-				$response = $response->getItems();
-
+				$response = Sort::case_insensitive_list_sort(
+					$response->getItems(),
+					'name'
+				);
 				return $response;
 			case 'GET:properties-profiles':
 				/* @var Google_Service_Analytics_Webproperties $response listManagementWebproperties response. */
-				$properties     = (array) $response->getItems();
+				$properties     = Sort::case_insensitive_list_sort(
+					(array) $response->getItems(),
+					'name'
+				);
 				$found_property = null;
 				$response       = array(
 					'properties' => $properties,
@@ -860,14 +916,9 @@ final class Analytics extends Module
 					return $response;
 				}
 
-				// If requested for a specific property, only match by property ID.
-				if ( ! empty( $data['existingPropertyID'] ) ) {
-					$found_property = $this->find_property( $properties, $data['existingPropertyID'], array() );
-				} else {
-					$current_url    = $this->context->get_reference_site_url();
-					$current_urls   = $this->permute_site_url( $current_url );
-					$found_property = $this->find_property( $properties, '', $current_urls );
-				}
+				$current_url    = $this->context->get_reference_site_url();
+				$current_urls   = URL::permute_site_url( $current_url );
+				$found_property = $this->find_property( $properties, '', $current_urls );
 
 				if ( ! is_null( $found_property ) ) {
 					$response['matchedProperty'] = $found_property;
@@ -906,10 +957,14 @@ final class Analytics extends Module
 
 				return $response->getReports();
 			case 'POST:create-account-ticket':
+				$account_ticket = new Account_Ticket();
+				$account_ticket->set_id( $response->getId() );
+				$account_ticket->set_property_name( $data['propertyName'] );
+				$account_ticket->set_timezone( $data['timezone'] );
 				// Cache the create ticket id long enough to verify it upon completion of the terms of service.
-				set_transient(
+				$this->transients->set(
 					self::PROVISION_ACCOUNT_TICKET_ID . '::' . get_current_user_id(),
-					$response->getId(),
+					$account_ticket->to_array(),
 					15 * MINUTE_IN_SECONDS
 				);
 				return $response;
@@ -969,16 +1024,7 @@ final class Analytics extends Module
 
 		$dimension_filter_clauses = array();
 
-		$hostnames = array_values(
-			array_unique(
-				array_map(
-					function ( $site_url ) {
-						return wp_parse_url( $site_url, PHP_URL_HOST );
-					},
-					$this->permute_site_url( $this->context->get_reference_site_url() )
-				)
-			)
-		);
+		$hostnames = URL::permute_site_hosts( URL::parse( $this->context->get_reference_site_url(), PHP_URL_HOST ) );
 
 		$dimension_filter = new Google_Service_AnalyticsReporting_DimensionFilter();
 		$dimension_filter->setDimensionName( 'ga:hostname' );
@@ -1077,77 +1123,16 @@ final class Analytics extends Module
 	}
 
 	/**
-	 * Verifies that user has access to the property found in the existing tag.
-	 *
-	 * @since 1.0.0
-	 * @since 1.8.0 Simplified to return a boolean and require account ID.
-	 *
-	 * @param string $property_id Property found in the existing tag.
-	 * @return array A string representing the accountID and a boolean representing if the user has access to the property.
-	 */
-	protected function has_access_to_property( $property_id ) {
-		if ( empty( $property_id ) ) {
-			return array(
-				'permission' => false,
-			);
-		}
-
-		$account_id        = $this->parse_account_id( $property_id );
-		$account_summaries = $this->get_service( 'analytics' )->management_accountSummaries->listManagementAccountSummaries();
-
-		/**
-		 * Helper method to check check if a given account
-		 * contains the property_id
-		 */
-		$has_property = function ( $account_id ) use ( $property_id, $account_summaries ) {
-			foreach ( $account_summaries as $account_summary ) {
-				if ( $account_summary->getId() !== $account_id ) {
-					continue;
-				}
-
-				foreach ( $account_summary->getWebProperties() as $property ) {
-					if ( $property->getId() === $property_id ) {
-						return true;
-					}
-				}
-			}
-
-			return false;
-		};
-
-		// Ensure there is access to the property.
-		if ( $has_property( $account_id ) ) {
-			return array(
-				'accountID'  => $account_id,
-				'permission' => true,
-			);
-		}
-
-		foreach ( $account_summaries as $account_summary ) {
-			if ( $has_property( $account_summary->getId() ) ) {
-				return array(
-					'accountID'  => $account_id,
-					'permission' => true,
-				);
-			}
-		}
-
-		// No property matched the account ID.
-		return array(
-			'permission' => false,
-		);
-	}
-
-	/**
 	 * Transforms an exception into a WP_Error object.
 	 *
 	 * @since 1.0.0
+	 * @since 1.70.0 $datapoint parameter is optional.
 	 *
 	 * @param Exception $e         Exception object.
-	 * @param string    $datapoint Datapoint originally requested.
+	 * @param string    $datapoint Optional. Datapoint originally requested. Default is an empty string.
 	 * @return WP_Error WordPress error object.
 	 */
-	protected function exception_to_error( Exception $e, $datapoint ) {
+	protected function exception_to_error( Exception $e, $datapoint = '' ) {
 		$cache_ttl = false;
 
 		if ( 'report' === $datapoint && $e instanceof Google_Service_Exception ) {
@@ -1223,12 +1208,13 @@ final class Analytics extends Module
 	 * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/user-opt-out
 	 */
 	private function print_tracking_opt_out() {
-		if ( ! $this->is_tracking_disabled() ) {
-			return;
-		}
 		$settings    = $this->get_settings()->get();
 		$account_id  = $settings['accountID'];
 		$property_id = $settings['propertyID'];
+
+		if ( ! $this->is_tracking_disabled() ) {
+			return;
+		}
 
 		if ( $this->context->is_amp() ) : ?>
 			<!-- <?php esc_html_e( 'Google Analytics AMP opt-out snippet added by Site Kit', 'google-site-kit' ); ?> -->
@@ -1237,9 +1223,11 @@ final class Analytics extends Module
 		<?php else : ?>
 			<!-- <?php esc_html_e( 'Google Analytics opt-out snippet added by Site Kit', 'google-site-kit' ); ?> -->
 			<?php
-			BC_Functions::wp_print_inline_script_tag(
-				sprintf( 'window["ga-disable-%s"] = true;', esc_attr( $property_id ) )
-			);
+			if ( ! empty( $property_id ) ) {
+				BC_Functions::wp_print_inline_script_tag(
+					sprintf( 'window["ga-disable-%s"] = true;', esc_attr( $property_id ) )
+				);
+			}
 			?>
 			<?php do_action( 'googlesitekit_analytics_tracking_opt_out', $property_id, $account_id ); ?>
 			<!-- <?php esc_html_e( 'End Google Analytics opt-out snippet added by Site Kit', 'google-site-kit' ); ?> -->
@@ -1281,6 +1269,8 @@ final class Analytics extends Module
 						'googlesitekit-datastore-site',
 						'googlesitekit-datastore-user',
 						'googlesitekit-datastore-forms',
+						'googlesitekit-components',
+						'googlesitekit-modules-data',
 					),
 				)
 			),
@@ -1322,12 +1312,12 @@ final class Analytics extends Module
 
 		$tag->use_guard( new Tag_Verify_Guard( $this->context->input() ) );
 		$tag->use_guard( new Tag_Guard( $this->get_settings() ) );
-		$tag->use_guard( new Tag_Production_Guard() );
+		$tag->use_guard( new Tag_Environment_Type_Guard() );
 
 		if ( $tag->can_register() ) {
 			$tag->set_anonymize_ip( $settings['anonymizeIP'] );
 			$tag->set_home_domain(
-				wp_parse_url( $this->context->get_canonical_home_url(), PHP_URL_HOST )
+				URL::parse( $this->context->get_canonical_home_url(), PHP_URL_HOST )
 			);
 			$tag->set_ads_conversion_id( $settings['adsConversionID'] );
 
@@ -1399,6 +1389,157 @@ final class Analytics extends Module
 		// Save new settings only if all keys are not empty.
 		if ( ! empty( $settings ) && count( $settings ) === 4 ) {
 			$this->get_settings()->merge( $settings );
+		}
+	}
+
+	/**
+	 * Checks if the current user has access to the current configured service entity.
+	 *
+	 * @since 1.70.0
+	 *
+	 * @return boolean|WP_Error
+	 */
+	public function check_service_entity_access() {
+		$data_request = array(
+			'row_limit' => 1,
+		);
+
+		$request = $this->create_analytics_site_data_request( $data_request );
+
+		if ( is_wp_error( $request ) ) {
+			return $request;
+		}
+
+		try {
+			$body = new Google_Service_AnalyticsReporting_GetReportsRequest();
+			$body->setReportRequests( array( $request ) );
+			$this->get_analyticsreporting_service()->reports->batchGet( $body );
+		} catch ( Exception $e ) {
+			if ( $e->getCode() === 403 ) {
+				return false;
+			}
+			return $this->exception_to_error( $e );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates the report metrics for a shared request.
+	 *
+	 * @since 1.82.0
+	 * @since 1.98.0 Renamed the method, and moved the check for being a shared request to the caller.
+	 *
+	 * @param Google_Service_AnalyticsReporting_Metric[] $metrics The metrics to validate.
+	 * @throws Invalid_Report_Metrics_Exception Thrown if the metrics are invalid.
+	 */
+	protected function validate_shared_report_metrics( $metrics ) {
+		$valid_metrics = apply_filters(
+			'googlesitekit_shareable_analytics_metrics',
+			array(
+				'ga:sessions',
+				'ga:users',
+				'ga:pageviews',
+				'ga:uniquePageviews',
+				'ga:bounceRate',
+				'ga:avgSessionDuration',
+				'ga:adsenseRevenue',
+				'ga:adsenseECPM',
+				'ga:adsensePageImpressions',
+				'ga:goalCompletionsAll',
+			)
+		);
+
+		$invalid_metrics = array_diff(
+			array_map(
+				function ( $metric ) {
+					return $metric->getExpression();
+				},
+				$metrics
+			),
+			$valid_metrics
+		);
+
+		if ( count( $invalid_metrics ) > 0 ) {
+			$message = count( $invalid_metrics ) > 1 ? sprintf(
+				/* translators: %s: is replaced with a comma separated list of the invalid metrics. */
+				__(
+					'Unsupported metrics requested: %s',
+					'google-site-kit'
+				),
+				join(
+					/* translators: used between list items, there is a space after the comma. */
+					__( ', ', 'google-site-kit' ),
+					$invalid_metrics
+				)
+			) : sprintf(
+				/* translators: %s: is replaced with the invalid metric. */
+				__(
+					'Unsupported metric requested: %s',
+					'google-site-kit'
+				),
+				$invalid_metrics[0]
+			);
+
+			throw new Invalid_Report_Metrics_Exception( $message );
+		}
+	}
+
+	/**
+	 * Validates the report dimensions for a shared request.
+	 *
+	 * @since 1.82.0
+	 * @since 1.98.0 Renamed the method, and moved the check for being a shared request to the caller.
+	 *
+	 * @param Google_Service_AnalyticsReporting_Dimension[] $dimensions The dimensions to validate.
+	 * @throws Invalid_Report_Dimensions_Exception Thrown if the dimensions are invalid.
+	 */
+	protected function validate_shared_report_dimensions( $dimensions ) {
+		$valid_dimensions = apply_filters(
+			'googlesitekit_shareable_analytics_dimensions',
+			array(
+				'ga:date',
+				'ga:pagePath',
+				'ga:pageTitle',
+				'ga:channelGrouping',
+				'ga:country',
+				'ga:deviceCategory',
+				'ga:hostname',
+			)
+		);
+
+		$invalid_dimensions = array_diff(
+			array_map(
+				function ( $dimension ) {
+					return $dimension->getName();
+				},
+				$dimensions
+			),
+			$valid_dimensions
+		);
+
+		if ( count( $invalid_dimensions ) > 0 ) {
+			$message = count( $invalid_dimensions ) > 1 ? sprintf(
+				/* translators: %s: is replaced with a comma separated list of the invalid dimensions. */
+				__(
+					'Unsupported dimensions requested: %s',
+					'google-site-kit'
+				),
+				join(
+					/* translators: used between list items, there is a space after the comma. */
+					__( ', ', 'google-site-kit' ),
+					$invalid_dimensions
+				)
+			) : sprintf(
+				/* translators: %s: is replaced with the invalid dimension. */
+				__(
+					'Unsupported dimension requested: %s',
+					'google-site-kit'
+				),
+				$invalid_dimensions[0]
+			);
+
+			throw new Invalid_Report_Dimensions_Exception( $message );
 		}
 	}
 

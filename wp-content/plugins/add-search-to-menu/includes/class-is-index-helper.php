@@ -4,7 +4,6 @@
  * Inverted Index Helper.
  *
  * Commom functions shared in admin and public.
- * This class is based on Mikko Saari's Relevanssi plugin.
  *
  * @package IS
  * @subpackage IS/includes
@@ -132,11 +131,6 @@ class IS_Index_Helper {
 	/**
 	 * Renders Gutenberg blocks.
 	 *
-	 * Renders all sorts of Gutenberg blocks, including reusable blocks and ACF
-	 * blocks. Also enables basic Gutenberg deindexing: you can add an extra CSS
-	 * class 'is_noindex' to a block to stop it from being indexed by
-	 * Relevanssi. This function is essentially the same as core do_blocks().
-	 *
 	 * @see do_blocks()
 	 *
 	 * @since 5.0
@@ -144,16 +138,17 @@ class IS_Index_Helper {
 	 * @return string The post content with the rendered content added.
 	 */
 	public function block_rendering( $content ) {
+
+		if( ! function_exists( 'parse_blocks' ) ) {
+			return $content;
+		}
+
 		$blocks = parse_blocks( $content );
 		$output = '';
 
 		foreach ( $blocks as $block ) {
 			/**
 			 * Filters the Gutenberg block before it is rendered.
-			 *
-			 * If the block is non-empty after the filter and it's className
-			 * parameter is not 'relevanssi_noindex', it will be passed on to the
-			 * render_block() function for rendering.
 			 *
 			 * @see render_block
 			 *
@@ -236,7 +231,7 @@ class IS_Index_Helper {
 				'recent_products', // A problematic WooCommerce shortcode.
 				'php', // PHP Code for Posts.
 				'watupro', // Watu PRO doesn't co-operate.
-				'starbox', // Starbox shortcode breaks Relevanssi.
+				'starbox', // Starbox shortcode breaks search.
 				'cfdb-save-form-post', // Contact Form DB.
 				'cfdb-datatable',
 				'cfdb-table',
@@ -301,9 +296,7 @@ class IS_Index_Helper {
 		 *
 		 * @param array  An array of page builder shortcode regexes.
 		 * @param string Context, ie. the current filter hook, if you want your
-		 * changes to only count for indexing or for excerpts. In indexing, this
-		 * is 'relevanssi_post_content', for excerpts it's
-		 * 'relevanssi_pre_excerpt_content'.
+		 * changes to only count for indexing or for excerpts. 
 		 */
 		$search_array = apply_filters(
 			'is_page_builder_shortcodes',
@@ -557,11 +550,6 @@ class IS_Index_Helper {
 
 	/**
 	 * Strips tags from contents, keeping the allowed tags.
-	 *
-	 * The allowable tags are read from the relevanssi_excerpt_allowable_tags
-	 * option. Relevanssi also adds extra spaces after some tags to make sure words
-	 * are not stuck together after the tags are removed. The function also removes
-	 * invisible content.
 	 *
 	 * @uses strip_invisibles() Used to remove scripts and other tags.
 	 * @see  strip_tags()                  Used to remove tags.

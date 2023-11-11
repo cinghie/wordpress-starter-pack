@@ -31,6 +31,10 @@ class WP_Optimize_Minify_Front_End {
 
 		// extra_preload_headers is currently not available to users
 		// add_action('send_headers', array($this, 'extra_preload_headers'));
+
+		if (!is_admin()) {
+			add_action('wp_headers', array($this, 'add_caching_headers'));
+		}
 	}
 
 	/**
@@ -71,7 +75,7 @@ class WP_Optimize_Minify_Front_End {
 		}
 
 		if ($this->should_process_html()) {
-			add_action('template_redirect', array('WP_Optimize_Minify_Functions', 'html_compression_start'), PHP_INT_MAX);
+			add_action('template_redirect', array('WP_Optimize_Minify_Functions', 'html_compression_start'), 9);
 		}
 
 		if ($this->should_use_loadCSS()) {
@@ -127,10 +131,10 @@ class WP_Optimize_Minify_Front_End {
 	 * @return String
 	 */
 	public function inline_css($html, $handle, $href, $media) {
-		$exclude_css = array_map('trim', explode("\n", trim($this->options['exclude_css'])));
+		$exclude_css = $this->get_excluded_css_list();
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_css);
 		$blacklist = WP_Optimize_Minify_Functions::get_ie_blacklist();
-		$async_css = array_map('trim', explode("\n", trim($this->options['async_css'])));
+		$async_css = $this->get_async_css_list();
 		$master_ignore = array_merge($ignore_list, $blacklist);
 
 		// make sure href is complete
@@ -224,13 +228,13 @@ class WP_Optimize_Minify_Front_End {
 					
 					// decode
 					$res = json_decode($json, true);
-					
-					// add font-display
-					// https://developers.google.com/web/updates/2016/02/font-display
-					$res['code'] = str_ireplace('font-style:normal;', 'font-display:block;font-style:normal;', $res['code']);
-					
+
 					// inline css or fail
-					if (false != $res['status']) {
+					if (null !== $res && false != $res['status']) {
+						// add font-display
+						// https://developers.google.com/web/updates/2016/02/font-display
+						$res['code'] = str_ireplace('font-style:normal;', 'font-display:block;font-style:normal;', $res['code']);
+
 						echo '<style class="optimize_css_1" type="text/css" media="all">'.$res['code'].'</style>' . "\n";
 						return false;
 					} else {
@@ -278,7 +282,7 @@ class WP_Optimize_Minify_Front_End {
 		$res = json_decode($json, true);
 		
 		// inline it + other inlined children styles
-		if (false != $res['status']) {
+		if (null !== $res && false != $res['status']) {
 			echo '<style class="optimize_css_2" type="text/css" media="'.$media.'">'.$res['code'].'</style>' . "\n";
 			
 			// get inline_styles for this handle, minify and print
@@ -328,13 +332,13 @@ class WP_Optimize_Minify_Front_End {
 	 */
 	public function defer_js($tag, $handle, $src) {
 		$wp_domain = trim(str_ireplace(array('http://', 'https://'), '', trim(site_url(), '/')));
-		$exclude_js = array_map('trim', explode("\n", trim($this->options['exclude_js'])));
+		$exclude_js = $this->get_excluded_js_list();
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_js);
 		// Should this defer the Poly fills for IE?
 		$blacklist = WP_Optimize_Minify_Functions::get_ie_blacklist();
 		// no query strings
 		if (false !== stripos($src, '?ver')) {
-			$srcf = stristr($src, '?ver', true); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.stristr_before_needleFound
+			$srcf = stristr($src, '?ver', true);
 			$tag = str_ireplace($src, $srcf, $tag);
 			$src = $srcf;
 		}
@@ -456,9 +460,9 @@ class WP_Optimize_Minify_Front_End {
 		$cache_path = WP_Optimize_Minify_Cache_Functions::cache_path();
 		$cache_dir = $cache_path['cachedir'];
 		$cache_dir_url = $cache_path['cachedirurl'];
-		$exclude_css = array_map('trim', explode("\n", trim($this->options['exclude_css'])));
+		$exclude_css = $this->get_excluded_css_list();
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_css);
-		$async_css = array_map('trim', explode("\n", trim($this->options['async_css'])));
+		$async_css = $this->get_async_css_list();
 
 		$minify_css = $this->options['enable_css_minification'];
 		$merge_css = $this->options['enable_merging_of_css'];
@@ -509,6 +513,7 @@ class WP_Optimize_Minify_Front_End {
 			
 			// mark duplicates as done and remove from the queue
 			if (!empty($href)) {
+				$version = is_array($version) ? '' : $version;
 				$key = hash('adler32', $href . $version);
 				if (isset($uniq[$key])) {
 					$done = array_merge($done, array($handle));
@@ -576,6 +581,10 @@ class WP_Optimize_Minify_Front_End {
 			$nfonts = array();
 			if ($this->options['merge_google_fonts']) {
 				$nfonts[] = WP_Optimize_Minify_Fonts::concatenate_google_fonts($google_fonts);
+				// mark the google fonts as done so they don't get processed
+				if ('inherit' !== $this->options['gfonts_method']) {
+					$done = array_merge($done, array_keys($google_fonts));
+				}
 			} else {
 				foreach ($google_fonts as $h => $a) {
 					if (!empty($a)) {
@@ -592,8 +601,8 @@ class WP_Optimize_Minify_Front_End {
 					// this returns false if the cache is empty! but it doesn't check for failed
 					$json = WP_Optimize_Minify_Cache_Functions::get_transient($tkey);
 					$json = json_decode($json, true);
-					// check if the cache is empty or if the cache has code
-					if (false === $json || empty($json['code'])) {
+					// check if the cache is empty or has no code
+					if (null === $json || false === $json || empty($json['code'])) {
 						$res = WP_Optimize_Minify_Functions::download_and_minify($href, null, $minify_css, 'css', null);
 						if ($this->options['debug']) {
 							echo "<!-- wpo_min DEBUG: Uncached file processing now for $href -->\n";
@@ -604,7 +613,7 @@ class WP_Optimize_Minify_Front_End {
 					}
 					
 					// inline css or fail
-					if (!empty($json['code'])) {
+					if (null !== $json && !empty($json['code'])) {
 						// add font-display
 						// https://developers.google.com/web/updates/2016/02/font-display
 						$json['code'] = str_ireplace('font-style:normal;', 'font-display:block;font-style:normal;', $json['code']);
@@ -677,7 +686,11 @@ class WP_Optimize_Minify_Front_End {
 			
 				// push it to the array
 				array_push($header[count($header)-1]['handles'], $handle);
-				array_push($header[count($header)-1]['handles'], $wp_styles->registered[$handle]->ver);
+
+				// We need this because some plugins/theme use empty array as version
+				// https://plugins.trac.wordpress.org/browser/mailin/tags/3.1.54/sendinblue.php#L456
+				$version_str = is_array($wp_styles->registered[$handle]->ver) ? $this->array_to_string_conversion($wp_styles->registered[$handle]->ver) : $wp_styles->registered[$handle]->ver;
+				array_push($header[count($header)-1]['versions'], $version_str);
 
 				// external and ignored css
 			} else {
@@ -703,12 +716,16 @@ class WP_Optimize_Minify_Front_End {
 					// get hash for the inline css in this group
 					$inline_css_group = array();
 					foreach ($header[$i]['handles'] as $h) {
-						if (isset($inline_css[$h]) && !empty($inline_css[$h])) {
+						if (!empty($inline_css) && isset($inline_css[$h]) && !empty($inline_css[$h])) {
 							$inline_css_group[] = $inline_css[$h];
 						}
 					}
 					$inline_css_hash = md5(implode('', $inline_css_group));
-					$hash = hash('adler32', implode('', $header[$i]['handles']).$inline_css_hash . implode('', $header[$i]['versions']));
+					// We need this because some plugins/theme use empty array as version
+					// https://plugins.trac.wordpress.org/browser/mailin/tags/3.1.54/sendinblue.php#L456
+					$version_str = $this->array_to_string_conversion($header[$i]['versions']);
+					$handle_str = $this->array_to_string_conversion($header[$i]['handles']);
+					$hash = hash('adler32', $handle_str . $inline_css_hash . $version_str);
 				} else {
 					$hash = implode('', $header[$i]['handles']) . implode('', $header[$i]['versions']);
 				}
@@ -758,7 +775,9 @@ class WP_Optimize_Minify_Front_End {
 							// decode
 							$res = json_decode($json, true);
 
-							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
+							if (null === $res) continue;
+
+							if ($this->should_reset_minify_assets($res, $href, 'css', $handle, $version)) {
 								WP_Optimize_Minify_Cache_Functions::reset();
 								$this->minify_cache_incremented = true;
 							}
@@ -798,6 +817,7 @@ class WP_Optimize_Minify_Front_End {
 						if (is_object($saved_log) && property_exists($saved_log, 'files')) {
 							$files = (array) $saved_log->files;
 							foreach ($header[$i]['handles'] as $handle) {
+								$handle = is_array($handle) ? '' : $handle;
 								if (isset($files[$handle]) && $files[$handle]->success) {
 									$done[] = $handle;
 								}
@@ -820,17 +840,11 @@ class WP_Optimize_Minify_Front_End {
 					// enqueue file, if not empty
 				} else {
 					if (file_exists($file) && filesize($file) > 0) {
-						
-						// inline CSS if mediatype is not of type "all" (such as mobile only), if the file is smaller than 20KB
-						if (filesize($file) < 20000 && 'all' != $header[$i]['media']) {
-							echo '<style id="wpo-min-header-'.$i.'" media="'.$header[$i]['media'].'">'.file_get_contents($file).'</style>' . "\n";
-						} else {
-							// enqueue it
-							wp_enqueue_style("wpo_min-header-$i", $file_url, array(), 'mycoolversion', $header[$i]['media']);
-							foreach ($header[$i]['handles'] as $h) {
-								if (!$merge_inline_extra_css_js && isset($inline_css[$h]) && !empty($inline_css[$h])) {
-									wp_add_inline_style("wpo_min-header-$i", $inline_css[$h]);
-								}
+						// enqueue it
+						wp_enqueue_style("wpo_min-header-$i", $file_url, array(), 'mycoolversion', $header[$i]['media']);
+						foreach ($header[$i]['handles'] as $h) {
+							if (!$merge_inline_extra_css_js && isset($inline_css[$h]) && !empty($inline_css[$h])) {
+								wp_add_inline_style("wpo_min-header-$i", $inline_css[$h]);
 							}
 						}
 					} else {
@@ -866,9 +880,9 @@ class WP_Optimize_Minify_Front_End {
 		$cache_dir_url = $cache_path['cachedirurl'];
 
 		
-		$exclude_js = array_map('trim', explode("\n", trim($this->options['exclude_js'])));
+		$exclude_js = $this->get_excluded_js_list();
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_js);
-		$async_js = trim($this->options['async_js']) ? array_map('trim', explode("\n", trim($this->options['async_js']))) : array();
+		$async_js = $this->get_async_js_list();
 		$scripts = clone $wp_scripts;
 		$scripts->all_deps($scripts->queue);
 		$footer = array();
@@ -968,7 +982,9 @@ class WP_Optimize_Minify_Front_End {
 						'header' => "PROCESSED on ".date('r')." from ".home_url(add_query_arg(null, null)),
 						'files' => array()
 					);
+					$before_code = '';
 					$code = '';
+					$after_code = '';
 				
 					// minify and write to file
 					foreach ($footer[$i]['handles'] as $handle) :
@@ -994,8 +1010,10 @@ class WP_Optimize_Minify_Front_End {
 							
 							// decode
 							$res = json_decode($json, true);
-							
-							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
+
+							if (null === $res) continue;
+
+							if ($this->should_reset_minify_assets($res, $href, 'js', $handle, $version)) {
 								WP_Optimize_Minify_Cache_Functions::reset();
 								$this->minify_cache_incremented = true;
 							}
@@ -1007,12 +1025,11 @@ class WP_Optimize_Minify_Front_End {
 							}
 
 							$done[] = $handle;
-							
 							// Add extra data from wp_add_inline_script before
 							if (!empty($wp_scripts->registered[$handle]->extra)) {
 								if (!empty($wp_scripts->registered[$handle]->extra['before']) && is_array($wp_scripts->registered[$handle]->extra['before'])) {
 									if ($merge_inline_extra_css_js) {
-										$code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before'])), $href . ' - BEFORE');
+										$before_code .= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before']));
 									}
 								}
 							}
@@ -1021,20 +1038,23 @@ class WP_Optimize_Minify_Front_End {
 							if (!empty($wp_scripts->registered[$handle]->textdomain)) {
 								$code .= "\n" . $wp_scripts->print_translations($handle, false);
 							}
-
-							// append code to merged file
-							$code .= isset($res['code']) ? WP_Optimize_Minify_Functions::prepare_merged_js($res['code'], $href) : '';
-							$log['files'][$handle] = $res['log'];
 							
 							// Add extra data from wp_add_inline_script after
 							if (!empty($wp_scripts->registered[$handle]->extra)) {
 								if (!empty($wp_scripts->registered[$handle]->extra['after']) && is_array($wp_scripts->registered[$handle]->extra['after'])) {
 									if ($merge_inline_extra_css_js) {
-										$code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after'])), $href. ' - AFTER');
+										$after_code .= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after']));
 									}
 								}
 							}
-					
+							
+							// append code to merged file
+							$code .= $before_code . "\n";
+							$code .= isset($res['code']) ? $res['code'] : '';
+							$code .= "\n" . $after_code . "\n";
+							$code = WP_Optimize_Minify_Functions::prepare_merged_js($code, $href);
+							$log['files'][$handle] = $res['log'];
+							
 							// consider dependencies on handles with an empty src
 						} else {
 							wp_dequeue_script($handle);
@@ -1083,12 +1103,12 @@ class WP_Optimize_Minify_Front_End {
 					if (!empty($wp_scripts->registered[$handle]->extra)) {
 						if (!empty($wp_scripts->registered[$handle]->extra['before']) && is_array($wp_scripts->registered[$handle]->extra['before'])) {
 							if (!$merge_inline_extra_css_js) {
-								$before_code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before'])), $href.' - BEFORE');
+								$before_code.= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before'])) . "\n";
 							}
 						}
 						if (!empty($wp_scripts->registered[$handle]->extra['after']) && is_array($wp_scripts->registered[$handle]->extra['after'])) {
 							if (!$merge_inline_extra_css_js) {
-								$after_code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after'])), $href.' - AFTER');
+								$after_code.= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after'])) . "\n";
 							}
 						}
 					}
@@ -1135,9 +1155,9 @@ class WP_Optimize_Minify_Front_End {
 		$cache_path = WP_Optimize_Minify_Cache_Functions::cache_path();
 		$cache_dir = $cache_path['cachedir'];
 		$cache_dir_url = $cache_path['cachedirurl'];
-		$exclude_js = array_map('trim', explode("\n", trim($this->options['exclude_js'])));
+		$exclude_js = $this->get_excluded_js_list();
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_js);
-		$async_js = trim($this->options['async_js']) ? array_map('trim', explode("\n", trim($this->options['async_js']))) : array();
+		$async_js = $this->get_async_js_list();
 		$scripts = clone $wp_scripts;
 		$scripts->all_deps($scripts->queue);
 		$minify_js = $this->options['enable_js_minification'];
@@ -1179,7 +1199,7 @@ class WP_Optimize_Minify_Front_End {
 					continue;
 				}
 
-				// Skip jQuery from the merged files if defering is ENABLED and defer_jquery is DISABLED
+				// Skip jQuery from the merged files if deferring is ENABLED and defer_jquery is DISABLED
 				if ('all' === $this->options['enable_defer_js']
 					&& !$this->options['defer_jquery']
 					&& (false !== stripos($href, '/jquery.js')
@@ -1267,7 +1287,9 @@ class WP_Optimize_Minify_Front_End {
 						'header' => "PROCESSED on ".date('r')." from ".home_url(add_query_arg(null, null)),
 						'files' => array()
 					);
+					$before_code = '';
 					$code = '';
+					$after_code = '';
 
 					// minify and write to file
 					foreach ($header[$i]['handles'] as $handle) {
@@ -1291,8 +1313,10 @@ class WP_Optimize_Minify_Front_End {
 							
 							// decode
 							$res = json_decode($json, true);
+
+							if (null === $res) continue;
 							
-							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
+							if ($this->should_reset_minify_assets($res, $href, 'js', $handle, $version)) {
 								WP_Optimize_Minify_Cache_Functions::reset();
 								$this->minify_cache_incremented = true;
 							}
@@ -1307,7 +1331,7 @@ class WP_Optimize_Minify_Front_End {
 							if (!empty($wp_scripts->registered[$handle]->extra)) {
 								if (!empty($wp_scripts->registered[$handle]->extra['before']) && is_array($wp_scripts->registered[$handle]->extra['before'])) {
 									if ($merge_inline_extra_css_js) {
-										$code .= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before'])), $href.' - BEFORE');
+										$before_code .= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before']));
 									}
 								}
 							}
@@ -1320,19 +1344,22 @@ class WP_Optimize_Minify_Front_End {
 								$code .= "\n" . $wp_scripts->print_translations($handle, false);
 							}
 
-							// append code to merged file
-							$code .= isset($res['code']) ? WP_Optimize_Minify_Functions::prepare_merged_js($res['code'], $href) : '';
-							$log['files'][$handle] = $res['log'];
-							
 							// Add extra data from wp_add_inline_script after
 							if (!empty($wp_scripts->registered[$handle]->extra)) {
 								if (!empty($wp_scripts->registered[$handle]->extra['after']) && is_array($wp_scripts->registered[$handle]->extra['after'])) {
 									if ($merge_inline_extra_css_js) {
-										$code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after'])), $href.' - AFTER');
+										$after_code.= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after']));
 									}
 								}
 							}
-
+							
+							// append code to merged file
+							$code .= $before_code . "\n";
+							$code .= isset($res['code']) ? $res['code'] : '';
+							$code .= "\n" . $after_code . "\n";
+							$code = WP_Optimize_Minify_Functions::prepare_merged_js($code, $href);
+							$log['files'][$handle] = $res['log'];
+							
 							// consider dependencies on handles with an empty src
 						} else {
 							wp_dequeue_script($handle);
@@ -1351,6 +1378,7 @@ class WP_Optimize_Minify_Front_End {
 						if (is_object($saved_log) && property_exists($saved_log, 'files')) {
 							$files = (array) $saved_log->files;
 							foreach ($header[$i]['handles'] as $handle) {
+								$handle = is_array($handle) ? '' : $handle;
 								if (isset($files[$handle]) && $files[$handle]->success) {
 									$done[] = $handle;
 								}
@@ -1383,12 +1411,12 @@ class WP_Optimize_Minify_Front_End {
 					if (!empty($wp_scripts->registered[$handle]->extra)) {
 						if (!empty($wp_scripts->registered[$handle]->extra['before']) && is_array($wp_scripts->registered[$handle]->extra['before'])) {
 							if (!$merge_inline_extra_css_js) {
-								$before_code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before'])), $href.' - BEFORE');
+								$before_code.= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['before'])) . "\n";
 							}
 						}
 						if (!empty($wp_scripts->registered[$handle]->extra['after']) && is_array($wp_scripts->registered[$handle]->extra['after'])) {
 							if (!$merge_inline_extra_css_js) {
-								$after_code.= "\n" . WP_Optimize_Minify_Functions::prepare_merged_js(implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after'])), $href.' - AFTER');
+								$after_code.= "\n" . implode("\n", array_filter($wp_scripts->registered[$handle]->extra['after'])) . "\n";
 							}
 						}
 					}
@@ -1435,9 +1463,9 @@ class WP_Optimize_Minify_Front_End {
 		$cache_path = WP_Optimize_Minify_Cache_Functions::cache_path();
 		$cache_dir = $cache_path['cachedir'];
 		$cache_dir_url = $cache_path['cachedirurl'];
-		$exclude_css = array_map('trim', explode("\n", trim($this->options['exclude_css'])));
+		$exclude_css = $this->get_excluded_css_list();
 		$ignore_list = WP_Optimize_Minify_Functions::compile_ignore_list($exclude_css);
-		$async_css = array_map('trim', explode("\n", trim($this->options['async_css'])));
+		$async_css = $this->get_async_css_list();
 		$minify_css = $this->options['enable_css_minification'];
 		$merge_css = $this->options['enable_merging_of_css'];
 		$process_css = $minify_css || $merge_css;
@@ -1569,6 +1597,7 @@ class WP_Optimize_Minify_Front_End {
 			
 			// mark duplicates as done and remove from the queue
 			if (!empty($href)) {
+				$version = is_array($version) ? '' : $version;
 				$key = hash('adler32', $href . $version);
 				if (isset($uniq[$key])) {
 					$done = array_merge($done, array($handle));
@@ -1631,7 +1660,7 @@ class WP_Optimize_Minify_Front_End {
 			
 				// push it to the array get latest modified time
 				array_push($footer[count($footer)-1]['handles'], $handle);
-				array_push($footer[count($footer)-1]['handles'], $version);
+				array_push($footer[count($footer)-1]['versions'], $version);
 				
 				// external and ignored css
 			} else {
@@ -1710,7 +1739,9 @@ class WP_Optimize_Minify_Front_End {
 							// decode
 							$res = json_decode($json, true);
 
-							if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
+							if (null === $res) continue;
+
+							if ($this->should_reset_minify_assets($res, $href, 'css', $handle, $version)) {
 								WP_Optimize_Minify_Cache_Functions::reset();
 								$this->minify_cache_incremented = true;
 							}
@@ -2058,7 +2089,7 @@ class WP_Optimize_Minify_Front_End {
 		if (!$this->run_on_page('extra_preload_headers')) return;
 
 		// fetch headers
-		$pre_connect = array_map('trim', explode("\n", trim($this->options['hpreconnect'])));
+		$pre_connect = $this->get_pre_connect_list();
 
 		// preload
 		if (is_array($pre_connect) && count($pre_connect) > 0) {
@@ -2078,6 +2109,28 @@ class WP_Optimize_Minify_Front_End {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Add caching headers
+	 *
+	 * @param array $headers An array of headers
+	 *
+	 * @return array An array of modified headers
+	 */
+	public function add_caching_headers($headers) {
+		$cache = WP_Optimize()->get_page_cache();
+		if ($cache->is_enabled()) return $headers;
+
+		if (!isset($headers['Cache-Control'])) {
+			$headers['Cache-Control'] = 'must-revalidate';
+		}
+
+		if (!isset($headers['Last-Modified'])) {
+			$headers['Last-Modified'] =  gmdate('D, d M Y H:i:s', time()) . ' GMT';
+		}
+
+		return $headers;
 	}
 
 	/**
@@ -2137,7 +2190,7 @@ class WP_Optimize_Minify_Front_End {
 		}
 
 		// add the LoadAsync JavaScript function
-		$async_js = trim($this->options['async_js']) ? array_map('trim', explode("\n", trim($this->options['async_js']))) : array();
+		$async_js = $this->get_async_js_list();
 		if (count($async_js) > 0
 			|| ( 'all' === $this->options['enable_defer_js'] && 'async_using_js' === $this->options['defer_js_type'] )
 		) {
@@ -2201,5 +2254,111 @@ class WP_Optimize_Minify_Front_End {
 	 */
 	private function remove_query_string_from_static_assets() {
 		add_filter('style_loader_src', array('WP_Optimize_Minify_Functions', 'remove_cssjs_ver'), 10, 2);
+		add_filter('script_loader_src', array('WP_Optimize_Minify_Functions', 'remove_cssjs_ver'), 10, 2);
+	}
+
+	/**
+	 * Converts the lines in a textarea option value into an array
+	 *
+	 * @param string $option
+	 * @return array
+	 */
+	private function convert_option_to_array($option) {
+		return trim($option) ? array_map('trim', explode("\n", trim($option))) : array();
+	}
+
+	/**
+	 * Retrieves excluded css URLs as an array
+	 *
+	 * @return array
+	 */
+	private function get_excluded_css_list() {
+		$excluded_css = $this->options['exclude_css'];
+		return $this->convert_option_to_array($excluded_css);
+	}
+
+	/**
+	 * Retrieves async css URLs as an array
+	 *
+	 * @return array
+	 */
+	private function get_async_css_list() {
+		$async_css = $this->options['async_css'];
+		return $this->convert_option_to_array($async_css);
+	}
+
+	/**
+	 * Retrieves excluded javascript URLs as an array
+	 *
+	 * @return array
+	 */
+	private function get_excluded_js_list() {
+		$excluded_js = $this->options['exclude_js'];
+		return $this->convert_option_to_array($excluded_js);
+	}
+
+	/**
+	 * Retrieves async javascript URLs as an array
+	 *
+	 * @return array
+	 */
+	private function get_async_js_list() {
+		$async_js = $this->options['async_js'];
+		return $this->convert_option_to_array($async_js);
+	}
+
+	/**
+	 * Retrieves pre connect headers as an array
+	 *
+	 * @return array
+	 */
+	private function get_pre_connect_list() {
+		$pre_connect = $this->options['hpreconnect'];
+		return $this->convert_option_to_array($pre_connect);
+	}
+
+	/**
+	 * Array to string conversion
+	 *
+	 * @param array $arr
+	 * @return string
+	 */
+	private function array_to_string_conversion($arr) {
+		$str = '';
+		// implode won't work, because element can be an array
+		foreach ($arr as $value) {
+			$str .= is_array($value) ? '' : $value;
+		}
+		return $str;
+	}
+
+	/**
+	 * Decides whether minify cache should be incremented or not
+	 *
+	 * @param string $res
+	 * @param string $href
+	 * @param string $type
+	 * @param string $handle
+	 * @param string $version
+	 *
+	 * @return bool true when cache is invalid, false otherwise
+	 */
+	private function should_reset_minify_assets($res, $href, $type, $handle, $version) {
+		if (isset($res['request']['version']) && $res['request']['version'] != $version && !$this->minify_cache_incremented) {
+			$new_json = WP_Optimize_Minify_Functions::download_and_minify($href, null, $this->options['enable_css_minification'], $type, $handle, $version);
+			$new_res = json_decode($new_json, true);
+
+			/**
+			 * In case `download_and_minify` fails because of
+			 * Network issues, Syntax errors in updated code,
+			 * Wrong use of `wpo_minify_get_js` and `wpo_minify_get_css` filters
+			 * We don't want to invalidate current assets, so bail out
+			 */
+			if (null === $new_res) return false;
+
+			$hash = hash('sha256', $res['code']);
+			$new_hash = hash('sha256', $new_res['code']);
+			return strcmp($hash, $new_hash);
+		}
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bootstrap the application
  */
@@ -42,6 +43,6 @@ require METAGALLERY_PATH . 'routes/admin.php';
 \add_action(
     'init',
     function () {
-        \load_plugin_textdomain('metagallery', false, basename(__DIR__) . '/languages');
+        \load_plugin_textdomain('metagallery', false, METAGALLERY_PATH . 'languages');
     }
 );

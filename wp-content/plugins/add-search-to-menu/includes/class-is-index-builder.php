@@ -173,8 +173,8 @@ class IS_Index_Builder {
 			// Posts marked as no index in Yoast metabox.
 			if ( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ) {
 				$yoast_opt = $this->index_opt->yoast_no_index;
-				$noindex   = get_post_meta( $this->post->id, '_yoast_wpseo_meta-robots-noindex', true );
-				if ( $indexable && ( $noindex && ! $yoast_opt ) ) {
+				$noindex   = get_post_meta( $this->post->ID, '_yoast_wpseo_meta-robots-noindex', true );
+				if ( $indexable && ( !empty( $noindex ) && 1 == $noindex && empty( $yoast_opt) ) ) {
 					$indexable       = false;
 					$no_index_reason = __( 'Post marked as Yoast no index', 'add-search-to-menu' );
 				}
@@ -205,8 +205,8 @@ class IS_Index_Builder {
 		$post      = $this->post;
 		$post_type = $post->post_type ? $post->post_type : '';
 
-		if ( 'revision' == $post_type ) {
-			$parent    = get_post_parent( $post->ID );
+		if ( 'revision' == $post_type && ! empty( $post->post_parent ) ) {
+			$parent    = get_post( $post->post_parent );
 			$post_type = $parent->post_type ? $parent->post_type : '';
 		}
 

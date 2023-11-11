@@ -35,6 +35,19 @@ class WP_Optimize_Gzip_Compression {
 	}
 
 	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimize_Gzip_Compression Returns `WP_Optimize_Gzip_Compression` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
+	/**
 	 * Make http request to theme style.css, get 'server' line and check headers for gzip/brotli encoding option.
 	 *
 	 * @return array|WP_Error
@@ -54,6 +67,7 @@ class WP_Optimize_Gzip_Compression {
 		if (array_key_exists('content-encoding', $headers) && preg_match('/^(.*\W|)br(\W.*|)$/i', $headers['content-encoding'])) {
 			// check if there exists Content-encoding header with br(Brotli) value.
 			$headers_information['compression'] = 'brotli';
+			$this->disable();
 		} elseif (array_key_exists('content-encoding', $headers) && preg_match('/gzip/i', $headers['content-encoding'])) {
 			// check if there exists Content-encoding header with gzip value.
 			$headers_information['compression'] = 'gzip';
@@ -204,9 +218,9 @@ class WP_Optimize_Gzip_Compression {
 			$gzip_section = $this->prepare_gzip_section();
 
 			if ($is_gzip_compression_enabled) {
-				$message = sprintf(__('We can\'t update your %s file. Please try to remove following lines manually:', 'wp-optimize'), $this->_htaccess->get_filename());
+				$message = sprintf(__("We can\'t update your %s file.", 'wp-optimize'), $this->_htaccess->get_filename()) . ' ' . __('Please try to remove following lines manually:', 'wp-optimize');
 			} else {
-				$message = sprintf(__('We can\'t update your %s file. Please try to add following lines manually:', 'wp-optimize'), $this->_htaccess->get_filename());
+				$message = sprintf(__("We can\'t update your %s file.", 'wp-optimize'), $this->_htaccess->get_filename()) . ' ' . __('Please try to add following lines manually:', 'wp-optimize');
 			}
 
 			return array(

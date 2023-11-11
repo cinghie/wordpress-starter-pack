@@ -3,13 +3,13 @@ Contributors: ivorysearch, vinod dalvi
 Donate link: https://ivorysearch.com/pricing/
 Tags: search, woocommerce search, image search, ajax search, search shortcode, live search, inverted index-based search, exclude from search, search widget, search menu, search plugin, custom search, search by sku, search by post type, search by category, relevance search, search forms
 Requires at least: 3.9
-Tested up to: 5.9
+Tested up to: 6.4
 Requires PHP: 5.2.4
-Stable tag: 5.4.2
+Stable tag: 5.5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Advanced WordPress custom search plugin. Includes Search Form Customizer, WooCommerce Search, AJAX Search & Live Search support!
+Advanced WordPress custom search plugin. Provides Search Form Customizer, WooCommerce Search, AJAX Search & Live Search support!
 
 == Description ==
 
@@ -197,44 +197,45 @@ Yes we do. We try our best to help free users with customisation requests and we
 
 == Changelog ==
 
-= 5.4.2 =
-* Improved - Compatibility with Weglot plugin.
-* Improved - Compatibility with TablePress plugin.
-* Fixed - Warning: trim() expects parameter 1 to be string, array given.
-* Fixed - Notice: Undefined index: s
-* Fixed - Media search in admin area was not working.
-* Fixed - Google analytics search was working on all pages.
+= 5.5.4 =
+* Fixed - Error: Call to undefined function mysql_get_server_info 
+* Fixed - Passing args to wc_get_product is deprecated
+* Updated - Freemius SDK 2.6.0
 
-= 5.4.1 =
-* Fixed - PHP 5 issue 'Default value for parameters with a class type hint can only be NULL'.
+= 5.5.3 =
+* Added - WooCommerce High-Performance Order Storage (HPOS) Compatibility
+* Updated - Freemius SDK 2.5.12
 
-= 5.4 =
-* Fixed - PHP 5.2 compatibility issue.
-* Fixed - Index build max execution time not working.
+= 5.5.2 =
+* Fixed - Plugin option "Index posts marked as 'No Index' in Yoast SEO" not working.
+* Fixed - Plugin option  "Do not use Default Search Form to control WordPress default search functionality"
+* Updated - Freemius SDK 2.5.10
 
-= 5.3 =
-* Fixed - Compatibility issue with MySQL 5.7
-* Fixed - MySQL > 8 REGEXP compatibility issue.
-* Fixed - PHP compatibility issues with static var.
-* Fixed - PHP < 5.3 compatibility issue.
+= 5.5.1 =
+* Updated - Freemius SDK
 
-= 5.2 =
-* Fixed - For some plugins -1 appearing instead of search.
+= 5.5 =
+* Updated - Freemius SDK
+* Moved - Custom CSS code from website footer to header.
+* Moved - Customizer CSS code from form tag to header.
 
-= 5.1 =
-* Fixed - Media library search in admin area was not working.
+= 5.4.10 =
+* Fixed - Warning: array_merge(): Expected parameter 1 to be an array, string given in
 
-= 5.0 =
-* Added - Faster search with inverted index-based search engine.
-* Added - Index and search  shortcode contents.
-* Added - Index and search TablePress shortcode contents.
+= 5.4.9 =
+* Fixed - Tags and Categories search was not working in inverted index search engine.
 
-= 4.8.2 =
-* Fixed - Plugin template file is-ajax-results.php was not overriding.
+= 5.4.8 =
+* Fixed - Using brackets in the search term was not getting searched.
+* Fixed - Using special characters in stopwords generate warnings.
+* Improved - Search/Exclude product variations by attributes/variations.
+* Updated - Freemius SDK
 
-= 4.8.1 =
-* Fixed - Autocomplete off was not working.
+= 5.4.7 =
+* Fixed - add_query_arg() and remove_query_arg() usage
 
-= 4.8 =
-* Fixed - Error occurred due to inclusion of non-existent file.
-* Fixed - Plugin admin options not working.
+= 5.4.6 =
+* Fixed - TablePress not searching japanese words
+
+= 5.4.5 =
+* Fixed - Call to undefined function parse_blocks

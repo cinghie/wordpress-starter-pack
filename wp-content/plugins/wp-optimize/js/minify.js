@@ -33,8 +33,10 @@
 			e.preventDefault();
 			$.blockUI();
 			send_command('purge_minify_cache', null, function(response) {
-				minify.updateFilesLists(response.files);
-				minify.updateStats(response.files);
+				if (response.hasOwnProperty('files')) {
+					minify.updateFilesLists(response.files);
+					minify.updateStats(response.files);
+				}
 			}).always(function() {
 				$.unblockUI();
 			});
@@ -47,8 +49,10 @@
 		$('.purge_all_minify_cache').on('click', function() {
 			$.blockUI();
 			send_command('purge_all_minify_cache', null, function(response) {
-				minify.updateFilesLists(response.files);
-				minify.updateStats(response.files);
+				if (response.hasOwnProperty('files')) {
+					minify.updateFilesLists(response.files);
+					minify.updateStats(response.files);
+				}
 			}).always(function() {
 				$.unblockUI();
 			});
@@ -156,48 +160,11 @@
 				}
 			});
 
-			/**
-			 * Gather data from the given form
-			 *
-			 * @param {HTMLFormElement} form
-			 *
-			 * @returns {Array} Array of collected data from the form
-			 */
-			function gather_data(form) {
-				var data = $(form).serializeArray().reduce(form_serialize_reduce_cb, {});
-				$(form).find('input[type="checkbox"]').each(function (i) {
-					var name = $(this).prop("name");
-					if (name.includes('[]')) {
-						if (!$(this).is(':checked')) return;
-						var newName = name.replace('[]', '');
-						if (!data[newName]) data[newName] = [];
-						data[newName].push($(this).val());
-					} else {
-						data[name] = $(this).is(':checked') ? 'true' : 'false';
-					}
-				});
-				return data;
-			}
-			
-			/**
-			 * Reduces the form elements array into an object
-			 *
-			 * @param {Object} collection An empty object
-			 * @param {*} item form input element as array element
-			 *
-			 * @returns {Object} collection An object of form data
-			 */
-			function form_serialize_reduce_cb(collection, item) {
-				// Ignore items containing [], which we expect to be returned as arrays
-				if (item.name.includes('[]')) return collection;
-				collection[item.name] = item.value;
-				return collection;
-			}
 			send_command('save_minify_settings', data, function(response) {
 				if (response.hasOwnProperty('error')) {
 					// show error
 					console.log(response.error);
-					$('.wpo-error__enabling-cache').removeClass('wpo_hidden').find('p').text(response.error.message);
+					wp_optimize.notices.show_notice(response.success, response.error);
 				} else {
 					$('.wpo-error__enabling-cache').addClass('wpo_hidden').find('p').text('');
 				}
@@ -229,6 +196,34 @@
 		$('#wpo_min_jsprocessed, #wpo_min_cssprocessed').on('click', '.log', function(e) {
 			e.preventDefault();
 			$(this).nextAll('.wpo_min_log').slideToggle('fast');
+		});
+
+		// Delete log file
+		$('#wpo_min_jsprocessed, #wpo_min_cssprocessed').on('click', '.delete-file', function(e) {
+			e.preventDefault();
+
+			var filename = $(this).data('filename');
+			
+			if ('' === filename || undefined === filename) {
+				alert(wpoptimize.cache_file_not_found);
+				return false;
+			}
+
+			$.blockUI();
+			send_command('delete_minify_cache_file', filename, function(response) {
+				if('' !== response.files) {
+					minify.updateFilesLists(response.files);
+					minify.updateStats(response.files);
+				}
+				if('' !== response.result) {
+					alert(response.result);
+				}
+				if('' !== response.error) {
+					alert(response.error);
+				}
+			}).always(function() {
+				$.unblockUI();
+			});
 		});
 
 		// Handle js excludes
@@ -375,6 +370,130 @@
 		
 		check_defer_status();
 
+		/**
+		 * Minify Preloader functionality
+		 */
+		var run_minify_preload_btn = $('#wp_optimize_run_minify_preload'),
+			minify_preload_status_el = $('#wp_optimize_preload_minify_status'),
+			check_status_interval = null;
+
+		run_minify_preload_btn.on('click', function() {
+			var btn = $(this),
+				is_running = btn.data('running'),
+				status = minify_preload_status_el.text();
+
+			btn.prop('disabled', true);
+
+			if (is_running) {
+				btn.data('running', false);
+				clearInterval(check_status_interval);
+				check_status_interval = null;
+				send_command(
+					'cancel_minify_preload',
+					null,
+					function(response) {
+						if (response && response.hasOwnProperty('message')) {
+							minify_preload_status_el.text(response.message);
+						}
+					}
+				).always(function() {
+						btn.val(wpoptimize.run_now);
+						btn.prop('disabled', false);
+				});
+			} else {
+				minify_preload_status_el.text(wpoptimize.starting_preload);
+				btn.data('running', true);
+				send_command(
+					'run_minify_preload',
+					null,
+					null,
+					true,
+					{
+						timeout: 3000 // set a timeout in case the server doesn't support our close browser connection function.
+					}
+				).always(function(response) {
+					try {
+						var resp = wpo_parse_json(response);
+					} catch (e) {
+					}
+
+					if (resp && resp.error) {
+
+						var error_text = wpoptimize.error_unexpected_response;
+
+						if (typeof resp.error != 'function') {
+							error_text = resp.error;
+						} else if (resp.status) {
+							error_text = resp.status + ': ' + resp.statusText;
+						}
+
+						alert(error_text);
+
+						minify_preload_status_el.text(status);
+						btn.prop('disabled', false);
+						btn.data('running', false);
+
+						return;
+					}
+
+					minify_preload_status_el.text(wpoptimize.loading_urls);
+					btn.val(wpoptimize.cancel);
+					btn.prop('disabled', false);
+					run_update_minify_preload_status();
+				});
+			}
+		});
+
+		/**
+		 * If already running then update status
+		 */
+		if (run_minify_preload_btn.data('running')) {
+			run_update_minify_preload_status();
+		}
+
+		/**
+		 * Create interval action for update preloader status.
+		 *
+		 * @return void
+		 */
+		function run_update_minify_preload_status() {
+			if (check_status_interval) return;
+
+			check_status_interval = setInterval(function() {
+				update_minify_preload_status();
+			}, 5000);
+		}
+
+		/**
+		 * Update minify preload status ajax action.
+		 *
+		 * @return void
+		 */
+		function update_minify_preload_status() {
+			send_command('get_minify_preload_status', null, function(response) {
+				if (response.done) {
+					run_minify_preload_btn.val(wpoptimize.run_now);
+					run_minify_preload_btn.data('running', false);
+					clearInterval(check_status_interval);
+					check_status_interval = null;
+				} else {
+					run_minify_preload_btn.val(wpoptimize.cancel);
+					run_minify_preload_btn.data('running', true);
+				}
+				minify_preload_status_el.text(response.message);
+				update_minify_size_information(response);
+			});
+		}
+
+		/**
+		 * Run update information about minify size.
+		 *
+		 * @return void
+		 */
+		function update_minify_size_information(response) {
+			$('#wpo_min_cache_size').text(response.size);
+			$('#wpo_min_cache_total_size').text(response.total_size);
+		}
 		return this;
 	}
 
@@ -390,16 +509,15 @@
 		};
 
 		send_command('get_minify_cached_files', data, function(response) {
-
 			minify.updateFilesLists(response);
 			minify.updateStats(response);
-
 		});
 
 		if (refresh_frequency) setTimeout(minify.getFiles.bind(this), refresh_frequency);
 	}
 
 	minify.updateFilesLists = function(data) {
+		if (null === data) return;
 		// reset
 		var wpominarr = [];
 
@@ -412,6 +530,7 @@
 					<li id="'+this.uid+'">\
 						<span class="filename"><a href="'+this.file_url+'" target="_blank">'+this.filename+'</a> ('+this.fsize+')</span>\
 						<a href="#" class="log">' + wpoptimize.toggle_info + '</a>\
+						<a href="#" class="delete-file" data-filename="' + this.filename + '">' + wpoptimize.delete_file + '</a>\
 						<div class="hidden save_notice">\
 							<p>' + wpoptimize.added_notice + '</p>\
 							<p><button class="button button-primary save-exclusions">' + wpoptimize.save_notice + '</button></p>\
@@ -434,6 +553,7 @@
 					<li id="'+this.uid+'">\
 						<span class="filename"><a href="'+this.file_url+'" target="_blank">'+this.filename+'</a> ('+this.fsize+')</span>\
 						<a href="#" class="log">' + wpoptimize.toggle_info + '</a>\
+						<a href="#" class="delete-file" data-filename="' + this.filename + '">' + wpoptimize.delete_file + '</a>\
 						<div class="hidden save_notice">\
 							<p>' + wpoptimize.added_to_list + '</p>\
 							<p><button class="button button-primary save-exclusions">' + wpoptimize.save_notice + '</button></p>\
@@ -465,6 +585,55 @@
 			$("#wpo_min_cache_path").html(data.cachePath);
 		}
 	};
+
+	 /**
+	  * Gather data from the given form
+	  *
+	  * @param {HTMLFormElement} form
+	  *
+	  * @returns {Array} Array of collected data from the form
+	  */
+	 function gather_data(form) {
+		 var data = $(form).serializeArray().reduce(form_serialize_reduce_cb, {});
+		 $(form).find('input[type="checkbox"]').each(function (i) {
+			 var name = $(this).prop("name");
+			 if (name.includes('[]')) {
+				 if (!$(this).is(':checked')) return;
+				 var newName = name.replace('[]', '');
+				 if (!data[newName]) data[newName] = [];
+				 data[newName].push($(this).val());
+			 } else {
+				 data[name] = $(this).is(':checked') ? 'true' : 'false';
+			 }
+		 });
+		 return data;
+	 }
+
+	 /**
+	  * Reduces the form elements array into an object
+	  *
+	  * @param {Object} collection An empty object
+	  * @param {*} item form input element as array element
+	  *
+	  * @returns {Object} collection An object of form data
+	  */
+	 function form_serialize_reduce_cb(collection, item) {
+		 // Ignore items containing [], which we expect to be returned as arrays
+		 if (item.name.includes('[]')) return collection;
+		 collection[item.name] = item.value;
+		 return collection;
+	 }
+
+	 // Gather minify settings from all tabs
+	 wp_optimize.minify_settings = function() {
+		var tabs = $('[data-whichpage="wpo_minify"] .wp-optimize-nav-tab-contents form');
+		var data = {}
+		tabs.each(function() {
+			var tab = $(this);
+			data = Object.assign(data, gather_data(tab));
+		});
+		return data;
+	}
 
 	wp_optimize.minify = minify;
 

@@ -86,7 +86,7 @@ br {
 }
 
 #search-form-editor input:checked ~ .toggle-check-text {
-	background: #8daebf;
+	background: #6ba8c7;
 	padding-left: 6px;
 	padding-right: 16px;
 }

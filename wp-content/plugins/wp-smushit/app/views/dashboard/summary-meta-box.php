@@ -5,54 +5,55 @@
  * @since 3.8.3
  * @package WP_Smush
  *
- * @var string $cdn_status       CDN status.
- * @var bool   $is_cdn           CDN module status.
- * @var bool   $is_lazy_load     Lazy load status.
- * @var bool   $is_local_webp    Local WebP status.
- * @var int    $remaining        Remaining images.
- * @var int    $resize_count     Number of resizes images.
- * @var string $upsell_url_cdn   CDN upsell URL.
- * @var string $upsell_url_webp  Local WebP upsell URL.
- * @var bool   $webp_configured  WebP set up configured.
- *
- * @var Abstract_Page $this
+ * @var string    $cdn_status         CDN status.
+ * @var string    $human_bytes
+ * @var bool      $is_cdn             CDN module status.
+ * @var bool      $is_lazy_load       Lazy load status.
+ * @var bool      $is_local_webp      Local WebP status.
+ * @var int       $resize_count       Number of resizes images.
+ * @var string    $upsell_url_cdn     CDN upsell URL.
+ * @var string    $upsell_url_webp    Local WebP upsell URL.
+ * @var bool      $webp_configured    WebP set up configured.
+ * @var string    $percent_grade      Circle grade class.
+ * @var int|float $percent_metric     Metric to calculate circle score.
+ * @var int       $percent_optimized  Percent optimized.
+ * @var int       $total_optimized    Total nubmer of images optimized.
+ * @var string|int $stats_percent
  */
-
-use Smush\App\Abstract_Page;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-$branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 ?>
+<?php
+$this->view(
+	'scan-progress-bar',
+	array(),
+	'common'
+);
 
-<?php if ( $branded_image ) : ?>
-	<div class="sui-summary-image-space" aria-hidden="true" style="background-image: url('<?php echo esc_url( $branded_image ); ?>')"></div>
-<?php else : ?>
-	<div class="sui-summary-image-space" aria-hidden="true"></div>
-<?php endif; ?>
-<div class="sui-summary-segment">
-	<div class="sui-summary-details">
-		<span class="sui-summary-large wp-smush-stats-human">
-			<?php echo esc_html( $remaining ); ?>
-		</span>
-		<span class="sui-summary-sub">
-			<?php esc_html_e( 'Images to Smush', 'wp-smushit' ); ?>
-		</span>
-		<span class="smushed-items-count">
-			<span class="wp-smush-count-resize-total">
-				<span class="sui-summary-detail wp-smush-total-optimised">
-					<?php echo esc_html( $resize_count ); ?>
-				</span>
-				<span class="sui-summary-sub">
-					<?php esc_html_e( 'Images Resized', 'wp-smushit' ); ?>
-				</span>
-			</span>
-		</span>
-	</div>
-</div>
+$this->view(
+	'circle-progress-bar',
+	array(
+		'percent_grade'     => $percent_grade,
+		'percent_optimized' => $percent_optimized,
+		'percent_metric'    => $percent_metric,
+	),
+	'common'
+);
 
+$this->view(
+	'summary-segment',
+	array(
+		'human_bytes'     => $human_bytes,
+		'total_optimized' => $total_optimized,
+		'stats_percent'   => $stats_percent,
+		'resize_count'    => $resize_count,
+	),
+	'common'
+);
+?>
 <div class="sui-summary-segment" style="overflow: visible">
 	<ul class="sui-list">
 		<li>
@@ -64,7 +65,7 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 					<a href="<?php echo esc_url( $upsell_url_cdn ); ?>" target="_blank" class="smush-upgrade-text">
 						<?php esc_html_e( 'Upgrade', 'wp-smushit' ); ?>
 					</a>
-					<span class="sui-tooltip sui-tooltip-constrained sui-tooltip-top-right" style="--tooltip-width: 360px;" data-tooltip="<?php esc_attr_e( 'Multiply the speed and savings! Serve your images from our CDN from 45 blazing fast servers around the world.', 'wp-smushit' ); ?>">
+					<span class="sui-tooltip sui-tooltip-constrained sui-tooltip-top-right" style="--tooltip-width: 360px;" data-tooltip="<?php esc_attr_e( 'Multiply the speed and savings! Serve your images from our CDN from 114 blazing fast servers around the world.', 'wp-smushit' ); ?>">
 						<span class="sui-tag sui-tag-sm sui-tag-purple"><?php esc_html_e( 'Pro', 'wp-smushit' ); ?></span>
 					</span>
 				<?php elseif ( $is_cdn ) : ?>
@@ -136,5 +137,6 @@ $branded_image = apply_filters( 'wpmudev_branding_hero_image', '' );
 				<?php endif; ?>
 			</span>
 		</li>
+		<?php $this->view( 'summary/lossy-level' ); ?>
 	</ul>
 </div>

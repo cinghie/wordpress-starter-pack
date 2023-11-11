@@ -6,8 +6,6 @@ if (!defined('ABSPATH')) die('No direct access allowed');
  * Page caching rules and exceptions
  */
 
-if (!class_exists('WPO_Cache_Config')) require_once('class-wpo-cache-config.php');
-
 require_once dirname(__FILE__) . '/file-based-page-cache-functions.php';
 
 if (!class_exists('WPO_Cache_Rules')) :
@@ -46,6 +44,10 @@ class WPO_Cache_Rules {
 		add_action('set_object_terms', array($this, 'purge_related_elements_on_post_terms_change'), 10, 6);
 		add_action('wpo_cache_config_updated', array($this, 'cache_config_updated'), 10, 1);
 		add_action('wp_insert_comment', array($this, 'comment_inserted'), 10, 2);
+		add_action('import_start', array($this, 'remove_wp_insert_comment'));
+
+		add_action('update_option_page_on_front', array($this, 'purge_cache_on_homepage_change'));
+		add_action('update_option_page_for_posts', array($this, 'purge_cache_on_blog_page_change'), 10, 2);
 
 		add_action('woocommerce_variation_set_stock', array($this, 'purge_product_page'), 10, 1);
 		add_action('woocommerce_product_set_stock', array($this, 'purge_product_page'), 10, 1);
@@ -55,7 +57,21 @@ class WPO_Cache_Rules {
 		 *
 		 * @param array $actions The actions
 		 */
-		$purge_on_action = apply_filters('wpo_purge_cache_hooks', array('after_switch_theme', 'wp_update_nav_menu', 'customize_save_after', array('wp_ajax_save-widget', 0), array('wp_ajax_update-widget', 0), 'autoptimize_action_cachepurged', 'upgrader_overwrote_package', 'wpo_active_plugin_or_theme_updated', 'fusion_cache_reset_after'));
+		$actions = array(
+			'after_switch_theme',
+			'wp_update_nav_menu',
+			'customize_save_after',
+			array('wp_ajax_save-widget', 0),
+			array('wp_ajax_update-widget', 0),
+			'autoptimize_action_cachepurged',
+			'upgrader_overwrote_package',
+			'wpo_active_plugin_or_theme_updated',
+			'fusion_cache_reset_after',
+			'update_option_permalink_structure',
+			'update_option_posts_per_page',
+			'wpml_st_add_string_translation',
+		);
+		$purge_on_action = apply_filters('wpo_purge_cache_hooks', $actions);
 		foreach ($purge_on_action as $action) {
 			if (is_array($action)) {
 				add_action($action[0], array($this, 'purge_cache'), $action[1]);
@@ -63,8 +79,6 @@ class WPO_Cache_Rules {
 				add_action($action, array($this, 'purge_cache'));
 			}
 		}
-
-		add_filter('wpo_cache_cookies', array($this, 'wpo_cache_cookies'), 9);
 	}
 
 	/**
@@ -129,6 +143,13 @@ class WPO_Cache_Rules {
 	}
 
 	/**
+	 * Comment posted cookie is not needed for imports. So remove the action
+	 */
+	public function remove_wp_insert_comment() {
+		remove_action('wp_insert_comment', array($this, 'comment_inserted'), 10);
+	}
+
+	/**
 	 * Automatically purge all file based page cache on post changes
 	 * We want the whole cache purged here as different parts
 	 * of the site could potentially change on post updates
@@ -139,7 +160,7 @@ class WPO_Cache_Rules {
 		$post_type = get_post_type($post_id);
 		$post_type_object = get_post_type_object($post_type);
 
-		if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || 'revision' === $post_type || !$post_type_object->public) {
+		if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || 'revision' === $post_type || null === $post_type_object || !$post_type_object->public) {
 			return;
 		}
 
@@ -169,11 +190,15 @@ class WPO_Cache_Rules {
 	public function purge_archive_pages_on_post_update($post_id) {
 		$post_type = get_post_type($post_id);
 
+		if (false === $post_type) return;
+
 		if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || 'revision' === $post_type) {
 			return;
 		}
 
 		$post_obj = get_post_type_object($post_type);
+
+		if (null === $post_obj) return;
 
 		if ('post' == $post_type) {
 			// delete blog page cache
@@ -182,7 +207,7 @@ class WPO_Cache_Rules {
 				WPO_Page_Cache::delete_cache_by_url(get_permalink($blog_post_id), true);
 			}
 		
-			// delete next and previus posts cache.
+			// delete next and previous posts cache.
 			$globals_post = isset($GLOBALS['post']) ? $GLOBALS['post'] : false;
 			$GLOBALS['post'] = get_post($post_id);
 			$previous_post = function_exists('get_previous_post') ? get_previous_post() : false;
@@ -220,6 +245,8 @@ class WPO_Cache_Rules {
 	 * @param string $taxonomy Taxonomy slug.
 	 */
 	public function purge_related_elements_on_term_updated($term_id, $taxonomy) {
+		if ('nav_menu' === $taxonomy) return;
+
 		// purge cached page for term.
 		$term = get_term($term_id, $taxonomy, ARRAY_A);
 		if (is_array($term)) {
@@ -314,6 +341,38 @@ class WPO_Cache_Rules {
 	}
 
 	/**
+	 * Purges relevant caches when the "Homepage" option is changed.
+	 *
+	 * This method is also triggered when the "Homepage displays" option is changed
+	 * from a static page to latest posts. In this scenario, the "Homepage" option value
+	 * becomes zero. Since the cache for the front-page is already purged here, there's no need
+	 * to purge the cache using the`update_option_show_on_front` hook.
+	 *
+	 * @param string $old_value The old value of the "Homepage" option.
+	 */
+	public function purge_cache_on_homepage_change($old_value) {
+		if ($old_value) {
+			WPO_Page_Cache::delete_cache_by_url(get_permalink($old_value));
+		}
+		WPO_Page_Cache::delete_homepage_cache();
+	}
+
+	/**
+	 * Purges relevant caches when the "Posts page" option is changed.
+	 *
+	 * @param string $old_value The old value of the "Posts page" option.
+	 * @param string $value     The new value of the "Posts page" option.
+	 */
+	public function purge_cache_on_blog_page_change($old_value, $value) {
+		if ($old_value) {
+			WPO_Page_Cache::delete_cache_by_url(get_permalink($old_value));
+		}
+		if ($value) {
+			WPO_Page_Cache::delete_cache_by_url(get_permalink($value));
+		}
+	}
+
+	/**
 	 * Clears the cache.
 	 */
 	public function purge_cache() {
@@ -332,20 +391,6 @@ class WPO_Cache_Rules {
 		if (is_array($config['cache_exception_urls']) && in_array('/', $config['cache_exception_urls'])) {
 			WPO_Page_Cache::delete_cache_by_url(home_url());
 		}
-	}
-
-	/**
-	 * Add cookie names that are need separate caching
-	 */
-	public function wpo_cache_cookies($cookies) {
-		$cookies[] = 'cookie_notice_accepted';
-		$cookies[] = 'cookielawinfo-checkbox-necessary';
-		$cookies[] = 'cookielawinfo-checkbox-functional';
-		$cookies[] = 'cookielawinfo-checkbox-advertisement';
-		$cookies[] = 'cookielawinfo-checkbox-others';
-		$cookies[] = 'cookielawinfo-checkbox-analytics';
-		$cookies[] = 'cookielawinfo-checkbox-performance';
-		return $cookies;
 	}
 
 	/**

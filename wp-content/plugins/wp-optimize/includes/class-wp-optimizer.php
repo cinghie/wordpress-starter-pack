@@ -6,7 +6,20 @@ if (!defined('WPO_VERSION')) die('No direct access allowed');
  * This class invokes optimiazations. The optimizations themselves live in the 'optimizations' sub-directory of the plugin.  The proper way to obtain access to the instance is via WP_Optimize()->get_optimizer()
  */
 class WP_Optimizer {
-	
+
+	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimizer Returns `WP_Optimizer` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
 	public function get_retain_info() {
 	
 		$options = WP_Optimize()->get_options();
@@ -54,10 +67,10 @@ class WP_Optimizer {
 	 *
 	 * @param  array  $optimizations An array of optimizations (i.e. WP_Optimization instances).
 	 * @param  string $sort_on       Specify sort.
-	 * @param  string $sort_rule     Sort Rule.
+	 *
 	 * @return array
 	 */
-	public function sort_optimizations($optimizations, $sort_on = 'ui_sort_order', $sort_rule = 'traditional') {// phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+	public function sort_optimizations($optimizations, $sort_on = 'ui_sort_order') {
 		if ('run_sort_order' == $sort_on) {
 			uasort($optimizations, array($this, 'sort_optimizations_run_traditional'));
 		} else {
@@ -202,7 +215,7 @@ class WP_Optimizer {
 	 * As with do_optimization, it is somewhat modelled after the template interface
 	 *
 	 * @param  string|object $which_optimization An optimization ID, or a WP_Optimization object.
-	 * @return array                             returns the optimization information
+	 * @return object                             returns the optimization information
 	 */
 	public function get_optimization_info($which_optimization) {
 	
@@ -291,7 +304,7 @@ class WP_Optimizer {
 
 		$wpo_db_info = WP_Optimize()->get_db_info();
 
-		$table_status = WP_Optimize()->get_db_info()->get_show_table_status($update);
+		$table_status = $wpo_db_info->get_show_table_status($update);
 
 		// Filter on the site's DB prefix (was not done in releases up to 1.9.1).
 		$table_prefix = $this->get_table_prefix();

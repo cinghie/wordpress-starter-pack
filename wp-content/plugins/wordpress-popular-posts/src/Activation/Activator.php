@@ -24,10 +24,10 @@ class Activator {
      * Fired when the plugin is activated.
      *
      * @since    1.0.0
-     * @param    bool    $network_wide    True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog.
+     * @param    mixed   $network_wide    True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog. Sometimes it's NULL though.
      * @global   object  $wpdb
      */
-    public static function activate($network_wide)
+    public static function activate($network_wide) /** @TODO: starting PHP 8.0 $network_wide can be declared as mixed $network_wide */
     {
         global $wpdb;
 
@@ -79,7 +79,7 @@ class Activator {
         ) {
             global $wpdb;
 
-            $prefix = $wpdb->prefix . "popularposts";
+            $prefix = $wpdb->prefix . 'popularposts';
             self::do_db_tables($prefix);
         }
     }
@@ -91,16 +91,18 @@ class Activator {
      * @param    string   $prefix
      * @global   object   $wpdb
      */
-    private static function do_db_tables($prefix)
+    private static function do_db_tables(string $prefix)
     {
         global $wpdb;
-        $charset_collate = "";
+        $charset_collate = '';
 
-        if ( !empty($wpdb->charset) )
+        if ( ! empty($wpdb->charset) ) {
             $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset} ";
+        }
 
-        if ( !empty($wpdb->collate) )
+        if ( ! empty($wpdb->collate) ) {
             $charset_collate .= "COLLATE {$wpdb->collate}";
+        }
 
         $sql = "
         CREATE TABLE {$prefix}data (
@@ -128,7 +130,7 @@ class Activator {
             PRIMARY KEY  (ID)
         ) {$charset_collate} ENGINE=InnoDB";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         \dbDelta($sql);
 
         \update_option('wpp_ver', WPP_VERSION);

@@ -3,11 +3,11 @@
 .updraft-ad-container {
     border-left-color: #FF6A3D!important;
     position: relative;
-    padding-right: 150px!important;
+    padding-right: 130px!important;
 }
 
 .updraft-ad-container > h1 {
-    color: #e1642e;
+    color: #dd6923;
     font-weight: 700;
 }
 
@@ -32,7 +32,6 @@
 }
 
 .updraft_advert_content_right {
-    max-width: 800px;
 	float:none;
 	width:auto;
     overflow: hidden;
@@ -91,8 +90,53 @@ h4.updraft_advert_heading {
     font-weight: 700;
 }
 
+/* Discount ad */
+.ml-discount-ad {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  border-left-color: #dd6923 !important;
+}
+
+.ml-discount-ad .ml-discount-ad-title {
+  font-size: 1.3em;
+  margin: 5px 0;
+  line-height: 1.8em;
+}
+
+.ml-discount-ad .ml-discount-ad-title .ml-discount-ad-button {
+  color: #fff;
+  background: #dd6923;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+}
+
+.ml-discount-ad .ml-discount-ad-title .ml-discount-ad-button:focus,
+.ml-discount-ad .ml-discount-ad-title .ml-discount-ad-button:active,
+.ml-discount-ad .ml-discount-ad-title .ml-discount-ad-button:hover {
+  color: #fff;
+  background: #29375b;
+  border: none;
+}
+
+.ml-discount-ad .updraft_advert_content_left {
+  width: 70px;
+}
+
 @media screen and (min-width: 560px) {
 	.updraft_advert_content_left {
 		float: left;
 	}
+}
+
+#wpadminbar #wp-admin-bar-ms-main-menu .ab-item #metaslider-main-menu-icon {
+	background-size: 18px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	width: 18px;
+	height: 32px;
+	float: left;
+	margin-right: 5px;
 }

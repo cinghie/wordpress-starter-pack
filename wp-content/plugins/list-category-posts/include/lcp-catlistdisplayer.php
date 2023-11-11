@@ -38,6 +38,9 @@ class CatListDisplayer {
       wp_reset_query();
     }
 
+    // This filter needs to be removed after template code has executed, not before.
+    remove_filter( 'the_posts', [ LcpParameters::get_instance(), 'move_sticky_to_top' ] );
+
     return $this->lcp_output;
   }
 
@@ -175,7 +178,9 @@ class CatListDisplayer {
       break;
     case 'excerpt':
       $info = $this->catlist->get_excerpt($post);
-      $info = preg_replace('/\[.*\]/', '', $info);
+      if ( ! empty( $info ) ) {
+        $info = preg_replace('/\[.*\]/', '', $info);
+      }
       break;
     case 'date_modified':
       $info = $this->catlist->get_modified_date_to_show($post);

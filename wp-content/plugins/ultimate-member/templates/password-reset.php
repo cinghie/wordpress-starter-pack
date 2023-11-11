@@ -1,6 +1,21 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
+<?php
+/**
+ * Template for the password reset
+ *
+ * This template can be overridden by copying it to yourtheme/ultimate-member/templates/password-reset.php
+ *
+ * Call: function ultimatemember_password()
+ *
+ * @version 2.7.0
+ *
+ * @var string $mode
+ * @var int    $form_id
+ * @var array  $args
+ */
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} ?>
+}
+?>
 
 <div class="um <?php echo esc_attr( $this->get_class( $mode ) ); ?> um-<?php echo esc_attr( $form_id ); ?>">
 	<div class="um-form">
@@ -10,6 +25,14 @@
 					<div class="um-field-block">
 						<div style="text-align:center;">
 							<?php esc_html_e( 'If an account matching the provided details exists, we will send a password reset link. Please check your inbox.', 'ultimate-member' ); ?>
+						</div>
+					</div>
+				</div>
+			<?php } elseif ( isset( $_GET['updated'] ) && 'password_changed' === sanitize_key( $_GET['updated'] ) ) { ?>
+				<div class="um-field um-field-block um-field-type_block">
+					<div class="um-field-block">
+						<div style="text-align:center;">
+							<?php esc_html_e( 'You have successfully changed password.', 'ultimate-member' ); ?>
 						</div>
 					</div>
 				</div>
@@ -93,7 +116,7 @@
 				<div class="um-col-alt um-col-alt-b">
 
 					<div class="um-center">
-						<input type="submit" value="<?php esc_attr_e( 'Reset my password', 'ultimate-member' ); ?>" class="um-button" id="um-submit-btn" />
+						<input type="submit" value="<?php esc_attr_e( 'Reset password', 'ultimate-member' ); ?>" class="um-button" id="um-submit-btn" />
 					</div>
 
 					<div class="um-clear"></div>
@@ -121,28 +144,10 @@
 				 * ?>
 				 */
 				do_action( 'um_reset_password_form', $args );
-
-				/**
-				 * UM hook
-				 *
-				 * @type action
-				 * @title um_after_form_fields
-				 * @description Password reset after display form
-				 * @input_vars
-				 * [{"var":"$args","type":"array","desc":"Password reset shortcode arguments"}]
-				 * @change_log
-				 * ["Since: 2.0"]
-				 * @usage add_action( 'um_after_form_fields', 'function_name', 10, 1 );
-				 * @example
-				 * <?php
-				 * add_action( 'um_after_form_fields', 'my_after_form_fields', 10, 1 );
-				 * function my_after_form_fields( $args ) {
-				 *     // your code here
-				 * }
-				 * ?>
-				 */
+				/** This action is documented in includes/core/um-actions-profile.php */
 				do_action( 'um_after_form_fields', $args );
-			} ?>
+			}
+			?>
 		</form>
 	</div>
 </div>

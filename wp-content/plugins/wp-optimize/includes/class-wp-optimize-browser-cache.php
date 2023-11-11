@@ -34,6 +34,19 @@ class WP_Optimize_Browser_Cache {
 	}
 
 	/**
+	 * Returns singleton instance object
+	 *
+	 * @return WP_Optimize_Browser_Cache Returns `WP_Optimize_Browser_Cache` object
+	 */
+	public static function instance() {
+		static $_instance = null;
+		if (null === $_instance) {
+			$_instance = new self();
+		}
+		return $_instance;
+	}
+
+	/**
 	 * Check headers for Cache-Control and Etag. And if they are exist return true.
 	 *
 	 * @return bool|WP_Error
@@ -54,7 +67,7 @@ class WP_Optimize_Browser_Cache {
 		}
 
 		if ($this->is_browser_cache_section_exists() && false === $this->_wp_optimize->is_apache_module_loaded(array('mod_expires', 'mod_headers'))) {
-			$is_enabled = new WP_Error('Browser cache', __('We successfully updated your .htaccess file. But it seems one of Apache modules - mod_expires or mod_headers is not active.', 'wp-optimize'));
+			$is_enabled = new WP_Error('Browser cache', __('We successfully updated your .htaccess file.', 'wp-optimize') . ' ' . __('But it seems one of Apache modules - mod_expires or mod_headers is not active.', 'wp-optimize'));
 		}
 
 		return $is_enabled;
@@ -68,6 +81,7 @@ class WP_Optimize_Browser_Cache {
 	public function enable($expiry_time = '1 month') {
 		$this->_htaccess->update_commented_section($this->prepare_browser_cache_section($expiry_time), $this->_htaccess_section_comment);
 		$this->_htaccess->write_file();
+		$this->_options->update_option('enable_browser_cache', true);
 	}
 
 	/**
@@ -76,10 +90,11 @@ class WP_Optimize_Browser_Cache {
 	public function disable() {
 		$this->_htaccess->remove_commented_section($this->_htaccess_section_comment);
 		$this->_htaccess->write_file();
+		$this->_options->update_option('enable_browser_cache', false);
 	}
 
 	/**
-	 * Check if browser chache option is set to true then add section with gzip settings into .htaccess (used when plugin being activated).
+	 * Check if browser cache option is set to true then add section with gzip settings into .htaccess (used when plugin being activated).
 	 */
 	public function restore() {
 		$expire_days = $this->_options->get_option('browser_cache_expire_days', '');
@@ -172,12 +187,12 @@ class WP_Optimize_Browser_Cache {
 			$cache_section = $this->prepare_browser_cache_section($expiry_time);
 
 			if ($enable) {
-				$message = sprintf(__('We can\'t update your %s file. Please try to add following lines manually:', 'wp-optimize'), $this->_htaccess->get_filename());
+				$message = sprintf(__("We can\'t update your %s file.", 'wp-optimize'), $this->_htaccess->get_filename()) . ' ' . __('Please try to add following lines manually:', 'wp-optimize');
 				$output = htmlentities($this->_htaccess->get_section_begin_comment() . PHP_EOL .
 						  join(PHP_EOL, $this->_htaccess->get_flat_array($cache_section)).
 						  PHP_EOL . $this->_htaccess->get_section_end_comment());
 			} else {
-				$message = sprintf(__('We can\'t update your %s file. Please try to remove following lines manually:', 'wp-optimize'), $this->_htaccess->get_filename());
+				$message = sprintf(__("We can\'t update your %s file.", 'wp-optimize'), $this->_htaccess->get_filename()) . ' ' . __('Please try to remove following lines manually:', 'wp-optimize');
 				$output = htmlentities($this->_htaccess->get_section_begin_comment() . PHP_EOL .
 					' ... ... ... '.
 					PHP_EOL . $this->_htaccess->get_section_end_comment());

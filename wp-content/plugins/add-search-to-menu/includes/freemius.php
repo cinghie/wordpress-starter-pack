@@ -15,6 +15,10 @@ function is_fs()
     global  $is_fs ;
     
     if ( !isset( $is_fs ) ) {
+        // Activate multisite network integration.
+        if ( !defined( 'WP_FS__PRODUCT_2086_MULTISITE' ) ) {
+            define( 'WP_FS__PRODUCT_2086_MULTISITE', true );
+        }
         // Include Freemius SDK.
         require_once dirname( __FILE__ ) . '/freemius/start.php';
         $is_fs = fs_dynamic_init( array(

@@ -4,15 +4,13 @@ import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import createLogger from 'vuex/dist/logger'
 import slideshows from './modules/slideshows'
-// import settings from './modules/settings'
-// import slides from './modules/slides'
 
 // Keep in local storage
 const vuexLocal = new VuexPersistence({
-	key: 'metaslider-vuex-' + window.metaslider_api.site_id,
-	reducer: state => ({
-		slideshows: {
-			all: state.slideshows.all
+    key: 'metaslider-vuex-' + window.metaslider_api.site_id,
+    reducer: state => ({
+        slideshows: {
+            all: state.slideshows.all
 		}
 	})
 })

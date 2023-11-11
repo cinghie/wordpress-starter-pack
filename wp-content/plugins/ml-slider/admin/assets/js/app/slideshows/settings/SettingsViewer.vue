@@ -35,8 +35,8 @@ export default {
             $('.metaslider input.radio:not(.' + slider + ')').attr('disabled', 'disabled');
             $('.metaslider input.radio.' + slider).removeAttr('disabled');
     
-            $('.metaslider .showNextWhenChecked:visible').parent().parent().next('tr').hide();
-            $('.metaslider .showNextWhenChecked:visible:checked').parent().parent().next('tr').show();
+            $('.metaslider .showNextWhenChecked:visible').closest("tr").next('tr').hide();
+            $('.metaslider .showNextWhenChecked:visible:checked').closest("tr").next('tr').show();
     
             // make sure that the selected option is available for this slider type
             if ($('.effect option:selected').attr('disabled') === 'disabled') {
@@ -54,9 +54,9 @@ export default {
     
         var toggleNextRow = function(checkbox) {
             if(checkbox.is(':checked')){
-                checkbox.parent().parent().next("tr").show();
+                checkbox.closest("tr").next("tr").show();
             } else {
-                checkbox.parent().parent().next("tr").hide();
+                checkbox.closest("tr").next("tr").hide();
             }
 		}
 		

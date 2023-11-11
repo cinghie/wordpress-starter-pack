@@ -383,7 +383,7 @@ if ( ! class_exists( 'um\core\Uploader' ) ) {
 				  ?>
 				 */
 				$movefile = apply_filters( 'um_upload_image_result', $movefile, $user_id, $field_data );
-				
+
 				/**
 				 * Resize and compress images uploaded by the field "Image Upload" without crop.
 				 * Resize and compress images uploaded on Activity wall and Group Discussion wall.
@@ -786,14 +786,16 @@ if ( ! class_exists( 'um\core\Uploader' ) ) {
 
 			if ( isset( $image_info['invalid_image'] ) && $image_info['invalid_image'] == true ) {
 				$error = sprintf(__('Your image is invalid or too large!','ultimate-member') );
-			} elseif ( isset($data['min_size']) && ( $image_info['size'] < $data['min_size'] ) ) {
+			} elseif ( isset( $data['min_size'] ) && ( $image_info['size'] < $data['min_size'] ) ) {
 				$error = $data['min_size_error'];
-			} elseif ( isset($data['max_file_size']) && ( $image_info['size'] > $data['max_file_size'] ) ) {
+			} elseif ( isset( $data['max_file_size'] ) && ( $image_info['size'] > $data['max_file_size'] ) ) {
 				$error = $data['max_file_size_error'];
-			} elseif ( isset($data['min_width']) && ( $image_info['width'] < $data['min_width'] ) ) {
-				$error = sprintf(__('Your photo is too small. It must be at least %spx wide.','ultimate-member'), $data['min_width']);
-			} elseif ( isset($data['min_height']) && ( $image_info['height'] < $data['min_height'] ) ) {
-				$error = sprintf(__('Your photo is too small. It must be at least %spx wide.','ultimate-member'), $data['min_height']);
+			} elseif ( isset( $data['min_width'] ) && ( $image_info['width'] < $data['min_width'] ) ) {
+				// translators: %s: min widdth.
+				$error = sprintf( __( 'Your photo is too small. It must be at least %spx wide.', 'ultimate-member' ), $data['min_width'] );
+			} elseif ( isset( $data['min_height'] ) && ( $image_info['height'] < $data['min_height'] ) ) {
+				// translators: %s: min height.
+				$error = sprintf( __( 'Your photo is too small. It must be at least %spx high.', 'ultimate-member' ), $data['min_height'] );
 			}
 
 			return $error;
@@ -1278,7 +1280,7 @@ if ( ! class_exists( 'um\core\Uploader' ) ) {
 				//move temporary file from temp directory to the correct user directory
 				$temp_file_path = UM()->uploader()->get_core_temp_dir() . DIRECTORY_SEPARATOR . $filename;
 				if ( file_exists( $temp_file_path ) ) {
-					$extra_hash = hash( 'crc32b', current_time('timestamp') );
+					$extra_hash = hash( 'crc32b', current_time( 'timestamp' ) );
 
 					if ( strpos( $filename , 'stream_photo_' ) !== false ) {
 						$new_filename = str_replace("stream_photo_","stream_photo_{$extra_hash}_", $filename );
@@ -1361,7 +1363,7 @@ if ( ! class_exists( 'um\core\Uploader' ) ) {
 				}
 			}
 
-			$files = glob( UM()->uploader()->get_upload_base_dir() . $user_id . DIRECTORY_SEPARATOR . '*', GLOB_BRACE );
+			$files = glob( UM()->uploader()->get_upload_base_dir() . $user_id . DIRECTORY_SEPARATOR . '*' );
 			if ( ! empty( $files ) ) {
 				foreach ( $files as $file ) {
 					$str = basename( $file );

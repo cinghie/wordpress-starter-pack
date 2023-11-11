@@ -35,7 +35,6 @@ pre#shortcode *::selection {
 
 /* Consider everything after this a legacy style with the intent to
 eventually be removed/refactored */
-
 .metaslider.wrap div.updated,
 .metaslider.wrap div.error {
     clear: both
@@ -85,17 +84,150 @@ eventually be removed/refactored */
     width: 100%;
 }
 
-.metaslider .ms-settings {
-	border-collapse: separate;
-  	border-spacing: 0 0.75rem;
+/* Settings table */
+.metaslider .ms-settings-table {
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 1px solid #c3c4c7;
 }
-.metaslider .ms-settings a {
-	color: #0073aa;
-	text-decoration: underline;
+.metaslider .ms-settings-table tr {
+    border-style: solid;
+    border-width: 0 1px;
+    border-color: #c3c4c7;
+    background: #fff; 
 }
-.metaslider .ms-settings a:active,
-.metaslider .ms-settings a:hover {
-	color: #00a0d2;
+.metaslider .ms-settings-table tr.highlight {
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background: #f1f1f1;
+}
+.metaslider .ms-settings-table tr.slider-lib {
+    background: transparent;
+    border-right-width: 0;
+    border-left-width: 0;
+}
+.metaslider .ms-settings-table tr.slider-lib td {
+    padding: 0;
+    height: 30px;
+}
+.metaslider .ms-settings-table tr td {
+    vertical-align: middle;
+    padding: 6px 20px;
+    line-height: 1.5em;
+}
+.metaslider .ms-settings-table tr.highlight td {
+    color: #50575e;
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 2em;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.metaslider .ms-settings-table tr:not(.highlight) td:nth-of-type(1) {
+    width: 40%;
+}
+.metaslider .ms-settings-table tr:not(.highlight) td:nth-of-type(2) {
+    width: 60%;
+}
+.metaslider .ms-settings-table tr.empty-row-spacing td {
+    height: 22px;
+}
+
+/* Switch button */
+.metaslider .ms-switch-button {
+    margin: 0 8px 0 0;
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    line-height: 19.5px;
+    vertical-align: middle;
+}
+.metaslider .ms-switch-button label {
+    margin: 17px 0;
+}
+.metaslider .ms-switch-button label input {
+    display: none !important;
+}
+.metaslider .ms-switch-button label input:checked + span {
+    background-color: #dd6923;
+}
+.metaslider .ms-switch-button label input:checked + span:before {
+    -webkit-transform: translateX(20px);
+    -moz-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    -o-transform: translateX(20px);
+    transform: translateX(20px);
+}
+.metaslider .ms-switch-button label span {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.1s;
+    -moz-transition: 0.1s;
+    -ms-transition: 0.1s;
+    -o-transition: 0.1s;
+    transition: 0.1s;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    width: auto;
+}
+.metaslider .ms-switch-button label span:before {
+    position: absolute;
+    content: '';
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #fff;
+    -webkit-transition: 0.1s;
+    -moz-transition: 0.1s;
+    -ms-transition: 0.1s;
+    -o-transition: 0.1s;
+    transition: 0.1s;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+/* Theme settings */
+.theme-select-module .change-theme-img-button {
+    position: relative;
+    margin-bottom: 7px;
+}
+.theme-select-module .theme-hover-text {
+    position: absolute;
+    top: 0;
+    background: rgba(34,113,177,0.7);
+    color: #fff;
+    box-sizing: border-box;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+.theme-select-module .change-theme-img-button:hover .theme-hover-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-select-module .button-link {
+    text-decoration: none;
+}
+.theme-select-module .remove-theme,
+.theme-select-module .remove-theme:hover,
+.theme-select-module .remove-theme:active,
+.theme-select-module .remove-theme:focus {
+    color: #d63638;
+}
+.theme-select-module .change-theme {
+    float: right;
 }
 
 .metaslider .right input[type=submit] {
@@ -113,7 +245,7 @@ eventually be removed/refactored */
 .metaslider .left table tr.slide input.url {
     width: 100%;
     margin: 0;
-    padding: 4px;
+    padding: 4px 8px;
 }
 
 .metaslider .section {
@@ -240,12 +372,6 @@ eventually be removed/refactored */
     display: table-row;
 }
 
-.metaslider .right .highlight {
-    background: transparent;
-    border: 0;
-    font-weight: bold;
-}
-
 /* *
 *  Change background color for label next to checked radio button
 *  to make it look like highlighted button
@@ -262,10 +388,9 @@ eventually be removed/refactored */
 
 .metaslider .right .slider-lib-row input[type=radio] + label {
     display: inline-block;
-    margin: -2px;
     padding: 4px 0;
     margin-bottom: 0;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 20px;
     color: #333;
     text-align: center;
@@ -355,7 +480,6 @@ eventually be removed/refactored */
     outline: none;
 }
 .metaslider .right .slider-lib-row {
-    padding: 0 0 9px 0;
     text-align: center;
 }
 
@@ -437,11 +561,15 @@ eventually be removed/refactored */
 }
 
 .metaslider .right table {
-    margin: 0 0 5px 0;
+    margin: 0 0 22px 0;
 }
 
 .metaslider select {
     height: auto;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    width: 180px;
+    display: inline-block
 }
 
 .metaslider .warning {
@@ -553,7 +681,7 @@ eventually be removed/refactored */
 }
 .metaslider ul.tabs li a:hover,
 .metaslider ul.tabs li.selected a {
-    color: #e1642e;
+    color: #dd6923;
 }
 
 .metaslider ul.tabs li:hover {
@@ -681,13 +809,16 @@ eventually be removed/refactored */
     width: 30px;
     height: 30px;
 }
-.metaslider-ui .metaslider-slides-container .update-image {
+.metaslider-ui .metaslider-slides-container .update-image,
+.metaslider-ui .metaslider-slides-container .update-video {
     padding: 0px 0 0 6px;
 }
-.metaslider-ui .metaslider-slides-container .update-image svg {
+.metaslider-ui .metaslider-slides-container .update-image svg,
+.metaslider-ui .metaslider-slides-container .update-video svg {
     width: 18px;
 }
-.metaslider-ui .metaslider-slides-container .update-image.image-button {
+.metaslider-ui .metaslider-slides-container .update-image.image-button,
+.metaslider-ui .metaslider-slides-container .update-video.image-button {
     padding: 0;
     margin: 0;
     display: block;
@@ -792,15 +923,6 @@ eventually be removed/refactored */
 
 input[type="radio"] {
     margin-right: 4px;
-}
-
-.metaslider-ui .ms-settings .disabled {
-    color:#bbb;
-    font-style: italic;
-}
-
-.metaslider-ui .ms-settings .disabled input {
-    border-color: #bbb;
 }
 
 .wp-clearfix:after {
@@ -929,11 +1051,13 @@ input[type="radio"] {
         -ms-flex-pack: center;
             justify-content: center;
 }
-
 .metaslider-ui .restore-slide-link {
     text-decoration: none;
-    display: block;
-    float: right;
+    box-shadow: none;
+    line-height: 1.7em;
+}
+.metaslider-ui .restore-slide-link svg {
+    display: inline;
 }
 .metaslider-ui .trashed-header {
     padding: 0 0 0.5rem;
@@ -1023,4 +1147,261 @@ input.no_last_pass {
     bottom: 0;
     z-index: 99999999;
     background: white;
+}
+
+.ms-heading {
+	font-size: 2em;
+	margin: 20px 0;
+}
+
+/* Welcome screen */
+.metaslider-start {
+	max-width: 80%;
+	margin: 30px auto;
+}
+
+.metaslider-welcome .welcome-panel-content {
+  min-height: auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.metaslider-welcome .welcome-panel-content + .welcome-panel-content {
+  border-top: none;
+}
+
+.metaslider-welcome .ms-panel-container > div:nth-child(1) {
+  padding-right: 1rem;
+}
+
+.metaslider-welcome .ms-panel-container > div:nth-child(2) {
+  padding-left: 1rem;
+  padding-right: 0;
+}
+
+.metaslider-welcome .welcome-panel-content h2 {
+  font-size: 1.5em;
+  margin: 20px 0;
+}
+
+/* All Slideshows Page */
+.toplevel_page_metaslider #wpbody-content {
+	background-color: transparent;
+}
+.toplevel_page_metaslider #ms-toolbar .container{
+    margin: 0;
+}
+#slideshows-list {
+	margin: 10px 30px;
+}
+#slideshows-list table a {
+	color: #2271b1;
+}
+#slideshows-list table a.submitdelete {
+	color: #b32d2e;
+}
+#ms-toolbar h2 {
+	font-size: 21px;
+}
+#slideshows-list #nds-wp-list-table-demo {
+	margin-top: -50px;
+}
+#slideshows-list table.fixed{
+    position: relative!important;
+}
+.column-slides .image-wrap .autoplay {
+    animation: 12s autoplaythumb infinite linear;
+}
+#slideshows-list #slides {
+	width: 105px;
+}
+#slideshows-list .wp-heading-inline {
+	margin-bottom: 0 !important;
+}
+.thumb-logo {
+    padding: 10px;
+}
+.default-thumb {
+	width: 70%;
+	margin: auto;
+}
+#metaslider-slides-list .untrash, #metaslider-slides-list .delete {
+	display: inline-block;
+}
+.trash-view-restore {
+	color: #2271b1;
+}
+#slideshows-list #message p {
+	margin: 10px 0 !important;
+}
+#metaslider-list-form .search-box {
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+}
+#slideshows-list table .copy-shortcode {
+    display: inline;
+    margin-right: 10px;
+}
+#slideshows-list table .dashicons-yes{
+	color: green;
+}
+
+@keyframes autoplaythumb {
+    0% {opacity: 0.0}
+    4% {opacity: 1.0}
+    33.33% {opacity: 1.0}
+    37.33% {opacity: 0.0}
+    100% {opacity: 0.0}
+}
+.column-slides .image-wrap > *:nth-child(1) {animation-delay: 0s}
+.column-slides .image-wrap > *:nth-child(2) {animation-delay: 4s}
+.column-slides .image-wrap > *:nth-child(3) {animation-delay: 8s}
+
+/* Quick Start Page */
+.metaslider_page_metaslider-start #wpbody-content,
+.metaslider-pro_page_metaslider-start #wpbody-content {
+	background-color: transparent;
+}
+.metaslider_page_metaslider-start #ms-toolbar .container,
+.metaslider-pro_page_metaslider-start #ms-toolbar .container{
+    margin: 0;
+}
+
+.metaslider-welcome #media-items #message p {
+	margin: 0 !important;
+	padding: 10px 0;
+}
+.metaslider-welcome #media-items #message {
+	margin: 0;
+}
+
+/* Upgrade Page */
+.metaslider_page_upgrade-metaslider #ms-toolbar .container{
+	margin: 0;
+}
+.metaslider_upgrade{
+	margin: 30px auto;
+	max-width: 80%;
+}
+.ml-upgrade-button {
+	color: #fff;
+	background: #dd6923;
+	padding: 8px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	display: inline-block;
+	border: none;
+}
+.ml-upgrade-button:focus, .ml-upgrade-button:active, .ml-upgrade-button:hover {
+	color: #fff;
+	background: #29375b;
+	border: none;
+}
+
+/* Settings Page */
+#metaslider-settings-page{
+    background-color: #F0F0F1;
+}
+.export-instruction {
+	padding: 10px 10px 10px 15px;
+	list-style: disc;
+}
+.export-instruction a {
+	font-weight: bold;
+}
+.export-instruction a .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	margin-top: 3px;
+}
+#metaslider-settings-page .notice {
+	margin: 0;
+}
+#metaslider-settings-page .notice p {
+	padding: 10px 0;
+	margin: 0 !important;
+}
+
+
+/* Custom Theme */
+.customtheme-list-h {
+	font-size: 38px;
+}
+.customtheme-list-p {
+	font-size: 16px;
+	margin-bottom: 28px !important;
+}
+
+/* Legacy Libraries Settings */
+#hide-legacy-settings {
+	display: none;
+}
+.disableSwitch span {
+	pointer-events: none;
+}
+.legacy-notif-success .bg-yellow-50 {
+	background-color: #DFFFFF !important;
+	border-color: #016FB9 !important;
+}
+.legacy-notif-success svg {
+	display: none;
+}
+.legacy-notif-success .flex .ml-3 {
+	margin: 0 !important;
+}
+.ml-legacy-notice {
+	margin: 15px 0 0 0 !important;
+}
+.ml-legacy-notice p {
+	margin: 10px 0 !important;
+}
+
+@media only screen and (min-width : 320px) {
+    #metaslider-ui, .container {
+        min-width: auto;
+        width: 100%;
+    }
+    /* Quick Start */
+    .metaslider_page_metaslider-start .ms-heading,
+    .metaslider-pro_page_metaslider-start .ms-heading {
+        font-size: 1.5em;
+        line-height: 1.2;
+    }
+    .metaslider-start {
+        margin: 20px !important;
+        max-width: none;
+    }
+    .metaslider-welcome .ms-panel-container > div:nth-child(2) {
+        padding-left: 0;
+    }
+    /* Dashboard */
+    #slideshows-list {
+        margin: 10px;
+    }
+}
+@media only screen and (min-width : 768px) {
+    /* Quick Start */
+    .metaslider-welcome .ms-panel-container > div:nth-child(2) {
+        padding-left: 1rem;
+    }
+    .metaslider-welcome .drag-drop .drag-drop-inside {
+        width: 400px;
+    }
+    /* Dashboard */
+    #slideshows-list {
+        margin: 10px 30px;
+    }
+}
+@media only screen and (min-width : 990px) {
+    /* Quick Start */
+    .metaslider_page_metaslider-start .ms-heading,
+    .metaslider-pro_page_metaslider-start .ms-heading {
+        font-size: 2em;
+    }
+    .metaslider-start {
+        margin: 30px auto!important;
+        max-width: 80%;
+    }
 }

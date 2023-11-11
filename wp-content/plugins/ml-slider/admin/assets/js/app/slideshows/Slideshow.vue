@@ -35,11 +35,11 @@ export default {
 	computed: {
 		...mapGetters({
 			current: 'slideshows/getCurrent'
-        }),
-        ...mapState({
-		    locked: state => state.slideshows.locked
-        }),
-    },
+		}),
+		...mapState({
+			locked: state => state.slideshows.locked
+		}),
+	},
 	created() {
 		window.metaslider_slider_id = this.id // used in admin.js
 		this.$store.commit('slideshows/setCurrent', this.id)
@@ -92,18 +92,18 @@ export default {
 			this.$store.commit('slideshows/setLocked', false)
 		})
 
-        // Listen to start the tour (only if there's an id and it hasnt been seen)
+		// Listen to start the tour (only if there's an id and it hasnt been seen)
 		EventManager.$on('metaslider/start-tour', () => {
 			!this.tourStatus && this.id && this.startTour()
 		})
 
 		if (!this.showOptIn) {
 			EventManager.$emit('metaslider/start-tour')
-        }
+		}
 
-        if (this.showOptIn) {
+		if (this.showOptIn) {
 			EventManager.$emit('metaslider/open-utility-modal', AnalyticsNotice)
-        }
+		}
 
 		window.addEventListener('load', () => {
 			setTimeout(() => {
@@ -115,43 +115,46 @@ export default {
 	},
 	methods: {
 		async save() {
-			if (this.locked) return
-			this.$store.commit('slideshows/setLocked', true)
-			this.notifyInfo('metaslider/saving', this.__('Saving...', 'ml-slider'))
+			if(this.current.title == '') {
+				this.notifyError('metaslider/title-saved', this.__('Please add a slideshow title'), true)
+			} else {
+				if (this.locked) return
+				this.$store.commit('slideshows/setLocked', true)
+				this.notifyInfo('metaslider/saving', this.__('Saving...', 'ml-slider'))
 
-			// TODO: this is temporary until there is a slide component
-			this.orderSlides()
+				// TODO: this is temporary until there is a slide component
+				this.orderSlides()
 
-			let data = window.jQuery('#ms-form-settings').serializeArray()
-			await this.saveSettings(data).then(() => {
+				let data = window.jQuery('#ms-form-settings').serializeArray()
+				await this.saveSettings(data).then(() => {
 
-				// Todo: refactor out slides logic
-				let slides = this.prepareSlideData(data)
-				slides.length > 20 && this.notifyInfo(
-					'metaslider/saving-more-notice',
-					this.sprintf(this.__('Saving %s slides. This may take a few moments.', 'ml-slider'), slides.length),
-					true
-				)
-				this.showSlideSaveNotification = false
-				setTimeout(() => { this.showSlideSaveNotification = true }, 4000)
-				return this.saveSlides(slides).then(() => {
+					// Todo: refactor out slides logic
+					let slides = this.prepareSlideData(data)
+					slides.length > 20 && this.notifyInfo(
+						'metaslider/saving-more-notice',
+						this.sprintf(this.__('Saving %s slides. This may take a few moments.', 'ml-slider'), slides.length),
+						true
+					)
+					this.showSlideSaveNotification = false
+					setTimeout(() => { this.showSlideSaveNotification = true }, 4000)
+					return this.saveSlides(slides).then(() => {
 
-					// TODO: refactor out with psuedocode below
-					this.cropSlidesTheOldWay()
-					this.notifySuccess('metaslider/save-success', this.__('Slideshow saved', 'ml-slider'), true)
+						// TODO: refactor out with psuedocode below
+						this.cropSlidesTheOldWay()
+						this.notifySuccess('metaslider/save-success', this.__('Slideshow saved', 'ml-slider'), true)
+					}).catch(error => {
+
+						// If the input vars are too low, reload the page with the error message
+						if (error.response.data.data && error.response.data.data.current_input_vars || error.response.data.includes('max_input_vars')) {
+							window.location.replace(this.metasliderPage + '&id=' + this.current.id + '&input_vars_error=true')
+						}
+
+						throw error
+					})
 				}).catch(error => {
-
-					// If the input vars are too low, reload the page with the error message
-					if (error.response.data.data && error.response.data.data.current_input_vars || error.response.data.includes('max_input_vars')) {
-						window.location.replace(this.metasliderPage + '&id=' + this.current.id + '&input_vars_error=true')
-					}
-
-					throw error
+					this.notifyError('metaslider/save-error', error.response, true)
 				})
-			}).catch(error => {
-				this.notifyError('metaslider/save-error', error.response, true)
-			})
-
+			}
 
 			// TODO: refactor like this in a future branch
 			// let touchedSlides = getTouchedSlides()
@@ -180,9 +183,9 @@ export default {
 			}).catch(error => {
 				this.notifyError('metaslider/duplicate-error', error, true)
 			})
-        },
-        startTour() {
-            EventManager.tourEnabled = true
+		},
+		startTour() {
+			EventManager.tourEnabled = true
 
 			// Slight timeout to avoid any funky layouts like poopy.life
 			setTimeout(() => {
@@ -191,7 +194,7 @@ export default {
 
 			// Set an event to handle cancelling the tour
 			MainTour.on('cancel', () => { this.cancelTour() })
-        },
+		},
 		saveSettings(data) {
 			let settings = data.filter(input => 'title' === input.name || input.name.startsWith('settings'))
 			return Settings.save(settings).then(() => {
@@ -199,20 +202,15 @@ export default {
 			})
 		},
 		prepareSlideData(data) {
-			let slides = data.filter(input => input.name.startsWith('attachment'))
-			let allSlides = []
-			let currentSlide = ''
-			slides.forEach(slide => {
+			let slides = new Set(
+				data.filter(input => input.name.startsWith('attachment'))
+					.map(slide => slide.name.match(/attachment\[([\s\S]*?)\]/)[1])
+			)
 
-				// Grab the id from a string like "attachment[2069][]"
-				let thisSlide = slide.name.match(/attachment\[([\s\S]*?)\]/)[1]
-				currentSlide = (currentSlide != thisSlide) ? thisSlide : currentSlide
-				if ('undefined' === typeof allSlides[currentSlide]) {
-					allSlides[currentSlide] = []
-				}
-				allSlides[currentSlide].push(slide)
+			let allSlides = [...slides].map(slide => {
+				return data.filter(input => input.name.startsWith('attachment[' + slide + ']'))
 			})
-			return allSlides.filter(val => val) // re-index
+			return allSlides
 		},
 		saveSlides(slides) {
 			return new Promise((resolve, reject) => {

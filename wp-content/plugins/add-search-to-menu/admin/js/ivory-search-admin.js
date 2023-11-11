@@ -544,6 +544,15 @@
             }
         } );
 
+        $('#search-form-editor #is_search_in_header').on('click', function() {
+            if( $( this ).is(':checked') ) {
+                $('#search-form-editor .site-uses-cache-wrapper').show();
+            } else {
+                $('#search-form-editor .site-uses-cache-wrapper').hide();
+				$('#search-form-editor #is_site_uses_cache').prop( "checked", false );
+            }
+        } );
+
         $('#search-form-editor .not_load_files').each(function() {
             if( ! $( this ).is(':checked') ) {
                 $( this ).parent().next('.not-load-wrapper').hide();

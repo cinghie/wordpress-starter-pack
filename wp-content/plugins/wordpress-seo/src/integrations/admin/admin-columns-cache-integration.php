@@ -109,7 +109,9 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post', false );
 
 		foreach ( $indexables as $indexable ) {
-			$this->indexable_cache[ $indexable->object_id ] = $indexable;
+			if ( $indexable instanceof Indexable ) {
+				$this->indexable_cache[ $indexable->object_id ] = $indexable;
+			}
 		}
 	}
 
@@ -168,7 +170,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 				$pages_map[ $page->ID ] = $page;
 			}
 
-			$pages = &$top_level_pages;
+			$pages = $top_level_pages;
 		}
 
 		$count      = 0;
@@ -216,7 +218,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @param array $children_pages The full map of child pages.
 	 * @param int   $count          The number of pages already processed.
-	 * @param int   $parent         The parent that's currently being processed.
+	 * @param int   $parent_id      The id of the parent that's currently being processed.
 	 * @param int   $start          The number at which the current overview starts.
 	 * @param int   $end            The number at which the current overview ends.
 	 * @param int   $to_display     The page IDs to be shown.
@@ -224,12 +226,12 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function get_child_page_ids( &$children_pages, &$count, $parent, $start, $end, &$to_display, &$pages_map ) {
-		if ( ! isset( $children_pages[ $parent ] ) ) {
+	private function get_child_page_ids( &$children_pages, &$count, $parent_id, $start, $end, &$to_display, &$pages_map ) {
+		if ( ! isset( $children_pages[ $parent_id ] ) ) {
 			return;
 		}
 
-		foreach ( $children_pages[ $parent ] as $page ) {
+		foreach ( $children_pages[ $parent_id ] as $page ) {
 			if ( $count >= $end ) {
 				break;
 			}
@@ -266,6 +268,6 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 			$this->get_child_page_ids( $children_pages, $count, $page->ID, $start, $end, $to_display, $pages_map );
 		}
 
-		unset( $children_pages[ $parent ] ); // Required in order to keep track of orphans.
+		unset( $children_pages[ $parent_id ] ); // Required in order to keep track of orphans.
 	}
 }

@@ -14,32 +14,23 @@
 class IS_Loader {
 
 	/**
-	 * Stores plugin options.
-	 */
-	public $opt;
-
-	/**
 	 * Core singleton class
 	 * @var self
 	 */
 	private static $_instance;
 
 	/**
-	 * Instantiates the plugin by setting up the core properties and loading
-	 * all necessary dependencies and defining the hooks.
+	 * Instantiates the class.
 	 *
 	 * The constructor uses internal functions to import all the
 	 * plugin dependencies, and will leverage the Ivory_Search for
 	 * registering the hooks and the callback functions used throughout the plugin.
 	 */
 	public function __construct() {
-
-		$this->opt = Ivory_Search::load_options();
-
 	}
 
 	/**
-	 * Gets the instance of this class.
+	 * Gets instance of this class.
 	 *
 	 * @return self
 	 */
@@ -55,18 +46,18 @@ class IS_Loader {
 	 * Loads plugin functionality.
 	 */
 	function load() {
-        if ( ! ivory_search_is_json_request() ) {
+		if ( ! ivory_search_is_json_request() ) {
 			$this->set_locale();
 
 			$this->admin_public_hooks();
 
-			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'is_ajax_load_posts' == $_POST['action'] ) ) {
+			if ( is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && 'is_ajax_load_posts' == $_POST['action'] ) ) {
 				$this->admin_hooks();
 			} 
-            if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && 'is_ajax_load_posts' == $_POST['action'] ) ) {
+			if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && 'is_ajax_load_posts' == $_POST['action'] ) ) {
 				$this->public_hooks();
 			}
-        }
+		}
 		//avoid save events from meta boxes when guten blocks saves
 		elseif ( empty( $_GET['meta-box-loader'] ) ) {
 			//Indexing events hooks (save post for guten block save).
@@ -97,6 +88,7 @@ class IS_Loader {
 	private function admin_public_hooks() {
 		$admin_public = IS_Admin_Public::getInstance();
 		add_action( 'init', array( $admin_public, 'init' ) );
+		add_action( 'before_woocommerce_init', array( $admin_public, 'declare_wc_features_support' ) );
 		add_filter( 'get_search_form', array( $admin_public, 'get_search_form' ), 9999999 );
 		add_action( 'customize_register', array( $admin_public, 'customize_register' ) );
 		add_filter( 'upload_mimes', array( $admin_public, 'add_custom_mime_types' ) );
@@ -113,7 +105,7 @@ class IS_Loader {
 		add_action( 'all_admin_notices', array( $admin, 'all_admin_notices' ) );
 		add_action( 'admin_footer', array( $admin, 'admin_footer' ), 100 );
 		add_action( 'plugin_action_links', array( $admin, 'plugin_action_links' ), 10, 2 );
-                add_filter( 'plugin_row_meta', array( $admin, 'plugin_row_meta' ), 10, 2 );
+		add_filter( 'plugin_row_meta', array( $admin, 'plugin_row_meta' ), 10, 2 );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
 		add_action( 'wp_ajax_nopriv_display_posts', array( $admin, 'display_posts' ) );
 		add_action( 'wp_ajax_display_posts', array( $admin, 'display_posts' ) );
@@ -140,17 +132,17 @@ class IS_Loader {
 
 		$public = IS_Public::getInstance();
 
-                if ( isset( $this->opt['disable'] ) ) {
-                    return;
+		if ( isset( $public->opt['disable'] ) ) {
+			return;
 		}
 
 		add_action( 'wp_enqueue_scripts', array( $public, 'wp_enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $public, 'wp_enqueue_scripts' ), 9999999 );
 		add_filter( 'query_vars', array( $public, 'query_vars' ) );
-        add_filter( 'body_class', array( $public, 'is_body_classes' ) );
+		add_filter( 'body_class', array( $public, 'is_body_classes' ) );
 
-		$header_menu_search = isset( $this->opt['header_menu_search'] ) ? $this->opt['header_menu_search'] : 0;
-		$site_cache = isset( $this->opt['site_uses_cache'] ) ? $this->opt['site_uses_cache'] : 0;
+		$header_menu_search = isset( $public->opt['header_menu_search'] ) ? $public->opt['header_menu_search'] : 0;
+		$site_cache = isset( $public->opt['site_uses_cache'] ) ? $public->opt['site_uses_cache'] : 0;
 		$display_in_mobile_menu = false;
 		if ( function_exists( 'wp_is_mobile' ) ) {
 			$display_in_mobile_menu = $header_menu_search && wp_is_mobile() ? true : false;
@@ -177,7 +169,7 @@ class IS_Loader {
 			add_action( 'parse_query', array( $public, 'parse_query' ), 9999999, 2 );
 		}, 9999999 );
 
-                $ajax = IS_Ajax::getInstance();
+		$ajax = IS_Ajax::getInstance();
 		add_action( 'wp_ajax_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );
 		add_action( 'wp_ajax_nopriv_is_ajax_load_posts', array( $ajax, 'ajax_load_posts' ) );
 
@@ -188,46 +180,4 @@ class IS_Loader {
 		$index_search = IS_Index_Search::getInstance();
 		$index_search->init_hooks();
 	}
-
-	/**
-	 * Displays search form by processing shortcode.
-	 */
-	function search_form_shortcode( $args ) {
-
-		if ( is_feed() ) {
-			return '[ivory-search]';
-		}
-
-        if ( isset( $this->opt['disable'] ) ) {
-                    return;
-		}
-
-		$atts = shortcode_atts(
-			array(
-				'id'	     => 0,
-				'title'	     => '',
-			),
-			$args, 'ivory-search'
-		);
-
-		$atts = array_map( 'sanitize_text_field', $atts );
-
-		if ( ! is_numeric( $atts['id'] ) || 0 == $atts['id'] ) {
-			return '[ivory-search 404 "Invalid search form ID '. esc_html( $atts['id'] ) .'"]';
-		}
-
-        $search_form = IS_Search_Form::get_instance( $atts['id'] );
-
-		if ( ! $search_form ) {
-			return '[ivory-search 404 "The search form '. esc_html( $atts['id'] ) .' does not exist"]';
-		} 
-
-		$form  = $search_form->form_html( $atts );
-
-		return $form;
-	}
-
 }
-
-$is_loader = IS_Loader::getInstance();
-add_shortcode( 'ivory-search', array( $is_loader, 'search_form_shortcode' ) );

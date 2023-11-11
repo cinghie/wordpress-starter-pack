@@ -50,14 +50,6 @@ if ( ! class_exists( 'IS_Customizer_Panel' ) ) :
 		}
 
 		/**
-		 * Constructor
-		 *
-		 * @since 4.3
-		 */
-		public function __construct() {
-		}
-
-		/**
 		 * Add panel
 		 *
 		 * @since 4.3

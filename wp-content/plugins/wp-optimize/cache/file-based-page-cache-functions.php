@@ -25,7 +25,7 @@ function wpo_cache($buffer, $flags) {
 	// This case appears to happen for unclear reasons without WP being fully loaded, e.g. https://wordpress.org/support/topic/fatal-error-since-wp-5-8-update/ . It is simplest just to short-circuit it.
 	if ('' === $buffer) return '';
 	
-	// This array records reasons why no cacheing took place. Be careful not to allow actions to proceed that should not - i.e. take note of its state appropriately.
+	// This array records reasons why no caching took place. Be careful not to allow actions to proceed that should not - i.e. take note of its state appropriately.
 	$no_cache_because = array();
 
 	if (strlen($buffer) < 255) {
@@ -33,13 +33,18 @@ function wpo_cache($buffer, $flags) {
 	}
 
 	// Don't cache pages for logged in users.
-	if (empty($GLOBALS['wpo_cache_config']['enable_user_specific_cache']) && (!function_exists('wpo_we_cache_per_role') || !wpo_we_cache_per_role()) && (!function_exists('is_user_logged_in') || (function_exists('wp_get_current_user') && is_user_logged_in()))) {
+	if (!wpo_cache_loggedin_users() && (!function_exists('is_user_logged_in') || (function_exists('wp_get_current_user') && is_user_logged_in()))) {
 		$no_cache_because[] = __('User is logged in', 'wp-optimize');
 	}
 
 	$restricted_page_type_cache = apply_filters('wpo_restricted_cache_page_type', false);
 	if ($restricted_page_type_cache) {
 		$no_cache_because[] = $restricted_page_type_cache;
+	}
+
+		$conditional_tag_exceptions = apply_filters('wpo_url_in_conditional_tags_exceptions', false);
+	if ($conditional_tag_exceptions) {
+		$no_cache_because[] = $conditional_tag_exceptions;
 	}
 
 	// No root cache folder, so short-circuit here
@@ -151,20 +156,38 @@ function wpo_cache($buffer, $flags) {
 		}
 
 		$modified_time = time(); // Take this as soon before writing as possible
+		$timezone_string = '';
+		$utc = (float) $GLOBALS['wpo_cache_config']['gmt_offset'];
+		$modified_time += $utc * 3600;
+		
+		if (!empty($GLOBALS['wpo_cache_config']['timezone_string'])) {
+			$timezone_string = 'UTC' !== $GLOBALS['wpo_cache_config']['timezone_string'] ? $GLOBALS['wpo_cache_config']['timezone_string'] : '';
+		}
+		
+		if (!empty($timezone_string)) {
+			$timezone_postfix = "(".$timezone_string." UTC:". $utc .")";
+		} else {
+			$timezone_postfix = "(UTC:" . $utc . ")";
+		}
 
 		$add_to_footer = '';
 		
 		/**
-		 * Filter wether to display the html comment <!-- Cached by WP-Optimize ... -->
+		 * Filter whether to display the html comment <!-- Cached by WP-Optimize ... -->
 		 *
-		 * @param boolean $show - Wether to display the html comment
+		 * @param boolean $show - Whether to display the html comment
 		 * @return boolean
 		 */
 		if (preg_match('#</html>#i', $buffer) && (apply_filters('wpo_cache_show_cached_by_comment', true) || (defined('WP_DEBUG') && WP_DEBUG))) {
+			$date_time_format = 'F j, Y g:i a';
+			if (!empty($GLOBALS['wpo_cache_config']['date_format']) && !empty($GLOBALS['wpo_cache_config']['time_format'])) {
+				$date_time_format = $GLOBALS['wpo_cache_config']['date_format'] . ' ' . $GLOBALS['wpo_cache_config']['time_format'];
+			}
+			
 			if (!empty($GLOBALS['wpo_cache_config']['enable_mobile_caching']) && wpo_is_mobile()) {
-				$add_to_footer .= "\n<!-- Cached by WP-Optimize - for mobile devices - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
+				$add_to_footer .= "\n<!-- Cached by WP-Optimize - for mobile devices - https://getwpo.com - Last modified: " . gmdate($date_time_format, $modified_time) . " " . $timezone_postfix . "  -->\n";
 			} else {
-				$add_to_footer .= "\n<!-- Cached by WP-Optimize - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
+				$add_to_footer .= "\n<!-- Cached by WP-Optimize - https://getwpo.com - Last modified: " . gmdate($date_time_format, $modified_time) . " " . $timezone_postfix . " -->\n";
 			}
 		}
 
@@ -193,7 +216,7 @@ function wpo_cache($buffer, $flags) {
 		}
 
 		// if we can then cache gzipped content in .gz file.
-		if (function_exists('gzencode')) {
+		if (function_exists('gzencode') && apply_filters('wpo_allow_cache_gzip_files', true)) {
 			// Only replace inside the addition, not inside the main buffer (e.g. post content)
 			file_put_contents($cache_file . '.gz', gzencode($buffer.str_replace('by WP-Optimize', 'by WP-Optimize (gzip)', $add_to_footer), apply_filters('wpo_cache_gzip_level', 6)));
 		}
@@ -204,14 +227,18 @@ function wpo_cache($buffer, $flags) {
 			// delete cached information about cache size.
 			WP_Optimize()->get_page_cache()->delete_cache_size_information();
 		} else {
-			error_log('[WPO_CACHE] WP_Optimize() is not callable.');
-			$message = 'Please report this to WP-O support: ';
-			if (function_exists('wp_debug_backtrace_summary')) {
-				$message .= wp_debug_backtrace_summary();
-			} else {
-				$message .= wpo_debug_backtrace_summary();
+			// If the shutdown occurs before plugins are loaded,
+			// then this will trigger a fatal error, so, we check first
+			if (!doing_action('shutdown')) {
+				error_log('[WPO_CACHE] WP_Optimize() is not callable.');
+				$message = 'Please report this to WP-O support: ';
+				if (function_exists('wp_debug_backtrace_summary')) {
+					$message .= wp_debug_backtrace_summary();
+				} else {
+					$message .= wpo_debug_backtrace_summary();
+				}
+				error_log($message);
 			}
-			error_log($message);
 		}
 
 		header('Cache-Control: no-cache'); // Check back every time to see if re-download is necessary.
@@ -223,9 +250,9 @@ function wpo_cache($buffer, $flags) {
 			if (!wpo_cache_is_in_response_headers_list('Content-Encoding', 'gzip')) {
 				header('Content-Encoding: gzip');
 			}
-		
-			// disable php gzip to avoid double compression.
-			ini_set('zlib.output_compression', 'Off'); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_ini_set
+
+			// Disable php gzip to avoid double compression.
+			ini_set('zlib.output_compression', 'Off');
 
 			return ob_gzhandler($buffer, $flags);
 		} else {
@@ -296,17 +323,6 @@ function wpo_cache_loggedin_users() {
 endif;
 
 /**
- * Returns true if we need to cache content for loggedin users.
- *
- * @return bool
- */
-if (!function_exists('wpo_user_specific_cache_enabled')) :
-	function wpo_user_specific_cache_enabled() {
-		return !empty($GLOBALS['wpo_cache_config']['enable_user_specific_cache']) && !empty($GLOBALS['wpo_cache_config']['wp_salt_auth']) && !empty($GLOBALS['wpo_cache_config']['wp_salt_logged_in']);
-	}
-endif;
-
-/**
  * Get filename for store cache, depending on gzip, mobile and cookie settings.
  *
  * @param string $ext
@@ -321,6 +337,10 @@ function wpo_cache_filename($ext = '.html') {
 
 	if (wpo_cache_mobile_caching_enabled() && wpo_is_mobile()) {
 		$filename = 'mobile.' . $filename;
+	}
+
+	if (wpo_webp_images_enabled() && !wpo_is_using_webp_images_redirection() && wpo_is_using_alter_html()) {
+		$filename = $filename . '.webp';
 	}
 
 	$cookies = wpo_cache_cookies();
@@ -542,6 +562,52 @@ function wpo_cache_mobile_caching_enabled() {
 endif;
 
 /**
+ * Check if webp images enabled
+ *
+ * @return bool
+ */
+if (!function_exists('wpo_webp_images_enabled')) :
+	function wpo_webp_images_enabled() {
+		if (!empty($GLOBALS['wpo_cache_config']['use_webp_images'])) return true;
+		return false;
+	}
+endif;
+
+/**
+ * Check whether webp images using alter html method or not
+ *
+ * @return bool
+ */
+if (!function_exists('wpo_is_using_alter_html')) :
+	function wpo_is_using_alter_html() {
+		return (isset($_SERVER['HTTP_ACCEPT']) && false !== strpos($_SERVER['HTTP_ACCEPT'], 'image/webp'));
+	}
+endif;
+
+/**
+ * Check whether webp images are served using redirect
+ *
+ * @return bool
+ */
+if (!function_exists('wpo_is_using_webp_images_redirection')) :
+	function wpo_is_using_webp_images_redirection() {
+		if (empty($GLOBALS['wpo_cache_config']['uploads'])) return false;
+
+		$uploads_dir =  $GLOBALS['wpo_cache_config']['uploads'];
+		$htaccess_file = $uploads_dir . '/.htaccess';
+		if (!file_exists($htaccess_file)) return false;
+		$htaccess_content = file_get_contents($htaccess_file);
+		$comment_sections = array('Register webp mime type', 'WP-Optimize WebP Rules');
+
+		if (function_exists('str_contains')) {
+			return str_contains($htaccess_content, $comment_sections[0]) && str_contains($htaccess_content, $comment_sections[1]);
+		} else {
+			return strpos($htaccess_content, $comment_sections[0]) && strpos($htaccess_content, $comment_sections[1]);
+		}
+	}
+endif;
+
+/**
  * Serves the cache and exits
  */
 if (!function_exists('wpo_serve_cache')) :
@@ -581,9 +647,9 @@ function wpo_serve_cache() {
 		}
 	}
 
-	// disable zlib output compression to avoid double content compression.
 	if ($use_gzip) {
-		ini_set('zlib.output_compression', 'Off'); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_ini_set
+		// Disable zlib output compression to avoid double content compression
+		ini_set('zlib.output_compression', 'Off');
 	}
 
 	$gzip_header_already_sent = wpo_cache_is_in_response_headers_list('Content-Encoding', 'gzip');
@@ -606,6 +672,9 @@ function wpo_serve_cache() {
 	}
 
 	if (file_exists($path) && is_readable($path)) {
+
+		if (wpo_is_canonical_redirection_needed()) return;
+
 		if ($use_gzip && !$gzip_header_already_sent) {
 			header('Content-Encoding: gzip');
 		}
@@ -635,6 +704,36 @@ function wpo_serve_cache() {
 		exit;
 	}
 }
+endif;
+
+/**
+ * Checks and does redirection, if needed
+ *
+ * @return bool
+ */
+if (!function_exists('wpo_is_canonical_redirection_needed')) :
+	function wpo_is_canonical_redirection_needed() {
+		$permalink_structure = isset($GLOBALS['wpo_cache_config']['permalink_structure']) ? $GLOBALS['wpo_cache_config']['permalink_structure'] : '';
+		$site_url = wpo_site_url();
+		
+		$schema = isset($_SERVER['HTTPS']) && 'on' === $_SERVER['HTTPS'] ? "https" : "http";
+		$url_part = "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$requested_url = $schema . $url_part;
+		$url_parts = parse_url($requested_url);
+		$extension = pathinfo($url_parts['path'], PATHINFO_EXTENSION);
+		
+		if (!empty($permalink_structure) && $requested_url != $site_url) {
+			$request_uri = rtrim($_SERVER['REQUEST_URI'], '?');
+			if ('/' == substr($permalink_structure, -1) && empty($extension) && empty($url_parts['query']) && empty($url_parts['fragment'])) {
+				$url = preg_replace('/(.+?)([\/]*)(\[\?\#][^\/]+|$)/', '$1/$3', $request_uri);
+				if (0 !== strcmp($request_uri, $url)) return true;
+			} else {
+				$url = rtrim($request_uri, '/');
+				if (0 !== strcmp($request_uri, $url)) return true;
+			}
+		}
+		return false;
+	}
 endif;
 
 /**
@@ -668,6 +767,16 @@ function wpo_get_url_path($url = '') {
 		$url_parts['path'] = preg_replace('/(.*?)index\.php(\/.+)/i', '$1index-php$2', $url_parts['path']);
 	}
 
+	/*
+	 * Convert the hexadecimal digits within the percent-encoded triplet to uppercase, to ensure that the path remains
+	 * consistent. For instance, "example.com/%e0%a6" will be converted to "example.com/%E0%A6".
+	 */
+	if (isset($url_parts['path'])) {
+		$url_parts['path'] = preg_replace_callback('/%[0-9A-F]{2}/i', function($matches) {
+			return strtoupper($matches[0]);
+		}, $url_parts['path']);
+	}
+
 	if (!isset($url_parts['host'])) $url_parts['host'] = '';
 	if (!isset($url_parts['path'])) $url_parts['path'] = '';
 
@@ -683,7 +792,7 @@ endif;
 if (!function_exists('wpo_current_url')) :
 function wpo_current_url() {
 	// Note: We use `static $url` to save the first value we retrieve, as some plugins change $_SERVER later on in the process (e.g. Weglot).
-	// Otherwise this function would return a different URL at the begining and end of the cache process.
+	// Otherwise this function would return a different URL at the beginning and end of the cache process.
 	static $url = '';
 	if ('' != $url) return $url;
 	$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
@@ -691,6 +800,48 @@ function wpo_current_url() {
 			isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO']) ? 's' : '' )
 		. '://' . $http_host.$_SERVER['REQUEST_URI'], '/');
 	return $url;
+}
+endif;
+
+/**
+ * Return list of conditional tag exceptions.
+ *
+ * @return array
+ */
+if (!function_exists('wpo_get_conditional_tags_exceptions')) :
+function wpo_get_conditional_tags_exceptions() {
+	static $exceptions = null;
+
+	if (null !== $exceptions) return $exceptions;
+	
+	if (!empty($GLOBALS['wpo_cache_config'])) {
+		if (empty($GLOBALS['wpo_cache_config']['cache_exception_conditional_tags'])) {
+			$exceptions = array();
+
+		} else {
+			
+			$exceptions = $GLOBALS['wpo_cache_config']['cache_exception_conditional_tags'];
+
+		}
+		
+	} elseif (class_exists('WPO_Page_Cache')) {
+	
+		$config = WPO_Page_Cache::instance()->config->get();
+
+		if (is_array($config) && array_key_exists('cache_exception_conditional_tags', $config)) {
+			$exceptions = $config['cache_exception_conditional_tags'];
+		} else {
+			$exceptions = array();
+		}
+
+		$exceptions = is_array($exceptions) ? $exceptions : preg_split('#(\n|\r|\r\n)#', $exceptions);
+		$exceptions = array_filter($exceptions, 'trim');
+		
+	} else {
+		$exceptions = array();
+	}
+
+	return $exceptions;
 }
 endif;
 
@@ -707,13 +858,13 @@ function wpo_get_url_exceptions() {
 
 	// if called from file-based-page-cache.php when WP loading
 	// and cache settings exists then use it otherwise get settings from database.
-	if (isset($GLOBALS['wpo_cache_config']['cache_exception_urls'])) {
+	if (!empty($GLOBALS['wpo_cache_config'])) {
 		if (empty($GLOBALS['wpo_cache_config']['cache_exception_urls'])) {
 			$exceptions = array();
 		} else {
 			$exceptions = is_array($GLOBALS['wpo_cache_config']['cache_exception_urls']) ? $GLOBALS['wpo_cache_config']['cache_exception_urls'] : preg_split('#(\n|\r)#', $GLOBALS['wpo_cache_config']['cache_exception_urls']);
 		}
-	} else {
+	} elseif (class_exists('WPO_Page_Cache')) {
 		$config = WPO_Page_Cache::instance()->config->get();
 
 		if (is_array($config) && array_key_exists('cache_exception_urls', $config)) {
@@ -724,6 +875,8 @@ function wpo_get_url_exceptions() {
 
 		$exceptions = is_array($exceptions) ? $exceptions : preg_split('#(\n|\r)#', $exceptions);
 		$exceptions = array_filter($exceptions, 'trim');
+	} else {
+		$exceptions = array();
 	}
 
 	return apply_filters('wpo_get_url_exceptions', $exceptions);
@@ -743,6 +896,38 @@ function wpo_current_url_exception_match($exception) {
 	return wpo_url_exception_match(wpo_current_url(), $exception);
 }
 endif;
+
+/**
+ * Check if url in conditional tags exceptions list.
+ *
+ * @return string
+ */
+if (!function_exists('wpo_url_in_conditional_tags_exceptions')) :
+function wpo_url_in_conditional_tags_exceptions() {
+
+	$exceptions = wpo_get_conditional_tags_exceptions();
+	$restricted = '';
+	$allowed_functions = array('is_single', 'is_page', 'is_front_page', 'is_home', 'is_archive', 'is_tag', 'is_category', 'is_feed', 'is_search', 'is_author', 'is_woocommerce', 'is_shop', 'is_product', 'is_account_page', 'is_product_category', 'is_product_tag', 'is_wc_endpoint_url', 'is_bbpress', 'bbp_is_forum_archive', 'bbp_is_topic_archive', 'bbp_is_topic_tag', 'bbp_is_single_forum', 'bbp_is_single_topic', 'bbp_is_single_view', 'bbp_is_single_user', 'bbp_is_user_home', 'bbp_is_search');
+	//Filter for add more conditional tags to whitelist in the exceptions list.
+	$allowed_functions = apply_filters('wpo_allowed_conditional_tags_exceptions', $allowed_functions);
+	if (!empty($exceptions)) {
+		foreach ($exceptions as $exception) {
+			if (false !== strpos($exception, 'is_')) {
+				$exception_function = $exception;
+				if ('()' == substr($exception, -2)) {
+					$exception_function = substr($exception, 0, -2);
+				}
+
+				if (in_array($exception_function, $allowed_functions) && function_exists($exception_function) && call_user_func($exception_function)) {
+					$restricted = sprintf(__('In the settings, caching is disabled for %s', 'wp-optimize'), $exception_function);
+				}
+			}
+		}
+	}
+	return $restricted;
+}
+endif;
+
 
 /**
  * Check if url in exceptions list.
@@ -867,80 +1052,117 @@ function wpo_is_accepted_user_agent($user_agent) {
 }
 endif;
 
-/**
- * Delete function that deals with directories recursively
- *
- * @param string  $src       Path of the folder
- * @param boolean $recursive If $src is a folder, recursively delete the inner folders. If set to false, only the files will be deleted.
- *
- * @return bool
- */
 if (!function_exists('wpo_delete_files')) :
+/**
+ * Deletes a specified source file or directory.
+ *
+ * If $src is a file, only that file will be deleted. If $src is a directory, the behavior depends on the
+ * $recursive parameter. When $recursive is true, the directory and its contents (including files and subdirectories)
+ * will be deleted. When $recursive is false, only the files in the top-level directory(eg. $src directory) will be deleted,
+ * while the $src directory itself and its subdirectories will remain untouched.
+ *
+ * @param string  $src       The path to the source file or directory to delete.
+ * @param bool    $recursive (Optional) When set to true, the directory and its contents (including files and subdirectories)
+ *                           will be deleted. If false, only the files in the top-level directory will be deleted while
+ *                           its subdirectories will be preserved. Defaults to true.
+ *
+ * @return bool   Returns true if the specified file or all files within the specified directory (and its subdirectories,
+ *                when $recursive is true) are successfully deleted. Returns false if any file(s) could not be deleted
+ *                due to file permissions or other reasons.
+ */
 function wpo_delete_files($src, $recursive = true) {
-	if (!file_exists($src) || '' == $src || '/' == $src) {
+	// If the source doesn't exist, consider it deleted and return true
+	if (!file_exists($src)) {
 		return true;
 	}
 
+	/*
+	 * If the source is a file, delete it and return the result.
+	 * If `unlink()` fails, we also verify if the file still exists before returning the result, as another
+	 * PHP process may have already deleted the file between the execution of `is_file()` and `unlink()` operations.
+	 */
 	if (is_file($src)) {
-		return unlink($src);
+		if (!@unlink($src) && file_exists($src)) { // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress PHP warning in case of failure
+			return false;
+		}
+		return true;
 	}
 
 	$success = true;
-	$has_dir = false;
 
-	if ($recursive) {
-		// N.B. If opendir() fails, then a false positive (i.e. true) will be returned
-		if (false !== ($dir = opendir($src))) {
-			$file = readdir($dir);
-			while (false !== $file) {
+	// If recursive is false, delete only the top-level files and return the result
+	if (!$recursive) {
+		$dir_handle = @opendir($src); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress PHP warning in case of failure
+
+		/*
+		 * If opendir() is successful, process directory contents. If not, check if the directory exists.
+		 * If it exists, return false (failure). Otherwise, assume it's already deleted and return true (success).
+		 */
+		if (false !== $dir_handle) {
+	
+			while (false !== ($file = readdir($dir_handle))) {
 				if ('.' == $file || '..' == $file) {
-					$file = readdir($dir);
 					continue;
 				}
-				if (is_dir($src . '/' . $file)) {
-					if (!wpo_delete_files($src . '/' . $file)) {
-						$success = false;
-					}
-				} else {
-					if (!unlink($src . '/' . $file)) {
+
+				$full_path = $src . '/' . $file;
+
+				// If it's a file, delete it
+				if (is_file($full_path)) {
+					if (!wpo_delete_files($full_path)) {
 						$success = false;
 					}
 				}
-
-				$file = readdir($dir);
 			}
-			closedir($dir);
+
+			closedir($dir_handle);
+		} else {
+			if (file_exists($src)) {
+				$success = false;
+			}
 		}
+		
+		return $success;
+	}
+
+	// If recursive is true, delete all files and directories recursively
+	$dir_handle = @opendir($src); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress PHP warning in case of failure
+
+	/*
+	 * If opendir() is successful, process directory contents. If not, check if the directory exists.
+	 * If it exists, return false (failure). Otherwise, assume it's already deleted and return true (success).
+	 */
+	if (false !== $dir_handle) {
+
+		while (false !== ($file = readdir($dir_handle))) {
+			if ('.' == $file || '..' == $file) {
+				continue;
+			}
+			
+			$full_path = $src . '/' . $file;
+
+			if (!wpo_delete_files($full_path)) {
+				$success = false;
+			}
+		}
+
+		closedir($dir_handle);
 	} else {
-		// Not recursive, so we only delete the files
-		// scan directories recursively.
-		$handle = opendir($src);
-
-		if (false === $handle) return false;
-
-		$file = readdir($handle);
-
-		while (false !== $file) {
-
-			if ('.' != $file && '..' != $file) {
-				if (is_dir($src . '/' . $file)) {
-					$has_dir = true;
-				} elseif (!unlink($src . '/' . $file)) {
-					$success = false;
-				}
-			}
-
-			$file = readdir($handle);
-
+		if (file_exists($src)) {
+			$success = false;
 		}
 	}
 
-	if ($success && !$has_dir) {
-		// Success of this operation is not recorded; we only ultimately care about emptying, not removing entirely (empty folders in our context are harmless)
-		rmdir($src);
+	/*
+	 * Delete the source directory itself.
+	 * Success of `rmdir` operation is not recorded; we only ultimately care about emptying, not removing
+	 * entirely (empty folders in our context are harmless)
+	 */
+	if ($success) {
+		@rmdir($src); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress PHP warning in case of failure
 	}
 
-	// delete cached information about cache size.
+	// Delete cached information about cache size
 	WP_Optimize()->get_page_cache()->delete_cache_size_information();
 
 	return $success;
@@ -1099,7 +1321,7 @@ Options -Indexes
 EOF;
 		// phpcs:enable
 
-		if (!is_file($htaccess_filename)) @file_put_contents($htaccess_filename, $htaccess_content); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		if (!is_file($htaccess_filename)) @file_put_contents($htaccess_filename, $htaccess_content); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress the error when there is file permission issues
 	}
 
 	// Create web.config file for IIS servers.
@@ -1107,11 +1329,11 @@ EOF;
 		$webconfig_filename = WPO_CACHE_FILES_DIR . '/web.config';
 		$webconfig_content = "<configuration>\n<system.webServer>\n<authorization>\n<deny users=\"*\" />\n</authorization>\n</system.webServer>\n</configuration>\n";
 
-		if (!is_file($webconfig_filename)) @file_put_contents($webconfig_filename, $webconfig_content); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		if (!is_file($webconfig_filename)) @file_put_contents($webconfig_filename, $webconfig_content); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress the error when there is file permission issues
 	}
 
 	// Create empty index.php file for all servers.
-	if (!is_file(WPO_CACHE_FILES_DIR . '/index.php')) @file_put_contents(WPO_CACHE_FILES_DIR . '/index.php', '');// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+	if (!is_file(WPO_CACHE_FILES_DIR . '/index.php')) @file_put_contents(WPO_CACHE_FILES_DIR . '/index.php', '');// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged  -- suppress the error when there is file permission issues
 }
 endif;
 

@@ -8,6 +8,7 @@
 		<?php WP_Optimize()->include_template('settings/settings-general.php'); ?>
 		<?php WP_Optimize()->include_template('settings/settings-trackback-and-comments.php'); ?>
 		<?php WP_Optimize()->include_template('settings/settings-logging.php'); ?>
+		<?php WP_Optimize()->include_template('settings/settings-export-import.php'); ?>
 
 		<?php do_action('wpo_after_general_settings'); ?>
 
@@ -17,16 +18,25 @@
 		
 		<?php wp_nonce_field('wpo_optimization'); ?>
 
-		<h3 class="wpo-first-child"><?php _e('Wipe settings', 'wp-optimize'); ?></h3>
+		<h3 class="wpo-first-child"><?php esc_html_e('Wipe settings', 'wp-optimize'); ?></h3>
 
 		<div class="wpo-fieldgroup">
 			<p>
-				<small><?php _e('This button will delete all of WP-Optimize\'s settings. You will then need to enter all your settings again. You can also do this before deactivating/deinstalling WP-Optimize if you wish.', 'wp-optimize'); ?></small>
+				<small>
+					<?php
+						$message = __('This button will delete all of WP-Optimize\'s settings.', 'wp-optimize');
+						$message .= ' ';
+						$message .= __('You will then need to enter all your settings again.', 'wp-optimize');
+						$message .= ' ';
+						$message .= __('You can also do this before deactivating/deinstalling WP-Optimize if you wish.', 'wp-optimize');
+						echo esc_html($message);
+					?>
+				</small>
 				<br>
 				<br>
 				<input class="button wpo-wipe-settings" type="button" name="wp-optimize-wipe-settings" value="<?php esc_attr_e('Wipe settings', 'wp-optimize'); ?>" />
 
-				<img class="wpo_spinner" src="<?php echo esc_attr(admin_url('images/spinner-2x.gif')); ?>" alt="...">
+				<img class="wpo_spinner" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
 
 				<span class="dashicons dashicons-yes display-none save-done"></span>
 
@@ -34,9 +44,9 @@
 		</div>
 
 		<div>
-			<input class="button button-primary wpo-save-settings" type="submit" name="wp-optimize-settings" value="<?php esc_attr_e('Save settings', 'wp-optimize'); ?>" />
+			<input id="wp-optimize-save-main-settings" class="button button-primary wpo-save-settings" type="submit" name="wp-optimize-settings" value="<?php esc_attr_e('Save settings', 'wp-optimize'); ?>" />
 
-			<img class="wpo_spinner wpo-saving-settings" src="<?php echo esc_attr(admin_url('images/spinner-2x.gif')); ?>" alt="...">
+			<img class="wpo_spinner wpo-saving-settings" src="<?php echo esc_url(admin_url('images/spinner-2x.gif')); ?>" alt="...">
 
 			<span class="dashicons dashicons-yes display-none save-done"></span>
 		</div>

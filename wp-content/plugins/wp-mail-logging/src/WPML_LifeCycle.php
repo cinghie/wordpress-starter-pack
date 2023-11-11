@@ -46,27 +46,23 @@ class WPML_LifeCycle extends WPML_InstallIndicator {
         $this->otherUninstall();
 
         if ( $this->getSetting('delete-on-deactivation', false) == true ) {
+
+            // Delete some options.
+            delete_option( 'wp_mail_logging_activated_time' );
+            delete_option( 'wp_mail_logging_user_feedback_notice' );
+            delete_option( 'wp_mail_logging_db_version' );
+
+            // Remove some transient.
+            delete_transient( self::CACHE_GROUP . '_' . self::CACHE_INSTALLED_KEY );
+
             //TOOD: is multi site?
             $this->unInstallDatabaseTables();
             $this->deleteSavedOptions();
             $this->deleteVersionOption();
+
+            $this->deleteSavedSettings();
+            $this->deleteSavedProductEducationOptions();
         }
-    }
-
-    /**
-     * Perform any version-upgrade activities prior to activation (e.g. database changes)
-     * @return void
-     */
-    public function upgrade() {
-        $this->disableReduxFunctionality();
-    }
-
-    /**
-     * See: http://plugin.michael-simpson.com/?page_id=105
-     * @return void
-     */
-    public function activate() {
-        $this->disableReduxFunctionality();
     }
 
     /**
@@ -204,19 +200,10 @@ class WPML_LifeCycle extends WPML_InstallIndicator {
 
     public function registerPluginActionLinks( $actions, $plugin_file ) {
         if ($this->getMainPluginFileName() == basename($plugin_file)) {
-            $settings = array('settings' => '<a href="' . admin_url( 'tools.php?page=wpml_plugin_log&tab=settings' ) . '">' . __( 'Settings', 'General' ) . '</a>' );
-            $actions = array_merge($settings, $actions);
+            $admin_url = add_query_arg( 'tab', 'settings', WPML_Utils::get_admin_page_url() );
+            $settings  = array('settings' => '<a href="' . esc_url( $admin_url ) . '">' . __( 'Settings', 'General' ) . '</a>' );
+            $actions   = array_merge($settings, $actions);
         }
         return $actions;
-    }
-
-    // Disable unnecessary Redux Framework functionality
-    public function disableReduxFunctionality() {
-        // Disable the default Redux and Extendify Gutenberg block library
-        update_option( 'use_redux_templates', '' );
-        update_option( 'use_extendify_templates', '' );
-
-        // Disable the Redux activation banner
-        update_option( 'redux-framework_tracking_notice', 'hide' );
     }
 }

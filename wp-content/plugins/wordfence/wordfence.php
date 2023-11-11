@@ -4,17 +4,17 @@ Plugin Name: Wordfence Security
 Plugin URI: http://www.wordfence.com/
 Description: Wordfence Security - Anti-virus, Firewall and Malware Scan
 Author: Wordfence
-Version: 7.5.8
+Version: 7.10.7
 Author URI: http://www.wordfence.com/
 Text Domain: wordfence
 Domain Path: /languages
 Network: true
 Requires at least: 3.9
-Requires PHP: 5.3
+Requires PHP: 5.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-@copyright Copyright (C) 2021 Defiant Inc.
+@copyright Copyright (C) 2012-2023 Defiant Inc.
 @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
 
 This program is free software: you can redistribute it and/or modify
@@ -38,8 +38,8 @@ if(defined('WP_INSTALLING') && WP_INSTALLING){
 if (!defined('ABSPATH')) {
 	exit;
 }
-define('WORDFENCE_VERSION', '7.5.8');
-define('WORDFENCE_BUILD_NUMBER', '1643748814');
+define('WORDFENCE_VERSION', '7.10.7');
+define('WORDFENCE_BUILD_NUMBER', '1699289814');
 define('WORDFENCE_BASENAME', function_exists('plugin_basename') ? plugin_basename(__FILE__) :
 	basename(dirname(__FILE__)) . '/' . basename(__FILE__));
 
@@ -60,11 +60,21 @@ if (!defined('WORDFENCE_FCPATH')) {
 if (!defined('WF_IS_WP_ENGINE')) {
 	define('WF_IS_WP_ENGINE', isset($_SERVER['IS_WPE']));
 }
+if (!defined('WF_IS_FLYWHEEL')) {
+	define('WF_IS_FLYWHEEL', isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Flywheel/') === 0);
+}
 if (!defined('WF_IS_PRESSABLE')) {
 	define('WF_IS_PRESSABLE', (defined('IS_ATOMIC') && IS_ATOMIC) || (defined('IS_PRESSABLE') && IS_PRESSABLE));
 }
+
+require(dirname(__FILE__) . '/lib/wfVersionSupport.php');
+/**
+ * @var string $wfPHPDeprecatingVersion
+ * @var string $wfPHPMinimumVersion
+ */
+
 if (!defined('WF_PHP_UNSUPPORTED')) {
-	define('WF_PHP_UNSUPPORTED', version_compare(PHP_VERSION, '5.3', '<'));
+	define('WF_PHP_UNSUPPORTED', version_compare(PHP_VERSION, $wfPHPMinimumVersion, '<'));
 }
 
 if (WF_PHP_UNSUPPORTED) {

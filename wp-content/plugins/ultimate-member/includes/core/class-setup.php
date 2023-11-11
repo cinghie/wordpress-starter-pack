@@ -32,6 +32,7 @@ if ( ! class_exists( 'um\core\Setup' ) ) {
 			$this->install_default_forms();
 			$this->set_default_settings();
 			$this->set_default_role_meta();
+			$this->set_default_user_status();
 		}
 
 
@@ -176,12 +177,12 @@ KEY meta_value_indx (um_value(191))
 		/**
 		 * Install Pre-defined pages with shortcodes
 		 */
-		function install_default_pages() {
+		public function install_default_pages() {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
-			$core_forms = get_option( 'um_core_forms', array() );
+			$core_forms       = get_option( 'um_core_forms', array() );
 			$core_directories = get_option( 'um_core_directories', array() );
 
 			$setup_shortcodes = array_merge( $core_forms, $core_directories );
@@ -197,28 +198,49 @@ KEY meta_value_indx (um_value(191))
 				}
 
 				//If page does not exist - create it
-				if ( $slug == 'logout' ) {
+				if ( 'logout' === $slug ) {
 					$content = '';
-				} elseif ( $slug == 'account' ) {
+				} elseif ( 'account' === $slug ) {
 					$content = '[ultimatemember_account]';
-				} elseif ( $slug == 'password-reset' ) {
+				} elseif ( 'password-reset' === $slug ) {
 					$content = '[ultimatemember_password]';
-				} elseif ( $slug == 'user' ) {
+				} elseif ( 'user' === $slug ) {
 					$content = '[ultimatemember form_id="' . $setup_shortcodes['profile'] . '"]';
 				} else {
 					$content = '[ultimatemember form_id="' . $setup_shortcodes[ $slug ] . '"]';
 				}
 
+				/**
+				 * Filters Ultimate Member predefined pages content when set up the predefined page.
+				 *
+				 * @param {string} $content Predefined page content.
+				 * @param {string} $slug    Predefined page slug (key).
+				 *
+				 * @return {string} Predefined page content.
+				 *
+				 * @since 2.1.0
+				 * @hook um_setup_predefined_page_content
+				 *
+				 * @example <caption>Set Ultimate Member predefined pages content with key = 'my_page_key'.</caption>
+				 * function my_um_setup_predefined_page_content( $content, $slug ) {
+				 *     // your code here
+				 *     if ( 'my_page_key' === $slug ) {
+				 *         $content = __( 'My Page content', 'my-translate-key' );
+				 *     }
+				 *     return $pages;
+				 * }
+				 * add_filter( 'um_setup_predefined_page_content', 'my_um_setup_predefined_page_content' );
+				 */
 				$content = apply_filters( 'um_setup_predefined_page_content', $content, $slug );
 
 				$user_page = array(
-					'post_title'        => $array['title'],
-					'post_content'      => $content,
-					'post_name'         => $slug,
-					'post_type'         => 'page',
-					'post_status'       => 'publish',
-					'post_author'       => get_current_user_id(),
-					'comment_status'    => 'closed'
+					'post_title'     => $array['title'],
+					'post_content'   => $content,
+					'post_name'      => $slug,
+					'post_type'      => 'page',
+					'post_status'    => 'publish',
+					'post_author'    => get_current_user_id(),
+					'comment_status' => 'closed',
 				);
 
 				$post_id = wp_insert_post( $user_page );
@@ -230,7 +252,7 @@ KEY meta_value_indx (um_value(191))
 			$options = get_option( 'um_options', array() );
 
 			foreach ( $core_pages as $slug => $page_id ) {
-				$key = UM()->options()->get_core_page_id( $slug );
+				$key             = UM()->options()->get_core_page_id( $slug );
 				$options[ $key ] = $page_id;
 			}
 
@@ -262,11 +284,48 @@ KEY meta_value_indx (um_value(191))
 		 * Set UM roles meta to Default WP roles
 		 */
 		function set_default_role_meta() {
-			//for set accounts without account status approved status
-			UM()->query()->count_users_by_status( 'unassigned' );
-
 			foreach ( UM()->config()->default_roles_metadata as $role => $meta ) {
 				add_option( "um_role_{$role}_meta", $meta );
+			}
+		}
+
+
+		/**
+		 * Set accounts without account_status meta to 'approved' status
+		 *
+		 * @since 2.4.2
+		 */
+		function set_default_user_status() {
+			$result = get_transient( 'um_count_users_unassigned' );
+			if ( false === $result ) {
+				$args = array(
+					'fields'               => 'ids',
+					'number'               => 0,
+					'meta_query'           => array(
+						array(
+							'key'     => 'account_status',
+							'compare' => 'NOT EXISTS',
+						),
+					),
+					'um_custom_user_query' => true,
+				);
+
+				$users = new \WP_User_Query( $args );
+				if ( empty( $users ) || is_wp_error( $users ) ) {
+					$result = array();
+				} else {
+					$result = $users->get_results();
+				}
+
+				set_transient( 'um_count_users_unassigned', $result, DAY_IN_SECONDS );
+			}
+
+			if ( empty( $result ) ) {
+				return;
+			}
+
+			foreach ( $result as $user_id ) {
+				update_user_meta( $user_id, 'account_status', 'approved' );
 			}
 		}
 	}

@@ -9,22 +9,10 @@
 class IS_Admin_Public {
 
 	/**
-	 * Stores plugin options.
-	 */
-	public $opt;
-
-	/**
 	 * Core singleton class
 	 * @var self
 	 */
 	private static $_instance;
-
-	/**
-	 * Initializes this class and stores the plugin options.
-	 */
-	public function __construct() {
-		$this->opt = Ivory_Search::load_options();
-	}
 
 	/**
 	 * Gets the instance of this class.
@@ -279,11 +267,13 @@ class IS_Admin_Public {
 	 */
 	function get_search_form( $form ) {
 
-                if ( isset( $this->opt['disable'] ) ) {
-                    return '';
+		$is_settings = get_option( 'is_settings', array() );
+
+      	if ( isset( $is_settings['disable'] ) ) {
+       		return '';
 		}
 
-		if ( isset( $this->opt['default_search'] ) ) {
+		if ( isset( $is_settings['default_search'] ) ) {
 			return $form;
 		}
 
@@ -335,4 +325,65 @@ class IS_Admin_Public {
 
 		return $html;
 	}
+
+    /*
+     * Declare support for WooCommerce features
+     */
+    public function declare_wc_features_support() {
+        if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', IS_PLUGIN_FILE, true );
+        }
+    }
+
+	/**
+	 * Displays search form by processing shortcode.
+	 */
+	function search_form_shortcode( $args ) {
+
+		if ( is_feed() ) {
+			return '[ivory-search]';
+		}
+
+		$is_settings = get_option( 'is_settings', array() );
+		if ( isset( $is_settings['disable'] ) ) {
+			return;
+		}
+
+		$atts = shortcode_atts(
+			array(
+				'id'	=> 0,
+				'title'	=> '',
+			),
+			$args, 'ivory-search'
+		);
+
+		$atts = array_map( 'sanitize_text_field', $atts );
+		$display_id = '';
+		if ( ! isset( $atts['id'] ) || empty( $atts['id'] ) ) {
+			$page = get_page_by_path( 'default-search-form', OBJECT, 'is_search_form' );
+
+			if ( ! empty( $page ) ) {
+				$atts['id'] = $page->ID;
+				$display_id = 'n';
+			}
+		} else if ( ! is_numeric( $atts['id'] ) || 0 == $atts['id'] ) {
+			return '[ivory-search 404 "Invalid search form ID '. esc_html( $atts['id'] ) .'"]';
+		}
+
+		$search_form = IS_Search_Form::get_instance( $atts['id'] );
+
+		if ( ! $search_form ) {
+			return '[ivory-search 404 "The search form '. esc_html( $atts['id'] ) .' does not exist"]';
+		} else if ( 'default-search-form' == $search_form->name() && isset( $is_settings['default_search'] ) ) {
+			$display_id = 'n';
+		}
+
+		$form  = $search_form->form_html( $atts, $display_id );
+
+		return $form;
+	}
+
 }
+
+$is_admin_public = IS_Admin_Public::getInstance();
+add_shortcode( 'ivory-search', array( $is_admin_public, 'search_form_shortcode' ) );

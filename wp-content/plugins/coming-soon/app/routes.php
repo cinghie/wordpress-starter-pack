@@ -21,6 +21,19 @@ function seedprod_lite_create_menus() {
 	$n                   = new SeedProd_Notifications();
 	$notifications_count = $n->get_count();
 
+	$seedprod_app_settings = get_option( 'seedprod_app_settings' );
+	if ( ! empty( $seedprod_app_settings ) ) {
+		$seedprod_app_settings = json_decode( stripslashes( $seedprod_app_settings ) );
+	}
+	// if notification disabled than change value to 0
+	if ( isset( $seedprod_app_settings ) ) {
+		if ( isset( $seedprod_app_settings->disable_seedprod_notification ) ) {
+			if ( $seedprod_app_settings->disable_seedprod_notification === true ) {
+				$notifications_count = 0;
+			}
+		}
+	}
+
 	if ( ! empty( $notifications_count ) ) {
 		$notification = '<div class="seedprod-menu-notification-counter"><span>' . $notifications_count . '</span></div>';
 	}
@@ -37,7 +50,7 @@ function seedprod_lite_create_menus() {
 
 	add_submenu_page(
 		'seedprod_lite',
-		__( 'Landing Pages', 'coming-soon' ),
+		__( 'SeedProd', 'coming-soon' ),
 		__( 'Landing Pages', 'coming-soon' ),
 		apply_filters( 'seedprod_dashboard_menu_capability', 'edit_others_posts' ),
 		'seedprod_lite',
@@ -53,24 +66,25 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_theme_templates_page'
 	);
 
-	add_theme_page(
-		__( 'Theme Builder', 'coming-soon' ),
-		__( 'Theme Builder', 'coming-soon' ),
-		apply_filters( 'seedprod_theme_templates_menu_capability', 'edit_others_posts' ),
-		'seedprod_lite_theme_templates',
-		'seedprod_lite_theme_templates_page'
+	add_submenu_page(
+		'seedprod_lite',
+		__( 'Setup', 'coming-soon' ),
+		__( 'Setup', 'coming-soon' ),
+		apply_filters( 'seedprod_setup_menu_capability', 'edit_others_posts' ),
+		'seedprod_lite_setup',
+		'seedprod_lite_setup_page'
 	);
 
-	if ( 'pro' === SEEDPROD_BUILD ) {
-		add_submenu_page(
-			'seedprod_lite',
-			__( 'Templates', 'coming-soon' ),
-			__( 'Templates', 'coming-soon' ),
-			apply_filters( 'seedprod_templates_menu_capability', 'edit_others_posts' ),
-			'seedprod_lite_templates',
-			'seedprod_lite_templates_page'
-		);
-	}
+	//if ( 'lite' === SEEDPROD_BUILD ) {
+		// add_submenu_page(
+		// 	'seedprod_lite',
+		// 	__( 'Templates', 'coming-soon' ),
+		// 	__( 'Templates', 'coming-soon' ),
+		// 	apply_filters( 'seedprod_templates_menu_capability', 'edit_others_posts' ),
+		// 	'seedprod_lite_templates',
+		// 	'seedprod_lite_templates_page'
+		// );
+	//}
 
 	add_submenu_page(
 		'seedprod_lite',
@@ -80,6 +94,17 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_subscribers',
 		'seedprod_lite_subscribers_page'
 	);
+
+	//if ('lite' === SEEDPROD_BUILD) {
+		add_submenu_page(
+			'seedprod_lite',
+			__( 'Pop-ups', 'coming-soon' ),
+			__( 'Pop-ups', 'coming-soon' ),
+			apply_filters( 'seedprod_popup_menu_capability', 'edit_others_posts' ),
+			'seedprod_lite_popup',
+			'seedprod_lite_popup_page'
+		);
+	//}
 
 	add_submenu_page(
 		'seedprod_lite',
@@ -117,15 +142,37 @@ function seedprod_lite_create_menus() {
 		'seedprod_lite_featurerequest_page'
 	);
 
-	if ( SEEDPROD_BUILD == 'lite' ) {
+	if ( 'pro' === SEEDPROD_BUILD ) {
 		add_submenu_page(
 			'seedprod_lite',
-			__( 'Get Pro', 'coming-soon' ),
-			'<span id="sp-lite-admin-menu__upgrade" style="color:#ff845b">' . __( 'Get Pro', 'coming-soon' ) . '</span>',
+			__( 'Import / Export', 'coming-soon' ),
+			__( 'Import / Export', 'coming-soon' ),
+			apply_filters( 'seedprod_theme_templates_menu_capability', 'edit_others_posts' ),
+			'seedprod_lite_export_import_tools',
+			'seedprod_lite_export_import_tools_page'
+		);
+	}
+
+	if ( 'lite' === SEEDPROD_BUILD ) {
+		add_submenu_page(
+			'seedprod_lite',
+			__( 'Upgrade to Pro', 'coming-soon' ),
+			'<span id="sp-lite-admin-menu__upgrade">' . __( 'Upgrade to Pro', 'coming-soon' ) . '</span>',
 			apply_filters( 'seedprod_gopro_menu_capability', 'edit_others_posts' ),
 			'seedprod_lite_get_pro',
 			'seedprod_lite_get_pro_page'
 		);
+		// add class
+		add_action( 'admin_footer', 'seedprod_lite_upgrade_link_class' );
+
+		/**
+		 * Add class to upgrade link
+		 *
+		 * @since 5.0
+		 */
+		function seedprod_lite_upgrade_link_class() {
+			echo "<script>jQuery(function($) { $('#sp-lite-admin-menu__upgrade').parent().parent().addClass('sp-lite-admin-menu__upgrade_wrapper')});</script>";
+		}
 	}
 
 	add_submenu_page(
@@ -163,6 +210,15 @@ function seedprod_lite_create_menus() {
 		'sp_pro_debug',
 		'seedprod_lite_debug_page'
 	);
+
+	add_submenu_page(
+		'themes.php',
+		__( 'Theme Builder', 'coming-soon' ),
+		__( 'Theme Builder', 'coming-soon' ),
+		apply_filters( 'seedprod_theme_templates_menu_capability', 'edit_others_posts' ),
+		'seedprod_lite_theme_templates',
+		'seedprod_lite_theme_templates_page'
+	);
 }
 
 add_action( 'admin_head', 'seedprod_lite_remove_menus' );
@@ -175,6 +231,10 @@ function seedprod_lite_remove_menus() {
 	remove_submenu_page( 'seedprod_lite', 'seedprod_lite_template' );
 	remove_submenu_page( 'seedprod_lite', 'sp_pro_importexport' );
 	remove_submenu_page( 'seedprod_lite', 'sp_pro_debug' );
+	$dimiss_setup = get_option( 'seedprod_dismiss_setup' );
+	if ( ! empty( $dimiss_setup ) ) {
+		remove_submenu_page( 'seedprod_lite', 'seedprod_lite_setup' );
+	}
 }
 
 /**
@@ -228,11 +288,28 @@ function seedprod_lite_update_selected_page_in_submenu() {
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_theme_templates']" ).parent().addClass('current');
 			}
+			// Theme Chooser
+			if(location.hash.indexOf('#/theme-chooser') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_theme_templates']" ).parent().addClass('current');
+			}
+			// Popups
+			if(location.hash.indexOf('#/popups') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_popup']" ).parent().addClass('current');
+			}
 			// Templates
 			if(location.hash.indexOf('#/template') >= 0){
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_templates']" ).parent().addClass('current');
 			}
+
+			// EXport Import Templates
+			if(location.hash.indexOf('#/exportimport-templates') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_export_import_tools']" ).parent().addClass('current');
+			}
+
 			// Subscribers
 			if(location.hash.indexOf('#/subscribers') >= 0){
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
@@ -252,6 +329,11 @@ function seedprod_lite_update_selected_page_in_submenu() {
 			if(location.hash.indexOf('#/aboutus') >= 0){
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
 				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_about_us']" ).parent().addClass('current');
+			}
+			// Setup
+			if(location.hash.indexOf('#/setup') >= 0){
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>']" ).parent().removeClass('current');
+				jQuery( "a[href^='admin.php?page=seedprod_<?php echo esc_attr( SEEDPROD_BUILD ); ?>_setup']" ).parent().addClass('current');
 			}
 		}
 	});
@@ -298,27 +380,60 @@ function seedprod_lite_redirect_to_site() {
 		exit();
 	}
 
+	// export /  import  templates
+	if ( isset( $_GET['page'] ) && 'seedprod_lite_export_import_tools' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		wp_safe_redirect( 'admin.php?page=seedprod_lite#/exportimport-templates' );
+		exit();
+	}
+
 	// growth tools page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_growth_tools' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		wp_safe_redirect( 'admin.php?page=seedprod_lite#/growth-tools' );
 		exit();
 	}
 
-	//  about us page
+	// about us page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_about_us' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		wp_safe_redirect( 'admin.php?page=seedprod_lite#/aboutus' );
 		exit();
 	}
 
+	//  setup page
+	if ( isset( $_GET['page'] ) && 'seedprod_lite_setup' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET['sp_setup_dismiss'] ) ) {
+			update_option( 'seedprod_dismiss_setup', 1 );
+		}
+
+		$dimiss_setup = get_option( 'seedprod_dismiss_setup' );
+
+		if ( ! empty( $dimiss_setup ) ) {
+			wp_safe_redirect( 'admin.php?page=seedprod_lite#/' );
+			exit();
+		} else {
+			wp_safe_redirect( 'admin.php?page=seedprod_lite#/setup' );
+			exit();
+		}
+	}
+
+	//  popups
+	if ( isset( $_GET['page'] ) && 'seedprod_lite_popup' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( is_plugin_active( 'optinmonster/optin-monster-wp-api.php' ) ) {
+			wp_safe_redirect( 'admin.php?page=optin-monster-dashboard' );
+		} else {
+			wp_safe_redirect( 'admin.php?page=seedprod_lite&sp_om=1#/popups' );
+		}
+		exit();
+	}
+
 	// feature request page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_featurerequest' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		wp_redirect( 'https://www.seedprod.com/suggest-a-feature/?utm_source=wordpress&utm_medium=plugin-sidebar&utm_campaign=suggest-a-feature' );
+		wp_redirect( 'https://www.seedprod.com/suggest-a-feature/?utm_source=wordpress&utm_medium=plugin-sidebar&utm_campaign=suggest-a-feature' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit();
 	}
 
 	// getpro page
 	if ( isset( $_GET['page'] ) && 'seedprod_lite_get_pro' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		wp_redirect( seedprod_lite_upgrade_link( 'wp-sidebar-menu' ) );
+		wp_redirect( seedprod_lite_upgrade_link( 'wp-sidebar-menu' ) ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		exit();
 	}
 }
@@ -337,7 +452,7 @@ function seedprod_lite_render_shortcode() {
 			do_action( 'wp_print_footer_scripts' );
 			do_action( 'wp_footer' );
 			$content = do_shortcode( $shortcode );
-			//$content = do_shortcode( $content );
+			// $content = do_shortcode( $content );
 			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
@@ -378,6 +493,9 @@ if ( defined( 'DOING_AJAX' ) ) {
 	add_action( 'wp_ajax_seedprod_lite_update_subscriber_count', 'seedprod_lite_update_subscriber_count' );
 	add_action( 'wp_ajax_seedprod_lite_subscribers_datatable', 'seedprod_lite_subscribers_datatable' );
 
+	add_action( 'wp_ajax_seedprod_lite_install_addon_setup', 'seedprod_lite_install_addon_setup' );
+	add_action( 'wp_ajax_seedprod_lite_complete_setup_wizard', 'seedprod_lite_complete_setup_wizard' );
+
 	add_action( 'wp_ajax_seedprod_lite_get_plugins_list', 'seedprod_lite_get_plugins_list' );
 
 	add_action( 'wp_ajax_seedprod_lite_install_addon', 'seedprod_lite_install_addon' );
@@ -409,6 +527,12 @@ if ( defined( 'DOING_AJAX' ) ) {
 	add_action( 'wp_ajax_seedprod_lite_get_woocommerce_product_attributes', 'seedprod_lite_get_woocommerce_product_attributes' );
 	add_action( 'wp_ajax_seedprod_lite_get_woocommerce_product_attribute_terms', 'seedprod_lite_get_woocommerce_product_attribute_terms' );
 
+	// EDD.
+	add_action( 'wp_ajax_seedprod_lite_get_edd_downloads', 'seedprod_lite_get_edd_downloads' );
+	add_action( 'wp_ajax_seedprod_lite_get_edd_download_taxonomy', 'seedprod_lite_get_edd_download_taxonomy' );
+
+
+
 
 
 
@@ -419,3 +543,19 @@ if ( defined( 'DOING_AJAX' ) ) {
 
 
 
+
+add_filter( 'admin_body_class', 'seedprod_lite_admin_body_class' );
+
+/**
+ * Adds one or more classes to the body tag in the dashboard.
+ *
+ * @link https://wordpress.stackexchange.com/a/154951/17187
+ * @param  string $classes Current body classes.
+ * @return string          Altered body classes.
+ */
+function seedprod_lite_admin_body_class( $classes ) {
+	if ( ! empty( $_GET['sp_om'] ) && $_GET['sp_om'] == 1 ) {
+		return "$classes sp_om";
+	}
+	return $classes;
+}
