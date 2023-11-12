@@ -6,13 +6,11 @@ import {
     PaymentMethods
 } from "../Helper/CheckoutMethodState";
 import BootstrapHelper from "../Helper/BootstrapHelper";
-import {disable, enable} from "../Helper/ButtonDisabler";
 
 class CheckoutBootstap {
-    constructor(gateway, renderer, messages, spinner, errorHandler) {
+    constructor(gateway, renderer, spinner, errorHandler) {
         this.gateway = gateway;
         this.renderer = renderer;
-        this.messages = messages;
         this.spinner = spinner;
         this.errorHandler = errorHandler;
 
@@ -36,6 +34,24 @@ class CheckoutBootstap {
         jQuery(document.body).on('updated_checkout', () => {
             this.render()
             this.handleButtonStatus();
+
+            if (this.shouldShowMessages() && document.querySelector(this.gateway.messages.wrapper)) { // currently we need amount only for Pay Later
+                fetch(
+                    this.gateway.ajax.cart_script_params.endpoint,
+                    {
+                        method: 'GET',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then(result => result.json())
+                    .then(result => {
+                        if (! result.success) {
+                            return;
+                        }
+
+                        jQuery(document.body).trigger('ppcp_checkout_total_updated', [result.data.amount]);
+                    });
+            }
         });
 
         jQuery(document.body).on('updated_checkout payment_method_selected', () => {
@@ -46,6 +62,12 @@ class CheckoutBootstap {
             jQuery('#saved-credit-card').on('change', () => {
                 this.updateUi();
             })
+        });
+
+        jQuery(document).on('ppcp_should_show_messages', (e, data) => {
+            if (!this.shouldShowMessages()) {
+                data.result = false;
+            }
         });
 
         this.updateUi();
@@ -85,6 +107,12 @@ class CheckoutBootstap {
             && PayPalCommerceGateway.data_client_id.paypal_subscriptions_enabled
         ) {
             this.renderer.render(actionHandler.subscriptionsConfiguration(), {}, actionHandler.configuration());
+
+            if(!PayPalCommerceGateway.subscription_product_allowed) {
+                this.gateway.button.is_disabled = true;
+                this.handleButtonStatus();
+            }
+
             return;
         }
 
@@ -111,14 +139,9 @@ class CheckoutBootstap {
         setVisibleByClass(this.standardOrderButtonSelector, (isPaypal && isFreeTrial && hasVaultedPaypal) || isNotOurGateway || isSavedCard, 'ppcp-hidden');
         setVisible('.ppcp-vaulted-paypal-details', isPaypal);
         setVisible(this.gateway.button.wrapper, isPaypal && !(isFreeTrial && hasVaultedPaypal));
-        setVisible(this.gateway.messages.wrapper, isPaypal && !isFreeTrial);
         setVisible(this.gateway.hosted_fields.wrapper, isCard && !isSavedCard);
         for (const [gatewayId, wrapper] of Object.entries(paypalButtonWrappers)) {
             setVisible(wrapper, gatewayId === currentPaymentMethod);
-        }
-
-        if (isPaypal && !isFreeTrial) {
-            this.messages.render();
         }
 
         if (isCard) {
@@ -128,6 +151,20 @@ class CheckoutBootstap {
                 this.enableCreditCardFields();
             }
         }
+
+        jQuery(document.body).trigger('ppcp_checkout_rendered');
+    }
+
+    shouldShowMessages() {
+        // hide when another method selected only if messages are near buttons
+        const messagesWrapper = document.querySelector(this.gateway.messages.wrapper);
+        if (getCurrentPaymentMethod() !== PaymentMethods.PAYPAL &&
+            messagesWrapper && jQuery(messagesWrapper).closest('.ppc-button-wrapper').length
+        ) {
+            return false;
+        }
+
+        return !PayPalCommerceGateway.is_free_trial_cart;
     }
 
     disableCreditCardFields() {

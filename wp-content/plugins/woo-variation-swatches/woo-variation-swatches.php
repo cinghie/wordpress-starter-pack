@@ -4,13 +4,13 @@
      * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
      * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 5.6+
      * Author: Emran Ahmed
-     * Version: 2.0.24
+     * Version: 2.0.28
      * Domain Path: /languages
-     * Requires PHP: 7.0
+     * Requires PHP: 7.4
      * Requires at least: 5.6
-     * Tested up to: 6.2
+     * Tested up to: 6.3
      * WC requires at least: 5.6
-     * WC tested up to: 7.8
+     * WC tested up to: 8.2
      * Text Domain: woo-variation-swatches
      * Author URI: https://getwooplugins.com/
      */
@@ -18,7 +18,7 @@
     defined( 'ABSPATH' ) or die( 'Keep Silent' );
     
     if ( ! defined( 'WOO_VARIATION_SWATCHES_PLUGIN_VERSION' ) ) {
-        define( 'WOO_VARIATION_SWATCHES_PLUGIN_VERSION', '2.0.24' );
+        define( 'WOO_VARIATION_SWATCHES_PLUGIN_VERSION', '2.0.28' );
     }
     
     if ( ! defined( 'WOO_VARIATION_SWATCHES_PLUGIN_FILE' ) ) {
@@ -72,10 +72,9 @@
     
     add_action( 'plugins_loaded', 'woo_variation_swatches' );
     
-    
     function is_using_correct_version_of_woo_variation_swatches_pro() {
-        // return defined( 'WOO_VARIATION_SWATCHES_PRO_PLUGIN_VERSION' ) && ( version_compare( WOO_VARIATION_SWATCHES_PRO_PLUGIN_VERSION, '2.0.12' ) >= 0 );
-        return defined( 'WOO_VARIATION_SWATCHES_PRO_PLUGIN_FILE' );
+        return defined( 'WOO_VARIATION_SWATCHES_PRO_PLUGIN_VERSION' ) && ( version_compare( WOO_VARIATION_SWATCHES_PRO_PLUGIN_VERSION, '2.0.26' ) >= 0 );
+        // return defined( 'WOO_VARIATION_SWATCHES_PRO_PLUGIN_FILE' );
     }
     
     // Prevent activating pro old version
@@ -101,7 +100,7 @@
             return;
         }
         
-        echo 'You are running older version of "Variation Swatches for WooCommerce - Pro". Please upgrade to 2.0.12 or upper and continue.';
+        echo 'You are running older version of "Variation Swatches for WooCommerce - Pro". Please upgrade to 2.0.26 or upper and continue.';
         exit();
     }
     

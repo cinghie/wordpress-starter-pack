@@ -1,11 +1,25 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
+use function PixelYourSite\isWooUseHPStorage;
+
 include_once "function-helper.php";
 $order = wc_get_order($orderId);
-$data = $order->get_meta("pys_enrich_data",true);
-$dataAnalytics = $order->get_meta("pys_enrich_data_analytics",true);
+$data = array();
+$dataAnalytics = array();
+if(isWooUseHPStorage()) {
+    // WooCommerce >= 3.0
+    if($order) {
+        $data = $order->get_meta( 'pys_enrich_data', true );
+    }
 
-if($dataAnalytics && is_array($dataAnalytics) && is_array($data)) {
-    $data = array_merge($data,$dataAnalytics);
+} else {
+    // WooCommerce < 3.0
+    if(get_post_meta($orderId, "pys_enrich_data", true))
+    {
+        $data = get_post_meta($orderId, "pys_enrich_data",true);
+    }
 }
 
 if($data && is_array($data)) :

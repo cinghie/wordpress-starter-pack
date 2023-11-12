@@ -2,7 +2,7 @@
  * Variation Swatches for WooCommerce
  *
  * Author: Emran Ahmed ( emran.bd.08@gmail.com )
- * Date: 7/5/2023, 4:48:58 PM
+ * Date: 10/25/2023, 11:31:20 PM
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches.wvs-tooltip {
@@ -433,6 +433,15 @@
   display: none !important;
 }
 
+.woo-variation-swatches .wp-block-getwooplugins-variation-swatches.swatches-align-center {
+  --wvs-position: center;
+}
+.woo-variation-swatches .wp-block-getwooplugins-variation-swatches.swatches-align-left {
+  --wvs-position: flex-start;
+}
+.woo-variation-swatches .wp-block-getwooplugins-variation-swatches.swatches-align-right {
+  --wvs-position: flex-end;
+}
 .woo-variation-swatches .woo-variation-raw-select + .select2 {
   display: none !important;
 }
@@ -1026,4 +1035,7 @@
 }
 .woo-variation-swatches .grouped-variable-items .group-variable-items-name {
   font-style: italic;
+}
+.woo-variation-swatches .wvs-hide-view-cart-link {
+  display: none;
 }

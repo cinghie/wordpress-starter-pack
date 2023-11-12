@@ -664,7 +664,31 @@ function getObjectTerms( $taxonomy, $post_id ) {
 	return $results;
 
 }
+/**
+ * @param string $taxonomy Taxonomy name
+ *
+ * @return array Array of object term names and id
+ */
+function getObjectTermsWithId( $taxonomy, $post_id ) {
 
+    $terms   = get_the_terms( $post_id, $taxonomy );
+    $results = array();
+
+    if ( is_wp_error( $terms ) || empty ( $terms ) ) {
+        return array();
+    }
+
+    // decode special chars
+    foreach ( $terms as $term ) {
+        $results[] = [
+            'name' => html_entity_decode( $term->name ),
+            'id'   => $term->term_id
+        ];
+    }
+
+    return $results;
+
+}
 /**
  * Sanitize event name. Only letters, numbers and underscores allowed.
  *

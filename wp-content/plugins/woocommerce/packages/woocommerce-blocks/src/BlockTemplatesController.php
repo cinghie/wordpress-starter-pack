@@ -1,6 +1,7 @@
 <?php
 namespace Automattic\WooCommerce\Blocks;
 
+use Automattic\Jetpack\Constants;
 use Automattic\WooCommerce\Blocks\Domain\Package;
 use Automattic\WooCommerce\Blocks\Templates\CartTemplate;
 use Automattic\WooCommerce\Blocks\Templates\CheckoutTemplate;
@@ -10,6 +11,7 @@ use Automattic\WooCommerce\Blocks\Templates\SingleProductTemplateCompatibility;
 use Automattic\WooCommerce\Blocks\Utils\BlockTemplateUtils;
 use Automattic\WooCommerce\Blocks\Templates\OrderConfirmationTemplate;
 use Automattic\WooCommerce\Blocks\Utils\SettingsUtils;
+use Automattic\WooCommerce\Blocks\Utils\BlockTemplateMigrationUtils;
 use \WP_Post;
 
 /**
@@ -68,6 +70,7 @@ class BlockTemplatesController {
 	 * Initialization method.
 	 */
 	protected function init() {
+		add_filter( 'default_wp_template_part_areas', array( $this, 'register_mini_cart_template_part_area' ), 10, 1 );
 		add_action( 'template_redirect', array( $this, 'render_block_template' ) );
 		add_filter( 'pre_get_block_template', array( $this, 'get_block_template_fallback' ), 10, 3 );
 		add_filter( 'pre_get_block_file_template', array( $this, 'get_block_file_template' ), 10, 3 );
@@ -113,7 +116,7 @@ class BlockTemplatesController {
 						$settings['original_render_callback'] = $settings['render_callback'];
 						$settings['render_callback']          = function( $attributes, $content ) use ( $settings ) {
 							// The shortcode has already been rendered, so look for the cart/checkout HTML.
-							if ( strstr( $content, 'woocommerce-cart-form' ) || strstr( $content, 'woocommerce-checkout-form' ) ) {
+							if ( strstr( $content, 'woocommerce-cart-form' ) || strstr( $content, 'wc-empty-cart-message' ) || strstr( $content, 'woocommerce-checkout-form' ) ) {
 								// Return early before wpautop runs again.
 								return $content;
 							}
@@ -129,6 +132,23 @@ class BlockTemplatesController {
 				2
 			);
 		}
+	}
+
+	/**
+	 * Add Mini-Cart to the default template part areas.
+	 *
+	 * @param array $default_area_definitions An array of supported area objects.
+	 * @return array The supported template part areas including the Mini-Cart one.
+	 */
+	public function register_mini_cart_template_part_area( $default_area_definitions ) {
+		$mini_cart_template_part_area = [
+			'area'        => 'mini-cart',
+			'label'       => __( 'Mini-Cart', 'woocommerce' ),
+			'description' => __( 'The Mini-Cart template allows shoppers to see their cart items and provides access to the Cart and Checkout pages.', 'woocommerce' ),
+			'icon'        => 'mini-cart',
+			'area_tag'    => 'mini-cart',
+		];
+		return array_merge( $default_area_definitions, [ $mini_cart_template_part_area ] );
 	}
 
 	/**
@@ -323,7 +343,7 @@ class BlockTemplatesController {
 	 * @return array
 	 */
 	public function add_block_templates( $query_result, $query, $template_type ) {
-		if ( ! BlockTemplateUtils::supports_block_templates() ) {
+		if ( ! BlockTemplateUtils::supports_block_templates( $template_type ) ) {
 			return $query_result;
 		}
 
@@ -600,7 +620,13 @@ class BlockTemplatesController {
 		if (
 			is_singular( 'product' ) && $this->block_template_is_available( 'single-product' )
 		) {
-			$templates = get_block_templates( array( 'slug__in' => array( 'single-product' ) ) );
+			global $post;
+
+			$valid_slugs = [ 'single-product' ];
+			if ( 'product' === $post->post_type && $post->post_name ) {
+				$valid_slugs[] = 'single-product-' . $post->post_name;
+			}
+			$templates = get_block_templates( array( 'slug__in' => $valid_slugs ) );
 
 			if ( isset( $templates[0] ) && BlockTemplateUtils::template_has_legacy_template_block( $templates[0] ) ) {
 				add_filter( 'woocommerce_disable_compatibility_layer', '__return_true' );
@@ -742,117 +768,18 @@ class BlockTemplatesController {
 	 * Migrates page content to templates if needed.
 	 */
 	public function maybe_migrate_content() {
-		if ( ! $this->has_migrated_page( 'cart' ) ) {
-			$this->migrate_page( 'cart', CartTemplate::get_placeholder_page() );
-		}
-		if ( ! $this->has_migrated_page( 'checkout' ) ) {
-			$this->migrate_page( 'checkout', CheckoutTemplate::get_placeholder_page() );
-		}
-	}
-
-	/**
-	 * Check if a page has been migrated to a template.
-	 *
-	 * @param string $page_id Page ID.
-	 * @return boolean
-	 */
-	protected function has_migrated_page( $page_id ) {
-		return (bool) get_option( 'has_migrated_' . $page_id, false );
-	}
-
-	/**
-	 * Prepare default page template.
-	 *
-	 * @param \WP_Post $page Page object.
-	 * @return string
-	 */
-	protected function get_default_migrate_page_template( $page ) {
-		$default_template_content  = $this->get_block_template_part( 'header' );
-		$default_template_content .= '
-			<!-- wp:group {"layout":{"inherit":true}} -->
-			<div class="wp-block-group">
-				<!-- wp:heading {"level":1} -->
-				<h1 class="wp-block-heading">' . wp_kses_post( $page->post_title ) . '</h1>
-				<!-- /wp:heading -->
-				' . wp_kses_post( $page->post_content ) . '
-			</div>
-			<!-- /wp:group -->
-		';
-		$default_template_content .= $this->get_block_template_part( 'footer' );
-
-		return $default_template_content;
-	}
-
-	/**
-	 * Migrates a page to a template if needed.
-	 *
-	 * @param string   $page_id Page ID.
-	 * @param \WP_Post $page Page object.
-	 */
-	protected function migrate_page( $page_id, $page ) {
-		if ( ! $page || empty( $page->post_content ) ) {
-			update_option( 'has_migrated_' . $page_id, '1' );
+		// Migration should occur on a normal request to ensure every requirement is met.
+		// We are postponing it if WP is in maintenance mode, installing, WC installing or if the request is part of a WP-CLI command.
+		if ( wp_is_maintenance_mode() || ! get_option( 'woocommerce_db_version', false ) || Constants::is_defined( 'WP_SETUP_CONFIG' ) || Constants::is_defined( 'WC_INSTALLING' ) || Constants::is_defined( 'WP_CLI' ) ) {
 			return;
 		}
 
-		// Use the page template if it exists, which we'll use over our default template if found.
-		$existing_page_template = BlockTemplateUtils::get_block_template( get_stylesheet() . '//page', 'wp_template' );
-
-		if ( $existing_page_template && ! empty( $existing_page_template->content ) && strstr( $existing_page_template->content, 'wp:post-content' ) ) {
-			// Massage the original content into something we can use. Replace post content with a group block.
-			$pattern          = '/(<!--\s*)wp:post-content(.*?)(\/-->)/';
-			$replacement      = '
-				<!-- wp:group $2 -->
-				<div class="wp-block-group">' . wp_kses_post( $page->post_content ) . '</div>
-				<!-- /wp:group -->
-			';
-			$template_content = preg_replace( $pattern, $replacement, $existing_page_template->content );
-		} else {
-			$template_content = $this->get_default_migrate_page_template( $page );
+		if ( ! BlockTemplateMigrationUtils::has_migrated_page( 'cart' ) ) {
+			BlockTemplateMigrationUtils::migrate_page( 'cart', CartTemplate::get_placeholder_page() );
 		}
-
-		$new_page_template = BlockTemplateUtils::get_block_template( 'woocommerce/woocommerce//' . $page_id, 'wp_template' );
-
-		// Check template validity--template must exist, and custom template must not be present already.
-		if ( ! $new_page_template || $new_page_template->wp_id ) {
-			update_option( 'has_migrated_' . $page_id, '1' );
-			return;
+		if ( ! BlockTemplateMigrationUtils::has_migrated_page( 'checkout' ) ) {
+			BlockTemplateMigrationUtils::migrate_page( 'checkout', CheckoutTemplate::get_placeholder_page() );
 		}
-
-		$new_page_template_id = wp_insert_post(
-			[
-				'post_name'    => $new_page_template->slug,
-				'post_type'    => 'wp_template',
-				'post_status'  => 'publish',
-				'tax_input'    => array(
-					'wp_theme' => $new_page_template->theme,
-				),
-				'meta_input'   => array(
-					'origin' => $new_page_template->source,
-				),
-				'post_content' => $template_content,
-			],
-			true
-		);
-
-		if ( ! is_wp_error( $new_page_template_id ) ) {
-			update_option( 'has_migrated_' . $page_id, '1' );
-		}
-	}
-
-	/**
-	 * Returns the requested template part.
-	 *
-	 * @param string $part The part to return.
-	 *
-	 * @return string
-	 */
-	protected function get_block_template_part( $part ) {
-		$template_part = BlockTemplateUtils::get_block_template( get_stylesheet() . '//' . $part, 'wp_template_part' );
-		if ( ! $template_part || empty( $template_part->content ) ) {
-			return '';
-		}
-		return $template_part->content;
 	}
 
 	/**
@@ -928,6 +855,39 @@ class BlockTemplatesController {
 	 * @return string THe actual permalink assigned to the page. May differ from $permalink if it was already taken.
 	 */
 	protected function sync_endpoint_with_page( $page, $page_slug, $permalink ) {
+		$matching_page = get_page_by_path( $permalink, OBJECT, 'page' );
+
+		/**
+		 * Filters whether to attempt to guess a redirect URL for a 404 request.
+		 *
+		 * Returning a false value from the filter will disable the URL guessing
+		 * and return early without performing a redirect.
+		 *
+		 * @since 11.0.0
+		 *
+		 * @param bool $do_redirect_guess Whether to attempt to guess a redirect URL
+		 *                                for a 404 request. Default true.
+		 */
+		if ( ! $matching_page instanceof WP_Post && apply_filters( 'do_redirect_guess_404_permalink', true ) ) {
+			// If it is a subpage and url guessing is on, then we will need to get it via post_name as path will not match.
+			$query = new \WP_Query(
+				[
+					'post_type' => 'page',
+					'name'      => $permalink,
+				]
+			);
+
+			$matching_page = $query->have_posts() ? $query->posts[0] : null;
+		}
+
+		if ( $matching_page && 'publish' === $matching_page->post_status ) {
+			// Existing page matches given permalink; use its ID.
+			update_option( 'woocommerce_' . $page_slug . '_page_id', $matching_page->ID );
+
+			return get_page_uri( $matching_page );
+		}
+
+		// No matching page; either update current page (by ID stored in option table) or create a new page.
 		if ( ! $page ) {
 			$updated_page_id = wc_create_page(
 				esc_sql( $permalink ),
@@ -948,8 +908,9 @@ class BlockTemplatesController {
 
 		// Get post again in case slug was updated with a suffix.
 		if ( $updated_page_id && ! is_wp_error( $updated_page_id ) ) {
-			return get_post( $updated_page_id )->post_name;
+			return get_page_uri( get_post( $updated_page_id ) );
 		}
+
 		return $permalink;
 	}
 }

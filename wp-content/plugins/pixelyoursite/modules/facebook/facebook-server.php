@@ -275,7 +275,11 @@ class FacebookServer {
             $event->setEventId($event->getEventId());
 
             $api = Api::init(null, null, $this->access_token[$pixel_Id],false);
-
+            $opts = $api->getHttpClient()->getAdapter()->getOpts();
+            if ($opts instanceof \ArrayObject && $opts->offsetExists(CURLOPT_CONNECTTIMEOUT)) {
+                $opts->offsetSet(CURLOPT_CONNECTTIMEOUT, 30);
+                $api->getHttpClient()->getAdapter()->setOpts($opts);
+            }
             /**
              * filter pys_before_send_fb_server_event
              * Help add custom options or get data from event before send
@@ -310,9 +314,16 @@ class FacebookServer {
         $pysData['fbc'] = ServerEventHelper::getFbc();
         $pysData['fbp'] = ServerEventHelper::getFbp();
         $order = wc_get_order($order_id);
-        if($order) {
-            $order->update_meta_data("pys_fb_cookie",$pysData);
-            $order->save();
+        if ( isWooCommerceVersionGte('3.0.0') ) {
+            // WooCommerce >= 3.0
+            if($order) {
+                $order->update_meta_data("pys_fb_cookie",$pysData);
+                $order->save();
+            }
+
+        } else {
+            // WooCommerce < 3.0
+            update_post_meta( $order_id, 'pys_fb_cookie', $pysData );
         }
     }
 

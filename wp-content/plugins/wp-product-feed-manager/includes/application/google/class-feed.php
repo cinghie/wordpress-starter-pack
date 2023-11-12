@@ -3,7 +3,7 @@
  * WP Product Feed Manager Google Feed Class.
  *
  * @package WP Product Feed Manager/Channels
- * @version 27.0
+ * @version 26.0
  */
 
 // Prevent direct access
@@ -18,28 +18,24 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 	 */
 	class WPPFM_Google_Feed_Class extends WPPFM_Feed_Master_Class {
 
-		private $_version = '27.0';
+		private $_version = '26.0';
 
 		public function __construct() {
 			parent::__construct();
 
-			add_filter( 'wppfm_feed_price_decimal_separator', array( $this, 'wppfm_set_price_decimal_separator_from_google_feed' ), 10, 1 );
-			add_filter( 'wppfm_feed_price_thousands_separator', array( $this, 'wppfm_remove_price_thousands_separator_from_google_feed' ), 10, 1 );
-			add_filter( 'wppfm_feed_price_decimals', array( $this, 'wppfm_set_price_decimals_from_google_feed' ), 10, 1 );
+			add_filter( 'wppfm_feed_price_decimal_separator', array( $this, 'wppfm_set_price_decimal_separator_from_google_feed' ) );
+			add_filter( 'wppfm_feed_price_thousands_separator', array( $this, 'wppfm_remove_price_thousands_separator_from_google_feed' ) );
+			add_filter( 'wppfm_feed_price_decimals', array( $this, 'wppfm_set_price_decimals_from_google_feed' ) );
 		}
 
 		public function get_version() {
 			return $this->_version;
 		}
 
-		public function get_file_text() {
-			return $this->generate_file_text( '1', 'google_product_category', 'description', 'xml' );
-		}
-
 		public function woocommerce_to_feed_fields() {
 			$fields = new stdClass();
 
-			// ALERT! Any changes made to this object also need to be done to the woocommerceToGoogleFields() function in the google-source.js file
+			// ALERT! Any changes made to this object also need to be done to the woocommerceToGoogleFields() function in the wppfm_google-source.js file
 			$fields->id                      = '_sku';
 			$fields->title                   = 'post_title';
 			$fields->google_product_category = 'category';
@@ -47,10 +43,9 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 			$fields->link                    = 'permalink';
 			$fields->image_link              = 'attachment_url';
 			$fields->additional_image_link   = '_wp_attachement_metadata';
-			$fields->price                   = '_regular_price';
-			$fields->identifier_exists       = 'Fill with a static value';
 			$fields->item_group_id           = 'item_group_id';
 			$fields->mpn                     = 'ID';
+			$fields->product_type            = 'product_cat_string';
 			$fields->tax                     = 'Use the settings in the Merchant Center';
 			$fields->shipping                = 'Use the settings in the Merchant Center';
 
@@ -58,14 +53,15 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 		}
 
 		// overrides the set_feed_output_attribute_levels function in WPPFM_Feed_Master_Class
-		// ALERT! This function is equivalent for the setGoogleOutputAttributeLevels() function in google-source.js
-		public function set_feed_output_attribute_levels( &$main_data ) {
+		// ALERT! This function is equivalent for the setGoogleOutputAttributeLevels() function in wppfm_google-source.js
+		public function set_feed_output_attribute_levels( $main_data ) {
 			$country = $main_data->country;
 
 			for ( $i = 0; $i < count( $main_data->attributes ); $i ++ ) {
 				if ( '0' === $main_data->attributes[ $i ]->fieldLevel ) {
 					switch ( $main_data->attributes[ $i ]->fieldName ) {
 						case 'google_product_category':
+							//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							$main_data->attributes[ $i ]->fieldLevel = $this->google_needs_product_cat( $main_data->mainCategory ) === true ? 1 : 4;
 							break;
 
@@ -75,6 +71,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 							break;
 
 						case 'brand':
+							//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							$main_data->attributes[ $i ]->fieldLevel = $this->google_requires_brand( $main_data->mainCategory ) === true ? 1 : 4;
 							break;
 
@@ -87,7 +84,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 						case 'color':
 						case 'size':
 							if ( in_array( $country, $this->special_clothing_group_countries(), true )
-								&& $this->google_clothing_and_accessories( $main_data->mainCategory ) === true ) {
+								&& $this->google_clothing_and_accessories( $main_data->mainCategory ) === true ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 								$main_data->attributes[ $i ]->fieldLevel = 1;
 							} else {
 								$main_data->attributes[ $i ]->fieldLevel = 4;
@@ -117,17 +114,30 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 					}
 
 					$main_data->attributes[ $i ]->isActive =
-						$this->set_attribute_status( (int) $main_data->attributes[ $i ]->fieldLevel, $main_data->attributes[ $i ]->value );
+						$this->set_attribute_status( $main_data->attributes[ $i ]->fieldLevel, $main_data->attributes[ $i ]->value );
 				}
 			}
 		}
 
 		public function keys_that_have_sub_tags() {
-			return array( 'installment', 'loyalty_points', 'shipping', 'tax', 'subscription_cost', 'product_detail' );
+			return array( 'installment', 'loyalty_points', 'shipping', 'tax', 'subscription_cost', 'product_detail', 'product_fee', 'consumer_notice' );
 		}
 
 		public function keys_that_can_be_used_more_than_once() {
-			return array( 'display_ads_similar_id', 'excluded_destination', 'shopping_ads_excluded_country', 'product_highlight', 'adwords_labels', 'shipping', 'product_detail', 'repricing_rule_id' );
+			return array(
+				'additional_image_link',
+				'display_ads_similar_id',
+				'excluded_destination',
+				'shopping_ads_excluded_country',
+				'product_highlight',
+				'adwords_labels',
+				'shipping',
+				'product_detail',
+				'repricing_rule_id',
+				'product_fee',
+				'consumer_notice',
+				'return_rule_label',
+			);
 		}
 
 		public function sub_keys_for_sub_tags() {
@@ -135,7 +145,7 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 				'installment-months',
 				'installment-amount',
 				'loyalty_points-name',
-				'loyalty_points-pointsValue',
+				'loyalty_points-points_value',
 				'loyalty_points-ratio',
 				'shipping-country',
 				'shipping-region',
@@ -151,6 +161,10 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 				'product_detail-section_name',
 				'product_detail-attribute_name',
 				'product_detail-attribute_value',
+				'product_fee-type',
+				'product_fee-amount',
+				'consumer_notice-notice_type',
+				'consumer_notice-notice_message',
 			);
 		}
 
@@ -171,12 +185,11 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 		// ALERT! This function is equivalent to the googleSpecialSubscriptionCountries() function in google-source.js
 		private function special_subscription_countries() {
-			return array( 'ZA', 'HK', 'IN', 'JP', 'MY', 'NZ', 'SG', 'KR', 'TW', 'TH', 'AT', 'BE', 'CZ', 'DK', 'FI', 'DE', 'FR', 'GR', 'HU', 'IE',
-				'IT', 'NO', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE', 'CH', 'TR', 'GB', 'IL', 'SA', 'AE', 'CA' );
+			return array( 'ZA', 'HK', 'IN', 'JP', 'MY', 'NZ', 'SG', 'KR', 'TW', 'TH', 'AT', 'BE', 'CZ', 'DK', 'FI', 'DE', 'FR', 'GR', 'HU', 'IE', 'IT', 'NO', 'PL', 'PT', 'RO', 'SK', 'ES', 'SE', 'CH', 'TR', 'GB', 'IL', 'SA', 'AE', 'CA' );
 		}
 
 		private function google_clothing_and_accessories( $category ) {
-			return stristr( $category, 'Apparel & Accessories' ) !== false ? true : false;
+			return stristr( $category, 'Apparel & Accessories' ) !== false;
 		}
 
 		private function google_needs_product_cat( $category ) {
@@ -191,20 +204,17 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 
 		protected function header( $title, $description = '' ) {
 			// the check for convert_to_data_string function can be removed when all users have switched to plugin version 1.6 or higher
-			$title_string       = method_exists( $this, 'data_string' ) ? $this->data_string( $title )
-				: $this->convert_to_character_data_string( $title );
-			$home_link          = method_exists( $this, 'data_string' ) ? $this->data_string( get_option( 'home' ) )
-				: $this->convert_to_character_data_string( get_option( 'home' ) );
-			$descr              = '' !== $description ? $description : $title;
-			$description_string = method_exists( $this, 'data_string' ) ? $this->data_string( $descr )
-				: $this->convert_to_character_data_string( $descr );
+			$title_string       = $this->convert_to_character_data_string( $title );
+			$home_link          = $this->convert_to_character_data_string( get_option( 'home' ) );
+			$header_description = '' !== $description ? $description : $title;
+			$description_string = $this->convert_to_character_data_string( $header_description );
 			$title_tag          = '<wf-connection-string>';
 
 			return '<?xml version="1.0"?>
 					<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
 					<channel>
 					<title>' . $title_string . '</title>'
-			       . $title_tag . $home_link . '</link>
+					. $title_tag . $home_link . '</link>
 					<description>' . $description_string . '</description>';
 		}
 
@@ -212,19 +222,16 @@ if ( ! class_exists( 'WPPFM_Google_Feed_Class' ) ) :
 			return '</channel></rss>';
 		}
 
-		// As of 13th June 2022 the thousands' separator for Google feeds needs to be empty.
 		public function wppfm_remove_price_thousands_separator_from_google_feed( $separator ) {
-			return '';
+			return '' !== $separator ? '' : $separator;
 		}
 
-		// As of 13th June 2022 the decimal separator for Google feeds needs to be a period.
 		public function wppfm_set_price_decimal_separator_from_google_feed( $separator ) {
-			return '.';
+			return '.' !== $separator ? '.' : $separator;
 		}
 
-		// As of 13th June 2022 the price decimals for Google feeds needs to be 2.
 		public function wppfm_set_price_decimals_from_google_feed( $decimals ) {
-			return '2';
+			return '2' !== $decimals ? '2' : $decimals;
 		}
 	}
 

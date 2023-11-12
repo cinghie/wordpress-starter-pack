@@ -2,7 +2,7 @@
 /**
  * Table view to Request A Quote
  *
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @version 1.5.3
  * @author  YITH <plugins@yithemes.com>
@@ -13,7 +13,7 @@
 $product_column_colspan = apply_filters( 'ywraq_item_thumbnail', ! wp_is_mobile() ) ? 2 : 1;
 $hide_price             = 'yes' === get_option( 'ywraq_hide_price', 'no' );
 
-if ( isset( $_REQUEST['sent'] ) ) {
+if ( isset( $_REQUEST['sent'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	return;
 }
 
@@ -97,17 +97,13 @@ if ( count( $raq_content ) === 0 ) :
 										$value = $attr_term->name;
 									}
 									$label = wc_attribute_label( $attr_taxonomy );
+								} elseif ( strpos( $name, 'attribute_' ) !== false ) {
+									$custom_att = str_replace( 'attribute_', '', $name );
 
-								} else {
-
-									if ( strpos( $name, 'attribute_' ) !== false ) {
-										$custom_att = str_replace( 'attribute_', '', $name );
-
-										if ( '' !== $custom_att ) {
-											$label = wc_attribute_label( $custom_att );
-										} else {
-											$label = $name;
-										}
+									if ( '' !== $custom_att ) {
+										$label = wc_attribute_label( $custom_att );
+									} else {
+										$label = $name;
 									}
 								}
 

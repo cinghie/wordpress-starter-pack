@@ -61,6 +61,10 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 			wp_register_style( 'wp-product-feed-manager', WPPFM_PLUGIN_URL . '/css/wppfm_admin-page' . $this->_js_min . '.css', '', $this->_version_stamp, 'screen' );
 			wp_enqueue_style( 'wp-product-feed-manager' );
 
+			// register a WooCommerce css script, mainly for the woocommerce-help-tip class
+			wp_register_style( 'wp-product-feed-manager-wc-support', plugins_url() . '/woocommerce/assets/css/admin.css', '', '7.6.0', 'screen' );
+			wp_enqueue_style( 'wp-product-feed-manager-wc-support' );
+
 			// embed the javascript file that makes the Ajax requests
 			wp_enqueue_script( 'wppfm_business-logic-script', WPPFM_PLUGIN_URL . '/includes/application/js/wppfm_logic' . $this->_js_min . '.js', array( 'jquery' ), $this->_version_stamp, true );
 			wp_enqueue_script( 'wppfm_data-script', WPPFM_PLUGIN_URL . '/includes/data/js/wppfm_data' . $this->_js_min . '.js', array( 'jquery' ), $this->_version_stamp, true );
@@ -139,25 +143,24 @@ if ( ! class_exists( 'WPPFM_Register_Scripts' ) ) :
 				'myAjaxNonces',
 				array(
 					// URL to wp-admin/admin-ajax.php to process the request
-					'ajaxurl'                           => admin_url( 'admin-ajax.php' ),
+					'ajaxurl'                      => admin_url( 'admin-ajax.php' ),
 					// generate the required nonce's
-					'setAutoFeedFixNonce'               => wp_create_nonce( 'myajax-auto-feed-fix-nonce' ),
-					'setBackgroundModeNonce'            => wp_create_nonce( 'myajax-background-mode-nonce' ),
-					'setFeedLoggerStatusNonce'          => wp_create_nonce( 'myajax-logger-status-nonce' ),
-					'setShowPINonce'                    => wp_create_nonce( 'myajax-show-pi-nonce' ),
-					'setActivateReviewFeedManagerNonce' => wp_create_nonce( 'myajax-activate-review-feed-manager-nonce' ),
-					'setUseFullResolutionNonce'         => wp_create_nonce( 'myajax-use-full-url-resolution-nonce' ),
-					'setThirdPartyKeywordsNonce'        => wp_create_nonce( 'myajax-set-third-party-keywords-nonce' ),
-					'setNoticeMailaddressNonce'         => wp_create_nonce( 'myajax-set-notice-mailaddress-nonce' ),
-					'setBatchProcessingLimitNonce'      => wp_create_nonce( 'myajax-set-batch-processing-limit-nonce' ),
-					'backupNonce'                       => wp_create_nonce( 'myajax-backup-nonce' ),
-					'deleteBackupNonce'                 => wp_create_nonce( 'myajax-delete-backup-nonce' ),
-					'restoreBackupNonce'                => wp_create_nonce( 'myajax-restore-backup-nonce' ),
-					'duplicateBackupNonce'              => wp_create_nonce( 'myajax-duplicate-backup-nonce' ),
-					'postBackupListNonce'               => wp_create_nonce( 'myajax-backups-list-nonce' ),
-					'postSetupOptionsNonce'             => wp_create_nonce( 'myajax-setting-options-nonce' ),
-					'setClearFeedProcessNonce'          => wp_create_nonce( 'myajax-clear-feed-nonce' ),
-					'setReInitiateNonce'                => wp_create_nonce( 'myajax-reinitiate-nonce' ),
+					'setAutoFeedFixNonce'          => wp_create_nonce( 'myajax-auto-feed-fix-nonce' ),
+					'setBackgroundModeNonce'       => wp_create_nonce( 'myajax-background-mode-nonce' ),
+					'setFeedLoggerStatusNonce'     => wp_create_nonce( 'myajax-logger-status-nonce' ),
+					'setShowPINonce'               => wp_create_nonce( 'myajax-show-pi-nonce' ),
+					'setUseFullResolutionNonce'    => wp_create_nonce( 'myajax-use-full-url-resolution-nonce' ),
+					'setThirdPartyKeywordsNonce'   => wp_create_nonce( 'myajax-set-third-party-keywords-nonce' ),
+					'setNoticeMailaddressNonce'    => wp_create_nonce( 'myajax-set-notice-mailaddress-nonce' ),
+					'setBatchProcessingLimitNonce' => wp_create_nonce( 'myajax-set-batch-processing-limit-nonce' ),
+					'backupNonce'                  => wp_create_nonce( 'myajax-backup-nonce' ),
+					'deleteBackupNonce'            => wp_create_nonce( 'myajax-delete-backup-nonce' ),
+					'restoreBackupNonce'           => wp_create_nonce( 'myajax-restore-backup-nonce' ),
+					'duplicateBackupNonce'         => wp_create_nonce( 'myajax-duplicate-backup-nonce' ),
+					'postBackupListNonce'          => wp_create_nonce( 'myajax-backups-list-nonce' ),
+					'postSetupOptionsNonce'        => wp_create_nonce( 'myajax-setting-options-nonce' ),
+					'setClearFeedProcessNonce'     => wp_create_nonce( 'myajax-clear-feed-nonce' ),
+					'setReInitiateNonce'           => wp_create_nonce( 'myajax-reinitiate-nonce' ),
 				)
 			);
 		}

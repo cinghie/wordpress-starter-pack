@@ -91,9 +91,46 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 			return '<var id="wppfm-all-feed-names" style="display:none;" >' . wp_json_encode( $used_names ) . '</var>';
 		}
 
+		public static function wppfm_channel_versions() {
+			$channel_class      = new WPPFM_Channel();
+			$queries_class      = new WPPFM_Queries();
+			$installed_channels = $queries_class->read_installed_channels();
+			$response           = $channel_class->get_channels_from_server();
+			$channels_info      = array();
+
+			if ( ! is_wp_error( $response ) ) {
+				$available_channels = json_decode( $response['body'] );
+
+				foreach ( $installed_channels as $channel ) {
+					// find the correct channel in the available channels array
+					$available_channel = array_filter(
+						$available_channels,
+						function ( $available_channel ) use ( $channel ) {
+							return $available_channel->short_name === $channel['short'];
+						}
+					);
+
+					sort( $available_channel ); // sort the array to get the first element
+
+					$channel_info                       = array();
+					$channel_info['channel_short_name'] = $channel['short'];
+					$channel_info['channel_name']       = $channel['name'];
+					$channel_info['channel_id']         = $channel['channel_id'];
+					$channel_info['installed_version']  = $channel_class->get_channel_file_version( $channel['short'], 0, true );
+					$channel_info['available_version']  = $available_channel ? $available_channel[0]->version : 'unknown';
+
+					$channels_info[] = $channel_info;
+				}
+			}
+
+			return '<var id="wppfm-installed-channel-versions" style="display:none;" >' . wp_json_encode( $channels_info ) . '</var>';
+		}
+
 		/**
 		 * Returns the code for both Save & Generate and Save buttons.
 		 *
+		 * @param   string  $button_section_class   Class name for whole button section
+		 * @param   string  $button_section_id      ID for whole button section
 		 * @param   string  $generate_button_id     ID for the Save & Generate button
 		 * @param   string  $save_button_id         ID for the Save button
 		 * @param   string  $open_feed_button_id    ID for the Open Feed button
@@ -101,8 +138,8 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 *
 		 * @return string
 		 */
-		public static function feed_generation_buttons( $generate_button_id, $save_button_id, $open_feed_button_id, $initial_display = 'none' ) {
-			return '<div class="button-wrapper" id="page-center-buttons" style="display:' . $initial_display . ';">
+		public static function feed_generation_buttons( $button_section_class, $button_section_id, $generate_button_id, $save_button_id, $open_feed_button_id, $initial_display = 'none' ) {
+			return '<section class="' . $button_section_class . '" id="' . $button_section_id . '" style="display:' . $initial_display . ';">
 				<input class="button-primary" type="button" name="generate-top"
 					value="' . __( 'Save & Generate Feed', 'wp-product-feed-manager' ) .
 					'" id="' . $generate_button_id . '" disabled/>
@@ -111,7 +148,7 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 					'" id="' . $save_button_id . '" disabled/>
 				<input class="button-primary" type="button" name="view-top"
 					value="' . __( 'View Feed', 'wp-product-feed-manager' ) . '" id="' . $open_feed_button_id . '" disabled/>
-				</div>';
+				</section>';
 		}
 
 		/**
@@ -120,9 +157,9 @@ if ( ! class_exists( 'WPPFM_Form_Element' ) ) :
 		 * @return string
 		 */
 		public static function open_feed_list_button() {
-			return '<div class="button-wrapper" id="page-bottom-buttons" style="display:none;"><input class="button-primary" type="button" ' .
+			return '<section class="wppfm-bottom-buttons-wrapper" id="page-bottom-buttons" style="display:none;"><input class="button-primary" type="button" ' .
 				'onclick="parent.location=\'admin.php?page=wp-product-feed-manager\'" name="new" value="' .
-				__( 'Open Feed List', 'wp-product-feed-manager' ) . '" id="add-new-feed-button" /></div>';
+				__( 'Open Feed List', 'wp-product-feed-manager' ) . '" id="add-new-feed-button" /></section>';
 		}
 
 		/**

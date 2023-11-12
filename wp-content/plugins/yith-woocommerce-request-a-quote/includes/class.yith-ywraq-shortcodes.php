@@ -3,7 +3,7 @@
  * YITH_YWRAQ_Shortcodes add shortcodes to the request quote list
  *
  * @class   YITH_YWRAQ_Shortcodes
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -104,7 +104,4 @@ class YITH_YWRAQ_Shortcodes {
 		wc_get_template( 'request-quote.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH );
 		return ob_get_clean();
 	}
-
-
 }
-

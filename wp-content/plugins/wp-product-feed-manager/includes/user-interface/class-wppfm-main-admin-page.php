@@ -62,20 +62,16 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 		 * Prepares the list table
 		 */
 		private function prepare_feed_list() {
-			$show_type_column = apply_filters( 'wppfm_special_feeds_add_on_active', false );
-
 			$this->_list_table->set_table_id( 'wppfm-feed-list' );
 
 			$list_columns = array(
 				'col_feed_name'        => __( 'Name', 'wp-product-feed-manager' ),
 				'col_feed_url'         => __( 'Url', 'wp-product-feed-manager' ),
 				'col_feed_last_change' => __( 'Updated', 'wp-product-feed-manager' ),
-				'col_feed_products'    => __( 'Products', 'wp-product-feed-manager' ),
+				'col_feed_items'       => __( 'Items', 'wp-product-feed-manager' ),
 			);
 
-			if ( $show_type_column ) {
-				$list_columns['col_feed_type'] = __( 'Type', 'wp-product-feed-manager' );
-			}
+			$list_columns['col_feed_type'] = __( 'Type', 'wp-product-feed-manager' );
 
 			$list_columns['col_feed_status']  = __( 'Status', 'wp-product-feed-manager' );
 			$list_columns['col_feed_actions'] = __( 'Actions', 'wp-product-feed-manager' );
@@ -99,11 +95,11 @@ if ( ! class_exists( 'WPPFM_Main_Admin_Page' ) ) :
 		}
 
 		private function main_admin_buttons() {
-			$wrapper_opening_html = '<div class="button-wrapper" id="page-bottom-buttons">';
+			$wrapper_opening_html = '<section class="wppfm-bottom-buttons-wrapper" id="page-bottom-buttons">';
 			$button_html          = '<input class="button-primary feed-list-lower-button" type="button" ' .
 				'onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed\'" name="new" value="' .
 				__( 'Add New Feed', 'wp-product-feed-manager' ) . '" id="add-new-feed-button" />';
-			$wrapper_closing_html = '</div>';
+			$wrapper_closing_html = '</section>';
 
 			return $wrapper_opening_html . apply_filters( 'wppfm_main_admin_bottom_buttons', $button_html ) . $wrapper_closing_html;
 		}

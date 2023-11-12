@@ -78,7 +78,7 @@ if ( ! class_exists( 'WPPFM_Feed_Controller' ) ) :
 		public static function feed_queue_is_empty() {
 			$queue = self::get_feed_queue();
 
-			return ( count( $queue ) < 1 );
+			return count( $queue ) < 1;
 		}
 
 		/**

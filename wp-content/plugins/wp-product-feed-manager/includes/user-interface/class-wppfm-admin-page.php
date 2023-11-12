@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 			<div class="feed-spinner" id="feed-spinner" style="display:none;">
 				<img id="img-spinner" src="' . $spinner_gif . '" alt="Loading" />
 			</div>
-			<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue">' . $feed_queue . '</div><div id="wppfm-plugin-version-id" data-value="' . WPPFM_PLUGIN_VERSION_ID . '">' . WPPFM_PLUGIN_VERSION_ID . '</div>
+			<div class="wppfm_hidden_background_data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-feed-list-feeds-in-queue">' . $feed_queue . '</div><div id="wppfm-plugin-version-id" data-value="' . WPPFM_PLUGIN_VERSION_ID . '">' . WPPFM_PLUGIN_VERSION_ID . '</div>
 			<div id="wppfm-plugin-version-nr" data-value="' . WPPFM_VERSION_NUM . '">' . WPPFM_VERSION_NUM . '</div></div>
 			<div class="wppfm-main-wrapper wppfm-header-wrapper" id="header-wrapper">
 			<div class="header-text"><h1>' . $header_text . '</h1></div>
@@ -98,19 +98,38 @@ if ( ! class_exists( 'WPPFM_Admin_Page' ) ) :
 		}
 
 		/**
+		 * Returns the html code for the main tab grid container.
+		 *
+		 * @return  string  Html code containing the tab grid container.
+		 *@since 2.39.0.
+		 */
+		protected function tab_grid_container() {
+			return '<div class="wppfm-main-wrapper wppfm-main-tab-wrapper" id="wppfm-main-tab-wrapper">';
+		}
+
+		/**
 		 * Returns the html code for the tab header.
 		 *
 		 * @param   string  $header_title       String for the tab header text.
 		 * @param   string  $header_sub_title   String for the subtitle below the tab header text.
 		 *
 		 * @return  string  Html code containing the tab header.
-		 *@since 2.11.0.
+		 *@since 2.39.0.
 		 */
 		protected function tab_header( $header_title, $header_sub_title ) {
-			return '<h1 class="screen-reader-text">Feed List</h1><h2>' . $header_title . '</h2>
-			<div><p>' . $header_sub_title . '</p></div>';
+			return '<div class="wppfm-tab-page-header"><h2 class="wppfm-tab-page-title">' . $header_title . '</h2>
+			<p class="wppfm-tab-page-sub-title">' . $header_sub_title . '</p></div>';
 		}
 
+		/**
+		 * Returns the html code closing the main tab grid content.
+		 *
+		 * @return  string  Html code containing the tab content.
+		 *@since 2.39.0.
+		 */
+		protected function end_tab_grid_container() {
+			return '</div>';
+		}
 	}
 
 

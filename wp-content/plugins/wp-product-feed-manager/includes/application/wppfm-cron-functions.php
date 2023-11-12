@@ -41,6 +41,12 @@ function wppfm_update_feeds() {
 		exit;
 	}
 
+	// Include the files required for the Google Review Feed Manager.
+	wppfm_include_files_for_review_feed_package();
+
+	// Include the files required for the Google Merchant Promotions Feed Manager.
+	//wppfm_include_files_for_merchant_promotions_feed_package();
+
 	WC_Post_types::register_taxonomies(); // Make sure the woocommerce taxonomies are loaded.
 	WC_Post_types::register_post_types(); // Make sure the woocommerce post types are loaded.
 
@@ -58,3 +64,24 @@ function wppfm_update_feeds() {
 	$wppfm_schedules->update_active_feeds();
 }
 
+/**
+ * Includes the files required for automatic feed updates for Google Review Feeds.
+ *
+ * @since 2.33.0.
+ * @since 2.39.1 Corrected the paths to the include files.
+ * @since 2.39.2 Added the wp-product-review-feed-manager.php file.
+ */
+function wppfm_include_files_for_review_feed_package() {
+	require_once __DIR__ . '/../packages/review-feed-manager/wp-product-review-feed-manager.php';
+	require_once __DIR__ . '/../packages/review-feed-manager/wpprfm-review-feed-form-functions.php';
+	require_once __DIR__ . '/../packages/review-feed-manager/wpprfm-setup-feed-manager.php';
+	require_once __DIR__ . '/../packages/review-feed-manager/wpprfm-include-classes-functions.php';
+	require_once __DIR__ . '/../packages/review-feed-manager/wpprfm-feed-generation-functions.php';
+
+	// Include the traits.
+	require_once __DIR__ . '/../packages/review-feed-manager/traits/wpprfm-processing-support.php';
+	require_once __DIR__ . '/../packages/review-feed-manager/traits/wpprfm-xml-element-functions.php';
+
+	// Include the required classes.
+	wpprfm_include_classes();
+}

@@ -4,7 +4,7 @@ Tags: Meta Pixel, Facebook Pixel, Facebook Conversion API, CAPI, Facebook Pixel 
 Requires at least: 3.0.1
 Requires PHP: 5.4
 Tested up to: 6.3
-Stable tag: 9.4.2
+Stable tag: 9.4.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -467,6 +467,69 @@ NO, absolutely not! We don't track any type of data about your website. We simpl
 
 
 == Changelog ==
+
+
+= PixelYourSite 9.4.7.1 =
+
+* Fixing a possible issue related to external ID option. 
+
+* Fixing small bugs and code improvements.
+
+
+
+= PixelYourSite 9.4.7 =
+
+* Ensuring that a notification about Ajax and consent integrations can be closed. 
+
+* Fixing a possible issue with events external IDs.
+
+* Text updates and small UI changes. 
+
+* WooCommerce compatibility check. 
+
+
+= PixelYourSite 9.4.6 =
+
+* Support for WooCommerce custom fees for the Purchase event value. Now the fees will be included in the value. 
+
+* Fix for a possible issue with external IDs when coaches are used. 
+
+* Improvements related to how we handle excluded IPs. 
+
+* Improvements related to how we handle Elementor custom thank you pages for WooCommerce.
+
+* Declaring compatibility with WooCommerce 8.1.
+
+
+= PixelYourSite 9.4.5.1 =
+
+* Fix for a possible fatal error on related to an empty WooCommerce cart.
+
+
+= PixelYourSite 9.4.5 =
+
+* New view_cart event for WooCommerce sent to GA4.
+
+* Fix for a possible warning related to header being set. 
+
+* Small changes to ensure full compatibility with WooCommerce HPOS.
+
+
+= PixelYourSite 9.4.4 =
+
+* Fixing a number of bugs from the previous version that could break Elementor or Divi editors, or post previews.
+
+
+= PixelYourSite 9.4.3 =
+
+* Expanding the pys_gdpr_ajax_enabled filter to control the cookie-related filters
+
+* Fixing possible Error message: Uncaught Error: Call to a member function.
+
+* Fixing possible Warning: Cannot modify header information ...plugins/pixelyoursite/includes/class-events-manager.php on line 573.
+
+* Video link updates to include a video about ChatGPT and PixelYourSite.
+
 
 = PixelYourSite 9.4.2 =
 

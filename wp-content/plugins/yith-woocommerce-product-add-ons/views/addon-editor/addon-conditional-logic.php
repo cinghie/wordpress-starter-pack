@@ -66,7 +66,7 @@ if ( $total_conditional_addons > 0 ) {
 
                     $option_name = $conditional_addon->options['label'][ $x ];
                     if ( apply_filters( 'yith_wapo_reduce_conditional_option_name', true ) && strlen( $option_name ) > 25 ) {
-                        $option_name = substr( $option_name, 0, 22 ) . '...';
+                        $option_name = mb_substr( $option_name, 0, 22 ) . '...';
                     }
                     $conditional_array[$current_addon_id]['options'][ $conditional_addon->id . '-' . $x ] = ' - ' . $option_name;
                 }

@@ -12,9 +12,9 @@ function woocommerceToGoogleFields() {
 		'link': 'permalink',
 		'image_link': 'attachment_url',
 		'additional_image_link': '_wp_attachement_metadata',
-		'price': '_regular_price',
 		'item_group_id': 'item_group_id',
 		'mpn': 'ID',
+		'product_type': 'product_cat_string',
 		'tax': 'Use the settings in the Merchant Center',
 		'shipping': 'Use the settings in the Merchant Center',
 	};
@@ -134,6 +134,7 @@ function setGoogleOutputAttributeLevels( feedHolder, targetCountry ) {
 	return feedHolder;
 }
 
+// ALERT! Make sure that if you add or remove an attribute from this list, you also change the attribute in the wppfm_setChannelRelatedPresets() function
 function setGooglePresets( field ) {
 	switch ( field ) {
 		case 'condition':
@@ -147,6 +148,12 @@ function setGooglePresets( field ) {
 
 		case 'adult':
 			return '{"m":[{"s":{"static":"no"}}]}';
+
+		case 'is_bundle':
+			return '{"m":[{"s":{"static":"no"}}]}';
+
+		case 'gender':
+			return '{"m":[{"s":{"static":"unisex"}}]}';
 
 		case 'price':
 			return '{"m":[{"s":{"source":"combined","f":"_regular_price|1#wc_currency"}}]}';
@@ -215,6 +222,9 @@ function googleStaticFieldOptions( fieldName ) {
 			break;
 
 		case 'identifier_exists':
+		case 'adult':
+		case 'signature_required':
+		case 'is_bundle':
 			options = [ 'yes', 'no' ];
 			break;
 
@@ -234,10 +244,6 @@ function googleStaticFieldOptions( fieldName ) {
 			options = [ 'EU', 'US', 'UK', 'DE', 'FR', 'JP', 'CN', 'IT', 'BR', 'MEX', 'AU' ];
 			break;
 
-		case 'adult':
-			options = [ 'yes', 'no' ];
-			break;
-
 		case 'energy_efficiency_class':
 		case 'min_energy_efficiency_class':
 		case 'max_energy_efficiency_class':
@@ -245,11 +251,20 @@ function googleStaticFieldOptions( fieldName ) {
 			break;
 
 		case 'excluded_destination':
+		case 'included_destination':
 			options = [ 'Shopping_ads', 'Buy_on_Google_listings', 'Display_ads', 'Local_inventory_ads', 'Free_listings', 'Free_local_listings' ];
 			break;
 
-		default:
-			options = [];
+		case 'consumer_notice-notice_type':
+			options = [ 'prop_65', 'safety_warning', 'legal_disclaimer' ];
+			break;
+
+		case 'pickup_method':
+			options = [ 'buy', 'reserve', 'ship_to_store', 'not_supported' ];
+			break;
+
+		case 'pickup_sla':
+			options = [ 'same_day', 'next_day', '2-day', '3-day', '4-day', '5-day', '6-day', '7-day', 'multi-week' ];
 			break;
 	}
 
@@ -261,13 +276,15 @@ function switchToGoogleFeedFormMainInputs( isNew, channel ) {
 	jQuery( '#wppfm-feed-types-selector' ).prop( 'disabled', false );
 	jQuery( '#wppfm-country-list-row' ).show()
 	jQuery( '#wppfm-countries-selector' ).prop( 'disabled', false );
-	jQuery( '#country-list-row' ).show()
-	jQuery( '#countries-selector' ).prop( 'disabled', false );
 	jQuery( '#category-list-row' ).show();
 	jQuery( '#lvl_0' ).prop( 'disabled', false );
 	jQuery( '#google-feed-title-row' ).show();
 	jQuery( '#google-feed-description-row' ).show();
 	jQuery( '#aggregator-selector-row' ).hide();
+
+	// For backwards compatibility. Remove after plugin version 3.0.0 is common.
+	jQuery( '#country-list-row' ).show()
+	jQuery( '#countries-selector' ).prop( 'disabled', false );
 
 	appendCategoryLists( parseInt( channel ), 'en-US', isNew );
 }
@@ -287,7 +304,6 @@ function googleInputChanged( feedId, categoryChanged ) {
 	var selectedCountry      = jQuery( '#wppfm-countries-selector' ).val();
 	var selectedFeedType     = jQuery( '#wppfm-feed-types-selector' ).val();
 	var selectedMainCategory = '';
-	var selectedChannel      = jQuery( '#wppfm-merchants-selector' ).val();
 
 	var categorySelectors       = jQuery( '#lvl_0' );
 	var categorySelectedDisplay = jQuery( '#selected-categories' );
@@ -303,7 +319,6 @@ function googleInputChanged( feedId, categoryChanged ) {
 	}
 
 	// enable or disable the correct buttons for the Google channel
-	//if ( fileName && selectedCountry !== '0' && ( selectedMainCategory !== '' && selectedMainCategory !== '0' ) ) {
 	if ( fileName && selectedCountry !== '0' && ( selectedMainCategory !== '' && selectedMainCategory !== '0' ) ) {
 		updateFeedFormAfterInputChanged( feedId, categoryChanged );
 	} else {
@@ -312,17 +327,6 @@ function googleInputChanged( feedId, categoryChanged ) {
 	}
 
 	jQuery( '#wppfm-feed-types-list-row' ).show();
-
-	if ( '1' !== selectedFeedType ) {
-		googleActivateSupportFeed( selectedFeedType );
-	}
-}
-
-function googleActivateSupportFeed( feedTypeId ) {
-	switch( feedTypeId ) {
-		case 2: // Google Merchant Promotion Feed
-			wpppfm_feedFormBuild();
-	}
 }
 
 // ALERT! This function is equivalent to the special_clothing_group_countries() function in class-feed.php in the Google channels folder

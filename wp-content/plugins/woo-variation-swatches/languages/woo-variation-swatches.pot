@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Emran Ahmed <emran.bd.08@gmail.com>\n"
-"POT-Creation-Date: 2023-07-05 10:48+0000\n"
+"POT-Creation-Date: 2023-10-25 17:31+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -47,11 +47,11 @@ msgstr ""
 msgid "Select terms"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:138, ../includes/getwooplugins/class-getwooplugins-admin-settings.php:733
+#: ../includes/class-woo-variation-swatches-backend.php:138, ../includes/getwooplugins/class-getwooplugins-admin-settings.php:741
 msgid "Select all"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:139, ../includes/getwooplugins/class-getwooplugins-admin-settings.php:733
+#: ../includes/class-woo-variation-swatches-backend.php:139, ../includes/getwooplugins/class-getwooplugins-admin-settings.php:741
 msgid "Select none"
 msgstr ""
 
@@ -59,7 +59,7 @@ msgstr ""
 msgid "Add new"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:177, ../includes/class-woo-variation-swatches-backend.php:264
+#: ../includes/class-woo-variation-swatches-backend.php:177, ../includes/class-woo-variation-swatches-backend.php:266
 msgid "Choose an Image"
 msgstr ""
 
@@ -84,38 +84,42 @@ msgid "Add Media"
 msgstr ""
 
 #: ../includes/class-woo-variation-swatches-backend.php:186
+msgid "Variation Swatches Settings"
+msgstr ""
+
+#: ../includes/class-woo-variation-swatches-backend.php:188
 msgid "Are you sure you want to reset it to default setting?"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:187
+#: ../includes/class-woo-variation-swatches-backend.php:189
 msgid "Please save changed first."
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:194
+#: ../includes/class-woo-variation-swatches-backend.php:196
 msgid "Select"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:195, ../includes/class-woo-variation-swatches-backend.php:254
+#: ../includes/class-woo-variation-swatches-backend.php:197, ../includes/class-woo-variation-swatches-backend.php:256
 msgid "Color"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:196, ../includes/class-woo-variation-swatches-backend.php:263
+#: ../includes/class-woo-variation-swatches-backend.php:198, ../includes/class-woo-variation-swatches-backend.php:265
 msgid "Image"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:197
+#: ../includes/class-woo-variation-swatches-backend.php:199
 msgid "Button"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:198
+#: ../includes/class-woo-variation-swatches-backend.php:200
 msgid "Radio"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:206
+#: ../includes/class-woo-variation-swatches-backend.php:208
 msgid "Mixed"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-backend.php:255
+#: ../includes/class-woo-variation-swatches-backend.php:257
 msgid "Choose a color"
 msgstr ""
 
@@ -197,11 +201,11 @@ msgstr ""
 msgid "Unable to use image \"%s\"."
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-product-page.php:128
+#: ../includes/class-woo-variation-swatches-product-page.php:132
 msgid "%s left"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches-product-page.php:804, ../includes/class-woo-variation-swatches-product-page.php:830
+#: ../includes/class-woo-variation-swatches-product-page.php:817, ../includes/class-woo-variation-swatches-product-page.php:843
 msgid "Choose an option"
 msgstr ""
 
@@ -709,7 +713,7 @@ msgstr ""
 msgid "Remove image"
 msgstr ""
 
-#: ../includes/class-woo-variation-swatches.php:225
+#: ../includes/class-woo-variation-swatches.php:231
 msgid "\"Variation Swatches for WooCommerce\" Plugin try to load \"%s\" but template \"%s\" was not found."
 msgstr ""
 
@@ -905,19 +909,19 @@ msgstr ""
 msgid "PRO"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:132, ../includes/getwooplugins/class-getwooplugins-plugin-deactivate-feedback.php:60
+#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:133, ../includes/getwooplugins/class-getwooplugins-plugin-deactivate-feedback.php:60
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:160, ../includes/getwooplugins/class-getwooplugins-admin-menus.php:189
+#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:161, ../includes/getwooplugins/class-getwooplugins-admin-menus.php:190
 msgid "GetWooPlugins Settings"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:160
+#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:161
 msgid "GetWooPlugins"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:189
+#: ../includes/getwooplugins/class-getwooplugins-admin-menus.php:190
 msgid "Home"
 msgstr ""
 
@@ -933,44 +937,44 @@ msgstr ""
 msgid "See how this feature works"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:633
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:641
 msgid "Select a page&hellip;"
 msgstr ""
 
 #. translators: 1: page name 2: page ID
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:647
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:655
 msgid "%1$s (ID: %2$s)"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:665
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:673
 msgid "Search for a page&hellip;"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:699
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:707
 msgid "Choose a country / region&hellip;"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:699, ../includes/getwooplugins/class-getwooplugins-admin-settings.php:725
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:707, ../includes/getwooplugins/class-getwooplugins-admin-settings.php:733
 msgid "Country / Region"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:725
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:733
 msgid "Choose countries / regions&hellip;"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:742
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:750
 msgid "Day(s)"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:743
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:751
 msgid "Week(s)"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:744
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:752
 msgid "Month(s)"
 msgstr ""
 
-#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:745
+#: ../includes/getwooplugins/class-getwooplugins-admin-settings.php:753
 msgid "Year(s)"
 msgstr ""
 

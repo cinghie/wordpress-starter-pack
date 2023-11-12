@@ -22,11 +22,11 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function file_name_input_element() {
-			return '<tr class="wppfm-main-feed-input-row">
+			return '<tr class="wppfm-main-feed-input-row" id="wppfm-main-feed-selector-row">
 					<th id="wppfm-main-feed-input-label"><label
-						for="file-name">' . __( 'File Name', 'wp-product-feed-manager' ) . '</label> :
+						for="wppfm-feed-file-name">' . __( 'File Name', 'wp-product-feed-manager' ) . '</label> :
 					</th>
-					<td><input type="text" name="file-name" id="file-name" /></td></tr>';
+					<td><input type="text" name="wppfm-feed-file-name" id="wppfm-feed-file-name" /></td></tr>';
 		}
 
 		/**
@@ -35,7 +35,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function product_source_selector_element() {
-			return '<tr class="wppfm-main-feed-input-row" style="display:none;">
+			return '<tr class="wppfm-main-feed-input-row" id="wppfm-product-source-selector-row" style="display:none;">
 					<th id="wppfm-main-feed-input-label"><label
 						for="source-list">' . __( 'Products source', 'wp-product-feed-manager' ) . '</label> :
 					</th>
@@ -48,11 +48,25 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function merchant_selector_element() {
-			return '<tr class="wppfm-main-feed-input-row">
+			return '<tr class="wppfm-main-feed-input-row" id="wppfm-merchant-selector-row">
 					<th id="wppfm-main-feed-input-label"><label
-						for="merchant-list">' . __( 'Channel', 'wp-product-feed-manager' ) . '</label> :
+						for="wppfm-merchants-selector">' . __( 'Channel', 'wp-product-feed-manager' ) . '</label> :
 					</th>
 					<td>' . WPPFM_Feed_Form_Control::channel_selector() . '</td></tr>';
+		}
+
+		/**
+		 * Returns the code for the Google Feed Type selector
+		 *
+		 * @since 2.38.0.
+		 * @return string
+		 */
+		public static function google_type_selector_element( $preselected ) {
+			return '<tr class="wppfm-main-feed-input-row" id="wppfm-feed-types-list-row" style="display:none">
+					<th id="wppfm-main-feed-input-label"><label
+						for="wppfm-feed-types-selector">' . __( 'Google Feed Type', 'wp-product-feed-manager' ) . '</label> :
+					</th>
+					<td>' . WPPFM_Feed_Form_Control::feed_type_selector( $preselected ) . '</td></tr>';
 		}
 
 		/**
@@ -61,9 +75,9 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		 * @return string
 		 */
 		public static function country_selector_element() {
-			return '<tr class="wppfm-main-feed-input-row" id="country-list-row" style="display:none;">
+			return '<tr class="wppfm-main-feed-input-row" id="wppfm-country-list-row" style="display:none;">
 					<th id="wppfm-main-feed-input-label"><label
-						for="country-list">' . __( 'Target Country', 'wp-product-feed-manager' ) . '</label> :
+						for="wppfm-countries-selector">' . __( 'Target Country', 'wp-product-feed-manager' ) . '</label> :
 					</th>
 					<td>' . WPPFM_Feed_Form_Control::country_selector() . '</td></tr>';
 		}
@@ -89,20 +103,20 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		public static function aggregator_selector_element() {
 			return '<tr class="wppfm-main-feed-input-row" id="aggregator-selector-row" style="display:none">
 					<th id="wppfm-main-feed-input-label"><label
-						for="aggregator-selector">' . __( 'Aggregator Shop', 'wp-product-feed-manager' ) . '</label> :
+						for="aggregator">' . __( 'Aggregator Shop', 'wp-product-feed-manager' ) . '</label> :
 					</th>
 					<td>' . WPPFM_Feed_Form_Control::aggregation_selector() . '</td></tr>';
 		}
 
 		/**
-		 * Returns the include product variation selector.
+		 * Returns the 'include product variation' selector.
 		 *
 		 * @return string
 		 */
 		public static function product_variation_selector_element() {
 			return '<tr class="wppfm-main-feed-input-row" id="add-product-variations-row" style="display:none">
 					<th id="wppfm-main-feed-input-label"><label
-						for="product-variations-selector">' . __( 'Include Product Variations', 'wp-product-feed-manager' ) . '</label> :
+						for="variations">' . __( 'Include Product Variations', 'wp-product-feed-manager' ) . '</label> :
 					</th>
 					<td>' . WPPFM_Feed_Form_Control::product_variation_selector() . '</td></tr>';
 		}
@@ -136,7 +150,7 @@ if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) :
 		/**
 		 * Returns the code for the feed update schedule selector.
 		 *
-		 * @param  string display style
+		 * @param  string $display
 		 *
 		 * @return string
 		 */

@@ -304,7 +304,6 @@ if ( ! function_exists( 'yith_wapo_get_term_meta' ) ) {
 	/**
 	 * Get term meta.
 	 *
-	 * @author Francesco Licandro
 	 * @param integer|string $term_id The term ID.
 	 * @param string         $key The term meta key.
 	 * @param boolean        $single Optional. Whether to return a single value.
@@ -613,48 +612,6 @@ if ( ! function_exists( 'get_default_configuration_options' ) ) {
 
 		return $options;
 	}
-}
-
-if ( ! function_exists( 'yith_wapo_get_addon_grid_rules' ) ) {
-    /**
-     * @param  $addon
-     * @return string
-     */
-    function yith_wapo_get_addon_grid_rules( $addon ) {
-
-        $grid = '
-            display: grid;
-        ';
-
-        $per_row   = $addon->get_setting( 'options_per_row', 1, false );
-        $show_grid = wc_string_to_bool( $addon->get_setting( 'show_in_a_grid', 'no', false ) );
-        $width     = $addon->get_setting( 'options_width', 100, false );
-
-        $width = $show_grid ? $width : ( $per_row > 1 ? 100 : 50 );
-        $width_percentage = $width / $per_row;
-
-        if ( $show_grid ) {
-            if ( $per_row > 1 ) {
-                $grid .= '
-                  justify-content: start;
-                  grid-template-columns: repeat(' . $per_row . ', minmax(0, ' . $width_percentage . '%) );
-                  gap: 10px;
-            '   ;
-            } else {
-                $grid .= '
-                gap: 10px;
-                ';
-            }
-        } else {
-            $grid .= '
-            grid-template-columns: repeat(' . $per_row . ', minmax(0, ' . $width_percentage . '%) );
-            gap: 10px;
-            ';
-        }
-
-        return $grid;
-
-    }
 }
 
 if ( ! function_exists( 'yith_wapo_get_string_by_addon_type' ) ) {

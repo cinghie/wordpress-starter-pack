@@ -21,19 +21,19 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 	class WPPFM_Feed_Queries {
 
 		public function includes_query( $query, $value ) {
-			return ! ($query[3] && strpos(strtolower($value), strtolower(trim($query[3]))) !== false);
+			return ! ( $query[3] && strpos( strtolower( $value ), strtolower( trim( $query[3] ) ) ) !== false );
 		}
 
 		public function does_not_include_query( $query, $value ) {
-			return ! ($query[3] && strpos(strtolower($value), strtolower(trim($query[3]))) === false);
+			return ! ( $query[3] && strpos( strtolower( $value ), strtolower( trim( $query[3] ) ) ) === false );
 		}
 
 		public function is_equal_to_query( $query, $value ) {
-			return ! (strtolower($value) === strtolower(trim($query[3])));
+			return ! ( strtolower( $value ) === strtolower( trim( $query[3] ) ) );
 		}
 
 		public function is_not_equal_to_query( $query, $value ) {
-			return ! (strtolower($value) !== strtolower(trim($query[3])));
+			return ! ( strtolower( $value ) !== strtolower( trim( $query[3] ) ) );
 		}
 
 		public function is_empty( $value ) {
@@ -41,7 +41,7 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 				$value = trim( $value );
 			}
 
-			return ! empty($value);
+			return ! empty( $value );
 		}
 
 		public function is_not_empty_query( $value ) {
@@ -95,7 +95,7 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 			$condition_nr = $this->convert_to_us_notation( trim( $query[3] ) );
 
 			if ( is_numeric( $data_nr ) && is_numeric( $condition_nr ) ) {
-				return ! ((float)$data_nr > (float)$condition_nr);
+				return ! ( (float) $data_nr > (float) $condition_nr );
 			} else {
 				return true;
 			}
@@ -106,7 +106,7 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 			$condition_nr = $this->convert_to_us_notation( trim( $query[3] ) );
 
 			if ( is_numeric( $data_nr ) && is_numeric( trim( $condition_nr ) ) ) {
-				return ! ((float)$data_nr >= (float)$condition_nr);
+				return ! ( (float) $data_nr >= (float) $condition_nr );
 			} else {
 				return true;
 			}
@@ -117,7 +117,7 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 			$condition_nr = $this->convert_to_us_notation( trim( $query[3] ) );
 
 			if ( is_numeric( $data_nr ) && is_numeric( $condition_nr ) ) {
-				return ! ((float)$data_nr < (float)$condition_nr);
+				return ! ( (float) $data_nr < (float) $condition_nr );
 			} else {
 				return true;
 			}
@@ -128,7 +128,7 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 			$condition_nr = $this->convert_to_us_notation( trim( $query[3] ) );
 
 			if ( is_numeric( $data_nr ) && is_numeric( $condition_nr ) ) {
-				return ! ((float)$data_nr <= (float)$condition_nr);
+				return ! ( (float) $data_nr <= (float) $condition_nr );
 			} else {
 				return true;
 			}
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WPPFM_Feed_Queries' ) ) :
 		}
 
 		/**
-		 * Checks if a numeric value is already in the us notation.
+		 * Checks if a numeric value is already in the US notation.
 		 *
 		 * @param $value
 		 * @since 2.25.0

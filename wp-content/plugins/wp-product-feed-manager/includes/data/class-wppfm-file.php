@@ -119,8 +119,11 @@ if ( ! class_exists( 'WPPFM_File' ) ) :
 			$path = WPPFM_BACKUP_DIR;
 
 			foreach ( glob( $path . '/*.sql' ) as $file ) {
-				$feed = fopen( $file, 'r' )
-				or die( __( 'Unable to open the file containing the categories', 'wp-product-feed-manager' ) );
+				if ( ! file_exists( $file ) ) {
+					continue;
+				}
+
+				$feed = fopen( $file, 'r' ) or die( __( 'Unable to open the file containing the categories', 'wp-product-feed-manager' ) );
 
 				$line = fgets( $feed );
 				if ( is_resource( $feed ) ) {
@@ -165,7 +168,7 @@ if ( ! class_exists( 'WPPFM_File' ) ) :
 
 				foreach ( $iterator as $folder ) {
 					if ( $folder->isDir() && $folder->getFilename() !== '.' & $folder->getFilename() !== '..' ) {
-						array_push( $active_channels, $folder->getBaseName() );
+						$active_channels[] = $folder->getBaseName();
 					}
 				}
 			}

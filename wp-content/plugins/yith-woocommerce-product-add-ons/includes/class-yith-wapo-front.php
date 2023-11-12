@@ -231,7 +231,7 @@ if ( ! class_exists( 'YITH_WAPO_Front' ) ) {
          */
         private function get_product_price_class() {
 
-            $product_class = '.product .entry-summary .price,
+            $product_class = '.product .entry-summary .price:first,
             div.elementor.product .elementor-widget-woocommerce-product-price .price';
 
             // Is using WC Blocks.

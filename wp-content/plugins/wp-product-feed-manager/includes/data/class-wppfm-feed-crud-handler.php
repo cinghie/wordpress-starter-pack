@@ -31,7 +31,7 @@ if ( ! class_exists( 'WPPFM_Feed_CRUD_Handler' ) ) :
 			$meta_data = json_decode( $meta_data_encoded );
 
 			// create or update the feed
-			if ( $feed_id < 0 ) {
+			if ( ! $feed_id || $feed_id < 0 ) {
 				$actual_feed_id = $queries_class->create_feed( $feed_data_to_store, $feed_data_types );
 			} else {
 				$update_result  = $queries_class->update_feed( $feed_id, $feed_data_to_store, $feed_data_types );
@@ -45,6 +45,7 @@ if ( ! class_exists( 'WPPFM_Feed_CRUD_Handler' ) ) :
 			$queries_class->store_feed_filter( $actual_feed_id, $feed_filter );
 
 			return $actual_feed_id;
+//			return 0;
 		}
 
 		private static function get_feed_id_from_feed_data( $feed_data ) {

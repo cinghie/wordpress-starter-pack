@@ -743,9 +743,10 @@ class IS_Search_Editor
         
         if ( !isset( $excludes['author'] ) ) {
             $authors = get_users( array(
-                'fields'  => array( 'ID', 'display_name' ),
-                'orderby' => 'post_count',
-                'order'   => 'DESC',
+                'fields'       => array( 'ID', 'display_name' ),
+                'role__not_in' => 'subscriber',
+                'orderby'      => 'post_count',
+                'order'        => 'DESC',
             ) );
             
             if ( !empty($authors) ) {
@@ -2258,9 +2259,10 @@ class IS_Search_Editor
         if ( !isset( $includes['author'] ) ) {
             $author_disable = ( is_fs()->is_plan_or_trial( 'pro' ) && $this->is_premium_plugin ? '' : ' disabled ' );
             $args = array(
-                'fields'  => array( 'ID', 'display_name' ),
-                'orderby' => 'post_count',
-                'order'   => 'DESC',
+                'fields'       => array( 'ID', 'display_name' ),
+                'orderby'      => 'post_count',
+                'role__not_in' => 'subscriber',
+                'order'        => 'DESC',
             );
             
             if ( version_compare( $GLOBALS['wp_version'], '5.9', '<' ) ) {

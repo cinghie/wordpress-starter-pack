@@ -72,10 +72,8 @@
 			$(this).closest('.is-menu').find( 'form input[type="search"], form input[type="text"]' ).focus();
 		} );
 
-		$( '#is-popup-wrapper' ).on( 'click', function( e ) {
-			if ( ! $(e.target).closest('form').length ) {
-				$( '#is-popup-wrapper, .is-ajax-search-result, .is-ajax-search-details' ).fadeOut();
-			}
+		$( '#is-popup-wrapper .popup-search-close' ).on( 'click', function( e ) {
+			$( '#is-popup-wrapper, .is-ajax-search-result, .is-ajax-search-details' ).fadeOut();
 		} );
 		if ( typeof IvorySearchVars !== "undefined" &&  typeof IvorySearchVars.is_analytics_enabled !== "undefined" ) {
 			if ( typeof IvorySearchVars.is_search !== "undefined" && typeof IvorySearchVars.is_search ) {

@@ -40,12 +40,9 @@ if ( ! class_exists( 'WPPFM_Category_Wrapper' ) ) :
 		}
 
 		private function category_rows( $shop_categories, $category_depth_level, $mode ) {
-			$html_code       = '';
-			$level_indicator = '';
+			$html_code = '';
 
-			for ( $i = 0; $i < $category_depth_level; $i ++ ) {
-				$level_indicator .= '— ';
-			}
+			$level_indicator = str_repeat( '— ', $category_depth_level );
 
 			if ( $shop_categories ) {
 				foreach ( $shop_categories as $category ) {

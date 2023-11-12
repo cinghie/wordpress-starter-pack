@@ -1,9 +1,9 @@
 <?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements features of YITH WooCommerce Request A Quote.
+ * Implements features of YITH Request a Quote for WooCommerce
  *
  * @class   YITH_YWRAQ_Send_Email_Request_Quote
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */

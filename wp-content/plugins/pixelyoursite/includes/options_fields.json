@@ -89,6 +89,7 @@
   "woo_add_to_cart_enabled": "checkbox",
   "woo_view_content_enabled": "checkbox",
   "woo_view_category_enabled": "checkbox",
+  "woo_view_cart_enabled" : "checkbox",
   "enable_event_url_param":"checkbox",
   "enable_remove_source_url_params":"checkbox",
 
@@ -104,6 +105,7 @@
   "enable_woo_category_name_param": "checkbox",
   "enable_woo_num_items_param": "checkbox",
   "enable_woo_tags_param":"checkbox",
+  "enable_woo_fees_param": "checkbox",
   "enable_edd_category_name_param": "checkbox",
   "enable_edd_num_items_param": "checkbox",
   "enable_edd_tags_param": "checkbox",

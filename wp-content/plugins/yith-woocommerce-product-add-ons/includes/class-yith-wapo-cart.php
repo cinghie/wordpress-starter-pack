@@ -49,7 +49,6 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 			// Add options to cart item.
 			add_filter( 'woocommerce_add_cart_item_data', array( $this, 'add_cart_item_data' ), 25, 2 );
 			add_filter( 'woocommerce_order_again_cart_item_data', array( $this, 'add_cart_item_data_order_again' ), 25, 3 );
-
 			// Display custom product thumbnail in cart.
 			if ( 'yes' === get_option( 'yith_wapo_show_image_in_cart', 'no' ) ) {
 				add_filter( 'woocommerce_order_item_thumbnail', array( $this, 'order_item_thumbnail' ), 10, 2 );
@@ -276,7 +275,6 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 					if ( isset( $data[ $key ] ) ) {
 						$cart_item_data['yith_wapo_qty_options'][ $key ] = $value;
 					}
-					// $data[ $key ]                                    = $value;
 				}
 			}
 
@@ -953,8 +951,8 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 							$remove_spaces     = apply_filters( 'yith_wapo_remove_spaces', false );
 							$value             = $remove_spaces ? str_replace( ' ', '', $value ) : $value;
 							$value_length      = function_exists( 'mb_strlen' ) ? mb_strlen( $value ) : strlen( $value );
-							$option_price      = $info['price'] * $value_length;
-							$option_price_sale = $info['price_sale'] * $value_length;
+							$option_price      = floatval( $info['price'] ) * $value_length;
+							$option_price_sale = floatval( $info['price_sale'] ) * $value_length;
 						} else {
 							$option_price      = $info['price'];
 							$option_price_sale = $info['price_sale'];
@@ -1137,6 +1135,10 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
          */
 		public function get_addon_price( &$price, $price_method, $price_type, $product_price, $value ) {
 
+            if ( ! is_numeric( $price ) || ! is_numeric( $product_price ) ) {
+                return $price;
+            }
+
 		    if ( $price > 0 ) {
                 if ( 'fixed' === $price_type ) {
                     if ( 'decrease' === $price_method ) {
@@ -1153,8 +1155,7 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 					$number_of_characters = function_exists( 'mb_strlen' ) ? mb_strlen( $value ) : strlen( $value );
 
 					$price = $price * $number_of_characters;
-
-                }elseif ( 'multiplied' === $price_type ) {
+                } elseif ( 'multiplied' === $price_type ) {
                     $price = $price * $value;
                 }
             }
@@ -1211,8 +1212,8 @@ if ( ! class_exists( 'YITH_WAPO_Cart' ) ) {
 
 				$option_product      = wc_get_product( $option_product_id );
 				if ( $option_product instanceof WC_Product ) {
-                    $product_name = apply_filters( 'yith_wapo_product_name_in_cart' , $option_product->get_name(), $option_product );
-					$value        = $option_product_qty . ' x ' . $product_name;
+                    $value = apply_filters( 'yith_wapo_product_name_in_cart',
+                        $option_product_qty . ' x ' . $option_product->get_name(), $option_product, $option_product_qty );
 				}
             } elseif ( in_array( $addon_type, array( 'text', 'textarea', 'number', 'date', 'colorpicker' ) ) ) {
 				if ( ! $grouped_in_cart && ! $is_empty_title ) {

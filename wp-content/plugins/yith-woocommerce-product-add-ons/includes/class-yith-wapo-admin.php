@@ -374,6 +374,9 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		 */
 		public function enable_disable_block() {
 			global $wpdb;
+
+            check_ajax_referer( 'wapo_action', 'nonce_data' );
+
 			$block_id  = isset( $_POST['block_id'] ) ? floatval( $_POST['block_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$block_vis = isset( $_POST['block_vis'] ) ? floatval( $_POST['block_vis'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			// Update db table.
@@ -390,6 +393,9 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 		 */
 		public function enable_disable_addon() {
 			global $wpdb;
+
+            check_ajax_referer( 'wapo_action', 'nonce_data' );
+
 			$addon_id  = isset( $_POST['addon_id'] ) ? floatval( $_POST['addon_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$addon_vis = isset( $_POST['addon_vis'] ) ? floatval( $_POST['addon_vis'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			// Update db table.
@@ -452,13 +458,20 @@ if ( ! class_exists( 'YITH_WAPO_Admin' ) ) {
 			$prev_item  = isset( $_POST['prev_item'] ) ? floatval( $_POST['prev_item'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$next_item  = isset( $_POST['next_item'] ) ? floatval( $_POST['next_item'] ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			if ( $prev_item === $next_item || $prev_item > $next_item ) {
-				$next_item = $prev_item + 1;
-			}
+            $priority = 0;
 
-			$gap      = $next_item - $prev_item;
-			$med      = floatval( $gap / 2 );
-			$priority = $prev_item + $med;
+            // $prev_item || $next_item to zero means that they doesn't exists or has already priority zero.
+            if ( 0 == $prev_item && $next_item > 0 ) {
+                $priority = max( $next_item - 1, 0 ); // Get the value if higher than zero. If not, get zero.
+            } elseif ( 0 == $next_item && $prev_item > 0 ) {
+                $priority = $prev_item + 1;
+            } elseif( $prev_item > 0 && $next_item > 0 ) {
+                $gap      = $next_item - $prev_item;
+                $med      = floatval( $gap / 2 );
+                $med      = min( $med, 1 ); // Get the value if below 1. If not, get 1.
+
+                $priority = $prev_item + $med;
+            }
 
 			// Update db table.
 			$table = $wpdb->prefix . 'yith_wapo_addons';

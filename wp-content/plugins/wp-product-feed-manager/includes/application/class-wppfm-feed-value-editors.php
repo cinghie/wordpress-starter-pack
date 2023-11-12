@@ -115,6 +115,7 @@ if ( ! class_exists( 'WPPFM_Feed_Value_Editors' ) ) :
 				'\\',
 				'||',
 				'_',
+				'>', // @since 2.42.0
 			); // should correspond with wppfm_getCombinedSeparatorList()
 		}
 

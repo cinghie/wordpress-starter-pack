@@ -121,9 +121,10 @@ $nonce = wp_create_nonce( 'woosea_ajax_nonce' );
                                 // Set default notification to show
                                 $getelite_notice = get_option('woosea_getelite_notification');
                                 if(empty($getelite_notice['show'])){
-                                        $getelite_notice['show'] = "yes";
+					$getelite_notice = array();    
+					$getelite_notice['show'] = "yes";
                                         $getelite_notice['timestamp'] = date( 'd-m-Y' );
-                                }
+				}
 
                                 if($getelite_notice['show'] <> "no"){
                                 ?>

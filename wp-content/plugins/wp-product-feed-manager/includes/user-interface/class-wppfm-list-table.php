@@ -23,6 +23,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		private $_table_id_string;
 		private $_table_list;
 
+		/** @noinspection PhpVoidFunctionResultUsedInspection */
 		public function __construct() {
 			$queries = new WPPFM_Queries();
 
@@ -37,7 +38,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		/**
 		 * Sets the column titles
 		 *
-		 * @param array of strings containing the column titles
+		 * @param array $titles of strings containing the column titles
 		 */
 		public function set_column_titles( $titles ) {
 			if ( ! empty( $titles ) ) {
@@ -71,7 +72,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 			$sortable_columns = $this->get_sortable_columns();
 
 			foreach ( $this->_column_titles as $title ) {
-				$on_click_code   = array_key_exists( strtolower( $title ), $sortable_columns ) ? ' onclick="wppfm_sortOnColumn(' . $sortable_columns[strtolower( $title )] . ')"' : '';
+				$on_click_code   = array_key_exists( strtolower( $title ), $sortable_columns ) ? ' onclick="wppfm_sortOnColumn(' . $sortable_columns[ strtolower( $title ) ] . ')"' : '';
 				$sortable_header = array_key_exists( strtolower( $title ), $sortable_columns ) ? '<a href="#"><span>' . $title . '</span><span class="sorting-indicator"></span></a>' : $title;
 				$sortable_class  = array_key_exists( strtolower( $title ), $sortable_columns ) ? ' sortable desc' : '';
 
@@ -98,7 +99,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		private function store_table_sort_data() {
 			$sortable_columns = $this->get_sortable_columns();
 
-			$html = '<input type="hidden" id="wppfm_feed_list_table_sort_column" value="none">';
+			$html  = '<input type="hidden" id="wppfm_feed_list_table_sort_column" value="none">';
 			$html .= '<input type="hidden" id="wppfm_feed_list_table_sort_direction" value="none">';
 			$html .= '<input type="hidden" id="wppfm_feed_list_table_sortable_columns" value="' . implode( '-', $sortable_columns ) . '">';
 
@@ -106,15 +107,17 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		}
 
 		private function table_body() {
-			$html             = '<tbody' . $this->_table_id_string . '>';
-			$alternator       = 0;
-			$nr_products      = '';
-			$show_type_column = apply_filters( 'wppfm_special_feeds_add_on_active', false );
-			$feed_types       = wppfm_list_feed_type_text();
+			$html        = '<tbody' . $this->_table_id_string . '>';
+			$alternator  = 0;
+			$nr_products = '';
+			$feed_types  = wppfm_list_feed_type_text();
+
+			$channel_class = new WPPFM_Channel();
 
 			foreach ( $this->_table_list as $list_item ) {
 				$feed_ready_status = ( 'on_hold' === $list_item->status || 'ok' === strtolower( $list_item->status ) );
 				$feed_name_id      = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $list_item->title );
+				$feed_type         = '1' === $list_item->feed_type_id ? $channel_class->get_channel_name( $list_item->channel_id ) . ' ' . __( 'Feed', 'wp-product-feed-manager' ) : $feed_types[ $list_item->feed_type_id ];
 
 				if ( $feed_ready_status ) {
 					$nr_products = $list_item->products;
@@ -131,7 +134,7 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 				$html .= '<td id="url">' . $list_item->url . '</td>';
 				$html .= '<td id="updated-' . $list_item->product_feed_id . '">' . $list_item->updated . '</td>';
 				$html .= '<td id="products-' . $list_item->product_feed_id . '">' . $nr_products . '</td>';
-				$html .= $show_type_column ? '<td id="type-' . $list_item->product_feed_id . '">' . $feed_types[ $list_item->feed_type_id ] . '</td>' : '';
+				$html .= '<td id="type-' . $list_item->product_feed_id . '">' . $feed_type . '</td>';
 				$html .= '<td id="feed-status-' . $list_item->product_feed_id . '" value="' . $list_item->status . '" style="color:' . $list_item->color . '"><strong>';
 				$html .= $this->list_status_text( $list_item->status );
 				$html .= '</strong></td>';
@@ -188,11 +191,12 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		 * @return string[]
 		 */
 		private function get_sortable_columns() {
-			return [
-				'name' => '1',
+			return array(
+				'name'    => '1',
 				'updated' => '3',
-				'products' => '4'
-			];
+				'items'   => '4',
+				'type'    => '5',
+			);
 		}
 
 		/**
@@ -208,17 +212,17 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 		 * @return string with the html code
 		 */
 		private function feed_ready_action_links( $feed_id, $feed_url, $status, $title, $feed_type ) {
-			$file_exists   = 'No feed generated' !== $feed_url;
-			$url_strings   = explode( '/', $feed_url );
-			$file_name     = stripos( $feed_url, '/' ) ? end( $url_strings ) : $title;
-			$change_status = 'ok' === strtolower( $status ) ? __( 'Auto-off', 'wp-product-feed-manager' ) : __( 'Auto-on', 'wp-product-feed-manager' );
-			$feed_tab_link = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $feed_type );
-			$action_id     = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $title );
+			$file_exists    = 'No feed generated' !== $feed_url;
+			$url_strings    = explode( '/', $feed_url );
+			$file_name      = stripos( $feed_url, '/' ) ? end( $url_strings ) : $title;
+			$change_status  = 'ok' === strtolower( $status ) ? __( 'Auto-off', 'wp-product-feed-manager' ) : __( 'Auto-on', 'wp-product-feed-manager' );
+			$feed_type_link = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $feed_type );
+			$action_id      = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $title );
 
-			$html  = '<strong><a href="javascript:void(0);" id="wppfm-edit-' . $action_id . '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' . $feed_tab_link . '&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
+			$html  = '<strong><a href="javascript:void(0);" id="wppfm-edit-' . $action_id . '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&feed-type=' . $feed_type_link . '&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
 			$html .= $file_exists ? ' | <a href="javascript:void(0);" id="wppfm-view-' . $action_id . '-action" onclick="wppfm_viewFeed(\'' . $feed_url . '\')">' . __( 'View', 'wp-product-feed-manager' ) . '</a>' : '';
 			$html .= ' | <a href="javascript:void(0);" id="wppfm-delete-' . $action_id . '-action" onclick="wppfm_deleteSpecificFeed(' . $feed_id . ', \'' . $file_name . '\')">' . __( 'Delete', 'wp-product-feed-manager' ) . '</a>';
-			$html .= $file_exists ? '<a href="javascript:void(0);" id="wppfm-deactivate-' . $action_id . '-action" onclick="wppfm_deactivateFeed(' . $feed_id . ')" id="feed-status-switch-' . $feed_id . '"> | ' . $change_status . '</a>' : '';
+			$html .= $file_exists && 'Merchant Promotions Feed' !== $feed_type ? '<a href="javascript:void(0);" id="wppfm-deactivate-' . $action_id . '-action" onclick="wppfm_deactivateFeed(' . $feed_id . ')" id="feed-status-switch-' . $feed_id . '"> | ' . $change_status . '</a>' : '';
 			$html .= ' | <a href="javascript:void(0);" id="wppfm-duplicate-' . $action_id . '-action" onclick="wppfm_duplicateFeed(' . $feed_id . ', \'' . $title . '\')">' . __( 'Duplicate', 'wp-product-feed-manager' ) . '</a>';
 			$html .= 'Product Feed' === $feed_type ? ' | <a href="javascript:void(0);" id="wppfm-regenerate-' . $action_id . '-action" onclick="wppfm_regenerateFeed(' . $feed_id . ')">' . __( 'Regenerate', 'wp-product-feed-manager' ) . '</a></strong>' : '';
 			return $html;
@@ -243,10 +247,10 @@ if ( ! class_exists( 'WPPFM_List_Table' ) ) :
 				$file_name = $title;
 			}
 
-			$feed_tab_link = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $feed_type );
-			$action_id     = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $title );
+			$feed_type_link = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $feed_type );
+			$action_id      = wppfm_convert_string_with_spaces_to_lower_case_string_with_dashes( $title );
 
-			$html  = '<strong><a href="javascript:void(0);" id="wppfm-edit-' . $action_id . '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' . $feed_tab_link . '&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
+			$html  = '<strong><a href="javascript:void(0);" id="wppfm-edit-' . $action_id . '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&feed-type=' . $feed_type_link . '&id=' . $feed_id . '\'">' . __( 'Edit', 'wp-product-feed-manager' ) . '</a>';
 			$html .= ' | <a href="javascript:void(0);" id="wppfm-delete-' . $action_id . '-action" onclick="wppfm_deleteSpecificFeed(' . $feed_id . ', \'' . $file_name . '\')">' . __( 'Delete', 'wp-product-feed-manager' ) . '</a>';
 			$html .= 'Product Feed' === $feed_type ? ' | <a href="javascript:void(0);" id="wppfm-regenerate-' . $action_id . '-action" onclick="wppfm_regenerateFeed(' . $feed_id . ')">' . __( 'Regenerate', 'wp-product-feed-manager' ) . '</a></strong>' : '';
 			$html .= $this->feed_status_checker_script( $feed_id );

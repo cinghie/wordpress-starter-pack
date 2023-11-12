@@ -9,6 +9,10 @@
 class IS_Admin
 {
     /**
+     * Stores plugin options.
+     */
+    public  $opt ;
+    /**
      * Core singleton class
      * @var self
      */

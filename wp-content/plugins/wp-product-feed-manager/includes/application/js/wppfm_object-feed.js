@@ -47,56 +47,66 @@ function Feed( feedId, title, includeVariations, aggregator, channel, mainCatego
 	this.updateSchedule    = updateSchedule;
 	this.feedFilter        = feedFilter;
 	this.attributes        = [];
+	this.promotions        = [];
 	this.feedType          = feedType;
 
 	// objects functions
-	this.addAttribute                 = addAttributeToFeed;
-	this.getAttributeIdByName         = getAttributeId;
-	this.activateAttribute            = activateFeedsAttribute;
-	this.checkIfCustomNameExists      = checkCustomName;
-	this.countCombinedFields          = countAttributesCombinedFields;
-	this.deactivateAttribute          = deactivateFeedsAttribute;
-	this.deactivateCategory           = deactivateCategoryMap;
-	this.activateCategory             = activateCategoryMap;
-	this.setStaticAttributeValue      = setAttributesStaticValue;
-	this.setSourceValue               = setAttributesSourceValue;
-	this.setAlternativeSourceValue    = setAlternativeAttributesSourceValue;
-	this.setCombinedOutputValue       = setAttributesCombinedOutputValue;
-	this.setCategoryValue             = setAttributesCategoryValue;
-	this.setFeedFilter                = setFeedFilterValue;
-	this.mapCategory                  = mapACategory;
-	this.changeCustomFeedCategoryMap  = changeCustomCategoryMap;
-	this.changeIncludeVariations      = changeIncludeVariationsValue;
-	this.changeAggregator             = changeAggregatorValue;
-	this.resetNrQueries               = rstNrQueries;
-	this.incrNrQueries                = addNrQueries;
-	this.decrNrQueries                = substrNrQueries;
-	this.addConditionValue            = addAttributesCondition;
-	this.addValueQueryValue           = addAttributesValueQuery;
-	this.removeAttribute              = removeAttributeFromFeed;
-	this.removeValueConditionValue    = removeAttributesCondition;
-	this.removeValueQueryValue        = removeAttributesValueQuery;
-	this.removeAlternativeSourceValue = removeAlternativeSource;
-	this.removeCombinedOutputValue    = removeAttributesCombinedOutputValue;
-	this.removeEditValueValue         = removeAttributesEditValue;
-	this.removeFeedFilter             = removeFeedFilterValue;
-	this.getAttributesQueriesObject   = getAttributesQueries;
-	this.getCombinedOutputValue       = getAttributesCombinedOutputValue;
-	this.getValueQueryValue           = getAttributesValueQueries;
-	this.getAttributesSourceObject    = getAttributesSources;
-	this.getSourceObject              = getSourceData;
-	this.getAlternativeSourcesObject  = getAlternativeSources;
-	this.getAttributesValueObject     = getAttributesValues;
-	this.getFeedFilter                = getFeedFilterValue;
-	this.getFeedType                  = getFeedType;
-	this.setMainCategory              = setCategories;
-	this.setUpdateSchedule            = setSchedule;
-	this.setCustomCategory            = setFeedCustomCategory;
-	this.setCountry                   = changeCountry;
-	this.clearSourceValue             = clearAttributesSourceValue;
-	this.cleanAttributes              = cleanUnusedAttributes;
-	this.clearAllAttributes           = clearAttributes;
-	this.addChangeValue               = addAttributesChangeValue;
+	this.addAttribute                                  = addAttributeToFeed;
+	this.getAttributeIdByName                          = getAttributeId;
+	this.activateAttribute                             = activateFeedsAttribute;
+	this.checkIfCustomNameExists                       = checkCustomName;
+	this.countCombinedFields                           = countAttributesCombinedFields;
+	this.deactivateAttribute                           = deactivateFeedsAttribute;
+	this.deactivateCategory                            = deactivateCategoryMap;
+	this.activateCategory                              = activateCategoryMap;
+	this.setStaticAttributeValue                       = setAttributesStaticValue;
+	this.setSourceValue                                = setAttributesSourceValue;
+	this.setAlternativeSourceValue                     = setAlternativeAttributesSourceValue;
+	this.setCombinedOutputValue                        = setAttributesCombinedOutputValue;
+	this.setCategoryValue                              = setAttributesCategoryValue;
+	this.setFeedFilter                                 = setFeedFilterValue;
+	this.setPromotionInputValue                        = setPromotionInputValue;
+	this.setPromotionSelectValue                       = setPromotionSelectValue;
+	this.mapCategory                                   = mapACategory;
+	this.changeCustomFeedCategoryMap                   = changeCustomCategoryMap;
+	this.changeIncludeVariations                       = changeIncludeVariationsValue;
+	this.changeAggregator                              = changeAggregatorValue;
+	this.resetNrQueries                                = rstNrQueries;
+	this.incrNrQueries                                 = addNrQueries;
+	this.decrNrQueries                                 = substrNrQueries;
+	this.addConditionValue                             = addAttributesCondition;
+	this.addValueQueryValue                            = addAttributesValueQuery;
+	this.removeAttribute                               = removeAttributeFromFeed;
+	this.removeValueConditionValue                     = removeAttributesCondition;
+	this.removeValueQueryValue                         = removeAttributesValueQuery;
+	this.removeAlternativeSourceValue                  = removeAlternativeSource;
+	this.removeCombinedOutputValue                     = removeAttributesCombinedOutputValue;
+	this.removeEditValueValue                          = removeAttributesEditValue;
+	this.removeFeedFilter                              = removeFeedFilterValue;
+	this.getAttributesQueriesObject                    = getAttributesQueries;
+	this.getCombinedOutputValue                        = getAttributesCombinedOutputValue;
+	this.getValueQueryValue                            = getAttributesValueQueries;
+	this.getAttributesSourceObject                     = getAttributesSources;
+	this.getSourceObject                               = getSourceData;
+	this.getAlternativeSourcesObject                   = getAlternativeSources;
+	this.getAttributesValueObject                      = getAttributesValues;
+	this.getFeedFilter                                 = getFeedFilterValue;
+	this.getFeedType                                   = getFeedType;
+	this.setMainCategory                               = setCategories;
+	this.setUpdateSchedule                             = setSchedule;
+	this.setCustomCategory                             = setFeedCustomCategory;
+	this.setCountry                                    = changeCountry;
+	this.clearSourceValue                              = clearAttributesSourceValue;
+	this.cleanAttributes                               = cleanUnusedAttributes;
+	this.clearAllAttributes                            = clearAttributes;
+	this.clearPromotions                               = clearPromotions;
+	this.addChangeValue                                = addAttributesChangeValue;
+	this.addPromotion                                  = addPromotion;
+	this.addPromotionElement                           = addPromotionElement;
+	this.getPromotionProductsEligibleForPromotionValue = promotionProductsEligibleForPromotionValue;
+	this.getPromotionCouponCodeRequiredValue           = promotionCouponCodeRequiredValue;
+	this.deletePromotion                               = deletePromotion;
+	this.duplicatePromotion                            = duplicatePromotion;
 }
 
 // noinspection DuplicatedCode
@@ -122,11 +132,21 @@ function CategoryMap( shopCategory, feedCategories ) {
 
 function addAttributeToFeed( attributeId, fieldName, advisedSource, value, fieldLevel, isActive, queryLevel, valuesLevel, valueConditions ) {
 
-	var attribute = new FeedAttribute( attributeId, fieldName, advisedSource, value, fieldLevel, isActive, queryLevel, valuesLevel, valueConditions );
+	// I'm not sure why the code below was necessary, but it causes the edit feed pages for normal feeds and review feeds to not work
+	// if ( ! value ) {
+	// 	this.removeAttribute( attributeId );
+	// 	return;
+	// }
+	//
+	var found = this.attributes.find( obj => obj.fieldName === fieldName );
 
+	if ( found ) { // if attribute already exists, remove it first
+		this.removeAttribute( found.rowId );
+	}
+
+	var attribute = new FeedAttribute( attributeId, fieldName, advisedSource, value, fieldLevel, isActive, queryLevel, valuesLevel, valueConditions );
 	this.attributes.push( attribute );
 }
-
 function removeAttributeFromFeed( rowId ) {
 
 	for ( var i = 0; i < this.attributes.length; i ++ ) {
@@ -264,6 +284,10 @@ function deactivateCategoryMap( shopCategoryId ) {
 
 function getAttributeId( name ) {
 
+	if ( ! this.attributes ) {
+		return false;
+	}
+
 	var attributeId = false;
 
 	for ( var i = 0; i < this.attributes.length; i ++ ) {
@@ -283,8 +307,7 @@ function getAttributeId( name ) {
 	return attributeId;
 }
 
-function setAttributesStaticValue(
-	attributeId, level, combinationLevel, newValue ) {
+function setAttributesStaticValue( attributeId, level, combinationLevel, newValue ) {
 	var currentValue = this.attributes[ attributeId ][ 'value' ];
 
 	this.attributes[ attributeId ][ 'value' ] = wppfm_storeSourceValue( level, currentValue, 'static', newValue );
@@ -466,6 +489,14 @@ function setFeedFilterValue( value ) {
 	this.feedFilter = value;
 }
 
+function setPromotionInputValue( inputId, value ) {
+	console.log(value);
+}
+
+function setPromotionSelectValue( selectorId, value ) {
+	console.log(value)
+}
+
 function removeFeedFilterValue( filterLevelToRemove ) {
 
 	this.feedFilter = removeFeedFilterLevel(
@@ -621,20 +652,20 @@ function getAlternativeSources( attributeId ) {
 /**
  * Returns an object filled with all the required data for a specific feed row
  *
- * @param {string} feedId
+ * @param {string} rowId
  * @returns {object} containing the required data
  */
-function getSourceData( feedId ) {
+function getSourceData( rowId ) {
 
 	var data = {};
 
 	// add the basic data to the object
-	data.rowId         = feedId;
-	data.fieldName     = this.attributes[ feedId ][ 'fieldName' ];
-	data.advisedSource = this.attributes[ feedId ][ 'advisedSource' ];
+	data.rowId         = rowId;
+	data.fieldName     = this.attributes[ rowId ][ 'fieldName' ];
+	data.advisedSource = this.attributes[ rowId ][ 'advisedSource' ];
 
 	// get the attribute data
-	var attributeString = this.attributes[ feedId ][ 'value' ];
+	var attributeString = this.attributes[ rowId ][ 'value' ];
 
 	// and put the attribute data in the object
 	if ( attributeString ) {
@@ -888,6 +919,67 @@ function cleanUnusedAttributes() {
 }
 
 function clearAttributes() {
-
 	this.attributes = [];
+}
+
+function addPromotion( promotion = [] ) {
+	return this.promotions.push( promotion );
+}
+
+function addPromotionElement( promotionId, key, value ) {
+	if ( this.promotions.length <= promotionId ) {
+		this.promotions.push( [] );
+	}
+
+	var index = this.promotions[promotionId].findIndex( element => element.meta_key === key );
+
+	if ( index !== - 1 ) {
+		this.promotions[promotionId].splice( index, 1 );
+	}
+
+	if ( value ) {
+		var o = {};
+		o.meta_key = key;
+		o.meta_value = value;
+		this.promotions[promotionId].push(o);
+	}
+}
+
+function deletePromotion( promotionId ) {
+	this.promotions.splice( promotionId, 1 );
+
+	for( var i = 0; i < this.promotions.length; i++ ) {
+		this.promotions[i][0].meta_value = i;
+	}
+}
+
+function duplicatePromotion( promotionId ) {
+	var newPromotion = jQuery.extend(true, [], this.promotions[promotionId]);
+	newPromotion[0].meta_value = this.promotions.length;
+
+	this.promotions.push(newPromotion);
+}
+
+function clearPromotions() {
+	this.promotions = [];
+}
+
+function promotionProductsEligibleForPromotionValue( promotionId ) {
+	for ( var i = 0; i < this.promotions[promotionId].length; i ++ ) {
+		if ( 'product_applicability' === this.promotions[promotionId][i].meta_key ) {
+			return this.promotions[promotionId][i].meta_value;
+		}
+	}
+
+	return '';
+}
+
+function promotionCouponCodeRequiredValue( promotionId ) {
+	for ( var i = 0; i < this.promotions[promotionId].length; i ++ ) {
+		if ( 'offer_type' === this.promotions[promotionId][i].meta_key ) {
+			return this.promotions[promotionId][i].meta_value;
+		}
+	}
+
+	return '';
 }

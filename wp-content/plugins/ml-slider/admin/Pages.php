@@ -89,6 +89,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
             'permanent_delete_slide_nonce' => wp_create_nonce('metaslider_permanent_delete_slide'),
             'update_slide_image_nonce' => wp_create_nonce('metaslider_update_slide_image'),
             'quickstart_slideshow_nonce' => wp_create_nonce('metaslider_quickstart_slideshow'),
+            'legacy_notification_nonce' => wp_create_nonce('metaslider_legacy_notification'),
             'useWithCaution' => esc_html__("Caution: This setting is for advanced developers only. If you're unsure, leave it checked.", "ml-slider"),
             'locale' => preg_replace('/[^a-z]/', '', get_locale()),
         ));
@@ -127,7 +128,7 @@ class MetaSlider_Admin_Pages extends MetaSliderPlugin
      */
     public function load_upgrade_page_assets()
     {
-        if ('upgrade-metaslider' == $this->current_page) {
+        if ('upgrade-metaslider' == $this->current_page || !is_plugin_active('ml-slider-pro/ml-slider-pro.php')){
             wp_enqueue_style('metaslider-upgrade-styles', METASLIDER_ADMIN_URL . 'assets/css/upgrade.css', false, METASLIDER_ASSETS_VERSION);
         }
     }

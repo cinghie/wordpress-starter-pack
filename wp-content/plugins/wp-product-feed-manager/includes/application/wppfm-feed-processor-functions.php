@@ -19,7 +19,7 @@ trait WPPFM_Feed_Processor_Functions {
 	 * @return boolean
 	 */
 	private function add_file_format_line_to_feed( $line_data ) {
-		return false !== file_put_contents( $this->_feed_file_path, $line_data['file_format_line'], FILE_APPEND ) ? true : false;
+		return false !== file_put_contents( $this->_feed_file_path, $line_data['file_format_line'], FILE_APPEND );
 	}
 
 	/**
@@ -30,7 +30,7 @@ trait WPPFM_Feed_Processor_Functions {
 	 * @return boolean
 	 */
 	private function add_error_message_to_feed( $error_message_data ) {
-		return false !== file_put_contents( $this->_feed_file_path, $error_message_data['feed_line_message'], FILE_APPEND ) ? true : false;
+		return false !== file_put_contents( $this->_feed_file_path, $error_message_data['feed_line_message'], FILE_APPEND );
 	}
 
 
@@ -61,6 +61,10 @@ trait WPPFM_Feed_Processor_Functions {
 
 		$product_data = $queries_class->read_post_data( $product_id, $post_columns_query_string );
 
+		if ( 'object' !== gettype( $product_data ) ) {
+			return false;
+		}
+
 		// WPML support.
 		if ( has_filter( 'wpml_translation' ) ) {
 			$product_data = apply_filters( 'wpml_translation', $product_data, $this->_feed_data->language );
@@ -86,7 +90,7 @@ trait WPPFM_Feed_Processor_Functions {
 		foreach ( $meta_data as $meta ) {
 			$meta_value = $prep_meta_class->prep_meta_values( $meta, $this->_feed_data->language, $this->_feed_data->currency );
 
-			if ( property_exists( $product_data, $meta->meta_key ) ) {
+			if ( property_exists( (object) $product_data, $meta->meta_key ) ) {
 				$meta_key = $meta->meta_key;
 
 				if ( '' === $product_data->$meta_key ) {

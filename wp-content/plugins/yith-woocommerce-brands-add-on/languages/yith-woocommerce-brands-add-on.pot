@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Brands Add-on\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/yith-woocommerce-brands-add-on\n"
-"POT-Creation-Date: 2023-07-31 14:32:52+00:00\n"
+"POT-Creation-Date: 2023-10-09 14:00:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,93 +40,93 @@ msgstr ""
 msgid "Brands"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:154
+#: includes/class-yith-wcbr-admin.php:155
 msgid "Set a default image to apply to brands without a logo"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:155
+#: includes/class-yith-wcbr-admin.php:156
 msgid "Upload a <b>banner image</b> to customize the brand archive page"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:156
+#: includes/class-yith-wcbr-admin.php:157
 msgid ""
 "Set up other product taxonomies available as \"brands\" (i.e. categories, "
 "tags, and attributes)"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:157
+#: includes/class-yith-wcbr-admin.php:158
 msgid "Show brands also on the Shop page and <b>customize the size and position</b>"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:158
+#: includes/class-yith-wcbr-admin.php:159
 msgid ""
 "<b>5 widgets</b> to show a list of brands, brand logos, sliders, etc. in a "
 "widgetized area"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:159
+#: includes/class-yith-wcbr-admin.php:160
 msgid "<b>9 shortcodes</b> to highlight brands in different ways"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:160
+#: includes/class-yith-wcbr-admin.php:161
 msgid ""
 "Integration with YITH WooCommerce Ajax Product Filter to <b>show a \"Filter "
 "by brand\" on the Shop page</b>"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:161
+#: includes/class-yith-wcbr-admin.php:162
 msgid ""
 "Integration with YITH WooCommerce Dynamic Pricing and Discounts to "
 "<b>create offers, discount rules and promotions only for products of "
 "specific brands</b>"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:162
+#: includes/class-yith-wcbr-admin.php:163
 msgid "Regular updates, translations, and premium support"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:248
+#: includes/class-yith-wcbr-admin.php:249
 msgid "Choose an image"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:249
+#: includes/class-yith-wcbr-admin.php:250
 msgid "Use image"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:351
+#: includes/class-yith-wcbr-admin.php:352
 msgid "Image"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:392 views/add-brand-taxonomy-form.php:30
+#: includes/class-yith-wcbr-admin.php:393 views/add-brand-taxonomy-form.php:30
 #: views/edit-brand-taxonomy-form.php:30
 msgid "Thumbnail"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:464
+#: includes/class-yith-wcbr-admin.php:465
 msgid "You have no Brands yet!"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:512
+#: includes/class-yith-wcbr-admin.php:513
 msgid "Brand added."
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:513
+#: includes/class-yith-wcbr-admin.php:514
 msgid "Brand deleted."
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:514
+#: includes/class-yith-wcbr-admin.php:515
 msgid "Brand updated."
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:515
+#: includes/class-yith-wcbr-admin.php:516
 msgid "Brand not added."
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:516
+#: includes/class-yith-wcbr-admin.php:517
 msgid "Brand not updated."
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:517
+#: includes/class-yith-wcbr-admin.php:518
 msgid "Brands deleted."
 msgstr ""
 
@@ -300,7 +300,7 @@ msgid ""
 "e-commerce on <strong>YITH</strong></a>"
 msgstr ""
 
-#: includes/class-yith-wcbr-admin.php:355
+#: includes/class-yith-wcbr-admin.php:356
 msgctxt "Column heading in the brands table"
 msgid "Count"
 msgstr ""

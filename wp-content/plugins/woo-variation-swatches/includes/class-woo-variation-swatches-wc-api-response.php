@@ -49,7 +49,8 @@
                 
                 $image_id = absint( get_term_meta( $term_id, 'product_attribute_image', true ) );
                 
-                $image_size       = sanitize_text_field( get_term_meta( $term_id, 'image_size', true ) );
+                $image_size = sanitize_text_field( woo_variation_swatches()->get_option( 'attribute_image_size', 'variation_swatches_image_size' ) );
+                
                 $show_tooltip     = sanitize_text_field( get_term_meta( $term_id, 'show_tooltip', true ) );
                 $tooltip_text     = sanitize_text_field( get_term_meta( $term_id, 'tooltip_text', true ) );
                 $tooltip_image_id = absint( get_term_meta( $term_id, 'tooltip_image_id', true ) );
@@ -84,7 +85,58 @@
                 return apply_filters( 'woo_variation_swatches_rest_attribute_term_additional_response', $data, $term_id, $attribute );
             }
             
-            public function update_additional_response( $value, $object, $field_name ) {
+            
+            /**
+             *
+             * PUT Request: wp-json/wc/v3/products/attributes/<attribute_id>/terms/<id>
+             *     DATA: JSON Object
+             * {
+             * "woo_variation_swatches": {
+             *     "product_attribute_color": "" || "primary_color": ""
+             *     "secondary_color": ""
+             *     "is_dual_color": ""
+             *     "product_attribute_image": "" || "image_id": ""
+             * }
+             * }
+             */
+            
+            public function update_additional_response( $values, $WP_Term_object, $field_id ) {
+                
+                if ( empty( $values ) || ! is_array( $values ) || 'woo_variation_swatches' !== $field_id ) {
+                    return;
+                }
+                
+                
+                $term_id = absint( $WP_Term_object->term_id );
+                
+                
+                // Update Primary Color
+                if ( array_key_exists( 'product_attribute_color', $values ) || array_key_exists( 'primary_color', $values ) ) {
+                    $primary_color = ! empty( $values[ 'product_attribute_color' ] ) ? $values[ 'product_attribute_color' ] : $values[ 'primary_color' ];
+                    update_term_meta( $term_id, 'product_attribute_color', sanitize_hex_color( $primary_color ) );
+                }
+                
+                // Update Secondary Color
+                if ( array_key_exists( 'secondary_color', $values ) ) {
+                    $secondary_color = sanitize_hex_color( $values[ 'secondary_color' ] );
+                    update_term_meta( $term_id, 'secondary_color', $secondary_color );
+                }
+                
+                // Update Is Dual Color
+                if ( array_key_exists( 'is_dual_color', $values ) ) {
+                    $is_dual_color = wc_string_to_bool( $values[ 'is_dual_color' ] );
+                    update_term_meta( $term_id, 'is_dual_color', $is_dual_color );
+                }
+                
+                // Update Image ID
+                if ( array_key_exists( 'product_attribute_image', $values ) || array_key_exists( 'image_id', $values ) ) {
+                    $image_id = ! empty( $values[ 'product_attribute_image' ] ) ? $values[ 'product_attribute_image' ] : $values[ 'image_id' ];
+                    update_term_meta( $term_id, 'product_attribute_image', absint( $image_id ) );
+                }
+                
+                
+                do_action( 'woo_variation_swatches_rest_attribute_term_additional_request', $values, $term_id, $WP_Term_object );
+                
                 return null;
             }
             

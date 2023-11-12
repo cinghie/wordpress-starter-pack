@@ -3,7 +3,7 @@
  * Plugin Name: YITH WooCommerce Product Add-ons & Extra Options
  * Plugin URI: https://yithemes.com/themes/plugins/yith-woocommerce-product-add-ons/
  * Description: <code><strong>YITH WooCommerce Product Add-ons & Extra Options</strong></code> is the plugin that allows you to create new options for WooCommerce products. <a href="https://yithemes.com/" target="_blank">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>
- * Version: 4.0.1
+ * Version: 4.2.1
  * Author: YITH
  * Author URI: https://yithemes.com/
  * Text Domain: yith-woocommerce-product-add-ons
@@ -12,8 +12,8 @@
  * Domain Path: /languages/
  * Requires at least: 6.1
  * Tested up to: 6.3
- * WC requires at least: 7.8
- * WC tested up to: 8.0
+ * WC requires at least: 8.0
+ * WC tested up to: 8.2
  *
  * @author  YITH <plugins@yithemes.com>
  * @package YITH WooCommerce Product Add-ons & Extra Options
@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || exit;
 ! defined( 'YITH_WAPO_TEMPLATE_ADMIN_PATH' ) && define( 'YITH_WAPO_TEMPLATE_ADMIN_PATH', YITH_WAPO_TEMPLATE_PATH . '/admin/' );
 ! defined( 'YITH_WAPO_TEMPLATE_FRONTEND_PATH' ) && define( 'YITH_WAPO_TEMPLATE_FRONTEND_PATH', YITH_WAPO_TEMPLATE_PATH . '/frontend/' );
 ! defined( 'YITH_WAPO_ASSETS_URL' ) && define( 'YITH_WAPO_ASSETS_URL', YITH_WAPO_URL . 'assets' );
-! defined( 'YITH_WAPO_VERSION' ) && define( 'YITH_WAPO_VERSION', '4.0.1' );
+! defined( 'YITH_WAPO_VERSION' ) && define( 'YITH_WAPO_VERSION', '4.2.1' );
 ! defined( 'YITH_WAPO_DB_VERSION' ) && define( 'YITH_WAPO_DB_VERSION', '4.0.2' );
 ! defined( 'YITH_WAPO_SLUG' ) && define( 'YITH_WAPO_SLUG', 'yith-woocommerce-advanced-product-options' );
 ! defined( 'YITH_WAPO_LOCALIZE_SLUG' ) && define( 'YITH_WAPO_LOCALIZE_SLUG', 'yith-woocommerce-product-add-ons' );
@@ -101,27 +101,30 @@ if ( ! function_exists( 'yith_wapo_init' ) ) {
 
 	add_action( 'plugins_loaded', 'yith_wapo_init', 12 );
 }
-
-/**
- * Print admin notice if WC is not enabled
- */
-function yith_wapo_install_woocommerce_admin_notice() {
-    ?>
-    <div class="error">
-        <p>
-            <?php echo esc_html_x( 'YITH WooCommerce Product Add-ons & Extra Options is enabled but not effective. It requires WooCommerce in order to work.', '[ADMIN] Message when WC is not activated on the site', 'yith-woocommerce-badges-management' ); ?>
-        </p>
-    </div>
-    <?php
-}
-
-/**
- * Install
- */
-function yith_wapo_install_check() {
-    if ( ! function_exists( 'WC' ) ) {
-        add_action( 'admin_notices', 'yith_wapo_install_woocommerce_admin_notice' );
+if ( ! function_exists( 'yith_wapo_install_woocommerce_admin_notice' ) ) {
+    /**
+     * Print admin notice if WC is not enabled
+     */
+    function yith_wapo_install_woocommerce_admin_notice() {
+        ?>
+        <div class="error">
+            <p>
+                <?php echo esc_html_x( 'YITH WooCommerce Product Add-ons & Extra Options is enabled but not effective. It requires WooCommerce in order to work.', '[ADMIN] Message when WC is not activated on the site', 'yith-woocommerce-badges-management' ); ?>
+            </p>
+        </div>
+        <?php
     }
 }
 
-add_action( 'plugins_loaded', 'yith_wapo_install_check', 11 );
+if ( ! function_exists( 'yith_wapo_install_check' ) ) {
+    /**
+     * Install
+     */
+    function yith_wapo_install_check() {
+        if ( ! function_exists( 'WC' ) ) {
+            add_action( 'admin_notices', 'yith_wapo_install_woocommerce_admin_notice' );
+        }
+    }
+
+    add_action( 'plugins_loaded', 'yith_wapo_install_check', 11 );
+}

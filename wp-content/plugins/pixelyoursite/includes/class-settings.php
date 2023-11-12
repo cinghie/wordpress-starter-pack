@@ -597,7 +597,7 @@ abstract class Settings {
 	 * @param bool $disabled
 	 */
 	public function render_multi_select_input( $key, $values, $disabled = false ) {
-		
+
 		$attr_name = "pys[$this->slug][$key][]";
 		$attr_id = 'pys_' . $this->slug . '_' . $key;
 		

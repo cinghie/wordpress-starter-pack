@@ -126,6 +126,10 @@ window.jQuery(function ($) {
                                 staticRenderFns: res.staticRenderFns
                             }).$mount()).$el
                         )
+
+                        $([document.documentElement, document.body]).animate({
+                            scrollTop: $("#slide-"+slide.slide_id).offset().top
+                        }, 2000);
                     })
 
                     // Add timeouts to give some breating room to the notice animations
@@ -504,8 +508,8 @@ window.jQuery(function ($) {
                     // @codingStandardsIgnoreEnd
 
                     // If the trash link isn't there, add it in (without counter)
-                    if ('none' == $('.restore-slide-link').css('display')) {
-                        $('.restore-slide-link').css('display', 'inline');
+                    if ('none' == $('.trashed-slides-cont').css('display')) {
+                        $('.trashed-slides-cont').css('display', '');
                     }
                 }, 1000);
             }
@@ -716,6 +720,72 @@ window.jQuery(function ($) {
 
     $("#quickstart-browse-button").click(function(){
         window.create_slides.open();
+    });
+
+    //dashboard search query on pagination
+    if($("#slideshows-list").length) {
+        if($("#search_slideshow-search-input").length) {
+            var search_string = $("#search_slideshow-search-input").val();
+            if(search_string != "") {
+                $("#slideshows-list .pagination-links a").each(function() {
+                    this.href = this.href + "&s=" + search_string;
+                });
+            }
+        }
+    }
+
+    /**
+     * Hide smooth height setting when image crop is disabled
+     *
+    **/
+    if ($('select[name="settings[smartCrop]"]').val() == 'disabled') {
+        $('input[name="settings[smoothHeight]"]').closest('tr').show();
+    } else {
+        $('input[name="settings[smoothHeight]"]').closest('tr').hide();
+    }
+    $('select[name="settings[smartCrop]"]').change(function(){
+        if ($(this).val() == 'disabled') {
+            $('input[name="settings[smoothHeight]"]').closest('tr').show();
+        } else {
+            $('input[name="settings[smoothHeight]"]').closest('tr').hide();
+            $('input[name="settings[smoothHeight]"]').prop( "checked", false );
+        }
+    });
+
+    /* Dismiss legacy setting notices */
+    $(document).on( 'click', '.ml-legacy-notice .notice-dismiss', function() {
+        var data = {
+            action: 'legacy_notification',
+            notif_status: 'hide',
+            _wpnonce: metaslider.legacy_notification_nonce
+        };
+        $.ajax({
+            url: metaslider.ajaxurl,
+            data: data,
+            type: 'POST',
+            error: function (error) {
+                console.log('Something went wrong:' +  error);
+            },
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    
+    });
+
+    /* Copy to clipboard on Dashboard Page*/
+    $('.copy-shortcode').click(function() {
+        var textToCopy = $(this).text();
+        if (window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy);
+        } else {
+            var $tempElement = $("<input>");
+            $("body").append($tempElement);
+            $tempElement.val(textToCopy).select();
+            document.execCommand("Copy");
+            $tempElement.remove();
+        }
+        $(this).next('.copy-message').fadeIn().delay(1000).fadeOut();
     });
 });
 

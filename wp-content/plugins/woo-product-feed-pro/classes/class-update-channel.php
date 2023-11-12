@@ -216,6 +216,15 @@ class WooSEA_Update_Project {
 		}
 
 		/**
+		 * Did the option to preview the feed got disabled?
+		 */
+		if(array_key_exists('fileformat', $project_data)){
+			if(!array_key_exists('preview_feed', $project_data)) {
+				unset($project_config['preview_feed']);
+			}
+		}
+
+		/**
 		 * Did all the filters got removed
 	  	 */
                 if((array_key_exists('woosea_page', $project_data)) AND ($project_data['woosea_page'] == "filters_rules")){

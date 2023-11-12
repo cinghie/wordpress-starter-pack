@@ -11,6 +11,7 @@ namespace WooCommerce\PayPalCommerce\Button\Endpoint;
 
 use Psr\Log\LoggerInterface;
 use Throwable;
+use WooCommerce\PayPalCommerce\ApiClient\Entity\Money;
 use WooCommerce\PayPalCommerce\Button\Assets\SmartButton;
 
 /**
@@ -65,9 +66,32 @@ class CartScriptParamsEndpoint implements EndpointInterface {
 	 */
 	public function handle_request(): bool {
 		try {
+			if ( is_callable( 'wc_maybe_define_constant' ) ) {
+				wc_maybe_define_constant( 'WOOCOMMERCE_CART', true );
+			}
+
 			$script_data = $this->smart_button->script_data();
 
-			wp_send_json_success( $script_data['url_params'] );
+			$total = (float) WC()->cart->get_total( 'numeric' );
+
+			// Shop settings.
+			$base_location     = wc_get_base_location();
+			$shop_country_code = $base_location['country'] ?? '';
+			$currency_code     = get_woocommerce_currency();
+
+			wp_send_json_success(
+				array(
+					'url_params'    => $script_data['url_params'],
+					'button'        => $script_data['button'],
+					'messages'      => $script_data['messages'],
+					'amount'        => WC()->cart->get_total( 'raw' ),
+
+					'total'         => $total,
+					'total_str'     => ( new Money( $total, $currency_code ) )->value_str(),
+					'currency_code' => $currency_code,
+					'country_code'  => $shop_country_code,
+				)
+			);
 
 			return true;
 		} catch ( Throwable $error ) {

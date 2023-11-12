@@ -104,6 +104,24 @@ $image_id = $slide_id;
      */
     private function get_crop_dimensions($image_width, $image_height)
     {
+        // Slideshow width exists but not slideshow height
+        if ( $this->container_width && ! $this->container_height ) {
+            $calc_height = ( $image_height * $this->container_width ) / $image_width;
+            return [
+                'width' => absint( $this->container_width ),
+                'height' => absint( $calc_height )
+            ];
+        }
+
+        // Slideshow height exists but not slideshow width
+        if ( $this->container_height && ! $this->container_width ) {
+            $calc_width = ( $image_width * $this->container_height ) / $image_height;
+            return [
+                'width' => absint( $calc_width ),
+                'height' => absint( $this->container_height )
+            ];
+        }
+
         if ($this->crop_type == 'standard') {
             return [
                 'width' => absint($this->container_width),

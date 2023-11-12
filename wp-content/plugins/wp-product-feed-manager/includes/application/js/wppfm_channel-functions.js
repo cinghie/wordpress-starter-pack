@@ -1,3 +1,5 @@
+/*global wppfm_feed_settings_form_vars */
+
 /**
  * Switches the correct input fields on the feed form on or off depending on the selected channel
  *
@@ -41,25 +43,29 @@ function wppfm_showChannelInputs( channel, isNew ) {
 		'31': 'switchToPinterestFeedFormMainInputs',
 		'32': 'switchToVivinoXmlFeedFormMainInputs',
 		'33': 'switchToIdealoXmlFeedFormMainInputs',
+		'34': 'switchToXShoppingManagerFeedFormMainInputs',
+		'35': 'switchToInstagramShoppingFeedFormMainInputs',
+		'36': 'switchToWhatsAppBusinessFeedFormMainInputs',
+		'37': 'switchToTikTokCatalogFeedFormMainInputs',
 		'996': 'switchToMarketingrobotTsvFeedFormMainInputs',
 		'997': 'switchToMarketingrobotTxtFeedFormMainInputs',
 		'998': 'switchToMarketingrobotCsvFeedFormMainInputs',
 		'999': 'switchToMarketingrobotFeedFormMainInputs',
 	};
 
-	console.log(fName[ channel ]);
-
 	// call the correct function
 	if ( fName.hasOwnProperty( channel ) ) {
 		window[ fName[ channel ] ]( isNew, channel );
 	}
 
+	// Warn the user if he selected a channel that has a newer version.
+	wppfm_checkChannelUpdate( channel );
+
 	// standard for all channels
 	jQuery( '#update-schedule-row' ).show();
 	jQuery( '#add-product-variations-row' ).show();
 
-	if ( (
-		null === jQuery( '#lvl_0' ).val() && '' === jQuery( '#selected-categories' ).html() ) || 0 === jQuery( '#wppfm-countries-selector' ).val() ) {
+	if ( ( null === jQuery( '#lvl_0' ).val() && '' === jQuery( '#selected-categories' ).html() ) || 0 === jQuery( '#wppfm-countries-selector' ).val() ) {
 		wppfm_show_or_hide_category_map( channel );
 	} else {
 		jQuery( '#wppfm-category-map' ).show();
@@ -123,13 +129,14 @@ function wppfm_category_separator( channel ) {
  * @param {string} channel
  * @param {string} feedId
  * @param {boolean} categoryChanged
+ * @param {boolean} nameChanged //@since 2.40.0
  * @returns nothing
  */
-function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
+function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged, nameChanged ) {
 	var functionName;
-	var tabId = wppfm_getUrlVariable( 'tab' ); // identify the feed type
+	var fileType = wppfm_getUrlParameter( 'feed-type' ); // identify the feed type
 
-	if ( 'product-feed' === tabId ) { // handle product feeds from different merchants
+	if ( '' === fileType || 'product-feed' === fileType ) { // handle product feeds from different merchants
 		var fName = {
 			'1': 'googleInputChanged',
 			'2': 'bingInputChanged',
@@ -163,6 +170,10 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 			'31': 'pinterestInputChanged',
 			'32': 'vivinoXmlInputChanged',
 			'33': 'idealoXmlInputChanged',
+			'34': 'xShoppingManagerInputChanged',
+			'35': 'instagramShoppingInputChanged',
+			'36': 'whatsAppBusinessInputChanged',
+			'37': 'tikTokCatalogInputChanged',
 			'996': 'marketingrobotTsvInputChanged',
 			'997': 'marketingrobotTxtInputChanged',
 			'998': 'marketingrobotCsvInputChanged',
@@ -171,13 +182,13 @@ function wppfm_reactOnChannelInputChanged( channel, feedId, categoryChanged ) {
 
 		functionName = fName[ channel ];
 	} else { // handle special feeds from add-ons
-		var functionString = wppfm_convertToCamelCase( tabId.split( '-' ) );
-		functionName   = functionString + 'Changed';
+		var functionString = wppfm_convertToCamelCase( fileType.split( '-' ) );
+		functionName   = 'wppfm_' + functionString + 'Changed';
 	}
 
 	// call the correct function
 	if ( functionName ) {
-		window[ functionName ]( feedId, categoryChanged );
+		window[ functionName ]( feedId, categoryChanged, nameChanged );
 	}
 }
 
@@ -209,6 +220,7 @@ function wppfm_getChannelFeedType( channel ) {
 		case '26': // Galaxus Product Data
 		case '27': // Galaxus Product Stock Pricing
 		case '28': // Galaxus Product Properties
+		case '34': // X Shopping Manager
 		case '998': // Custom CSV Feed
 			return 'csv';
 
@@ -288,7 +300,8 @@ function wppfm_channelUsesOwnCategories( channel ) {
 
 /**
  * If required for that channel, this function activates the correct function that will prepare the global category
- * variables in the channel specific javascript file. Does nothing when not required for the channel.
+ * variables in the channel specific javascript file. This is only required if the channel required attributes are different for specific categories.
+ * Does nothing when not required for the channel.
  *
  * @param {string} channel
  * @param {string} selectedCategory
@@ -385,6 +398,10 @@ function wppfm_getAdvisedInputs( channel ) {
 		'31': 'woocommerceToPinterestFields',
 		'32': 'woocommerceToVivinoXmlFields',
 		'33': 'woocommerceToIdealoXmlFields',
+		'34': 'woocommerceToXShoppingManagerFields',
+		'35': 'woocommerceToInstagramShoppingFields',
+		'36': 'woocommerceToWhatsAppBusinessFields',
+		'37': 'woocommerceToTikTokCatalogFields',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -456,6 +473,10 @@ function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {
 			//noinspection JSUnresolvedFunction
 			return setZboziOutputAttributeLevels( feedHolder, selectArgument );
 
+		case '16':
+			//noinspection JSUnresolvedFunction
+			return setFacebookOutputAttributeLevels( feedHolder, selectArgument );
+
 		case '26':
 			//noinspection JSUnresolvedFunction
 			return setGalaxusProductDataAttributeLevels( feedHolder, selectArgument );
@@ -467,6 +488,14 @@ function wppfm_setOutputAttributeLevels( channel, feedHolder, selectArgument ) {
 		case '28':
 			//noinspection JSUnresolvedFunction
 			return setGalaxusProductPropertiesAttributeLevels( feedHolder );
+
+		case '35':
+			//noinspection JSUnresolvedFunction
+			return setInstagramShoppingOutputAttributeLevels( feedHolder, selectArgument );
+
+		case '36':
+			//noinspection JSUnresolvedFunction
+			return setWhatsAppBusinessOutputAttributeLevels( feedHolder, selectArgument );
 
 		case '996':
 			//noinspection JSUnresolvedFunction
@@ -527,6 +556,10 @@ function wppfm_restrictedStaticFields( channel, fieldName ) {
 		'31': 'pinterestStaticFieldOptions',
 		'32': 'vivinoXmlStaticFieldOptions',
 		'33': 'idealoXmlStaticFieldOptions',
+		'34': 'xShoppingManagerStaticFieldOptions',
+		'35': 'instagramShoppingStaticFieldOptions',
+		'36': 'whatsAppBusinessStaticFieldOptions',
+		'37': 'tikTokCatalogStaticFieldOptions',
 	};
 
 	if ( fName.hasOwnProperty( channel ) ) {
@@ -549,11 +582,9 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 	// WPPFM_CHANNEL_RELATED
 	switch ( channel ) {
 
-		// @since 2.27.0 added sale_price-effective_date.
-		// @since 2.36.0 added sell_on_google_minimum_advertised_price, sell_on_google_price and auto_pricing_min_price.
 		case '1': // Google
 			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
-				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
+				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price' || outputsField[ 'field_label' ] === 'is_bundle'
 				|| outputsField[ 'field_label'] === 'sale_price_effective_date' || outputsField[ 'field_label'] === 'sell_on_google_minimum_advertised_price' || outputsField[ 'field_label'] === 'sell_on_google_price'
 				|| outputsField[ 'field_label'] === 'auto_pricing_min_price' ) {
 
@@ -565,7 +596,10 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			break;
 
 		case '2': // Bing
-			if ( outputsField[ 'field_label' ] === 'seller_name' ) {
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
+					|| outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price' || outputsField[ 'field_label' ] === 'adult'
+					|| outputsField[ 'field_label'] === 'gender' || outputsField[ 'field_label' ] === 'sale_price_effective_date' ) {
+
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
 					//noinspection JSUnresolvedFunction
@@ -615,11 +649,9 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			}
 			break;
 
-		// @since 2.27.0 Updated to the same settings as for Google.
 		case '16': // Facebook
-			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'identifier_exists'
-				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
-				|| outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'price'|| outputsField[ 'field_label' ] === 'sale_price'
+					|| outputsField[ 'field_label'] === 'status' || outputsField[ 'field_label'] === 'gender'|| outputsField[ 'field_label'] === 'age_group'  || outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
@@ -730,7 +762,7 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 
 		case '30': // Snapchat
 			if ( outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price'
-				|| outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+				|| outputsField[ 'field_label'] === 'sale_price_effective_date' || outputsField[ 'field_label'] === 'gender' || outputsField[ 'field_label'] === 'condition' ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
@@ -741,8 +773,8 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 			break;
 
 		case '31': // Pinterest
-			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability'
-				|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price' ) {
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability'|| outputsField[ 'field_label' ] === 'age_group' || outputsField[ 'field_label' ] === 'gender'
+					|| outputsField[ 'field_label' ] === 'adult' || outputsField[ 'field_label' ] === 'price' || outputsField[ 'field_label' ] === 'sale_price' ) {
 
 				// only switch to the 'preset' value if no user value is set
 				if ( ! outputsField[ 'value' ] ) {
@@ -759,6 +791,50 @@ function wppfm_setChannelRelatedPresets( outputsField, channel ) {
 				if ( ! outputsField[ 'value' ] ) {
 					//noinspection JSUnresolvedFunction
 					outputsField[ 'value' ] = setVivinoXmlPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
+
+		case '34': // X Shopping Manager
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'price'
+					|| outputsField[ 'field_label' ] === 'gender' || outputsField[ 'field_label' ] === 'sale_price' || outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setXShoppingManagerPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
+
+		case '35': // Instagram Shopping
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'price'
+					|| outputsField[ 'field_label' ] === 'gender' || outputsField[ 'field_label' ] === 'sale_price' || outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setInstagramShoppingPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
+
+		case '36': // WhatsApp Business
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'price'
+					|| outputsField[ 'field_label' ] === 'gender' || outputsField[ 'field_label' ] === 'sale_price' || outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setWhatsAppBusinessPresets(	outputsField[ 'field_label' ] );
+				}
+			}
+			break;
+
+		case '37': // TikTok Catalog
+			if ( outputsField[ 'field_label' ] === 'condition' || outputsField[ 'field_label' ] === 'availability' || outputsField[ 'field_label' ] === 'price'
+					|| outputsField[ 'field_label' ] === 'gender' || outputsField[ 'field_label' ] === 'sale_price' || outputsField[ 'field_label'] === 'sale_price_effective_date' ) {
+
+				// only switch to the 'preset' value if no user value is set
+				if ( ! outputsField[ 'value' ] ) {
+					outputsField[ 'value' ] = setTikTokCatalogPresets(	outputsField[ 'field_label' ] );
 				}
 			}
 			break;
@@ -804,4 +880,20 @@ function setAttributeStatus( fieldLevel, fieldValue ) {
 	}
 
 	return !!fieldValue;
+}
+
+function wppfm_checkChannelUpdate( channel ) {
+	if ( 'full' === document.getElementById( 'wppfm-plugin-version-id' ).dataset.value ) {
+		var channelData = JSON.parse( document.getElementById( 'wppfm-installed-channel-versions' ).textContent );
+
+		var selectedChannelData = channelData.find( function( item ) { // noinspection JSUnresolvedReference
+			return item.channel_id === channel; } );
+
+		// noinspection JSUnresolvedReference
+		if ( selectedChannelData && 'unknown' !== selectedChannelData.available_version && selectedChannelData.available_version !== selectedChannelData.installed_version ) {
+			// noinspection JSUnresolvedReference
+			wppfm_show_error_message( wppfm_feed_settings_form_vars.channel_update_available.replace( '%channel%', selectedChannelData.channel_name ) );
+			console.log( 'update available' );
+		}
+	}
 }

@@ -80,7 +80,7 @@ class WPPFM_Feed_Process_Logging {
 	 * @return string
 	 */
 	private static function generate_log_tag( $level ) {
-		return sprintf( '[%s]-[%s]=', date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ), $level );
+		return sprintf( '[%s]-[%s]=', gmdate( 'Y-m-d H:i:s', time() ), $level );
 	}
 }
 

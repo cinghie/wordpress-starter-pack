@@ -35,6 +35,9 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Main_Input_Wrapper' ) ) :
 			// Channel selector
 			echo WPPFM_Main_Input_Selector_Element::merchant_selector_element();
 
+			// Feed Type selector
+			echo WPPFM_Main_Input_Selector_Element::google_type_selector_element( '1' );
+
 			do_action( 'wppfm_add_feed_attribute_selector' );
 
 			// Country selector

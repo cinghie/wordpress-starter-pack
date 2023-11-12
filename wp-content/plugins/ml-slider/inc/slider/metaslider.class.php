@@ -121,6 +121,7 @@ class MetaSlider
             'slices' => 15,
             'center' => false,
             'smartCrop' => true,
+            'smoothHeight' => false,
             'carouselMode' => false,
             'carouselMargin' => 5,
             'firstSlideFadeIn' => false,
@@ -241,18 +242,35 @@ class MetaSlider
      */
     public function render_public_slides()
     {
-        if (array_key_exists('title', $this->settings)) {
-            $slideshow_title = $this->settings['title'];
+        $slideshow = new MetaSlider_Slideshows;
+        $slideshowDetails = $slideshow->get_single($this->id);
+        if ($slideshowDetails[0]['title']) {
+            $slideshow_title = $slideshowDetails[0]['title'];
         } else {
             $slideshow_title = 'Slideshow';
         }
+
         $html[] = '<div id="metaslider-id-' . esc_attr($this->id) . '" style="' . esc_attr($this->get_container_style()) . '" class="' . esc_attr($this->get_container_class()) . '" role="region" aria-roledescription="Slideshow" aria-label="' . esc_attr($slideshow_title) . '">';
         $html[] = '    <div id="' . esc_attr($this->get_container_id()) . '">';
         $html[] = '        ' . $this->get_html();
         $html[] = '        ' . $this->get_html_after();
         $html[] = '    </div>';
         $html[] = '</div>';
-        
+
+        $capability = apply_filters('metaslider_capability', MetaSliderPlugin::DEFAULT_CAPABILITY_EDIT_SLIDES);
+
+        $global_settings = get_option( 'metaslider_global_settings' );
+
+        if ( current_user_can($capability) 
+            && ! is_admin() && ( 
+            ! isset( $global_settings['editLink'] )
+            || (bool) $global_settings['editLink']
+        )
+        ) {
+            $editUrl = admin_url("admin.php?page=metaslider&id={$this->id}");
+            $html[] = '<div><a href="' . esc_url($editUrl) . '" target="_blank" class="ms-edit-frontend">' . esc_html__('Edit Slideshow', 'ml-slider') . ' <span class="dashicons dashicons-external"></span></a></div>';
+        }
+
         $slideshow = implode("\n", $html);
 
         $slideshow = apply_filters('metaslider_slideshow_output', $slideshow, $this->id, $this->settings);
@@ -336,7 +354,7 @@ class MetaSlider
      * @return string javascript
      */
     private function get_inline_javascript()
-    {
+    {   
         $custom_js_before = $this->get_custom_javascript_before();
         $custom_js_after = $this->get_custom_javascript_after();
 
@@ -530,6 +548,9 @@ class MetaSlider
             $extra_css = apply_filters("metaslider_css", "", $this->settings, $this->id);
             wp_add_inline_style('metaslider-public', $extra_css);
         }
+
+        wp_enqueue_script('metaslider-script', METASLIDER_ASSETS_URL . 'metaslider/script.min.js', array('jquery'), METASLIDER_ASSETS_VERSION);
+
         do_action('metaslider_register_public_styles');
     }
 }

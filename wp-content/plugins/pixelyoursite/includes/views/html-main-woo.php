@@ -33,7 +33,7 @@ use PixelYourSite\Facebook\Helpers;
         <div  class="row">
             <div class="col">
                 <?php renderDummySwitcher( false ); ?>
-                <h4 class="switcher-label">Track refunds on Goolge Analytics</h4><?php renderProBadge(); ?>
+                <h4 class="switcher-label">Track refunds on Google Analytics</h4><?php renderProBadge(); ?>
             </div>
         </div>
         <p class="small">
@@ -48,8 +48,7 @@ use PixelYourSite\Facebook\Helpers;
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <p>Fire e-commerce related events. On Facebook, the events will be Dynamic Ads Ready. Enhanced Ecommerce
-                    will be enabled for Google Analytics.</p>
+                <p>Fire e-commerce related events. Meta events are Dynamic Ads Ready. Monetization data is sent to Google Analytics.</p>
             </div>
         </div>
 
@@ -77,20 +76,31 @@ use PixelYourSite\Facebook\Helpers;
                 <small class="form-text">Display <i>the number of orders, lifetime value, and average order</i>.</small>
             </div>
         </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'woo_enabled_show_tracking_type',false,true ); ?>
+                <h4 class="switcher-label">Show tracking type</h4> <?php renderProBadge(); ?>
+                <small class="form-check">Show the tracking type in the orders table and on the on the order's page.</small>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <label class="mb-2">If the Purchase event doesn't work correctly, add your Checkout page(s) ID(s) here: <?php renderProBadge(); ?></label>
+                <?php PYS()->render_tags_select_input("woo_checkout_page_ids", true);?>
+                <small class="form-check">Don't add the Checkout page IDs if you use Stripe or Klarna because conflicts are possible.</small>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="panel">
     <div class="row">
         <div class="col">
-            <p>Use our dedicated plugin to create auto-updating feeds for Facebook Product Catalogs, Google Merchant,
-                or Google Ads Custom vertical.
+            <p>Use our dedicated plugin to upload and update your products to Meta Product Catalogs, Google Merchant, Google Ads Custom Vertical, Pinterest Catalogs, or TikTok Catalogs.
                 <a href="https://www.pixelyoursite.com/product-catalog-facebook?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-catalogs-woo-tab"
                         target="_blank">Click to get Product Catalog Feed Pro</a></p>
-            <p class="mb-0">Automatically add your WooCommerce products to a Facebook Product Catalog when someone
-                visits them.
-                <a href="https://www.pixelyoursite.com/opengraph-plugin?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-catalogs-woo-tab" target="_blank">Click to get the
-                    Smart OpenGraph plugin</a></p>
         </div>
     </div>
 </div>
@@ -104,7 +114,7 @@ use PixelYourSite\Facebook\Helpers;
         <div class="row">
             <div class="col">
                 <p>WooCommerce AddToCart Event FIX (4:46 min) - <a href="https://www.youtube.com/watch?v=oZoAu8a0PNg" target="_blank">watch now</a></p>
-                <p>Improve WooCommerce Facebook Ads performance with OFFLINE CONVERSIONS (11:38) - <a href="https://www.youtube.com/watch?v=vNsiWh0cakA" target="_blank">watch now</a></p>
+								<p>Analyse your WooCommerce data with ChatGPT (12:06) - <a href="https://www.youtube.com/watch?v=FjGJYAdZEKc" target="_blank">watch video</a></p>
                 <p>Enhanced Conversions for Google Ads with PixelYourSite (9:14) - <a href="https://www.youtube.com/watch?v=0uuTiOnVw80" target="_blank">watch now</a></p>
                 <p>Google Analytic 4 (GA4) & WooCommerce: Transaction Reports (6:51) - <a href="https://www.youtube.com/watch?v=zLtXHbp_DDU" target="_blank">watch now</a></p>
                 <p>Google Analytics 4 (GA4) FUNNELS for WooCommerce (6:13)  - <a href="https://www.youtube.com/watch?v=c6L1XMYzuMM" target="_blank">watch now</a></p>
@@ -221,7 +231,7 @@ use PixelYourSite\Facebook\Helpers;
 
     <?php $facebook_id_visibility = Helpers\isDefaultWooContentIdLogic() ? 'block' : 'none'; ?>
     <?php $isShowFbID = Helpers\isFacebookForWooCommerceActive();?>
-    
+
     <div class="card" id="pys-section-facebook-id" style="display: <?php esc_attr_e( $facebook_id_visibility ); ?>;">
         <div class="card-header">
             Facebook ID setting<?php cardCollapseBtn(); ?>
@@ -231,8 +241,14 @@ use PixelYourSite\Facebook\Helpers;
                 <div class="col">
                     <?php Facebook()->render_switcher_input( 'woo_variable_as_simple' ); ?>
                     <h4 class="switcher-label">Treat variable products like simple products</h4>
-                    <p class="mt-3">Turn this option ON when your Product Catalog doesn't include the variants for variable
+                    <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID. Turn this option ON when your Product Catalog doesn't include the variants for variable
                         products.</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">For product pages, track the variation data when a variation is selected <?php renderProBadge(); ?></h4>
                 </div>
             </div>
             <div class="row mb-3">
@@ -272,7 +288,13 @@ use PixelYourSite\Facebook\Helpers;
                 <div class="col">
                     <?php GA()->render_switcher_input( 'woo_variable_as_simple' ); ?>
                     <h4 class="switcher-label">Treat variable products like simple products</h4>
-                    <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID.</p>
+                    <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID. Turn this option ON when your Product Catalog doesn't include the variants for variable products.</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">For product pages, track the variation data when a variation is selected <?php renderProBadge(); ?></h4>
                 </div>
             </div>
             <div class="row mb-3">
@@ -330,6 +352,12 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
             <div class="row mb-3">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">For product pages, track the variation data when a variation is selected <?php renderProBadge(); ?></h4>
+                </div>
+            </div>
+            <div class="row mb-3">
                 <div class="col col-offset-left form-inline">
                     <label>ID</label>
                     <?php Pinterest()->render_select_input( 'woo_content_id',
@@ -376,6 +404,12 @@ e&utm_campaign=pro-feature' ); ?>
                     <?php Bing()->render_switcher_input( 'woo_variable_as_simple' ); ?>
                     <h4 class="switcher-label">Treat variable products like simple products</h4>
                     <p class="mt-3">If you enable this option, the main ID will be used instead of the variation ID.</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">For product pages, track the variation data when a variation is selected <?php renderProBadge(); ?></h4>
                 </div>
             </div>
             <div class="row mb-3">
@@ -452,6 +486,8 @@ e&utm_campaign=pro-feature' ); ?>
                 <?php renderDummySelectInput( 'Include Tax' ); ?>
                 <label>and</label>
                 <?php renderDummySelectInput( 'Include Shipping' ); ?>
+                <label>and</label>
+                <?php renderDummySelectInput( 'Include Fees' ); ?>
             </div>
         </div>
 
@@ -515,7 +551,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -572,7 +608,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -614,7 +650,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('woo_initiate_checkout_enabled');?>Track the Checkout Page <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -623,7 +659,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -682,7 +718,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -716,7 +752,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('woo_remove_from_cart_enabled');?>Track remove from cart <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -725,7 +761,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -748,7 +784,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <?php renderProBadge('https://www.pixelyoursite.com/google-ads-tag/?utm_source=pys-free-plugin&utm_medium=pro-badge&utm_campaign=pro-feature'); ?>
             </div>
         </div>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -778,7 +814,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('woo_add_to_cart_enabled');?>Track add to cart <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -787,7 +823,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -846,7 +882,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -880,7 +916,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('woo_view_content_enabled');?>Track product pages <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -889,7 +925,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -955,7 +991,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -989,7 +1025,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('woo_view_category_enabled');?>Track product category pages <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -1018,7 +1054,7 @@ e&utm_campaign=pro-feature' ); ?>
             </div>
         </div>
         <?php renderDummyGoogleAdsConversionLabelInputs(); ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -1032,7 +1068,24 @@ e&utm_campaign=pro-feature' ); ?>
     </div>
 </div>
 
+<!-- ViewCart -->
+<div class="card">
+    <div class="card-header has_switch">
+        <?php PYS()->render_switcher_input( 'woo_view_cart_enabled' ); ?>Track cart pages <?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
 
+        <?php if ( GA()->enabled() ) : ?>
+            <div class="row mb-1">
+                <div class="col">
+                    <?php GA()->render_switcher_input( 'woo_view_cart_enabled' ); ?>
+                    <h4 class="switcher-label">Enable the view_cart event on Google Analytics</h4>
+                </div>
+            </div>
+        <?php endif; ?>
+
+    </div>
+</div>
 
 <div class="card">
     <div class="card-header">
@@ -1170,7 +1223,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col col-offset-left form-inline">
                 <label>Fire this event when the client has at least </label>
@@ -1227,7 +1280,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col col-offset-left form-inline">
                 <label>Fire this event when the client has at least</label>
@@ -1271,7 +1324,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Send the event to Google Ads</h4>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col">
                 <?php renderDummySwitcher(); ?>
@@ -1285,7 +1338,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col col-offset-left form-inline">
                 <label>Fire this event when the client has LTV at least</label>
@@ -1294,7 +1347,131 @@ e&utm_campaign=pro-feature' ); ?>
         </div>
     </div>
 </div>
+<div class="card card-disabled">
+    <div class="card-header">
+        FrequentShopper Event <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
 
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Facebook</h4>
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Google Analytics</h4>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col col-offset-left">
+                <?php renderDummyCheckbox( 'Non-interactive event' ); ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Google Ads</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Enable on Pinterest</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Enable on Bing</h4>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col col-offset-left form-inline">
+                <label>Fire this event when the client has at least </label>
+                <?php renderDummyTextInput( 2 ); ?>
+                <label>transactions</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card card-disabled">
+    <div class="card-header has_switch">
+        FirstTimeBuyer Event <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+
+            <div class="row">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">Send the event to Facebook</h4>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">Send the event to Google Analytics</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">Send the event to Pinterest</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <?php renderDummySwitcher(); ?>
+                    <h4 class="switcher-label">Send the event to Bing</h4>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="card card-disabled">
+    <div class="card-header has_switch">
+        ReturingCustomer Event <?php renderProBadge(); ?><?php cardCollapseBtn(); ?>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Facebook</h4>
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Google Analytics</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Pinterest</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <?php renderDummySwitcher(); ?>
+                <h4 class="switcher-label">Send the event to Bing</h4>
+            </div>
+        </div>
+    </div>
+</div>
 <h2 class="section-title">Extra events</h2>
 
 <!-- Affiliate -->
@@ -1324,7 +1501,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row my-3">
             <div class="col col-offset-left form-inline">
                 <label>Event Type:</label>
@@ -1374,7 +1551,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Send the event to Google Ads</h4>
             </div>
         </div>
-     
+
     </div>
 </div>
 
@@ -1405,7 +1582,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row my-3">
             <div class="col col-offset-left form-inline">
                 <label>Event Type:</label>
@@ -1455,7 +1632,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Send the event to Google Ads</h4>
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -1476,14 +1653,14 @@ e&utm_campaign=pro-feature' ); ?>
                 <br><br>
 
                 <p>The Meta Pixel (formerly Facebook Pixel) events are Dynamic Ads ready.</p>
-                <p>The Google Analytics events track the data Enhanced Ecommerce or Monetization (GA4).</p>
-                <p>The Pinterest events have the required data for Dynamic Remarketing.</p>
+                <p>The Google Analytics events track Monetization data (GA4).</p>
+                <p>The Pinterest events have the required data for Dynamic Remarketing (paid add-on requiered).</p>
 
                 <br><br>
                 <p>The Purchase event will have the following extra-parameters:
                     <i>category_name, num_items, tags, total (pro), transactions_count (pro), tax (pro),
                         predicted_ltv (pro), average_order (pro), coupon_used (pro), coupon_code (pro), shipping (pro),
-                        shipping_cost (pro).</i>
+                        shipping_cost (pro), fee (pro).</i>
                 </p>
             </div>
         </div>
@@ -1523,7 +1700,13 @@ e&utm_campaign=pro-feature' ); ?>
                 <hr>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col">
+                <?php PYS()->render_switcher_input( 'enable_woo_fees_param' ); ?>
+                <h4 class="switcher-label">fees</h4>
+                <hr>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <?php renderDummySwitcher(); ?>

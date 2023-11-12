@@ -453,8 +453,7 @@ if ( ! class_exists( 'YITH_WAPO_Addon' ) ) {
 				$formatted_settings[$setting_id] = $this->get_setting( $addon_id, $default, $translate );
 			}
 
-
-			return $formatted_settings;
+			return apply_filters( 'yith_wapo_get_formatted_settings', $formatted_settings );
 		}
 
 		/**
@@ -559,6 +558,27 @@ if ( ! class_exists( 'YITH_WAPO_Addon' ) ) {
 					}
 				}
 			}
+
+            /**
+             * APPLY_FILTER: yith_wapo_option_price_html
+             *
+             * Modify the price html of all options
+             *
+             * @param string $html_price formatted price in HTML
+             *
+             * @return string
+             */
+            $html_price = apply_filters( 'yith_wapo_option_price_html', $html_price );
+
+            /**
+             * APPLY_FILTER: 'yith_wapo_option_' . $this->id . '_' . $index . '_price_html'
+             *
+             * Modify the price html of a specific option
+             *
+             * @param string $html_price formatted price in HTML
+             *
+             * @return string
+             */
 			return apply_filters( 'yith_wapo_option_' . $this->id . '_' . $index . '_price_html', $html_price );
 		}
 
@@ -744,6 +764,21 @@ if ( ! class_exists( 'YITH_WAPO_Addon' ) ) {
 
             return $needed_options;
 
+        }
+
+        /**
+         * Return add-on grid rules.
+         *
+         * @return string
+         */
+        public function get_grid_rules() {
+            $grid = '
+              display: grid;
+              grid-template-columns: repeat( 1, minmax(0, 100%) );
+              gap: 10px;
+            ';
+
+            return $grid;
         }
 
 	}

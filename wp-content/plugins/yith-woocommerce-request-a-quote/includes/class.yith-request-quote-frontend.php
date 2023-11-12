@@ -1,9 +1,9 @@
 <?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements features of FREE version of YITH WooCommerce Request A Quote
+ * Implements features of FREE version of YITH Request a Quote for WooCommerce
  *
  * @class   YITH_YWRAQ_Frontend
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -71,7 +71,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			}
 
 			$shortcodes = new YITH_YWRAQ_Shortcodes();
-
 		}
 
 		/**
@@ -106,7 +105,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 				wp_add_inline_style( 'yith_ywraq_frontend', $css );
 
 			}
-
 		}
 
 		/**
@@ -164,7 +162,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 		 * Check if the button can be showed in single page
 		 *
 		 * @since  1.0.0
-		 * @return void
 		 */
 		public function add_button_single_page() {
 
@@ -179,7 +176,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 
 		/**
 		 * Show Button on Single Product Page
-		 *
 		 */
 		public function show_button_single_page() {
 
@@ -242,15 +238,17 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 		/**
 		 * Concat the quote button to the product button
 		 *
+		 * @param string $content Content.
+		 *
 		 * @since 4.16.0
+		 * @return string
 		 */
-		public function add_button_single_block( $content, $b ) {
+		public function add_button_single_block( $content ) {
 			ob_start();
 			$this->add_button_single_page();
 			$new_content = ob_get_clean();
 
 			return $content . $new_content;
-
 		}
 
 		/**
@@ -283,7 +281,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 			$args['args'] = $args;
 
 			wc_get_template( 'add-to-quote.php', $args, '', YITH_YWRAQ_TEMPLATE_PATH );
-
 		}
 
 		/**
@@ -318,8 +315,6 @@ if ( ! class_exists( 'YITH_YWRAQ_Frontend' ) ) {
 
 			return $classes;
 		}
-
-
 	}
 
 	/**

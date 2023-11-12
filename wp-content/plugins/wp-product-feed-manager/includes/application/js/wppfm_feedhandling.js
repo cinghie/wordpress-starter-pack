@@ -49,6 +49,8 @@ function wppfm_addFeedAttributes( outputs, channel ) {
 	var inputs = wppfm_getAdvisedInputs( channel );
 	var i      = 0;
 
+	console.log(inputs);
+
 	_feedHolder.clearAllAttributes();
 
 	for ( var field in outputs ) {
@@ -80,7 +82,9 @@ function wppfm_saveFeedToDb( feed, callback ) {
 
 	var feedDataSelectorTable = jQuery( '#wppfm-ajax-feed-data-to-database-conversion-array' ).text(); // get the data from the edit feed form code
 	var feedDataToStore       = wppfm_getFeedDataToStore( feedDataSelectorTable );
-	var metaToStore           = wppfm_filterActiveMetaData( _feedHolder[ 'attributes' ], _feedHolder[ 'categoryMapping' ] );
+	var metaToStore           = '3' !== _feedHolder[ 'feedType' ] && _feedHolder[ 'promotions' ]
+		? wppfm_filterActiveMetaData( _feedHolder[ 'attributes' ], _feedHolder[ 'categoryMapping' ] )
+		: wpppfm_convertPromotionToAttribute( _feedHolder[ 'promotions' ] );
 	var feedFilter            = _feedHolder[ 'feedFilter' ];
 
 	wppfm_updateFeedToDb(
@@ -140,4 +144,16 @@ function wppfm_getFeedDataToStore( feedDataSelector ) {
 	}
 
 	return result;
+}
+
+function wppfm_standardProductFeedSelected() {
+	var standardFileNameElement = jQuery( '#wppfm-feed-file-name' );
+
+	// verify if the filename is valid
+	if ( false === wppfm_validateFileName( standardFileNameElement.val() ) ) {
+		standardFileNameElement.val( '' );
+	}
+
+	// now clear the product feed form and place the correct Review Feed elements
+	wppfm_initializeStandardProductFeedForm( standardFileNameElement.val() );
 }

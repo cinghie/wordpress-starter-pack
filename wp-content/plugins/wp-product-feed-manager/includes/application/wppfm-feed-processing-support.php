@@ -117,7 +117,7 @@ trait WPPFM_Processing_Support {
 
 		$value_object = json_decode( $value_string );
 
-		if ( property_exists( $value_object, 'm' ) ) {
+		if ( $value_object && property_exists( $value_object, 'm' ) ) {
 			foreach ( $value_object->m as $source ) {
 				// TODO: I guess I should further reduce the "if" loops by combining them more then now
 				if ( is_object( $source ) && property_exists( $source, 's' ) ) {
@@ -149,7 +149,7 @@ trait WPPFM_Processing_Support {
 
 		$value_object = json_decode( $value_string );
 
-		if ( property_exists( $value_object, 'm' ) ) {
+		if ( $value_object && property_exists( $value_object, 'm' ) ) {
 			foreach ( $value_object->m as $source ) {
 				if ( is_object( $source ) && property_exists( $source, 'c' ) ) {
 					for ( $i = 0; $i < count( $source->c ); $i ++ ) {
@@ -174,7 +174,7 @@ trait WPPFM_Processing_Support {
 
 		$value_object = json_decode( $value_string );
 
-		if ( property_exists( $value_object, 'v' ) ) {
+		if ( $value_object && property_exists( $value_object, 'v' ) ) {
 			foreach ( $value_object->v as $changed_value ) {
 				if ( property_exists( $changed_value, 'q' ) ) {
 					for ( $i = 0; $i < count( $changed_value->q ); $i ++ ) {
@@ -294,12 +294,14 @@ trait WPPFM_Processing_Support {
 		$this->_selected_number = 0;
 
 		// do not process category strings, but only fields that are requested
+		//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		if ( property_exists( $field_meta_data, 'fieldName' ) && $field_meta_data->fieldName !== $main_category_feed_title
 			&& $this->meta_data_contains_category_data( $field_meta_data ) === false ) {
 
 			$value_object = property_exists( $field_meta_data, 'value' ) && '' !== $field_meta_data->value ? json_decode( $field_meta_data->value ) : new stdClass();
 
 			if ( property_exists( $field_meta_data, 'value' ) && '' !== $field_meta_data->value && property_exists( $value_object, 'm' ) ) { // seems to be something we need to work on
+				//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				$advised_source = property_exists( $field_meta_data, 'advisedSource' ) ? $field_meta_data->advisedSource : '';
 
 				// get the end value depending on the filter settings
@@ -307,12 +309,15 @@ trait WPPFM_Processing_Support {
 
 			} else { // no queries, edit values or alternative sources for this field
 
+				//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				if ( property_exists( $field_meta_data, 'advisedSource' ) && '' !== $field_meta_data->advisedSource ) {
+					//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					$db_title = $field_meta_data->advisedSource;
 				} else {
 					$support_class = new WPPFM_Feed_Support();
-					$source_title  = property_exists( $field_meta_data, 'fieldName' ) ? $field_meta_data->fieldName : '';
-					$db_title      = $support_class->find_relation( $source_title, $relation_table );
+					//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+					$source_title = $field_meta_data->fieldName;
+					$db_title     = $support_class->find_relation( $source_title, $relation_table );
 				}
 
 				$end_row_value = array_key_exists( $db_title, $product_data ) ? $product_data[ $db_title ] : '';
@@ -324,7 +329,7 @@ trait WPPFM_Processing_Support {
 
 				if ( property_exists( $value_object, 'm' ) && property_exists( $value_object->m[ $pos ], 's' ) ) {
 					$combination_string = property_exists( $value_object->m[ $pos ]->s, 'f' ) ? $value_object->m[ $pos ]->s->f : false;
-					$is_money           = property_exists( $value_object->m[ $pos ]->s, 'source' ) ? wppfm_meta_key_is_money( $value_object->m[ $pos ]->s->source ) : false;
+					$is_money           = property_exists( $value_object->m[ $pos ]->s, 'source' ) && wppfm_meta_key_is_money( $value_object->m[ $pos ]->s->source );
 				} else {
 					$combination_string = false;
 					$is_money           = false;
@@ -436,18 +441,18 @@ trait WPPFM_Processing_Support {
 				$result_split = explode( '#', $query_result );
 
 				if ( '2' === $result_split[0] ) {
-					array_push( $or_results, $and_results ); // store the current "and" result for processing as "or" result
+					$or_results[] = $and_results; // store the current "and" result for processing as "or" result
 
 					$and_results = array(); // clear the "and" array
 				}
 
 				$and_result = $result_split[1]; // === 'false' ? 'false' : 'true';
 
-				array_push( $and_results, $and_result );
+				$and_results[] = $and_result;
 			}
 
 			if ( count( $and_results ) > 0 ) {
-				array_push( $or_results, $and_results );
+				$or_results[] = $and_results;
 			}
 
 			if ( count( $or_results ) > 0 ) {
@@ -610,13 +615,13 @@ trait WPPFM_Processing_Support {
 
 		if ( false === strpos( $combination_elements[0], 'static#' ) ) {
 			if ( array_key_exists( $combination_elements[0], $product_data ) ) {
-				array_push( $result, $product_data[ $combination_elements[0] ] );
+				$result[] = $product_data[ $combination_elements[0] ];
 			} else {
 				$found_all_data = false;
 			}
 		} else {
-			$element = explode( '#', $combination_elements[0] );
-			array_push( $result, $element[1] );
+			$element  = explode( '#', $combination_elements[0] );
+			$result[] = $element[1];
 		}
 
 		for ( $i = 1; $i <= count( $combination_elements ) - 1; $i ++ ) {
@@ -625,9 +630,9 @@ trait WPPFM_Processing_Support {
 
 			if ( substr( $selector, 0, 7 ) === 'static#' ) {
 				$selector = explode( '#', $selector );
-				array_push( $result, $selector[1] );
+				$result[] = $selector[1];
 			} elseif ( array_key_exists( $selector, $product_data ) ) {
-				array_push( $result, $product_data[ $selector ] );
+				$result[] = $product_data[ $selector ];
 			} else {
 				//array_push( $result, $selector );
 				$found_all_data = false;
@@ -772,9 +777,9 @@ trait WPPFM_Processing_Support {
 		if ( ! empty( $value_string ) ) {
 			$value_object = json_decode( $value_string );
 
-			if ( property_exists( $value_object, 'm' )
-			     && ! empty( $value_object->m[0] )
-			     && property_exists( $value_object->m[0], 's' ) ) {
+			if ( $value_object && is_object( $value_object ) && property_exists( $value_object, 'm' )
+				&& ! empty( $value_object->m[0] )
+				&& property_exists( $value_object->m[0], 's' ) ) {
 				$source_string = wp_json_encode( $value_object->m[0]->s );
 			}
 		}
@@ -892,10 +897,11 @@ trait WPPFM_Processing_Support {
 			$a_row_item     = ! is_array( $row_item ) ? preg_replace( "/\r|\n/", "", $row_item ) : implode( ', ', $row_item );
 			$clean_row_item = strip_tags( $a_row_item );
 			$row_string    .= $clean_row_item;
-			$separator === 'TAB' ? $row_string .= "\t" : $row_string .= $separator;
+
+			'TAB' === $separator ? $row_string .= "\t" : $row_string .= $separator;
 		}
 
-		$row = $separator === 'TAB' ? trim( $row_string ) : trim( $row_string, $separator ); // removes the separator at the end of the line
+		$row = 'TAB' === $separator ? trim( $row_string ) : trim( $row_string, $separator ); // removes the separator at the end of the line
 
 		return $row . "\r\n";
 	}
@@ -1012,21 +1018,21 @@ trait WPPFM_Processing_Support {
 		}
 
 		// keys to be added in a CDATA bracket to the xml feed
-		$cdata_keys = apply_filters( 'wppfm_cdata_keys', array(
+		$cdata_keys = apply_filters ( 'wppfm_cdata_keys', array(
 			$category_name,
 			$description_name,
 			'title'
 		) );
 
-		if ( ! is_array( $xml_value ) && ! in_array( $key, $tags_with_sub_tags ) ) {
-			if ( in_array( $key, $cdata_keys ) ) {
+		if ( ! is_array( $xml_value ) && ! in_array( $key, $tags_with_sub_tags, true ) ) {
+			if ( in_array( $key, $cdata_keys, true ) ) {
 				$xml_value = $this->convert_to_character_data_string( $xml_value ); // put in a ![CDATA[...]] bracket
 			} else {
 				$xml_value = $this->convert_to_xml_value( $xml_value );
 			}
 		}
 
-		if ( $key !== '' ) {
+		if ( '' !== $key ) {
 			if ( is_array( $xml_value ) && $repeated_field ) {
 				foreach ( $xml_value as $value_item ) {
 					$xml_string .= $this->add_xml_string( $key, $value_item, $google_node_pre_tag );
@@ -1053,14 +1059,14 @@ trait WPPFM_Processing_Support {
 	 * @return string
 	 */
 	protected function add_xml_string( $key, $xml_value, $google_node_pre_tag ) {
-//		$not_allowed_characters = array( ' ', '-' );
-//		$clean_key              = str_replace( $not_allowed_characters, '_', $key );
+		//$not_allowed_characters = array( ' ', '-' );
+		//$clean_key              = str_replace( $not_allowed_characters, '_', $key );
 
 		// @since 2.13.0
 		$element_attribute        = apply_filters( 'wppfm_xml_element_attribute', '', $key, $xml_value );
 		$element_attribute_string = '' !== $element_attribute ? ' ' . $element_attribute : '';
 
-//		return "<$google_node_pre_tag$clean_key$element_attribute_string>$xml_value</$google_node_pre_tag$clean_key>";
+		//return "<$google_node_pre_tag$clean_key$element_attribute_string>$xml_value</$google_node_pre_tag$clean_key>";
 		return "<$google_node_pre_tag$key$element_attribute_string>$xml_value</$google_node_pre_tag$key>";
 	}
 
@@ -1110,7 +1116,7 @@ trait WPPFM_Processing_Support {
 		foreach ( $sub_tags as $key => $value ) {
 			$split = explode( '-', $key, 2 );
 
-			if ( in_array( $split[0], $tags_repeated_fields ) ) {
+			if ( in_array( $split[0], $tags_repeated_fields, true ) ) {
 				$tags_counter = 0;
 				$value_array  = is_array( $value ) ? $value : explode( $subtag_sep, $value );
 
@@ -1284,7 +1290,8 @@ trait WPPFM_Processing_Support {
 				apply_filters(
 					'active_plugins',
 					get_option( 'active_plugins' )
-				)
+				),
+				true
 			)
 		) {
 
@@ -1308,6 +1315,11 @@ trait WPPFM_Processing_Support {
 		return $result ? substr( $result, 0, - 2 ) : '';
 	}
 
+	protected function write_single_general_xml_string_to_current_file( $key, $value ) {
+		$general_xml_string = sprintf( '<%s>%s</%s>', $key, $value, $key ) . "\r\n";
+		file_put_contents( $this->_feed_file_path, $general_xml_string, FILE_APPEND );
+	}
+
 	/**
 	 * adds data to the product that require a procedure to get
 	 *
@@ -1318,6 +1330,7 @@ trait WPPFM_Processing_Support {
 	 * @param string $feed_id
 	 *
 	 * @return bool
+	 * @noinspection PhpPossiblePolymorphicInvocationInspection
 	 */
 	protected function add_procedural_data( &$product, $active_field_names, $selected_language, $selected_currency, $feed_id ) {
 		$woocommerce_product = wc_get_product( $product->ID );
@@ -1330,19 +1343,18 @@ trait WPPFM_Processing_Support {
 		}
 
 		$woocommerce_parent_id      = $woocommerce_product->get_parent_id();
-		$woocommerce_product_parent = $woocommerce_product && ( $woocommerce_product->is_type( 'variable' ) ||
-			$woocommerce_product->is_type( 'variation' ) ) ? wc_get_product( $woocommerce_parent_id ) : null;
+		$woocommerce_product_parent = $woocommerce_product->is_type( 'variable' ) || $woocommerce_product->is_type( 'variation' ) ? wc_get_product( $woocommerce_parent_id ) : null;
 
 		if ( false === $woocommerce_product_parent || null === $woocommerce_product_parent ) {
-			// this product has no parent id so it is possible this is the main of a variable product
+			// this product has no parent id, so it is possible this is the main of a variable product
 			// So to make sure the general variation data like min_variation_price are available, copy the product
 			// in the parent product
 			$woocommerce_product_parent = $woocommerce_product;
 		}
 
 		// @since 2.36.0.
-		if ( in_array( '_regular_price', $active_field_names ) ) {
-			if( $woocommerce_product->is_type( 'variable' ) ) {
+		if ( in_array( '_regular_price', $active_field_names, true ) ) {
+			if ( $woocommerce_product->is_type( 'variable' ) ) {
 				$product->_regular_price = wppfm_prep_money_values( $woocommerce_product->get_variation_regular_price( 'max', true ), $selected_language, $selected_currency );
 			} else {
 				$product->_regular_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
@@ -1351,15 +1363,15 @@ trait WPPFM_Processing_Support {
 
 		// @since 2.36.0.
 		// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
-		if ( in_array( '_sale_price', $active_field_names ) ) {
-			if( $woocommerce_product->is_type( 'variable' ) ) {
-				$product->_sale_price = wppfm_prep_money_values(  $this->get_variation_sale_price( $woocommerce_product, 'max' ), $selected_language, $selected_currency );;
+		if ( in_array( '_sale_price', $active_field_names, true ) ) {
+			if ( $woocommerce_product->is_type( 'variable' ) ) {
+				$product->_sale_price = wppfm_prep_money_values( $this->get_variation_sale_price( $woocommerce_product, 'max' ), $selected_language, $selected_currency );
 			} else {
 				$product->_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
 			}
 		}
 
-		if ( in_array( 'shipping_class', $active_field_names ) ) {
+		if ( in_array( 'shipping_class', $active_field_names, true ) ) {
 			// Get the shipping class.
 			$shipping_class = $woocommerce_product->get_shipping_class();
 
@@ -1367,7 +1379,7 @@ trait WPPFM_Processing_Support {
 			$product->shipping_class = ! $shipping_class && $woocommerce_product_parent ? $woocommerce_product_parent->get_shipping_class() : $shipping_class;
 		}
 
-		if ( in_array( 'permalink', $active_field_names ) ) {
+		if ( in_array( 'permalink', $active_field_names, true ) ) {
 			$permalink = get_permalink( $product->ID );
 			if ( false === $permalink && 0 !== $woocommerce_parent_id ) {
 				$permalink = get_permalink( $woocommerce_parent_id );
@@ -1388,7 +1400,7 @@ trait WPPFM_Processing_Support {
 			$product->permalink = $permalink;
 		}
 
-		if ( in_array( 'attachment_url', $active_field_names ) ) {
+		if ( in_array( 'attachment_url', $active_field_names, true ) ) {
 			// WPML support -> Returns an elements ID in the selected language.
 			$object_id      = has_filter( 'wpml_object_id' ) ? apply_filters( 'wpml_object_id', $product->ID, 'attachment', true ) : $product->ID;
 			$attachment_url = wp_get_attachment_image_url( get_post_thumbnail_id( $object_id ), '' );
@@ -1405,67 +1417,69 @@ trait WPPFM_Processing_Support {
 				? apply_filters( 'wppfm_get_wpml_permalink', $attachment_url, $selected_language ) : $attachment_url;
 		}
 
-		if ( in_array( 'product_cat', $active_field_names ) ) {
+		if ( in_array( 'product_cat', $active_field_names, true ) ) {
 			$product->product_cat = WPPFM_Taxonomies::get_shop_categories( $product->ID );
 			if ( '' === $product->product_cat && 0 !== $woocommerce_parent_id ) {
 				$product->product_cat = WPPFM_Taxonomies::get_shop_categories( $woocommerce_parent_id );
 			}
 		}
 
-		if ( in_array( 'product_cat_string', $active_field_names ) ) {
+		if ( in_array( 'product_cat_string', $active_field_names, true ) ) {
 			$product->product_cat_string = WPPFM_Taxonomies::make_shop_taxonomies_string( $product->ID );
 			if ( '' === $product->product_cat_string && 0 !== $woocommerce_parent_id ) {
 				$product->product_cat_string = WPPFM_Taxonomies::make_shop_taxonomies_string( $woocommerce_parent_id );
 			}
 		}
 
-		if ( in_array( 'last_update', $active_field_names ) ) {
+		if ( in_array( 'last_update', $active_field_names, true ) ) {
 			$product->last_update = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 		}
 
-		if ( in_array( '_wp_attachement_metadata', $active_field_names ) ) {
+		if ( in_array( '_wp_attachement_metadata', $active_field_names, true ) ) {
 			$attachment_id                     = 0 === $woocommerce_parent_id ? $product->ID : $woocommerce_parent_id;
 			$product->_wp_attachement_metadata = $this->get_product_image_gallery( $attachment_id, $selected_language );
 		}
 
-		if ( in_array( 'product_tags', $active_field_names ) ) {
-			$product->product_tags = $this->get_product_tags( $product->ID );
+		if ( in_array( 'product_tags', $active_field_names, true ) ) {
+			// @since 2.41.0 corrected the code such that it also gives the tags of the parent.
+			$product_id            = 0 === $woocommerce_parent_id ? $product->ID : $woocommerce_parent_id;
+			$product->product_tags = $this->get_product_tags( $product_id );
 		}
 
-		if ( in_array( 'wc_currency', $active_field_names ) ) {
+		if ( in_array( 'wc_currency', $active_field_names, true ) ) {
 			// WPML support
 			$product->wc_currency = has_filter( 'wppfm_get_wpml_currency' )
 				? apply_filters( 'wppfm_get_wpml_currency', get_woocommerce_currency(), $selected_language ) : get_woocommerce_currency();
 		}
 
 		if ( $woocommerce_product_parent && ( $woocommerce_product_parent->is_type( 'variable' ) || $woocommerce_product_parent->is_type( 'variation' ) ) ) {
-			if ( in_array( '_min_variation_price', $active_field_names ) ) {
+			if ( in_array( '_min_variation_price', $active_field_names, true ) ) {
 				$product->_min_variation_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_max_variation_price', $active_field_names ) ) {
+			if ( in_array( '_max_variation_price', $active_field_names, true ) ) {
 				$product->_max_variation_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_price( 'max' ), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_min_variation_regular_price', $active_field_names ) ) {
+			if ( in_array( '_min_variation_regular_price', $active_field_names, true ) ) {
 				$product->_min_variation_regular_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_regular_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_max_variation_regular_price', $active_field_names ) ) {
+			if ( in_array( '_max_variation_regular_price', $active_field_names, true ) ) {
 				$product->_max_variation_regular_price = wppfm_prep_money_values( $woocommerce_product_parent->get_variation_regular_price( 'max' ), $selected_language, $selected_currency );
 			}
 
 			// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
-			if ( in_array( '_min_variation_sale_price', $active_field_names ) ) {
+			if ( in_array( '_min_variation_sale_price', $active_field_names, true ) ) {
 				$product->_min_variation_sale_price = wppfm_prep_money_values( $this->get_variation_sale_price( $woocommerce_product_parent ), $selected_language, $selected_currency );
 			}
 
 			// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
-			if ( in_array( '_max_variation_sale_price', $active_field_names ) ) {
+			if ( in_array( '_max_variation_sale_price', $active_field_names, true ) ) {
 				$product->_max_variation_sale_price = wppfm_prep_money_values( $this->get_variation_sale_price( $woocommerce_product_parent, 'max' ), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( 'item_group_id', $active_field_names ) ) {
+			if ( in_array( 'item_group_id', $active_field_names, true ) ) {
 				$parent_sku = $woocommerce_product_parent->get_sku();
 
 				if ( $parent_sku ) {
@@ -1478,27 +1492,27 @@ trait WPPFM_Processing_Support {
 			}
 		} else {
 			//@since 2.37.0 added code to handle min and max variation prices for non variation products.
-			if ( in_array( '_min_variation_price', $active_field_names ) ) {
+			if ( in_array( '_min_variation_price', $active_field_names, true ) ) {
 				$product->_min_variation_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_max_variation_price', $active_field_names ) ) {
+			if ( in_array( '_max_variation_price', $active_field_names, true ) ) {
 				$product->_max_variation_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_min_variation_regular_price', $active_field_names ) ) {
+			if ( in_array( '_min_variation_regular_price', $active_field_names, true ) ) {
 				$product->_min_variation_regular_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_max_variation_regular_price', $active_field_names ) ) {
+			if ( in_array( '_max_variation_regular_price', $active_field_names, true ) ) {
 				$product->_max_variation_regular_price = wppfm_prep_money_values( $woocommerce_product->get_regular_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_min_variation_sale_price', $active_field_names ) ) {
+			if ( in_array( '_min_variation_sale_price', $active_field_names, true ) ) {
 				$product->_min_variation_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
 			}
 
-			if ( in_array( '_max_variation_sale_price', $active_field_names ) ) {
+			if ( in_array( '_max_variation_sale_price', $active_field_names, true ) ) {
 				$product->_max_variation_sale_price = wppfm_prep_money_values( $woocommerce_product->get_sale_price(), $selected_language, $selected_currency );
 			}
 
@@ -1514,22 +1528,22 @@ trait WPPFM_Processing_Support {
 			}
 		}
 
-		if ( in_array('_stock', $active_field_names ) ) {
+		if ( in_array( '_stock', $active_field_names, true ) ) {
 			$product->_stock = $woocommerce_product->get_stock_quantity();
 		}
 
 		// @since 2.1.4
-		if ( in_array( 'empty', $active_field_names ) ) {
+		if ( in_array( 'empty', $active_field_names, true ) ) {
 			$product->empty = '';
 		}
 
 		// @since 2.2.0
-		if ( in_array( 'product_type', $active_field_names ) ) {
-			$product->type = $woocommerce_product->get_type();
+		if ( in_array( 'product_type', $active_field_names, true ) ) {
+			$product->product_type = $woocommerce_product->get_type();
 		}
 
 		// @since 2.2.0
-		if ( in_array( 'product_variation_title_without_attributes', $active_field_names ) ) {
+		if ( in_array( 'product_variation_title_without_attributes', $active_field_names, true ) ) {
 			$product_title = get_post_field( 'post_title', $product->ID );
 
 			if ( false !== strpos( $product_title, ' - ' ) ) { // assuming that the woocommerce_product_variation_title_attributes_separator is ' - '
@@ -1541,46 +1555,46 @@ trait WPPFM_Processing_Support {
 		}
 
 		// @since 2.21.0
-		if ( in_array( '_variation_parent_id', $active_field_names ) ) {
+		if ( in_array( '_variation_parent_id', $active_field_names, true ) ) {
 			$product->_variation_parent_id = $woocommerce_parent_id;
 		}
 
 		// @since 2.21.0
-		if ( in_array( '_product_parent_id', $active_field_names ) ) {
+		if ( in_array( '_product_parent_id', $active_field_names, true ) ) {
 			$product->_product_parent_id = $woocommerce_parent_id ?: '0';
 		}
 
 		// @since 2.21.0
-		if ( in_array( '_max_group_price', $active_field_names ) && $woocommerce_product_parent->is_type( 'grouped' ) ) {
+		if ( in_array( '_max_group_price', $active_field_names, true ) && $woocommerce_product_parent->is_type( 'grouped' ) ) {
 			$product->_max_group_price = $this->get_group_price( $woocommerce_product_parent, 'max' );
 		}
 
 		// @since 2.21.0
-		if ( in_array( '_min_group_price', $active_field_names ) && $woocommerce_product_parent->is_type( 'grouped' ) ) {
+		if ( in_array( '_min_group_price', $active_field_names, true ) && $woocommerce_product_parent->is_type( 'grouped' ) ) {
 			$product->_min_group_price = $this->get_group_price( $woocommerce_product_parent );
 		}
 
 		// @since 2.26.0
 		// @since 2.36.0 Changed the way the regular price is fetched for variation products
-		if ( in_array( '_regular_price_with_tax', $active_field_names )  ) {
-			if( $woocommerce_product->is_type( 'variable' ) ) {
+		if ( in_array( '_regular_price_with_tax', $active_field_names, true ) ) {
+			if ( $woocommerce_product->is_type( 'variable' ) ) {
 				$regular_price = $woocommerce_product->get_variation_regular_price( 'max' );
 			} else {
 				$regular_price = $woocommerce_product->get_regular_price();
 			}
-			$price = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $regular_price ) );
+			$price                            = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $regular_price ) );
 			$product->_regular_price_with_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 		}
 
 		// @since 2.26.0
 		// @since 2.36.0 Changed the way the regular price is fetched for variation products
-		if ( in_array( '_regular_price_without_tax', $active_field_names )  ) {
-			if( $woocommerce_product->is_type( 'variable' ) ) {
+		if ( in_array( '_regular_price_without_tax', $active_field_names, true ) ) {
+			if ( $woocommerce_product->is_type( 'variable' ) ) {
 				$regular_price = $woocommerce_product->get_variation_regular_price( 'max' );
 			} else {
 				$regular_price = $woocommerce_product->get_regular_price();
 			}
-			$price = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $regular_price ) );
+			$price                               = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $regular_price ) );
 			$product->_regular_price_without_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 		}
 
@@ -1588,14 +1602,14 @@ trait WPPFM_Processing_Support {
 		// @since 2.36.0 Changed the way the sale price is fetched for variation products
 		// @since 2.37.0 Added a check if the sale price is empty because the wc_get_price_including_tax function will return an unwanted regular price if sale price is empty
 		// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
-		if ( in_array( '_sale_price_with_tax', $active_field_names )  ) {
-			if( $woocommerce_product->is_type( 'variable' ) ) {
+		if ( in_array( '_sale_price_with_tax', $active_field_names, true ) ) {
+			if ( $woocommerce_product->is_type( 'variable' ) ) {
 				$sale_price = $this->get_variation_sale_price( $woocommerce_product, 'max' );
 			} else {
 				$sale_price = $woocommerce_product->get_sale_price();
 			}
 
-			if( $sale_price ) {
+			if ( $sale_price ) {
 				$price                         = wc_get_price_including_tax( $woocommerce_product, array( 'price' => $sale_price ) );
 				$product->_sale_price_with_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 			}
@@ -1605,26 +1619,26 @@ trait WPPFM_Processing_Support {
 		// @since 2.36.0 Changed the way the sale price is fetched for variation products
 		// @since 2.37.0 Added a check if the sale price is empty because the wc_get_price_including_tax function will return an unwanted regular price if sale price is empty
 		// @since 2.40.0. Fixed the fact that the formal wc get_variation_sale_price function returns the regular price when no sale price is set for a variation.
-		if ( in_array( '_sale_price_without_tax', $active_field_names )  ) {
-			if( $woocommerce_product->is_type( 'variable' ) ) {
+		if ( in_array( '_sale_price_without_tax', $active_field_names, true ) ) {
+			if ( $woocommerce_product->is_type( 'variable' ) ) {
 				$sale_price = $this->get_variation_sale_price( $woocommerce_product, 'max' );
 			} else {
 				$sale_price = $woocommerce_product->get_sale_price();
 			}
 
-			if( $sale_price ) {
+			if ( $sale_price ) {
 				$price                            = wc_get_price_excluding_tax( $woocommerce_product, array( 'price' => $sale_price ) );
 				$product->_sale_price_without_tax = wppfm_prep_money_values( $price, $selected_language, $selected_currency );
 			}
 		}
 
 		// @since 2.28.0
-		if ( in_array( '_product_parent_description', $active_field_names )  ) {
+		if ( in_array( '_product_parent_description', $active_field_names, true ) ) {
 			$product->_product_parent_description = $woocommerce_product_parent->get_description( 'feed' );
 		}
 
 		// @since 2.28.0
-		if ( in_array( '_woocs_currency', $active_field_names )  ) {
+		if ( in_array( '_woocs_currency', $active_field_names, true ) ) {
 			// WOOCS support
 			$product->_woocs_currency = has_filter( 'wppfm_get_woocs_currency' )
 				? apply_filters( 'wppfm_get_woocs_currency', $selected_currency ) : get_woocommerce_currency();
@@ -1706,11 +1720,11 @@ trait WPPFM_Processing_Support {
 	 */
 	protected function get_group_price( $woocommerce_product_parent, $min_max = 'min' ) {
 		$children       = $woocommerce_product_parent->get_children();
-		$product_prices = [];
+		$product_prices = array();
 
-		foreach( $children as $key => $value ) {
-			$product = wc_get_product( $value );
-			array_push( $product_prices, $product->get_price() );
+		foreach ( $children as $key => $value ) {
+			$product          = wc_get_product( $value );
+			$product_prices[] = $product->get_price();
 		}
 
 		return 'min' === $min_max ? min( $product_prices ) : max( $product_prices );

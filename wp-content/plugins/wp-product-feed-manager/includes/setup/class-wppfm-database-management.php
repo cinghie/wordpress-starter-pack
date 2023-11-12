@@ -4,7 +4,7 @@
  * WP Database Class.
  *
  * @package WP Product Feed Manager/Data/Classes
- * @version 3.2.0
+ * @version 3.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,10 +21,9 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 		 * Attributes
 		 * -------------------------------------------------------------------------------------------------- */
 
-		private $_version = '1.9.0'; // as of plugin version 2.28.0
+		private $_version = '1.10.0'; // as of plugin version 2.40.0
 		private $_wpdb;
 		private $_charset_collate = '';
-		private $_image_folder;
 
 		/**
 		 * WPPFM_Tables
@@ -44,9 +43,6 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 			if ( $this->_wpdb->has_cap( 'collation' ) ) {
 				$this->_charset_collate = $wpdb->get_charset_collate();
 			}
-
-			// url to the image folder
-			$this->_image_folder = esc_url( WPPFM_PLUGIN_URL . '/images/' );
 		}
 
 		/**
@@ -69,11 +65,11 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 		 */
 		public function verify_db_version() {
 			$actual_db_version = get_option( 'wppfm_db_version' ) ? get_option( 'wppfm_db_version' ) : $this->get_current_db_version();
-			if ( $actual_db_version < $this->_version ) {
+			if ( version_compare( $actual_db_version, $this->_version, '<' ) ) {
 				$this->make_or_update_the_tables();
 
-				// update table as of version 1.7.0
-				if ( $this->_version <= '1.9.0' ) {
+				// update table as of version 1.10.0
+				if ( $this->_version <= '1.10.0' ) {
 					$this->update_status_table();
 				}
 			}
@@ -266,15 +262,15 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 		}
 
 		/**
-		 * fills the countries table with supported contries
+		 * fills the countries table with supported countries
 		 */
 		private function fill_country_table() {
 			$table_name = $this->_wpdb->prefix . 'feedmanager_country';
 
 			$count = $this->_wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
 
-			// only fill the table if its still empty
-			if ( 0 == $count ) {
+			// only fill the table if it's still empty
+			if ( '0' === $count ) {
 				$sql = "INSERT INTO $table_name
                (name_short, name) VALUES
                   ('AD', 'Andorra'), ('AE', 'United Arab Emirates'), ('AF', 'Afghanistan'), ('AG', 'Antigua and Barbuda'), ('AI', 'Anguilla'), ('AL', 'Albania'),
@@ -325,8 +321,8 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 
 			$count = $this->_wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
 
-			// only fill the table if its still empty
-			if ( 0 == $count ) {
+			// only fill the table if it's still empty
+			if ( '0' === $count ) {
 				$sql = "INSERT INTO $table_name
                (source_id, name) VALUES ('1', 'Woocommerce')";
 
@@ -339,8 +335,8 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 
 			$count = $this->_wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
 
-			// only fill the table if its still empty
-			if ( 0 == $count ) {
+			// only fill the table if it's still empty
+			if ( '0' === $count ) {
 				$sql = "INSERT INTO $table_name
                (status_id, status, color) VALUES
                   ('0', 'unknown', '#6549F7'),
@@ -360,8 +356,8 @@ if ( ! class_exists( 'WPPFM_Database_Management' ) ) :
 
 			$count = $this->_wpdb->get_var( "SELECT COUNT(*) FROM $table_name" );
 
-			// only fill the table if its still empty
-			if ( 0 == $count ) {
+			// only fill the table if it's still empty
+			if ( '0' === $count ) {
 				$sql = "INSERT INTO $table_name
                (category_id, category_label) VALUES
                   (1, 'required'), (2, 'highly recommended'), (3, 'recommended'), (4, 'optional'), (5, 'custom')";

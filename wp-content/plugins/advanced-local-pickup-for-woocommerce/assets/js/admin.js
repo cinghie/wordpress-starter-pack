@@ -544,8 +544,7 @@ jQuery(document).on("click", ".wclp-apply", function(){
 		wclp_store_hour_end: wclp_store_hour_end.val(),
 		wclp_store_hour2: wclp_store_hour2.val(),
 		wclp_store_hour_end2: wclp_store_hour_end2.val(),
-		security: jQuery("#wclp_apply_work_hours_nonce").val(),
-		//nonce: alp_object.nonce,
+		nonce: alp_object.nonce,
 	};
 	if(wclp_store_hour.val() !== '' && wclp_store_hour_end.val() !== '' && hasClassMorning === false ){
 		var st1 = minFromMidnight(wclp_store_hour.val());

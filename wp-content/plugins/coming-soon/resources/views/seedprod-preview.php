@@ -118,6 +118,7 @@ $include_seedprod_image_lightbox_sdk = false;
 $include_beforeaftertoggle_sdk       = false;
 $include_hotspot_sdk                 = false;
 $include_particles_sdk               = false;
+$include_masonarylayout_sdk          = false;
 
 
 
@@ -385,6 +386,19 @@ if ( ! empty( $settings ) ) {
 		<?php
 	}
 	?>
+
+	<?php
+	if ( true === $include_masonarylayout_sdk ) {
+		?>
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/masonry.pkgd.js" defer></script> 
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/imagesloaded.pkgd.min.js" defer></script> 
+		<script src="<?php echo esc_url( $plugin_url ); ?>public/js/isotope.pkgd.js" defer></script> 
+
+
+		<?php
+	}
+	?>
+
 
 
 	<?php

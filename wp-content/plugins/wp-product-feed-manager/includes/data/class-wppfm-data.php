@@ -26,6 +26,89 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 			$this->_files_class   = new WPPFM_File();
 		}
 
+		/**
+		 * Returns an array with Google Support feed types available to generate.
+		 *
+		 * @since 2.38.0.
+		 * @return array[]
+		 */
+		public function get_google_support_feed_types() {
+			return array(
+				array(
+					'feed_type_id' => '1',
+					'short_name'   => 'google_product_feed',
+					'name'         => 'Google Product Feed',
+					'group'        => 'primary',
+					'disabled'     => false,
+					'info_url'     => 'https://support.google.com/merchants/answer/7052112?hl=en',
+				),
+				array(
+					'feed_type_id' => '2',
+					'short_name'   => 'product_review_feed',
+					'name'         => 'Product Review Feed',
+					'group'        => 'supplemental',
+					'disabled'     => false,
+					'info_url'     => 'https://support.google.com/merchants/answer/6059553?hl=en&ref_topic=7307120',
+				),
+				array(
+					'feed_type_id' => '3',
+					'short_name'   => 'merchant_promotions_feed',
+					'name'         => 'Merchant Promotions Feed',
+					'group'        => 'supplemental',
+					'disabled'     => false,
+					'info_url'     => 'https://support.google.com/merchants/answer/2906014?hl=en&ref_topic=7322920',
+				),
+				array(
+					'feed_type_id' => '4',
+					'short_name'   => 'local_product_inventory_feed',
+					'name'         => 'Local Product Inventory Feed (coming soon)',
+					'group'        => 'supplemental',
+					'disabled'     => true,
+					'info_url'     => 'https://support.google.com/merchants/answer/3057972?hl=en&ref_topic=7288922',
+				),
+				array(
+					'feed_type_id' => '5',
+					'short_name'   => 'dynamic_remarketing_feed',
+					'name'         => 'Dynamic Remarketing Feed (coming soon)',
+					'group'        => 'supplemental',
+					'disabled'     => true,
+					'info_url'     => 'https://support.google.com/merchants/answer/6069348?hl=en&ref_topic=7257847',
+				),
+				array(
+					'feed_type_id' => '6',
+					'short_name'   => 'vehicle_ads_feed',
+					'name'         => 'Vehicle Ads Feed (coming soon)',
+					'group'        => 'supplemental',
+					'disabled'     => true,
+					'info_url'     => 'https://support.google.com/merchants/answer/11192503?hl=en&ref_topic=11189969',
+				),
+				array(
+					'feed_type_id' => '7',
+					'short_name'   => 'dynamic_search_ads',
+					'name'         => 'Dynamic Search Ads (coming soon)',
+					'group'        => 'supplemental',
+					'disabled'     => true,
+					'info_url'     => 'https://support.google.com/google-ads/answer/2471185?hl=en&ref_topic=3119126',
+				),
+				array(
+					'feed_type_id' => '8',
+					'short_name'   => 'local_product_feed',
+					'name'         => 'Local Product Feed (use the Google Product Feed)',
+					'group'        => 'supplemental',
+					'disabled'     => true,
+					'info_url'     => 'https://support.google.com/merchants/answer/7022397?sjid=8964442459853241484-EU',
+				),
+				array(
+					'feed_type_id' => '9',
+					'short_name'   => 'buy_on_google_feed',
+					'name'         => 'Buy on Google Feed (use the Google Product Feed)',
+					'group'        => 'supplemental',
+					'disabled'     => true,
+					'info_url'     => 'https://support.google.com/merchants/answer/7679273?hl=en&ref_topic=7679180&sjid=8964442459853241484-EU',
+				),
+			);
+		}
+
 		public function get_countries() {
 			return $this->_queries_class->read_countries();
 		}
@@ -35,7 +118,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		public function get_channels() {
-			return $this->_queries_class->read_channels();
+			return $this->_queries_class->read_installed_channels();
 		}
 
 		public function delete_channel( $channel_short ) {
@@ -359,7 +442,7 @@ if ( ! class_exists( 'WPPFM_Data' ) ) :
 		}
 
 		/**
-		 * Checks if other feeds than the active feed are still on processing status. If so, set these feeds to error
+		 * Checks if other feeds than the currently active feed are still on processing status (status 3). If so, set these feeds to an error status (status 6).
 		 *
 		 * @param string $active_feed_id
 		 *

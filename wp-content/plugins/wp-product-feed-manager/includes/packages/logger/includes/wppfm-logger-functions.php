@@ -100,21 +100,6 @@ function wppfm_logger_feed_generation_warning_message( $feed_id, $message ) {
 
 add_action( 'wppfm_feed_generation_warning', 'wppfm_logger_feed_generation_warning_message', 10, 2 );
 
-function wppfm_logger_wp_remote_post_failed( $feed_id, $response ) {
-	if ( $feed_id ) {
-		if ( is_wp_error( $response ) ) {
-			$err_message = method_exists( $response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
-			$err_code    = method_exists( $response, 'get_error_code' ) ? $response->get_error_code() : 'Error unknown';
-			$message     = ! empty( $err_message ) ? implode( ' :: ', $err_message ) : 'Error unknown!';
-			$message    .= '. Error code: ' . $err_code;
-
-			WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message, 'ERROR' );
-		}
-	}
-}
-
-add_action( 'wppfm_wp_remote_post_failed', 'wppfm_logger_wp_remote_post_failed', 10, 2 );
-
 /**
  * Logs the feeds url.
  *
@@ -211,3 +196,53 @@ function wppfm_logger_batch_time_limit_exceeded( $feed_id, $time_limit, $product
 }
 
 add_action( 'wppfm_batch_time_limit_exceeded', 'wppfm_logger_batch_time_limit_exceeded', 10, 3 );
+
+/**
+ * Registers the response of a remote post call
+ *
+ * @since 2.41.0
+ *
+ * @param   string          $feed_id     Id of the active feed.
+ * @param   WP_Error|array  $response    Response of the remote post call.
+ */
+function wppfm_logger_wp_remote_post( $feed_id, $response ) {
+	if ( $feed_id ) {
+		if ( ! is_wp_error( $response ) ) {
+			$response_data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+			if ( is_array( $response_data ) ) {
+				$response_data = wppfm_recursive_implode( $response_data, ', ', true, false );
+			}
+
+			$response_data = $response_data ? $response_data : 'no response data';
+			$response_code = json_decode( wp_remote_retrieve_response_code( $response ), true );
+			$response_code = $response_code ? $response_code : 'no response code';
+			$message       = sprintf( 'Response on dispatched (wp_remote_post) call is -> code: %s, message: %s', $response_code, $response_data );
+
+			WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message );
+		} else {
+			$err_message = method_exists( $response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
+			$err_code    = method_exists( $response, 'get_error_code' ) ? $response->get_error_code() : 'Error unknown';
+
+			if ( is_array( $err_message ) ) {
+				$err_message = wppfm_recursive_implode( $err_message, ', ', true, false );
+			}
+
+			if ( ! str_contains( 'cURL error 28', $err_message ) ) {
+				$message = 'The known cURL error has been returned by the wp_remote_post call.';
+				$tag     = 'MESSAGE';
+			} else {
+				$message  = ! empty( $err_message ) ? implode( ' :: ', $err_message ) : 'Error unknown!';
+				$message .= '. Error code: ' . $err_code;
+				$tag      = 'ERROR';
+			}
+
+			WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message, $tag );
+		}
+	} else {
+		$message = 'Feed ID not found.';
+		WPPFM_Feed_Process_Logging::add_to_feed_process_logging( $feed_id, $message, 'ERROR' );
+	}
+}
+
+add_action( 'wppfm_wp_remote_post_response', 'wppfm_logger_wp_remote_post', 10, 2 );

@@ -13,6 +13,7 @@
  * @var $rqa_url       string
  * @var $label_browse  string
  */
+
 $class = 'yith-ywraq-add-to-quote add-to-quote-' . $product_id;
 ?>
 <div class="<?php echo esc_attr( $class ); ?>">

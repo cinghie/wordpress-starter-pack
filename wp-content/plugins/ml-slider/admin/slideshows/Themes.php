@@ -44,7 +44,7 @@ class MetaSlider_Themes
     public static function get_instance()
     {
         if (null === self::$instance) {
-self::$instance = new self();
+            self::$instance = new self();
         }
         return self::$instance;
     }
@@ -56,17 +56,33 @@ self::$instance = new self();
      */
     public function get_all_free_themes()
     {
-        if (!file_exists(METASLIDER_THEMES_PATH . 'manifest.php')) {
+        if (!file_exists(METASLIDER_THEMES_PATH . 'manifest.php') || !file_exists(METASLIDER_THEMES_PATH . 'manifest-legacy.php')) {
             return new WP_Error('manifest_not_found', __('No themes found.', 'ml-slider'), array('status' => 404));
         }
-        $themes = (include METASLIDER_THEMES_PATH . 'manifest.php');
 
+        
+        if (is_multisite() && $settings = get_site_option('metaslider_global_settings')) {
+            $global_settings = $settings;
+        }
+        
+        if ($settings = get_option('metaslider_global_settings')) {
+            $global_settings = $settings;
+        }
+        
+        if(isset($global_settings['legacy']) && true == $global_settings['legacy']) {
+            $themes = (include METASLIDER_THEMES_PATH . 'manifest.php');
+            $manifest_file = 'manifest.php';
+        } else {
+            $themes = (include METASLIDER_THEMES_PATH . 'manifest-legacy.php');
+            $manifest_file = 'manifest-legacy.php';
+        }
+        
         // Let theme developers or others define a folder to check for themes
         $extra_themes = apply_filters('metaslider_extra_themes', array());
         foreach ($extra_themes as $location) {
             // Make sure there is a manifest
-            if (file_exists(trailingslashit($location) . 'manifest.php')) {
-                $manifest = include(trailingslashit($location) . 'manifest.php');
+            if (file_exists(trailingslashit($location) . $manifest_file)) {
+                $manifest = include(trailingslashit($location) . $manifest_file);
 
                 // Make sure each theme has an existing folder, title, description
                 foreach ($manifest as $data) {

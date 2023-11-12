@@ -162,6 +162,7 @@ if ( ! class_exists( 'YITH_WCAS_Admin' ) ) {
 				'admin-tabs'       => $admin_tabs,
 				'class'            => yith_set_wrapper_class(),
 				'options-path'     => YITH_WCAS_DIR . '/plugin-options',
+				'is_free'          => true,
 				'premium_tab' => array(
 					'features' => array(
 						array(

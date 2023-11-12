@@ -174,17 +174,19 @@
                 
                 
                 wp_localize_script( 'woo-variation-swatches-admin', 'woo_variation_swatches_admin', array(
-                    'media_title'   => esc_html__( 'Choose an Image', 'woo-variation-swatches' ),
-                    'dialog_title'  => esc_html__( 'Add Attribute', 'woo-variation-swatches' ),
-                    'dialog_save'   => esc_html__( 'Add', 'woo-variation-swatches' ),
-                    'dialog_cancel' => esc_html__( 'Cancel', 'woo-variation-swatches' ),
-                    'button_title'  => esc_html__( 'Use Image', 'woo-variation-swatches' ),
-                    'add_media'     => esc_html__( 'Add Media', 'woo-variation-swatches' ),
-                    'ajaxurl'       => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
-                    'wc_ajax_url'   => WC_AJAX::get_endpoint( '%%endpoint%%' ),
-                    'nonce'         => wp_create_nonce( 'woo_variation_swatches_admin' ),
-                    'reset_notice'  => esc_html__( 'Are you sure you want to reset it to default setting?', 'woo-variation-swatches' ),
-                    'nav_warning'   => esc_html__( 'Please save changed first.', 'woo-variation-swatches' ),
+                    'media_title'    => esc_html__( 'Choose an Image', 'woo-variation-swatches' ),
+                    'dialog_title'   => esc_html__( 'Add Attribute', 'woo-variation-swatches' ),
+                    'dialog_save'    => esc_html__( 'Add', 'woo-variation-swatches' ),
+                    'dialog_cancel'  => esc_html__( 'Cancel', 'woo-variation-swatches' ),
+                    'button_title'   => esc_html__( 'Use Image', 'woo-variation-swatches' ),
+                    'add_media'      => esc_html__( 'Add Media', 'woo-variation-swatches' ),
+                    'ajaxurl'        => esc_url( admin_url( 'admin-ajax.php', 'relative' ) ),
+                    'wc_ajax_url'    => WC_AJAX::get_endpoint( '%%endpoint%%' ),
+                    'settings_url'   => esc_url( $this->get_admin_menu()->get_settings_link( 'woo_variation_swatches' ) ),
+                    'settings_title' => esc_html__( 'Variation Swatches Settings', 'woo-variation-swatches' ),
+                    'nonce'          => wp_create_nonce( 'woo_variation_swatches_admin' ),
+                    'reset_notice'   => esc_html__( 'Are you sure you want to reset it to default setting?', 'woo-variation-swatches' ),
+                    'nav_warning'    => esc_html__( 'Please save changed first.', 'woo-variation-swatches' ),
                 ) );
             }
             

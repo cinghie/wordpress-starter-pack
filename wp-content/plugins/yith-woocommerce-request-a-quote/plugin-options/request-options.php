@@ -7,7 +7,7 @@
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package YITH WooCommerce Request a quote
+ * @package YITH\RequestAQuote
  * @since   3.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -18,64 +18,69 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
 }
 
 return array(
-
 	'request' => array(
 		'page_settings'             => array(
-			'name' => esc_html__( '"Request quote" page options', 'yith-woocommerce-request-a-quote' ),
+			'name' => __( '"Request quote" page options', 'yith-woocommerce-request-a-quote' ),
 			'type' => 'title',
 			'id'   => 'ywraq_page_settings',
 		),
 		'page_id'                   => array(
-			'name'     => esc_html__( '"Request a quote" page', 'yith-woocommerce-request-a-quote' ),
+			'name'     => __( '"Request a quote" page', 'yith-woocommerce-request-a-quote' ),
 			'desc'     => sprintf(
 				'%s<br/>%s<br/>%s',
-				esc_html__( 'Choose from this list the page on which users will see the list of products added to the quote and send the request.', 'yith-woocommerce-request-a-quote' ),
-				esc_html__( 'Please note: if you choose a page different from the default one (request quote) you need to insert', 'yith-woocommerce-request-a-quote' ),
-				esc_html__( 'in the page the following shortcode: [yith_ywraq_request_quote] ', 'yith-woocommerce-request-a-quote' )
+				__( 'Choose from this list the page on which users will see the list of products added to the quote and send the request.', 'yith-woocommerce-request-a-quote' ),
+				__( 'Please note: if you choose a page different from the default one (request quote) you need to insert', 'yith-woocommerce-request-a-quote' ),
+				__( 'in the page the following shortcode: [yith_ywraq_request_quote] ', 'yith-woocommerce-request-a-quote' )
 			),
-
 			'id'       => 'ywraq_page_id',
 			'type'     => 'single_select_page',
 			'class'    => 'wc-enhanced-select',
 			'css'      => 'min-width:300px',
 			'desc_tip' => false,
 		),
-
 		'html_create_page'          => array(
 			'type'             => 'yith-field',
 			'yith-type'        => 'html',
 			'yith-display-row' => false,
 			'html'             => sprintf(
 				'<div class="ywraq-create-page">%s <a href="%s">%s</a></div>',
-				esc_html_x( 'or', 'part of the string (or Create a page) inside admin panel', 'yith-woocommerce-request-a-quote' ),
+				_x( 'or', 'part of the string (or Create a page) inside admin panel', 'yith-woocommerce-request-a-quote' ),
 				esc_url( admin_url( 'post-new.php?post_type=page' ) ),
-				esc_html__( 'Create a page', 'yith-woocommerce-request-a-quote' )
+				__( 'Create a page', 'yith-woocommerce-request-a-quote' )
 			),
 		),
-
 		'page_list_layout_template' => array(
-			'name'      => esc_html__( 'Page Layout', 'yith-woocommerce-request-a-quote' ),
-			'desc'      => esc_html__( 'Choose the layout for "Request a quote" page.', 'yith-woocommerce-request-a-quote' ),
+			'name'      => __( 'Page Layout', 'yith-woocommerce-request-a-quote' ),
+			'desc'      => __( 'Choose the layout for "Request a quote" page.', 'yith-woocommerce-request-a-quote' ),
 			'id'        => 'ywraq_page_list_layout_template',
 			'type'      => 'yith-field',
 			'yith-type' => 'radio',
 			'options'   => array(
-				'wide'     => esc_html__( 'Product list on left side, form on right side', 'yith-woocommerce-request-a-quote' ),
-				'vertical' => esc_html__( 'Product list above, form below', 'yith-woocommerce-request-a-quote' ),
+				'wide'     => __( 'Product list on left side, form on right side', 'yith-woocommerce-request-a-quote' ),
+				'vertical' => __( 'Product list above, form below', 'yith-woocommerce-request-a-quote' ),
 			),
 			'default'   => 'vertical',
 		),
+		'page_settings_end'         => array(
+			'type' => 'sectionend',
+			'id'   => 'ywraq_page_settings_end',
+		),
+		'update_list_settings'      => array(
+			'name' => __( '"Update list" options', 'yith-woocommerce-request-a-quote' ),
+			'type' => 'title',
+			'id'   => 'ywraq_update_list_settings',
+		),
 		'show_update_list'          => array(
-			'name'      => esc_html__( 'Show "Update List" button', 'yith-woocommerce-request-a-quote' ),
-			'desc'      => esc_html__( 'Enable to show the "Update list" button.', 'yith-woocommerce-request-a-quote' ),
+			'name'      => __( 'Show "Update List" button', 'yith-woocommerce-request-a-quote' ),
+			'desc'      => __( 'Enable to show the "Update list" button.', 'yith-woocommerce-request-a-quote' ),
 			'id'        => 'ywraq_show_update_list',
 			'type'      => 'yith-field',
 			'yith-type' => 'onoff',
 			'default'   => 'yes',
 		),
 		'update_list_label'         => array(
-			'name'      => esc_html__( '"Update List" label', 'yith-woocommerce-request-a-quote' ),
-			'desc'      => esc_html__( 'Enter the button\'s label.', 'yith-woocommerce-request-a-quote' ),
+			'name'      => __( '"Update List" label', 'yith-woocommerce-request-a-quote' ),
+			'desc'      => __( 'Enter the button\'s label.', 'yith-woocommerce-request-a-quote' ),
 			'id'        => 'ywraq_update_list_label',
 			'type'      => 'yith-field',
 			'yith-type' => 'text',
@@ -83,7 +88,16 @@ return array(
 				'id'    => 'ywraq_show_update_list',
 				'value' => 'yes',
 			),
-			'default'   => esc_html__( 'Update List', 'yith-woocommerce-request-a-quote' ),
+			'default'   => __( 'Update List', 'yith-woocommerce-request-a-quote' ),
+		),
+		'update_list_settings_end'  => array(
+			'type' => 'sectionend',
+			'id'   => 'ywraq_update_list_settings_end',
+		),
+		'privacy_settings'          => array(
+			'name' => __( 'Privacy options', 'yith-woocommerce-request-a-quote' ),
+			'type' => 'title',
+			'id'   => 'ywraq_privacy_settings',
 		),
 		'add_privacy_checkbox'      => array(
 			'name'      => __( 'Add Privacy Policy', 'yith-woocommerce-request-a-quote' ),
@@ -103,7 +117,6 @@ return array(
 			'deps'      => array(
 				'id'    => 'ywraq_add_privacy_checkbox',
 				'value' => 'yes',
-				'type'  => 'hide',
 			),
 		),
 		'privacy_description'       => array(
@@ -116,13 +129,11 @@ return array(
 			'deps'      => array(
 				'id'    => 'ywraq_add_privacy_checkbox',
 				'value' => 'yes',
-				'type'  => 'hide',
 			),
 		),
-		'page_settings_end'         => array(
+		'privacy_settings_end'      => array(
 			'type' => 'sectionend',
-			'id'   => 'ywraq_page_settings_end',
+			'id'   => 'ywraq_privacy_settings_end',
 		),
-
 	),
 );

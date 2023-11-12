@@ -35,6 +35,7 @@
   "woo_view_content_non_interactive": true,
   "woo_view_category_enabled": true,
   "woo_view_category_non_interactive": true,
+  "woo_view_cart_enabled" : true,
 
   "edd_content_id": "download_id",
   "edd_content_id_prefix": "",

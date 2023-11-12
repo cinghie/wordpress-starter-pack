@@ -26,6 +26,7 @@ class WC_Local_Pickup_Admin {
 	 * @var object Class Instance
 	*/
 	private static $instance;
+	public $table;
 	
 	/**
 	 * Initialize the main plugin function
@@ -119,63 +120,47 @@ class WC_Local_Pickup_Admin {
 			<?php if ( 'edit' !== $section && 'add' !== $section ) { ?>
 				<img class="zorem-layout__header-logo" src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/alp-logo.png'; ?>">
 				<div class="woocommerce-layout__activity-panel" <?php echo esc_html($style); ?>>
-				<div class="woocommerce-layout__activity-panel-tabs">
-					<button type="button" id="activity-panel-tab-help" class="components-button woocommerce-layout__activity-panel-tab">
-					<span class="dashicons dashicons-editor-help"></span>
-						Help 
-					</button>
-				</div>
-				<div class="woocommerce-layout__activity-panel-wrapper">
-					<div class="woocommerce-layout__activity-panel-content" id="activity-panel-true">
-						<div class="woocommerce-layout__activity-panel-header">
-							<div class="woocommerce-layout__inbox-title">
-								<p class="css-activity-panel-Text">Documentation</p>            
-							</div>								
-						</div>
-						<div>
-							<ul class="woocommerce-list woocommerce-quick-links__list">
-								<li class="woocommerce-list__item has-action">
-									<?php
-									$support_link = class_exists( 'Advanced_local_pickup_PRO' ) ? 'https://www.zorem.com/?support=1' : 'https://wordpress.org/support/plugin/advanced-local-pickup-for-woocommerce/#new-topic-0' ;
-									?>
-									<a href="<?php echo esc_url( $support_link ); ?>" class="woocommerce-list__item-inner" target="_blank" >
-										<div class="woocommerce-list__item-before">
-											<img src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/get-support-icon.svg'; ?>">	
-										</div>
-										<div class="woocommerce-list__item-text">
-											<span class="woocommerce-list__item-title">
-												<div class="woocommerce-list-Text">Get Support</div>
-											</span>
-										</div>
-										<div class="woocommerce-list__item-after">
-											<span class="dashicons dashicons-arrow-right-alt2"></span>
-										</div>
-									</a>
-								</li>            
-								<li class="woocommerce-list__item has-action">
-									<a href="https://www.zorem.com/docs/advanced-local-pickup-for-woocommerce/?utm_source=wp-admin&utm_medium=CBRDOCU&utm_campaign=add-ons" class="woocommerce-list__item-inner" target="_blank">
-										<div class="woocommerce-list__item-before">
-											<img src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/documentation-icon.svg'; ?>">
-										</div>
-										<div class="woocommerce-list__item-text">
-											<span class="woocommerce-list__item-title">
-												<div class="woocommerce-list-Text">Documentation</div>
-											</span>
-										</div>
-										<div class="woocommerce-list__item-after">
-											<span class="dashicons dashicons-arrow-right-alt2"></span>
-										</div>
-									</a>
-								</li>
-								<?php if ( !class_exists( 'Advanced_local_pickup_PRO' ) ) { ?>
+					<div class="woocommerce-layout__activity-panel-tabs">
+						<button type="button" id="activity-panel-tab-help" class="components-button woocommerce-layout__activity-panel-tab">
+						<span class="dashicons dashicons-editor-help"></span>
+							Help 
+						</button>
+					</div>
+					<div class="woocommerce-layout__activity-panel-wrapper">
+						<div class="woocommerce-layout__activity-panel-content" id="activity-panel-true">
+							<div class="woocommerce-layout__activity-panel-header">
+								<div class="woocommerce-layout__inbox-title">
+									<p class="css-activity-panel-Text">Documentation</p>            
+								</div>								
+							</div>
+							<div>
+								<ul class="woocommerce-list woocommerce-quick-links__list">
 									<li class="woocommerce-list__item has-action">
-										<a href="https://www.zorem.com/product/advanced-local-pickup-for-woocommerce/?utm_source=wp-admin&utm_medium=CBR&utm_campaign=add-ons" class="woocommerce-list__item-inner" target="_blank">
+										<?php
+										$support_link = class_exists( 'Advanced_local_pickup_PRO' ) ? 'https://www.zorem.com/?support=1' : 'https://wordpress.org/support/plugin/advanced-local-pickup-for-woocommerce/#new-topic-0' ;
+										?>
+										<a href="<?php echo esc_url( $support_link ); ?>" class="woocommerce-list__item-inner" target="_blank" >
 											<div class="woocommerce-list__item-before">
-												<img src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/upgrade.svg'; ?>">
+												<img src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/get-support-icon.svg'; ?>">	
 											</div>
 											<div class="woocommerce-list__item-text">
 												<span class="woocommerce-list__item-title">
-													<div class="woocommerce-list-Text">Upgrade To Pro</div>
+													<div class="woocommerce-list-Text">Get Support</div>
+												</span>
+											</div>
+											<div class="woocommerce-list__item-after">
+												<span class="dashicons dashicons-arrow-right-alt2"></span>
+											</div>
+										</a>
+									</li>            
+									<li class="woocommerce-list__item has-action">
+										<a href="https://www.zorem.com/docs/advanced-local-pickup-for-woocommerce/?utm_source=wp-admin&utm_medium=CBRDOCU&utm_campaign=add-ons" class="woocommerce-list__item-inner" target="_blank">
+											<div class="woocommerce-list__item-before">
+												<img src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/documentation-icon.svg'; ?>">
+											</div>
+											<div class="woocommerce-list__item-text">
+												<span class="woocommerce-list__item-title">
+													<div class="woocommerce-list-Text">Documentation</div>
 												</span>
 											</div>
 											<div class="woocommerce-list__item-after">
@@ -183,12 +168,28 @@ class WC_Local_Pickup_Admin {
 											</div>
 										</a>
 									</li>
-								<?php } ?>
-							</ul>
+									<?php if ( !class_exists( 'Advanced_local_pickup_PRO' ) ) { ?>
+										<li class="woocommerce-list__item has-action">
+											<a href="https://www.zorem.com/product/advanced-local-pickup-for-woocommerce/?utm_source=wp-admin&utm_medium=CBR&utm_campaign=add-ons" class="woocommerce-list__item-inner" target="_blank">
+												<div class="woocommerce-list__item-before">
+													<img src="<?php echo esc_url(wc_local_pickup()->plugin_dir_url(__FILE__)) . 'assets/images/upgrade.svg'; ?>">
+												</div>
+												<div class="woocommerce-list__item-text">
+													<span class="woocommerce-list__item-title">
+														<div class="woocommerce-list-Text">Upgrade To Pro</div>
+													</span>
+												</div>
+												<div class="woocommerce-list__item-after">
+													<span class="dashicons dashicons-arrow-right-alt2"></span>
+												</div>
+											</a>
+										</li>
+									<?php } ?>
+								</ul>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>	
+				</div>	
 			<?php } else { ?>
 				<h1 class="tab_section_heading">
 					<a href="<?php echo esc_url(admin_url() . 'admin.php?page=local_pickup'); ?>" class="link decoration"><?php esc_html_e( 'Pickup Locations', 'advanced-local-pickup-for-woocommerce' ); ?></a> > 
@@ -437,7 +438,7 @@ class WC_Local_Pickup_Admin {
 
 		$this->table = $wpdb->prefix . 'alp_pickup_location';
 		
-		$results = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %1s WHERE id = %2s', $this->table, $id ) );
+		$results = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM %1s WHERE id = %2d', $this->table, $id ) );
 		
 		$results = $this->get_slaches_data_byid($results);
 		
@@ -897,10 +898,9 @@ class WC_Local_Pickup_Admin {
 	public function wclp_update_work_hours_list_fun() {
 		
 		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field($_POST['nonce']) : '';
-		/*if ( ! wp_verify_nonce( $nonce, 'alp-ajax-nonce' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'alp-ajax-nonce' ) ) {
 			die();
-		}*/
-		check_ajax_referer( 'wclp_apply_work_hours_nonce', 'security' );
+		}
 
 		$data = $this->get_data();
 		$location_id = isset($_POST['id']) ? sanitize_text_field($_POST['id']) : '';
@@ -1066,10 +1066,9 @@ class WC_Local_Pickup_Admin {
 	public function wclp_apply_work_hours_fun() {
 		
 		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field($_POST['nonce']) : '';
-		/*if ( ! wp_verify_nonce( $nonce, 'alp-ajax-nonce' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'alp-ajax-nonce' ) ) {
 			die();
-		}*/
-		check_ajax_referer( 'wclp_apply_work_hours_nonce', 'security' );
+		}
 
 		global $wpdb;
 		$location_id = isset($_POST['id']) ? sanitize_text_field($_POST['id']) : '';

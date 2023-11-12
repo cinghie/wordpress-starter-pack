@@ -1305,7 +1305,7 @@ class WooSEA_Activation {
 					"fields" => "customfeed",
 					"taxonomy" => "none",
 					"utm_source" => "Adform.pl",
-                        		"type" => "Advertising" ),
+					"type" => "Advertising" ),
                 		"Cenowarka" => array (
                         		"channel_hash" => md5("Cenowarka.pl"),
                         		"name" => "Cenowarka.pl",

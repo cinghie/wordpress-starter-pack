@@ -1,9 +1,9 @@
 <?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements features of YITH WooCommerce Request A Quote.
+ * Implements features of YITH Request a Quote for WooCommerce
  *
  * @class   YITH_Request_Quote
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -327,7 +327,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			} else {
 				// variable product.
 				if ( ! $this->exists( $product_raq['product_id'], $product_raq['variation_id'] ) ) {
-
 					$raq = array(
 						'product_id'   => $product_raq['product_id'],
 						'variation_id' => $product_raq['variation_id'],
@@ -337,7 +336,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 					$variations = array();
 
 					foreach ( $product_raq as $key => $value ) {
-
 						if ( stripos( $key, 'attribute' ) !== false ) {
 							$variations[ $key ] = $value;
 						}
@@ -346,7 +344,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 					$raq ['variations'] = $variations;
 
 					$this->raq_content[ md5( $product_raq['product_id'] . $product_raq['variation_id'] ) ] = $raq;
-
 				} else {
 					$return = 'exists';
 				}
@@ -362,7 +359,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			}
 
 			return $return;
-
 		}
 
 		/**
@@ -530,7 +526,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 		 */
 		public function get_raq_page_url() {
 			$option_value = apply_filters( 'wpml_object_id', get_option( 'ywraq_page_id' ), 'post', true );
-			$base_url = get_the_permalink( $option_value );
+			$base_url     = get_the_permalink( $option_value );
 			return apply_filters( 'ywraq_request_page_url', $base_url );
 		}
 
@@ -583,7 +579,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			}
 
 			yith_ywraq_add_notice( $this->get_errors( $errors ), 'error' );
-
 		}
 
 		/**
@@ -645,7 +640,7 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			$raq_data        = array();
 
 			if ( $adding_to_quote->is_type( 'variation' ) ) {
-                $var_id = $adding_to_quote->get_meta('variation_id');
+				$var_id = $adding_to_quote->get_meta( 'variation_id' );
 				if ( ! empty( $var_id ) ) {
 					$product_id   = $adding_to_quote->get_id();
 					$variation_id = $var_id;
@@ -786,7 +781,6 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 			}
 
 			return ( $hide_price ) ? '' : $price;
-
 		}
 
 		/**
@@ -808,4 +802,3 @@ if ( ! class_exists( 'YITH_Request_Quote' ) ) {
 function YITH_Request_Quote() { //phpcs:ignore
 	return YITH_Request_Quote::get_instance();
 }
-

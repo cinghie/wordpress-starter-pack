@@ -39,6 +39,10 @@
                 
                 add_action( 'woocommerce_before_variations_form', array( $this, 'before_variations_form' ) );
                 add_action( 'woocommerce_after_variations_form', array( $this, 'after_variations_form' ) );
+                
+                
+                // add_action( 'pmxi_before_post_import', $callback);
+                
                 // add_action( 'woocommerce_after_variations_form', array( $this, 'enqueue_script' ) );
                 
                 // add_filter( 'nocache_headers', array( $this, 'cache_ajax_response' ), 99 );
@@ -141,8 +145,13 @@
             
             public function variable_children_args( $all_args, $product, $visible_only ) {
                 
+                // The issue is: During import it does not save disabled variation.
+                if ( function_exists( 'wp_all_import_get_import_id' ) && wp_all_import_get_import_id() !== 'new' ) {
+                    return $all_args;
+                }
+                
+                // Show only published variation product.
                 if ( ! $visible_only ) {
-                    // Don't load disabled variation
                     $all_args[ 'post_status' ] = 'publish';
                 }
                 
@@ -202,6 +211,8 @@
                 }
                 
                 $this->add_inline_style();
+                
+                // $is_defer = is_wp_version_compatible( '6.3' ) ? array( 'strategy' => 'defer' ) : true;
                 
                 wp_register_script( 'woo-variation-swatches', woo_variation_swatches()->assets_url( "/js/frontend{$suffix}.js" ), array(
                     'jquery',
@@ -770,7 +781,7 @@
                     $single_attribute_variation_image_id = empty( $variation ) ? 0 : $variation[ 'variation_image_id' ];
                 }
                 
-                return array(
+                $data = array(
                     'is_archive'         => isset( $args[ 'is_archive' ] ) ? $args[ 'is_archive' ] : false,
                     'is_selected'        => $is_selected,
                     'is_term'            => $is_term,
@@ -789,6 +800,8 @@
                     'args'               => $args,
                     'product'            => $product,
                 );
+                
+                return apply_filters( 'woo_variation_swatches_get_swatch_data', $data, $args, $product );
             }
             
             public function dropdown( $html, $args ) {
@@ -914,6 +927,11 @@
                         $attribute_type = $__attribute_type;
                         if ( 'image' === $attribute_type && ! is_array( $this->get_image_attribute( $data, $attribute_type ) ) ) {
                             $attribute_type = 'button';
+                        }
+                        
+                        // If 3rd party plugin wants to remove some attribute from list
+                        if ( apply_filters( 'woo_variation_swatches_remove_attribute_item', false, $data, $attribute_type ) ) {
+                            continue;
                         }
                         
                         $item .= $this->item_start( $data, $attribute_type );

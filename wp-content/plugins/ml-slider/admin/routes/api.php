@@ -65,6 +65,7 @@ class MetaSlider_Api
         add_action('wp_ajax_ms_get_slideshows', array(self::$instance, 'get_slideshows'));
         add_action('wp_ajax_ms_list_slideshows', array(self::$instance, 'list_slideshows'));
         add_action('wp_ajax_ms_get_single_slideshow', array(self::$instance, 'get_single_slideshow'));
+        add_action('wp_ajax_ms_get_legacy_slideshows', array(self::$instance, 'get_legacy_slideshows'));
         add_action('wp_ajax_ms_get_preview', array(self::$instance, 'get_preview'));
         add_action('wp_ajax_ms_delete_slideshow', array(self::$instance, 'delete_slideshow'));
         add_action('wp_ajax_ms_duplicate_slideshow', array(self::$instance, 'duplicate_slideshow'));
@@ -255,6 +256,44 @@ class MetaSlider_Api
         }
 
         wp_send_json_success($slideshow, 200);
+    }
+
+    /**
+     * Returns Nivo, Coin, Responsive Slideshows
+     *
+     * @param object|null $request The request
+     */
+    public function get_legacy_slideshows($request = null)
+    {
+        if (!$this->can_access()) {
+            $this->deny_access();
+        }
+
+        $data = $this->get_request_data($request, array('page', 'count'));
+        $page = isset($data['page']) ? intval($data['page']) : 1;
+        $count = isset($data['count']) ? intval($data['count']) : 25;
+        $slideshows = $this->slideshows->get($count, $page);
+        $slideshows = array_map(array($this, 'get_slide_data'), $slideshows);
+        $count_sliders = 0;
+        foreach ($slideshows as $slideshow) {
+            if(isset($slideshow['id'])) {
+                $settings = get_post_meta($slideshow['id'], 'ml-slider_settings', true);
+                if (is_array($settings) && isset($settings['type'])) {
+                    $type = $settings['type'];
+                    if($type !== 'flex'){
+                        $count_sliders++;
+                    }
+                }
+            }
+        }
+
+        if (is_wp_error($slideshows)) {
+            wp_send_json_error(array(
+                'message' => $slideshows->get_error_message()
+            ), 400);
+        }
+
+        wp_send_json_success($count_sliders, 200);
     }
 
     /**
@@ -630,6 +669,23 @@ class MetaSlider_Api
 
         // This wont provide a useful return
         update_option('metaslider_tour_cancelled_on', $data['current_step']);
+
+        wp_send_json_success('OK', 200);
+    }
+
+    /**
+     * Update legacy notification status
+     *
+     * @param object $request The request
+     */
+    public function set_legacy_notification($request)
+    {
+        if (!$this->can_access()) {
+            $this->deny_access();
+        }
+
+        $data = $this->get_request_data($request, array('notif_status'));
+        update_option('metaslider_legacy_notification', $data['notif_status']);
 
         wp_send_json_success('OK', 200);
     }
@@ -1050,6 +1106,11 @@ if (class_exists('WP_REST_Controller')) :
             register_rest_route($this->namespace, '/slideshow/single', array(array(
                 'methods' => 'GET',
                 'callback' => array($this->api, 'get_single_slideshow'),
+                'permission_callback' => array($this->api, 'can_access')
+            )));
+            register_rest_route($this->namespace, '/slideshow/legacy', array(array(
+                'methods' => 'GET',
+                'callback' => array($this->api, 'get_legacy_slideshows'),
                 'permission_callback' => array($this->api, 'can_access')
             )));
             register_rest_route($this->namespace, '/slideshow/preview', array(array(

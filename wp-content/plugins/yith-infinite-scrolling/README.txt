@@ -3,7 +3,7 @@ Contributors: yithemes
 Tags: yith, infinite scrolling, ajax pagination, infinite scroll, load more
 Requires at least: 6.1
 Tested up to: 6.3
-Stable tag: 1.14.0
+Stable tag: 1.16.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,16 @@ Full documentation is available [here](https://docs.yithemes.com/yith-infinite-s
 1. The plugin admin page.
 
 == Changelog ==
+
+= 1.16.0 = Released on 17 October 2023
+
+* New: support for WooCommerce 8.2
+* Update: YITH plugin framework
+
+= 1.15.0 = Released on 11 September 2023
+
+* New: support for WooCommerce 8.1
+* Update: YITH plugin framework
 
 = 1.14.0 = Released on 10 August 2023
 
@@ -268,8 +278,8 @@ If you have suggestions about how to improve YITH Infinite Scrolling, you can [w
 
 * English
 
-If you can't find this plugin in your language and want to translate it, use the dedicated tool at [Translating WordPress] (https://translate.wordpress.org/locale/it/default/wp-plugins/yith-infinite-scrolling "Translating WordPress").
-Or, if you have created your own language pack, or have an update for an existing one, you can send it as an email attachment from our [Contacts page] (http://yithemes.com/contact/ "Your Inspiration Themes") and we will bundle into YITH Infinite Scrolling.
+If you can't find this plugin in your language and want to translate it, use the dedicated tool at [Translating WordPress](https://translate.wordpress.org/locale/it/default/wp-plugins/yith-infinite-scrolling "Translating WordPress").
+Or, if you have created your own language pack, or have an update for an existing one, you can send it as an email attachment from our [Contacts page](http://yithemes.com/contact/ "Your Inspiration Themes") and we will bundle into YITH Infinite Scrolling.
 
 == Upgrade notice ==
 

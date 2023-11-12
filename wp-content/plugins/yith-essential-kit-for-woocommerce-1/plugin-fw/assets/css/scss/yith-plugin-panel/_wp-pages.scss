@@ -26,7 +26,7 @@
 
     .yith-plugin-fw-wp-page__description {
         margin-top: .75rem;
-        font-size: .875rem;
+        font-size: .8rem;
         line-height: 1.5;
     }
 
@@ -164,6 +164,17 @@ body.yith-plugin-fw-panel--version-2 {
         }
     }
 
+    .yith-plugin-fw__panel__content.yith-plugin-fw__panel__content--has-header-nav {
+        .yith-plugin-fw-wp-page-wrapper {
+            .wrap {
+                hr.wp-header-end {
+                    border-bottom: none;
+                    margin: 16px -16px;
+                }
+            }
+        }
+    }
+
     &.term-php {
         .yith-plugin-fw-wp-page-wrapper {
             &.yith-plugin-ui--taxonomy-type {
@@ -179,6 +190,17 @@ body.yith-plugin-fw-panel--version-2 {
 
             #message {
                 display: none;
+            }
+        }
+
+        .yith-plugin-fw__panel__content.yith-plugin-fw__panel__content--has-header-nav {
+            .yith-plugin-fw-wp-page-wrapper {
+                &.yith-plugin-ui--taxonomy-type {
+                    #ajax-response:after {
+                        border-bottom: none;
+                        margin: 16px -16px;
+                    }
+                }
             }
         }
     }

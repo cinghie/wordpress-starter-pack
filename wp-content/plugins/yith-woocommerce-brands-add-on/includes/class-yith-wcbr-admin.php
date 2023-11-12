@@ -145,6 +145,7 @@ if ( ! class_exists( 'YITH_WCBR_Admin' ) ) {
 				'plugin_slug'      => YITH_WCBR_SLUG,
 				'is_free'          => defined( 'YITH_WCBR_FREE_INIT' ),
 				'is_premium'       => defined( 'YITH_WCBR_PREMIUM_INIT' ),
+				'help_tab'         => array(),
 			);
 
 			if ( ! defined( 'YITH_WCBR_PREMIUM_INIT' ) ) {

@@ -91,7 +91,7 @@ abstract class WPPFM_Async_Request {
 	public function __construct() {
 		$this->identifier = $this->prefix . '_' . $this->action;
 
-		add_action( 'wp_ajax_' . $this->identifier, array( $this, 'maybe_handle' ) );
+		add_action( 'wp_ajax_' . $this->identifier, array( $this, 'maybe_handle' ) ); // This is the wppfm_feed_generation_process action used to start the background process using a wp_remote_post call.
 		add_action( 'wp_ajax_nopriv_' . $this->identifier, array( $this, 'maybe_handle' ) );
 	}
 
@@ -123,21 +123,8 @@ abstract class WPPFM_Async_Request {
 			// activate the background process
 			$response = wp_remote_post( esc_url_raw( $url ), $args );
 
-			// @since 2.40.0
-			if ( is_wp_error( $response ) ) {
-				do_action( 'wppfm_wp_remote_post_failed', $feed_id, $response );
-				wppfm_handle_wp_errors_response(
-					$response,
-					sprintf(
-					/* translators: %s: url to the wp marketingrobot server */
-						__(
-							'2845 - Failed to initiate the feed generation background process. Please wait a few minutes and try again. If the issue persists, open a support ticket at %s.',
-							'wp-product-feed-manager'
-						),
-						WPPFM_SUPPORT_PAGE_URL
-					)
-				);
-			}
+			do_action( 'wppfm_wp_remote_post_response', $feed_id, $response );
+
 		} else { // start a foreground process
 			$this->maybe_handle();
 		}
@@ -170,10 +157,17 @@ abstract class WPPFM_Async_Request {
 	 * @return array
 	 */
 	protected function get_post_args() {
+		// @since 2.41.0. Switch blocking = true if the logger functionality is enabled. This will enable a response from a wp_remote_post request.
+		$blocking = false;
+
+		if ( 'true' === get_option( 'wppfm_process_logger_status', 'false' ) && wppfm_logger_prerequisites() ) {
+			$blocking = true;
+		}
+
 		return array(
-			'timeout'  => 0.01,
-			'blocking' => false, // false because the wp_remote_call will always return a WP_Error for a cURL error 28
-			'body'     => $this->data,
+			'timeout'  => 5,
+			'blocking' => $blocking,
+			'body'     => json_encode( $this->data ), // encoding @since 2.41.0 to minimize the post input var size.
 			'cookies'  => stripslashes_deep( $_COOKIE ),
 		);
 	}

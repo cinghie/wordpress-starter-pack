@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 class EventsManager {
-
+    private static $_instance;
     public $facebookServerEvents = array();
 	public $doingAMP = false;
     private $standardParams = array();
@@ -19,13 +19,22 @@ class EventsManager {
 
 
     public function __construct() {
-		$this->set_pbid();
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueueScripts' ),10 );
         add_action( 'wp_enqueue_scripts', array( $this, 'setupEventsParams' ),14 );
         add_action( 'wp_enqueue_scripts', array( $this, 'outputData' ),15 );
 		add_action( 'wp_footer', array( $this, 'outputNoScriptData' ), 10 );
 	}
 
+    public static function instance() {
+
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+
+    }
 	public function enqueueScripts() {
 
         wp_register_script( 'jquery-bind-first', PYS_FREE_URL . '/dist/scripts/jquery.bind-first-0.2.3.min.js', array( 'jquery' ) );
@@ -76,6 +85,8 @@ class EventsManager {
             'last_visit_duration'               => PYS()->getOption('last_visit_duration'),
             'enable_success_send_form'          => PYS()->getOption( 'enable_success_send_form' ),
 			'ajaxForServerEvent'                => PYS()->getOption( 'server_event_use_ajax'),
+            "send_external_id" => PYS()->getOption( 'send_external_id'),
+            "external_id_expire"=> PYS()->getOption( 'external_id_expire')
 		);
 
 		$options['gdpr'] = array(
@@ -331,6 +342,9 @@ class EventsManager {
                 unset($data['params']['tags']);
             }
 
+            if(!PYS()->getOption("enable_woo_fees_param")) {
+                unset($data['params']['fees']);
+            }
         }
 
         if($slug == EventsEdd::getSlug()) {
@@ -546,37 +560,7 @@ class EventsManager {
         <?php
 
     }
-    function get_pbid(){
-        $pbidCookieName = 'pbid';
-        if (isset($_COOKIE[$pbidCookieName])) {
-            return $_COOKIE[$pbidCookieName];
-        }
-        else return false;
 
-    }
-    function set_pbid()
-    {
-        $pbidCookieName = 'pbid';
-        $externalIdExpire = PYS()->getOption("external_id_expire");
-        $isTrackExternalId = EventsManager::isTrackExternalId();
-        $isEnabledTags = Facebook()->enabled() || Pinterest()->enabled();
-
-        if (!$isTrackExternalId || !$isEnabledTags) {
-            if (isset($_COOKIE[$pbidCookieName])) {
-                setcookie($pbidCookieName, '', time() - 3600, '/');
-            }
-        }
-
-        if (!isset($_COOKIE[$pbidCookieName]) && $isTrackExternalId) {
-            $uniqueId = bin2hex(random_bytes(16));
-            $encryptedUniqueId = hash('sha256', $uniqueId);
-            setcookie($pbidCookieName, $encryptedUniqueId, time() + ($externalIdExpire * 24 * 60 * 60), '/');
-
-            return $encryptedUniqueId;
-        }
-
-        return null;
-    }
     static function isTrackExternalId(){
         return PYS()->getOption("send_external_id") && !apply_filters( 'pys_disable_externalID_by_gdpr', false ) && !apply_filters( 'pys_disable_all_cookie', false );
     }

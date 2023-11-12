@@ -303,6 +303,8 @@ $nonce = wp_create_nonce( 'wapo_action' );
 
 			</form>
 
+        <input type="hidden" id="yith-wapo-nonce-addons" data-nonce="<?php echo esc_attr( $nonce ); ?>">
+
 	</div>
 
 	<?php

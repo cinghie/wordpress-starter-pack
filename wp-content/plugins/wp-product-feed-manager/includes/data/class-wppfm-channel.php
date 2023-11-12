@@ -28,8 +28,8 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			// WPPFM_CHANNEL_RELATED
 			$this->_channels = array(
 				new Wppfm_Channel_Info( '0', 'usersetup', 'Free User Setup' ),
-				new Wppfm_Channel_Info( '1', 'google', 'Google Merchant Centre' ),
-				new Wppfm_Channel_Info( '2', 'bing', 'Bing Merchant Centre' ),
+				new Wppfm_Channel_Info( '1', 'google', 'Google Merchant Centre', 'https://support.google.com/merchants/answer/188924?sjid=17852146859618914984-EU&visit_id=638328859471105636-940801196&rd=1', 'https://support.google.com/merchants/answer/7052112?hl=en' ),
+				new Wppfm_Channel_Info( '2', 'bing', 'Bing (Microsoft) Shopping', 'https://help.ads.microsoft.com/#apex/ads/en/51105/1', 'https://help.ads.microsoft.com/apex/index/3/en/51084' ),
 				new Wppfm_Channel_Info( '3', 'beslis', 'Beslis.nl' ),
 				new Wppfm_Channel_Info( '4', 'pricegrabber', 'PriceGrabber' ),
 				new Wppfm_Channel_Info( '5', 'shopping', 'Shopping.com (eBay)' ),
@@ -44,9 +44,9 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 				new Wppfm_Channel_Info( '13', 'avantlink', 'AvantLink' ),
 				new Wppfm_Channel_Info( '14', 'zbozi', 'Zbozi' ),
 				new Wppfm_Channel_Info( '15', 'comcon', 'Commerce Connector' ),
-				new Wppfm_Channel_Info( '16', 'facebook', 'Facebook' ),
+				new Wppfm_Channel_Info( '16', 'facebook', 'Facebook', 'https://business.facebook.com/commerce_manager/get_started/', 'https://www.facebook.com/business/help/120325381656392?id=725943027795860' ),
 				new Wppfm_Channel_Info( '17', 'bol', 'Bol.com' ),
-				new Wppfm_Channel_Info( '18', 'adtraction', 'Adtraction' ),
+				new Wppfm_Channel_Info( '18', 'adtraction', 'Adtraction', 'https://adtraction.com/advertisers', 'https://www.wpmarketingrobot.com/system/wp-content/uploads/2023/10/Adtraction_datafeedspecification.pdf' ),
 				new Wppfm_Channel_Info( '19', 'ricardo', 'Ricardo.ch' ),
 				new Wppfm_Channel_Info( '20', 'ebay', 'eBay' ),
 				new Wppfm_Channel_Info( '21', 'shopzilla', 'Shopzilla' ),
@@ -58,10 +58,14 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 				new Wppfm_Channel_Info( '27', 'galaxus_properties', 'Galaxus Product Properties' ),
 				new Wppfm_Channel_Info( '28', 'galaxus_stock_pricing', 'Galaxus Product Stock Pricing' ),
 				new Wppfm_Channel_Info( '29', 'vivino', 'Vivino' ),
-				new Wppfm_Channel_Info( '30', 'snapchat', 'Snapchat' ),
-				new Wppfm_Channel_Info( '31', 'pinterest', 'Pinterest' ),
-				new Wppfm_Channel_Info( '32', 'vivino_xml', 'Vivino XML' ),
-				new Wppfm_Channel_Info( '33', 'idealo_xml', 'Idealo XML' ),
+				new Wppfm_Channel_Info( '30', 'snapchat', 'Snapchat Product Catalog', 'https://businesshelp.snapchat.com/s/topic/0TO0y000000YVd8GAG/catalogs?language=en_US', 'https://businesshelp.snapchat.com/s/article/product-catalog-specs?language=en_US' ),
+				new Wppfm_Channel_Info( '31', 'pinterest', 'Pinterest', 'https://help.pinterest.com/en/business/article/before-you-get-started-with-catalogs', '' ),
+				new Wppfm_Channel_Info( '32', 'vivino_xml', 'Vivino XML', 'https://help.vivino.com/s/article/How-does-Vivino-pull-my-inventory?language=en_US', 'https://vivino.slab.com/public/posts/vivino-feed-creation-guidelines-9gq0o3dg' ),
+				new Wppfm_Channel_Info( '33', 'idealo_xml', 'Idealo XML', 'https://partner.idealo.com/uk/learning-center/faq-technical-integration', 'https://idealo.github.io/csv-importer/en/csv/' ),
+				new Wppfm_Channel_Info( '34', 'x_shopping_manager', 'Twitter Shopping', 'https://business.twitter.com/en/products/shopping/shopping-manager.html', 'https://business.twitter.com/en/help/shopping-specs.html' ),
+				new Wppfm_Channel_Info( '35', 'instagram_shopping', 'Instagram Shopping', 'https://business.instagram.com/shopping/?content_id=IE6I4Ax2NPXa0CM', 'https://www.facebook.com/business/help/161324715892485' ),
+				new Wppfm_Channel_Info( '36', 'whatsapp_business', 'WhatsApp Business', 'https://business.whatsapp.com/products/business-app-features', 'https://www.facebook.com/business/help/161324715892485' ),
+				new Wppfm_Channel_Info( '37', 'tiktok_catalog', 'TikTok Catalog', 'https://getstarted.tiktok.com/gofulltiktok?lang=en', 'https://ads.tiktok.com/help/article/catalog-product-parameters?lang=en' ),
 				new Wppfm_Channel_Info( '996', 'marketingrobot_tsv', 'Custom TSV Export' ),
 				new Wppfm_Channel_Info( '997', 'marketingrobot_txt', 'Custom TXT Export' ),
 				new Wppfm_Channel_Info( '998', 'marketingrobot_csv', 'Custom CSV Export' ),
@@ -86,20 +90,34 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			return false;
 		}
 
+		/**
+		 * Returns a channel short name from a specific channel, or false if the name was not found.
+		 *
+		 * @param string $channel_id channel id
+		 *
+		 * @return string|bool Channel class
+		 */
 		public function get_channel_short_name( $channel_id ) {
 			foreach ( $this->_channels as $channel ) {
 				if ( $channel->channel_id === $channel_id ) {
-					return $channel->channel_short;
+					return (string) $channel->channel_short;
 				}
 			}
 
 			return false;
 		}
 
+		/**
+		 * Returns a channel name from a specific channel, or false if the name was not found.
+		 *
+		 * @param string $channel_id channel id
+		 *
+		 * @return string|bool Channel class
+		 */
 		public function get_channel_name( $channel_id ) {
 			foreach ( $this->_channels as $channel ) {
 				if ( $channel->channel_id === $channel_id ) {
-					return $channel->channel_name;
+					return (string) $channel->channel_name;
 				}
 			}
 
@@ -110,6 +128,26 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			$file_class = new WPPFM_File();
 
 			return $file_class->get_installed_channels_from_file();
+		}
+
+		public function get_channel_info_link( $channel_short_name ) {
+			foreach ( $this->_channels as $channel ) {
+				if ( $channel->channel_short === $channel_short_name ) {
+					return $channel->channel_info_link;
+				}
+			}
+
+			return false;
+		}
+
+		public function get_channel_specifications_link( $channel_short_name ) {
+			foreach ( $this->_channels as $channel ) {
+				if ( $channel->channel_short === $channel_short_name ) {
+					return $channel->channel_specifications_link;
+				}
+			}
+
+			return false;
 		}
 
 		public function remove_channel( $channel, $nonce ) {
@@ -166,7 +204,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 		}
 
 		public function get_number_of_updates_from_server( $channel_updated ) {
-			if ( date( 'Ymd' ) === get_option( 'wppfm_channel_update_check_date' ) ) {
+			if ( gmdate( 'Ymd' ) === get_option( 'wppfm_channel_update_check_date' ) ) {
 				if ( $channel_updated ) {
 					wppfm_decrease_update_ready_channels();
 				}
@@ -186,8 +224,8 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 						$stored_count = $this->count_updatable_channels( $available_channels );
 
 						$count = $channel_updated ? ( $stored_count - 1 ) : $stored_count;
-						update_option( 'wppfm_channels_to_update', $count > 0 ? $count : 0 );
-						update_option( 'wppfm_channel_update_check_date', date( 'Ymd' ) );
+						update_option( 'wppfm_channels_to_update', max( $count, 0 ) );
+						update_option( 'wppfm_channel_update_check_date', gmdate( 'Ymd' ) );
 
 						return $count;
 					}
@@ -211,9 +249,9 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			return 0;
 		}
 
-		public function add_status_data_to_available_channels( &$available_channels, $installed_channels, $updated ) {
+		public function add_status_data_to_available_channels( $available_channels, $installed_channels, $updated ) {
 			for ( $i = 0; $i < count( $available_channels ); $i ++ ) {
-				if ( in_array( $available_channels[ $i ]->short_name, $installed_channels ) ) {
+				if ( in_array( $available_channels[ $i ]->short_name, $installed_channels, true ) ) {
 					$available_channels[ $i ]->status = 'installed';
 
 					$available_channels[ $i ]->installed_version = $available_channels[ $i ]->short_name === $updated ? $available_channels[ $i ]->version
@@ -222,6 +260,13 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 					$available_channels[ $i ]->status            = 'not installed';
 					$available_channels[ $i ]->installed_version = '0';
 				}
+			}
+		}
+
+		public function add_channel_info_links_to_channels( $available_channels ) {
+			for ( $i = 0; $i < count( $available_channels ); $i ++ ) {
+				$available_channels[ $i ]->info_link           = $this->get_channel_info_link( $available_channels[ $i ]->short_name );
+				$available_channels[ $i ]->specifications_link = $this->get_channel_specifications_link( $available_channels[ $i ]->short_name );
 			}
 		}
 
@@ -255,7 +300,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			return $this->get_channel_short_name( $feed_data->channel_id );
 		}
 
-		private function get_channel_file_version( $channel_name, $rerun_counter ) {
+		public function get_channel_file_version( $channel_name, $rerun_counter, $silent = false ) {
 			if ( $rerun_counter < 3 ) {
 				if ( class_exists( 'WPPFM_' . ucfirst( $channel_name ) . '_Feed_Class' ) ) {
 					$class_var = 'WPPFM_' . ucfirst( $channel_name ) . '_Feed_Class';
@@ -272,10 +317,10 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 
 					$rerun_counter ++;
 
-					return $this->get_channel_file_version( $channel_name, $rerun_counter );
+					return $this->get_channel_file_version( $channel_name, $rerun_counter, $silent );
 				}
 			} else {
-				if ( wppfm_on_any_own_plugin_page() ) {
+				if ( wppfm_on_any_own_plugin_page() && ! $silent ) {
 					/* translators: %s: Name of a channel */
 					echo wppfm_show_wp_error( sprintf( __( 'Channel %s is not installed correctly. Please try to Deactivate and then Activate the Feed Manager Plugin in your Plugins page.', 'wp-product-feed-manager' ), $channel_name ) );
 					wppfm_write_log_file( sprintf( 'Error: Channel %s is not installed correctly.', $channel_name ) );
@@ -301,7 +346,7 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 			$file_class = new WPPFM_File();
 			$ftp_class  = new WPPFM_Channel_FTP();
 
-			// remove the out dated channel source files from the server
+			// remove the outdated channel source files from the server
 			$file_class->delete_channel_source_files( $channel );
 
 			$get_result = $ftp_class->get_channel_source_files( $channel, $code );
@@ -361,14 +406,14 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 					if ( false !== $channel_details ) {
 						$data_class->register_channel( $channel_name, $channel_details );
 					} else {
-						wppfm_write_log_file( sprintf( 'Unable to register channel %s' . $channel_name ) );
+						wppfm_write_log_file( sprintf( 'Unable to register channel %s', $channel_name ) );
 					}
 				} else {
 					wppfm_write_log_file(
 						sprintf(
 							'Could not get the %s channel file from the server. Get_result message is %s.',
 							$channel_name,
-							$get_result
+							false
 						)
 					);
 				}
@@ -394,11 +439,15 @@ if ( ! class_exists( 'WPPFM_Channel' ) ) :
 		public $channel_id;
 		public $channel_short;
 		public $channel_name;
+		public $channel_info_link;
+		public $channel_specifications_link;
 
-		public function __construct( $id, $short, $name ) {
-			$this->channel_id    = $id;
-			$this->channel_short = $short;
-			$this->channel_name  = $name;
+		public function __construct( $id, $short, $name, $info_link = '', $specifications_link = '' ) {
+			$this->channel_id                  = $id;
+			$this->channel_short               = $short;
+			$this->channel_name                = $name;
+			$this->channel_info_link           = $info_link;
+			$this->channel_specifications_link = $specifications_link;
 		}
 	}
 

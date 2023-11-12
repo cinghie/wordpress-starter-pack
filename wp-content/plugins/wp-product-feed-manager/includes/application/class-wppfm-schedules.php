@@ -25,22 +25,15 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 		 */
 		public function update_active_feeds() {
 			$data_class = new WPPFM_Data();
-			$query_class = new WPPFM_Queries();
 
+			//phpcs:ignore
 			$current_timestamp      = date( 'Y-m-d H:i:s', current_time( 'timestamp' ) );
 			$active_feeds_schedules = $data_class->get_schedule_data();
 			$failed_feeds           = $data_class->get_failed_feeds();
 
 			// Update scheduled feeds.
 			foreach ( $active_feeds_schedules as $schedule ) {
-				$update_time    = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
-
-				$feed_type_id = $query_class->get_feed_type_id( $schedule['product_feed_id'] );
-				$review_feeds_active = get_option('wppfm_review_feed_manager_active');
-
-				if ( '2' === $feed_type_id && 'false' === $review_feeds_active ) {
-					continue; // Only put review feeds in the queue if the review feed option is active.
-				}
+				$update_time = $this->new_activation_time( $schedule['updated'], $schedule['schedule'] );
 
 				// Activate the feed update when the update time is reached.
 				if ( $update_time < $current_timestamp ) {
@@ -56,7 +49,7 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 			if ( ! WPPFM_Feed_Controller::feed_queue_is_empty() && ! WPPFM_Feed_Controller::feed_is_processing() ) {
 				do_action( 'wppfm_automatic_feed_update_triggered', $active_feed_id );
 				$feed_master_class = new WPPFM_Feed_Master_Class( $active_feed_id );
-				$feed_master_class->update_feed_file( true );
+				$feed_master_class->update_feed_file();
 			}
 
 			// Update previously failed feeds.
@@ -69,7 +62,7 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 						do_action( 'wppfm_automatic_feed_prepare_update_triggered', $active_feed_id );
 
 						$feed_master_class = new WPPFM_Feed_Master_Class( $active_feed_id );
-						$feed_master_class->update_feed_file( true );
+						$feed_master_class->update_feed_file();
 					} else {
 						$data_class->update_feed_status( $failed_feed['product_feed_id'], 4 ); // Feed status to waiting in queue.
 					}
@@ -88,19 +81,21 @@ if ( ! class_exists( 'WPPFM_Schedules' ) ) :
 		private function new_activation_time( $last_update, $update_frequency ) {
 			$update_split = explode( ':', $update_frequency );
 
-			$hrs  = isset( $update_split[1] ) ? $update_split[1] : '00';
-			$min  = isset( $update_split[2] ) ? $update_split[2] : '00';
-			$freq = isset( $update_split[3] ) ? $update_split[3] : 1;
+			$hrs  = $update_split[1] ?? '00';
+			$min  = $update_split[2] ?? '00';
+			$freq = $update_split[3] ?? 1;
 
 			$planned_update_time = $hrs . ':' . $min . ':00';
 			$planned_update_time = '00:00:00' !== $planned_update_time ? $planned_update_time : '23:59:00';
-			$last_update_time    = date( 'H:i:s', strtotime( $last_update ) );
-			$days                = $update_split[0] <= 1
+			//phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+			$last_update_time = date( 'H:i:s', strtotime( $last_update ) );
+			$days             = $update_split[0] <= 1
 								&& ( ( strtotime( $last_update_time ) <= strtotime( $planned_update_time ) )
 								|| ( '00' === $hrs && '00' === $min ) )
 				? 0 : $update_split[0];
 
 			if ( $freq < 2 ) { // Update only once a day, every $update_split[0] days.
+				//phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 				$update_date = date_add( date_create( date( 'Y-m-d', strtotime( $last_update ) ) ), date_interval_create_from_date_string( $days . ' days' ) );
 
 				return date_format( $update_date, 'Y-m-d' ) . ' ' . $planned_update_time;

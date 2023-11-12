@@ -13,7 +13,6 @@ $location = wc_local_pickup()->admin->get_data_byid($location_id);
 					<button name="save" class="wclp-save button-primary woocommerce-save-button btn_location_submit" type="submit" value="Save changes"><?php esc_html_e( 'Save & close', 'advanced-local-pickup-for-woocommerce' ); ?></button>
 					<span class="alp_error_msg"></span>								
 					<?php wp_nonce_field( 'wclp_location_edit_form_action', 'wclp_location_edit_form_nonce_field' ); ?>
-					<input type="hidden" id="wclp_apply_work_hours_nonce" value="<?php esc_html_e( wp_create_nonce( 'wclp_apply_work_hours_nonce' ) ); ?>">
 					<input type="hidden" name="action" value="wclp_location_edit_form_update">
 				</span>
 				<span class="dashicons dashicons-arrow-right-alt2"></span></label>

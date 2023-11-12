@@ -2,14 +2,54 @@
 # This file is distributed under the same license as the Plugins - YITH WooCommerce Wishlist - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-07-07 09:18:14+0000\n"
+"PO-Revision-Date: 2023-10-12 09:18:07+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.6\n"
+"X-Generator: GlotPress/4.0.0-alpha.9\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH WooCommerce Wishlist - Stable (latest release)\n"
+
+#: includes/class-yith-wcwl-admin.php:397
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin Recover Abandoned Cart"
+msgid "Contact users who have added products to the cart without completing the order and try to recover lost sales."
+msgstr "Contatta gli utenti che hanno aggiunto prodotti al carrello senza completare l'ordine e prova a recuperare le mancate vendite."
+
+#: includes/class-yith-wcwl-admin.php:389
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH WooCommerce Customize My Account"
+msgid "Customize the My Account page of your customers by creating custom sections with promotions and ad-hoc content based on your needs."
+msgstr "Personalizza la pagina Il Mio Account dei tuoi clienti creando sezioni dedicate con promozioni e contenuti ad hoc in base alle loro esigenze."
+
+#: includes/class-yith-wcwl-admin.php:377
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH WooCommerce Dynamic Pricing and Discounts"
+msgid "Increase conversions through dynamic discounts and price rules, and build powerful and targeted offers."
+msgstr "Aumenta le conversioni con le regole di prezzo e sconto dinamiche e crea offerte potenti e mirate."
+
+#: includes/class-yith-wcwl-admin.php:365
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH WooCommerce Product Add-Ons"
+msgid "Add paid or free advanced options to your product pages using fields like radio buttons, checkboxes, drop-downs, custom text inputs, and more."
+msgstr "Aggiungi opzioni avanzate gratuite o a pagamento alle tue pagine prodotto usando campi come radio button, checkbox, select, input di testo personalizzati, ecc."
+
+#: includes/class-yith-wcwl-admin.php:353
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH WooCommerce Request a Quote"
+msgid "Hide prices and/or the \"Add to cart\" button and let your customers request a custom quote for every product."
+msgstr "Nascondi i prezzi e/o il pulsante \"Aggiungi al carrello\" e permetti ai tuoi clienti di richiedere un preventivo personalizzato per ciascun prodotto."
+
+#: includes/class-yith-wcwl-admin.php:340
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH Bookings"
+msgid "Enable a booking/appointment system to manage renting or booking of services, rooms, houses, cars, accommodation facilities and so on."
+msgstr "Abilita un sistema prenotazioni/appuntamenti per gestire affitti o prenotazioni di servizi, stanze, case, auto, servizi ricettivi ecc."
+
+#: includes/class-yith-wcwl-admin.php:328
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH WooCommerce Ajax Product Filter"
+msgid "Help your customers to easily find the products they are looking for and improve the user experience of your shop."
+msgstr "Aiuta i tuoi clienti a trovare facilmente i prodotti che stanno cercando e migliora la user experience del tuo shop."
+
+#: includes/class-yith-wcwl-admin.php:316
+msgctxt "[YOUR STORE TOOLS TAB] Description for plugin YITH WooCommerce Gift Cards"
+msgid "Sell gift cards in your shop to increase your earnings and attract new customers."
+msgstr "Vendi buoni regalo nel tuo shop per aumentare i guadagni e attirare nuovi clienti."
 
 #: plugin-options/settings-options.php:26
 msgctxt "Tab description in plugin settings panel"
@@ -41,8 +81,8 @@ msgctxt "Tab title in plugin settings panel"
 msgid "General"
 msgstr "Generali"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:501
-#: plugin-fw/includes/class-yit-plugin-panel.php:1495
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:502
+#: plugin-fw/includes/class-yit-plugin-panel.php:1561
 msgid "Options saved!"
 msgstr "Opzioni salvate!"
 
@@ -97,7 +137,7 @@ msgctxt "Premium Tab"
 msgid "Upgrade now to get a %s%% off"
 msgstr "Fai l'upgrade ora ed ottieni uno sconto del %s%%"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1239
+#: plugin-fw/includes/class-yit-plugin-panel.php:1305
 msgid ""
 "At first, I was hesitant to buy the premium version so I started with the free option.\n"
 "After a while, seeing the quality of the plugin and the results I was getting, I decided to give it a shot and switch to premium. No regrets!\n"
@@ -135,12 +175,12 @@ msgstr "Prima azienda indipendente di <mark>plugin per WooCommerce</mark>"
 msgid "Search for an order..."
 msgstr "Cerca un ordine..."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:926
+#: plugin-fw/includes/class-yit-plugin-panel.php:992
 msgctxt "Panel tab name"
 msgid "Your Store Tools"
 msgstr "Strumenti per il tuo negozio"
 
-#: plugin-options/settings/general-options.php:59
+#: plugin-options/settings/general-options.php:62
 msgid "Enable the slider with linked products on the Wishlist page."
 msgstr "Abilita slider dei prodotti correlati nella pagina Lista dei desideri."
 
@@ -176,7 +216,7 @@ msgstr "Carica file"
 msgid "Drag or upload a file."
 msgstr "Trascina o carica un file."
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:555
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:556
 msgid "Options reset correctly!"
 msgstr "Opzioni reimpostate correttamente!"
 
@@ -243,19 +283,19 @@ msgstr "Novità nella versione %s"
 msgid "is successfully updated to version %s."
 msgstr "è stato aggiornato alla versione %s."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1119
+#: plugin-fw/includes/class-yit-plugin-panel.php:1185
 msgid "See how it works before you start using it"
 msgstr "Guarda come funziona prima di iniziare ad usarlo"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1118
+#: plugin-fw/includes/class-yit-plugin-panel.php:1184
 msgid "Watch our <mark>\"First Steps\" video</mark>"
 msgstr "Guarda il nostro <mark>video \"Primi Step\"</mark>"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1108
+#: plugin-fw/includes/class-yit-plugin-panel.php:1174
 msgid "Learn what you can really do with this powerful tool"
 msgstr "Scopri cosa puoi fare con questo potente strumento"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1107
+#: plugin-fw/includes/class-yit-plugin-panel.php:1173
 msgid "Read the <mark>plugin documentation</mark>"
 msgstr "Consulta la <mark>documentazione del plugin</mark>"
 
@@ -302,7 +342,7 @@ msgid "It is not possible save the options"
 msgstr "Impossibile salvare le opzioni"
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:854
+#: plugin-fw/includes/class-yit-plugin-panel.php:920
 msgctxt "Help tab default title"
 msgid "Thank you for using %s!"
 msgstr "Grazie per aver scelto %s!"
@@ -310,10 +350,6 @@ msgstr "Grazie per aver scelto %s!"
 #: init.php:173
 msgid "YITH WooCommerce Wishlist was deactivated as you're running an higher tier version of the same plugin."
 msgstr "YITH WooCommerce Wishlist è stato disattivato in quanto stai utilizzando una versione superiore dello stesso plugin."
-
-#: includes/class-yith-wcwl-admin.php:300
-msgid "<b>Send promotional emails to users</b> who have added specific products to their wishlist"
-msgstr "<b>Invia email promozionali agli utenti</b> che hanno aggiunto determinati prodotti alla loro lista dei desideri"
 
 #. translators: 1. Plugin(s) name(s).
 #: plugin-fw/yit-plugin.php:281
@@ -359,43 +395,47 @@ msgctxt "Premium Tab"
 msgid "...and so much more!"
 msgstr "...e molto altro!"
 
-#: includes/class-yith-wcwl-admin.php:302
+#: includes/class-yith-wcwl-admin.php:301
 msgid "Regular updates, Translations and Premium Support"
 msgstr "Aggiornamenti costanti, traduzioni e assistenza premium"
 
-#: includes/class-yith-wcwl-admin.php:301
+#: includes/class-yith-wcwl-admin.php:300
 msgid "<b>Send an automatic email to the wishlist owner</b> whenever a product in the list is back in stock or on sale"
 msgstr "<b>Invia un'email automatica a chi ha la lista dei desideri </b> quando uno dei prodotti aggiunti è di nuovo disponibile o in offerta"
 
 #: includes/class-yith-wcwl-admin.php:299
+msgid "View the most popular products added to the wishlist by your customers and <b>send promotional emails to users</b> who have added specific products to their wishlist"
+msgstr "Visualizza i prodotti più popolari aggiunti dagli utenti alle liste dei desideri e <b>invia email promozionali</b> a coloro che hanno aggiunto dei prodotti specifici"
+
+#: includes/class-yith-wcwl-admin.php:298
 msgid "<b>Show a wishlist widget</b> that lists all the products in the wishlists (available also with \"mini-cart\" style for the header)"
 msgstr "<b>Mostra un widget per la lista dei desideri</b> con l'elenco di tutti i prodotti aggiunti (disponibile anche con stile \"mini-carrello\" per l'header)"
 
-#: includes/class-yith-wcwl-admin.php:298
+#: includes/class-yith-wcwl-admin.php:297
 msgid "Enable an <b>\"Ask for an estimate\" button</b> to let customers send the content of their wishlist to the admin and get a custom quote"
 msgstr "Abilita un <b>pulsante \"Richiedi un preventivo\" </b> per permettere agli utenti di inviare all'amministratore il contenuto della loro lista dei desideri ed ottenere un preventivo personalizzato"
 
-#: includes/class-yith-wcwl-admin.php:297
+#: includes/class-yith-wcwl-admin.php:296
 msgid "<b>Allow users to manage their wishlists:</b> rename and delete wishlists, move a product from one wishlist to another, change order of items, quantity, etc."
 msgstr "<b>Permetti agli utenti di gestire le proprie liste dei desideri:</b> rinominare ed eliminare, spostare un prodotto da una lista all'altra, cambiare l'ordinamento degli elementi, quantità, ecc."
 
-#: includes/class-yith-wcwl-admin.php:296
+#: includes/class-yith-wcwl-admin.php:295
 msgid "Choose between <b>different layouts</b> for the wishlist page and for the wishlist content"
 msgstr "Scegli tra <b>diversi layout</b> per la pagina Lista dei desideri e per il suo contenuto"
 
-#: includes/class-yith-wcwl-admin.php:295
+#: includes/class-yith-wcwl-admin.php:294
 msgid "Allow users to set <b>visibility options for each wishlist</b>, by making them either public (visible to everyone), private or shared (visible only to people it has been shared with)"
 msgstr "Permetti agli utenti di impostare le <b>opzioni di visibilità per ogni lista dei desideri</b> rendendole pubbliche (visibili a chiunque), private o condivise (visibili solo alle persone con cui le hanno condivise)"
 
-#: includes/class-yith-wcwl-admin.php:294
+#: includes/class-yith-wcwl-admin.php:293
 msgid "Allow users to create <b>multiple wishlists</b> (Ex: Christmas, Birthday, etc.) <br>Users can choose the wishlist from a dropdown menu when they click on \"Add to wishlist\""
 msgstr "Permetti agli utenti di creare <b>liste dei desideri multiple</b> (Es: Natale, Compleanno, ecc.) <br>Gli utenti possono scegliere la lista da un menu a discesa facendo clic su \"Aggiungi alla lista\""
 
-#: includes/class-yith-wcwl-admin.php:293
+#: includes/class-yith-wcwl-admin.php:292
 msgid "Enable the wishlist feature for all users or <b>only for registered users</b>"
 msgstr "Abilita la funzionalità lista dei desideri per tutti gli utenti o <b>solo per gli utenti registrati</b>"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:911
+#: plugin-fw/includes/class-yit-plugin-panel.php:977
 msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
@@ -515,18 +555,18 @@ msgctxt "Image width field label"
 msgid "Width"
 msgstr "Larghezza"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:863
+#: plugin-fw/includes/class-yit-plugin-panel.php:929
 msgctxt "Help tab default description"
 msgid "We want to help you enjoy a wonderful experience with all of our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:854
+#: plugin-fw/includes/class-yit-plugin-panel.php:920
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:941
+#: plugin-fw/includes/class-yit-plugin-panel.php:1007
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -548,7 +588,7 @@ msgstr "Sì, sposta nel cestino"
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
-#: includes/class-yith-wcwl-admin.php:272
+#: includes/class-yith-wcwl-admin.php:271
 msgctxt "[HELP TAB] Video title"
 msgid "Check this video to learn how to <b>configure wishlist and customize options:</b>"
 msgstr "Guarda questo video per scoprire come <b>configurare il plugin e personalizzare le opzioni:</b>"
@@ -851,7 +891,7 @@ msgctxt "Position in the \"Dimensions\" field"
 msgid "Top"
 msgstr "In alto"
 
-#: plugin-options/lists-options.php:43
+#: plugin-options/lists-options.php:41
 msgid "Search list"
 msgstr "Cerca lista"
 
@@ -1010,7 +1050,7 @@ msgstr "Vedi &rsaquo;"
 msgid "or"
 msgstr "oppure"
 
-#: templates/wishlist-view-mobile.php:250 templates/wishlist-view.php:575
+#: templates/wishlist-view-mobile.php:263 templates/wishlist-view.php:575
 msgid "Move to another list &rsaquo;"
 msgstr "Sposta in un'altra lista &rsaquo;"
 
@@ -1352,65 +1392,57 @@ msgstr "Pagina dettaglio Lista dei desideri"
 msgid "Pick a page as the main Wishlist page; make sure you add the <span class=\"code\"><code>[yith_wcwl_wishlist]</code></span> shortcode into the page content"
 msgstr "Scegli una pagina da utilizzare per le Liste dei desideri; assicurati di aver aggiunto lo shortcode <span class=\"code\"><code>[yith_wcwl_wishlist]</code></span> nel contenuto della pagina"
 
-#: plugin-options/settings/add_to_wishlist-options.php:322
+#: plugin-options/settings/add_to_wishlist-options.php:320
 msgid "Enter custom CSS to be applied to Wishlist elements (optional)"
 msgstr "Inserisci il tuo codice CSS da applicare agli elementi della lista (opzionale)"
 
-#: plugin-options/settings/add_to_wishlist-options.php:308
+#: plugin-options/settings/add_to_wishlist-options.php:306
 msgid "\"Added to wishlist\" custom icon"
 msgstr "Icona personalizzata per 'Aggiungi alla lista'"
 
-#: plugin-options/settings/add_to_wishlist-options.php:304
+#: plugin-options/settings/add_to_wishlist-options.php:302
 msgid "Same used for Add to wishlist"
 msgstr "La stessa utilizzata per Aggiungi alla lista"
 
-#: plugin-options/settings/add_to_wishlist-options.php:289
+#: plugin-options/settings/add_to_wishlist-options.php:287
 msgid "Select an icon for the \"Added to wishlist\" button (optional)"
 msgstr "Selezionare un'icona per il pulsante \"Aggiungi alla lista\" (opzionale)"
 
-#: plugin-options/settings/add_to_wishlist-options.php:276
-#: plugin-options/settings/add_to_wishlist-options.php:309
+#: plugin-options/settings/add_to_wishlist-options.php:274
+#: plugin-options/settings/add_to_wishlist-options.php:307
 msgid "Upload an icon you'd like to use for \"Add to wishlist\" button (suggested 32px x 32px)"
 msgstr "Carica un'icona da utilizzare per il pulsante 'Aggiungi alla lista' (dimensione consigliata 32 x 32 px)"
 
-#: plugin-options/settings/add_to_wishlist-options.php:275
+#: plugin-options/settings/add_to_wishlist-options.php:273
 msgid "\"Add to wishlist\" custom icon"
 msgstr "Icona personalizzata per 'Aggiungi alla lista'"
 
-#: plugin-options/settings/add_to_wishlist-options.php:256
+#: plugin-options/settings/add_to_wishlist-options.php:254
 msgid "Select an icon for the \"Add to wishlist\" button (optional)"
 msgstr "Seleziona un'icona per il pulsante 'Aggiungi alla lista' (opzionale)"
 
-#: plugin-options/settings/add_to_wishlist-options.php:241
+#: plugin-options/settings/add_to_wishlist-options.php:239
 msgid "Choose radius for the \"Add to wishlist\" button"
 msgstr "Imposta il raggio del bordo arrotondato del pulsante 'Aggiungi alla lista'"
 
-#: plugin-options/settings/add_to_wishlist-options.php:240
+#: plugin-options/settings/add_to_wishlist-options.php:238
 #: plugin-options/settings/wishlist_page-options.php:329
 msgid "Border radius"
 msgstr "Border radius"
 
-#: plugin-options/settings/add_to_wishlist-options.php:227
+#: plugin-options/settings/add_to_wishlist-options.php:225
 #: plugin-options/settings/wishlist_page-options.php:316
 #: plugin-options/settings/wishlist_page-options.php:414
 #: plugin-options/settings/wishlist_page-options.php:463
 msgid "Border Hover"
 msgstr "Bordo - hover"
 
-#: plugin-options/settings/add_to_wishlist-options.php:222
+#: plugin-options/settings/add_to_wishlist-options.php:220
 #: plugin-options/settings/wishlist_page-options.php:311
 #: plugin-options/settings/wishlist_page-options.php:409
 #: plugin-options/settings/wishlist_page-options.php:458
 msgid "Text Hover"
 msgstr "Testo - hover"
-
-#: plugin-options/settings/add_to_wishlist-options.php:215
-msgid "Choose colors for the \"Add to wishlist\" button on hover state"
-msgstr "Scegli i colori del pulsante 'Aggiungi alla lista' al passaggio del mouse (hover)"
-
-#: plugin-options/settings/add_to_wishlist-options.php:197
-msgid "Choose colors for the \"Add to wishlist\" button"
-msgstr "Scegli i colori del pulsante 'Aggiungi alla lista'"
 
 #: plugin-options/settings/add_to_wishlist-options.php:191
 msgid "\"Add to wishlist\" button style"
@@ -1532,11 +1564,11 @@ msgstr "Personalizza lo stile che deve avere il pulsante quando il prodotto è s
 msgid "After product is added to wishlist"
 msgstr "Dopo che il prodotto è stato aggiunto alla lista dei desideri"
 
-#: plugin-options/settings/general-options.php:38
+#: plugin-options/settings/general-options.php:41
 msgid "Load any cacheable wishlist item via AJAX"
 msgstr "Carica in AJAX qualsiasi elemento di YITH Wishlist che possa essere messo in cache"
 
-#: plugin-options/settings/general-options.php:37
+#: plugin-options/settings/general-options.php:40
 msgid "Enable AJAX loading"
 msgstr "Abilita caricamento in AJAX"
 
@@ -1553,7 +1585,7 @@ msgstr "Lista non valida."
 msgid "Invalid wishlist item."
 msgstr "Elemento della lista non valido."
 
-#: includes/class-yith-wcwl-privacy.php:273
+#: includes/class-yith-wcwl-privacy.php:272
 msgid "Wishlist URL"
 msgstr "URL lista dei desideri"
 
@@ -1593,11 +1625,11 @@ msgctxt "Part of the template that shows price variation since addition to list;
 msgid "Price is %1$s%%"
 msgstr "Il prezzo è %1$s%%"
 
-#: includes/class-yith-wcwl-frontend.php:799
+#: includes/class-yith-wcwl-frontend.php:805
 msgid "Product added to cart successfully"
 msgstr "Prodotto aggiunto al carrello con successo"
 
-#: includes/class-yith-wcwl-frontend.php:789
+#: includes/class-yith-wcwl-frontend.php:795
 msgid "We are sorry, but this feature is available only if cookies on your browser are enabled."
 msgstr "Spiacenti, questa funzionalità è disponibile solo se hai abilitato i cookie nel tuo browser."
 
@@ -1647,11 +1679,11 @@ msgid_plural "%d users"
 msgstr[0] "%d utente"
 msgstr[1] "%d utenti"
 
-#: includes/class-yith-wcwl-admin.php:253
+#: includes/class-yith-wcwl-admin.php:252
 msgid "Allows your customers to create and share lists of products that they want to purchase on your e-commerce."
 msgstr "Permette ai tuoi clienti di creare e condividere delle liste di prodotti che desiderano acquistare sul tuo e-commerce."
 
-#: includes/class-yith-wcwl.php:234
+#: includes/class-yith-wcwl.php:233
 msgid "The item cannot be added to this wishlist"
 msgstr "L'elemento non può essere aggiunto alla lista dei desideri"
 
@@ -2006,72 +2038,72 @@ msgctxt "Privacy Policy Guide Title"
 msgid "YITH Plugins"
 msgstr "YITH Plugins"
 
-#: includes/class-yith-wcwl-privacy.php:277
+#: includes/class-yith-wcwl-privacy.php:276
 msgid "Items added"
 msgstr "Articoli aggiunti"
 
-#: includes/class-yith-wcwl-privacy.php:276
+#: includes/class-yith-wcwl-privacy.php:275
 msgid "Visibility"
 msgstr "Visibilità"
 
-#: includes/class-yith-wcwl-privacy.php:275
+#: includes/class-yith-wcwl-privacy.php:274
 msgctxt "date when wishlist was created"
 msgid "Created on"
 msgstr "Creata il"
 
-#: includes/class-yith-wcwl-privacy.php:274
+#: includes/class-yith-wcwl-privacy.php:273
 msgid "Title"
 msgstr "Titolo"
 
-#: includes/class-yith-wcwl-privacy.php:272
+#: includes/class-yith-wcwl-privacy.php:271
 msgid "Token"
 msgstr "Token"
 
 #. Translators: %s Order number.
-#: includes/class-yith-wcwl-privacy.php:237
+#: includes/class-yith-wcwl-privacy.php:236
 msgid "Wishlist %s has been retained."
 msgstr "La lista dei desideri %s è stata salvata."
 
 #. Translators: %s Order number.
-#: includes/class-yith-wcwl-privacy.php:233
+#: includes/class-yith-wcwl-privacy.php:232
 msgid "Removed wishlist %s."
 msgstr "Lista dei desideri %s rimossa."
 
-#: includes/class-yith-wcwl-privacy.php:147 plugin-options/lists-options.php:34
-#: plugin-options/lists-options.php:41
+#: includes/class-yith-wcwl-privacy.php:146 plugin-options/lists-options.php:33
+#: plugin-options/lists-options.php:39
 msgid "Wishlists"
 msgstr "Liste dei desideri"
 
-#: includes/class-yith-wcwl-privacy.php:94
-#: includes/class-yith-wcwl-privacy.php:110
+#: includes/class-yith-wcwl-privacy.php:93
+#: includes/class-yith-wcwl-privacy.php:109
 msgid "Customer wishlists"
 msgstr "Liste dei clienti"
 
-#: includes/class-yith-wcwl-privacy.php:64
+#: includes/class-yith-wcwl-privacy.php:63
 msgid "Our team members have access to this information to offer you better deals for the products you love."
 msgstr "Il nostro team ha accesso a queste informazioni per offrirti le migliori offerte per i prodotti che ami."
 
-#: includes/class-yith-wcwl-privacy.php:62
+#: includes/class-yith-wcwl-privacy.php:61
 msgid "Wishlist details, such as products added, date of addition, name and privacy settings of your wishlists"
 msgstr "Dettagli della lista dei desideri, come ad esempio i prodotti aggiunti, la data, il nome e le impostazioni sulla privacy delle tue liste dei desideri"
 
-#: includes/class-yith-wcwl-privacy.php:60
+#: includes/class-yith-wcwl-privacy.php:59
 msgid "Members of our team have access to the information you provide us with. For example, both Administrators and Shop Managers can access:"
 msgstr "I membri del nostro team hanno accesso alle informazioni che ci fornisci. Per esempio, sia l'amministratore che i Gestori del Negozio possono accedere a:"
 
-#: includes/class-yith-wcwl-privacy.php:57
+#: includes/class-yith-wcwl-privacy.php:56
 msgid "We’ll also use cookies to keep track of wishlist contents while you’re browsing our site."
 msgstr "Useremo anche i cookie per tenere traccia dei contenuti delle liste dei desideri mentre visiti il nostro sito."
 
-#: includes/class-yith-wcwl-privacy.php:55
+#: includes/class-yith-wcwl-privacy.php:54
 msgid "Wishlists you’ve created: we’ll keep track of the wishlists you create, and make them visible to the store staff"
 msgstr "Le liste dei desideri che hai creato: terremo traccia delle liste da te create che saranno visibili allo staff del nostro store"
 
-#: includes/class-yith-wcwl-privacy.php:54
+#: includes/class-yith-wcwl-privacy.php:53
 msgid "Products you’ve added to the wishlist: we’ll use this to show you and other users your favourite products, and to create targeted email campaigns."
 msgstr "Prodotti aggiunti alla lista dei desideri: useremo questa informazione per mostrare a te e ad altri utenti i tuoi prodotti preferiti e per creare campagne email mirate."
 
-#: includes/class-yith-wcwl-privacy.php:52
+#: includes/class-yith-wcwl-privacy.php:51
 msgid "While you visit our site, we’ll track:"
 msgstr "Mentre visiti il nostro sito, terremo traccia di:"
 
@@ -2079,8 +2111,8 @@ msgstr "Mentre visiti il nostro sito, terremo traccia di:"
 msgid "Set Default"
 msgstr "Ripristina impostazioni iniziali"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:544
-#: plugin-fw/includes/class-yit-plugin-panel.php:547
+#: plugin-fw/includes/class-yit-plugin-panel.php:559
+#: plugin-fw/includes/class-yit-plugin-panel.php:562
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -2108,7 +2140,7 @@ msgstr "Privata"
 msgid "Shared"
 msgstr "Condivisa"
 
-#: templates/wishlist-view-mobile.php:219 templates/wishlist-view.php:544
+#: templates/wishlist-view-mobile.php:232 templates/wishlist-view.php:544
 msgid "Move"
 msgstr "Sposta"
 
@@ -2129,7 +2161,7 @@ msgstr "Esaurito"
 msgid "Free!"
 msgstr "Gratuito!"
 
-#: templates/wishlist-view-mobile.php:270 templates/wishlist-view.php:250
+#: templates/wishlist-view-mobile.php:283 templates/wishlist-view.php:250
 #: templates/wishlist-view.php:607
 msgid "Remove this product"
 msgstr "Rimuovi questo prodotto"
@@ -2267,43 +2299,43 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1500
+#: plugin-fw/includes/class-yit-plugin-panel.php:1566
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1499
+#: plugin-fw/includes/class-yit-plugin-panel.php:1565
 msgid "Sorry, import is disabled."
 msgstr "L'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1498
+#: plugin-fw/includes/class-yit-plugin-panel.php:1564
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1497
+#: plugin-fw/includes/class-yit-plugin-panel.php:1563
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1496
+#: plugin-fw/includes/class-yit-plugin-panel.php:1562
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1494
+#: plugin-fw/includes/class-yit-plugin-panel.php:1560
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1493
+#: plugin-fw/includes/class-yit-plugin-panel.php:1559
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1492
+#: plugin-fw/includes/class-yit-plugin-panel.php:1558
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1491
+#: plugin-fw/includes/class-yit-plugin-panel.php:1557
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1490
+#: plugin-fw/includes/class-yit-plugin-panel.php:1556
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Inserisci un altro nome."
 
@@ -2337,7 +2369,7 @@ msgstr "YITH Plugins"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:605
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:606
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -2346,11 +2378,11 @@ msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 msgid "Name"
 msgstr "Nome"
 
-#: templates/wishlist-view-mobile.php:291 templates/wishlist-view.php:649
+#: templates/wishlist-view-mobile.php:304 templates/wishlist-view.php:649
 msgid "No products added to the wishlist"
 msgstr "Non è stato ancora aggiunto nessun prodotto alla lista"
 
-#: includes/class-yith-wcwl.php:341 includes/class-yith-wcwl.php:367
+#: includes/class-yith-wcwl.php:340 includes/class-yith-wcwl.php:366
 msgid "Error. Unable to remove the product from the wishlist."
 msgstr "Errore. Impossibile rimuovere il prodotto dalla lista dei desideri."
 
@@ -2359,7 +2391,7 @@ msgstr "Errore. Impossibile rimuovere il prodotto dalla lista dei desideri."
 msgid "Product successfully removed."
 msgstr "Prodotto rimosso con successo."
 
-#: includes/class-yith-wcwl.php:238 includes/class-yith-wcwl.php:244
+#: includes/class-yith-wcwl.php:237 includes/class-yith-wcwl.php:243
 msgid "An error occurred while adding the products to the wishlist."
 msgstr "Si è verificato un errore mentre si cercava di aggiungere i prodotti alla lista."
 
@@ -2380,7 +2412,7 @@ msgctxt "page_slug"
 msgid "wishlist"
 msgstr "lista-dei-desideri"
 
-#: plugin-options/settings/add_to_wishlist-options.php:217
+#: plugin-options/settings/add_to_wishlist-options.php:215
 #: plugin-options/settings/wishlist_page-options.php:306
 #: plugin-options/settings/wishlist_page-options.php:404
 #: plugin-options/settings/wishlist_page-options.php:453
@@ -2399,7 +2431,7 @@ msgstr "Testo - hover"
 msgid "Background hover"
 msgstr "Colore - hover"
 
-#: plugin-options/settings/add_to_wishlist-options.php:209
+#: plugin-options/settings/add_to_wishlist-options.php:208
 #: plugin-options/settings/wishlist_page-options.php:298
 #: plugin-options/settings/wishlist_page-options.php:396
 #: plugin-options/settings/wishlist_page-options.php:445
@@ -2407,7 +2439,7 @@ msgstr "Colore - hover"
 msgid "Border"
 msgstr "Bordo"
 
-#: plugin-options/settings/add_to_wishlist-options.php:204
+#: plugin-options/settings/add_to_wishlist-options.php:203
 #: plugin-options/settings/wishlist_page-options.php:293
 #: plugin-options/settings/wishlist_page-options.php:391
 #: plugin-options/settings/wishlist_page-options.php:440
@@ -2416,7 +2448,7 @@ msgstr "Bordo"
 msgid "Text"
 msgstr "Testo"
 
-#: plugin-options/settings/add_to_wishlist-options.php:199
+#: plugin-options/settings/add_to_wishlist-options.php:198
 #: plugin-options/settings/wishlist_page-options.php:288
 #: plugin-options/settings/wishlist_page-options.php:386
 #: plugin-options/settings/wishlist_page-options.php:435
@@ -2429,15 +2461,15 @@ msgstr "Testo"
 msgid "Background"
 msgstr "Sfondo"
 
-#: plugin-options/settings/add_to_wishlist-options.php:255
+#: plugin-options/settings/add_to_wishlist-options.php:253
 msgid "\"Add to wishlist\" icon"
 msgstr "Icona 'Aggiungi alla lista'"
 
-#: plugin-options/settings/general-options.php:58
+#: plugin-options/settings/general-options.php:61
 msgid "Enable slider in wishlist"
 msgstr "Abilita lo slider nella lista dei desideri"
 
-#: plugin-options/settings/general-options.php:52
+#: plugin-options/settings/general-options.php:55
 msgid "YITH WooCommerce Frequently Bought Together Integration"
 msgstr "Integrazione con YITH WooCommerce Frequently Bought Together"
 
@@ -2472,15 +2504,15 @@ msgstr "Condividi su Facebook"
 msgid "\"Add to cart\" icon"
 msgstr "Icona 'Aggiungi al carrello'"
 
-#: plugin-options/settings/add_to_wishlist-options.php:288
+#: plugin-options/settings/add_to_wishlist-options.php:286
 msgid "\"Added to wishlist\" icon"
 msgstr "Icona 'Aggiungi alla lista'"
 
-#: plugin-options/settings/add_to_wishlist-options.php:321
+#: plugin-options/settings/add_to_wishlist-options.php:319
 msgid "Custom CSS"
 msgstr "CSS personalizzato"
 
-#: includes/class-yith-wcwl-frontend.php:1084
+#: includes/class-yith-wcwl-frontend.php:1090
 #: includes/class-yith-wcwl-shortcode.php:257
 #: plugin-options/settings/wishlist_page-options.php:249
 #: templates/wishlist-view-footer-mobile.php:59
@@ -2565,7 +2597,7 @@ msgid "Default wishlist name"
 msgstr "Nome predefinito della lista"
 
 #: plugin-options/settings/add_to_wishlist-options.php:29
-#: plugin-options/settings/general-options.php:31
+#: plugin-options/settings/general-options.php:34
 msgid "General Settings"
 msgstr "Impostazioni generali"
 

@@ -386,10 +386,11 @@ function um_user_edit_profile( $args, $form_data ) {
 		}
 	}
 
-	// Secure selected role
-	if ( ( isset( $fields['role'] ) && ! empty( $fields['role']['editable'] ) && um_can_view_field( $fields['role'] ) ) ||
-		( isset( $fields['role_select'] ) && ! empty( $fields['role_select']['editable'] ) && um_can_view_field( $fields['role_select'] ) ) ||
-		( isset( $fields['role_radio'] ) && ! empty( $fields['role_radio']['editable'] ) && um_can_view_field( $fields['role_radio'] ) ) ) {
+	// Secure selected role.
+	// It's for a legacy case `array_key_exists( 'editable', $fields['role'] )` and similar.
+	if ( ( isset( $fields['role'] ) && ( ! array_key_exists( 'editable', $fields['role'] ) || ! empty( $fields['role']['editable'] ) ) && um_can_view_field( $fields['role'] ) ) ||
+		( isset( $fields['role_select'] ) && ( ! array_key_exists( 'editable', $fields['role_select'] ) || ! empty( $fields['role_select']['editable'] ) ) && um_can_view_field( $fields['role_select'] ) ) ||
+		( isset( $fields['role_radio'] ) && ( ! array_key_exists( 'editable', $fields['role_radio'] ) || ! empty( $fields['role_radio']['editable'] ) ) && um_can_view_field( $fields['role_radio'] ) ) ) {
 
 		if ( ! empty( $args['submitted']['role'] ) ) {
 			global $wp_roles;
@@ -1020,7 +1021,7 @@ function um_profile_header( $args ) {
 		 */
 		do_action( 'um_pre_header_editprofile', $args ); ?>
 
-		<div class="um-profile-photo" data-user_id="<?php echo esc_attr( um_profile_id() ); ?>">
+		<div class="um-profile-photo" data-user_id="<?php echo esc_attr( um_profile_id() ); ?>" <?php echo esc_html( UM()->fields()->aria_valid_attributes( UM()->fields()->is_error( 'profile_photo' ), 'profile_photo' ) ); ?>>
 
 			<a href="<?php echo esc_url( um_user_profile_url() ); ?>" class="um-profile-photo-img" title="<?php echo esc_attr( um_user( 'display_name' ) ); ?>">
 				<?php if ( ! $default_size || $default_size == 'original' ) {
@@ -1281,13 +1282,13 @@ function um_profile_header( $args ) {
 						<textarea id="um-meta-bio" data-html="<?php echo esc_attr( $bio_html ); ?>"
 								data-character-limit="<?php echo esc_attr( $limit ); ?>"
 								placeholder="<?php esc_attr_e( 'Tell us a bit about yourself...', 'ultimate-member' ); ?>"
-								name="<?php echo esc_attr( $description_key ); ?>"><?php echo esc_textarea( $description_value ); ?></textarea>
+								name="<?php echo esc_attr( $description_key ); ?>" <?php echo esc_html( UM()->fields()->aria_valid_attributes( UM()->fields()->is_error( $description_key ), 'um-meta-bio' ) ); ?>><?php echo esc_textarea( $description_value ); ?></textarea>
 						<span class="um-meta-bio-character um-right">
 							<span class="um-bio-limit"><?php echo esc_html( $limit ); ?></span>
 						</span>
 						<?php
 						if ( UM()->fields()->is_error( $description_key ) ) {
-							echo UM()->fields()->field_error( UM()->fields()->show_error( $description_key ), true );
+							echo wp_kses( UM()->fields()->field_error( UM()->fields()->show_error( $description_key ), 'um-meta-bio', true ), UM()->get_allowed_html( 'templates' ) );
 						}
 						?>
 					</div>
@@ -1331,8 +1332,9 @@ function um_profile_header( $args ) {
 		</div>
 		<div class="um-clear"></div>
 
-		<?php if ( UM()->fields()->is_error( 'profile_photo' ) ) {
-			echo UM()->fields()->field_error( UM()->fields()->show_error( 'profile_photo' ), 'force_show' );
+		<?php
+		if ( UM()->fields()->is_error( 'profile_photo' ) ) {
+			echo wp_kses( UM()->fields()->field_error( UM()->fields()->show_error( 'profile_photo' ), 'profile_photo', true ), UM()->get_allowed_html( 'templates' ) );
 		}
 
 		/**
@@ -1371,6 +1373,11 @@ add_action( 'um_profile_header', 'um_profile_header', 9 );
 function um_pre_profile_shortcode( $args ) {
 	// It handles only UM Profile forms.
 	if ( ! array_key_exists( 'mode', $args ) || 'profile' !== $args['mode'] ) {
+		return;
+	}
+
+	// disable for the REST API requests.
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 		return;
 	}
 

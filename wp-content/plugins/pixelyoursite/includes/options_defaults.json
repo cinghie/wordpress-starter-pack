@@ -90,6 +90,7 @@
   "woo_add_to_cart_enabled": true,
   "woo_view_content_enabled": true,
   "woo_view_category_enabled": true,
+  "woo_view_cart_enabled" : true,
   "woo_enabled_save_data_to_orders": true,
   "woo_add_enrich_to_admin_email": true,
 
@@ -105,6 +106,7 @@
   "enable_woo_category_name_param": true,
   "enable_woo_num_items_param": true,
   "enable_woo_tags_param":true,
+  "enable_woo_fees_param": true,
 
   "enable_edd_category_name_param": true,
   "enable_edd_num_items_param": true,

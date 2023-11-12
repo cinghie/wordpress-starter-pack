@@ -64,6 +64,43 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 			return $html_code;
 		}
 
+		/**
+		 * Returns the html code that makes up the feed type selector.
+		 *
+		 * @since 2.38.0.
+		 * @return string
+		 */
+		public static function feed_type_selector( $preselected ) {
+			$data_class = new WPPFM_Data();
+			$feed_types = $data_class->get_google_support_feed_types();
+			$html_code  = '';
+
+			if ( ! empty( $feed_types ) ) {
+				$html_code  = '<div id="wppfm-selected-google-feed-type"></div>';
+				$html_code .= '<select class="wppfm-main-input-selector wppfm-feed-types-selector" id="wppfm-feed-types-selector">';
+
+				$html_code .= '<option value="' . $feed_types[0]['feed_type_id'] . '">' . $feed_types[0]['name'] . '</option>';
+				$html_code .= '<optgroup label="Supplemental Feeds">';
+
+				foreach ( $feed_types as $feed_type ) {
+					$disabled = $feed_type['disabled'] ? ' disabled="disabled"' : '';
+					if ( 'supplemental' === $feed_type['group'] ) {
+						if ( $feed_type['feed_type_id'] === $preselected ) {
+							$html_code .= '<option value="' . $feed_type['feed_type_id'] . '" selected>' . $feed_type['name'] . '</option>';
+						} else {
+							$html_code .= '<option value="' . $feed_type['feed_type_id'] . '"' . $disabled . '>' . $feed_type['name'] . '</option>';
+						}
+					}
+				}
+
+				$html_code .= '</optgroup>';
+
+				$html_code .= '</select>';
+			}
+
+			return $html_code;
+		}
+
 		public static function country_selector() {
 			$data_class = new WPPFM_Data();
 			$countries  = $data_class->get_countries();
@@ -115,16 +152,7 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 		}
 
 		private static function hour_list() {
-			$html_code  = '<option value="00">00</option>';
-			$html_code .= '<option value="01">01</option>';
-			$html_code .= '<option value="02">02</option>';
-			$html_code .= '<option value="03">03</option>';
-			$html_code .= '<option value="04">04</option>';
-			$html_code .= '<option value="05">05</option>';
-			$html_code .= '<option value="06">06</option>';
-			$html_code .= '<option value="07">07</option>';
-			$html_code .= '<option value="08">08</option>';
-			$html_code .= '<option value="09">09</option>';
+			$html_code = self::get_time_list();
 
 			for ( $i = 10; $i < 24; $i ++ ) {
 				$html_code .= '<option value="' . $i . '">' . $i . '</option>';
@@ -134,16 +162,7 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 		}
 
 		private static function minutes_list() {
-			$html_code  = '<option value="00">00</option>';
-			$html_code .= '<option value="01">01</option>';
-			$html_code .= '<option value="02">02</option>';
-			$html_code .= '<option value="03">03</option>';
-			$html_code .= '<option value="04">04</option>';
-			$html_code .= '<option value="05">05</option>';
-			$html_code .= '<option value="06">06</option>';
-			$html_code .= '<option value="07">07</option>';
-			$html_code .= '<option value="08">08</option>';
-			$html_code .= '<option value="09">09</option>';
+			$html_code = self::get_time_list();
 
 			for ( $i = 10; $i < MINUTE_IN_SECONDS; $i ++ ) {
 				$html_code .= '<option value="' . $i . '">' . $i . '</option>';
@@ -160,6 +179,24 @@ if ( ! class_exists( 'WPPFM_Feed_Form_Control' ) ) :
 			$html_code .= '<option value="8">8</option>';
 			$html_code .= '<option value="12">12</option>';
 			$html_code .= '<option value="24">24</option>';
+
+			return $html_code;
+		}
+
+		/**
+		 * @return string
+		 */
+		private static function get_time_list(): string {
+			$html_code  = '<option value="00">00</option>';
+			$html_code .= '<option value="01">01</option>';
+			$html_code .= '<option value="02">02</option>';
+			$html_code .= '<option value="03">03</option>';
+			$html_code .= '<option value="04">04</option>';
+			$html_code .= '<option value="05">05</option>';
+			$html_code .= '<option value="06">06</option>';
+			$html_code .= '<option value="07">07</option>';
+			$html_code .= '<option value="08">08</option>';
+			$html_code .= '<option value="09">09</option>';
 
 			return $html_code;
 		}

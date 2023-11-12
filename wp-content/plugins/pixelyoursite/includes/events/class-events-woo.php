@@ -10,6 +10,7 @@ class EventsWoo extends EventsFactory {
         //"woo_big_whale",
         "woo_view_content",
         //"woo_view_content_for_category",
+        "woo_view_cart",
         "woo_view_category",
         "woo_view_item_list",
         //"woo_view_item_list_single",
@@ -131,7 +132,7 @@ class EventsWoo extends EventsFactory {
 
 
             case 'woo_purchase' : {
-                if(PYS()->getOption( 'woo_purchase_enabled' ) && (is_order_received_page() || is_wc_endpoint_url('order-received')) &&
+                if(PYS()->getOption( 'woo_purchase_enabled' ) && is_order_received_page() &&
                     isset( $_REQUEST['key'] )  && $_REQUEST['key'] != ""
                     && empty($_REQUEST['wc-api']) // if is not api request
                 ) {
@@ -166,6 +167,9 @@ class EventsWoo extends EventsFactory {
             }
             case 'woo_view_content' : {
                 return PYS()->getOption( 'woo_view_content_enabled' ) && is_product();
+            }
+            case 'woo_view_cart': {
+                return PYS()->getOption( 'woo_view_cart_enabled' ) &&  is_cart();
             }
             case 'woo_view_category': {
                 return PYS()->getOption( 'woo_view_category_enabled' ) &&  is_tax( 'product_cat' );
@@ -207,7 +211,9 @@ class EventsWoo extends EventsFactory {
             case 'woo_view_item_list':
             case 'woo_view_content':
                 return new SingleEvent($event,EventTypes::$STATIC,'woo');
-
+            case 'woo_view_cart': {
+                return $this->getInitCheckoutEvent($event);
+            }
             case 'woo_add_to_cart_on_button_click':
                 return new SingleEvent($event,EventTypes::$DYNAMIC,'woo');
             case 'woo_purchase' : {
@@ -227,9 +233,16 @@ class EventsWoo extends EventsFactory {
                     set_transient( $cache_key, $order_id, HOUR_IN_SECONDS );
                 }
                 $order = wc_get_order($order_id);
-                if($order) {
-                    $order->update_meta_data("_pys_purchase_event_fired",true);
-                    $order->save();
+                if ( isWooCommerceVersionGte('3.0.0') ) {
+                    // WooCommerce >= 3.0
+                    if($order) {
+                        $order->update_meta_data("_pys_purchase_event_fired",true);
+                        $order->save();
+                    }
+
+                } else {
+                    // WooCommerce < 3.0
+                    update_post_meta( $order_id, '_pys_purchase_event_fired', true );
                 }
                 $events[] = new SingleEvent($event,EventTypes::$STATIC,'woo');
 
@@ -268,7 +281,9 @@ class EventsWoo extends EventsFactory {
             case 'woo_view_category': {
                 return PYS()->getOption( 'woo_view_category_enabled' ) ;
             }
-
+            case 'woo_view_cart': {
+                return PYS()->getOption( 'woo_view_cart_enabled' );
+            }
             case 'woo_initiate_checkout': {
                 return PYS()->getOption( 'woo_initiate_checkout_enabled' );
             }
@@ -331,7 +346,69 @@ class EventsWoo extends EventsFactory {
             'orders_count' => null,
         ];
     }
+    function getInitCheckoutEvent($eventId) {
+        $event = new SingleEvent($eventId,EventTypes::$STATIC,self::getSlug());
 
+        $products_data = $this->getCartProductData();
+        if(count($products_data) == 0) return null;
+
+        $event->args = [
+            'products' => $products_data,
+            'coupon'    => $this->getCartCoupon()
+        ];
+        return $event;
+    }
+    function getCartProductData() {
+        $products_data = [];
+        foreach ( WC()->cart->cart_contents as $cart_item_key => $cart_item ) {
+            $product_id = empty($cart_item['variation_id']) ? $cart_item['product_id'] : $cart_item['variation_id'];
+            $product = wc_get_product($product_id);
+
+            if(!$product) continue;
+
+            if ( $product->get_type() == 'variation' ) {
+                $parent_id = $product->get_parent_id(); // get terms from parent
+                $tags = getObjectTerms( 'product_tag', $parent_id );
+                $categories = getObjectTermsWithId( 'product_cat', $parent_id );
+                $variation_name = implode("/", $product->get_variation_attributes());
+            } else {
+                $tags = getObjectTerms( 'product_tag', $product->get_id() );
+                $categories = getObjectTermsWithId( 'product_cat', $product->get_id() );
+                $variation_name = "";
+            }
+            $sale_price = -1;
+
+
+            $price = getWooProductPriceToDisplay($product_id, 1,$sale_price);
+            $product_data = [
+                'product_id'    => $product->get_id(),
+                'parent_id'     => $product->get_parent_id(),
+                'type'          => $product->get_type(),
+                'tags'          => $tags,
+                'categories'    => $categories,
+                'quantity'      => $cart_item['quantity'],
+                'price'         => $price,
+                'total'         => pys_round($cart_item['line_total']), // with coupon sale
+                'total_tax'     => pys_round($cart_item['line_tax']),
+                'subtotal'      => pys_round($cart_item['line_subtotal']),
+                'subtotal_tax'  => pys_round($cart_item['line_subtotal_tax']),
+                'name'          => $product->get_name(),
+                'variation_name'=> $variation_name
+            ];
+
+            $products_data[] = $product_data;
+        }
+
+        return $products_data;
+    }
+    function getCartCoupon() {
+        $coupons =  WC()->cart->get_applied_coupons();
+        if ( count($coupons) > 0 ) {
+            $firstCoupon = reset($coupons); // Получить первый элемент массива
+            return $firstCoupon;
+        }
+        return null;
+    }
     function getEvents() {
         return $this->events;
     }

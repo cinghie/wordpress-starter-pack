@@ -70,9 +70,16 @@ class EnrichOrder {
         $pysData['last_pys_utm_id'] = isset($_REQUEST['last_pys_utm_id']) ? sanitize_text_field($_REQUEST['last_pys_utm_id']) : "";
 
         $order = wc_get_order($order_id);
-        if($order) {
-            $order->update_meta_data("pys_enrich_data",$pysData);
-            $order->save();
+        if ( isWooCommerceVersionGte('3.0.0') ) {
+            // WooCommerce >= 3.0
+            if($order) {
+                $order->update_meta_data("pys_enrich_data",$pysData);
+                $order->save();
+            }
+
+        } else {
+            // WooCommerce < 3.0
+            update_post_meta( $order_id, 'pys_enrich_data', $pysData );
         }
     }
 

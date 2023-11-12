@@ -4,7 +4,7 @@
  * @param {array} theArray with objects
  * @param {string} searchTerm
  * @param {string} arrayProperty
- * @returns {int} the index of the object or false of its not in the array
+ * @returns {int} the index of the object or false of it's not in the array
  */
 function wppfm_arrayObjectIndexOf( theArray, searchTerm, arrayProperty ) {
 	for ( var i = 0, len = theArray.length; i < len; i ++ ) {
@@ -22,7 +22,7 @@ function wppfm_arrayObjectIndexOf( theArray, searchTerm, arrayProperty ) {
  * @param {string} key
  * @returns {String}
  */
-function wppfm_getUrlVariable( key ) {
+function wppfm_getUrlParameter( key ) {
 	var result = '';
 	var url    = window.location.search.substring( 1 );
 	var params = url.split( '&' );
@@ -35,7 +35,7 @@ function wppfm_getUrlVariable( key ) {
 		}
 	}
 
-	return result;
+	return decodeURIComponent( result.replace(/\+/g, '%20') );
 }
 
 /**
@@ -62,7 +62,7 @@ function wppfm_countObjectItems( object ) {
  * @param {object} object
  * @returns {Boolean} true if object is empty
  */
-// TODO: Er bestaat ook een jQuery.isEmptyObject() functie. In hoeverre is die bruikbaar ter vervanging van onderstaande functie?
+// TODO: jQuery has a jQuery.isEmptyObject() function. Maybe it's possible to replace the function below with it?
 function wppfm_isEmptyQueryObject( object ) {
 	// null and undefined are "empty"
 	if ( object === null ) {
@@ -98,5 +98,38 @@ function wppfm_isEmptyQueryObject( object ) {
  * @returns {String} with incremented number
  */
 function wppfm_incrementLast( stringWithNumber ) {
-	return stringWithNumber.replace( /[0-9]+(?!.*[0-9])/, parseInt( stringWithNumber.match( /[0-9]+(?!.*[0-9])/ ), 10 ) + 1 );
+	const regex = /[0-9]+(?!.*[0-9])/;
+	const match = stringWithNumber.match( regex );
+
+	if ( match ) {
+		const lastNumber = parseInt( match[ 0 ], 10 );
+		const incrementedNumber = lastNumber + 1;
+		return stringWithNumber.replace( regex, incrementedNumber.toString() );
+	} else {
+		return '';
+	}
+}
+
+/**
+ * Takes the current url, removes the name attribute and adds the id attribute. Then replaces the current url with the new one.
+ *
+ * @param newFeedId
+ * @param feedType
+ */
+function wppfm_resetUrlForNewFeed( newFeedId, feedType ) {
+	var url = new URL(location);
+	url.searchParams.delete('feed-name');
+	url.searchParams.set('id', newFeedId);
+	url.searchParams.set('feed-type', feedType);
+	history.replaceState(null, null, url);
+}
+
+/**
+ * Stores the feed url in the source data element on the page
+ *
+ * @param feedUrl
+ */
+function wppfm_storeFeedUrlInSourceData( feedUrl ) {
+	var feedUrlStorageElement = document.getElementById( 'wppfm-feed-url' );
+	feedUrlStorageElement.textContent = feedUrl;
 }

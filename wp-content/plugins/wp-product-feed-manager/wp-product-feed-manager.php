@@ -4,12 +4,12 @@
  * Plugin Name: WP Product Feed Manager
  * Plugin URI: https://www.wpmarketingrobot.com
  * Description: An easy-to-use WordPress plugin that generates and submits your product feeds to merchant centres.
- * Version: 1.50.0
- * Modified: 01-08-2023
+ * Version: 2.0.0
+ * Modified: 29-10-2023
  * Author: Michel Jongbloed
  * Author URI: https://www.wpmarketingrobot.com
  * Requires at least: 5.4.0
- * Tested up to: 6.2
+ * Tested up to: 6.3
  *
  * @package WordPress
  *
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.0.0
- * WC tested up to: 7.9.0
+ * WC tested up to: 8.2.1
  *
  * This plugin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 *
 		 * @var string  Containing the version number of the plugin.
 		 */
-		public $version = '1.50.0';
+		public $version = '2.0.0';
 
 		/**
 		 * Author Name.
@@ -59,6 +59,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 		 * @var string  Containing the authors name.
 		 */
 		public $author = 'Michel Jongbloed';
+
 
 		/**
 		 * Force single instance.
@@ -197,7 +198,7 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 
 			// Store the plugin title.
 			if ( ! defined( 'WPPFM_MIN_REQUIRED_WC_VERSION' ) ) {
-				define( 'WPPFM_MIN_REQUIRED_WC_VERSION', '3.0.0' );
+				define( 'WPPFM_MIN_REQUIRED_WC_VERSION', '2.0.0' );
 			}
 
 			// Store the base uploads' folder, should also work in a multi-site environment.
@@ -290,17 +291,15 @@ if ( ! class_exists( 'WP_Product_Feed_Manager' ) ) :
 			include_classes();
 			include_channels();
 
-			add_action(
-				'after_setup_theme',
-				function () {
-					do_action( 'wppfm_includes' );
-				}
-			);
+			// Include the integrated Product Review Feed Manager package.
+			// @since 2.37.0
+			require_once __DIR__ . '/includes/packages/review-feed-manager/wp-product-review-feed-manager.php';
+
+			// Include the integrated Google Merchant Promotions Manager package.
+			// @since 2.0.0
+			require_once __DIR__ . '/includes/packages/promotions-feed-manager/wp-merchant-promotions-feed-manager.php';
 		}
 
-		/**
-		 * Activate the feed update schedules.
-		 */
 		public function activate_feed_update_schedules() {
 			require_once __DIR__ . '/includes/application/wppfm-cron-functions.php';
 			wppfm_update_feeds();

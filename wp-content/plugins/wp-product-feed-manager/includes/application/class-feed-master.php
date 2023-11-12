@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpUndefinedMethodInspection */
 
 /**
@@ -73,9 +74,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @global stdClass $background_process
 		 */
 		public function __construct( $feed_id = '0' ) {
-			$background_process_class = 'WPPFM_Feed_Processor';
+			// Get the correct feed type class. Possible outcomes are WPPFM_Feed_Processor, WPPPFM_Promotions_Feed_Processor or WPPRFM_Review_Feed_Processor.
+			$background_process_class = $this->get_background_process_class_name( $feed_id ); // HWOTBERH
 
-			if( $background_process_class ) {
+			if ( $background_process_class ) {
 				$this->_background_process = new $background_process_class();
 				$this->_data_class         = new WPPFM_Data();
 			}
@@ -86,7 +88,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 *
 		 * @param bool $silent  Indicates whether process messages should be shown or not (default true).
 		 *
-		 * @return string|void or false
+		 * @return false|void or false
 		 */
 		public function update_feed_file( $silent = true ) {
 
@@ -148,7 +150,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		}
 
 		/**
-		 * Checks if the feed is still processing correctly. If not it will change the feed status to failed.
+		 * Gets triggered by the myajax-get-feed-status http call from the javascript side. Checks if the feed is still processing correctly. If not it will change the feed status to failed.
 		 *
 		 * @param string $feed_id   The id of the feed to be checked.
 		 *
@@ -160,6 +162,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$current_feed_status = $queries_class->get_feed_status_data( $feed_id );
 
 			$current_feed_status['feed_type_name'] = wppfm_list_feed_type_text()[ $current_feed_status['feed_type_id'] ];
+			$current_feed_status['feed_type']      = $current_feed_status['feed_type_name'];
 
 			if ( '3' === $current_feed_status['status_id'] ) { // Status still processing.
 				// Get file name, including path.
@@ -180,7 +183,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 					// Clear this feed from the feed queue.
 					WPPFM_Feed_Controller::remove_id_from_feed_queue( $feed_id );
-					WPPFM_Feed_Controller::set_feed_processing_flag( false );
+					WPPFM_Feed_Controller::set_feed_processing_flag();
 
 					// If running silent (automatic feed update) inform the user about the failed feed.
 					if ( get_transient( 'wppfm_running_silent' ) ) {
@@ -197,11 +200,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 						}
 					}
 				}
-
-				return $current_feed_status;
-			} else {
-				return $current_feed_status;
 			}
+
+			return $current_feed_status;
 		}
 
 		/**
@@ -220,7 +221,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				return sprintf( __( '1430 - %s is not a writable folder. Make sure you have admin rights to this folder.', 'wp-product-feed-manager' ), WPPFM_FEEDS_DIR );
 			}
 
-			$initial_feed_status = $this->_feed->status;
+			$initial_feed_status = $this->_data_class->get_feed_status( $this->_feed->feedId );
 
 			if ( ! $this->set_properties() ) {
 				$message = sprintf( 'Failed to set the properties of feed %s.', $this->_feed->feedId );
@@ -277,6 +278,12 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$sw_status_control = 30 * 3.3;
 			$product_counter = 0;
 
+			// if this is a Google Merchant Promotions Feed, we need to fill the queue only with one dummy product id.
+			if ( '3' === $this->_feed->feedTypeId ) {
+				$this->_background_process->push_to_queue( array( 'product_id' => '0' ) );
+				return;
+			}
+
 			// Add the header to the queue.
 			$header_string = $this->get_feed_header();
 			$this->_background_process->push_to_queue( array( 'file_format_line' => $header_string ) );
@@ -307,8 +314,8 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			$file_extension = function_exists( 'get_file_type' ) ? get_file_type( $this->_feed->channel ) : 'xml';
 
-			// Add the xml footer to the queue.
-			if ( 'xml' === $file_extension ) {
+			// Add the xml footer to the queue, except when it's a promotions feed.
+			if ( 'xml' === $file_extension && '3' !== $this->_feed->feedTypeId ) {
 				$this->_background_process->push_to_queue(
 					array(
 						'file_format_line' => apply_filters(
@@ -339,7 +346,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 */
 		private function set_properties() {
 			// Some channels do not use channels and leave the main category empty which causes issues.
-			if ( function_exists('channel_uses_own_category') && ! channel_uses_own_category( $this->_feed->channel ) ) {
+			if ( function_exists( 'channel_uses_own_category' ) && ! channel_uses_own_category( $this->_feed->channel ) ) {
 				$this->_feed->mainCategory = 'No Category Required';
 			}
 
@@ -370,7 +377,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				} elseif ( 'xml' === $file_extension ) {
 					$header_string = $this->_channel_class->header( $this->_feed->title );
 				} elseif ( 'txt' === $file_extension ) {
-					$txt_sep = apply_filters( 'wppfm_txt_separator', get_correct_txt_separator( $this->_feed->channel ) );
+					$txt_sep       = apply_filters( 'wppfm_txt_separator', get_correct_txt_separator( $this->_feed->channel ) );
 					$header_string = $this->make_feed_string_from_data_array( $this->get_active_fields(), $txt_sep );
 				} elseif ( 'csv' === $file_extension ) {
 					$csv_sep = apply_filters( 'wppfm_csv_separator', get_correct_csv_header_separator( $this->_feed->channel ) );
@@ -378,7 +385,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 					$header_string = $this->_channel_class->header( $string );
 				} elseif ( 'tsv' === $file_extension ) {
-					$string  = $this->make_custom_header_string( $this->get_active_fields(), "\t" );
+					$string        = $this->make_custom_header_string( $this->get_active_fields(), "\t" );
 					$header_string = $this->_channel_class->header( $string );
 				}
 			}
@@ -422,8 +429,9 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$products = $queries_class->get_post_ids( $selected_categories, $include_variations );
 
 			array_filter( $products ); // Just to make sure, remove all empty elements.
+			$unique_products = array_unique( $products ); // Remove doubles.
 
-			return apply_filters( 'wppfm_products_in_feed_queue', $products, $this->_feed->feedId );
+			return apply_filters( 'wppfm_products_in_feed_queue', $unique_products, $this->_feed->feedId );
 		}
 
 		/**
@@ -457,7 +465,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			$include_variations = '1' === $this->_feed->includeVariations;
 
 			// Get an array with all the field names that are required to make the feed (including the source fields, fields for the queries and fields for static data).
-			$required_column_names = $this->get_column_names_required_for_feed( $feed_filter );
+			$required_column_names = '3' !== $this->_feed->feedTypeId ? $this->get_column_names_required_for_feed( $feed_filter ) : array();
 
 			// Get the fields that are active and have to go into the feed.
 			$active_fields = $this->get_active_fields();
@@ -473,6 +481,57 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 			);
 		}
 
+		/**
+		 * Returns the correct background class name.
+		 * Also sets the wppfm_set_global_background_process transient.
+		 *
+		 * @param $feed_id
+		 *
+		 * @since 2.33.0.
+		 * @since 2.34.0. Improved the stability of the correct selection of the class name.
+		 * @since 2.37.0. Added a check if the Review Feed Manager is selected on or not, before using the WPPRFM_Review_Feed_Processor as background class.
+		 *
+		 * @return string
+		 */
+		protected function get_background_process_class_name( $feed_id ) { // HWOTBERH
+			$query_class = new WPPFM_Queries();
+
+			if ( intval( $feed_id ) > 0 ) {
+				set_transient( 'wppfm_active_feed_id', $feed_id, WPPFM_TRANSIENT_LIVE );
+				$feed_type_id = $query_class->get_feed_type_id( $feed_id );
+			} else {
+				$feed_id      = get_transient( 'wppfm_active_feed_id' );
+				$feed_type_id = intval( $feed_id ) > 0 ? $query_class->get_feed_type_id( $feed_id ) : '1';
+			}
+
+			// Set the wppfm_set_global_background_process transient for use in the global background_process variable.
+			switch ( $feed_type_id ) {
+				case '2':
+					$active_tab = 'google-product-review-feed';
+					break;
+
+				case '3':
+					$active_tab = 'google-merchant-promotions-feed';
+					break;
+
+				default:    // 1
+					$active_tab = 'product-feed';
+			}
+
+			set_transient( 'wppfm_set_global_background_process', $active_tab, WPPFM_TRANSIENT_LIVE );
+
+			if ( '1' === $feed_type_id ) {
+				return 'WPPFM_Feed_Processor';
+			} elseif ( '2' === $feed_type_id                                // It's a Review Feed
+				&& 'WP Product Feed Manager' !== WPPFM_EDD_SL_ITEM_NAME ) { // It's not a free version of the plugin
+				return 'WPPRFM_Review_Feed_Processor';
+			} elseif ( '3' === $feed_type_id                                // It's a Promotions Feed
+				&& 'WP Product Feed Manager' !== WPPFM_EDD_SL_ITEM_NAME ) { // It's not a free version of the plugin
+				return 'WPPPFM_Promotions_Feed_Processor';
+			} else {
+				return 'WPPFM_Feed_Processor';
+			}
+		}
 
 		/**
 		 * Get category name and description name from the active channel
@@ -506,6 +565,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 					$column_names = $this->get_db_column_name_from_attribute( $attribute );
 					foreach ( $column_names as $name ) {
 						if ( ! empty( $name ) ) {
+							/** @noinspection PhpArrayPushWithOneElementInspection */
 							array_push( $fields, $name );
 						}
 					}
@@ -524,9 +584,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		/**
 		 * Returns all active column names that are stored in the feed attributes.
 		 *
-		 * @param array $attribute  The attributes array.
+		 * @param object|string $attribute  The attributes array.
 		 *
 		 * @return array
+		 * @noinspection PhpArrayPushWithOneElementInspection
 		 */
 		public function get_db_column_name_from_attribute( $attribute ) {
 			$column_names = array();
@@ -582,21 +643,24 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 						}
 
 						if ( ! empty( $attribute->value )
-						     && property_exists( $value_object, 'm' )
-						     && ! empty( $value_object->m[0] )
-						     && property_exists( $value_object->m[0], 's' ) ) {
+							&& is_object( $value_object )
+							&& property_exists( $value_object, 'm' )
+							&& ! empty( $value_object->m[0] )
+							&& property_exists( $value_object->m[0], 's' ) ) {
 							$push = true;
 						} elseif ( ! empty( $attribute->advisedSource ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 							$push = true;
-						} elseif ( ! empty( $attribute->value ) && property_exists( $value_object, 't' ) ) {
+						} elseif ( ! empty( $attribute->value ) && is_object( $value_object ) && property_exists( $value_object, 't' ) ) {
 							$push = true;
-						} elseif ( ! empty( $attribute->value ) && property_exists( $value_object, 'v' ) ) {
+						} elseif ( ! empty( $attribute->value ) && is_object( $value_object ) && property_exists( $value_object, 'v' ) ) {
+							$push = true;
+						} elseif ( ! empty( $attribute->value ) && ! is_object( $value_object ) ) {
 							$push = true;
 						}
 					}
 
 					if ( true === $push ) {
-						array_push( $active_fields, $attribute->fieldName ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+						$active_fields[] = $attribute->fieldName; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					}
 				}
 			}
@@ -615,7 +679,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		 * @return string[]
 		 */
 		private function procedural_fields() {
-			return [
+			return array(
 				'_regular_price',
 				'_sale_price',
 				'shipping_class',
@@ -648,7 +712,7 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				'_sale_price_without_tax',
 				'_product_parent_description',
 				'_woocs_currency',
-			];
+			);
 		}
 
 		/**
@@ -661,13 +725,12 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 		private function get_database_fields( $active_field_names ) {
 			$queries_class = new WPPFM_Queries();
 
-			$post_fields                      = array();
-			$meta_fields                      = array();
-			$custom_fields                    = array();
-			$active_custom_fields             = array();
-			$active_third_party_custom_fields = array();
-			$procedural_fields                = $this->procedural_fields();
-			$post_columns_string              = '';
+			$post_fields          = array();
+			$meta_fields          = array();
+			$custom_fields        = array();
+			$active_custom_fields = array();
+			$procedural_fields    = $this->procedural_fields();
+			$post_columns_string  = '';
 
 			$columns_in_post_table     = $queries_class->get_columns_from_post_table(); // Get all post table column names.
 			$all_custom_columns        = $queries_class->get_custom_product_attributes(); // Get all custom name labels.
@@ -675,10 +738,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 
 			// Convert the query results to an array with only the name labels.
 			foreach ( $columns_in_post_table as $column ) {
-				array_push( $post_fields, $column->Field ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$post_fields[] = $column->Field; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			} // $post_fields containing the required names from the post table.
 			foreach ( $all_custom_columns as $custom ) {
-				array_push( $custom_fields, $custom->attribute_name );
+				$custom_fields[] = $custom->attribute_name;
 			} // $custom_fields containing the custom names.
 			// Filter the post columns, the meta columns and the custom columns to only those that are actually in use.
 
@@ -686,12 +749,10 @@ if ( ! class_exists( 'WPPFM_Feed_Master_Class' ) ) :
 				if ( in_array( $column, $post_fields, true ) && 'ID' !== $column ) { // Because ID is always required, it's excluded here and hard coded in the query.
 					$post_columns_string .= $column . ', '; // Here a string is required to push in the query.
 				} elseif ( in_array( $column, $custom_fields, true ) ) {
-					array_push( $active_custom_fields, $column );
-				} elseif ( in_array( $column, $third_party_custom_fields, true ) ) {
-					array_push( $active_third_party_custom_fields, $column );
+					$active_custom_fields[] = $column;
 				} else {
-					if( ! in_array( $column, $procedural_fields ) ) { // Skip the procedural fields
-						array_push( $meta_fields, $column );
+					if ( ! in_array( $column, $procedural_fields, true ) ) { // Skip the procedural fields
+						$meta_fields[] = $column;
 					}
 				}
 			}

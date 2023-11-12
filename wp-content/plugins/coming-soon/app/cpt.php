@@ -15,6 +15,7 @@ function seedprod_lite_post_type() {
 		'publicly_queryable' => true,
 		'can_export'         => false,
 	);
+
 	register_post_type( 'seedprod', $args );
 
 }

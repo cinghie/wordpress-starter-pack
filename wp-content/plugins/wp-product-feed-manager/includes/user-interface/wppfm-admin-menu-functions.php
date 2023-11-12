@@ -13,8 +13,21 @@ function wppfm_feed_manager_main_page() {
 
 	global $wppfm_tab_data;
 
+	$feed_type           = $_GET['feed-type'] ?? 'product-feed';
 	$active_tab          = $_GET['tab'] ?? 'feed-list';
 	$page_start_function = 'wppfm_main_admin_page'; // default
+
+	switch ( $feed_type ) {
+		case 'google-product-review-feed':
+			$class_identifier = 'wpprfm_call_review_feed_page';
+			break;
+		case 'google-merchant-promotions-feed':
+			$class_identifier = 'wpppfm_call_promotions_feed_page';
+			break;
+		default:
+			$class_identifier = 'wppfm_add_product_feed_page';
+			break;
+	}
 
 	$list_tab = new WPPFM_Tab(
 		'feed-list',
@@ -27,7 +40,7 @@ function wppfm_feed_manager_main_page() {
 		'product-feed',
 		'product-feed' === $active_tab,
 		__( 'Product Feed', 'wp-product-feed-manager' ),
-		'wppfm_add_product_feed_page'
+		$class_identifier
 	);
 
 	$wppfm_tab_data = apply_filters( 'wppfm_main_form_tabs', array( $list_tab, $product_feed_tab ), $active_tab );
@@ -78,8 +91,7 @@ function wppfm_list_feed_type_text() {
 	return apply_filters(
 		'wppfm_feed_types',
 		array(
-			'1'  => 'Product Feed',
-			'10' => 'API Product Feed',
+			'1' => 'Product Feed',
 		)
 	);
 }
@@ -103,75 +115,3 @@ function wppfm_page_footer() {
 	);
 }
 
-/** @noinspection PhpUnused */
-function wppfm_sanitize_license( $new ) {
-	$old = get_option( 'wppfm_lic_key' );
-
-	if ( $old && $old !== $new ) {
-		delete_option( 'wppfm_lic_status' ); // new license has been entered, so must reactivate
-	}
-
-	return $new;
-}
-
-function wppfm_check_license( $license ) {
-	// return false if no license is given
-	if ( ! $license ) {
-		return false;
-	}
-
-	$tab                  = $_GET['tab'] ?? '';
-	$edd_sl_plugin_name   = apply_filters( 'wppfm_edd_plugin_item_name', urlencode( WPPFM_EDD_SL_ITEM_NAME ), $tab );
-	$edd_sl_plugin_prefix = apply_filters( 'wppfm_edd_plugin_prefix', 'wppfm', $tab );
-
-	$api_params = array(
-		'edd_action' => 'check_license',
-		'license'    => $license,
-		'item_name'  => $edd_sl_plugin_name,
-	);
-
-	$response = wp_remote_get(
-		add_query_arg(
-			$api_params,
-			WPPFM_EDD_SL_STORE_URL
-		),
-		array(
-			'timeout' => 5,
-		)
-	);
-
-	if ( is_wp_error( $response ) ) {
-		if ( '0' === get_option( $edd_sl_plugin_prefix . '_lic_failed_server_response', '0' ) ) {
-			update_option( $edd_sl_plugin_prefix . '_lic_failed_server_response', '1' );
-			return 'valid';
-		}
-
-		echo wppfm_handle_wp_errors_response(
-			$response,
-			sprintf(
-				/* translators: %s: link to the support page */
-				esc_html__(
-					'2122 - Checking your license failed. Please open a support ticket at %s for support on this issue.',
-					'wp-product-feed-manager'
-				),
-				WPPFM_SUPPORT_PAGE_URL
-			)
-		);
-
-		return false;
-	}
-
-	update_option( $edd_sl_plugin_prefix . '_lic_failed_server_response', '0' );
-
-	$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-	update_option( $edd_sl_plugin_prefix . '_lic_expires', property_exists( $license_data, 'expires' ) ? $license_data->expires : '' );
-
-	if ( $license_data && 'valid' === $license_data->license ) {
-		return 'valid'; // this license is still valid
-	} else {
-		delete_option( $edd_sl_plugin_prefix . '_check_license_expiration' ); // reset the expiration messages
-
-		return $license_data->license; // this license is no longer valid
-	}
-}

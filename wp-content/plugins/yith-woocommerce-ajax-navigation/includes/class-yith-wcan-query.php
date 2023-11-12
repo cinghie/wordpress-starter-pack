@@ -1017,7 +1017,9 @@ if ( ! class_exists( 'YITH_WCAN_Query' ) ) {
 					YITH_WCAN_Cache_Helper::set( 'object_in_terms', $posts, $term_id );
 				}
 
-				if ( is_wp_error( $posts ) ) {
+				$posts = get_objects_in_term( $term_id, $taxonomy );
+
+				if ( is_wp_error( $posts ) && ! is_array( $posts ) ) {
 					return array();
 				}
 

@@ -1,7 +1,7 @@
 /**
 * Javascript functions to administrator pane
 *
-* @package YITH WooCommerce Request A Quote
+* @package YITH\RequestAQuote
 * @since   1.0.0
 * @version 1.0.0
 * @author  YITH <plugins@yithemes.com>

@@ -11,11 +11,11 @@ namespace WooCommerce\PayPalCommerce\Button;
 
 use WooCommerce\PayPalCommerce\Button\Endpoint\ApproveSubscriptionEndpoint;
 use WooCommerce\PayPalCommerce\Button\Endpoint\CartScriptParamsEndpoint;
+use WooCommerce\PayPalCommerce\Button\Endpoint\SimulateCartEndpoint;
 use WooCommerce\PayPalCommerce\Button\Helper\CheckoutFormSaver;
 use WooCommerce\PayPalCommerce\Button\Endpoint\SaveCheckoutFormEndpoint;
 use WooCommerce\PayPalCommerce\Button\Validation\CheckoutFormValidator;
 use WooCommerce\PayPalCommerce\Button\Endpoint\ValidateCheckoutEndpoint;
-use WooCommerce\PayPalCommerce\Subscription\Helper\SubscriptionHelper;
 use WooCommerce\PayPalCommerce\Vendor\Psr\Container\ContainerInterface;
 use WooCommerce\PayPalCommerce\Button\Assets\DisabledSmartButton;
 use WooCommerce\PayPalCommerce\Button\Assets\SmartButton;
@@ -124,6 +124,17 @@ return array(
 	'button.request-data'                         => static function ( ContainerInterface $container ): RequestData {
 		return new RequestData();
 	},
+	'button.endpoint.simulate-cart'               => static function ( ContainerInterface $container ): SimulateCartEndpoint {
+		if ( ! \WC()->cart ) {
+			throw new RuntimeException( 'cant initialize endpoint at this moment' );
+		}
+		$smart_button = $container->get( 'button.smart-button' );
+		$cart         = WC()->cart;
+		$request_data = $container->get( 'button.request-data' );
+		$data_store   = \WC_Data_Store::load( 'product' );
+		$logger       = $container->get( 'woocommerce.logger.woocommerce' );
+		return new SimulateCartEndpoint( $smart_button, $cart, $request_data, $data_store, $logger );
+	},
 	'button.endpoint.change-cart'                 => static function ( ContainerInterface $container ): ChangeCartEndpoint {
 		if ( ! \WC()->cart ) {
 			throw new RuntimeException( 'cant initialize endpoint at this moment' );
@@ -144,7 +155,7 @@ return array(
 		$session_handler       = $container->get( 'session.handler' );
 		$settings              = $container->get( 'wcgateway.settings' );
 		$early_order_handler   = $container->get( 'button.helper.early-order-handler' );
-		$registration_needed    = $container->get( 'button.current-user-must-register' );
+		$registration_needed   = $container->get( 'button.current-user-must-register' );
 		$logger                = $container->get( 'woocommerce.logger.woocommerce' );
 		return new CreateOrderEndpoint(
 			$request_data,

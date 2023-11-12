@@ -47,8 +47,8 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 */
 		public function show() {
 
-			$tab_header_sub_title = $this->_feed_id ? __( 'Here you can edit the parameters of your feed.', 'wp-product-feed-manager' ) :
-				__( 'Here you can setup your new feed. Start by entering a name for your feed and selecting a channel.', 'wp-product-feed-manager' );
+			$tab_header_sub_title = $this->_feed_id ? __( 'Here you can edit the parameters of your product feed.', 'wp-product-feed-manager' ) :
+				__( 'Here you can setup your new product feed. Start by entering a name for your feed and selecting a channel.', 'wp-product-feed-manager' );
 
 			echo $this->admin_page_header();
 
@@ -62,21 +62,25 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 
 				echo $this->tabs();
 
-				echo $this->tab_header( __( 'Edit Product Feed', 'wp-product-feed-manager' ), $tab_header_sub_title );
-
 				echo $this->product_feed_page_data_holder();
 
-				echo $this->main_input_table_wrapper();
+				echo $this->tab_grid_container();
 
-				echo $this->category_selector_table_wrapper();
+				echo $this->tab_header( __( 'Edit Product Feed', 'wp-product-feed-manager' ), $tab_header_sub_title );
+
+				$this->main_input_table_wrapper();
+
+				$this->category_selector_table_wrapper();
 
 				echo $this->feed_top_buttons();
 
-				echo $this->attribute_mapping_table_wrapper();
+				$this->attribute_mapping_table_wrapper();
 
 				echo $this->feed_bottom_buttons();
 
 				echo $this->feed_list_button();
+
+				echo $this->end_tab_grid_container();
 			} else {
 				echo wppfm_you_have_no_woocommerce_installed_message();
 			}
@@ -93,6 +97,10 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 			$feed_data_holder .= WPPFM_Form_Element::feed_url_holder();
 			$feed_data_holder .= WPPFM_Form_Element::used_feed_names();
 
+			if ( 'full' === WPPFM_PLUGIN_VERSION_ID ) {
+				$feed_data_holder .= WPPFM_Form_Element::wppfm_channel_versions();
+			}
+
 			return $feed_data_holder;
 		}
 
@@ -108,14 +116,14 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 
 				$feed_data      = $queries_class->read_feed( $this->_feed_id )[0];
 				$feed_filter    = $queries_class->get_product_filter_query( $this->_feed_id );
-				$source_fields  = $data_class->get_source_fields( '1' );
+				$source_fields  = $data_class->get_source_fields();
 				$attribute_data = $data_class->get_attribute_data( $this->_feed_id, $feed_data['channel'] );
 
 				// Verify the categories in the stored category mapping are still active.
 				$feed_data['category_mapping'] = $data_class->verify_categories_in_mapping( $feed_data['category_mapping'] );
 			} else {
-				$source_fields  = [];
-				$attribute_data = [];
+				$source_fields  = array();
+				$attribute_data = array();
 				$feed_filter    = '';
 				$feed_data      = null; // a new feed
 			}
@@ -173,7 +181,7 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 * @return string
 		 */
 		private function feed_top_buttons() {
-			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-generate-feed-button-top', 'wppfm-save-feed-button-top', 'wppfm-view-feed-button-top' );
+			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-top-buttons-wrapper', 'page-top-buttons', 'wppfm-generate-feed-button-top', 'wppfm-save-feed-button-top', 'wppfm-view-feed-button-top', 'block' );
 		}
 
 		/**
@@ -182,7 +190,7 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Page' ) ) :
 		 * @return string
 		 */
 		private function feed_bottom_buttons() {
-			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-generate-feed-button-bottom', 'wppfm-save-feed-button-bottom', 'wppfm-view-feed-button-bottom' );
+			return WPPFM_Form_Element::feed_generation_buttons( 'wppfm-center-buttons-wrapper', 'page-center-buttons', 'wppfm-generate-feed-button-bottom', 'wppfm-save-feed-button-bottom', 'wppfm-view-feed-button-bottom' );
 		}
 
 		/**

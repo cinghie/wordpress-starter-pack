@@ -69,11 +69,11 @@ function adminGetFixedNotices() {
                     'button_url' => 'https://www.youtube.com/watch?v=uXTpgFu2V-E'
                 ],
                 [
-                    'slug'  => 'free_block_1_message_2_v1',
-                    'title' => 'Verify your domain on Meta',
-                    'message' => 'Learn how you can verify your domain on Meta (Facebook)',
+                    'slug'  => 'free_block_1_message_2_v2',
+                    'title' => 'ChatGPT Code Interpreter',
+                    'message' => 'Learn how to use ChatGPT to understand your WooCommerce data',
                     'button_text' => 'Watch video',
-                    'button_url' => 'https://www.youtube.com/watch?v=lLXZW5eZt4o',
+                    'button_url' => 'https://www.youtube.com/watch?v=FjGJYAdZEKc',
                 ],
                 [
                     'slug'  => 'free_block_1_message_3_v1',

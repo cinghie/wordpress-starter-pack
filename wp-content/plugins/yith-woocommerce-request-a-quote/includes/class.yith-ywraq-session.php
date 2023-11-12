@@ -6,7 +6,7 @@
  * Partly based on WC_Session_Handler by Woothemes.
  *
  * @class   YITH_YWRAQ_Session
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -220,7 +220,7 @@ class YITH_YWRAQ_Session extends WC_Session {
 		if ( ! defined( 'WP_SETUP_CONFIG' ) && ! defined( 'WP_INSTALLING' ) ) {
 			$now                = time();
 			$expired_sessions   = array();
-			$wc_session_expires = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s AND option_value < %s", '_yith_ywraq_session_expires_%', $now ) );
+			$wc_session_expires = $wpdb->get_col( $wpdb->prepare( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s AND option_value < %s", '_yith_ywraq_session_expires_%', $now ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 			foreach ( $wc_session_expires as $option_name ) {
 				$session_id         = substr( $option_name, 20 );

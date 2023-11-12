@@ -40,12 +40,9 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		public function get_feeds_list() {
-			// filter out all non product feeds when no special feed add-on plugin is active
-			$feed_type_filter = ! apply_filters( 'wppfm_special_feeds_add_on_active', false ) ? " WHERE p.feed_type_id = '1'" : '';
-
 			return $this->_wpdb->get_results(
-				"SELECT p.product_feed_id, p.title, p.url, p.updated, p.feed_type_id, p.products, s.status AS status, s.color AS color FROM {$this->_table_prefix}feedmanager_product_feed AS p
-				INNER JOIN {$this->_table_prefix}feedmanager_feed_status AS s on p.status_id = s.status_id{$feed_type_filter}"
+				"SELECT p.product_feed_id, p.title, p.url, p.updated, p.feed_type_id, p.products, p.channel_id, s.status AS status, s.color AS color FROM {$this->_table_prefix}feedmanager_product_feed AS p
+				INNER JOIN {$this->_table_prefix}feedmanager_feed_status AS s on p.status_id = s.status_id"
 			);
 		}
 
@@ -82,7 +79,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			return $this->_wpdb->get_var( "SELECT feed_type_id FROM {$this->_table_prefix}feedmanager_product_feed WHERE product_feed_id = '{$feed_id}'" );
 		}
 
-		public function read_channels() {
+		public function read_installed_channels() {
 			$google = array( 'channel_id' => '1', 'name' => 'Google Merchant Centre', 'short' => 'google' );
 			return array( $google );
 		}
@@ -349,14 +346,14 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		/**
-		 * Returns the meta data of a specific product.
+		 * Returns the metadata of a specific product.
 		 *
 		 * @param string $product_id            The product id.
 		 * @param string $parent_product_id     The product id of the parent.
 		 * @param array  $record_ids            All record ids.
 		 * @param array  $meta_columns          List with meta fields.
 		 *
-		 * @return array    Array with the meta data from the specified product.
+		 * @return array    Array with the metadata from the specified product.
 		 */
 		public function read_meta_data( $product_id, $parent_product_id, $record_ids, $meta_columns ) {
 			$data         = array();
@@ -374,7 +371,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 					}
 
 					if ( $taxonomy_value ) {
-						array_push( $data, $this->make_meta_object( $column, $taxonomy_value, $product_id ) );
+						$data[] = $this->make_meta_object( $column, $taxonomy_value, $product_id );
 					}
 				}
 
@@ -390,17 +387,17 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 					$value = get_post_meta( $rec_id, $column, true );
 
 					if ( $value || '0' === $value ) {
-						array_push( $data, $this->make_meta_object( $column, $value, $rec_id ) );
+						$data[] = $this->make_meta_object( $column, $value, $rec_id );
 						break;
 					} else {
 						$alt_val  = maybe_unserialize( get_post_meta( $rec_id, '_product_attributes', true ) );
 						$col_name = str_replace( ' ', '-', strtolower( $column ) );
 						if ( $alt_val && isset( $alt_val[ $col_name ] ) ) {
-							array_push( $data, $this->make_meta_object( $column, $alt_val[ $col_name ]['value'], $rec_id ) );
+							$data[] = $this->make_meta_object( $column, $alt_val[ $col_name ]['value'], $rec_id );
 						} elseif ( $alt_val && is_array( $alt_val ) ) {
 							foreach ( $alt_val as $v ) {
 								if ( $v['name'] === $column ) {
-									array_push( $data, $this->make_meta_object( $column, $v['value'], $rec_id ) );
+									$data[] = $this->make_meta_object( $column, $v['value'], $rec_id );
 								}
 							}
 						}
@@ -465,7 +462,7 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 		}
 
 		/**
-		 * Gets the meta data from a specific feed. It does not include the category mapping and feed filter data.
+		 * Gets the metadata from a specific feed. It does not include the category mapping and feed filter data.
 		 *
 		 * @param   string  $feed_id
 		 *
@@ -677,9 +674,14 @@ if ( ! class_exists( 'WPPFM_Queries' ) ) :
 			// deze regel wel is gewijzigd. Indien een regel niet is gewijzigd zou ik hem ook niet moeten
 			// verwijderen.
 
+			// first check if the feed_id is valid
+			if ( $feed_id <= 0 ) {
+				return 0;
+			}
+
 			$main_table = $this->_table_prefix . 'feedmanager_product_feedmeta';
 
-			// first remove all meta data belonging to this feed except the product_filter_query
+			// first remove all metadata belonging to this feed except the product_filter_query
 			//$this->_wpdb->delete( $main_data, array( 'product_feed_id' => $feed_id ) ); // could not use it because it can't work with !=
 			$this->_wpdb->query( "DELETE FROM $main_table WHERE product_feed_id = $feed_id AND meta_key != 'product_filter_query'" );
 

@@ -2,17 +2,132 @@
 # This file is distributed under the same license as the Plugins - YITH Request a Quote for WooCommerce - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-08-07 14:24:42+0000\n"
+"PO-Revision-Date: 2023-09-07 09:04:41+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.7\n"
+"X-Generator: GlotPress/4.0.0-alpha.9\n"
 "Language: it\n"
 "Project-Id-Version: Plugins - YITH Request a Quote for WooCommerce - Stable (latest release)\n"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:501
-#: plugin-fw/includes/class-yit-plugin-panel.php:1546
+#. translators: %s is the plugin name.
+#: yith-woocommerce-request-a-quote.php:129
+msgid "%s is enabled but not effective. It requires WooCommerce in order to work."
+msgstr "%s è abilitato ma non operativo. Il suo funzionamento richiede WooCommerce."
+
+#. translators: %s is the plugin name.
+#: yith-woocommerce-request-a-quote.php:57
+msgid "You can't activate the free version of %s while you are using the premium one."
+msgstr "Non è possibile attivare la versione gratuita di %s se stai usando quella premium."
+
+#: plugin-options/request-options.php:98
+msgid "Privacy options"
+msgstr "Opzioni privacy"
+
+#: plugin-options/request-options.php:69
+msgid "\"Update list\" options"
+msgstr "Opzioni \"Aggiorna lista\""
+
+#: plugin-options/general-options.php:69
+msgid "After clicking on \"Add to quote\" the user:"
+msgstr "Dopo aver cliccato su \"Aggiungi al preventivo\" l'utente:"
+
+#: plugin-options/general-options.php:48
+msgid "Other options"
+msgstr "Opzioni aggiuntive"
+
+#: plugin-options/general-options.php:23
+msgid "\"Add to quote\" options"
+msgstr "Opzioni \"Aggiungi al preventivo\""
+
+#: plugin-options/customization-options.php:99
+msgid "Labels"
+msgstr "Testi"
+
+#: plugin-options/customization-options.php:45
+msgid "\"Add to quote\" button"
+msgstr "Pulsante \"Aggiungi al preventivo\""
+
+#: includes/class.yith-request-quote-admin.php:239
+msgctxt "Request a quote page name"
+msgid "Request a Quote"
+msgstr "Richiedi un Preventivo"
+
+#: includes/class.yith-request-quote-admin.php:194
+msgid "Use the plugin to manually create quotes to send to your customers: the easiest way to manage quotes and the related orders in WooCommerce."
+msgstr "Usa il plugin per creare manualmente i preventivi da inviare ai tuoi clienti: il modo più semplice per gestire i preventivi e i relativi ordini in WooCommerce."
+
+#: includes/class.yith-request-quote-admin.php:193
+msgid "Manually create and send custom quotes from the backend"
+msgstr "Crea e invia manualmente preventivi personalizzati dal backend"
+
+#: includes/class.yith-request-quote-admin.php:190
+msgid "Send eye-catching quotes choosing one of the 9 templates included in the plugin or create a new custom template with the advanced Gutenberg builder."
+msgstr "Invia preventivi accattivanti scegliendo uno dei 9 template inclusi nel plugin o crea un nuovo template personalizzato con il builder avanzato di Gutenberg."
+
+#: includes/class.yith-request-quote-admin.php:189
+msgid "9 ready-to-use quote PDF templates + Gutenberg builder"
+msgstr "9 modelli di preventivo PDF pronti all'uso + builder Gutenberg"
+
+#: includes/class.yith-request-quote-admin.php:186
+msgid "Enable the option to allow users to send a quote request for products they added to the cart."
+msgstr "Abilita l'opzione per permettere agli utenti di inviare una richiesta di preventivo per i prodotti che hanno aggiunto al carrello."
+
+#: includes/class.yith-request-quote-admin.php:185
+msgid "Convert the cart content into a quote request"
+msgstr "Converti il contenuto del carrello in una richiesta di preventivo"
+
+#: includes/class.yith-request-quote-admin.php:182
+msgid "Add, remove, and edit the fields to create your own custom form or use a form created with one of the following plugins: Contact Form 7, Gravity Forms, Ninja Forms, or WPForms."
+msgstr "Aggiungi, rimuovi e modifica i campi per creare il tuo modulo personalizzato o utilizza un modulo creato con uno dei seguenti plugin: Contact Form 7, Gravity Forms, Ninja Forms o WPForms."
+
+#: includes/class.yith-request-quote-admin.php:181
+msgid "Create and show a custom advanced form"
+msgstr "Crea e mostra un modulo avanzato personalizzato"
+
+#: includes/class.yith-request-quote-admin.php:178
+msgid "Push users to ask for a quote for out of stock products and send them tailored offers."
+msgstr "Spingi gli utenti a chiedere un preventivo per i prodotti esauriti e invia loro offerte personalizzate."
+
+#: includes/class.yith-request-quote-admin.php:177
+msgid "Show the button automatically in out of stock products"
+msgstr "Mostra il pulsante automaticamente nei prodotti esauriti"
+
+#: includes/class.yith-request-quote-admin.php:174
+msgid "Choose whether to allow all users to request a quote or limit it only to registered users or those who have a specific role in your shop."
+msgstr "Scegli se permettere a tutti gli utenti di richiedere un preventivo o se limitarlo solo agli utenti registrati o a quelli che hanno un ruolo specifico nel tuo negozio."
+
+#: includes/class.yith-request-quote-admin.php:173
+msgid "Show the button only to registered users/specific user roles"
+msgstr "Mostra il pulsante solo agli utenti registrati o a determinati ruoli utente"
+
+#: includes/class.yith-request-quote-admin.php:170
+msgid "Enable the option to show the \"Add to quote\" button also on the Shop page, category pages, etc"
+msgstr "Abilita l'opzione per mostrare il pulsante \"Aggiungi al preventivo\" anche nelle pagine shop, categoria, ecc."
+
+#: includes/class.yith-request-quote-admin.php:169
+msgid "Show the \"Add to quote\" button also on the other WooCommerce pages"
+msgstr "Mostra il pulsante \"Aggiungi al preventivo\" anche in altre pagine WooCommerce"
+
+#: includes/class.yith-request-quote-admin.php:146
+msgid "Configure the \"Request a quote\" page settings."
+msgstr "Configura le impostazioni per la pagina \"Richiedi un preventivo\"."
+
+#: includes/class.yith-request-quote-admin.php:141
+msgid "Configure style options to customize the buttons and labels."
+msgstr "Configura le impostazioni di stile per personalizzare pulsanti e testi."
+
+#: includes/class.yith-request-quote-admin.php:139
+msgid "Customization"
+msgstr "Personalizzazione"
+
+#: includes/class.yith-request-quote-admin.php:136
+msgid "Configure the plugin's general settings."
+msgstr "Configura le impostazioni generali del plugin."
+
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:502
+#: plugin-fw/includes/class-yit-plugin-panel.php:1561
 msgid "Options saved!"
 msgstr "Opzioni salvate!"
 
@@ -62,7 +177,7 @@ msgctxt "Premium Tab"
 msgid "Upgrade now to get a %s%% off"
 msgstr "Fai l'upgrade ora ed ottieni uno sconto del %s%%"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1290
+#: plugin-fw/includes/class-yit-plugin-panel.php:1305
 msgid ""
 "At first, I was hesitant to buy the premium version so I started with the free option.\n"
 "After a while, seeing the quality of the plugin and the results I was getting, I decided to give it a shot and switch to premium. No regrets!\n"
@@ -100,7 +215,7 @@ msgstr "Prima azienda indipendente di <mark>plugin per WooCommerce</mark>"
 msgid "Search for an order..."
 msgstr "Cerca un ordine..."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:977
+#: plugin-fw/includes/class-yit-plugin-panel.php:992
 msgctxt "Panel tab name"
 msgid "Your Store Tools"
 msgstr "Strumenti per il tuo negozio"
@@ -137,7 +252,7 @@ msgstr "Carica file"
 msgid "Drag or upload a file."
 msgstr "Trascina o carica un file."
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:555
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:556
 msgid "Options reset correctly!"
 msgstr "Opzioni reimpostate correttamente!"
 
@@ -212,19 +327,19 @@ msgstr "Salva"
 msgid "It is not possible save the options"
 msgstr "Impossibile salvare le opzioni"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1170
+#: plugin-fw/includes/class-yit-plugin-panel.php:1185
 msgid "See how it works before you start using it"
 msgstr "Guarda come funziona prima di iniziare ad usarlo"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1169
+#: plugin-fw/includes/class-yit-plugin-panel.php:1184
 msgid "Watch our <mark>\"First Steps\" video</mark>"
 msgstr "Guarda il nostro <mark>video \"Primi Step\"</mark>"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1159
+#: plugin-fw/includes/class-yit-plugin-panel.php:1174
 msgid "Learn what you can really do with this powerful tool"
 msgstr "Scopri cosa puoi fare con questo potente strumento"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1158
+#: plugin-fw/includes/class-yit-plugin-panel.php:1173
 msgid "Read the <mark>plugin documentation</mark>"
 msgstr "Consulta la <mark>documentazione del plugin</mark>"
 
@@ -267,7 +382,7 @@ msgid "Read the plugin documentation"
 msgstr "Consulta la documentazione del plugin"
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:905
+#: plugin-fw/includes/class-yit-plugin-panel.php:920
 msgctxt "Help tab default title"
 msgid "Thank you for using %s!"
 msgstr "Grazie per aver scelto %s!"
@@ -278,30 +393,6 @@ msgid "%s was deactivated as you're running an higher tier version of the same p
 msgid_plural "%s were deactivated as you're running higher tier versions of the same plugins."
 msgstr[0] "%s è stato disattivato poiché stai usando una versione superiore dello stesso plugin."
 msgstr[1] "%s sono stati disattivati poiché stai usando una versione superiore degli stessi plugin."
-
-#: templates/admin/premium.php:654
-msgid "The plugin includes two different follow-up emails: one can be sent to customers X days after the quote creation, and the other one X days before the quote expiration. With these emails, you can recover pending quotes, and remind your customers about your proposals."
-msgstr "Il plugin include due diverse email di follow-up: una da inviare ai clienti X giorni dalla creazione del preventivo ed una X giorni prima della scadenza del preventivo. Con queste email puoi recuperare preventivi in attesa e ricordare ai clienti le tue proposte."
-
-#: templates/admin/premium.php:651
-msgid "Send follow-up emails to remind customers about the quote"
-msgstr "Invia email di follow-up per ricordare ai clienti del preventivo"
-
-#: templates/admin/premium.php:635
-msgid "Show an “Ask for a quote” button on the cart page to allow customers to convert their cart content into a quote request. The button will open a modal window with the same form shown on the request a quote page."
-msgstr "Mostra un pulsante \"Richiedi un preventivo\" nella pagina carrello per permettere ai clienti di trasformare il contenuto in una richiesta di preventivo. Tramite il pulsante si aprirà una modale che include lo stesso modulo mostrato nella pagina di richiesta."
-
-#: templates/admin/premium.php:632
-msgid "Let customers convert their cart into a quote request"
-msgstr "Permetti ai clienti di convertire il loro carrello in una richiesta di preventivo"
-
-#: templates/admin/premium.php:553
-msgid "Choose between 9 different layouts and customize the PDF Quote through the new advanced Gutenberg editor. You can add text blocks, images and customize the colors to create beautiful custom quotes to send to your customers."
-msgstr "Scegli tra 9 diversi layout e personalizza il PDF del preventivo tramite l'edito avanzato Gutenberg. Puoi aggiungere blocchi testuali, immagini e personalizzare i colori per creare dei preventivi accattivanti da inviare ai tuoi clienti."
-
-#: templates/admin/premium.php:550
-msgid "Use the advanced Gutenberg builder to customize the Quote PDF"
-msgstr "Usa il builder avanzato Gutenberg per personalizzare il PDF del preventivo"
 
 #: plugin-fw/templates/fields/ajax-terms.php:41
 msgid "Search for a category..."
@@ -340,7 +431,7 @@ msgctxt "Premium Tab"
 msgid "...and so much more!"
 msgstr "...e molto altro!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:962
+#: plugin-fw/includes/class-yit-plugin-panel.php:977
 msgctxt "Premium tab name"
 msgid "Get premium"
 msgstr "Diventa premium"
@@ -394,196 +485,214 @@ msgstr "caricato da %s"
 msgid "YITH Plugin Framework Version"
 msgstr "YITH Plugin Framework Version"
 
-#: plugin-options/request-options.php:90
+#: plugin-options/request-options.php:104
 msgid "Enable to show a privacy policy checkbox in the form."
 msgstr "Abilita per mostare un checkbox per l'informativa sulla privacy nel modulo."
 
-#: plugin-options/request-options.php:78
+#: plugin-options/request-options.php:83
 msgid "Enter the button's label."
 msgstr "Inserisci il testo del pulsante."
 
-#: plugin-options/request-options.php:77
+#: plugin-options/request-options.php:82
 msgid "\"Update List\" label"
 msgstr "Testo pulsante \"Aggiorna lista\""
 
-#: plugin-options/request-options.php:70
+#: plugin-options/request-options.php:75
 msgid "Enable to show the \"Update list\" button."
 msgstr "Abilita per mostrare il pulsante \"Aggiorna lista\"."
 
-#: plugin-options/request-options.php:69
+#: plugin-options/request-options.php:74
 msgid "Show \"Update List\" button"
 msgstr "Mostra il pulsante \"Aggiorna lista\""
 
-#: plugin-options/request-options.php:64
+#: plugin-options/request-options.php:60
 msgid "Product list above, form below"
 msgstr "Elenco prodotti in alto, modulo da compilare in basso"
 
-#: plugin-options/request-options.php:63
+#: plugin-options/request-options.php:59
 msgid "Product list on left side, form on right side"
 msgstr "Elenco prodotti sulla sinistra, modulo da compilare sulla destra"
 
-#: plugin-options/request-options.php:58
+#: plugin-options/request-options.php:54
 msgid "Choose the layout for \"Request a quote\" page."
 msgstr "Scegli il layout per la pagina \"Richiedi un preventivo\"."
 
-#: plugin-options/request-options.php:52
+#: plugin-options/request-options.php:49
 msgid "Create a page"
 msgstr "Crea una pagina"
 
-#: plugin-options/request-options.php:50
+#: plugin-options/request-options.php:47
 msgctxt "part of the string (or Create a page) inside admin panel"
 msgid "or"
 msgstr "oppure"
 
-#: plugin-options/request-options.php:34
+#: plugin-options/request-options.php:33
 msgid "in the page the following shortcode: [yith_ywraq_request_quote] "
 msgstr "il seguente shortcode nella pagina: [yith_ywraq_request_quote] "
 
-#: plugin-options/request-options.php:33
+#: plugin-options/request-options.php:32
 msgid "Please note: if you choose a page different from the default one (request quote) you need to insert"
 msgstr "Nota bene: se scegli una pagina diversa da quella predefinita (Richiedi un preventivo) dovrai inserire"
 
-#: plugin-options/request-options.php:32
+#: plugin-options/request-options.php:31
 msgid "Choose from this list the page on which users will see the list of products added to the quote and send the request."
 msgstr "Scegli da questo elenco la pagina in cui gli utenti vedranno l'elenco dei prodotti aggiunti al preventivo e il modulo per inviare la richiesta."
 
-#: plugin-options/request-options.php:29
+#: plugin-options/request-options.php:28
 msgid "\"Request a quote\" page"
 msgstr "Pagina \"Richiedi un preventivo\""
 
-#: plugin-options/request-options.php:24
+#: plugin-options/request-options.php:23
 msgid "\"Request quote\" page options"
 msgstr "Opzioni pagina \"Richiedi un preventivo\""
 
-#: plugin-options/general/settings-options.php:73
+#: plugin-options/general-options.php:76
+#: plugin-options/general/settings-options.php:66
 msgid "Is automatically redirected to the quote request list."
 msgstr "Verrà reindirizzato automaticamente all'elenco dei prodotti aggiunti al preventivo."
 
-#: plugin-options/general/settings-options.php:72
+#: plugin-options/general-options.php:75
+#: plugin-options/general/settings-options.php:65
 msgid "Sees a link to access the quote request list"
 msgstr "Vedrà un link per accedere alla lista prodotti in preventivo."
 
-#: plugin-options/general/settings-options.php:67
+#: plugin-options/general-options.php:70
+#: plugin-options/general/settings-options.php:60
 msgid "Choose what happens after the user clicks on the \"Add to quote\" button."
 msgstr "Scegli cosa fare dopo che l'utente clicca sul pulsante \"Aggiungi al preventivo\"."
 
-#: plugin-options/general/settings-options.php:66
+#: plugin-options/general/settings-options.php:59
 msgid "After click on \"Add to quote\" the user:"
 msgstr "Dopo aver cliccato su \"Aggiungi al preventivo\" l'utente:"
 
-#: plugin-options/general/settings-options.php:56
+#: plugin-options/general-options.php:35
+#: plugin-options/general/settings-options.php:50
 msgid "Underneath \"Add to cart\" button"
 msgstr "Sotto il pulsante \"Aggiungi al carrello\""
 
-#: plugin-options/general/settings-options.php:55
+#: plugin-options/general-options.php:34
+#: plugin-options/general/settings-options.php:49
 msgid "Inline with \"Add to cart\""
 msgstr "In linea con \"Aggiungi al carrello\""
 
-#: plugin-options/general/settings-options.php:50
+#: plugin-options/general-options.php:29
+#: plugin-options/general/settings-options.php:44
 msgid "Choose where to show the \"Add to quote\" button on single product pages."
 msgstr "Scegli dove mostrare il pulsante \"Aggiungi al preventivo\" nelle pagine prodotto."
 
-#: plugin-options/general/settings-options.php:49
+#: plugin-options/general-options.php:28
+#: plugin-options/general/settings-options.php:43
 msgid "\"Add to quote\" position on single product page"
 msgstr "Posizione pulsante \"Aggiungi al preventivo\" nella pagina prodotto"
 
-#: plugin-options/general/settings-options.php:41
+#: plugin-options/general-options.php:62
+#: plugin-options/general/settings-options.php:36
 msgid "Enable to hide prices on all products."
 msgstr "Abilita per nascondere i prezzi in tutti i prodotti."
 
-#: plugin-options/general/settings-options.php:40
+#: plugin-options/general-options.php:61
+#: plugin-options/general/settings-options.php:35
 msgid "Hide prices"
 msgstr "Nascondi i prezzi"
 
-#: plugin-options/general/settings-options.php:31
+#: plugin-options/general-options.php:54
+#: plugin-options/general/settings-options.php:28
 msgid "Enable to hide the \"Add to cart\" buttons on all products."
 msgstr "Abilita per nascondere i pulsanti \"Aggiungi al carrello\" in tutti i prodotti."
 
-#: plugin-options/general/settings-options.php:30
+#: plugin-options/general-options.php:53
+#: plugin-options/general/settings-options.php:27
 msgid "Hide \"Add to cart\" buttons"
 msgstr "Nascondi i pulsanti \"Aggiungi al carrello\""
 
-#: plugin-options/general/button-label-options.php:130
+#: plugin-options/customization-options.php:129
+#: plugin-options/general/button-label-options.php:120
 msgid "Enter the text to show in the link that redirects users to the quote request list."
 msgstr "Inserisci il testo da mostrare subito dopo aver aggiunto un prodotto alla lista preventivo."
 
-#: plugin-options/general/button-label-options.php:129
+#: plugin-options/customization-options.php:128
+#: plugin-options/general/button-label-options.php:119
 msgid "\"Browse the list\" label"
 msgstr "Testo per \"Vai alla lista\""
 
-#: plugin-options/general/button-label-options.php:120
+#: plugin-options/customization-options.php:121
+#: plugin-options/general/button-label-options.php:111
 msgid "Enter the label to show when a product is already in the quote request list."
 msgstr "Inserisci il testo da mostrare nel caso in cui un prodotto sia già presente nella lista."
 
-#: plugin-options/general/button-label-options.php:119
+#: plugin-options/customization-options.php:120
+#: plugin-options/general/button-label-options.php:110
 msgid "\"Product already in the list\" label"
 msgstr "Testo per \"Il prodotto è già nella lista\""
 
-#: plugin-options/general/button-label-options.php:115
+#: plugin-options/customization-options.php:117
+#: plugin-options/general/button-label-options.php:107
 msgid "Product added to the list"
 msgstr "Prodotto aggiunto alla lista"
 
-#: plugin-options/general/button-label-options.php:111
+#: plugin-options/customization-options.php:113
+#: plugin-options/general/button-label-options.php:103
 msgid "Enter the label to show when a product is added to a quote list."
 msgstr "Inserisci il testo da mostrare quando si aggiunge un prodotto alla lista preventivo."
 
-#: plugin-options/general/button-label-options.php:110
+#: plugin-options/customization-options.php:112
+#: plugin-options/general/button-label-options.php:102
 msgid "\"Product added to the list\" label"
 msgstr "Testo per \"Prodotto aggiunto alla lista\""
 
-#: plugin-options/general/button-label-options.php:102
+#: plugin-options/customization-options.php:105
+#: plugin-options/general/button-label-options.php:95
 msgid "Enter the label to show within the \"Add to quote\" button on a single product page."
 msgstr "Scegli il testo che vuoi mostrare all'interno del pulsante o del link \"Aggiungi al preventivo\" nella pagina prodotto."
 
-#: plugin-options/general/button-label-options.php:101
+#: plugin-options/customization-options.php:104
+#: plugin-options/general/button-label-options.php:94
 msgid "\"Add to Quote\" label"
 msgstr "Testo per \"Aggiungi al preventivo\""
 
-#: plugin-options/general/button-label-options.php:88
+#: plugin-options/customization-options.php:84
+#: plugin-options/general/button-label-options.php:83
 msgid "Text Hover"
 msgstr "Testo (hover)"
 
-#: plugin-options/general/button-label-options.php:83
+#: plugin-options/customization-options.php:79
+#: plugin-options/general/button-label-options.php:78
 msgid "Text"
 msgstr "Testo"
 
-#: plugin-options/general/button-label-options.php:78
+#: plugin-options/customization-options.php:74
+#: plugin-options/general/button-label-options.php:73
 msgid "Background hover"
 msgstr "Sfondo (hover)"
 
-#: plugin-options/general/button-label-options.php:73
+#: plugin-options/customization-options.php:69
+#: plugin-options/general/button-label-options.php:68
 msgid "Background"
 msgstr "Sfondo"
 
-#: plugin-options/general/button-label-options.php:65
+#: plugin-options/customization-options.php:62
+#: plugin-options/general/button-label-options.php:61
 msgid "\"Add to quote\" colors"
 msgstr "Colori \"Aggiungi al preventivo\""
 
-#: plugin-options/general/button-label-options.php:59
+#: plugin-options/customization-options.php:57
+#: plugin-options/general/button-label-options.php:56
 msgid "Text Link"
 msgstr "Link testuale"
 
-#: plugin-options/general/button-label-options.php:53
+#: plugin-options/customization-options.php:51
+#: plugin-options/general/button-label-options.php:50
 msgid "Choose the style for the \"Add to quote\" button or link."
 msgstr "Scegli lo stile per il pulsante o il link \"Aggiungi al preventivo\"."
 
-#: plugin-options/general/button-label-options.php:52
+#: plugin-options/customization-options.php:50
+#: plugin-options/general/button-label-options.php:49
 msgid "\"Add to quote\" style"
 msgstr "Stile \"Aggiungi al preventivo\""
 
-#: plugin-options/general/button-label-options.php:46
+#: plugin-options/general/button-label-options.php:44
 msgid "Button & Labels"
 msgstr "Testi e pulsanti"
-
-#: plugin-options/general-options.php:29
-msgctxt "Admin title of tab"
-msgid "Buttons & Labels"
-msgstr "Testi e pulsanti"
-
-#: plugin-options/general-options.php:26
-msgctxt "Admin title of tab"
-msgid "General options"
-msgstr "Opzioni generali"
 
 #: plugin-fw/templates/panel/help-tab.php:204
 msgctxt "Help tab submit ticket button"
@@ -651,18 +760,18 @@ msgctxt "Image width field label"
 msgid "Width"
 msgstr "Larghezza"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:914
+#: plugin-fw/includes/class-yit-plugin-panel.php:929
 msgctxt "Help tab default description"
 msgid "We want to help you enjoy a wonderful experience with all of our products."
 msgstr "Vogliamo aiutarti ad avere un'esperienza fantastica con tutti i nostri prodotti."
 
 #. translators: 1. Plugin name.
-#: plugin-fw/includes/class-yit-plugin-panel.php:905
+#: plugin-fw/includes/class-yit-plugin-panel.php:920
 msgctxt "Help tab default title"
 msgid "Thank you for purchasing %s!"
 msgstr "Grazie per aver acquistato %s!"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:992
+#: plugin-fw/includes/class-yit-plugin-panel.php:1007
 msgctxt "Help tab name"
 msgid "Help"
 msgstr "Help"
@@ -684,15 +793,15 @@ msgstr "Sì, sposta nel cestino"
 msgid "Are you sure you want to trash the selected items?"
 msgstr "Se sicuro di voler spostare nel cestino gli elementi selezionati?"
 
-#: includes/functions.yith-request-quote.php:490
+#: includes/functions.yith-request-quote.php:483
 msgid "Reject"
 msgstr "Rifiuta"
 
-#: includes/functions.yith-request-quote.php:487
+#: includes/functions.yith-request-quote.php:480
 msgid "Accept"
 msgstr "Accetta"
 
-#: includes/functions.yith-request-quote.php:481
+#: includes/functions.yith-request-quote.php:474
 msgid "Add to Quote"
 msgstr "Aggiungi al preventivo"
 
@@ -705,8 +814,8 @@ msgstr "[Richiesta di preventivo]"
 msgid "Quote request"
 msgstr "Richiesta di preventivo"
 
-#: includes/class.yith-request-quote-admin.php:147
-#: plugin-options/general/settings-options.php:24
+#: includes/class.yith-request-quote-admin.php:134
+#: plugin-options/general/settings-options.php:22
 msgid "General Options"
 msgstr "Opzioni generali"
 
@@ -834,19 +943,6 @@ msgstr "Opzioni salvate"
 msgid "Save Options"
 msgstr "Salva le opzioni"
 
-#: yith-woocommerce-request-a-quote.php:122
-msgid "YITH Request a Quote for WooCommerce is enabled but not effective. It requires WooCommerce in order to work."
-msgstr "YITH Request a Quote for WooCommerce è attivo ma non operativo. Il suo funzionamento richiede WooCommerce."
-
-#: yith-woocommerce-request-a-quote.php:54
-msgid "You can't activate the free version of YITH Request a Quote for WooCommerce while you are using the premium one."
-msgstr "Non è possibile attivare la versione free di YITH Request a Quote for WooCommerce se stai già utilizzando la premium."
-
-#. translators: placeholder html tags.
-#: templates/admin/premium.php:260 templates/admin/premium.php:665
-msgid "Upgrade to %1$spremium version%2$s of %1$sYITH Request a Quote for WooCommerce%2$s to benefit from all features!"
-msgstr "Aggiorna alla %1$sversione premium%2$s di %1$sYITH Request a Quote for WooCommerce%2$s per usufruire di tutte le funzionalità!"
-
 #: plugin-fw/templates/panel/panel-header.php:26
 #: plugin-fw/templates/panel/v2/panel-header.php:21
 msgid "help us by leaving a good review"
@@ -871,182 +967,6 @@ msgstr "YITH Request a Quote for WooCommerce"
 msgctxt "Elementor Widget - section title"
 msgid "%s - Options"
 msgstr "%s - Opzioni"
-
-#: templates/admin/premium.php:416
-msgid "Thanks to the table included in the plugin version 3.1, you can track all quote requests and their different status. From the same page, you will also be able to filter requests by status, customer, or date and download information as a CSV file."
-msgstr "Grazie alla tabella inclusa nella versione 3.1 del plugin puoi monitorare tutte le richieste di preventivo e il loro diverso stato. Dalla stessa pagina potrai anche filtrare le richieste per stato, cliente o data e scaricare le informazioni in un file CSV."
-
-#: templates/admin/premium.php:413
-msgid "Monitor quote requests from the table available in the plugin and download them as a CSV file"
-msgstr "Monitora le richieste di preventivo dalla tabella disponibile nel plugin e scaricale come file CSV"
-
-#: templates/admin/premium.php:622
-msgid "Enable this option to convert your customer’s cart into a quote request."
-msgstr "Abilita questa opzione per convertire il contenuto del carrello in richiesta di preventivo."
-
-#: templates/admin/premium.php:619
-msgid "Enable the “Ask for a quote” button on the checkout page"
-msgstr "Abilita il pulsante \"Richiedi un preventivo\" nella pagina Checkout"
-
-#: templates/admin/premium.php:604
-msgid "Once the quote is accepted, the customer will be redirected to the checkout page to finalize the purchase at the agreed price."
-msgstr "Dopo aver accettato il preventivo il cliente sarà reindirizzato alla pagina checkout per finalizzare l'acquisto al prezzo concordato."
-
-#: templates/admin/premium.php:601
-msgid "If the quote is accepted, redirect the user right to the checkout page"
-msgstr "Reindirizza l'utente alla pagina checkout quando accetta il preventivo"
-
-#: templates/admin/premium.php:592
-msgid "Let your customers accept or reject the quote offer by simply clicking on the link in the email or in the PDF quote."
-msgstr "Permetti ai clienti di accettare o rifiutare l'offerta di preventivo facendo clic sul link presente nell'email o nella copia in PDF."
-
-#: templates/admin/premium.php:589
-msgid "Enable the option to “Accept | Reject” the quote"
-msgstr "Abilita l'opzione per “Accettare | Rifiutare” il preventivo"
-
-#: templates/admin/premium.php:566
-msgid ""
-"\n"
-"Thanks to the “Quotes” section in My Account page, users will be able to monitor the status of their quote requests, download the PDF version of the quote (if enabled) and view the details of every quote request."
-msgstr ""
-"\n"
-"Grazie alla sezione \"Preventivi\" nella pagina Mio Account gli utenti potranno monitorare lo stato delle loro richieste di preventivo, scaricarne la versione in PDF (se abilitata) e visualizzare i dettagli di ogni richiesta."
-
-#: templates/admin/premium.php:562
-msgid "Allow customers to monitor their quote requests right from My Account page"
-msgstr "Permetti ai clienti di monitorare le richieste di preventivo direttamente dalla loro pagina Mio Account"
-
-#: templates/admin/premium.php:532
-msgid "Enable the generation of a PDF copy of the quote and choose to attach it to the quote email and if making it available for download in My Account area."
-msgstr "Abilita la generazione di una copia del preventivo in PDF e decidi se allegarla all'email e renderla disponibile per il download nell'area del Mio Account."
-
-#: templates/admin/premium.php:529
-msgid "Generate a PDF version of the quote that will be both attached to the email and available for download in My Account area"
-msgstr "Genera una versione PDF del preventivo che sarà allegato all'email e anche disponibile per il download nell'area del Mio Account"
-
-#: templates/admin/premium.php:519
-msgid "Create a tailor-made offer that your user cannot reject and leverage the scarcity and urgency principles by setting an expiration date for the quote. If the discounted price is only available for a limited time, the customer will be more likely to accept it and finalize the purchase as soon as possible so as to not miss out on it."
-msgstr "Crea un'offerta su misura che l'utente non potrà rifiutare e fai leva sui principi di urgenza e scarsità impostando una data di scadenza per il preventivo. Se il prezzo scontato è disponibile solo per un tempo limitato, il cliente sarà più propenso ad accettarlo e a finalizzare l'acquisto il prima possibile pur di non perderlo."
-
-#: templates/admin/premium.php:516
-msgid "Leverage the urgency principle and set up a deadline for the quote"
-msgstr "Fai leva sul principio di urgenza impostando una scadenza per il preventivo"
-
-#: templates/admin/premium.php:500
-msgid "Before sending the quote, you can edit the product prices (by lowering them a bit to offer a discount), add shipping fees or some extra cost and apply a discount code to the quote (for example a 10% off for a customer who regularly buys from you or who is making the first order)."
-msgstr "Prima di inviare il preventivo puoi modificare i prezzi dei prodotti (abbassandoli un po' per offrire uno sconto), aggiungere le spese di spedizione o dei costi extra e applicare un codice sconto al preventivo (ad esempio, uno sconto del 10% per un cliente che acquista regolarmente o che sta facendo il primo ordine)."
-
-#: templates/admin/premium.php:491
-msgid ""
-"\n"
-"Edit the product prices and add shipping fees, extra costs or coupon codes to the quote"
-msgstr ""
-"\n"
-"Modifica i prezzi dei prodotti e aggiungi al preventivo spese di spedizione, costi extra o coupon"
-
-#: templates/admin/premium.php:479
-msgid "From the backend you can fully monitor and manage the entire quotation process: quote requests are saved in the Orders list and to send the quote you just have to open the order, set up some options and click on the button to send it. It’s just a matter of a few seconds and a few clicks."
-msgstr "Puoi monitorare e gestire l'intero processo dei preventivi dal backend: le richieste vengono salvate nella lista degli Ordini e per inviare il preventivo devi solo entrare nell'ordine, impostare alcune opzioni e fare clic sul pulsante per l'invio. È solo una questione di secondi e pochi clic."
-
-#: templates/admin/premium.php:476
-msgid "Generate, send and monitor your quotes right from the admin panel"
-msgstr "Genera, invia e monitora i tuoi preventivi direttamente dal pannello amministrazione"
-
-#: templates/admin/premium.php:461
-msgid "The major strength of this plugin is the management of quote requests: you can choose whether to manage them manually or, what we really recommend, to enable the automatic generation of the order. In this way, all quote requests will be saved in the Orders panel with a custom status “New quote request”. You will be able to send your quote right from the Orders page and, if the customer accepts the quote and pays, the order status will automatically update. Clear, simple and quick."
-msgstr "Il principale punto di forza di questo plugin è la gestione delle richieste di preventivo: puoi scegliere se gestirle manualmente oppure, ed è quello che consigliamo, attivare la generazione automatica dell'ordine. In questo modo, tutte le richieste di preventivo verranno salvate nel pannello Ordini con uno stato personalizzato (\"Nuova richiesta preventivo\"). Potrai inviare la tua proposta direttamente dalla pagina dell'ordine e, se il cliente accetta il preventivo ed effettua il pagamento, lo stato dell'ordine verrà aggiornato automaticamente. Chiaro, semplice e veloce."
-
-#: templates/admin/premium.php:458
-msgid "Choose whether to enable the automatic generation of orders with the status “New quote request” for all requests submitted"
-msgstr "Decidi se abilitare la generazione automatica degli ordini con lo stato \"Nuova richiesta preventivo\" per tutte le richieste inviate"
-
-#: templates/admin/premium.php:447
-msgid "The plugin allows you to create tailor-made quotes. But you can also enable automatic quotes so whenever a customer sends a request, the quote is automatically sent out showing the default prices of your products (the prices you set in your shop and that are hidden by the option “Hide prices”). You can enable this option with just one click and the plugin will do all the work for you."
-msgstr "Il plugin ti permette di creare preventivi personalizzati. Ma puoi anche abilitare preventivi automatici in modo che quando ricevi una richiesta, il preventivo viene inviato automaticamente con i prezzi predefiniti dei prodotti (i prezzi impostati nel tuo negozio e che sono nascosti con l'opzione \"Nascondi prezzi\"). Puoi abilitare questa opzione con un solo clic e il plugin farà il resto al tuo posto."
-
-#: templates/admin/premium.php:444
-msgid "Enable the automatic quote option to send out the default product prices"
-msgstr "Abilita l'opzione per i preventivi automatici da inviare con i prezzi predefiniti dei prodotti"
-
-#: templates/admin/premium.php:428
-msgid "A customer contacts you by phone or comes to your office and asks for a price estimate? With this plugin, you can create a quote manually and send it to your customer, sparing them so the trouble and time of doing that on their own."
-msgstr "Un cliente ti contatta al telefono o viene nel tuo ufficio per richiedere un preventivo? Con questo plugin puoi creare un preventivo manualmente ed inviarlo al tuo cliente risparmiandogli il disturbo e il tempo di farlo da soli."
-
-#: templates/admin/premium.php:425
-msgid "Create a quote manually and send it to the customer who will not have to fill out the form"
-msgstr "Crea un preventivo manualmente e invialo al cliente senza che debba compilare il modulo"
-
-#: templates/admin/premium.php:393
-msgid ""
-"\n"
-"If you don’t want to use the default form, the plugin however supports Gravity Forms and Contact Form 7."
-msgstr ""
-"\n"
-"Se non vuoi utilizzare il modulo predefinito il plugin supporta anche Gravity Forms e Contact Form 7."
-
-#: templates/admin/premium.php:389
-msgid "Use a form created with Gravity Forms or Contact Form 7"
-msgstr "Usa un modulo creato con Gravity Forms o Contact Form 7"
-
-#: templates/admin/premium.php:380
-msgid "The plugin includes a default form where you can add or remove fields, you can sort them and customize the texts. You can also enable the auto-complete option, that will automatically fill the form with their saved details, if the user is logged in, and with the optional reCaptcha as well. But the most interesting thing is that the information added by the user will automatically be linked to WooCommerce fields and embedded in the quote and in the related order."
-msgstr "Il plugin include un modulo predefinito in cui puoi aggiungere o rimuovere campi, ordinarli e personalizzare i testi. Puoi anche abilitare l'opzione per il completamento automatico, per la compilazione automatica tramite i dati salvati se l'utente è loggato, e per il reCaptcha. Ma la cosa più interessante è che l'informazione aggiunta dall'utente verrà collegata automaticamente ai campi WooCommerce e incorporata nel preventivo e relativo ordine. "
-
-#: templates/admin/premium.php:377
-msgid "Use and customize the built-in form"
-msgstr "Usa e personalizza il modulo incluso"
-
-#: templates/admin/premium.php:362
-msgid "Set up the layout for your quote request page (show the form on the right or the bottom) and choose which details to show in the list of products. Use the shortcode on a page that you can customize as you wish, for example, with a custom image in the header or with some additional text content."
-msgstr "Imposta il layout per la pagina di richiesta del preventivo (mostra il modulo sulla destra o in basso) e scegli i dettagli da mostrare nella lista dei prodotti. Usa lo shortcode su una pagina che puoi personalizzare come vuoi, ad esempio con un'immagine nell'header o con del testo aggiuntivo."
-
-#: templates/admin/premium.php:359
-msgid "Customize the quote request page"
-msgstr "Personalizza la pagina di richiesta del preventivo"
-
-#: templates/admin/premium.php:350
-msgid "Use the widget in the header or sidebar so your users can always keep an eye on them and quickly access their list of products."
-msgstr "Usa il widget nell'header o nella barra laterale in modo che gli utenti possano sempre avere sott'occhio le richieste e accedere velocemente alla loro lista di prodotti."
-
-#: templates/admin/premium.php:347
-msgid "Let users monitor their list of products through the built-in widgets"
-msgstr "Permetti agli utenti di monitorare la loro lista prodotti tramite i widget disponibili"
-
-#: templates/admin/premium.php:332
-msgid "Hide the price from all your products together with the Cart button if you want to enable the quote request option on the entire shop and make sure your users contact you to know about the product price. Just two clicks to transform your e-commerce store into a product catalog!"
-msgstr "Nascondi il prezzo e il pulsante Aggiungi al carrello su tutti i prodotti se vuoi abilitare l'opzione di richiesta del preventivo su tutto il negozio ed essere sicuro che gli utenti ti contattino per chiedere il prezzo dei prodotti. In soli due clic potrai trasformare il tuo negozio e-commerce in un catalogo prodotti!"
-
-#: templates/admin/premium.php:329
-msgid "Hide the product price and the “Add to cart” buttons"
-msgstr "Nascondi il prezzo dei prodotti e i pulsanti \"Aggiungi al carrello\""
-
-#: templates/admin/premium.php:320
-msgid "Choose whether to show a text link or a proper button and set up every detail related to the style, like the text, the position, or the colors, to make sure it totally suits your shop layout."
-msgstr "Decidi se mostrare un link testuale o un pulsante ed imposta ogni dettaglio relativo allo stile, come il testo, la posizione o i colori, per assicurarti che si adatti completamente al layout del tuo negozio."
-
-#: templates/admin/premium.php:311
-msgid ""
-"\n"
-"Customize the button colors and texts"
-msgstr ""
-"\n"
-"Personalizza i colori e i testi del pulsante"
-
-#: templates/admin/premium.php:294
-msgid "Choose whether to show the “Add to quote” button to all your users or hide it to guest users (those who haven’t registered yet or who haven’t logged in). You can also enable the quote request option only for certain user roles of your choice."
-msgstr "Decidi se mostrare il pulsante \"Aggiungi al preventivo\" a tutti gli utenti o nasconderlo agli utenti ospite (quelli non ancora registrati o non loggati). Puoi anche abilitare l'opzione di richiesta del preventivo solo per determinati ruoli utente a tua scelta."
-
-#: templates/admin/premium.php:291
-msgid "Choose WHO will see the “Add to quote” button"
-msgstr "Decidi CHI può vedere il pulsante \"Aggiungi al preventivo\""
-
-#: templates/admin/premium.php:281
-msgid "You can choose to activate the “Add to quote button” on all your product pages or on specific products, categories or tags only. You can use the built-in exclusion list to set where to show or, the other way round, where to hide the quote button and show it only on product pages or also in the WooCommerce shortcodes (like the Shop page etc.). If you want to, you can activate (or deactivate) the quote option only on out-of-stock products: the plugin is so versatile and it offers almost unlimited configuration options."
-msgstr "Puoi decidere di attivare il pulsante \"Aggiungi al preventivo\" su tutte le pagine prodotto o solo su prodotti specifici, categorie o tag. Puoi usare la lista di esclusione disponibile per impostare dove mostrare o, al contrario, dove nascondere il pulsante e mostrarlo solo sulle pagine prodotto o negli shortcode di WooCommerce (come la pagina Negozio, ecc.). Se vuoi, puoi attivare (o disattivare) l'opzione preventivo solo sui prodotti non disponibili: il plugin è talmente versatile che può offrirti opzioni di configurazione illimitate."
-
-#: templates/admin/premium.php:278
-msgid "Choose WHERE to show the “Add to quote” button"
-msgstr "Scegli DOVE mostrare il pulsante \"Aggiungi al preventivo\""
 
 #: plugin-fw/templates/fields/date-format.php:70
 msgid "Preview:"
@@ -1171,7 +1091,7 @@ msgstr "Rimuovi colore"
 msgid "Clear"
 msgstr "Rimuovi"
 
-#: plugin-options/request-options.php:57
+#: plugin-options/request-options.php:53
 msgid "Page Layout"
 msgstr "Layout della pagina"
 
@@ -1423,8 +1343,8 @@ msgid "Support"
 msgstr "Assistenza"
 
 #. Description of the plugin
-msgid "The <code><strong>YITH Request a Quote for WooCommerce</strong></code> plugin lets your customers ask for an estimate of a list of products they are interested into. It allows hiding add to cart button so that your customers can request a quote on every product page. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
-msgstr "Il plugin <code><strong>YITH Request a Quote for WooCommerce</strong></code> permette ai tuoi clienti di chiedere un preventivo per una lista di prodotti a cui sono interessati. Permette di nascondere il pulsante Aggiungi al carrello in modo che i tuoi clienti possono richiedere un preventivo da ogni pagina prodotto. <a href=\"https://yithemes.com/\" target=\"_blank\">Scopri altri plugin per il tuo e-commerce su <strong>YITH</strong></a>."
+msgid "<code><strong>YITH Request a Quote for WooCommerce</strong></code> lets your customers ask for an estimate of a list of products they are interested in. It allows hiding prices and/or the \"Add to cart\" button so that your customers can request a quote on every product page. <a href=\"https://yithemes.com/\" target=\"_blank\">Get more plugins for your e-commerce shop on <strong>YITH</strong></a>."
+msgstr "<code><strong>YITH Request a Quote for WooCommerce</strong></code> permette ai tuoi client di richiedere un preventivo per i prodotti a cui sono interessati. Puoi nascondere prezzi e/o pulsante \"Aggiungi al carrello\" in modo che possano richiedere il preventivo da ogni pagina prodotto. <a href=\"https://yithemes.com/\" target=\"_blank\">Scopri altri plugin per il tuo e-commerce su <strong>YITH</strong></a>."
 
 #. Plugin URI of the plugin
 msgid "https://yithemes.com/themes/plugins/yith-woocommerce-request-a-quote"
@@ -1440,11 +1360,11 @@ msgctxt "Plugin Row Meta"
 msgid "Live Demo"
 msgstr "Live Demo"
 
-#: includes/class.yith-request-quote-admin.php:250 plugin-fw/yit-plugin.php:242
+#: plugin-fw/yit-plugin.php:242
 msgid "License"
 msgstr "Chiave di licenza"
 
-#: includes/class.yith-request-quote-admin.php:247 plugin-fw/yit-plugin.php:238
+#: plugin-fw/yit-plugin.php:238
 msgctxt "Action links"
 msgid "Settings"
 msgstr "Impostazioni"
@@ -1479,27 +1399,28 @@ msgctxt "Privacy Policy Guide Title"
 msgid "YITH Plugins"
 msgstr "YITH Plugins"
 
-#: plugin-options/request-options.php:115
+#: plugin-options/request-options.php:128
 msgid "Your personal data will be used to process your request, support your experience throughout this website, and for other purposes described in our  [privacy_policy]."
 msgstr "I tuoi dati personali verranno utilizzati durante l'elaborazione della richiesta, della tua esperienza all'interno di questo sito web e per altri scopi descritti nella nostra [privacy_policy]."
 
-#: plugin-options/request-options.php:110
+#: plugin-options/request-options.php:123
 msgid "Request a quote Privacy Policy"
 msgstr "Privacy policy di Request a Quote"
 
-#: plugin-options/request-options.php:102
+#: plugin-options/request-options.php:116
 msgid "I have read and agree to the website terms and conditions."
 msgstr "Ho letto e accetto i termini e condizioni del sito."
 
-#: plugin-options/request-options.php:98 plugin-options/request-options.php:111
+#: plugin-options/request-options.php:112
+#: plugin-options/request-options.php:124
 msgid "You can use the shortcode [terms] and [privacy_policy] (from WooCommerce 3.4.0)"
 msgstr "Puoi utilizzare gli shortcode [terms] e [privacy_policy] (a partire da WooCommerce 3.4.0)"
 
-#: plugin-options/request-options.php:97
+#: plugin-options/request-options.php:111
 msgid "Request a quote Privacy Policy Label"
 msgstr "Etichetta Informativa sulla privacy di Request a Quote"
 
-#: plugin-options/request-options.php:89
+#: plugin-options/request-options.php:103
 msgid "Add Privacy Policy"
 msgstr "Aggiungi informativa sulla privacy "
 
@@ -1511,23 +1432,23 @@ msgstr "Ripristina impostazioni iniziali"
 msgid " SKU:"
 msgstr " SKU:"
 
-#: includes/functions.yith-request-quote.php:475
+#: includes/functions.yith-request-quote.php:468
 msgid "Product added to the list!"
 msgstr "Prodotto aggiunto alla lista!"
 
-#: includes/class.yith-request-quote.php:701
+#: includes/class.yith-request-quote.php:696
 msgid "Please choose product options&hellip;"
 msgstr "Scegli il prodotto options&hellip;"
 
 #. translators: placeholder of missing attributes.
-#: includes/class.yith-request-quote.php:697
+#: includes/class.yith-request-quote.php:692
 msgid "%s is a required field"
 msgid_plural "%s are required fields"
 msgstr[0] "%s è un campo richiesto "
 msgstr[1] "%s sono campi richiesti "
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:544
-#: plugin-fw/includes/class-yit-plugin-panel.php:547
+#: plugin-fw/includes/class-yit-plugin-panel.php:559
+#: plugin-fw/includes/class-yit-plugin-panel.php:562
 msgid "How to install premium version"
 msgstr "Come installare la versione premium"
 
@@ -1543,7 +1464,7 @@ msgstr "Attiva/Disattiva"
 msgid "https://yithemes.com/"
 msgstr "https://yithemes.com/"
 
-#: plugin-options/request-options.php:86 templates/request-quote-view.php:171
+#: plugin-options/request-options.php:91 templates/request-quote-view.php:167
 msgid "Update List"
 msgstr "Aggiorna lista"
 
@@ -1593,22 +1514,22 @@ msgid "You received a quote request from %s. The request is the following:"
 msgstr "Hai ricevuto una richiesta di preventivo da %s. La richiesta è la seguente:"
 
 #: templates/emails/plain/request-quote.php:60
-#: templates/emails/request-quote.php:76
+#: templates/emails/request-quote.php:78
 msgid "Email:"
 msgstr "Email:"
 
 #: templates/emails/plain/request-quote.php:58
-#: templates/emails/request-quote.php:75
+#: templates/emails/request-quote.php:77
 msgid "Name:"
 msgstr "Nome:"
 
 #: templates/emails/plain/request-quote.php:56
-#: templates/emails/request-quote.php:73
+#: templates/emails/request-quote.php:75
 msgid "Customer details"
 msgstr "Dettagli cliente"
 
 #: templates/emails/plain/request-quote.php:51
-#: templates/emails/request-quote.php:70
+#: templates/emails/request-quote.php:72
 msgid "Customer message"
 msgstr "Messaggio del cliente"
 
@@ -1617,30 +1538,25 @@ msgstr "Messaggio del cliente"
 msgid "You have received a quote request from %s. The request is the following:"
 msgstr "Hai ricevuto una richiesta di preventivo da %s. La richiesta è la seguente:"
 
-#: templates/admin/premium.php:271
-msgid "Premium Features"
-msgstr "Funzionalità premium"
-
-#: templates/admin/premium.php:265 templates/admin/premium.php:670
-msgid "UPGRADE"
-msgstr "AGGIORNA"
-
-#: plugin-options/general/button-label-options.php:124
+#: plugin-options/customization-options.php:125
+#: plugin-options/general/button-label-options.php:115
 msgid "This product is already in your quote request list."
 msgstr "Questo prodotto è già stato inserito nella tua richiesta di preventivo."
 
 #: includes/class.yith-ywraq-shortcodes.php:46
-#: plugin-options/general/button-label-options.php:106
+#: plugin-options/customization-options.php:109
+#: plugin-options/general/button-label-options.php:99
 msgid "Add to quote"
 msgstr "Aggiungi al preventivo"
 
-#: plugin-options/general/button-label-options.php:58
+#: plugin-options/customization-options.php:56
+#: plugin-options/general/button-label-options.php:55
 msgid "Button"
 msgstr "Pulsante"
 
-#: includes/class.yith-request-quote-admin.php:148
-msgid "Request Quote Page"
-msgstr "Pagina Richiesta preventivo"
+#: includes/class.yith-request-quote-admin.php:144
+msgid "\"Request Quote\" Page"
+msgstr "Pagina \"Richiedi un preventivo\""
 
 #: plugin-fw/templates/panel/v2/panel-content-page.php:58
 #: plugin-fw/templates/panel/v2/woocommerce/woocommerce-form.php:70
@@ -1751,43 +1667,43 @@ msgstr "Plugin aggiornati"
 msgid "Plugins Activated"
 msgstr "Plugin attivati"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1551
+#: plugin-fw/includes/class-yit-plugin-panel.php:1566
 msgid "Sorting successful."
 msgstr "Ordinamento effettuato con successo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1550
+#: plugin-fw/includes/class-yit-plugin-panel.php:1565
 msgid "Sorry, import is disabled."
 msgstr "Ci dispiace, l'importazione è disabilitata."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1549
+#: plugin-fw/includes/class-yit-plugin-panel.php:1564
 msgid "The added file is not valid."
 msgstr "Il file aggiunto non è valido."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1548
+#: plugin-fw/includes/class-yit-plugin-panel.php:1563
 msgid "An error has occurred during import. Please try again."
 msgstr "Si è verificato un errore durante l'importazione. Prova di nuovo."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1547
+#: plugin-fw/includes/class-yit-plugin-panel.php:1562
 msgid "Database imported correctly."
 msgstr "Database importato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1545
+#: plugin-fw/includes/class-yit-plugin-panel.php:1560
 msgid "Element updated correctly."
 msgstr "Elemento aggiornato correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1544
+#: plugin-fw/includes/class-yit-plugin-panel.php:1559
 msgid "Element deleted correctly."
 msgstr "Elemento rimosso correttamente."
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1543
+#: plugin-fw/includes/class-yit-plugin-panel.php:1558
 msgid "Settings reset"
 msgstr "Impostazioni azzerate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1542
+#: plugin-fw/includes/class-yit-plugin-panel.php:1557
 msgid "Settings saved"
 msgstr "Impostazioni salvate"
 
-#: plugin-fw/includes/class-yit-plugin-panel.php:1541
+#: plugin-fw/includes/class-yit-plugin-panel.php:1556
 msgid "The element you have entered already exists. Please, enter another name."
 msgstr "L'elemento inserito esiste già. Per favore, inserisci un altro nome."
 
@@ -1821,7 +1737,7 @@ msgstr "Plugin YITH"
 msgid "Plugin Settings"
 msgstr "Impostazioni plugin"
 
-#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:605
+#: plugin-fw/includes/class-yit-plugin-panel-woocommerce.php:606
 msgid "The changes you have made will be lost if you leave this page."
 msgstr "Perderai tutti i cambiamenti effettuati se lasci questa pagina."
 
@@ -1910,48 +1826,41 @@ msgstr "Questa email è inviata dopo che un utente fa clic sul pulsante \"Richie
 msgid "Email to request a quote"
 msgstr "Email per richiedere un preventivo"
 
-#: includes/class.yith-request-quote.php:566
+#: includes/class.yith-request-quote.php:562
 msgid "Your list is empty, add products to the list to send a request"
 msgstr "La tua lista è vuota, aggiungi dei prodotti per inviare la tua richiesta"
 
-#: includes/class.yith-request-quote.php:562
+#: includes/class.yith-request-quote.php:558
 msgid "Please enter a valid email"
 msgstr "Inserisci un indirizzo email valido"
 
-#: includes/class.yith-request-quote.php:557
+#: includes/class.yith-request-quote.php:553
 msgid "Please enter a name"
 msgstr "Inserisci un nome"
 
-#: includes/class.yith-request-quote.php:455
+#: includes/class.yith-request-quote.php:451
 msgid "Error occurred while adding product to Request a Quote list."
 msgstr "Si è verificato un errore durante l'aggiunta del prodotto alla lista preventivo."
 
 #: includes/class.yith-request-quote.php:295
-#: includes/functions.yith-request-quote.php:484
+#: includes/functions.yith-request-quote.php:477
 msgid "Product already in the list."
 msgstr "Il prodotto è già nella lista."
 
-#: includes/functions.yith-request-quote.php:478
-#: plugin-options/general/button-label-options.php:134
+#: includes/functions.yith-request-quote.php:471
+#: plugin-options/customization-options.php:133
+#: plugin-options/general/button-label-options.php:124
 msgid "Browse the list"
 msgstr "Vai alla lista"
 
-#: includes/class.yith-request-quote-frontend.php:145
+#: includes/class.yith-request-quote-frontend.php:143
 msgid "Your list is empty"
 msgstr "Il tuo elenco è vuoto"
 
-#: includes/class.yith-request-quote-admin.php:208
+#: includes/class.yith-request-quote-admin.php:238
 msgctxt "page_slug"
 msgid "request-quote"
 msgstr "richiedi-preventivo"
-
-#: includes/class.yith-request-quote-admin.php:209
-msgid "Request a Quote"
-msgstr "Richiedi un Preventivo"
-
-#: includes/class.yith-request-quote-admin.php:149
-msgid "Premium Version"
-msgstr "Versione premium"
 
 #: plugin-fw/includes/class-yit-plugin-panel.php:90
 msgid "Settings"

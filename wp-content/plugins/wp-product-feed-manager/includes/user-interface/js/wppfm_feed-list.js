@@ -5,13 +5,12 @@ function wppfm_fillFeedList() {
 
 	wppfm_getFeedList(
 		function( result ) {
-			var feedList                = JSON.parse( result );
-			var list                    = feedList[ 'list' ];
-			var specialFeedAddOnsActive = feedList[ 'special_feed_add_ons_active' ];
+			var feedList = JSON.parse( result );
+			var list     = feedList[ 'list' ];
 
 			if ( '0' !== list ) {
 				// convert the data to html code
-				listHtml = wppfm_feedListTable( list, specialFeedAddOnsActive );
+				listHtml = wppfm_feedListTable( list );
 			} else {
 				listHtml = wppfm_emptyListTable();
 			}
@@ -64,7 +63,7 @@ function wppfm_resetFeedStatus( feedData ) {
 	);
 }
 
-function wppfm_feedListTable( list, specialFeedAddOnsActive ) {
+function wppfm_feedListTable( list ) {
 	var htmlCode = '';
 
 	if ( ! list ) {
@@ -98,16 +97,16 @@ function wppfm_feedListTable( list, specialFeedAddOnsActive ) {
 		htmlCode += '<td id="url">' + feedUrl + '</td>';
 		htmlCode += '<td id="updated-' + feedId + '">' + list [ i ] [ 'updated' ] + '</td>';
 		htmlCode += '<td id="products-' + feedId + '">' + nrProducts + '</td>';
-		htmlCode += specialFeedAddOnsActive ? '<td id="type-' + feedId + '">' + list [ i ] [ 'feed_type_name' ] + '</td>' : '';
+		htmlCode += '<td id="type-' + feedId + '">' + list [ i ] [ 'feed_type_name' ] + '</td>';
 		htmlCode += '<td id="feed-status-' + feedId + '" value="' + status + '" style="color: ' + list [ i ] [ 'color' ] + '"><strong>';
 		htmlCode += statusString;
 		htmlCode += '</strong></td>';
 		htmlCode += '<td id="actions-' + feedId + '">';
 
 		if ( feedReady ) {
-			htmlCode += feedReadyActions( feedId, feedUrl, status, list [ i ] [ 'title' ], list [ i ] [ 'feed_type_name' ] );
+			htmlCode += feedReadyActions( feedId, feedUrl, status, list [ i ] [ 'title' ], list [ i ] [ 'feed_type_name' ], list [ i ] [ 'feed_type' ] );
 		} else {
-			htmlCode += feedNotReadyActions( feedId, feedUrl, list [ i ] [ 'title' ], list [ i ] [ 'feed_type_name' ] );
+			htmlCode += feedNotReadyActions( feedId, feedUrl, list [ i ] [ 'title' ], list [ i ] [ 'feed_type' ] );
 		}
 
 		htmlCode += '</td>';
@@ -117,18 +116,18 @@ function wppfm_feedListTable( list, specialFeedAddOnsActive ) {
 	return htmlCode;
 }
 
-function feedReadyActions( feedId, feedUrl, status, title, feedType ) {
+function feedReadyActions( feedId, feedUrl, status, title, feedTypeName, feedType ) {
 	var fileExists   = 'No feed generated' !== feedUrl;
 	var fileName     = feedUrl.lastIndexOf( '/' ) > 0 ? feedUrl.slice( feedUrl.lastIndexOf( '/' ) - feedUrl.length + 1 ) : title;
 	var tabTitle     = feedType.replace( / /g, '-' ).toLowerCase();
 	var actionId     = title.replace( / /g, '-' ).toLowerCase();
 	var changeStatus = 'ok' === status ? wppfm_feed_list_form_vars.list_deactivate : wppfm_feed_list_form_vars.list_activate;
 
-	var htmlCode = '<strong><a href="javascript:void(0);" id="wppfm-edit-' + actionId + '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' + tabTitle + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + ' </a>';
+	var htmlCode = '<strong><a href="javascript:void(0);" id="wppfm-edit-' + actionId + '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&feed-type=' + tabTitle + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + ' </a>';
 	htmlCode    += fileExists ? ' | <a href="javascript:void(0);" id="wppfm-view-' + actionId + '-action" onclick="wppfm_viewFeed(\'' + feedUrl + '\')">' + wppfm_feed_list_form_vars.list_view + '</a>' : '';
 	htmlCode    += ' | <a href="javascript:void(0);" id="wppfm-delete-' + actionId + '-action" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')">' + wppfm_feed_list_form_vars.list_delete + '</a>';
 	htmlCode    += fileExists ? '<a href="javascript:void(0);" id="wppfm-deactivate-' + actionId + '-action" onclick="wppfm_deactivateFeed(' + feedId + ')" id="feed-status-switch-' + feedId + '"> | ' + changeStatus + '</a>' : '';
-	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedType, title );
+	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedTypeName, title, feedType );
 	return htmlCode;
 }
 
@@ -138,14 +137,14 @@ function feedNotReadyActions( feedId, feedUrl, title, feedType ) {
 	var actionId     = title.replace( / /g, '-' ).toLowerCase();
 
 	var htmlCode = '<strong>';
-	htmlCode    += '<a href="javascript:void(0);" id="wppfm-edit-' + actionId + '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=' + tabTitle + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + '</a>';
+	htmlCode    += '<a href="javascript:void(0);" id="wppfm-edit-' + actionId + '-action" onclick="parent.location=\'admin.php?page=wp-product-feed-manager&tab=product-feed&feed-type=' + feedType + '&id=' + feedId + '\'">' + wppfm_feed_list_form_vars.list_edit + '</a>';
 	htmlCode    += ' | <a href="javascript:void(0);" id="wppfm-delete-' + actionId + '-action" onclick="wppfm_deleteSpecificFeed(' + feedId + ', \'' + fileName + '\')"> ' + wppfm_feed_list_form_vars.list_delete + '</a>';
 	htmlCode    += wppfmEndOfActionsCode( feedId, actionId, feedType, title );
 	htmlCode    += wppfm_addFeedStatusChecker( feedId );
 	return htmlCode;
 }
 
-function wppfmEndOfActionsCode( feedId, actionId, feedType, title ) {
+function wppfmEndOfActionsCode( feedId, actionId, feedTypeName, title, feedType ) {
 	var htmlCode = ' | <a href="javascript:void(0);" id="wppfm-duplicate-' + actionId + '-action" onclick="wppfm_duplicateFeed(' + feedId + ', \'' + title + '\')">' + wppfm_feed_list_form_vars.list_duplicate + '</a>';
 	htmlCode += 'Product Feed' === feedType ? ' | <a href="javascript:void(0);" id="wppfm-regenerate-' + actionId + '-action" onclick="wppfm_regenerateFeed(' + feedId + ')">' + wppfm_feed_list_form_vars.list_regenerate + '</a>' : '';
 	htmlCode += '</strong>';
@@ -170,7 +169,7 @@ function wppfm_updateFeedRowData( rowData ) {
 
 		jQuery( '#updated-' + feedId ).html( rowData[ 'updated' ] );
 		jQuery( '#products-' + feedId ).html( rowData[ 'products' ] );
-		jQuery( '#actions-' + feedId ).html( feedReadyActions( feedId, rowData[ 'url' ], status, rowData[ 'title' ], rowData[ 'feed_type_name' ] ) );
+		jQuery( '#actions-' + feedId ).html( feedReadyActions( feedId, rowData[ 'url' ], status, rowData[ 'title' ], rowData[ 'feed_type_name' ], rowData[ 'feed_type' ] ) );
 	}
 }
 

@@ -233,6 +233,40 @@ function wppfm_disableViewFeedButtons() {
 	jQuery( '[name=view-bottom]' ).prop( 'disabled', true );
 }
 
+/**
+ * Converts a date time input value in the DD-MM-YYYY hh:mm format to an ISO date time string
+ *
+ * @since 2.40.0
+ * @param dtInputValue
+ * @returns string
+ */
+function wppfm_convertDtInputDateTimeToIsoDateTime( dtInputValue ) {
+	const dateParts = dtInputValue.split(" "); // splits the date and time
+	const dateElements = dateParts[0].split("-"); // splits date into day, month and year
+	const timeElements = dateParts[1].split(":"); // splits time into hours, minutes and seconds
+
+	return new Date( dateElements[2], dateElements[1], dateElements[0], timeElements[0], timeElements[1] ).toISOString();
+}
+
+/**
+ * Converts an ISO date time string to a date time input value in the DD-MM-YYYY hh:mm format
+ *
+ * @since 2.40.0
+ * @param isoDateTime
+ * @returns string
+ */
+function wppfm_convertIsoDateTimeToDtInputDateTime( isoDateTime ) {
+	const date = new Date( isoDateTime );
+
+	const day = date.getDate();
+	const month = date.getMonth();
+	const year = date.getFullYear();
+	const hours = (date.getHours() < 10 ? '0' : '') + date.getHours();
+	const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+
+	return `${day}-${month}-${year} ${hours}:${minutes}`;
+}
+
 function wppfm_show_error_message( message ) {
 	var errorMessageSelector = jQuery( '#error-message' );
 	errorMessageSelector.empty();

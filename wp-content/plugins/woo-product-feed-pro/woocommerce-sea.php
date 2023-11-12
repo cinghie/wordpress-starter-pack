@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Product Feed PRO for WooCommerce
- * Version:     12.8.2
+ * Version:     13.0.8
  * Plugin URI:  https://www.adtribes.io/support/?utm_source=wpadmin&utm_medium=plugin&utm_campaign=woosea_product_feed_pro
  * Description: Configure and maintain your WooCommerce product feeds for Google Shopping, Catalog managers, Remarketing, Bing, Skroutz, Yandex, Comparison shopping websites and over a 100 channels more.
  * Author:      AdTribes.io
@@ -17,7 +17,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 4.4
- * WC tested up to: 8.0
+ * WC tested up to: 8.2
  *
  * Product Feed PRO for WooCommerce is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
  * Plugin versionnumber, please do not override.
  * Define some constants
  */
-define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '12.8.2' );
+define( 'WOOCOMMERCESEA_PLUGIN_VERSION', '13.0.8' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME', 'woocommerce-product-feed-pro' );
 define( 'WOOCOMMERCESEA_PLUGIN_NAME_SHORT', 'woo-product-feed-pro' );
 
@@ -182,7 +182,9 @@ function woosea_plugin_action_links($links, $file) {
 
         	// add the links to the list of links already there
 		foreach($plugin_links as $link) {
-			array_unshift($links, $link);
+			if(is_array($links)){
+				array_unshift($links, $link);
+			}	
 		}
     	}
     	return $links;
@@ -633,6 +635,7 @@ function woosea_add_remarketing_tags( $product = null ){
 
 	if($add_remarketing == "yes"){	
         	$adwords_conversion_id = get_option("woosea_adwords_conversion_id");
+
 		// Add vulnerability check, unset when no proper comversion ID was inserted
 		if(!is_numeric($adwords_conversion_id)){
 			unset($adwords_conversion_id);
@@ -996,7 +999,7 @@ function woosea_recursive_sanitize_text_field($array) {
  * Save Google Dynamic Remarketing Conversion Tracking ID
  */
 function woosea_save_adwords_conversion_id() {
-	check_ajax_referer('woosea_ajax_nonce', 'security2');
+	check_ajax_referer('woosea_ajax_nonce', 'security');
 
 	$user = wp_get_current_user();
 	$allowed_roles = array( 'administrator' );
@@ -1960,8 +1963,7 @@ function woosea_check_processing(){
 
         	foreach ( $feed_config as $key => $val ) {
 			if(array_key_exists('running', $val)){
-
-				if(($val['running'] == "true") OR ($val['running'] == "stopped")){
+				if( in_array($val['running'], array( "true", "processing", "stopped", "not run yet" ) ) ){
 					$processing = "true";
 				}
 			}
@@ -2275,7 +2277,7 @@ function woosea_project_refresh(){
                 	if (isset($val['project_hash']) AND ($val['project_hash'] == $project_hash)){
         			$batch_project = "batch_project_".$project_hash;
 				if (!get_option( $batch_project )){
-        				update_option( $batch_project, $val);
+					update_option( $batch_project, $val, 'no');
         				$final_creation = woosea_continue_batch($project_hash);
 				} else {
         				$final_creation = woosea_continue_batch($project_hash);
@@ -4515,7 +4517,7 @@ function woosea_generate_pages(){
         	
 		if (!get_option( $batch_project )) {
 			// Batch project hook expects a multidimentional array
-        		update_option( $batch_project, $project_data);
+			update_option( $batch_project, $project_data, 'no');
         		$final_creation = woosea_continue_batch($project_data['project_hash']);
 		} else {
         		$final_creation = woosea_continue_batch($project_data['project_hash']);
@@ -4661,11 +4663,10 @@ function woosea_create_all_feeds(){
 
 			// Only process projects that are active
 			if(($val['active'] == "true") AND (!empty($val)) AND($update_this_feed == "yes") AND (isset($val['cron']))){		
-			
 				if (($val['cron'] == "daily") AND ($hour == 07)){
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){
-                                		update_option( $batch_project, $val);
+                                		update_option( $batch_project, $val, 'no');
 						$start_project = woosea_continue_batch($val['project_hash']);
 					} else {
 						$start_project = woosea_continue_batch($val['project_hash']);
@@ -4674,7 +4675,7 @@ function woosea_create_all_feeds(){
 				} elseif (($val['cron'] == "twicedaily") AND ($hour == 19 || $hour == 07)){
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){
-                                		update_option( $batch_project, $val);
+                                		update_option( $batch_project, $val, 'no');
 						$start_project = woosea_continue_batch($val['project_hash']);
 					} else {
 						$start_project = woosea_continue_batch($val['project_hash']);
@@ -4684,7 +4685,7 @@ function woosea_create_all_feeds(){
 					// Re-start daily and twicedaily projects that are hanging
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){
-                                		update_option( $batch_project, $val);
+                                		update_option( $batch_project, $val, 'no');
 						$start_project = woosea_continue_batch($val['project_hash']);
 					} else {
 						$start_project = woosea_continue_batch($val['project_hash']);
@@ -4695,7 +4696,7 @@ function woosea_create_all_feeds(){
 				} elseif ($val['cron'] == "hourly") {
 					$batch_project = "batch_project_".$val['project_hash'];
                         		if (!get_option( $batch_project )){
-                                		update_option( $batch_project, $val);
+                                		update_option( $batch_project, $val, 'no');
 						$start_project = woosea_continue_batch($val['project_hash']);
 					} else {
 						$start_project = woosea_continue_batch($val['project_hash']);

@@ -17,6 +17,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	 * Action
 	 *
 	 * (default value: 'background_process')
+	 * (default value: 'background_process')
 	 *
 	 * @var string
 	 */
@@ -68,6 +69,13 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	protected $products_handled_in_batch;
 
 	/**
+	 * The processing class.
+	 *
+	 * @var mixed
+	 */
+	protected $processing_class;
+
+	/**
 	 * Initiate new background process
 	 */
 	public function __construct() {
@@ -75,7 +83,8 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 		$this->cron_hook_identifier     = $this->identifier . '_cron';
 		$this->cron_interval_identifier = $this->identifier . '_cron_interval';
-		$this->processed_products       = get_option( 'wppfm_processed_products' ) ? explode( ',', get_option( 'wppfm_processed_products' ) ) : array();
+		$processed_products_option      = get_option( 'wppfm_processed_products' );
+		$this->processed_products       = $processed_products_option ? explode( ',', $processed_products_option ) : array();
 
 		add_action( $this->cron_hook_identifier, array( $this, 'handle_cron_health_check' ) );
 		add_filter( 'cron_schedules', array( $this, 'schedule_cron_health_check' ) ); // phpcs:disable WordPress.WP.CronInterval.ChangeDetected
@@ -154,7 +163,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 	/**
 	 * Set the language of the feed
 	 *
-	 * @param array $feed_data  The feed data.
+	 * @param object $feed_data  The feed data.
 	 *
 	 * @return $this
 	 */
@@ -447,7 +456,7 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 
 			if ( ! $batch ) { // @since 2.10.0
 				$message = 'Could not get the next batch data!';
-				do_action( 'wppfm_feed_generation_message', '0', $message, 'ERROR' );
+				do_action( 'wppfm_feed_generation_message', 'async-request', $message, 'ERROR' );
 				$this->end_batch( 'unknown', 'failed' );
 				return false;
 			}
@@ -457,14 +466,22 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			// @since 2.10.0
 			if ( ! $properties_key ) {
 				$message = 'Tried to get the next batch but the wppfm_background_process_key is empty.';
-				do_action( 'wppfm_feed_generation_message', '0', $message, 'ERROR' );
+				do_action( 'wppfm_feed_generation_message', 'async-request', $message, 'ERROR' );
 				$this->end_batch( 'unknown', 'failed' );
 				return false;
+			} else {
+				$feed_data = get_site_option( 'feed_data_' . $properties_key );
+				// phpcs:ignore
+				do_action( 'wppfm_feed_generation_message', $feed_data->feedId, 'Feed handle has been started. Async request has been passed through.' ); // @since 2.40.0
 			}
 
-			$feed_data = get_site_option( 'feed_data_' . $properties_key );
-			// phpcs:ignore
-			do_action( 'wppfm_feed_generation_message', $feed_data->feedId, 'Feed handle has been started. Async request has been passed through.' ); // @since 2.40.0
+			// If it's a Merchant Promotions Feed, refill the batch data with a dummy product id.
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			if ( '3' === $feed_data->feedTypeId ) {
+				$batch->data = array(
+					'product_id' => '0',
+				);
+			}
 
 			$feed_file_path  = get_site_option( 'file_path_' . $properties_key );
 			$pre_data        = get_site_option( 'pre_data_' . $properties_key );
@@ -532,12 +549,13 @@ abstract class WPPFM_Background_Process extends WPPFM_Async_Request {
 			// Update or delete current batch.
 			if ( ! empty( $batch->data ) ) {
 				$message = sprintf( 'Updated the batch data in the site options store for the next batch. Using key %s', $batch->key );
-				do_action('wppfm_feed_generation_message', $feed_id, $message ); // @since 2.35.0
+				do_action( 'wppfm_feed_generation_message', $feed_id, $message ); // @since 2.35.0
 				$this->update( $batch->key, $batch->data );
 			} else {
 				$message = sprintf( 'No more products in the batch, so we can clear the batch data from the site options. Used key = %s', $batch->key );
-				do_action('wppfm_feed_generation_message', $feed_id, $message ); // @since 2.35.0
+				do_action( 'wppfm_feed_generation_message', $feed_id, $message ); // @since 2.35.0
 				$this->delete( $batch->key );
+				WPPFM_Feed_Controller::remove_id_from_feed_queue( $feed_id );
 			}
 		} while ( ! $this->time_exceeded( $feed_id ) && ! $this->memory_exceeded( $feed_id ) && ! $this->is_queue_empty() );
 

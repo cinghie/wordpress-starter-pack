@@ -328,6 +328,33 @@ function seedprod_lite_admin_enqueue_scripts( $hook_suffix ) {
 	wp_enqueue_script( 'seedprod-tsparticles-js' );
 
 	wp_register_script(
+		'seedprod-masonry-js',
+		SEEDPROD_PLUGIN_URL . 'public/js/masonry.pkgd.js',
+		array( 'jquery' ),
+		SEEDPROD_VERSION,
+		false
+	);
+	wp_enqueue_script( 'seedprod-masonry-js' );
+
+	wp_register_script(
+		'seedprod-imagesloaded-js',
+		SEEDPROD_PLUGIN_URL . 'public/js/imagesloaded.pkgd.min.js',
+		array( 'jquery' ),
+		SEEDPROD_VERSION,
+		false
+	);
+	wp_enqueue_script( 'seedprod-imagesloaded-js' );
+
+	wp_register_script(
+		'seedprod-isotope-js',
+		SEEDPROD_PLUGIN_URL . 'public/js/isotope.pkgd.js',
+		array( 'jquery' ),
+		SEEDPROD_VERSION,
+		false
+	);
+	wp_enqueue_script( 'seedprod-isotope-js' );
+
+	wp_register_script(
 		'seedprod-xd-localstorage',
 		SEEDPROD_PLUGIN_URL . 'public/js/xdLocalStorage.js',
 		array(),

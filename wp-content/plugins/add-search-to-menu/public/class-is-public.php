@@ -1058,9 +1058,9 @@ class IS_Public
             
             if ( empty($wpdb->use_mysqli) ) {
                 //deprecated in php 7.0
-                $vesion_details = mysql_get_server_info();
+                $vesion_details = mysqli_get_client_info();
             } else {
-                $vesion_details = mysqli_get_server_info( $wpdb->dbh );
+                $vesion_details = mysqli_get_client_info( $wpdb->dbh );
             }
             
             //mariadb

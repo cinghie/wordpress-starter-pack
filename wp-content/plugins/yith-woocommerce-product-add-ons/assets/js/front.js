@@ -254,9 +254,10 @@ jQuery( document ).ready(
 						}
 					//Disable days before current day.
 					} else if ( 'before' === selectableDaysOpt ) {
-						let currentDate = date.getTime()
+						let currentDate = date.getTime();
 						let todayDate   = new Date();
-						todayDate       = todayDate.getTime()
+						todayDate.setHours( 0, 0, 0, 0 ); // Set date to midnight
+						todayDate       = todayDate.getTime();
 						if ( currentDate < todayDate ){
 							returnValue = false;
 							return false;
@@ -1917,7 +1918,7 @@ appendNewUploadedFile = function ( count, fileList, uploadedFileContainer, curre
         '<div class="yith-wapo-loader-label"></div>' +
         '<div class="yith-wapo-loader" role="progressbar"></div>' +
       '</div>' +
-      '<input type="hidden" id="yith-wapo-' + optionId + '" class="option yith-wapo-option-value" name="yith_wapo[0][' + optionId + '][]" >' +
+      '<input type="hidden" id="yith-wapo-' + optionId + '" class="option yith-wapo-option-value" name="yith_wapo[][' + optionId + '][]" >' +
     '</div>';
 
   uploadedFileContainer.append( newElement );

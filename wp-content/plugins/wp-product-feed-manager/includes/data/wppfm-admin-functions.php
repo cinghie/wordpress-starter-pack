@@ -226,15 +226,25 @@ function wppfm_check_feed_update_schedule() {
  *
  * @since 2.8.0
  *
- * @param array $array
+ * @param array|string $array
  * @param string $glue
  * @param bool $include_keys
  * @param bool $trim_all
  *
  * @return string
  */
-function wppfm_recursive_implode( array $array, $glue = ',', $include_keys = false, $trim_all = true ) {
+function wppfm_recursive_implode( $array, $glue = ',', $include_keys = false, $trim_all = true ) {
 	$glued_string = '';
+
+	// @since 2.41.0
+	if ( ! is_array( $array ) ) {
+		$array = json_decode( $array, true );
+	}
+
+	// @since 2.41.0
+	if ( ! $array ) {
+		return '';
+	}
 
 	// Recursively iterates array and adds key/value to glued string
 	array_walk_recursive(

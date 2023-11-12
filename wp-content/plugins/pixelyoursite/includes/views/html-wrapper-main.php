@@ -217,8 +217,8 @@ include "html-popovers.php";
                             <div class="card card-static border-primary">
                                 <div class="card-body">
                                     <h4 class="card-title">WooCommerce Product Catalog Feeds</h4>
-                                    <p class="card-text">Generate auto-updating WooCommerce XML feeds for Facebook Product
-                                        Catalog, Google Merchant, and Google Ads (custom type).</p>
+                                    <p class="card-text">Generate auto-updating WooCommerce XML feeds for Meta Product
+                                        Catalog, Google Merchant, Google Ads (custom type), Pinterst Catalogs, or TikTok Catalogs.</p>
                                     <a href="https://www.pixelyoursite.com/product-catalog-facebook?utm_source=free&utm_medium=plugin&utm_campaign=right-column-free" target="_blank"
                                        class="btn btn-sm btn-block btn-primary">Click for details</a>
                                 </div>

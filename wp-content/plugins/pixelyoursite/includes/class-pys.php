@@ -46,7 +46,7 @@ final class PYS extends Settings implements Plugin {
     public function getPluginVersion() {
         return PYS_FREE_VERSION;
     }
-
+    public function adminUpdateLicense() {}
     public function __construct() {
 		
 	    // initialize settings
@@ -56,6 +56,7 @@ final class PYS extends Settings implements Plugin {
 	    add_action( 'admin_init', 'PixelYourSite\manageAdminPermissions' );
 
 	    // Priority 9 used to keep things same as on PRO version
+        add_action( 'wp', array( $this, 'set_pbid'), -1);
         add_action( 'init', array( $this, 'init' ), 9 );
         add_action( 'init', array( $this, 'afterInit' ), 11 );
 
@@ -65,7 +66,7 @@ final class PYS extends Settings implements Plugin {
         add_action( 'admin_init', array( $this, 'adminProcessRequest' ), 11 );
 
         // run Events Manager
-        add_action( 'template_redirect', array( $this, 'managePixels' ) );
+        add_action( 'template_redirect', array( $this, 'managePixels' ), 1);
         // track user login event
         add_action('wp_login', [$this,'userLogin'], 10, 2);
         // track user registrations
@@ -87,11 +88,16 @@ final class PYS extends Settings implements Plugin {
 	    add_action( 'wp_ajax_pys_get_gdpr_filters_values', array( $this, 'ajaxGetGdprFiltersValues' ) );
 	    add_action( 'wp_ajax_nopriv_pys_get_gdpr_filters_values', array( $this, 'ajaxGetGdprFiltersValues' ) );
 
+
+        add_action( 'wp_ajax_pys_get_pbid', array( $this, 'get_pbid_ajax' ) );
+        add_action( 'wp_ajax_nopriv_pys_get_pbid', array( $this, 'get_pbid_ajax' ) );
         /*
          * Restore settings after COG plugin
          * */
         add_action( 'deactivate_pixel-cost-of-goods/pixel-cost-of-goods.php',array($this,"restoreSettingsAfterCog"));
         add_action( 'woocommerce_checkout_create_order', array( $this,'add_order_external_meta_data'), 10, 2 );
+
+        add_filter("woocommerce_is_order_received_page",array($this,'woo_is_order_received_page'));
         $this->logger = new PYS_Logger();
 
     }
@@ -108,10 +114,10 @@ final class PYS extends Settings implements Plugin {
             wp_redirect( remove_query_arg( 'clear_pinterest_logs', $actual_link ) );
             exit;
         }
-	    register_post_type( 'pys_event', array(
-		    'public' => false,
-		    'supports' => array( 'title' )
-	    ) );
+        register_post_type( 'pys_event', array(
+            'public' => false,
+            'supports' => array( 'title' )
+        ) );
 
 	    // initialize options
 	    $this->locateOptions(
@@ -163,7 +169,51 @@ final class PYS extends Settings implements Plugin {
         }
 
         EnrichOrder()->init();
+
         AjaxHookEventManager::instance()->addHooks();
+    }
+
+    function get_pbid(){
+        $pbidCookieName = 'pbid';
+        if (isset($_COOKIE[$pbidCookieName])) {
+            return $_COOKIE[$pbidCookieName];
+        }
+        else return false;
+
+    }
+    public function set_pbid()
+    {
+        $pbidCookieName = 'pbid';
+        $externalIdExpire = PYS()->getOption("external_id_expire");
+        $isTrackExternalId = EventsManager::isTrackExternalId();
+
+        if (!$isTrackExternalId) {
+            if (isset($_COOKIE[$pbidCookieName])) {
+                setcookie($pbidCookieName, '', time() - 3600, '/');
+            }
+        }
+
+        if (!isset($_COOKIE[$pbidCookieName]) && $isTrackExternalId) {
+            $uniqueId = bin2hex(random_bytes(16));
+            $encryptedUniqueId = hash('sha256', $uniqueId);
+            setcookie($pbidCookieName, $encryptedUniqueId, time() + ($externalIdExpire * 24 * 60 * 60), '/');
+            return $encryptedUniqueId;
+        }
+
+        return null;
+    }
+    public function get_pbid_ajax(){
+        if(defined('DOING_AJAX') && wp_doing_ajax()){
+            $pbidCookieName = 'pbid';
+            $isTrackExternalId = EventsManager::isTrackExternalId();
+
+
+            if (!isset($_COOKIE[$pbidCookieName]) && $isTrackExternalId) {
+                $uniqueId = bin2hex(random_bytes(16));
+                $encryptedUniqueId = hash('sha256', $uniqueId);
+                wp_send_json_success( array('pbid'=>$encryptedUniqueId));
+            }
+        }
     }
     public function add_order_external_meta_data($order, $posted_data){
 
@@ -335,13 +385,18 @@ final class PYS extends Settings implements Plugin {
     }
 
     function get_user_ip(){
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        // Check if HTTP_X_FORWARDED_FOR is set and not empty
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // Split the list of IPs using a comma and take the first IP
+            $forwarded_ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = trim($forwarded_ips[0]);
+        } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            // Use HTTP_CLIENT_IP if available
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
         }
+
         return $ip;
     }
 
@@ -366,7 +421,7 @@ final class PYS extends Settings implements Plugin {
                 'oBot', 'C-T bot', 'Updownerbot', 'Snoopy', 'heritrix', 'Yeti',
                 'DomainVader', 'DCPbot', 'PaperLiBot', 'APIs-Google', 'AdsBot-Google-Mobile',
                 'AdsBot-Google-Mobile', 'AdsBot-Google-Mobile-Apps', 'FeedFetcher-Google',
-                'Google-Read-Aloud', 'DuplexWeb-Google', 'Storebot-Google'
+                'Google-Read-Aloud', 'DuplexWeb-Google', 'Storebot-Google', 'lscache_runner'
             );
 
             foreach($options as $row) {
@@ -381,13 +436,21 @@ final class PYS extends Settings implements Plugin {
 
     public function ajaxGetGdprFiltersValues() {
 
-	    wp_send_json_success( array(
-		    'all_disabled_by_api'       => apply_filters( 'pys_disable_by_gdpr', false ),
-		    'facebook_disabled_by_api'  => apply_filters( 'pys_disable_facebook_by_gdpr', false ),
-		    'analytics_disabled_by_api' => apply_filters( 'pys_disable_analytics_by_gdpr', false ),
-		    'pinterest_disabled_by_api' => apply_filters( 'pys_disable_pinterest_by_gdpr', false ),
-            'bing_disabled_by_api' => apply_filters( 'pys_disable_bing_by_gdpr', false ),
-	    ) );
+            wp_send_json_success( array(
+                'all_disabled_by_api'       => apply_filters( 'pys_disable_by_gdpr', false ),
+                'facebook_disabled_by_api'  => apply_filters( 'pys_disable_facebook_by_gdpr', false ),
+                'analytics_disabled_by_api' => apply_filters( 'pys_disable_analytics_by_gdpr', false ),
+                'pinterest_disabled_by_api' => apply_filters( 'pys_disable_pinterest_by_gdpr', false ),
+                'bing_disabled_by_api' => apply_filters( 'pys_disable_bing_by_gdpr', false ),
+                'externalID_disabled_by_api' => apply_filters( 'pys_disable_externalID_by_gdpr', false ),
+                'disabled_all_cookie'       => apply_filters( 'pys_disable_all_cookie', false ),
+                'disabled_advanced_form_data_cookie' => apply_filters( 'pys_disable_advanced_form_data_cookie', false ),
+                'disabled_landing_page_cookie'  => apply_filters( 'pys_disable_landing_page_cookie', false ),
+                'disabled_first_visit_cookie'  => apply_filters( 'pys_disable_first_visit_cookie', false ),
+                'disabled_trafficsource_cookie' => apply_filters( 'pys_disable_trafficsource_cookie', false ),
+                'disabled_utmTerms_cookie' => apply_filters( 'pys_disable_utmTerms_cookie', false ),
+                'disabled_utmId_cookie' => apply_filters( 'pys_disable_utmId_cookie', false ),
+            ) );
 
     }
 
@@ -498,7 +561,7 @@ final class PYS extends Settings implements Plugin {
 		include 'views/html-licenses.php';
 	}
 
-    public function adminUpdateLicense() {}
+
 
     public function updatePlugin() {
     
@@ -792,6 +855,31 @@ final class PYS extends Settings implements Plugin {
 
     public function getLog() {
         return $this->logger;
+    }
+
+    function woo_is_order_received_page($flag) {
+        if(!$flag && !function_exists('woocommerce_gateway_stripe') && !function_exists( 'KCO_WC' )) {
+            global $post;
+            if ($post) {
+                if ( did_action( 'elementor/loaded' )) {
+                    $elementor_page_id = get_option('elementor_woocommerce_purchase_summary_page_id');
+                    if ($elementor_page_id == $post->ID) return true;
+                }
+                if(is_wc_endpoint_url( 'order-received')){
+                    return true;
+                }
+            }
+
+            $ids = PYS()->getOption("woo_checkout_page_ids");
+            if(!empty($ids)) {
+
+                if($post && in_array($post->ID,$ids)) {
+                    return true;
+                }
+            }
+        }
+
+        return $flag;
     }
 }
 

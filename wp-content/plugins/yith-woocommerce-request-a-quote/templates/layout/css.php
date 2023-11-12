@@ -7,7 +7,7 @@
  * It is also available through the world-wide-web at this URL:
  * http://www.gnu.org/licenses/gpl-3.0.txt
  *
- * @package YITH Woocommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
 	exit; // Exit if accessed directly .
 }
 
-$ywraq_raq_color      = get_option(
+$ywraq_raq_color = get_option(
 	'ywraq_add_to_quote_button_color',
 	array(
 		'bg_color'       => '#0066b4',

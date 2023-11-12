@@ -84,7 +84,6 @@ if ( ! class_exists( 'YITH_WAPO_Compatibility' ) ) {
 		 * @param string $slug Plugin or theme slug.
 		 *
 		 * @return bool
-		 * @author Iván Sosa <ivan.sosa@yithemes.com>
 		 */
 		public function has_plugin_or_theme( $slug ) {
 			$has = false;

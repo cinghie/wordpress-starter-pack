@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPPFM_Channel_FTP' ) ) :
 			}
 
 			$local_file      = WPPFM_CHANNEL_DATA_DIR . '/' . $channel . '.zip';
-			$remote_file_url = esc_url( WPPFM_EDD_SL_STORE_URL . 'system/wp-content/uploads/wppfm_channel_downloads/' . $code . '.zip' );
+			$remote_file_url = esc_url( WPPFM_EDD_SL_STORE_URL . 'system/wp-content/uploads/wppfm_channel_downloads/' . $code . '.zip?ts=' . time() ); // @since 3.0.0. Added the time element to avoid caching issues.
 
 			$zip_resource = fopen( $local_file, 'w' );
 
@@ -62,7 +62,7 @@ if ( ! class_exists( 'WPPFM_Channel_FTP' ) ) :
 
 			curl_setopt( $ch, CURLOPT_URL, $remote_file_url );
 			curl_setopt( $ch, CURLOPT_FAILONERROR, true );
-			curl_setopt( $ch, CURLOPT_HEADER, 0 );
+			curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Cache-Control: no-cache' ) );
 			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
 			curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
 			curl_setopt( $ch, CURLOPT_FRESH_CONNECT, true ); // @since 2.34.0.

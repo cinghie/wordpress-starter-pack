@@ -21,8 +21,89 @@ and open the template in the editor.
 	z-index: 1234;
 }
 
+select.wppfm-select2-pillbox-selector, select.wppfm-select2-promotion-destination-pillbox-selector {
+	height: 33px !important;
+	overflow-y: auto;
+	width: 100%;
+}
+
+select.wppfm-select2-pillbox-selector option, select.wppfm-select2-promotion-destination-pillbox-selector option {
+	padding: 5px;
+}
+
+span.select2-search {
+	width: 100%;
+}
+
+textarea.select2-search__field {
+	display: none;
+}
+
+div.wppfm_hidden_background_data {
+	display: none;
+}
+
+span.select2-selection--multiple {
+	overflow: hidden !important;
+	height: auto !important;
+	padding-left: 5px;
+}
+
+span.select2-container {
+	width: 90% !important;
+}
+
 div.field-table-row-wrapper:nth-child(2n) {
 	background-color: #f5f5f5;
+}
+
+.wppfm-selector-box .woocommerce-help-tip {
+	margin: 0 0 0 9px;
+}
+
+div.wppfm-main-tab-wrapper {
+	display: grid;
+	margin-top: 10px;
+	grid-template-columns: [left-row] 40% [right-row] auto;
+	grid-template-rows: [header-row] auto [main-row] auto [buttons-row] auto [attributes-row] auto [center-buttons-row] auto [bottom-buttons-row] auto;
+	grid-template-areas: "header header" "feed-data-left feed-data-right" "top-buttons top-buttons" "feed-attributes feed-attributes" "center-buttons center-buttons" "bottom-buttons bottom-buttons";
+}
+
+h2.wppfm-tab-page-title, div.wppfm-tab-page-header {
+	grid-area: header;
+}
+
+section.wppfm-main-input-wrapper {
+	grid-area: feed-data-left;
+	margin-top: 44px;
+}
+
+section.wppfm-product-filter-and-details-section, section.wppfm-category-mapping-and-filter-wrapper {
+	display: grid;
+	grid-area: feed-data-right;
+	grid-template-rows: max-content;
+}
+
+section.main-product-filter-wrapper {
+	margin-top: 15px;
+}
+
+section.wppfm-top-buttons-wrapper {
+	grid-area: top-buttons;
+	margin-top: 30px;
+}
+
+section.wppfm-center-buttons-wrapper {
+	grid-area: center-buttons;
+	margin-top: 30px;
+}
+
+section.wppfm-attribute-mapping-wrapper {
+	grid-area: feed-attributes;
+}
+
+section.wppfm-bottom-buttons-wrapper {
+	grid-area: bottom-buttons;
 }
 
 div.field-table-row-wrapper {
@@ -32,6 +113,76 @@ div.field-table-row-wrapper {
 
 div.filter-wrapper {
 	margin-top: 5px;
+}
+
+div.wppfm-selector-box {
+	position: relative;
+	min-width: 255px;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	background: #fff;
+}
+
+div.wppfm-selector-box-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #c3c4c7
+}
+
+div.wppfm-selector-box-content {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	line-height: 1.4;
+	font-size: 13px;
+}
+
+div.wppfm-selector-box-content-panel-wrapper {
+	overflow: hidden;
+	background: #fff;
+}
+
+ul.wppfm-content-box-tab-list {
+	margin: 0;
+	width: 20%;
+	float: left;
+	line-height: 1em;
+	padding: 0 0 10px;
+	position: relative;
+	background-color: #fafafa;
+	border-right: 1px solid #eee;
+	box-sizing: border-box;
+}
+
+li.wppfm-content-box-tab-list-item {
+	margin: 0;
+	padding: 0;
+	display: block;
+	position: relative;
+}
+
+ul.wppfm-content-box-tab-list li.active a {
+	color: #555;
+	position: relative;
+	background-color: #eee;
+}
+
+ul.wppfm-content-box-tab-list li a {
+	margin: 0;
+	padding: 10px;
+	display: block;
+	box-shadow: none;
+	text-decoration: none;
+	line-height: 20px!important;
+	border-bottom: 1px solid #eee;
+}
+
+h2.wppfm-selector-box-header {
+	font-size: 14px;
+	padding: 8px 12px;
+	margin: 0;
+	line-height: 1.4;
 }
 
 aside.action-btn {
@@ -101,7 +252,12 @@ th#wppfm-main-feed-input-label {
 	width: 32%;
 }
 
-th#wppfm-main-feed-input-label label {
+th#wppfm-filter-selector-label {
+	text-align: left;
+	width: 10%;
+}
+
+th#wppfm-main-feed-input-label label, th#wppfm-filter-selector-label label {
 	display: inline-block;
 }
 
@@ -158,11 +314,6 @@ div.field-header {
 	width: 55%;
 }
 
-div#category-mapping-header {
-	left: 15px;
-	position: relative;
-}
-
 div.source-selector {
 	margin-right: 6%;
 }
@@ -195,17 +346,29 @@ table.fm-category-mapping-table th {
 	padding: 9px;
 }
 
-table.fm-category-mapping-table {
+table.fm-category-mapping-table, table.wppfm-product-filter-table {
 	clear: none;
 	display: table;
-	float: right;
-	height: 280px;
+	height: auto;
 	overflow-y: scroll;
-	width: 59%;
 }
 
 table.wppfm-feed-main-input-table {
 	width: 100%;
+}
+
+table.wppfm-channel-tiles-table {
+	margin: 7px;
+	border-spacing: 10px;
+}
+
+div.wppfm-channel-tile-info-link {
+	float: right;
+	margin-top: -5px;
+}
+
+input.date-picker {
+	width: 39% !important;
 }
 
 table.fm-category-mapping-table td#shop-category {
@@ -228,6 +391,7 @@ td.channel-tile {
 	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
 	max-width: 340px;
 	min-width: 250px;
+	margin: 5px;
 	vertical-align: top;
 }
 
@@ -258,17 +422,8 @@ div#outdated {
 	color: red;
 }
 
-div.product-filter-condition-wrapper {
-	float: right;
+div.wppfm-product-filter-condition-wrapper {
 	font-size: 16px;
-	margin-top: 20px;
-	width: 59%;
-}
-
-section.wppfm-main-input-wrapper {
-	float: left;
-	margin-top: 20px;
-	width: 40%;
 }
 
 tr.wppfm-main-feed-input-row {
@@ -408,10 +563,6 @@ span.combined-field-row {
 
 input.free-category-text-input {
 	width: 90%;
-}
-
-div.button-wrapper {
-	clear: both;
 }
 
 .button-primary {

@@ -84,6 +84,7 @@ if (array_key_exists('project_hash', $_GET)){
                                 // Set default notification to show
                                 $getelite_notice = get_option('woosea_getelite_notification');
                                 if(empty($getelite_notice['show'])){
+                                        $getelite_notice = array();
                                         $getelite_notice['show'] = "yes";
                                         $getelite_notice['timestamp'] = date( 'd-m-Y' );
                                 }
@@ -502,9 +503,22 @@ if (array_key_exists('project_hash', $_GET)){
 					<td>
 						<?php
 						if((isset($project)) AND (array_key_exists('products_changed',$project))){
-							print "<input name=\"products_changed\" type=\"checkbox\" class=\"checkbox-field\" checked>";
+							print "<input name=\"products_changed\" type=\"checkbox\" class=\"checkbox-field\" checked> <a href=\"https://adtribes.io/update-product-feed-products-changed-new-ones-added/\" target=\"_blank\">Read our tutorial about this feature</a>";
 						} else {
-							print "<input name=\"products_changed\" type=\"checkbox\" class=\"checkbox-field\">";
+							print "<input name=\"products_changed\" type=\"checkbox\" class=\"checkbox-field\"> <a href=\"https://adtribes.io/update-product-feed-products-changed-new-ones-added/\" target=\"_blank\">Read our tutorial about this feature</a>";
+						}
+						?>
+					</td>
+				</tr>
+
+				<tr>
+					<td><span><?php _e( 'Create a preview of the feed','woo-product-feed-pro' );?>:</span></td>
+					<td>
+						<?php
+						if((isset($project)) AND (array_key_exists('preview_feed',$project))){
+							print "<input name=\"preview_feed\" type=\"checkbox\" class=\"checkbox-field\" checked> <a href=\"https://adtribes.io/create-product-feed-preview/\" target=\"_blank\">Read our tutorial about this feature</a>";
+						} else {
+							print "<input name=\"preview_feed\" type=\"checkbox\" class=\"checkbox-field\"> <a href=\"https://adtribes.io/create-product-feed-preview/\" target=\"_blank\">Read our tutorial about this feature</a>";
 						}
 						?>
 					</td>

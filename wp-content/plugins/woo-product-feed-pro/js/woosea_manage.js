@@ -16,13 +16,15 @@ jQuery(function($) {
 	}    
 
   	if (get_value == 'woosea_manage_feed') {
+
 		jQuery(function($) {
                      	var nonce = $('#_wpnonce').val();
 
 			jQuery.ajax({
                                 method: "POST",
                                 url: ajaxurl,
-                                data: { 
+                                dataType: "json",
+				data: { 
 					'action': 'woosea_check_processing',
 					'security': nonce,
 				}
@@ -584,7 +586,7 @@ jQuery(function($) {
 		var adwords_conversion_id = $('#adwords_conv_id').val();
 	        var re = /^[0-9,-]*$/;
 		var woosea_valid_conversion_id=re.test(adwords_conversion_id);
-                
+               
 		// Check for allowed characters
                 if (!woosea_valid_conversion_id){
                         $('.notice').replaceWith("<div class='notice notice-error woosea-notice-conversion is-dismissible'><p>Sorry, only numbers are allowed for your Dynamic Remarketing Conversion tracking ID.</p></div>");

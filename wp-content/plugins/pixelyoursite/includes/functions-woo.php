@@ -65,7 +65,28 @@ function getWooProductPriceToDisplay( $product_id, $qty = 1 ) {
 
     return (float) wc_get_price_to_display( $product, array( 'qty' => $qty,'price'=>$productPrice ) );
 }
+/**
+ * @param SingleEvent $event
+ */
+function getWooEventCartTotal($event) {
 
+    return getWooEventCartSubtotal($event);
+}
+/**
+ * @param SingleEvent $event
+ */
+function getWooEventCartSubtotal($event) {
+    $subTotal = 0;
+    $include_tax = get_option( 'woocommerce_tax_display_cart' ) == 'incl';
+
+    foreach ($event->args['products'] as $product) {
+        $subTotal += $product['subtotal'];
+        if($include_tax) {
+            $subTotal += $product['subtotal_tax'];
+        }
+    }
+    return pys_round($subTotal);
+}
 function getWooCartSubtotal() {
 
 	// subtotal is always same value on front-end and depends on PYS options
@@ -176,6 +197,19 @@ function getWooEventValueOrder( $valueOption, $order, $global, $percent = 100 ) 
 
 }
 
+function get_fees($order){
+    $fees = $order->get_fees();
+    $fee_amount = 0;
+
+    foreach ($fees as $fee) {
+        $fee_amount += $fee->get_total();
+    }
+    if($fee_amount > 0){
+        return $fee_amount;
+    }
+
+    return 0;
+}
 function getWooEventValueCart( $valueOption, $global, $percent = 100 ) {
 
     if($valueOption == 'cog' && isPixelCogActive()) {

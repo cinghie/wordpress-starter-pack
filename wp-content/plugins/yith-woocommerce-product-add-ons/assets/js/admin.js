@@ -29,7 +29,7 @@
         addonsImageHeight : '#addon-images-height',
         addonImageEqualHeights : '#addon-image-equal-height',
         timeSlotsContainer : '.time-slots-container',
-        enableTimeSlots : '.enable_time_slots',
+        enableTimeSlots : '.enable-time-slots',
       },
       conditions          : {
         defaultColorpicker      : '.default-colorpicker',
@@ -77,13 +77,23 @@
             if ( $( self.dom.enableTimeSlots ).find( 'input' ).is(':checked') ) {
               self.handle( $(this).closest( '.fields' ).find( $( self.dom.timeSlotsContainer ) ).closest( '.field-wrap' ), true , 'fade' );
             }
+
+            $( self.dom.enableTimeSlots ).removeClass( 'disabled-enabled-by' );
+
           }
         } );
 
+      // $( self.conditions.showTimeSelector ).find( 'input' ).change()
         //Sortable options.
         sortableOptions();
 
       },
+      /**
+       * Hide or Show the target depending on condition.
+       * @param target
+       * @param condition
+       * @param eventType
+       */
       handle            : function ( target, condition, eventType = 'show' ) {
         let targetHide    = $(target),
           isFadeEvent = 'fade' === eventType;
@@ -1009,6 +1019,7 @@
 
 		var blockID = $(this).closest( '.block-element' ).attr( 'data-id' );
 		var blockVisibility = 0;
+        var nonceInput = $( this ).closest( '#yith_wapo_panel_blocks' ).find( '#yith-wapo-nonce-blocks' );
 
         if ( $(this).is(':checked') ) {
           blockVisibility = 1;
@@ -1019,6 +1030,7 @@
 			'action'		: 'enable_disable_block',
 			'block_id'		: blockID,
 			'block_vis'		: blockVisibility,
+            'nonce_data'    : nonceInput.data( 'nonce' ),
 		};
 		$.post( ajaxurl, data, function(response) {
 			console.log( '[YITH.LOG] - Block visibility updated' );
@@ -1037,6 +1049,7 @@
 
 		var addonID         = $(this).closest( '.addon-element' ).attr( 'data-id' );
 		var addonVisibility = 0;
+        var nonceInput = $( this ).closest( '#yith-wapo-panel-block' ).find( '#yith-wapo-nonce-addons' );
 
         if ( $( this ).is( ':checked' ) ) {
           addonVisibility = 1;
@@ -1047,6 +1060,7 @@
 			'action'		: 'enable_disable_addon',
 			'addon_id'		: addonID,
 			'addon_vis'		: addonVisibility,
+            'nonce_data'    : nonceInput.data( 'nonce' ),
 		};
 		$.post( ajaxurl, data, function(response) {
 			console.log( '[YITH.LOG] - Addon visibility updated' );
@@ -1147,6 +1161,13 @@
   });
 
 	function yith_wapo_check_enablers( enabler ) {
+
+      let fieldWrap = enabler.closest(' .field-wrap ');
+
+      if ( fieldWrap.hasClass( 'disabled-enabled-by' ) ) {
+        return false;
+      }
+
       let reverted = false,
         enabledByElement = $( '.enabled-by-' + enabler.attr('id') );
       if ( enabler.closest( '.enabler' ).hasClass( 'revert' ) ) {

@@ -17,15 +17,12 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'YITH_YWRAQ_VERSION' ) ) {
 	exit;
 }
 
-
-
 $section1 = array(
 	'general_options_settings'     => array(
 		'name' => esc_html__( 'General Options', 'yith-woocommerce-request-a-quote' ),
 		'type' => 'title',
 		'id'   => 'ywraq_general_options_settings',
 	),
-
 	'hide_add_to_cart'             => array(
 		'name'      => esc_html__( 'Hide "Add to cart" buttons', 'yith-woocommerce-request-a-quote' ),
 		'desc'      => esc_html__( 'Enable to hide the "Add to cart" buttons on all products.', 'yith-woocommerce-request-a-quote' ),
@@ -34,8 +31,6 @@ $section1 = array(
 		'yith-type' => 'onoff',
 		'default'   => 'no',
 	),
-
-
 	'hide_price'                   => array(
 		'name'      => esc_html__( 'Hide prices', 'yith-woocommerce-request-a-quote' ),
 		'desc'      => esc_html__( 'Enable to hide prices on all products.', 'yith-woocommerce-request-a-quote' ),
@@ -44,7 +39,6 @@ $section1 = array(
 		'yith-type' => 'onoff',
 		'default'   => 'no',
 	),
-
 	'show_button_near_add_to_cart' => array(
 		'name'      => esc_html__( '"Add to quote" position on single product page', 'yith-woocommerce-request-a-quote' ),
 		'desc'      => esc_html__( 'Choose where to show the "Add to quote" button on single product pages.', 'yith-woocommerce-request-a-quote' ),
@@ -61,7 +55,6 @@ $section1 = array(
 			'value' => 'yes',
 		),
 	),
-
 	'after_click_action'           => array(
 		'name'      => esc_html__( 'After click on "Add to quote" the user:', 'yith-woocommerce-request-a-quote' ),
 		'desc'      => esc_html__( 'Choose what happens after the user clicks on the "Add to quote" button.', 'yith-woocommerce-request-a-quote' ),
@@ -74,7 +67,6 @@ $section1 = array(
 		),
 		'default'   => 'no',
 	),
-
 	'general_options_settings_end' => array(
 		'type' => 'sectionend',
 		'id'   => 'general_options_settings_end',

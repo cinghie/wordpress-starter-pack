@@ -534,9 +534,7 @@ class IS_Ajax {
 			$is_post_content = $post->post_content;
 			if ( 'product_variation' === $post->post_type ) {
 
-				$_product = wc_get_product( $post->ID, array(
-					'parent_id' => $post->post_parent
-				) );
+				$_product = wc_get_product( $post->ID );
 
 				$is_post_content =  $_product->description;
 			}

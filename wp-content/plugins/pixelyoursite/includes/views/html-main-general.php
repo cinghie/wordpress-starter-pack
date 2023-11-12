@@ -267,11 +267,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         How to configure Custom Conversions on Meta (Facebook) based on Events & Parameters (11:03) - watch now
                     </a>
                 </p>
-                <p>
-                    <a href="https://www.youtube.com/watch?v=a5jPcLbdgy0" target="_blank">
-                        How to run A/B tests with Google Optimize and GA4 (6:07)
-                    </a>
-                </p>
+              
                 <p><a href="https://www.youtube.com/watch?v=snUKcsTbvCk" target="_blank">Improve META (Facebook) EMQ score
                         with form automatic data detection (11:48) - watch now</a></p>
                 <p><a href="https://www.youtube.com/watch?v=X65h4uhsMJY" target="_blank">

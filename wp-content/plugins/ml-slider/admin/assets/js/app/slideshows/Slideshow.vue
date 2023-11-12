@@ -115,43 +115,46 @@ export default {
 	},
 	methods: {
 		async save() {
-			if (this.locked) return
-			this.$store.commit('slideshows/setLocked', true)
-			this.notifyInfo('metaslider/saving', this.__('Saving...', 'ml-slider'))
+			if(this.current.title == '') {
+				this.notifyError('metaslider/title-saved', this.__('Please add a slideshow title'), true)
+			} else {
+				if (this.locked) return
+				this.$store.commit('slideshows/setLocked', true)
+				this.notifyInfo('metaslider/saving', this.__('Saving...', 'ml-slider'))
 
-			// TODO: this is temporary until there is a slide component
-			this.orderSlides()
+				// TODO: this is temporary until there is a slide component
+				this.orderSlides()
 
-			let data = window.jQuery('#ms-form-settings').serializeArray()
-			await this.saveSettings(data).then(() => {
+				let data = window.jQuery('#ms-form-settings').serializeArray()
+				await this.saveSettings(data).then(() => {
 
-				// Todo: refactor out slides logic
-				let slides = this.prepareSlideData(data)
-				slides.length > 20 && this.notifyInfo(
-					'metaslider/saving-more-notice',
-					this.sprintf(this.__('Saving %s slides. This may take a few moments.', 'ml-slider'), slides.length),
-					true
-				)
-				this.showSlideSaveNotification = false
-				setTimeout(() => { this.showSlideSaveNotification = true }, 4000)
-				return this.saveSlides(slides).then(() => {
+					// Todo: refactor out slides logic
+					let slides = this.prepareSlideData(data)
+					slides.length > 20 && this.notifyInfo(
+						'metaslider/saving-more-notice',
+						this.sprintf(this.__('Saving %s slides. This may take a few moments.', 'ml-slider'), slides.length),
+						true
+					)
+					this.showSlideSaveNotification = false
+					setTimeout(() => { this.showSlideSaveNotification = true }, 4000)
+					return this.saveSlides(slides).then(() => {
 
-					// TODO: refactor out with psuedocode below
-					this.cropSlidesTheOldWay()
-					this.notifySuccess('metaslider/save-success', this.__('Slideshow saved', 'ml-slider'), true)
+						// TODO: refactor out with psuedocode below
+						this.cropSlidesTheOldWay()
+						this.notifySuccess('metaslider/save-success', this.__('Slideshow saved', 'ml-slider'), true)
+					}).catch(error => {
+
+						// If the input vars are too low, reload the page with the error message
+						if (error.response.data.data && error.response.data.data.current_input_vars || error.response.data.includes('max_input_vars')) {
+							window.location.replace(this.metasliderPage + '&id=' + this.current.id + '&input_vars_error=true')
+						}
+
+						throw error
+					})
 				}).catch(error => {
-
-					// If the input vars are too low, reload the page with the error message
-					if (error.response.data.data && error.response.data.data.current_input_vars || error.response.data.includes('max_input_vars')) {
-						window.location.replace(this.metasliderPage + '&id=' + this.current.id + '&input_vars_error=true')
-					}
-
-					throw error
+					this.notifyError('metaslider/save-error', error.response, true)
 				})
-			}).catch(error => {
-				this.notifyError('metaslider/save-error', error.response, true)
-			})
-
+			}
 
 			// TODO: refactor like this in a future branch
 			// let touchedSlides = getTouchedSlides()

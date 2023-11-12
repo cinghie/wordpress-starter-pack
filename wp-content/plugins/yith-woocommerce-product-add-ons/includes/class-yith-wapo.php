@@ -1109,6 +1109,7 @@ if ( ! class_exists( 'YITH_WAPO' ) ) {
         public function save_formatted_settings( $settings ) {
 
             $settings['title_in_cart'] = isset( $settings['title_in_cart'] ) && wc_string_to_bool( $settings['title_in_cart'] ) ? $settings['title_in_cart'] : 'no';
+            $settings['text_content'] = isset( $settings['text_content'] ) ? html_entity_decode( stripslashes( $settings['text_content'] ) ) : '';
 
             return $settings;
         }

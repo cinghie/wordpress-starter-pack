@@ -90,7 +90,8 @@ class GA extends Settings implements Pixel {
         if(count($ids) == 0) {
             return apply_filters("pys_ga_ids",[]);
         } else {
-            return apply_filters("pys_ga_ids",(array) reset( $ids )); // return first id only
+			$id = array_shift($ids);
+			return apply_filters("pys_ga_ids", array($id)); // return first id only
         }
 	}
 
@@ -115,6 +116,9 @@ class GA extends Settings implements Pixel {
             'wooVariableAsSimple' => $this->getOption( 'woo_variable_as_simple' )
         );
     }
+    private function isGaV4($tag) {
+        return strpos($tag, 'G') === 0;
+    }
     /**
      * Create pixel event and fill it
      * @param SingleEvent $event
@@ -126,7 +130,18 @@ class GA extends Settings implements Pixel {
             return [];
         }
 
-        $pixelIds = $this->getPixelIDs();
+        $onlyGA4event = ['woo_view_cart'];
+        $isGA4Event = in_array($event->getId(), $onlyGA4event);
+        $pixelIds = array();
+        if($isGA4Event)
+        {
+            if($this->isGaV4($this->getPixelIDs()[0])){
+                $pixelIds = $this->getPixelIDs();
+            }
+        }
+        else{
+            $pixelIds = $this->getPixelIDs();
+        }
 
         if(count($pixelIds) > 0) {
             $pixelEvent = clone $event;
@@ -207,6 +222,9 @@ class GA extends Settings implements Pixel {
                     $isActive = true;
                     $this->addDataToEvent($eventData, $event);
                 }
+            }break;
+            case 'woo_view_cart': {
+                $isActive =  $this->getWooViewCartEventParams($event);
             }break;
             case 'woo_add_to_cart_on_cart_page':
             case 'woo_add_to_cart_on_checkout_page':{
@@ -580,7 +598,72 @@ class GA extends Settings implements Pixel {
 		);
 
 	}
+    private function getWooViewCartEventParams(&$event){
+        if ( ! $this->getOption( 'woo_view_cart_enabled' ) ) {
+            return false;
+        }
+        $data = ['name'  => 'view_cart'];
+        $payload = $event->payload;
+        $params = $this->getWooEventViewCartParams( $event );
+        $event->addParams($params);
+        $event->addPayload($data);
+        return true;
+    }
+    private function getWooEventViewCartParams($event){
+        $params = [
+            'event_category' => 'ecommerce',
+        ];
+        $params['currency'] = get_woocommerce_currency();
+        $items = array();
+        $product_ids = array();
+        $withTax = 'incl' === get_option( 'woocommerce_tax_display_cart' );
+        if(WC()->cart->get_cart())
+        {
+            foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
 
+                $product = wc_get_product(!empty($cart_item['variation_id']) ? $cart_item['variation_id'] : $cart_item['product_id']);
+
+                if ($product) {
+
+                    $product_data = $product->get_data();
+                    $product_id = GA\Helpers\getWooCartItemId( $cart_item );
+                    $content_id = GA\Helpers\getWooProductContentId($product_id);
+                    $price = $cart_item['line_subtotal'];
+
+
+                    if ($withTax) {
+                        $price += $cart_item['line_subtotal_tax'];
+                    }
+                    $item = array(
+                        'id'       => $content_id,
+                        'name'     => $this->getOption('woo_variations_use_parent_name') && $product->is_type('variation') ? $product->get_title() : $product->get_name(),
+                        'quantity' => $cart_item['quantity'],
+                        'price'    => $cart_item['quantity'] > 0 ? pys_round($price / $cart_item['quantity']) : $price,
+                    );
+                    $category = $this->getCategoryArrayWoo($product_id, $product->is_type('variation'));
+                    if (!empty($category)) {
+                        $item = array_merge($item, $category);
+                    }
+                    if ($product && $product->is_type('variation')) {
+                        foreach ($event->args['products'] as $event_product){
+                            if($event_product['product_id'] == $product_id && !empty($event_product['variation_name']))
+                            {
+                                $item['variant'] = $event_product['variation_name'];
+                            }
+
+                        }
+                    }
+
+                    $items[] = $item;
+                    $product_ids[] = $item['id'];
+                }
+            }
+        }
+        $params['items'] = $items;
+        $params['value'] = getWooEventCartTotal($event);
+
+        return $params;
+    }
 	private function getWooAddToCartOnButtonClickEventParams( $args ) {
 
 		if ( ! $this->getOption( 'woo_add_to_cart_enabled' )  || ! PYS()->getOption( 'woo_add_to_cart_on_button_click' ) ) {
@@ -857,6 +940,8 @@ class GA extends Settings implements Pixel {
 			'items'           => $items,
 			'non_interaction' => $this->getOption( 'woo_purchase_non_interactive' ),
 		);
+
+        $params['fees'] = get_fees($order);
 
 		return array(
 			'name' => 'purchase',

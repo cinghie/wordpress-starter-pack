@@ -102,6 +102,12 @@ function include_classes() {
 	if ( ! class_exists( 'WPPFM_Category_Wrapper' ) ) {
 		require_once __DIR__ . '/user-interface/abstract-wppfm-category-wrapper.php';
 	}
+	if ( ! class_exists( 'WPPFM_Filter_Wrapper' ) ) {
+		require_once __DIR__ . '/user-interface/abstract-wppfm-filter-wrapper.php';
+	}
+	if ( ! class_exists( 'WPPFM_Panel_Wrapper' ) ) {
+		require_once __DIR__ . '/user-interface/abstract-wppfm-panel-wrapper.php';
+	}
 	if ( ! class_exists( 'WPPFM_Attribute_Mapping_Wrapper' ) ) {
 		require_once __DIR__ . '/user-interface/abstract-wppfm-attribute-mapping-wrapper.php';
 	}
@@ -122,6 +128,9 @@ function include_classes() {
 	}
 	if ( ! class_exists( 'WPPFM_Category_Selector_Element' ) ) {
 		require_once __DIR__ . '/user-interface/elements/class-wppfm-category-selector-element.php';
+	}
+	if ( ! class_exists( 'WPPFM_Product_Filter_Selector_Element' ) ) {
+		require_once __DIR__ . '/user-interface/elements/class-wppfm-product-filter-selector-element.php';
 	}
 	if ( ! class_exists( 'WPPFM_Main_Input_Selector_Element' ) ) {
 		require_once __DIR__ . '/user-interface/elements/class-wppfm-main-input-selector-element.php';
@@ -162,8 +171,6 @@ function include_classes() {
  * Includes all required channel classes
  *
  * @since 1.0.0
- *
- * @global \wpdb $wpdb The database connection
  */
 function include_channels() {
 

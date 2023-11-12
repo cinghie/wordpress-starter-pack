@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, woocommerce product add-ons, woocommerce product add ons, woocommerce advanced product option, product add ons, product add-ons, option, radio, checkbox, text, woocommerce product addons
 Requires at least: 6.1
 Tested up to: 6.3
-Stable tag: 4.0.1
+Stable tag: 4.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,32 @@ You must enable the dependency on the option you are interested in by inserting 
 11. Product page with different options (5/5)
 
 == Changelog ==
+
+= 4.2.1 – Released on 25 October 2023 =
+
+* Fix: added nonce verification due to security issues
+
+= 4.2.0 – Released on 03 October 2023 =
+
+* New: support for WooCommerce 8.2
+* Update: YITH plugin framework
+* Fix: use mb_substr function instead substr function
+* Fix: fixed dependencies
+* Fix: remove incorrect index when adding file add-ons on product page
+
+= 4.1.0 – Released on 14 September 2023 =
+
+* New: support for WooCommerce 8.1
+* Update: YITH plugin framework
+
+= 4.0.2 – Released on 31 August 2023 =
+
+* Fix: product price selector to replace new prices
+* Fix: non-numeric value on cart
+* Fix: error with redeclared functions
+* Dev: improved CSS grid rules & code refactoring
+* Dev: new filter 'yith_wapo_option_price_html'
+* Dev: minor CSS changes
 
 = 4.0.1 – Released on 09 August 2023 =
 

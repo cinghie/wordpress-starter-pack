@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 		 * Complete
 		 */
 		public function complete() {
-			parent::complete();
+			//parent::complete();
 
 			do_action( 'wppfm_feed_generation_message', $this->_feed_data->feedId, 'Started the complete function to clean up the feed process and queue.' );
 
@@ -356,7 +356,6 @@ if ( ! class_exists( 'WPPFM_Feed_Processor' ) ) :
 
 			return '';
 		}
-
 	}
 
 endif;

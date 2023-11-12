@@ -243,7 +243,7 @@ $html_types = array( 'html_heading', 'html_separator', 'html_text' );
 
 					} else {
 
-                        $grid_styles = yith_wapo_get_addon_grid_rules( $addon );
+                        $grid_styles = $addon->get_grid_rules();
 
                         echo '<div class="options-container' . ' ' . esc_attr( $toggle_default ) . '">';
                         if ( '' !== $addon_description ) {

@@ -838,7 +838,7 @@ function um_user_submited_display( $k, $title, $data = array(), $style = true ) 
 		$v = um_user( $k );
 	}
 
-	if ( strstr( $k, 'user_pass' ) || in_array( $k, array( 'g-recaptcha-response', 'request', '_wpnonce', '_wp_http_referer' ) ) ) {
+	if ( strstr( $k, 'user_pass' ) || in_array( $k, array( 'g-recaptcha-response', 'request', '_wpnonce', '_wp_http_referer' ), true ) ) {
 		return '';
 	}
 
@@ -1667,7 +1667,8 @@ function um_can_edit_field( $data ) {
 			$can_edit = false;
 		} else {
 			if ( ! UM()->roles()->um_user_can( 'can_edit_everyone' ) ) {
-				if ( empty( $data['editable'] ) ) {
+				// It's for a legacy case `array_key_exists( 'editable', $data )`.
+				if ( array_key_exists( 'editable', $data ) && empty( $data['editable'] ) ) {
 					$can_edit = false;
 				} else {
 					if ( ! um_is_user_himself() ) {
@@ -1905,15 +1906,17 @@ function um_profile( $key ) {
 	return $value;
 }
 
-
 /**
- * Get youtube video ID from url
+ * Get YouTube video ID from URL.
  *
- * @param $url
+ * @param string $url
  *
- * @return bool
+ * @return bool|string
  */
 function um_youtube_id_from_url( $url ) {
+	$url = preg_replace( '/&ab_channel=.*/', '', $url ); // ADBlock argument.
+	$url = preg_replace( '/\?si=.*/', '', $url ); // referral attribute.
+
 	$pattern =
 		'%^# Match any youtube URL
 		(?:https?://)?  # Optional scheme. Either http or https
@@ -1925,10 +1928,12 @@ function um_youtube_id_from_url( $url ) {
 			/embed/     # Either /embed/
 		  | /v/         # or /v/
 		  | /watch\?v=  # or /watch\?v=
+		  | /shorts/    # or /shorts/ for short videos
 		  )             # End path alternatives.
 		)               # End host alternatives.
 		([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
 		$%x';
+
 	$result = preg_match( $pattern, $url, $matches );
 	if ( false !== $result && isset( $matches[1] ) ) {
 		return $matches[1];
@@ -1936,7 +1941,6 @@ function um_youtube_id_from_url( $url ) {
 
 	return false;
 }
-
 
 /**
  * Find closest number in an array
@@ -2130,7 +2134,7 @@ function um_get_default_avatar_uri() {
 	$uri = UM()->options()->get( 'default_avatar' );
 	$uri = !empty( $uri['url'] ) ? $uri['url'] : '';
 	if ( ! $uri ) {
-		$uri = um_url . 'assets/img/default_avatar.jpg';
+		$uri = UM_URL . 'assets/img/default_avatar.jpg';
 	}
 
 	return set_url_scheme( $uri );
@@ -2303,7 +2307,7 @@ function um_get_default_cover_uri() {
  * @param $data
  * @param null $attrs
  *
- * @return string|array
+ * @return int|string|array
  */
 function um_user( $data, $attrs = null ) {
 

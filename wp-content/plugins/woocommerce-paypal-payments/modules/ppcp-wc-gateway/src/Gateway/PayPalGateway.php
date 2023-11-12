@@ -48,6 +48,7 @@ class PayPalGateway extends \WC_Payment_Gateway {
 	const ORDER_PAYMENT_MODE_META_KEY   = '_ppcp_paypal_payment_mode';
 	const ORDER_PAYMENT_SOURCE_META_KEY = '_ppcp_paypal_payment_source';
 	const FEES_META_KEY                 = '_ppcp_paypal_fees';
+	const REFUND_FEES_META_KEY          = '_ppcp_paypal_refund_fees';
 	const REFUNDS_META_KEY              = '_ppcp_refunds';
 
 	/**
@@ -242,6 +243,8 @@ class PayPalGateway extends \WC_Payment_Gateway {
 					'subscription_payment_method_change_admin',
 					'multiple_subscriptions'
 				);
+			} elseif ( $this->config->has( 'vault_enabled_dcc' ) && $this->config->get( 'vault_enabled_dcc' ) ) {
+				$this->supports[] = 'tokenization';
 			}
 		}
 
@@ -288,9 +291,11 @@ class PayPalGateway extends \WC_Payment_Gateway {
 			// in the constructor, so must do it here.
 			global $theorder;
 			if ( $theorder instanceof WC_Order ) {
-				$payment_method_title = $theorder->get_payment_method_title();
-				if ( $payment_method_title ) {
-					$this->title = $payment_method_title;
+				if ( $theorder->get_payment_method() === self::ID ) {
+					$payment_method_title = $theorder->get_payment_method_title();
+					if ( $payment_method_title ) {
+						$this->title = $payment_method_title;
+					}
 				}
 			}
 		}
@@ -524,7 +529,7 @@ class PayPalGateway extends \WC_Payment_Gateway {
 				$order = $this->session_handler->order();
 				$this->add_paypal_meta( $wc_order, $order, $this->environment );
 
-				$subscriptions = wcs_get_subscriptions_for_order( $order_id );
+				$subscriptions = function_exists( 'wcs_get_subscriptions_for_order' ) ? wcs_get_subscriptions_for_order( $order_id ) : array();
 				foreach ( $subscriptions as $subscription ) {
 					$subscription->update_meta_data( 'ppcp_subscription', $paypal_subscription_id );
 					$subscription->save();
@@ -538,6 +543,7 @@ class PayPalGateway extends \WC_Payment_Gateway {
 				}
 
 				$wc_order->payment_complete();
+
 				return $this->handle_payment_success( $wc_order );
 			}
 
@@ -550,9 +556,7 @@ class PayPalGateway extends \WC_Payment_Gateway {
 				);
 			}
 
-			if ( $this->subscription_helper->has_subscription( $order_id ) ) {
-				$this->schedule_saved_payment_check( $order_id, $wc_order->get_customer_id() );
-			}
+			do_action( 'woocommerce_paypal_payments_before_handle_payment_success', $wc_order );
 
 			return $this->handle_payment_success( $wc_order );
 		} catch ( PayPalApiException $error ) {

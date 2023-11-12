@@ -3,10 +3,10 @@ Contributors: woocommerce, automattic, woothemes, allendav, kellychoffman, jkudi
 Tags: shipping, stamps, usps, woocommerce, taxes, payment, dhl, labels
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 6.2
+Tested up to: 6.3
 WC requires at least: 3.6
-WC tested up to: 7.8
-Stable tag: 2.3.2
+WC tested up to: 8.2
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,11 +34,15 @@ This section describes how to install the plugin and get it working.
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 1. Install and activate WooCommerce if you haven't already done so
-1. Install, activate and connect Jetpack if you haven't already done so
+1. Install, activate and connect to your WordPress.com account if you haven't already done so
 1. Want to buy shipping labels? First, add your credit card to https://wordpress.com/me/purchases/billing and then print labels for orders right from the Edit Order page
 1. Enable automated taxes from WooCommerce > Settings > Tax (make sure "enable taxes" is checked in General settings first)
 
 == Frequently Asked Questions ==
+
+= Why is a WordPress.com account connection required? =
+
+We connect to your WordPress.com account to authenticate your site and user account so we can securely charge the payment method on file for any labels purchased.
 
 = What services are included? =
 
@@ -53,10 +57,6 @@ Yes! You can buy and print USPS shipping labels for domestic destinations and US
 = This works with WooCommerce, right? =
 
 Yep! WooCommerce version 3.0 or newer, please.
-
-= Why is a Jetpack Connection and WordPress.com account required? =
-
-We use the Jetpack connection to authenticate each request and, if you use the shipping label service, to charge your credit card on file.
 
 = Are there Terms of Service and data usage policies? =
 
@@ -77,6 +77,26 @@ The source code is freely available [in GitHub](https://github.com/Automattic/wo
 6. Checking and exporting the label purchase reports
 
 == Changelog ==
+
+= 2.4.0 - 2023-10-31 =
+* Add - Ability to connect to WordPress.com without the Jetpack plugin.
+* Fix - NUX banner display on Edit Order pages.
+
+= 2.3.7 - 2023-10-23 =
+* Add - Load Sift when printing a label.
+
+= 2.3.6 - 2023-10-10 =
+* Fix - Occasionally block user to checkout when using WooCommerce Blocks.
+* Fix - Fix notice error when shipping location(s) is disabled in WooCommerce settings.
+
+= 2.3.5 - 2023-09-20 =
+* Tweak - Move Jetpack Connection requirement to the top in FAQ.
+
+= 2.3.4 - 2023-09-05 =
+* Fix - Shipping label reports to display proper HTML.
+
+= 2.3.3 - 2023-08-22 =
+* Tweak - Update .org assets.
 
 = 2.3.2 - 2023-08-09 =
 * Add   - Added QIT tools for development.

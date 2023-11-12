@@ -84,14 +84,14 @@ function wppfm_show_wp_message( $message, $type, $dismissible, $permanent_dismis
  *
  * @since 1.9.3
  *
- * @param wp_error object $response
- * @param string $message
+ * @param wp_error $response object
+ * @param string   $message
  *
  * @return string html
  */
 function wppfm_handle_wp_errors_response( $response, $message ) {
-	$error_messages = method_exists( (object)$response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
-	$error_message  = method_exists( (object)$response, 'get_error_message' ) ? $response->get_error_message() : 'Error unknown';
+	$error_messages = method_exists( (object) $response, 'get_error_messages' ) ? $response->get_error_messages() : array( 'Error unknown' );
+	$error_message  = method_exists( (object) $response, 'get_error_message' ) ? $response->get_error_message() : 'Error unknown';
 	$error_text     = ! empty( $error_messages ) ? implode( ' :: ', $error_messages ) : 'error unknown!';
 
 	wppfm_write_log_file( $message . ' ' . $error_text );
@@ -103,12 +103,14 @@ function wppfm_handle_wp_errors_response( $response, $message ) {
  * enables writing log files in the plugin folder
  *
  * @since 1.5.1
+ * @since 2.41.0 error log files should go to the wp-content folder
+ * @since 2.42.0 fixed an error where the error file was not placed in the wp-content folder.
  *
  * @param string $error_message
  * @param string $filename (default 'error')
  */
 function wppfm_write_log_file( $error_message, $filename = 'error' ) {
-	$file = WPPFM_PLUGIN_DIR . $filename . '.log';
+	$file = 'error' === $filename ? WP_CONTENT_DIR . '/' . $filename . '.log' : WPPFM_PLUGIN_DIR . $filename . '.log';
 
 	if ( is_null( $error_message ) || is_string( $error_message ) || is_int( $error_message ) || is_bool( $error_message ) || is_float( $error_message ) ) {
 		$message_line = $error_message;
@@ -118,14 +120,14 @@ function wppfm_write_log_file( $error_message, $filename = 'error' ) {
 		$message_line = 'ERROR! Could not write messages of type ' . gettype( $error_message );
 	}
 
-	if ( false === file_put_contents( $file, date( 'Y-m-d H:i:s', current_time( 'timestamp' ) ) . ' - ' . ucfirst( $filename ) . ' Message: ' . $message_line . PHP_EOL, FILE_APPEND ) ) {
+	if ( false === file_put_contents( $file, gmdate( 'Y-m-d H:i:s', time() ) . ' - ' . ucfirst( $filename ) . ' Message: ' . $message_line . PHP_EOL, FILE_APPEND ) ) {
 		/* translators: %s: Error message */
 		wppfm_show_wp_error( sprintf( __( 'There was an error but I was unable to store the error message in the log file. The message was %s', 'wp-product-feed-manager' ), $error_message ) );
 	}
 }
 
 /**
- * Returns an html string containing a message to inform the user that he has to update the WooCommerce plugin
+ * Returns a html string containing a message to inform the user that he has to update the WooCommerce plugin
  *
  * @return string html
  */
@@ -141,12 +143,12 @@ function wppfm_update_your_woocommerce_version_message() {
 	$message_code  = '<div class="full-screen-message-field">';
 	$message_code .= '<p>*** ' . sprintf(
 		/* translators: %1$s: minimum version of the WooCommerce plugin, %2$s: installed version of the WooCommerce plugin */
-			esc_html__(
-				'This plugin requires WooCommerce version %1$s as a minimum!
-				It seems you have installed WooCommerce version %2$s which is a version that is not supported.
-				Please update to the latest version ***',
-				'wp-product-feed-manager'
-			),
+		esc_html__(
+			'This plugin requires WooCommerce version %1$s as a minimum!
+			It seems you have installed WooCommerce version %2$s which is a version that is not supported.
+			Please update to the latest version ***',
+			'wp-product-feed-manager'
+		),
 		WPPFM_MIN_REQUIRED_WC_VERSION,
 		$wc_version
 	) . '</p>';
@@ -156,7 +158,7 @@ function wppfm_update_your_woocommerce_version_message() {
 }
 
 /**
- * Returns an html string containing a message to the user that WooCommerce is not installed on the server
+ * Returns a html string containing a message to the user that WooCommerce is not installed on the server
  *
  * @return string html
  */
@@ -188,7 +190,7 @@ function wppfm_you_have_no_woocommerce_installed_message() {
 function wppfm_log_http_requests( $response, $args, $url ) {
 	if ( false !== is_wp_error( $response ) && wppfm_on_any_own_plugin_page() ) {
 		$logfile = WPPFM_PLUGIN_DIR . 'http_request_error.log';
-		file_put_contents( $logfile, sprintf( "### %s, URL: %s\nREQUEST: %sRESPONSE: %s\n", date( 'c' ), $url, print_r( $args, true ), print_r( $response, true ) ), FILE_APPEND );
+		file_put_contents( $logfile, sprintf( "### %s, URL: %s\nREQUEST: %sRESPONSE: %s\n", gmdate( 'c' ), $url, print_r( $args, true ), print_r( $response, true ) ), FILE_APPEND );
 	}
 
 	return $response;

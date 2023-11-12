@@ -24,6 +24,7 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Category_Wrapper' ) ) :
 		public function display() {
 
 			// Start with the section code.
+			echo '<section class="wppfm-category-mapping-and-filter-wrapper">';
 			echo '<section class="wppfm-edit-feed-form-element-wrapper wppfm-category-mapping-wrapper" id="wppfm-category-map" style="display:none;">';
 			echo '<div id="category-mapping-header" class="header"><h3>' . __( 'Category Mapping', 'wp-product-feed-manager' ) . ':</h3></div>';
 			echo '<table class="fm-category-mapping-table widefat" id="category-mapping-table">';
@@ -43,6 +44,8 @@ if ( ! class_exists( 'WPPFM_Product_Feed_Category_Wrapper' ) ) :
 
 			// Add the product filter element.
 			echo $this->product_filter();
+
+			echo '</section>';
 		}
 	}
 

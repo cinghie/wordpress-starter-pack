@@ -160,12 +160,13 @@ function wppfm_getCategoryListsFromString( channelId, mainCategoriesString, lang
 }
 
 function wppfm_updateFeedToDb( feedData, metaData, feedFilter, callback ) {
+
 	jQuery.post(
 		myAjaxNonces.ajaxurl,
 		{
 			action: 'myajax-update-feed-data',
 			feed: JSON.stringify( feedData ),
-			feedFilter: feedFilter ? feedFilter[ 0 ][ 'meta_value' ] : '',
+			feedFilter: feedFilter && feedFilter.length > 0 ? feedFilter[ 0 ][ 'meta_value' ] : '',
 			metaData: JSON.stringify( metaData ),
 			updateFeedDataNonce: myAjaxNonces.updateFeedDataNonce,
 		},
@@ -359,31 +360,6 @@ function wppfm_show_pi_status( selection, callback ) {
 }
 
 /**
- * Sets the Review Feed Manager Status option.
- *
- * @since 2.37.0.
- *
- * @param selection
- * @param callback
- */
-function wppfm_review_feed_manager_status( selection, callback ) {
-
-	jQuery.post(
-		myAjaxNonces.ajaxurl,
-		{
-			action: 'myajax-activate-review-feed-manager',
-			showReviewFeedSelection: selection,
-			setActivateReviewFeedManagerNonce: myAjaxNonces.setActivateReviewFeedManagerNonce,
-
-		},
-		function( response ) {
-
-			callback( response.trim() );
-		}
-	);
-}
-
-/**
  * Stores the WPML Use full URL resolution option.
  *
  * @since 2.15.0
@@ -546,7 +522,7 @@ function wppfm_validateResponse( response ) {
 /**
  * Deletes a specific feed file
  *
- * This function first removes the file from the server and than from the feed database.
+ * This function first removes the file from the server and then from the feed database.
  * After that it will refresh the Feed List.
  *
  * @param {int} id

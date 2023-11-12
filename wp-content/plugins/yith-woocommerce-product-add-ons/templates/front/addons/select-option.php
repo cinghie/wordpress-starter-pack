@@ -6,7 +6,7 @@
  * @package YITH\ProductAddOns
  * @version 2.0.0
  *
- * @var object $addon
+ * @var YITH_WAPO_Addon $addon
  * @var int    $x
  * @var string $setting_hide_images
  * @var string $required_message
@@ -38,6 +38,8 @@ $image_replacement = is_ssl() ? str_replace( 'http://', 'https://', $image_repla
 $selected           = $addon->get_option( 'default', $x, 'no' ) === 'yes' ? 'selected="selected"' : '';
 $option_description = $addon->get_option( 'description', $x );
 
+$option_disabled = apply_filters( 'yith_wapo_select_option_disabled', false, $addon, $x );
+
 ?>
 
 <option value="<?php echo esc_attr( $x ); ?>" <?php echo esc_attr( $selected ); ?>
@@ -56,7 +58,9 @@ $option_description = $addon->get_option( 'description', $x );
 	    data-addon-id="<?php echo esc_attr( $addon->id ); ?>"
 	    data-image="<?php echo esc_attr( $option_image ); ?>"
 	    data-replace-image="<?php echo esc_attr( $image_replacement ); ?>"
-	    data-description="<?php echo wp_kses_post( $option_description ); ?>">
+	    data-description="<?php echo wp_kses_post( $option_description ); ?>"
+        <?php echo $option_disabled ? 'disabled' : ''; ?>
+>
 	<?php echo wp_kses_post( $addon->get_option( 'label', $x ) ); ?>
 	<?php echo ! $hide_options_prices ? wp_kses_post( $addon->get_option_price_html( $x, $currency ) ) : ''; ?>
 </option>

@@ -57,15 +57,13 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$process_logging_unchecked       = true === $process_logging_option || 'true' === $process_logging_option ? ' checked ' : '';
 			$product_identifiers_option      = get_option( 'wppfm_show_product_identifiers', 'false' );
 			$show_product_identifiers        = true === $product_identifiers_option || 'true' === $product_identifiers_option ? ' checked ' : '';
-			$review_feed_manager_option      = get_option( 'wppfm_review_feed_manager_active', 'false' );
-			$review_feed_manager_active      = true === $review_feed_manager_option || 'true' === $review_feed_manager_option ? ' checked ' : '';
 			$use_full_resolution_option      = get_option( 'wppfm_use_full_url_resolution', 'false' );
 			$wpml_use_full_resolution_urls   = true === $use_full_resolution_option || 'true' === $use_full_resolution_option ? ' checked ' : '';
 
 			$third_party_attribute_keywords = get_option( 'wppfm_third_party_attribute_keywords', '%wpmr%,%cpf%,%unit%,%bto%,%yoast%' );
 			$notice_mailaddress             = get_option( 'wppfm_notice_mailaddress' ) ? get_option( 'wppfm_notice_mailaddress' ) : get_bloginfo( 'admin_email' );
 
-			$html_code .= '<div class="data" id="wp-product-feed-manager-data" style="display:none;"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-plugin-version-id" value="' . WPPFM_PLUGIN_VERSION_ID . '">' . WPPFM_PLUGIN_VERSION_ID . '</div>';
+			$html_code .= '<div class="wppfm_hidden_background_data" id="wp-product-feed-manager-data"><div id="wp-plugin-url">' . WPPFM_UPLOADS_URL . '</div><div id="wppfm-plugin-version-id" value="' . WPPFM_PLUGIN_VERSION_ID . '">' . WPPFM_PLUGIN_VERSION_ID . '</div>';
 			$html_code .= '<div id="wppfm-plugin-version-nr" value="' . WPPFM_VERSION_NUM . '">' . WPPFM_VERSION_NUM . '</div></div>';
 			$html_code .= '<tr valign="top" class="">';
 			$html_code .= '<th scope="row" class="titledesc">' . esc_html__( 'Auto feed fix', 'wp-product-feed-manager' ) . '</th>';
@@ -84,7 +82,7 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$html_code .= '<input name="wppfm_background_processing_mode" id="wppfm_background_processing_mode" type="checkbox" class="" value="1"' . $background_processing_unchecked . '> ';
 			$html_code .= '<label for="wppfm_background_processing_mode">';
 			$html_code .= esc_html__( 'Process feeds directly instead of in the background (default off). Try this option when feeds keep getting stuck in processing. ', 'wp-product-feed-manager' ) . '</label>';
-			$html_code .= '<p><i>' . esc_html__( 'WARNING: When this option is selected the system can only update one feed at a time. Make sure to deconflict your feeds auto-update schedules to prevent more than one feed auto-updates at a time.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
+			$html_code .= '<p><i>' . esc_html__( 'WARNING: When this option is selected the system can only update one feed at a time. Make sure to de-conflict your feeds auto-update schedules to prevent more than one feed auto-updates at a time.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
 			$html_code .= '</td></tr>';
 
 			$html_code .= '<tr valign="top" class="">';
@@ -106,17 +104,6 @@ if ( ! class_exists( 'WPPFM_Options_Page' ) ) :
 			$html_code .= '<label for="wppfm_product_identifiers">';
 			$html_code .= esc_html__( 'When switched on, adds Brand, GTIN and MPN product identifiers to the products (default off).', 'wp-product-feed-manager' ) . '</label>';
 			$html_code .= '<p><i>' . esc_html__( 'This option will add product identifier input fields to the Inventory card of your products. The MPN identifier is also added to the product variations.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
-			$html_code .= '</td></tr>';
-
-			// @since 2.37.0.
-			$html_code .= '<tr valign="top" class="">';
-			$html_code .= '<th scope="row" class="titledesc">' . esc_html__( 'Activate Google Product Review Feeds', 'wp-product-feed-manager' ) . '</th>';
-			$html_code .= '<td class="forminp forminp-checkbox">';
-			$html_code .= '<fieldset>';
-			$html_code .= '<input name="wppfm_review_feed_manager_on" id="wppfm_review_feed_manager" type="checkbox" class="" value="1"' . $review_feed_manager_active . '> ';
-			$html_code .= '<label for="wppfm_review_feed_manager">';
-			$html_code .= esc_html__( 'When switched on you get the option to generate Google Review Feeds (default off).', 'wp-product-feed-manager' ) . '</label>';
-			$html_code .= '<p><i>' . esc_html__( 'This option will add an extra tab to the Feed Manager that will allow you to generate Google Product Review Feeds.', 'wp-product-feed-manager' ) . '</i></p></fieldset>';
 			$html_code .= '</td></tr>';
 
 			// @since 2.15.0.

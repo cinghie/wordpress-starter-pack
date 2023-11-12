@@ -14,27 +14,30 @@ export interface ProductCollectionAttributes {
 	templateSlug: string;
 	displayLayout: ProductCollectionDisplayLayout;
 	tagName: string;
-	displayUpgradeNotice: boolean;
+	convertedFromProducts: boolean;
+}
+
+export enum LayoutOptions {
+	GRID = 'flex',
+	STACK = 'list',
 }
 
 export interface ProductCollectionDisplayLayout {
-	type: 'flex' | 'list';
+	type: LayoutOptions;
 	columns: number;
+	shrinkColumns?: boolean;
 }
 
 export interface ProductCollectionQuery {
-	author: string;
 	exclude: string[];
 	inherit: boolean | null;
 	offset: number;
 	order: TProductCollectionOrder;
 	orderBy: TProductCollectionOrderBy;
 	pages: number;
-	parents: number[];
 	perPage: number;
 	postType: string;
 	search: string;
-	sticky: string;
 	taxQuery: Record< string, number[] >;
 	woocommerceOnSale: boolean;
 	/**
@@ -63,7 +66,7 @@ export type TProductCollectionOrderBy =
 	| 'popularity'
 	| 'rating';
 
-export type DisplayLayoutControlProps = {
+export type DisplayLayoutToolbarProps = {
 	displayLayout: ProductCollectionDisplayLayout;
 	setAttributes: ( attrs: Partial< ProductCollectionAttributes > ) => void;
 };

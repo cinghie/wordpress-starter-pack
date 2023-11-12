@@ -2,7 +2,7 @@
 /**
  * HTML Template Email
  *
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @version 1.5.3
  * @author  YITH <plugins@yithemes.com>
@@ -53,8 +53,10 @@
 			?>
 			<tr>
 				<td scope="col" style="text-align:left;"><a href="<?php echo esc_url( $product_admin_link ); ?>"><?php echo wp_kses_post( $_product->get_title() ); ?></a>
-				 <?php if ( isset( $item['variations'] ) ) : ?>
-						<small><?php echo wp_kses_post( yith_ywraq_get_product_meta( $item ) ); ?></small><?php endif ?></td>
+					<?php if ( isset( $item['variations'] ) ) : ?>
+						<small><?php echo wp_kses_post( yith_ywraq_get_product_meta( $item ) ); ?></small>
+					<?php endif ?>
+				</td>
 				<td scope="col" style="text-align:left;"><?php echo esc_html( $item['quantity'] ); ?></td>
 				<td scope="col" style="text-align:left;"><?php echo wp_kses_post( WC()->cart->get_product_subtotal( $_product, (int) $item['quantity'] ) ); ?></td>
 			</tr>

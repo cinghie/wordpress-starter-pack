@@ -46,8 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <p>Fire e-commerce related events. On Facebook, the events will be Dynamic Ads Ready. Enhanced Ecommerce
-                    will be enabled for Google Analytics.</p>
+                <p>Fire e-commerce related events. Meta events are Dynamic Ads Ready. Monetization data is sent to Google Analytics.</p>
             </div>
         </div>
 
@@ -130,7 +129,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <h2 class="section-title">ID Settings</h2>
 
 <?php if ( Facebook()->enabled() ) : ?>
-    
+
     <!-- Facebook ID -->
     <div class="card">
         <div class="card-header">
@@ -160,7 +159,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
         </div>
     </div>
-    
+
 <?php endif; ?>
 
 <?php if ( GA()->enabled() ) : ?>
@@ -375,7 +374,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -425,7 +424,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -468,7 +467,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('edd_initiate_checkout_enabled');?>Track the Checkout Page <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -477,7 +476,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -529,7 +528,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -563,7 +562,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('edd_add_to_cart_enabled');?>Track add to cart <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -572,7 +571,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -624,7 +623,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -658,7 +657,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('edd_view_content_enabled');?>Track product pages <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -667,7 +666,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -726,7 +725,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         </div>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -760,7 +759,7 @@ e&utm_campaign=pro-feature' ); ?>
         <?php PYS()->render_switcher_input('edd_view_category_enabled');?>Track product category pages <?php cardCollapseBtn(); ?>
     </div>
     <div class="card-body">
-        
+
         <?php if ( Facebook()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -769,7 +768,7 @@ e&utm_campaign=pro-feature' ); ?>
                 </div>
             </div>
         <?php endif; ?>
-        
+
         <?php if ( GA()->enabled() ) : ?>
             <div class="row mb-1">
                 <div class="col">
@@ -793,7 +792,7 @@ e&utm_campaign=pro-feature' ); ?>
             </div>
         </div>
         <?php renderDummyGoogleAdsConversionLabelInputs(); ?>
-        
+
         <?php if ( Pinterest()->enabled() ) : ?>
             <div class="row">
                 <div class="col">
@@ -865,7 +864,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col col-offset-left form-inline">
                 <label>Fire this event when the client has at least </label>
@@ -922,7 +921,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col col-offset-left form-inline">
                 <label>Fire this event when the client has at least</label>
@@ -980,7 +979,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <h4 class="switcher-label">Enable on Bing</h4>
             </div>
         </div>
-        
+
         <div class="row mt-3">
             <div class="col col-offset-left form-inline">
                 <label>Fire this event when the client has LTV at least</label>
@@ -1063,7 +1062,7 @@ e&utm_campaign=pro-feature' ); ?>
                 <p>All events get the following parameters for all the tags: <i>page_title, post_type, post_id, event_URL, user_role, plugin, landing_page (pro), event_time (pro), event_day (pro), event_month (pro), traffic_source (pro), UTMs (pro).</i></p>
                 <p>The Purchase event will have the following extra-parameters: <i>category_name, num_items, tags, total (pro), transactions_count (pro), tax (pro), predicted_ltv (pro), average_order (pro), coupon_used (pro), coupon_code (pro), shipping (pro), shipping_cost (pro).</i></p>
                 <p>The Meta Pixel (formerly Facebook Pixel) events are Dynamic Ads ready.</p>
-                <p>The Google Analytics events track the data Enhanced Ecommerce or Monetization (GA4).</p>
+                <p>The Google Analytics events track Monetization data (GA4).</p>
                 <p>The Pinterest events have the required data for Dynamic Remarketing.</p>
             </div>
         </div>

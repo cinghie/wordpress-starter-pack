@@ -245,8 +245,11 @@ public function get_mapping_attributes_dropdown() {
             		"regular_price" => "Regular price",
 			"sale_price" => "Sale price",
             		"net_price" => "Price excl. VAT",
-            		"net_regular_price" => "Regular price excl. VAT",
+            		"net_price_rounded" => "Price excl. VAT rounded",
+			"net_regular_price" => "Regular price excl. VAT",
+			"net_regular_price_rounded" => "Regular price excl. VAT rounded",
 			"net_sale_price" => "Sale price excl. VAT",
+			"net_sale_price_rounded" => "Sale price excl. VAT rounded",
 			"price_forced" => "Price incl. VAT front end",
 			"regular_price_forced" => "Regular price incl. VAT front end",
 			"sale_price_forced" => "Sale price incl. VAT front end",
@@ -281,6 +284,7 @@ public function get_mapping_attributes_dropdown() {
 			"link_no_tracking" => "Link without parameters",
 			"variable_link" => "Product variable link",
 			"add_to_cart_link" => "Add to cart link",
+			"cart_link" => "Cart link",
 			"product_creation_date" => "Product creation date",
 			"days_back_created" => "Product days back created",
             		"currency" => "Currency",
@@ -437,6 +441,7 @@ public function get_mapping_attributes_dropdown() {
 		$dropdown .= "<option value='product_tag_space'>Product tags space</option>";              
 		$dropdown .= "<option value='menu_order'>Menu order</option>";
 		$dropdown .= "<option value='reviews'>Reviews</option>";
+		$dropdown .= "<option value='review_rating'>Review rating</option>";
 		$dropdown .= "<option value='author'>Author</option>";
 		$dropdown .= "</optgroup>";
 
@@ -484,7 +489,8 @@ public function get_mapping_attributes_dropdown() {
 			"link" => "Link",
 			"link_no_tracking" => "Link without parameters",
                         "variable_link" => "Product variable link",
-                        "add_to_cart_link" => "Add to cart link",
+			"add_to_cart_link" => "Add to cart link",
+			"cart_link" => "Cart link",
 			"image" => "Main image",
                         "image_all" => "Main image simple and variations",
 			"feature_image" => "Feature image",
@@ -534,8 +540,11 @@ public function get_mapping_attributes_dropdown() {
                         "regular_price" => "Regular price",
                         "sale_price" => "Sale price",
                         "net_price" => "Price excl. VAT",
-                        "net_regular_price" => "Regular price excl. VAT",
-                        "net_sale_price" => "Sale price excl. VAT",
+                        "net_price_rounded" => "Price excl. VAT rounded",
+			"net_regular_price" => "Regular price excl. VAT",
+			"net_regular_price_rounded" => "Regular price excl. VAT rounded",
+			"net_sale_price" => "Sale price excl. VAT",
+			"net_sale_price_rounded" => "Sale price excl. VAT rounded",
                         "price_forced" => "Price incl. VAT front end",
                         "regular_price_forced" => "Regular price incl. VAT front end",
                         "sale_price_forced" => "Sale price incl. VAT front end",
@@ -628,6 +637,7 @@ public function get_mapping_attributes_dropdown() {
 			"consumer_notice_3" => "Consumer notice 3",
 			"menu_order" => "Menu order",
 			"reviews" => "Reviews",
+			"review_rating" => "Review rating",
 			"author" => "Author",
         	);
 

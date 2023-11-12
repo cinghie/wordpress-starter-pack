@@ -31,7 +31,7 @@
 								<button
                                     @click.prevent="preview()"
                                     id="preview-slideshow"
-                                    title="<?php echo esc_attr(htmlentities(esc_html_e('Save & open preview', 'ml-slider'))); ?><br><?php echo esc_html(htmlentities(_x('(alt + p)', 'This is a keyboard shortcut.', 'ml-slider'))); ?>" class="ms-toolbar-button"
+                                    title="<?php esc_attr_e('Save & open preview', 'ml-slider'); echo esc_attr(_x(' (alt + p)', 'This is a keyboard shortcut.', 'ml-slider')); ?>" class="ms-toolbar-button"
                                     :disabled="locked"
                                     :class="{'disabled': locked}">
                                     <svg

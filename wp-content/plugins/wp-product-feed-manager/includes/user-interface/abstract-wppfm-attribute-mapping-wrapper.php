@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPPFM_Attribute_Mapping_Wrapper' ) ) :
 		}
 
 		protected function attribute_mapping_wrapper_table_end() {
-			return '</section></div>';
+			return '</section>';
 		}
 	}
 

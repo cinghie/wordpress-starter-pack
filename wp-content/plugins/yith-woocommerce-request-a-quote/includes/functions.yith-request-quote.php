@@ -1,8 +1,8 @@
 <?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
- * Implements helper functions for YITH WooCommerce Request A Quote
+ * Implements helper functions for YITH Request a Quote for WooCommerce
  *
- * @package YITH WooCommerce Request A Quote
+ * @package YITH\RequestAQuote
  * @since   1.0.0
  * @author  YITH <plugins@yithemes.com>
  */
@@ -47,14 +47,13 @@ if ( ! function_exists( 'yith_ywraq_get_product_meta' ) ) {
 					}
 					$label = wc_attribute_label( $taxonomy );
 
-				} else {
-					if ( strpos( $name, 'attribute_' ) !== false ) {
-						$custom_att = str_replace( 'attribute_', '', $name );
-						if ( '' !== $custom_att ) {
-							$label = wc_attribute_label( $custom_att );
-						} else {
-							$label = apply_filters( 'woocommerce_attribute_label', wc_attribute_label( $name ), $name );
-						}
+				} elseif ( strpos( $name, 'attribute_' ) !== false ) {
+					$custom_att = str_replace( 'attribute_', '', $name );
+
+					if ( '' !== $custom_att ) {
+						$label = wc_attribute_label( $custom_att );
+					} else {
+						$label = apply_filters( 'woocommerce_attribute_label', wc_attribute_label( $name ), $name );
 					}
 				}
 
@@ -186,7 +185,6 @@ if ( ! function_exists( 'yith_ywraq_get_product_meta_from_order_item' ) ) {
 		}
 
 		return $out;
-
 	}
 }
 
@@ -243,18 +241,14 @@ if ( ! function_exists( 'yith_ywraq_add_notice' ) ) {
 		);
 
 		$session->set( 'yith_ywraq_notices', $notices );
-
 	}
 }
-
-
 
 if ( ! function_exists( 'yith_ywraq_print_notices' ) ) {
 	/**
 	 * Prints messages and errors which are stored in the session, then clears them.
 	 *
 	 * @since 2.1
-	 * @return void
 	 */
 	function yith_ywraq_print_notices() {
 		$session = YITH_Request_Quote()->session_class;
@@ -302,7 +296,6 @@ if ( ! function_exists( 'yith_ywraq_clear_notices' ) ) {
 		$session->set( 'yith_ywraq_notices', null );
 	}
 }
-
 
 /****** HOOKS *****/
 function yith_ywraq_show_button_in_single_page() {
@@ -504,7 +497,6 @@ if ( ! function_exists( 'ywraq_get_label' ) ) {
 	}
 }
 
-
 if ( ! function_exists( 'yith_ywraq_render_button' ) ) {
 	/**
 	 * Render the Request a quote button.
@@ -516,8 +508,9 @@ if ( ! function_exists( 'yith_ywraq_render_button' ) ) {
 
 		if ( ! $product_id ) {
 			global $product, $post;
-			if( !$product instanceof WC_Product && $post instanceof WP_Post){
-				$product = wc_get_product( $post->ID);
+
+			if ( ! $product instanceof WC_Product && $post instanceof WP_Post ) {
+				$product = wc_get_product( $post->ID );
 			}
 		} else {
 			$product = wc_get_product( $product_id );
@@ -587,7 +580,6 @@ if ( ! function_exists( 'yith_ywraq_render_button' ) ) {
 		 */
 		$args['args']    = apply_filters( 'ywraq_add_to_quote_args', $args );
 		$template_button = 'add-to-quote.php';
-
 
 		wc_get_template( $template_button, $args, '', YITH_YWRAQ_TEMPLATE_PATH . '/' );
 	}

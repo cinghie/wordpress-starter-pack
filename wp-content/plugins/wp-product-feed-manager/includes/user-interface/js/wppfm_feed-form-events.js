@@ -1,7 +1,8 @@
 jQuery(
 	function( $ ) {
-		var fileNameElement  = $( '#file-name' );
+		var fileNameElement  = $( '#wppfm-feed-file-name' );
 		var merchantsElement = $( '#wppfm-merchants-selector' );
+		var googleFeedType   = $( '#wppfm-feed-types-selector' );
 		var countriesElement = $( '#wppfm-countries-selector' );
 		var level0Element    = $( '#lvl_0' );
 
@@ -10,6 +11,7 @@ jQuery(
 			'focusout',
 			function() {
 				if ( '' !== fileNameElement.val() ) {
+					googleFeedType.prop( 'disabled', false );
 					countriesElement.prop( 'disabled', false );
 					level0Element.prop( 'disabled', false );
 					if ( false === wppfm_validateFileName( fileNameElement.val() ) ) {
@@ -23,6 +25,7 @@ jQuery(
 						wppfm_hideFeedFormMainInputs();
 					}
 				} else {
+					googleFeedType.prop( 'disabled', true );
 					countriesElement.prop( 'disabled', true );
 					level0Element.prop( 'disabled', true );
 				}
@@ -34,14 +37,43 @@ jQuery(
 			function() {
 
 				if ( '' !== fileNameElement.val() ) {
+					googleFeedType.prop( 'disabled', false );
 					countriesElement.prop( 'disabled', false );
 					level0Element.prop( 'disabled', false );
 				} else {
+					googleFeedType.prop( 'disabled', true );
 					countriesElement.prop( 'disabled', true );
 					level0Element.prop( 'disabled', true );
 				}
 			}
 		);
+
+		merchantsElement.on(
+			'change',
+			function() {
+				if ( '0' !== merchantsElement.val() && '' !== $( '#wppfm-feed-file-name' ).val() ) {
+					wppfm_showChannelInputs( $( '#wppfm-merchants-selector' ).val(), true );
+					wppfm_mainInputChanged( false );
+				} else {
+					wppfm_hideFeedFormMainInputs();
+				}
+			}
+		);
+
+		googleFeedType.on(
+			'change',
+			function() {
+				var selectedGoogleFeedType = jQuery( '#wppfm-feed-types-selector' ).val();
+				wppfm_setGoogleFeedType( selectedGoogleFeedType );
+				var currentFeedTypeForm = wppfm_getUrlParameter( 'feed-type' )
+
+				if ( '1' === selectedGoogleFeedType && 'product-feed' === currentFeedTypeForm ) {
+					wppfm_mainInputChanged( false );
+				} else {
+					wppfm_handleSupportFeedSelection(selectedGoogleFeedType);
+				}
+			}
+		)
 
 		countriesElement.on(
 			'change',
@@ -83,18 +115,6 @@ jQuery(
 			'change',
 			function() {
 				wppfm_setGoogleFeedDescription( jQuery( '#google-feed-description-selector' ).val() );
-			}
-		);
-
-		merchantsElement.on(
-			'change',
-			function() {
-				if ( '0' !== merchantsElement.val() && '' !== $( '#file-name' ).val() ) {
-					wppfm_showChannelInputs( $( '#wppfm-merchants-selector' ).val(), true );
-					wppfm_mainInputChanged( false );
-				} else {
-					wppfm_hideFeedFormMainInputs();
-				}
 			}
 		);
 
@@ -223,13 +243,6 @@ jQuery(
 			'change',
 			function() {
 				wppfm_show_product_identifiers_changed();
-			}
-		);
-
-		$( '#wppfm_review_feed_manager' ).on(
-			'change',
-			function() {
-				wppfm_activate_review_feed_manager();
 			}
 		);
 

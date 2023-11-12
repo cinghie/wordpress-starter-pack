@@ -22,7 +22,7 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
     <div class="row">
         <div class="col">
             <div class="d-flex justify-content-between">
-                <span class="mt-2">With the pro version, you can fire events on clicks, mouse over and page
+                <span class="mt-2">With the pro version, you can fire events on clicks, mouse over elements, post type visits, or page
                     scroll:</span>
                 <a target="_blank" class="btn btn-sm btn-primary float-right" href="https://www.pixelyoursite.com/facebook-pixel-plugin/buy-pixelyoursite-pro?utm_source=pixelyoursite-free-plugin&utm_medium=plugin&utm_campaign=free-plugin-upgrade-blue">UPGRADE</a>
             </div>
@@ -323,7 +323,7 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                 <div id="facebook_params_panel">
                     <div class="row mt-3">
                         <div class="col col-offset-left">
-        
+
                             <div class="row mb-3 ViewContent Search AddToCart AddToWishlist InitiateCheckout AddPaymentInfo Purchase Lead CompleteRegistration Subscribe StartTrial">
                                 <label class="col-5 control-label">value</label>
                                 <div class="col-4">
@@ -393,7 +393,7 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
 			                        <?php Events\renderFacebookParamInput( $event, 'predicted_ltv' ); ?>
                                 </div>
                             </div>
-        
+
                             <!-- Custom Facebook Params -->
                             <div class="row mt-3 facebook-custom-param" data-param_id="0" style="display: none;">
                                 <div class="col-1"></div>
@@ -410,11 +410,11 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                                     </button>
                                 </div>
                             </div>
-        
+
                             <?php foreach ( $event->getFacebookCustomParams() as $key => $custom_param ) : ?>
-        
+
                                 <?php $param_id = $key + 1; ?>
-        
+
                                 <div class="row mt-3 facebook-custom-param" data-param_id="<?php echo $param_id; ?>">
                                     <div class="col">
                                         <div class="row">
@@ -437,11 +437,11 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                                         </div>
                                     </div>
                                 </div>
-        
+
                             <?php endforeach; ?>
-        
+
                             <div class="insert-marker"></div>
-        
+
                             <div class="row mt-3">
                                 <div class="col-5"></div>
                                 <div class="col-4">
@@ -449,11 +449,17 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                                         Custom Parameter</button>
                                 </div>
                             </div>
-        
+
                         </div>
                     </div>
                 </div>
             </div>
+            <br>
+						<br>
+            <p>
+                <b>Important:</b> verify your custom events inside your Ads Manager:
+                <a href="https://www.youtube.com/watch?v=Iyu-pSbqcFI" target="_blank">watch this video to learn how</a>
+            </p>
         </div>
     </div>
 <?php endif; ?>
@@ -701,13 +707,21 @@ $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" :
                     <li><code>[subtotal]</code> - it will pull WooCommerce or EDD orders's subtotal when it exists</li>
                 </ul>
                 <p><strong class="text-secondary">Track URL parameters:</strong></p>
-                <p class="text-secondary"> Use <code>[url_ParameterName]</code> where ParameterName = the name of the parameter. <br/>
-                    Example:<br/>
+                <p class="text-secondary"> Use <code>[url_ParameterName]</code> where ParameterName = the name of the parameter. <br/><br/>
+                    Example:<br/><br/>
                     This is your URL: <?=$serverUrl?>?ParameterName=123<br/>
                     The parameter value will be 123.<br/>
                 </p>
                 <p class="text-secondary mb-0"><strong>Note:</strong> if a parameter is missing from a particular
                     page, the event won't include it.</p>
+					<br/>
+				<p><strong class="text-secondary">Track MemberPress plugin parameters:</strong></p>
+				  <p class="text-secondary"> These parameters only work on a "thankyou page" with shortcode <code>[mepr-ecommerce-tracking]Message with %%variables%% in here[/mepr-ecommerce-tracking]</code><br/><br/>
+					All variables must have the prefix "mp_".<br/><br/>
+					Example:<br/><br/>
+					This is your MemberPress variable: total.<br/>
+					The parameter value will be: [mp_total].<br/>
+				 </p>
             </div>
         </div>
     </div>

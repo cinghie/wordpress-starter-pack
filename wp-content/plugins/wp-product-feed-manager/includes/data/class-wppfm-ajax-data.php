@@ -60,10 +60,8 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 				$this->convert_type_numbers_to_text( $list );
 
-				// add information about the wppfm_special_feeds_add_on_active filter to the feed list.
 				$result = array(
-					'list'                        => $list,
-					'special_feed_add_ons_active' => apply_filters( 'wppfm_special_feeds_add_on_active', false ),
+					'list' => $list,
 				);
 
 				echo wp_json_encode( $result );
@@ -87,12 +85,12 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 		public function myajax_get_settings_options() {
 			if ( $this->safe_ajax_call( filter_input( INPUT_POST, 'postSetupOptionsNonce' ), 'myajax-setting-options-nonce' ) ) {
-				$options = [
+				$options = array(
 					get_option( 'wppfm_auto_feed_fix' ),
 					get_option( 'wppfm_third_party_attribute_keywords' ),
 					get_option( 'wppfm_notice_mailaddress' ),
 					get_option( 'wppfm_disabled_background_mode' ),
-				];
+				);
 				echo wp_json_encode( $options );
 			}
 
@@ -102,7 +100,7 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 		/**
 		 * Retrieves the output fields that are specific for a given merchant and
-		 * also adds stored meta data to the output fields
+		 * also adds stored metadata to the output fields
 		 *
 		 * @access public (ajax triggered)
 		 */
@@ -116,15 +114,15 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$channel_id = filter_input( INPUT_POST, 'channelId' );
 				$feed_id    = filter_input( INPUT_POST, 'feedId' );
 				$channel    = trim( $this->_queries->get_channel_short_name_from_db( $channel_id ) );
-				$is_custom  = function_exists( 'wppfm_channel_is_custom_channel' ) ? wppfm_channel_is_custom_channel( $channel_id ) : false;
+				$is_custom  = function_exists( 'wppfm_channel_is_custom_channel' ) && wppfm_channel_is_custom_channel( $channel_id );
 
 				if ( ! $is_custom ) {
 					// read the output fields
 					$outputs = $this->_files->get_output_fields_for_specific_channel( $channel );
 
-					// if the feed is a stored feed, look for meta data to add (a feed an id of -1 is a new feed that not yet has been saved)
+					// if the feed is a stored feed, look for metadata to add (a feed an id of -1 is a new feed that not yet has been saved)
 					if ( $feed_id >= 0 ) {
-						// add meta data to the feeds output fields
+						// add metadata to the feeds output fields
 						$outputs = $data_class->fill_output_fields_with_metadata( $feed_id, $outputs );
 					}
 				} else {
@@ -383,18 +381,18 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 				$obj->attribute_name  = $feed;
 				$obj->attribute_label = $feed;
 
-				array_push( $attributes, $obj );
-				array_push( $prev_dup_array, $obj->attribute_label );
+				$attributes[]     = $obj;
+				$prev_dup_array[] = $obj->attribute_label;
 			}
 
 			foreach ( $product_taxonomies as $taxonomy ) {
-				if ( ! in_array( $taxonomy, $prev_dup_array ) ) {
+				if ( ! in_array( $taxonomy, $prev_dup_array, true ) ) {
 					$obj                  = new stdClass();
 					$obj->attribute_name  = $taxonomy;
 					$obj->attribute_label = $taxonomy;
 
-					array_push( $attributes, $obj );
-					array_push( $prev_dup_array, $taxonomy );
+					$attributes[]     = $obj;
+					$prev_dup_array[] = $taxonomy;
 				}
 			}
 
@@ -403,13 +401,13 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 
 				if ( $attribute_object && ( is_object( $attribute_object ) || is_array( $attribute_object ) ) ) {
 					foreach ( $attribute_object as $attribute ) {
-						if ( is_array( $attribute ) && array_key_exists( 'name', $attribute ) && ! in_array( $attribute['name'], $prev_dup_array ) ) {
+						if ( is_array( $attribute ) && array_key_exists( 'name', $attribute ) && ! in_array( $attribute['name'], $prev_dup_array, true ) ) {
 							$obj                  = new stdClass();
 							$obj->attribute_name  = $attribute['name'];
 							$obj->attribute_label = $attribute['name'];
 
-							array_push( $attributes, $obj );
-							array_push( $prev_dup_array, $attribute['name'] );
+							$attributes[]     = $obj;
+							$prev_dup_array[] = $attribute['name'];
 						}
 					}
 				} else {
@@ -420,24 +418,30 @@ if ( ! class_exists( 'WPPFM_Ajax_Data' ) ) :
 			}
 
 			foreach ( $third_party_fields as $field_label ) {
-				if ( ! in_array( $field_label, $prev_dup_array ) ) {
+				if ( ! in_array( $field_label, $prev_dup_array, true ) ) {
 					$obj                  = new stdClass();
 					$obj->attribute_name  = $field_label;
 					$obj->attribute_label = $field_label;
 
-					array_push( $attributes, $obj );
-					array_push( $prev_dup_array, $field_label );
+					$attributes[]     = $obj;
+					$prev_dup_array[] = $field_label;
 				}
 			}
 
 			return $attributes;
 		}
 
-		private function convert_type_numbers_to_text( &$list ) {
+		private function convert_type_numbers_to_text( $list ) {
+			$channel_class = new WPPFM_Channel();
+
 			$feed_types = wppfm_list_feed_type_text();
 
-			foreach ( $list as $feed ) {
-				$feed->feed_type_name = $feed_types[ $feed->feed_type_id ];
+			for ( $i = 0; $i < count( $list ); $i ++ ) {
+				$list[ $i ]->feed_type_name = '1' === $list[ $i ]->feed_type_id ?
+					$channel_class->get_channel_name( $list[ $i ]->channel_id ) . ' ' . __( 'Feed', 'wp-product-feed-manager' ) :
+					$feed_types[ $list[ $i ]->feed_type_id ];
+
+				$list[ $i ]->feed_type = $feed_types[ $list[ $i ]->feed_type_id ];
 			}
 		}
 	}

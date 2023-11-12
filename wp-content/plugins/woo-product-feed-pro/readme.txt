@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Google Shopping Feed, Meta feed, Facebook feed, Facebook catalog feed, WooCommerce Product Feed, Product Feed, Bing Shopping Feed, Bing Product Feed, Google Merchant Feed, Skroutz, Google Product Feed, Twitter, Pinterest, Idealo, Pixels, Conversion API
 Requires at least: 4.5
 Tested up to: 6.3
-Stable tag: 12.8.2
+Stable tag: 13.0.8
 
 == Description ==
 
@@ -33,6 +33,9 @@ Determine yourself what attributes to in- or exclude in your product feed. This 
 
 = Field / attribute mapping =
 Map your field attributes to those of the channels of your choice. For many channels using the right field names is obliged.
+
+= Preview feature =
+Quickly tweak and tune the content of your product feed by creating a preview version of your feed
 
 = Fix for WooCommerce structured data bug (Elite version) =
 Because of a bug in WooCommerce variable products will get disapproved in Google's Merchant Center. WooCommerce adds the price of the cheapest variable product in the structured data for all variations of a product. Because of this there will be a mismatch between the product price you provide to Google in your Google Shopping product feed and the structured data price on the product landingpage. Google will therefor disapprove the product in its merchant center. You won't be able to advertise on that product in your Google Shopping campaign. Our plugin has a feature that will fix the structured data on variable product pages by adding the correct variable product price in the JSON-LD structured data so Google will approve the variable products you submitted. 
@@ -356,6 +359,89 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 13.0.8 (2023-11-09) =
+* Fixed an issue where the processing got stuck when manual WCML prices were entered by users
+
+= 13.0.7 (2023-11-03) =
+* Added three new price attributes: price excluding VAT/TAX rounded, regular price excluding VAT/TAX rounded and sale price excluding VAT/TAX rounded
+
+= 13.0.6 (2023-10-18) =
+* Fixed an issue where the plugin did unnecessary jQuery requests on the manage feed page
+
+= 13.0.5 (2023-10-14) =
+* Fixed an issue where integer 0 values were considered to be empty and not added to feeds
+
+= 13.0.4 (2023-10-11) =
+* Fixed an issue where filters on empty values no longer worked
+
+= 13.0.3 (2023-10-11) =
+* Checked for compatibility with WooCommerce 8.2
+
+= 13.0.2 (2023-10-09) =
+* Made sure that adding a ?currency parameter in the suffix field would not result in two questions marks in the URL
+
+= 13.0.1 (2023-10-05) =
+* Added support for multiple picture fields for Yandex feeds
+
+= 13.0.0 (2023-10-04) =
+* Added a feature to filter out reviews from a review feed below a certain rating
+* Solved soms PHP warnings that showed when on PHP 8.1 and creating a Google Review Feed
+
+= 12.9.9 (2023-10-03) =
+* Fixed an issue where for variable products no slashes were added between color values for Google Shopping feeds
+
+= 12.9.8 (2023-10-03) =
+* The checkout link template field is being added to the Google Shopping template as a mandatory field mapping
+* Fixed a PHP notice on the manage feeds page for PHP 8.1
+
+= 12.9.7 (2023-10-02) =
+* Fixed an issue with the saving of the Google Conversion ID
+
+= 12.9.6 (2023-10-01) =
+* Fixed an issue where the Yoast SEO identifiers where not added to feeds for product variations
+* Fixed a PHP notice on the manage feeds page for PHP 8.1
+* Added an is_array check
+
+= 12.9.5 (2023-09-14) =
+* Tested for compatibility with WooCommerce 8.1
+
+= 12.9.4 (2023-09-14) =
+* Added the checkout_link_template field to the Google Shopping template
+
+= 12.9.3 (2023-09-11) =
+* Fixed some PHP notices
+
+= 12.9.2 (2023-09-10) =
+* Reversed part of the ACF fix as it caused issues for other users
+
+= 12.9.1 (2023-09-06) =
+* Fixed an issue where ACF images for simple products where not returning a proper image URL in feeds
+
+= 12.9.0 (2023-09-05) =
+* Added 5 new fields to the Google Shopping template: Pause, External Seller ID, Lifestyle image link, Certification and 3D model link
+
+= 12.8.9 (2023-08-31) =
+* Clean-up code
+* Added support for more caching plugins so feed content doesn't get cached
+
+= 12.8.8 (2023-08-30) =
+* Fixing some issues in the feed preview feature
+
+= 12.8.7 (2023-08-30) =
+* Added the product feed preview feature
+
+= 12.8.6 (2023-08-30) =
+* Stripping whitespaces in additional image links
+
+= 12.8.5 (2023-08-29) =
+* When a product sits in multiple categories the category with the highest category ID is being used for the category path attributes
+
+= 12.8.4 (2023-08-24) =
+* Fixed an autoload issue that caused problems with Redis Object Caching (thanks Mrsmurf)
+
+= 12.8.3 (2023-08-21) =
+* Fixed a bug causing issues with the feed processing status (thanks Aaron!)
 
 = 12.8.2 (2023-08-17) =
 * Fixed the product creation data calculation
@@ -4116,6 +4202,89 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 * Strip HTML from the (short) description attributes
 
 == Upgrade Notice ==
+
+= 13.0.8 =
+Fixed an issue where the processing got stuck when manual WCML prices were entered by users
+
+= 13.0.7 =
+Added three new price attributes: price excluding VAT/TAX rounded, regular price excluding VAT/TAX rounded and sale price excluding VAT/TAX rounded
+
+= 13.0.6 =
+Fixed an issue where the plugin did unnecessary jQuery requests on the manage feed page
+
+= 13.0.5 =
+Fixed an issue where integer 0 values were considered to be empty and not added to feeds
+
+= 13.0.4 =
+Fixed an issue where filters on empty values no longer worked
+
+= 13.0.3 =
+Checked for compatibility with WooCommerce 8.2
+
+= 13.0.2 =
+Made sure that adding a ?currency parameter in the suffix field would not result in two questions marks in the URL
+
+= 13.0.1 =
+Added support for multiple picture fields for Yandex feeds
+
+= 13.0.0 =
+Added a feature to filter out reviews from a review feed below a certain rating
+Solved soms PHP warnings that showed when on PHP 8.1 and creating a Google Review Feed
+
+= 12.9.9 =
+Fixed an issue where for variable products no slashes were added between color values for Google Shopping feeds
+
+= 12.9.8 =
+The checkout link template field is being added to the Google Shopping template as a mandatory field mapping
+Fixed a PHP notice on the manage feeds page for PHP 8.1
+
+= 12.9.7 =
+Fixed an issue with the saving of the Google Conversion ID
+
+= 12.9.6 =
+Fixed an issue where the Yoast SEO identifiers where not added to feeds for product variations
+Fixed a PHP notice on the manage feeds page for PHP 8.1
+Added an is_array check
+
+= 12.9.5 =
+Tested for compatibility with WooCommerce 8.1
+
+= 12.9.4 =
+Added the checkout_link_template field to the Google Shopping template
+
+= 12.9.3 =
+Fixed some PHP notices
+
+= 12.9.2 =
+Reversed part of the ACF fix as it caused issues for other users
+
+= 12.9.1 =
+Fixed an issue where ACF images for simple products where not returning a proper image URL in feeds
+
+= 12.9.0 =
+Added 5 new fields to the Google Shopping template: Pause, External Seller ID, Lifestyle image link, Certification and 3D model link
+
+= 12.8.9 =
+Clean-up code
+Added support for more caching plugins so feed content doesn't get cached
+
+= 12.8.8 =
+Fixing some issues in the feed preview feature
+
+= 12.8.7 =
+Added the product feed preview feature
+
+= 12.8.6 =
+Stripping whitespaces in additional image links
+
+= 12.8.5 =
+When a product sits in multiple categories the category with the highest category ID is being used for the category path attributes
+
+= 12.8.4 =
+Fixed an autoload issue that caused problems with Redis Object Caching (thanks Mrsmurf)
+
+= 12.8.3 =
+Fixed a bug causing issues with the feed processing status (thanks Aaron!)
 
 = 12.8.2 =
 Fixed the product creation data calculation

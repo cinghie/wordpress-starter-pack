@@ -66,8 +66,8 @@ add_action( 'admin_notices', 'wppfm_check_backups' );
 function initiate_background_process() {
 	global $background_process;
 
-	if ( isset( $_GET['tab'] ) ) {
-		$active_tab = $_GET['tab'];
+	if ( isset( $_GET['feed-type'] ) ) {
+		$active_tab = $_GET['feed-type'];
 		set_transient( 'wppfm_set_global_background_process', $active_tab, WPPFM_TRANSIENT_LIVE );
 	} else {
 		$active_tab = ! get_transient( 'wppfm_set_global_background_process' ) ? 'feed-list' : get_transient( 'wppfm_set_global_background_process' );
@@ -79,9 +79,10 @@ function initiate_background_process() {
 		}
 
 		$background_process = new WPPFM_Feed_Processor();
+		return;
 	}
 
-	if ( 'product-review-feed' === $active_tab ) {
+	if ( 'google-product-review-feed' === $active_tab ) {
 		if ( ! class_exists( 'WPPRFM_Review_Feed_Processor' ) && function_exists( 'wpprfm_include_background_classes' ) ) {
 			wpprfm_include_background_classes();
 		}
@@ -89,6 +90,17 @@ function initiate_background_process() {
 		// @since 2.29.0 to prevent a PHP fatal error when a review feed fails and the user deactivates the plugin.
 		if ( class_exists( 'WPPRFM_Review_Feed_Processor' ) ) {
 			$background_process = new WPPRFM_Review_Feed_Processor();
+			return;
+		}
+	}
+
+	if ( 'google-merchant-promotions-feed' === $active_tab ) {
+		if ( ! class_exists( 'WPPPFM_Promotions_Feed_Processor' ) && function_exists( 'wpppfm_include_background_classes' ) ) {
+			wpppfm_include_background_classes();
+		}
+
+		if ( class_exists( 'WPPPFM_Promotions_Feed_Processor' ) ) {
+			$background_process = new WPPPFM_Promotions_Feed_Processor();
 		}
 	}
 }

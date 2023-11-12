@@ -1,104 +1,219 @@
-﻿=== WooCommerce Google Feed Manager ===
-
+=== Woocommerce Google Feed Manager ===
 Contributors: WPMarketingRobot, Michel Jongbloed, AukeJomm
-Tags: Google Merchant Export, Product feed, woocommerce, Google product feed export, google, shopping, Google Adwords, Google Merchant, wooCommerce export, woocommerce variations, e-commerce, google merchant product feed, product variations, variations export, wp-e-commerce export, wp marketing robot
+Tags: Google shopping feed, Google merchant feed, Google feed, Google product feed, Product feed, WooCommerce google product feed, WooCommerce product feed, WooCommerce Google Feed Manager, WooCommerce google feed, WooCommerce product feed manager, google merchant product feed
 Donate link: https://www.wpmarketingrobot.com/
 Requires at least: 5.4
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 7.2
-Stable tag: 1.50.0
+Stable tag: 2.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Extremely Powerful Woocommerce Google Feed Manager,  Optimize your product listings and campaign results and sell more on Google Shopping! 
+Easily create high-quality WooCommerce Google product feeds to boost your success on Google Shopping & Google merchant. Increase sales on Google now!
 
 == Description ==
-WooCommerce Google Feed Manager is an extremely powerful and easy to use google shopping feed manager for WooCommerce web shops.
-With WooCommerce Google Feed Manager you can easily add up to 100 products from your WooCommerce store to a product feed setup that meets the requirements from Google Shopping. 
+**Creating a Google Product Feed in WooCommerce has never been simpler!**
+Elevate your WooCommerce store's sales and visibility with *WooCommerce Google Feed Manager*, the go-to plugin for Google Shopping feeds. Trusted by a diverse community of WooCommerce sellers, our plugin is engineered to make your life easier and your sales higher.
 
-We have connected al the required and recommended fields of the feed with the WordPress database. So after installation you're ready to submit your product feed to your Google Merchant Center. But you can go even further and tweak the content of every field in order to maximize your revenue from your products in Google shopping.
+From budding online entrepreneurs to seasoned e-commerce giants, our user base is as extensive as it is varied. Whether you're selling handcrafted jewelry or managing a multinational electronics storefront, you're in good company. And we've been excelling at this since our inception!
 
-You have very advanced and professional options at your disposal to make your products stand out, use titles different from your shop, change your product Google categories depending on title names. 
+WooCommerce Google Feed Manager Free sets you up with all the essentials to get your Google Shopping feeds up and running. For those who aim to supercharge their feeds, our Pro version unlocks a suite of advanced features and capabilities, ensuring your feeds are optimized to the max.
 
-> Premium Woocommerce Google Feed manager
+== Google Shopping for everyone, Made by Google Experts ==
+Google Shopping is a powerful platform for online selling, but mastering its intricacies can feel like navigating a labyrinth. The good news is, you don't have to go it alone. We've got your back!
 
-> If you love the plugin, or have more than 100 products in your woocommerce webshop we offer a full featured premium version.
-> if you're a serious webshop owner and want to have absolute controle about over Google Shopping Feed you should start using our [Premium WooCommerce Google Feed Manager](https://goo.gl/mGFLMm)
+Our mission is to make Google Shopping accessible to everyone. Whether you're a rookie webshop owner or a seasoned e-commerce veteran, our Google Shopping Feed Manager for WooCommerce equips you with the necessary tools to maneuver through the complexities of Google Shopping. We turn these challenges into stepping stones for your online business growth and success.
 
-> Sell your products on other selling channels
+== <a href="https://www.wpmarketingrobot.com/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=pro_version" target="_blank" rel="noopener noreferrer">Get Google Feed Manager for WooCommerce - Premium</a> ==
 
-> If you want to get your products shown in Price comparison, product aggregators, affiliate networks and selling channels we have our [Premium WooCommerce Product Feed Manager](https://goo.gl/mGFLMm) supporting all shopping channels.
-> Increase your Sales, Show your products on worldwide selling channels and affiliate networks!
-> We have the most popular and important feed templates already installed like Bing, Pricegrabber, Amazon, Nextag, Beslist, Vergelijk.nl, Shopping.com, Connexity and more.
+== WooCommerce Google Shopping Feed - Video Tutorial ==
+[youtube https://www.youtube.com/watch?v=68v63Q9jhIw]
 
-Everything you need to be successful!
-You have full control over your Google feed, how your products are listed and what products you show and which products not.
+<a target="_blank" href="https://www.wpmarketingrobot.com/docs/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=documentation" rel="noopener noreferrer">Documentation</a> | <a target="_blank" href="https://www.youtube.com/@wpmarketingrobot/videos" rel="noopener noreferrer">Video Tutorials</a> | <a target="_blank" href="https://www.wpmarketingrobot.com/support/faq/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=faq" rel="noopener noreferrer">FAQ</a> | <a target="_blank" href="https://www.wpmarketingrobot.com/support/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=support" rel="noopener noreferrer">Support</a>
 
-* Simple: Creating Google shopping feeds is very simple with our plugin,
-* Optimize: Tweak the feed in every possible way to improve performance,
-* Feed Updates: Changes in your WooCommerce store are reflected in your feed instantly with the scheduled update option,
+== What customers say about us ==
+>**Excellent Plugin / Solid Customer Support!**
+> I'm pleased with this plugin for creating different feeds. I started with the free version that allowed me to create just a feed for Google Shopping. That worked well. Then I needed to create some additional feeds so I purchased the Pro version which I feel was reasonably priced. I did need to turn to support for assistance on different feed issues along the way and in each instance they successfully responded in one business day. Overall, the 'WooCommerce Google Feed Manager' plugin is reliable and so is their customer support.
+>
+> @fredgerendasy
 
-> Learn how to setup up your first basic feed in our online manual > [Product Feed Manager manual](https://goo.gl/pbgepQ)
+> **Essential for any e-commerce and outstanding support.**
+> This plugin is really essential for any shop that wants to be reliably listed by Google. 
+>This has become a critical component of my business strategy and when bug appeared after using this plugin smoothly during years, Michel was here and allowed me to keep running my business.
+>
+>Thanks again for your work!
+>
+> @poissonvert
+
+== WHY WooCommerce Google Feed Manager? ==
+Are you grappling with the complexities of managing your WooCommerce product feed for Google Shopping? Are you overwhelmed with the nuances of Google's latest algorithms and requirements? Do you find yourself constantly updating your product feeds, worried that you're falling behind in the race?
+
+You're not alone, and these are the everyday challenges online shop owners face in the digital marketplace.
+
+With WooCommerce Google Feed Manager, you can overcome these obstacles and unlock these unparalleled benefits:
+
+* **Dominate Google Shopping**: Outclass your competition with our laser-focused Google Shopping tools. With support exclusively for Google channels, we offer expertise that's second to none. Claim your rightful spot at the top of Google Shopping search results and watch your sales soar.
+
+* **Google Merchant Specialist**. We are a Google Merchant specialist supporting all Google shopping feed destinations:
+
+	* Google Merchant Center primary feed
+	* Google Merchant Center Supplemental feed
+	* Google Promotions Feed
+	* Google Local Inventory feed
+	* Google Manufacturer feed
+	* Google Dynamic Remarketing feed
+	* Google Review feed
+
+* **Simplify Your Feed Management**: Say goodbye to the complications of managing multiple product feeds. Our plugin takes care of all the technical aspects, including data optimization and real-time syncing, so you can focus on what you do best—selling products.
+
+* **Elevate Your Product Listings**: Benefit from our advanced features like automated feed updates, custom labels, and advanced filtering options. Enable Google to better understand and rank your products, putting you ahead in the marketplace.
+
+* **Optimize Your Marketing Strategy**: WooCommerce Google Feed Manager provides in-depth analytics and performance metrics. Harness these powerful insights to refine your product listings, identify top-performing products, and allocate your marketing budget effectively.
+
+* **Enhance Customer Experience**: Superior feed quality leads to more accurate product listings, which in turn elevates the shopping experience for your customers. Enjoy lower bounce rates, higher engagement, and ultimately, increased sales and customer satisfaction.
+
+Start dominating Google Shopping today. Your success is our mission, and with WooCommerce Google Feed Manager, you're always one step ahead.
+
+== Unveil Key Features in WooCommerce Google Feed Plugin ==
+Our WooCommerce Google Feed plugin brings a suite of features that make product feed management simple yet powerful. Let's delve into the details.
+
+== Easy and Quick Installation to Get You Started ==
+Setting up our WooCommerce Google Feed plugin is as straightforward as installing any other WordPress plugin. Once installed, our intuitive interface guides you through a quick 3-step feed creation process:
+1. Choose your Google feed type
+2. Complete category and attribute mapping
+3. Generate your feed with a click
+
+== Showing All Possible Data in Your Shopping Campaigns ==
+Your shopping campaigns can now be more informative and engaging than ever. We ensure every piece of relevant data about your product makes it to the feed.
+
+== Advanced Data Manipulation ==
+Fine-tune your data fields with ease. Our robust features enable advanced data manipulation, offering you a tailored feed that meets your specific business requirements.
+
+== Make Use of WordPress Hooks ==
+For the seasoned WordPress user, our plugin allows data manipulation through WordPress hooks. You can hook into WordPress's core to customize data without any constraints, making the plugin highly extensible.
+
+== Adding Missing WooCommerce Data ==
+Never fret about incomplete product data. Our plugin ensures that all requisite WooCommerce data fields are automatically included in your feed.
+
+== Only the Products in the Feed That Matter ==
+Prioritize profitability with our advanced filters. Set rules to exclude low-margin or low-stock products, or only include items on sale. Filter using any available WooCommerce and WordPress data sources.
+
+== Large Webshops? We Got You Covered ==
+Scalability is no issue. Whether you're listing 10 products or 10,000, our plugin is optimized to handle feeds of any size, ensuring peak performance.
+
+== Powerful Integration of Other Tools ==
+Our plugin seamlessly integrates with various tools and plugins to enhance your workflow:
+- WPML (Premium feature)
+- Poly Lang (Premium feature)
+- TranslatePress (premium feature)
+- Yoast primary category feature
+- Rankmath SEO primary category feature
+- WooCommerce currency switcher
+- WooCommerce Brands plugin
+- Germanized
+- WooCommerce brands
+- Yith WooCommerce Brands
+- External Images from wpintense.com
+
+== Auto-Scheduled Updates to Google Shopping ==
+Say goodbye to manual uploads. Auto-schedule your feeds to update in Google Merchant Center according to your timetable. Effortless and reliable.
+
+== Don't Worry Your Feeds Are Disapproved ==
+Cut down on disapprovals and errors. Our user-friendly interface, pre-populated required attributes, and advanced data manipulation ensure that your feeds meet Google's stringent requirements.
+
+== On Top of the Business ==
+Stay ahead of your competition and enjoy peace of mind with our regular updates and prompt customer support.
+
+== Premium Features for Advanced Users ==
+Unlock even more functionalities and advanced settings with our premium features. Tailor your product feeds like never before. 
+
+- All Free features
+- Unlimited Product Feed Generated (Free version limited to 100 products)
+- Advanced product filter
+- Full support WPML
+- Poly Lang Multi-language support
+- TranslatePress
+- E-commerce version with Multiple channels like Google Shopping, Amazon, eBay, Facebook, Instagram, Etsy,  Pinterest, etc
+
+== <a href="https://www.wpmarketingrobot.com/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=pro_version" target="_blank" rel="noopener noreferrer">Get our Google Feed Manager or Woocommerce Product feed manager - Premium </a> ==
+
 
 == Installation ==
-Step 1. Download the wp product feed manager plugin zip file from the Wordpress Plugin Repository.
-Step 2. Upload 'wp-product-feed-manager' to the ’/wp-content/plugins/' directory
-Step 3. Activate the plugin through the 'Plugins' menu in WordPress
+= From within WordPress =
 
-That's basically it. You're ready to create your first feed and start making money.
+Go to Plugins > Add New;
+Search for "WooCommerce Google Feed Manager";
+Activate "WooCommerce Google Feed Manager" from your plugins page.
 
-Take a look at the video. They lead you through the proces in creating your first product feed.
+= Manually =
 
-= Install WooCommerce Google Feed Manager =
+Upload the wp-product-feed-manager folder to your /wp-content/plugins/ directory;
+Activate "WooCommerce Google Feed Manager" from your plugins page.
+
+That's it. You're ready to create your first feed and start making money.
+
+Take a look at the video. They lead you through the process of creating your first product feed.
+
+= Install WooCommerce Google feed manager =
 [youtube https://www.youtube.com/watch?v=bgEFUWAdNOc]
 
-= How to setup a basic feed =
+= How to set up a basic feed =
 [youtube https://www.youtube.com/watch?v=VDcyo9ifdmk]
 
 == Frequently Asked Questions ==
-= Why should i go with your plugin? =
-We are very proud of our WooCommerce Google feed manager and we think it is the most powerful plugin out there build by Product Feed Marketeers especially for woocommerce powered shops. Our plugin will help you to get the most out of your Google shopping account.
+= Why should I go with your plugin? =
+We are very proud of our WooCommerce Google feed manager and we think it is the most powerful plugin out there built by Product Feed Marketeers, especially for WooCommerce-powered shops. Our plugin will help you to get the most out of your Google shopping account.
 
-The power of the plugin is that you can add the data from your shop to any feed attribute required, recommended or supported by Google. Next to that you are able to alter the data from you WordPress WooCommerce database so you can optimize the data you send to Google. We support custom product fields and product variations making our plugin even stand out more from the competition.
+The power of the plugin is that you can add the data from your shop to any feed attribute required, recommended, or supported by Google. Next to that, you are able to alter the data from your WordPress WooCommerce database so you can optimize the data you send to Google. We support custom product fields and product variations making our plugin even stand out more from the competition.
 
-While you grow with your webshop you can start working with our Premium plugin for even more powerful features and even more channel to sell your products on.
+While you grow with your webshop you can start working with our Premium plugin for even more powerful features and even more channels to sell your products on.
 
 = How does the Google Feed Manager plugin work? =
-Basically the plugin will generate a xml product feed valid for the Google product feed guidelines. It will take the data from your woocommerce powered online shop and create a valid Google product feed. The plugin will automatically update the feed to reflect the changes of your products so the xml feed will contain the correct product data. 
+Basically, the plugin will generate an XML product feed valid for the Google product feed guidelines. It will take the data from your WooCommerce-powered online shop and create a valid Google product feed. The plugin will automatically update the feed to reflect the changes of your products so the XML feed will contain the correct product data. 
 
-The only thing you have to do is add the xml feed url to your Merchant center and start selling in Google.
+The only thing you have to do is add the XML feed URL to your Merchant Center and start selling in Google.
 
 = Any Issues? Start here =
-Start with the next steps when you have any issue with your installation and plugin.
+Start with the next steps when you have any issues with your installation and plugin.
 
-First make sure you have all your plugins, theme and WordPress updated to the latest version. Follow WooCommerce requirements as a minimum for the use of our plugin.
+First make sure you have all your plugins, theme, and wordpress updated to the latest version. Follow WooCommerce requirements as a minimum for the use of our plugin.
 
 PHP 5.6 or greater
 MySQL 5.6 or greater
 WP Memory limit of 256 MB or higher for larger shops
 If you have all of that sorted please follow the next steps before contacting us.
 
-Deactivate and then activate the plugin. Test the issue.
-If that does not resolve the issue, deactivate and reinstall the plugin over the current installation. Than activate it again and test the issue.
-If it still does not work, remove the plugin through the plugins page (be aware, this will also delete all existing feeds) and reinstall it. Then test the issue again.
-
-If the problem still exists, contact our support.
-
-= Feed Warning, invalid xml feed =
-There can be many reasons why a feed is invalid. We have build the feed in such a manner that it will only happen very sporadic.
-
-In case it does please do submit your feed in your Google Merchant center and check what is going on in your feed in the Feed debugger from Google. It is very powerful and spot on.
-
-[Read about it here](https://goo.gl/CChqGH)
+Are you still experiencing issues with our plugin? Follow these steps before contacting us:
+1. Check out our <a href="https://www.wpmarketingrobot.com/docs/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=documentation" target="_blank" rel="noopener noreferrer">Documentation</a>
+2. Deactivate and re-activate the plugin, it might solve the issue;
+3. In case de- & reactivating the plugin doesn't solve the problem, remove the plugin and reinstall it (do not worry, you will not lose your current project settings and product feeds);
+4. Still experiencing issues? <a href="https://www.wpmarketingrobot.com/support/?utm_source=wp_readme&utm_medium=wp_readmelink&utm_campaign=support" target="_blank" rel="noopener noreferrer">contact our support</a> 
 
 == Screenshots ==
-1. Add a new feed
-2. Map a category
-3. Save and generate your feed
+1. 1. Add a new feed
+2. 2. Map a category
+3. 3. Save and generate your feed
 
 == Changelog ==
+= 2.0.0 - 30/10/2023 =
+* Major code Refresh
+* Made improvements to the memory management of a feed process.
+* Added Google's Product Review Feed
+* Added Google's Merchant Promotions Feed
+* Added Google's Buy on Google Feed (feed attributes added to the normal Google Product Feed)
+* Added Google's Local Product Feed (feed attributes added to the normal Google Product Feed)
+* Further extended the Feed Process logging.
+* Tested on WooCommerce 8.2.
+* Updated the Google channel attributes
+* Fixed an issue that caused the error log to be placed in the wrong folder
+* Added a > symbol to the selectable separator options
+
+= 1.51.0 - 29/08/2023 =
+* Further extended the Feed Process logging.
+* Tested on WooCommerce 8.0
+
 = 1.50.0 - 01/08/2023 =
-* Added a check that makes sure that no spaces can be used in attribute names for an xml feed. Spaces will be replaced by underscores.
+* Added a check that makes sure that no spaces can be used in attribute names for an XML feed. Spaces will be replaced by underscores.
 * Extended the Feed Process logging.
 * Tested on WooCommerce 7.9.
 
@@ -112,8 +227,8 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested on WooCommerce 7.6.0.
 
 = 1.48.0 - 07/03/2023 =
-* Fixed an issue where a feed that was duplicated could not be set to auto update before a screen reset was performed.
-* Added the option to sort the Feed List table items on the Name, Updated and Products columns.
+* Fixed an issue where a feed that was duplicated could not be set to auto-update before a screen reset was performed.
+* Added the option to sort the Feed List table items on the Name, Updated, and Products columns.
 * Tested on WooCommerce 7.4.1.
 
 = 1.47.1 - 15/02/2023 =
@@ -121,7 +236,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 
 = 1.47.0 - 01/02/2023 =
 * Tested on WooCommerce 7.3.0.
-* Added the code to handle min and max variation prices for non variation products.
+* Added the code to handle min and max variation prices for non-variation products.
 
 = 1.46.1 - 14/01/2023 =
 * Fixed an issue where the price could not be filtered on "Sale Price is empty".
@@ -129,7 +244,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 = 1.46.0 - 19/12/2022 =
 * Fixed an issue where the "Regular Price" and "Sale Price" could be unreliable for variable products.
 * Tested on WooCommerce version 7.2.0.
-* Fixed an issue where the output of the "Regular Price With Tax" and "Regular Price Without Tax" would show the Sale Price in stead of the Regular Price.
+* Fixed an issue where the output of the "Regular Price With Tax" and "Regular Price Without Tax" would show the Sale Price instead of the Regular Price.
 * Fixed an issue where the wppfm_feed_item_value filter would be called twice instead of once.
 * Fixed an issue where the data of disabled product variations would still be included in the feed data.
 
@@ -137,7 +252,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested on WooCommerce 7.1.0.
 
 = 1.44.0 - 29/09/2022 =
-* Added a new line break at the end of each xml row to make a more readable xml feed and prevent large text lines.
+* Added a new line break at the end of each XML row to make a more readable XML feed and prevent large text lines.
 * Added an utf8 check to CDATA string conversion.
 * Fixed an issue where it was not possible to add a filter to the "strip tags" change value option.
 * Added an "html entity decode" option to the change value options.
@@ -160,7 +275,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Changed the position of the wppfm_feed_item_value filter such that if the is used to exclude a product from the feed, the product count of the feed stays correct.
 * Tested on WordPress 6.0.
 * Changed the attribute titles "Post Date" and "Post Modified" to "Product Date" and "Product Modified".
-* Fixed an issue that prevented specific items to be added to the feed.
+* Fixed an issue that prevented specific items from being added to the feed.
 
 = 1.40.0 - 12/05/2022 =
 * Updated the price date function such that it outputs a data format that better complies with the example the Google Feed Specifications provide.
@@ -172,9 +287,9 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested on WooCommerce 6.2 and 6.3.
 
 = 1.38.0 - 23/01/2022 =
-* Fixed an issue that could cause incorrect price values when using specific third party plugins. 
+* Fixed an issue that could cause incorrect price values when using specific third-party plugins. 
 * Added the "Product Parent Description" source.
-* Fixed an issue where in some situations the image url's would not load.
+* Fixed an issue where in some situations the image URLs would not load.
 * Added support for the WooCommerce Currency Switcher plugin.
 * Tested on WooCommerce 6.1.
 
@@ -184,7 +299,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested on WooCommerce 6.0.
 
 = 1.36.0 - 10/11/2021 =
-* Fixed an issue where if there is a source with the name "null" it would be selected as WooCommerce source by default.
+* Fixed an issue where if there is a source with the name "null" it would be selected as a WooCommerce source by default.
 * Fixed an issue where selected categories in the Category Mapping table would automatically deselect if they had zero products assigned to them.
 * Fixed an issue with the edit feed page if a user would save a feed with an attribute filter being not assigned.
 * Tested on WooCommerce 5.9.
@@ -198,7 +313,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Fixed an issue when using more than one filter in a "change values" option.
 * Fixed an issue that could leave a .0 in the result of a change values calculation.
 * Fixed an issue that would cause a sale_price below 1 to disappear from the feed.
-* Fixed an issue that prevented the buttons on the Edit Feed page to become selectable when editing a feed.
+* Fixed an issue that prevented the buttons on the Edit Feed page from becoming selectable when editing a feed.
 * Fixed an issue causing an incorrect outcome when using the Weight source in a filter with a decimal value.
 * Tested on WooCommerce 5.6.
 
@@ -211,25 +326,25 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested on WooCommerce 5.4.
 
 = 1.31.1 - 18/05/2021 =
-* Fixed an issue that caused a fatal PHP error when a feed with no selected Shop Categories is opened.
+* Fixed an issue that caused a fatal PHP error when a feed with no selected Shop Categories was opened.
 
 = 1.31.0 - 13/05/2021 =
-* Fixed an issue that would add incorrect products to the feed in the case the feeds category selection contains categories that where removed from the shop.
-* Added the "Variation Parent Id" and "Product Parent Id" sources.
+* Fixed an issue that would add incorrect products to the feed in the case the feed category selection contains categories that were removed from the shop.
+* Added the "Variation Parent ID" and "Product Parent ID" sources.
 * Added the "Highest Grouped Price" and "Lowest Grouped Price" sources to the list.
 * Fixed an issue where the GTIN of a product variation would not save to the database.
 * Tested on WooCommerce 5.3.0.
 
 = 1.30.0 - 13/04/2021 =
 * Tested on WooCommerce 5.2
-* Password protected products are now excluded from the feed.
+* Password-protected products are now excluded from the feed.
 * Improved the stability of automatic feed updates.
 
 = 1.29.2 - 26/03/2021 =
-* Updated an issue that prevented Regular Prices from Variable Products to be included in the feeds.
+* Updated an issue that prevented Regular Prices from Variable Products from being included in the feeds.
 
 = 1.29.1 - 20/03/2021 =
-* Fixed an issue that prevented Regular Prices from Variable Products to be included in the feeds.
+* Fixed an issue that prevented Regular Prices from Variable Products from being included in the feeds.
 
 = 1.29.0 - 15/03/2021 =
 * Tested on WooCommerce 5.1
@@ -251,7 +366,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 = 1.26.0 - 10/11/2020 =
 * Improved the error messaging for JSON Parse errors.
 * Tested on WooCommerce 4.7.
-* Added the option to use Category numbers in stead of selectors.
+* Added the option to use Category numbers instead of selectors.
 
 = 1.25.0 - 13/10/2020 =
 * Tested on WooCommerce 4.6.
@@ -269,14 +384,14 @@ In case it does please do submit your feed in your Google Merchant center and ch
 
 = 1.22.0 - 03/06/2020 =
 * Replace several deprecated functions.
-* Fixed an issue that prevented the lower buttons on the Edit Feed page to show up when making a new feed.
+* Fixed an issue that prevented the lower buttons on the Edit Feed page from showing up when making a new feed.
 * Changed the feed process such that it keeps money values of 0 out of the feed.
 * Added a preset for the sale price in a Google feed to include the currency.
 * Fixed an issue that could cause an undefined index notice.
 * Tested for WooCommerce 4.2.
 
 = 1.21.1 - 03/04/2020 =
-* Restored the original definition of the url to the uploads folder because of issues with the new definition. Added a wppfm_corrected_uploads_url filter for specific use cases.
+* Restored the original definition of the URL to the uploads folder because of issues with the new definition. Added a wppfm_corrected_uploads_url filter for specific use cases.
 
 = 1.21.0 - 27/03/2020 =
 * Fixed an issue where an incorrect money value would be calculated when the WC settings have a period as thousands separator and 0 decimals for money values
@@ -284,7 +399,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Fixed an issue where a feed would fail when a filter is used that filters out a large part of the selected products   
 * Fixed an issue where a duplicate of a feed would not contain the Feed Filter data
 * Fixed an issue that caused a duplicated feed to show a 404 page when clicking on the View Feed button
-* Fixed an issue that would cause the link to the upload folder (and this to the feeds) be incorrect for a multi-site configuration.
+* Fixed an issue that would cause the link to the upload folder (and this to the feeds) to be incorrect for a multi-site configuration.
 * Fixed an issue that would allow a user to regenerate a feed from the Feed List page even when a feed is still processing, started from the Edit Feed page
 
 = 1.20.1 - 20/03/2020 =
@@ -294,12 +409,12 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested for WooCommerce 4.0
 * Fixed a priority issue that puts the Add new feed button in front of the WordPress menu items
 * Added the option to add Product Identifiers to WooCommerce products
-* Fixed an compatibility issue with the DigitalOcean Spaces Sync plugin
+* Fixed a compatibility issue with the DigitalOcean Spaces Sync plugin
 * Added more loggings to the Feed Process Logger
 * Improved the error handling of the Feed Process
-* Fixed an issue that could case the Feed Process to slow down when multiple feed failed
-* Fixed an issue where the attributes would not load on an existing custom xml feed
-* Fixed an issue where the attachment url would not show up in the feed with a WPML translated non-variation object
+* Fixed an issue that could cause the Feed Process to slow down when multiple feeds failed
+* Fixed an issue where the attributes would not load on an existing custom XML feed
+* Fixed an issue where the attachment URL would not show up in the feed with a WPML-translated non-variation object
 
 = 1.19.1 - 30/01/2020 =
 * Fixed an issue with the product filter selection
@@ -321,14 +436,14 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Tested on WooCommerce 3.8
 
 = 1.17.1 - 03/11/2019 =
-* Fixed an issue on the Edit Feed page where on an attribute with a filter, after refreshing the page, would not show the option to add another filter
+* Fixed an issue on the Edit Feed page where an attribute with a filter, after refreshing the page, would not show the option to add another filter
 * Included a Feed Process Logging option
 * Fixed the View Feed button to open the correct feed even after a first feed generation with a feed name that contains spaces or forbidden characters
 
 = 1.16.0 - 04/10/2019 =
 * Added a View Feed button to the Edit Feed page
 * Removed the use of the glob function
-* Added a filter that removes any link from a products description and short description. This filter can be bypassed by using the wppfm_leave_links_in_descriptions filter
+* Added a filter that removes any link from a product description and short description. This filter can be bypassed by using the wppfm_leave_links_in_descriptions filter
 * Tested with WooCommerce version 3.7
 * Pushed the Add New Feed button on top of the page footer so it does not get blocked by the footer anymore
 
@@ -343,24 +458,24 @@ In case it does please do submit your feed in your Google Merchant center and ch
 = 1.14.0 - 21/06/2019 =
 * Added the Regenerate action to the feed list
 * Improved the error handling of a situation where the activation of a feed update in the background fails.
-* Fixed an issue where a corrupted feed filter attribute would prevent the Edit Feed page to load.
+* Fixed an issue where a corrupted feed filter attribute would prevent the Edit Feed page from loading.
 * Fixed an issue where the static value source selectors would not show the correct "Fill with a static value" selection when WP was in a translated mode.
 * Fixed an issue where the "Product Category String" source would not always produce the correct category string.
 
 = 1.13.1 - 24/03/2019 =
-* Fixed an issue where the Update Schedule values where not correctly read from the Feed Edit form
+* Fixed an issue where the Update Schedule values were not correctly read from the Feed Edit form
 
 = 1.13.0 - 16/03/2019 =
 * Restructured the code to better comply with the WordPress coding standards and cleaned up some code
 * Fixed an issue where the feed process would fail when the product_type source was selected
 
 = 1.12.3 - 08/02/2019 =
-* Improved the security of the http requests
+* Improved the security of the HTTP requests
 
 = 1.12.2 - 14/12/2018 =
 * Restored the wppfm_feed_item_value filter name
 * Improved the German translation
-* Checked compatibility with Wordpress version 5.0
+* Checked compatibility with WordPress version 5.0
 
 = 1.12.1 - 30/11/2018 =
 * Fixed an issue where error loggings would not write correctly to the logging file
@@ -369,19 +484,19 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Restored the wppfm_feed_item_value filter
 
 = 1.12.0 - 03/11/2018 =
-* Changed the way the xml header is send to the background process to prevent the Wordfence plugin from seeing it as a XSS vulnerability
+* Changed the way the XML header is sent to the background process to prevent the Wordfence plugin from seeing it as an XSS vulnerability
 * Added a notification option so users get an email if an automatic feed update failed
-* Changed the defaul value of the "Auto feed fix" option to off
+* Changed the default value of the "Auto feed fix" option to off
 * Added the Tax Status and Tax Class items to the source selectors
-* Fixed an issue that could delete important WP files when removing the plugin from the plugins page
+* Fixed an issue that could delete important WP files when removing the plugin from the plugin page
 * Tested compatibility with WooCommerce version 3.5
 
 = 1.11.4 - 23/10/2018 =
-* Improved the handling of product errors in a way so it does not stop the feed process but only keeps the product out of the feed
-* Further improved an issue that could delete important WP files when removing the plugin from the plugins page
+* Improved the handling of product errors in a way that it does not stop the feed process but only keeps the product out of the feed
+* Further improved an issue that could delete important WP files when removing the plugin from the plugin page
 
 = 1.11.2 - 19/10/2018 =
-* Fixed an issue that could delete important WP files when removing the plugin from the plugins page
+* Fixed an issue that could delete important WP files when removing the plugin from the plugin page
 
 = 1.11.1 - 16/10/2018 =
 * Fixed a syntax error that caused the feed process to fail
@@ -389,10 +504,10 @@ In case it does please do submit your feed in your Google Merchant center and ch
 = 1.11.0 - 08/10/2018 =
 * Fixed an issue that caused an "Undefined offset" error message in DEBUG_MODE
 * Added the underscore to the selectable Combined Fields separator
-* Fixed an issue with the WooCommerce Brand attribute where it would register an Invalid argument supplied for foreach warning
-* Changed the way xml values are handled so CDATA data is not escaped anymore
-* Fixed an issue where changing the category of an existing feed would loose all attribute settings.
-* Fixed an issue where adding static value to an attribute that contains a pipe character would screw up the attribute data
+* Fixed an issue with the WooCommerce Brand attribute where it would register an Invalid argument supplied for for each warning
+* Changed the way XML values are handled so CDATA data is not escaped anymore
+* Fixed an issue where changing the category of an existing feed would lose all attribute settings.
+* Fixed an issue where adding a static value to an attribute that contains a pipe character would screw up the attribute data
 * Improved the feed status checking so it also shows a feed processing error when the feed stays at 0kb
 * Changed the status text from OK and On hold, to Ready (manual) or Ready (auto), to make it clearer what each status means
 * Added the Dutch language
@@ -400,23 +515,23 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Added the French language
 
 = 1.10.1 - 16/09/2018 =
-* Fixed an issue where during a manual feed update whilst staying on the Feed page would send multiple ajax calls that could slow down the server
-* Fixed an issue with the auto feed update
+* Fixed an issue where during a manual feed update whilst staying on the Feed page would send multiple Ajax calls that could slow down the server
+* Fixed an issue with the auto-feed update
 
 = 1.10.0 - 21/08/2018 =
 * Fixed an issue with the category mapping
 * Added the Product Title Without Variable Attributes to the source selection list
 * Added the Product Type to the source selection list
 * Fixed an issue where a Third Party Attribute keyword could remove an attribute from the feed
-* Fixed an issue where attributes used for variations would output its slug in stead of its value
+* Fixed an issue where attributes used for variations would output their slug instead of their value
 * Increased the background processing batch time limit to 60 seconds and added the option to change this time in the Settings page
 * Added the wppfm_category_selector_level filter and lowered the category selector level to prevent issues with shops that have a large number of categories
-* Fixed the '$ is not a function' error the plugin showed in combination with some third party plugins
+* Fixed the '$ is not a function' error the plugin showed in combination with some third-party plugins
 
 = 1.9.4 - 08/07/2018 =
 * Added a "Remove from feed" option to be used as part of a source condition
 * Fixed a bug that prevented the plugin from adding the Shipping Class of simple products to the feed
-* Fixed an issue that would cause the javascripts not to load when parsing of the js was defered
+* Fixed an issue that would cause the javascript not to load when parsing of the js was deferred
 * Added the double pipe character to the Combined Source fields - separator options
 
 = 1.9.3 - 16/06/2018 =
@@ -427,42 +542,42 @@ In case it does please do submit your feed in your Google Merchant center and ch
 
 = 1.9.1 - 21/05/2018 =
 * Improved the way you can work with repeated fields in the feed
-* Fixed an issue where the Image Library source would return http links whilst the site is a secure https site
+* Fixed an issue where the Image Library source would return HTTP links whilst the site is a secure HTTPS site
 
 = 1.9.0 - 12/05/2018 =
-* Fixed an issue where the Clear feed process button would not clear the correct data tables in an multi-site environment
+* Fixed an issue where the Clear feed process button would not clear the correct data tables in a multi-site environment
 * Fixed a bug where the category in the feed would only show the main category when also a subcategory was selected through the Category Mapping
-* Added a warning message when WooCommerce version older than 3.0.0 is installed
+* Added a warning message when a WooCommerce version older than 3.0.0 is installed
 * Fixed an issue that caused Product Variations not to recalculate when WPML is active
-* Improved the user friendliness of the Category Mapping
-* Fixed an error that could cause the attribute mapping failing to load
+* Improved the user-friendliness of the Category Mapping
+* Fixed an error that could cause the attribute mapping to fail loading
 * Added the wppfm_selected_categories filter that allows you to alter the selected categories of a feed
 
 = 1.8.3 - 31/03/2018 =
 * Added the wppfm_feed_ids_in_queue filter
 * Fixed an issue  that prevented the Third Party Attributes setting to be ignored in a backup
-* Extended the Disable background process selection so that it also autmatically clears the feed process when selected
+* Extended the Disable background process selection so that it also automatically clears the feed process when selected
 * Added an extra option on the settings page to switch the background processing off in case the feeds get stuck in the processing
 
 = 1.8.1 - 16/02/2018 =
-* Fixed an issue where when the user had not selected the "include variations" option, the non product specific variation data like min_variation_price or max_variation_price would not be included on the main version of the variation product.
+* Fixed an issue where when the user had not selected the "include variations" option, the non-product specific variation data like min_variation_price or max_variation_price would not be included on the main version of the variation product.
 
 = 1.8.0 - 04/02/2018 =
-* Changed the feed processing proces so it can handle feeds with large number of products
-* Fixed an issue where third party attributes that start with an underscore would show up as an empty row in the Google Source pulldown list
-* Changed the way third party attributes are shown in the source list. They now keep their origional name
+* Changed the feed processing process so it can handle feeds with a large number of products
+* Fixed an issue where third-party attributes that start with an underscore would show up as an empty row in the Google Source pulldown list
+* Changed the way third-party attributes are shown in the source list. They now keep their original name
 * Fixed a few security issues
 * Added the WooCommerce version check
-* Improved the auto feed update timing
+* Improved the auto-feed update timing
 * Added the wppfm_category_mapping_exclude, wppfm_category_mapping_exclude_tree and wppfm_category_mapping_max_categories filters that allow the user to influence the category mapping list
 * Fixed an issue where the Stock count would show a wrong number when the actual Stock account was 0
 
 = 1.7.4 - 21/10/2017 =
 * Made some improvements in the script loading process
 * Fixed a bug in the automatic feed update time calculation
-* Made the plugin accessable for the Shop Manager role
+* Made the plugin accessible for the Shop Manager role
 * Made a few fixes to prevent error messages
-* Redused the varchar size in the tables to max 255 to prevent issues with certain database collation settings
+* Reduced the varchar size in the tables to max 255 to prevent issues with certain database collation settings
 * Made some improvements to the memory usage during feed generation
 * Fixed a bug where an attribute value of "0" would not be placed in the feed
 
@@ -480,31 +595,31 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Added support for Google Dynamic Remarketing
 * Fixed an issue where the plugin would conflict with the Mandrill plugin
 * The output lists are now sorted alphabetically
-* Added support for user made taxonomies
-* Added a function that removes WordPress Gallery shortcode from the product description
+* Added support for user-made taxonomies
+* Added a function that removes the WordPress Gallery shortcode from the product description
 * Added a warning if a user uses prohibited characters in the feed name
-* Fixed an error that could cause calculations in a change value to produce a period as a decimal separator even though a comma is set as required decimal separator
+* Fixed an error that could cause calculations in a change value to produce a period as a decimal separator even though a comma is set as the required decimal separator
 * Changed the Min and Max Variation prices that are not supported by WooCommerce anymore
-* Prepaired the code to support the WooCommerce Product Feed Manager WPML Support plugin that adds WPML multilingual support the the plugin
+* Prepared the code to support the WooCommerce Product Feed Manager WPML Support plugin that adds WPML multilingual support the the plugin
 
 = 1.6.1 - 16/06/2017 =
 * Fixed an issue where an update of the database to the new specifications would only occur when visiting the feed update form so if an automatic feed update would be done before visiting the feed update form an error would occur as the database was not updated
 
 = 1.6.0 - 11/06/2017 =
-* Changed the way the javascript version numbers are build to prevent cashing issues when switching from a free version to a premium version
+* Changed the way the javascript version numbers are built to prevent cashing issues when switching from a free version to a premium version
 * Added the option to change the feed title and description of the feed file
-* When an auto feed update is set to once every day the feed will now auto update every day on the set update time independant from manual updates
-* Fixed an issue that prevented the "select all" checkbox in the Category Mapping table to correctly select or deselect all Shop Categories
-* Added the option to only save (changes to) a feeds data, without (re)generating the feed
-* Added the option to use third party attributes by setting attribute keywords in the Settings page
+* When an auto-feed update is set to once every day the feed will now auto-update every day on the set update time independent from manual updates
+* Fixed an issue that prevented the "select all" checkbox in the Category Mapping table from correctly select or deselecting all Shop Categories
+* Added the option to only save (changes to) a feed data, without (re)generating the feed
+* Added the option to use third-party attributes by setting attribute keywords in the Settings page
 
 = 1.5.1 - 07/05/2017 =
-* Fixed an issue where edit value calculations would not give the correct results with value above 1000 and a comma as the thousands separator
+* Fixed an issue where edit value calculations would not give the correct results with a value above 1000 and a comma as the thousands separator
 * Fixed an issue where External/Affiliate and Grouped products were excluded from the feed
 * Fixed an issue that caused some attributes not to show up in the feed
 
 = 1.5.0 - 23/04/2017 =
-* Fixed an issue where pretty permalinks would nog show up in automatic feed updates
+* Fixed an issue where pretty permalinks would not show up in automatic feed updates
 * Automatic feed updates are now performed at WordPress time reference instead of server time reference
 * Added the option to automatically update a feed more than once a day
 * Fixed an issue where the feed generation would fail and kept showing the 'still working' symbol
@@ -527,10 +642,10 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Fixed the sale price dates to output the dates in the correct format
 
 = 1.3.1 - 02/12/2016 =
-* Fixed an issue that caused an error when calculations where done on a combined input field
+* Fixed an issue that caused an error when calculations were done on a combined input field
 * Fixed a code error that caused the plugin not to activate on PHP versions 5.3 or lower
 * Added a Last Feed Update source that represents the feed update date and time
-* Made some changed to the auto feed update that should improve the update process
+* Made some changes to the auto feed update that should improve the update process
 * Changed the Edit Feed Page so the user cannot change the channel after the feed has been initialized
 * Changed the Edit Feed Page so the user can change the Target Country and Default Category during and after the feed has been stored
 * Updated the Google feed specifications to the October 2016 rules
@@ -542,11 +657,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Added access to another third party attribute set
 * Fixed an issue with html special characters in the feed
 * Added the item_group_id source to the source list
-* Fixed a bug with combined fields in the not required level
+* Fixed a bug with combined fields in the not-required level
 * Changed the way the input fields are shown when making a new feed, thus preventing errors from not using the correct order to fill in the fields
 * You can now change the name of an existing feed
 * Fixed an issue that caused the advised source of the Shipping source to go to undefined in specific situations
-* Added a "Convert to child-element" option to the edit values. This allows you to add a child element with a specific key to an xml feed
+* Added a "Convert to child-element" option to the edit values. This allows you to add a child element with a specific key to an XML feed
 
 = 1.1.0 - 08/08/2016 =
 * Due to recurring issues with support folder permissions for some users, moved the support folders from the plugins folder to the uploads folder. Existing feed files will retain their old url, only new feeds will be stored in the new support folder
@@ -555,7 +670,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 = 1.0.1 - 27/07/2016 =
 * Added the option to include product variations in the feed (Premium versions only)
 * Fixed the change values option in such a way that you now can perform recalculations even on combined source fields
-* Fixed a bug that prevented the correct recalculation of comma separated financial values
+* Fixed a bug that prevented the correct recalculation of comma-separated financial values
 * Several small changes in the styling code
 * Fixed the Add Channels functionality as some firewalls prevented downloading a channel (Premium versions only)
 
@@ -584,7 +699,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Fixed a bug in the auto-feed-update function
 * Fixed a bug that caused an error when installing a paid version over the free version, causing a white screen and error message
 * Fixed a bug in the calculation options of the change value selections
-* Changed the way that the support folders are made by temporary removing the umask modifier to force the server to make these folder writable
+* Changed the way that the support folders are made by temporarily removing the umask modifier to force the server to make these folders writable
 * Changed the way the change value selections are shown
 * Again changed the procedures to get the Product Category String and Selected Product Categories because the last procedure still did not work in all situations
 
@@ -596,7 +711,7 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * The plugin now works correctly on websites using the https protocol
 
 = 0.14.0 =
-* Changed the Product Categories source and split it in a Product Category String source that contains a string representing the category in which the product is stored in the actual shop, and a Selected Product Categories source that will give you a comma separated string with all the shop Categories that where selected for this product. 
+* Changed the Product Categories source and split it into a Product Category String source that contains a string representing the category in which the product is stored in the actual shop, and a Selected Product Categories source that will give you a comma-separated string with all the shop Categories that where selected for this product. 
 * Daarnaast de Image Library source toegevoegd waarmee additionele images aan de feed kunnen worden gekoppeld. 
 * fixed a bug.
 
@@ -634,10 +749,10 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Added a preset for the Availability tag for a Google feed and AvantLink feed
 
 = 0.4.3 =
-* Fixed a bug that prevented some categories to produce a feed
+* Fixed a bug that prevented some categories from producing a feed
 
 = 0.4.2 =
-* Fixed a bug that prevented products to be added to the feed under specific situations
+* Fixed a bug that prevented products from being added to the feed under specific situations
 
 = 0.4.1 =
 * Repaired an include error
@@ -654,10 +769,11 @@ In case it does please do submit your feed in your Google Merchant center and ch
 * Removed the starting underscore sign from some sources in the source selectors and fixed a bug
 
 = 0.1.1 =
-* Removed some traces of an automatic updater in order to get accepted as WordPress plugin
+* Removed some traces of an automatic updater to get accepted as a WordPress plugin
 
 = 0.1.0 =
 * First active version, first launch
 
 == Upgrade Notice ==
-Please do update the google feed manager to the latest version. Each update makes it sure you feed is following Google Feed rules so your product feed will be validated correct in Google Merchant center.
+= 2.0.0 - 30/10/2023 =
+* Important: This update introduces significant improvements to the feed generation algorithm for smoother feed processing, performance, and stability. We strongly recommend backing up your existing feeds before upgrading.

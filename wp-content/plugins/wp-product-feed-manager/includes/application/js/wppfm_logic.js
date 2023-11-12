@@ -34,7 +34,7 @@ function wppfm_editCategories() {
 }
 
 function wppfm_generateFeed() {
-	if ( jQuery( '#file-name' ).val() !== '' ) {
+	if ( jQuery( '#wppfm-feed-file-name' ).val() !== '' ) {
 		if ( _feedHolder[ 'categoryMapping' ] && _feedHolder[ 'categoryMapping' ].length > 0 ) {
 			disableFeedActionButtons();
 			wppfm_generateAndSaveFeed();
@@ -56,7 +56,7 @@ function wppfm_generateFeed() {
 }
 
 function wppfm_saveFeedData() {
-	if ( jQuery( '#file-name' ).val() !== '' ) {
+	if ( jQuery( '#wppfm-feed-file-name' ).val() !== '' ) {
 		wppfm_saveFeed();
 	} else {
 		jQuery( '#alert-message' ).
@@ -474,4 +474,15 @@ function wppfm_addNewItemToCategoryString(
 			return oldPart + separator + newValue;
 		}
 	}
+}
+
+function wppfm_snakeToCamel(str) {
+	var words = str.split('_');
+	var camelWords = words.map((word, index) => {
+		if (index === 0) {
+			return word;
+		}
+		return word.charAt(0).toUpperCase() + word.slice(1);
+	});
+	return camelWords.join('');
 }

@@ -61,6 +61,12 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:mobile_link", 
 					"format" => "optional",
 				),
+				"Checkout link template" => array(
+					"name" => "checkout_link_template",
+					"feed_name" => "g:checkout_link_template", 
+					"format" => "required",
+					"woo_suggest" => "cart_link",
+				),
 			),
 			"Price & availability" => array(
             			"Stock status" => array(
@@ -684,6 +690,31 @@ class WooSEA_google_shopping {
 				"Display ads Value" => array(
 					"name" => "display_ads_value",
 					"feed_name" => "g:display_ads_value",
+					"format" => "optional",
+				),
+				"3D model link" => array(
+					"name" => "virtual_model_link",
+					"feed_name" => "g:virtual_model_link",
+					"format" => "optional",
+				),
+				"Certification" => array(
+					"name" => "certification",
+					"feed_name" => "g:certification",
+					"format" => "optional",
+				),
+				"Lifestyle image link" => array(
+					"name" => "lifestyle_image_link",
+					"feed_name" => "g:lifestyle_image_link",
+					"format" => "optional",
+				),
+				"External seller ID" => array(
+					"name" => "external_seller_id",
+					"feed_name" => "g:external_seller_id",
+					"format" => "optional",
+				),
+				"Pause" => array(
+					"name" => "pause",
+					"feed_name" => "g:pause",
 					"format" => "optional",
 				),
 			),
